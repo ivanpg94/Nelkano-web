@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="{{ language|default('es') }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page_title }} - Nelkano</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="{{ logo_url }}" type="image/png">
+    <link rel="stylesheet" href="{{ header_css_url }}">
+    <link rel="stylesheet" href="{{ auth_css_url }}">
+  </head>
+  <body>
+    {% include '@nelkano_home/nelkano-header.html.twig' %}
+    <main class="nk-auth-page nk-auth-{{ mode }}">
+      <section class="nk-auth-brand">
+        <img src="{{ logo_url }}" width="84" height="84" alt="">
+        <h1>Nelkano</h1>
+        <p>{{ subtitle }}</p>
+      </section>
+
+      <section class="nk-auth-card" aria-label="{{ page_title }}">
+        {{ messages|raw }}
+        {{ form|raw }}
+      </section>
+    </main>
+  </body>
+</html>

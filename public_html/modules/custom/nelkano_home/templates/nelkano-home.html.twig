@@ -1,0 +1,169 @@
+<main class="nk-page nk-lang-{{ language }}">
+  <a class="nk-skip-link" href="#downloads">{{ language == 'es' ? 'Saltar a descargas' : 'Skip to downloads' }}</a>
+  {% include '@nelkano_home/nelkano-header.html.twig' %}
+
+  <section class="nk-hero">
+    <div class="nk-hero-bg" aria-hidden="true"></div>
+    <div class="nk-hero-inner">
+      <div class="nk-hero-copy">
+        <p class="nk-badge">{{ content.hero_badge }}</p>
+        <h1>{{ content.hero_title }}</h1>
+        <p class="nk-lead">{{ content.hero_description }}</p>
+
+        <div id="downloads" class="nk-downloads">
+          <article class="nk-download-card">
+            <div class="nk-download-top">
+              <div>
+                <span>{{ content.android_channel }}</span>
+                <h2>{{ content.android_title }}</h2>
+              </div>
+              <div class="nk-icon" aria-hidden="true">A</div>
+            </div>
+            <p>{{ content.android_description }}</p>
+            {% if content.android_download_meta %}
+              {% set meta = content.android_download_meta %}
+              <dl class="nk-download-meta" aria-label="{{ language == 'es' ? 'Detalles de descarga Android' : 'Android download details' }}">
+                <div><dt>{{ language == 'es' ? 'Version' : 'Version' }}</dt><dd>{{ meta.version }}</dd></div>
+                <div><dt>{{ language == 'es' ? 'Tamano' : 'Size' }}</dt><dd>{{ meta.size }}</dd></div>
+                <div class="nk-hash-row"><dt>SHA-256</dt><dd class="nk-hash">{{ meta.sha256 }}</dd></div>
+              </dl>
+            {% endif %}
+            {% if content.android_download_url %}
+            <a class="nk-button nk-button-primary" href="{{ content.android_download_url }}" aria-label="{{ content.primary_cta }} APK" data-analytics-event="download_android_click" data-analytics-platform="android" data-analytics-file="{{ content.android_download_meta.filename|default('android') }}">{{ content.primary_cta }}</a>
+            {% endif %}
+          </article>
+
+          <article class="nk-download-card">
+            <div class="nk-download-top">
+              <div>
+                <span>{{ content.windows_channel }}</span>
+                <h2>{{ content.windows_title }}</h2>
+              </div>
+              <div class="nk-icon" aria-hidden="true">W</div>
+            </div>
+            <p>{{ content.windows_description }}</p>
+            {% if content.windows_download_meta %}
+              {% set meta = content.windows_download_meta %}
+              <dl class="nk-download-meta" aria-label="{{ language == 'es' ? 'Detalles de descarga Windows' : 'Windows download details' }}">
+                <div><dt>{{ language == 'es' ? 'Version' : 'Version' }}</dt><dd>{{ meta.version }}</dd></div>
+                <div><dt>{{ language == 'es' ? 'Tamano' : 'Size' }}</dt><dd>{{ meta.size }}</dd></div>
+                <div class="nk-hash-row"><dt>SHA-256</dt><dd class="nk-hash">{{ meta.sha256 }}</dd></div>
+              </dl>
+            {% endif %}
+            {% if content.windows_download_url %}
+              <a class="nk-button nk-button-primary" href="{{ content.windows_download_url }}" aria-label="{{ language == 'es' ? 'Descargar Windows' : 'Download Windows' }}" data-analytics-event="download_windows_click" data-analytics-platform="windows" data-analytics-file="{{ content.windows_download_meta.filename|default('windows') }}">{{ content.windows_title }}</a>
+            {% endif %}
+          </article>
+        </div>
+
+        <div class="nk-actions">
+          <a class="nk-button nk-button-secondary" href="{{ language == 'es' ? '/aviso-legal' : '/en/legal-notice' }}">{{ language == 'es' ? 'Ver aviso legal' : 'Legal notice' }}</a>
+          <a class="nk-button nk-button-ghost" href="{{ content.secondary_url }}">{{ content.secondary_cta }}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="nk-section">
+    <div class="nk-section-narrow">
+      <p class="nk-eyebrow">{{ content.about_eyebrow }}</p>
+      <h2>{{ content.about_title }}</h2>
+      <p class="nk-section-copy">{{ content.about_description }}</p>
+    </div>
+  </section>
+
+  <section id="project-status" class="nk-section nk-split nk-status">
+    <div>
+      <p class="nk-eyebrow">{{ content.status_eyebrow }}</p>
+      <h2>{{ content.status_title }}</h2>
+      <p class="nk-section-copy">{{ content.status_description }}</p>
+    </div>
+    <div class="nk-card-grid">
+      {% for item in content.status_items %}
+        <article class="nk-card">
+          <div class="nk-card-head">
+            <h3>{{ item.system }}</h3>
+            <span class="nk-status-pill">{{ item.status }}</span>
+          </div>
+          <p>{{ item.description }}</p>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="nk-section nk-split">
+    <div>
+      <p class="nk-eyebrow">{{ content.platforms_eyebrow }}</p>
+      <h2>{{ content.platforms_title }}</h2>
+      <p class="nk-section-copy">{{ content.platforms_description }}</p>
+    </div>
+    <div class="nk-stack">
+      {% for item in content.platform_items %}
+        <article class="nk-inline-card">
+          <span class="nk-check" aria-hidden="true"></span>
+          <div>
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.description }}</p>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="nk-section">
+    <div class="nk-feature-band">
+      <div class="nk-section-narrow">
+        <p class="nk-eyebrow">{{ content.differentiators_eyebrow }}</p>
+        <h2>{{ content.differentiators_title }}</h2>
+        <p class="nk-section-copy">{{ content.differentiators_description }}</p>
+      </div>
+      <div class="nk-card-grid nk-card-grid-two">
+        {% for item in content.differentiator_items %}
+          <article class="nk-card nk-spark-card">
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.description }}</p>
+          </article>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <section class="nk-section nk-split">
+    <div>
+      <p class="nk-eyebrow">{{ content.vision_eyebrow }}</p>
+      <h2>{{ content.vision_title }}</h2>
+      <p class="nk-section-copy">{{ content.vision_description }}</p>
+    </div>
+    <div class="nk-vision-list">
+      {% for item in content.vision_items %}
+        <div>{{ item }}</div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="nk-section nk-faq-section">
+    <div class="nk-section-narrow">
+      <p class="nk-eyebrow">{{ content.faq_eyebrow }}</p>
+      <h2>{{ content.faq_title }}</h2>
+    </div>
+    <div class="nk-faq">
+      {% for item in content.faq_items %}
+        <article>
+          <h3>{{ item.question }}</h3>
+          <p>{{ item.answer }}</p>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <footer class="nk-footer">
+    <p>{{ content.footer_primary }}</p>
+    <nav class="nk-footer-links" aria-label="{{ language == 'es' ? 'Enlaces legales' : 'Legal links' }}">
+      <a href="{{ language == 'es' ? '/aviso-legal' : '/en/legal-notice' }}">{{ language == 'es' ? 'Aviso legal' : 'Legal notice' }}</a>
+      <a href="{{ language == 'es' ? '/privacidad-cookies' : '/en/privacy-cookies' }}">{{ language == 'es' ? 'Privacidad y cookies' : 'Privacy and cookies' }}</a>
+      <a href="/contacto">{{ language == 'es' ? 'Contacto' : 'Contact' }}</a>
+      <button type="button" data-consent-settings>{{ language == 'es' ? 'Configurar cookies' : 'Cookie settings' }}</button>
+    </nav>
+  </footer>
+  {% include '@nelkano_home/nelkano-consent-banner.html.twig' %}
+</main>

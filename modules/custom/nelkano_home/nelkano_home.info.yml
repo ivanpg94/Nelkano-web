@@ -1,0 +1,6 @@
+name: Nelkano Home
+type: module
+description: Editable multilingual landing page for Nelkano.
+package: Nelkano
+core_version_requirement: ^11
+configure: nelkano_home.settings

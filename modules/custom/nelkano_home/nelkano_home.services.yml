@@ -1,0 +1,5 @@
+services:
+  nelkano_home.route_subscriber:
+    class: Drupal\nelkano_home\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }

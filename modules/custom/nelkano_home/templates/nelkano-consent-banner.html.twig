@@ -1,0 +1,14 @@
+<div class="nk-consent" data-consent-banner hidden>
+  <div>
+    <strong>{{ language == 'es' ? 'Medicion de visitas' : 'Visitor measurement' }}</strong>
+    <p>
+      {{ language == 'es'
+        ? 'Usamos Google Analytics solo si aceptas, para contar visitas y clics de descarga de forma agregada.'
+        : 'We use Google Analytics only if you accept, to count visits and download clicks in aggregate.' }}
+    </p>
+  </div>
+  <div class="nk-consent-actions">
+    <button class="nk-button nk-button-secondary" type="button" data-consent-reject>{{ language == 'es' ? 'Rechazar' : 'Reject' }}</button>
+    <button class="nk-button nk-button-primary" type="button" data-consent-accept>{{ language == 'es' ? 'Aceptar' : 'Accept' }}</button>
+  </div>
+</div>

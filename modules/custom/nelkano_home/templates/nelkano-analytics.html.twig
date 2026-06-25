@@ -1,0 +1,138 @@
+{% if analytics.ga_id %}
+  <script>
+    (function () {
+      var GA_ID = '{{ analytics.ga_id|e('js') }}';
+      var STORAGE_KEY = 'nelkano_analytics_consent';
+
+      function isLocalEnvironment() {
+        var host = window.location.hostname.toLowerCase();
+        return host === 'localhost'
+          || host === '127.0.0.1'
+          || host === '::1'
+          || host.endsWith('.local')
+          || host.endsWith('.test')
+          || /^10\./.test(host)
+          || /^192\.168\./.test(host)
+          || /^172\.(1[6-9]|2[0-9]|3[0-1])\./.test(host);
+      }
+
+      function consentValue() {
+        try {
+          return window.localStorage.getItem(STORAGE_KEY);
+        }
+        catch (error) {
+          return null;
+        }
+      }
+
+      function saveConsent(value) {
+        try {
+          window.localStorage.setItem(STORAGE_KEY, value);
+        }
+        catch (error) {}
+      }
+
+      function loadAnalytics() {
+        if (isLocalEnvironment() || window.nelkanoAnalyticsLoaded || consentValue() !== 'granted') {
+          return;
+        }
+        window.nelkanoAnalyticsLoaded = true;
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', GA_ID, {
+          anonymize_ip: true,
+          transport_type: 'beacon'
+        });
+
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(GA_ID);
+        document.head.appendChild(script);
+      }
+
+      function trackDownload(link) {
+        if (consentValue() !== 'granted' || typeof window.gtag !== 'function') {
+          return;
+        }
+
+        window.gtag('event', link.getAttribute('data-analytics-event') || 'download_click', {
+          platform: link.getAttribute('data-analytics-platform') || '',
+          file_name: link.getAttribute('data-analytics-file') || '',
+          link_url: link.href
+        });
+      }
+
+      function hideBanner() {
+        var banner = document.querySelector('[data-consent-banner]');
+        if (banner) {
+          banner.hidden = true;
+        }
+      }
+
+      function showBanner() {
+        var banner = document.querySelector('[data-consent-banner]');
+        if (banner && !isLocalEnvironment()) {
+          banner.hidden = false;
+        }
+      }
+
+      function resetConsent() {
+        try {
+          window.localStorage.removeItem(STORAGE_KEY);
+        }
+        catch (error) {}
+        showBanner();
+      }
+
+      function bindConsentBanner() {
+        var banner = document.querySelector('[data-consent-banner]');
+        if (!banner) {
+          return;
+        }
+
+        if (isLocalEnvironment()) {
+          banner.hidden = true;
+          return;
+        }
+
+        if (consentValue()) {
+          banner.hidden = true;
+          loadAnalytics();
+          return;
+        }
+
+        banner.hidden = false;
+        banner.querySelector('[data-consent-accept]').addEventListener('click', function () {
+          saveConsent('granted');
+          hideBanner();
+          loadAnalytics();
+        });
+        banner.querySelector('[data-consent-reject]').addEventListener('click', function () {
+          saveConsent('denied');
+          hideBanner();
+        });
+      }
+
+      function bindConsentSettings() {
+        var buttons = document.querySelectorAll('[data-consent-settings]');
+        buttons.forEach(function (button) {
+          button.addEventListener('click', resetConsent);
+        });
+      }
+
+      document.addEventListener('click', function (event) {
+        var link = event.target.closest('[data-analytics-event]');
+        if (link) {
+          trackDownload(link);
+        }
+      });
+
+      document.addEventListener('DOMContentLoaded', function () {
+        bindConsentBanner();
+        bindConsentSettings();
+      });
+      loadAnalytics();
+    }());
+  </script>
+{% endif %}

@@ -1,0 +1,6 @@
+nelkano_home.settings:
+  title: 'Nelkano home'
+  description: 'Edit landing page texts in Spanish and English.'
+  route_name: nelkano_home.settings
+  parent: system.admin_config_content
+  weight: 20

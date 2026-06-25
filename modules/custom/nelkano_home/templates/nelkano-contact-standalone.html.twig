@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="{{ language|default('es') }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page_title }} - Nelkano Emulator</title>
+    <meta name="description" content="{{ language == 'en' ? 'Contact Nelkano Emulator for support, suggestions or technical issues.' : 'Contacta con Nelkano Emulator para soporte, propuestas o incidencias tecnicas.' }}">
+    <link rel="icon" href="{{ logo_url }}" type="image/png">
+    <link rel="stylesheet" href="{{ header_css_url }}">
+    <link rel="stylesheet" href="{{ auth_css_url }}">
+  </head>
+  <body>
+    {% include '@nelkano_home/nelkano-header.html.twig' %}
+    <main class="nk-auth-page nk-contact-page">
+      <section class="nk-auth-brand">
+        <img src="{{ logo_url }}" width="84" height="84" alt="">
+        <h1>{{ page_title }}</h1>
+        <p>{{ contact_intro }}</p>
+      </section>
+
+      <section class="nk-auth-card nk-contact-card" aria-label="{{ language == 'en' ? 'Contact form' : 'Formulario de contacto' }}">
+        {{ messages|raw }}
+        {{ form|raw }}
+      </section>
+    </main>
+  </body>
+</html>

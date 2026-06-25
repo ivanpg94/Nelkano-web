@@ -1,0 +1,481 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #050505;
+  color: #f7f7fb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+.nk-account-page {
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.nk-account-shell {
+  margin: 0 auto;
+  max-width: 1180px;
+}
+
+.nk-muted,
+.nk-person-list small {
+  color: #b8b8c4;
+}
+
+.nk-small-button {
+  background: #151515;
+  border: 1px solid #2d2d2d;
+  border-radius: 8px;
+  color: #f7f7fb;
+  padding: 10px 14px;
+}
+
+.nk-profile-hero,
+.nk-panel {
+  background: rgba(8, 8, 8, 0.92);
+  border: 1px solid #272727;
+  border-radius: 14px;
+}
+
+.nk-profile-hero {
+  align-items: center;
+  display: grid;
+  gap: 22px;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  margin-bottom: 20px;
+  padding: clamp(22px, 5vw, 38px);
+}
+
+.nk-avatar,
+.nk-mini-avatar {
+  align-items: center;
+  background: radial-gradient(circle at 35% 25%, #ffffff, var(--avatar-color) 38%, #2b003f);
+  display: inline-flex;
+  font-weight: 900;
+  justify-content: center;
+}
+
+.nk-avatar {
+  border-radius: 24px;
+  font-size: 2.4rem;
+  height: 104px;
+  width: 104px;
+}
+
+.nk-avatar-image {
+  color: transparent;
+  object-fit: cover;
+}
+
+.nk-mini-avatar {
+  border-radius: 10px;
+  color: #050505;
+  flex: 0 0 auto;
+  height: 42px;
+  width: 42px;
+}
+
+.nk-eyebrow {
+  color: #c04dff;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  font-size: clamp(2rem, 4.4vw, 3.6rem);
+  line-height: 1;
+  margin-bottom: 12px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+h2 {
+  font-size: 1.15rem;
+  margin-bottom: 16px;
+}
+
+.nk-profile-meta {
+  display: grid;
+  gap: 8px;
+  justify-items: end;
+  min-width: max-content;
+}
+
+.nk-profile-meta span,
+.nk-panel-heading span {
+  background: #151515;
+  border: 1px solid #2d2d2d;
+  border-radius: 999px;
+  color: #d8d8e3;
+  padding: 8px 12px;
+}
+
+.nk-account-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.nk-panel {
+  padding: 22px;
+}
+
+.nk-wide {
+  grid-column: 1 / -1;
+}
+
+.nk-panel-heading {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.nk-person-list {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nk-person-list li,
+.nk-person-list a {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+}
+
+.nk-person-list li {
+  background: #111111;
+  border: 1px solid #262626;
+  border-radius: 10px;
+  justify-content: space-between;
+  padding: 12px;
+}
+
+.nk-person-list strong,
+.nk-person-list small {
+  display: block;
+}
+
+.nk-list-actions,
+.nk-inline-form,
+.nk-inline-form .form-actions {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  margin: 0;
+}
+
+.nk-account-form {
+  display: grid;
+  gap: 14px;
+}
+
+.nk-account-form .form-item {
+  margin: 0;
+}
+
+.nk-account-form label {
+  color: #ffffff;
+  display: block;
+  font-weight: 750;
+  margin-bottom: 8px;
+}
+
+.nk-account-form input[type="email"],
+.nk-account-form input[type="file"],
+.nk-account-form input[type="password"],
+.nk-account-form input[type="text"],
+.nk-account-form select {
+  background: #292929;
+  border: 1px solid #292929;
+  border-radius: 10px;
+  color: #ffffff;
+  min-height: 46px;
+  padding: 0 14px;
+  width: 100%;
+}
+
+.nk-account-form input[type="file"] {
+  background: #191919;
+  border: 1px dashed rgba(192, 77, 255, 0.55);
+  color: transparent;
+  cursor: pointer;
+  font-size: 0;
+  min-height: 52px;
+  padding: 7px;
+}
+
+.nk-account-form input[type="file"]::file-selector-button {
+  background: linear-gradient(90deg, #9e12ff, #b414ff);
+  border: 0;
+  border-radius: 10px;
+  color: #ffffff;
+  cursor: pointer;
+  font: 800 1rem Inter, "Segoe UI", Arial, sans-serif;
+  font-weight: 800;
+  margin-right: 14px;
+  min-height: 38px;
+  padding: 0 16px;
+  width: 100%;
+}
+
+.nk-account-form input[type="file"]::-webkit-file-upload-button {
+  background: linear-gradient(90deg, #9e12ff, #b414ff);
+  border: 0;
+  border-radius: 10px;
+  color: #ffffff;
+  cursor: pointer;
+  font: 800 1rem Inter, "Segoe UI", Arial, sans-serif;
+  min-height: 38px;
+  padding: 0 16px;
+  width: 100%;
+}
+
+.nk-account-form input:focus,
+.nk-account-form select:focus {
+  border-color: #a414ff;
+  box-shadow: 0 0 0 3px rgba(164, 20, 255, 0.22);
+  outline: none;
+}
+
+.nk-account-form .description {
+  color: #9ca3af;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  margin-top: 6px;
+}
+
+.nk-section-tabs {
+  background: #111111;
+  border: 1px solid #262626;
+  border-radius: 12px;
+  display: inline-grid;
+  gap: 6px;
+  grid-template-columns: repeat(2, minmax(120px, 1fr));
+  padding: 6px;
+  width: min(100%, 420px);
+  margin: 0 0 18px;
+}
+
+.nk-section-tabs button {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-radius: 9px;
+  color: #b8b8c4;
+  cursor: pointer;
+  font-weight: 800;
+  padding: 12px 16px;
+  text-align: center;
+}
+
+.nk-section-tabs button.is-active {
+  background: linear-gradient(90deg, #9e12ff, #b414ff);
+  color: #ffffff;
+}
+
+.nk-profile-content[aria-busy="true"] {
+  opacity: 0.62;
+}
+
+.nk-account-submit,
+.nk-account-form input[type="submit"] {
+  background: linear-gradient(90deg, #9e12ff, #b414ff);
+  border: 0;
+  border-radius: 10px;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 800;
+  min-height: 44px;
+  padding: 0 16px;
+}
+
+.nk-small-button {
+  cursor: pointer;
+  min-height: 34px;
+  padding: 0 10px;
+}
+
+.nk-stat-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 16px;
+}
+
+.nk-stat-grid div {
+  background: linear-gradient(180deg, #151515, #101010);
+  border: 1px solid #262626;
+  border-radius: 10px;
+  min-height: 96px;
+  padding: 18px;
+}
+
+.nk-stat-grid strong,
+.nk-stat-grid span {
+  display: block;
+}
+
+.nk-stat-grid strong {
+  font-size: 1.85rem;
+  line-height: 1.05;
+  margin-bottom: 6px;
+}
+
+.nk-stat-grid span {
+  color: #d8d8e6;
+}
+
+.nk-activity-intro {
+  max-width: 760px;
+}
+
+.nk-section-subtitle {
+  color: #ffffff;
+  font-size: 1rem;
+  margin: 20px 0 10px;
+}
+
+.nk-activity-list {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+}
+
+.nk-activity-list li {
+  align-items: center;
+  background: #111111;
+  border: 1px solid #262626;
+  border-radius: 10px;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  padding: 12px 14px;
+}
+
+.nk-activity-list span,
+.nk-activity-list small {
+  color: #b8b8c4;
+}
+
+.nk-activity-system {
+  display: grid;
+  gap: 3px;
+}
+
+.nk-activity-system strong {
+  color: #ffffff;
+}
+
+.nk-activity-time {
+  color: #ffffff !important;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.nk-account-page .messages-list,
+.nk-account-page .messages {
+  margin: 0 0 14px;
+}
+
+.nk-account-page .messages-list {
+  background: transparent;
+  border: 0;
+  padding: 0 !important;
+}
+
+.nk-account-page .messages {
+  background: #161020;
+  border: 1px solid rgba(192, 77, 255, 0.55);
+  border-radius: 10px;
+  color: #f2e8ff;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  padding: 10px 12px !important;
+}
+
+.nk-account-page .messages-list *,
+.nk-account-page .messages * {
+  margin-block: 0;
+}
+
+.nk-account-page .messages__container {
+  display: block;
+  padding: 0 !important;
+}
+
+.nk-account-page .messages__header,
+.nk-account-page .messages__icon,
+.nk-account-page .messages__title,
+.nk-account-page .messages .placeholder {
+  display: none;
+}
+
+.nk-account-page .messages__content,
+.nk-account-page .messages__list {
+  display: grid;
+  gap: 4px;
+  list-style: none;
+  padding: 0;
+}
+
+@media (max-width: 760px) {
+  .nk-account-page {
+    padding: 18px;
+  }
+
+  .nk-profile-hero {
+    align-items: flex-start;
+    grid-template-columns: 1fr;
+  }
+
+  .nk-profile-meta {
+    justify-items: start;
+  }
+
+  .nk-account-grid,
+  .nk-stat-grid {
+    grid-template-columns: 1fr;
+  }
+}

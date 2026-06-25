@@ -1,0 +1,314 @@
+:root {
+  color-scheme: dark;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #060606;
+  color: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+body {
+  background: #060606;
+  margin: 0;
+  min-height: 100vh;
+}
+
+a {
+  color: #c04dff;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus-visible {
+  color: #e199ff;
+}
+
+.nk-auth-page {
+  align-items: center;
+  display: grid;
+  gap: clamp(48px, 10vw, 250px);
+  grid-template-columns: minmax(220px, 290px) minmax(360px, 654px);
+  justify-content: center;
+  min-height: 100vh;
+  padding: 48px;
+}
+
+.nk-auth-brand img {
+  border-radius: 22px;
+  display: block;
+  height: 84px;
+  margin-bottom: 24px;
+  width: 84px;
+}
+
+.nk-auth-brand h1 {
+  font-size: 2rem;
+  line-height: 1;
+  margin: 0 0 12px;
+}
+
+.nk-auth-brand p {
+  color: #b8b8c4;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  margin: 0 0 18px;
+}
+
+.nk-auth-card {
+  background: rgba(8, 8, 8, 0.88);
+  border: 1px solid #272727;
+  border-radius: 14px;
+  padding: 30px;
+}
+
+.nk-auth-form {
+  display: grid;
+  gap: 18px;
+}
+
+.nk-auth-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.nk-auth-form .form-item {
+  margin: 0;
+}
+
+.nk-auth-form label {
+  color: #ffffff;
+  display: block;
+  font-size: 1rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.nk-auth-form input[type="email"],
+.nk-auth-form input[type="password"],
+.nk-auth-form input[type="text"],
+.nk-auth-form textarea {
+  background: #292929;
+  border: 1px solid #292929;
+  border-radius: 12px;
+  color: #ffffff;
+  font: inherit;
+  font-size: 1.15rem;
+  min-height: 52px;
+  outline: none;
+  padding: 0 18px;
+  width: 100%;
+}
+
+.nk-auth-form textarea {
+  line-height: 1.45;
+  min-height: 160px;
+  padding: 16px 18px;
+  resize: vertical;
+}
+
+.nk-auth-form input::placeholder,
+.nk-auth-form textarea::placeholder {
+  color: #a8b0bd;
+}
+
+.nk-auth-form input:focus,
+.nk-auth-form textarea:focus {
+  border-color: #a414ff;
+  box-shadow: 0 0 0 3px rgba(164, 20, 255, 0.22);
+}
+
+.nk-auth-form .form-type-checkbox {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+}
+
+.nk-auth-form input[type="checkbox"] {
+  appearance: none;
+  background: #2b2b2b;
+  border: 1px solid #777b82;
+  border-radius: 4px;
+  flex: 0 0 auto;
+  height: 20px;
+  margin: 0;
+  width: 20px;
+}
+
+.nk-auth-form input[type="checkbox"]:checked {
+  background: #a414ff;
+  border-color: #a414ff;
+  box-shadow: inset 0 0 0 4px #2b003f;
+}
+
+.nk-auth-form .form-type-checkbox label {
+  color: #b8b8c4;
+  font-size: clamp(1.05rem, 2.5vw, 1.45rem);
+  font-weight: 650;
+  margin: 0;
+}
+
+.nk-auth-form .description {
+  color: #8f96a5;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: -8px 0 0 32px;
+}
+
+.nk-auth-row {
+  align-items: center;
+  display: flex;
+  gap: 18px;
+  justify-content: space-between;
+}
+
+.nk-auth-row .form-type-checkbox label {
+  font-size: 1.45rem;
+}
+
+.nk-auth-link {
+  color: #c04dff;
+  font-size: 1.2rem;
+}
+
+.nk-auth-form .form-actions {
+  margin: 0;
+}
+
+.nk-auth-submit,
+.nk-auth-form input[type="submit"] {
+  background: linear-gradient(90deg, #9e12ff, #b414ff);
+  border: 0;
+  border-radius: 12px;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 1.15rem;
+  font-weight: 900;
+  min-height: 54px;
+  padding: 0 18px;
+  width: 100%;
+}
+
+.nk-auth-submit:hover,
+.nk-auth-submit:focus-visible,
+.nk-auth-form input[type="submit"]:hover,
+.nk-auth-form input[type="submit"]:focus-visible {
+  background: linear-gradient(90deg, #b22bff, #c84dff);
+}
+
+.nk-auth-switch {
+  border-top: 1px solid #272727;
+  color: #b8b8c4;
+  font-size: 1.05rem;
+  margin-top: 0;
+  padding-top: 20px;
+  text-align: center;
+}
+
+.nk-auth-switch a {
+  font-size: 1.35rem;
+}
+
+.messages-list {
+  background: transparent;
+  border: 0;
+  margin: 0 0 14px;
+  padding: 0;
+}
+
+.messages {
+  background: #161020;
+  border: 1px solid rgba(192, 77, 255, 0.55);
+  border-radius: 10px;
+  color: #f2e8ff;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  margin: 0;
+  padding: 10px 12px;
+}
+
+.messages__container {
+  display: block;
+}
+
+.messages__header,
+.messages__icon,
+.messages__title {
+  display: none;
+}
+
+.messages__content {
+  margin: 0;
+}
+
+.messages__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.messages__item + .messages__item {
+  margin-top: 6px;
+}
+
+.form-item--error-message,
+.form-item__error-message {
+  color: #ff8aa8;
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
+
+.nk-contact-card {
+  max-width: 720px;
+}
+
+.nk-contact-card .nk-auth-grid {
+  margin-bottom: 0;
+}
+
+.nk-contact-card .form-item-subject,
+.nk-contact-card .form-item-message {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 860px) {
+  .nk-auth-page {
+    gap: 32px;
+    grid-template-columns: 1fr;
+    padding: 28px 18px;
+  }
+
+  .nk-auth-brand {
+    margin: 0 auto;
+    max-width: 654px;
+    width: 100%;
+  }
+
+  .nk-auth-card {
+    margin: 0 auto;
+    max-width: 654px;
+    padding: 22px;
+    width: 100%;
+  }
+
+  .nk-auth-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nk-auth-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

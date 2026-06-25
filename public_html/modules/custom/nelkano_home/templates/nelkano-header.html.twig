@@ -1,0 +1,25 @@
+<header class="nk-app-nav">
+  <div class="nk-nav-inner">
+    <a class="nk-brand" href="{{ nav_home_url|default('/') }}">
+      <img class="nk-logo-mark" src="{{ logo_url }}" width="44" height="44" alt="">
+      <span>
+        <strong>Nelkano Emulator</strong>
+        <small>{{ nav_subtitle|default('Emulador para Android + Windows') }}</small>
+      </span>
+    </a>
+    <nav class="nk-nav-actions" aria-label="{{ nav_aria_label|default('Navegacion principal') }}">
+      {% if nav_alternate_url|default('') %}
+        <a class="nk-nav-pill" href="{{ nav_alternate_url }}">{{ nav_alternate_label|default('English') }}</a>
+      {% endif %}
+      {% for link in nav_links|default([]) %}
+        <a class="nk-nav-pill" href="{{ link.url }}">{{ link.label }}</a>
+      {% endfor %}
+      <a class="nk-button nk-button-primary nk-login" href="{{ nav_account_url|default('/user/login') }}">
+        {% if nav_account_initial|default('') %}
+          <span class="nk-account-initial" style="--avatar-color: {{ nav_account_color|default('#a414ff') }}">{{ nav_account_initial }}</span>
+        {% endif %}
+        <span class="nk-account-name">{{ nav_account_label|default('Login') }}</span>
+      </a>
+    </nav>
+  </div>
+</header>

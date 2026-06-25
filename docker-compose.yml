@@ -1,0 +1,76 @@
+services:
+  drupal:
+    image: drupal:11-apache
+    container_name: nelkano-drupal
+    depends_on:
+      database:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+    ports:
+      - "8088:80"
+    environment:
+      DRUPAL_DB_HOST: database
+      DRUPAL_DB_NAME: nelkano_drupal
+      DRUPAL_DB_USER: nelkano
+      DRUPAL_DB_PASSWORD: nelkano
+      NELKANO_SMTP_HOST: mailpit
+      NELKANO_SMTP_PORT: 1025
+      NELKANO_STREAM_ICE_SERVERS: '[{"urls":"turn:localhost:3478?transport=udp","username":"nelkano","credential":"nelkano-dev"}]'
+      NELKANO_STREAM_ICE_POLICY: relay
+    volumes:
+      - drupal_app:/opt/drupal
+      - ./modules/custom:/opt/drupal/web/modules/custom
+      - drupal_files:/opt/drupal/web/sites/default/files
+    restart: unless-stopped
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: nelkano-mailpit
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+    restart: unless-stopped
+
+  database:
+    image: mariadb:10.11
+    container_name: nelkano-drupal-db
+    environment:
+      MARIADB_DATABASE: nelkano_drupal
+      MARIADB_USER: nelkano
+      MARIADB_PASSWORD: nelkano
+      MARIADB_ROOT_PASSWORD: nelkano_root
+    volumes:
+      - drupal_db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  turn:
+    image: coturn/coturn:4.6
+    container_name: nelkano-turn
+    command:
+      - -n
+      - --log-file=stdout
+      - --lt-cred-mech
+      - --user=nelkano:nelkano-dev
+      - --realm=nelkano.local
+      - --no-tls
+      - --no-dtls
+      - --listening-port=3478
+      - --min-port=49160
+      - --max-port=49200
+      - --external-ip=${NELKANO_TURN_EXTERNAL_IP:-192.168.1.110}
+    ports:
+      - "3478:3478/udp"
+      - "3478:3478/tcp"
+      - "49160-49200:49160-49200/udp"
+    restart: unless-stopped
+
+volumes:
+  drupal_app:
+  drupal_files:
+  drupal_db:

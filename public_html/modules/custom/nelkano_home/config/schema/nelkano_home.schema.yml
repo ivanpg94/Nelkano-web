@@ -1,0 +1,100 @@
+nelkano_home.settings:
+  type: config_object
+  label: 'Nelkano home settings'
+  mapping:
+    es:
+      type: mapping
+      label: 'Spanish content'
+      mapping: &home_language_fields
+        nav_language:
+          type: string
+        seo_title:
+          type: string
+        seo_description:
+          type: text
+        seo_keywords:
+          type: string
+        hero_badge:
+          type: string
+        hero_title:
+          type: string
+        hero_description:
+          type: text
+        primary_cta:
+          type: string
+        primary_url:
+          type: string
+        secondary_cta:
+          type: string
+        secondary_url:
+          type: string
+        downloads_title:
+          type: string
+        android_title:
+          type: string
+        android_channel:
+          type: string
+        android_description:
+          type: text
+        android_url:
+          type: string
+        windows_title:
+          type: string
+        windows_channel:
+          type: string
+        windows_description:
+          type: text
+        windows_url:
+          type: string
+        about_eyebrow:
+          type: string
+        about_title:
+          type: string
+        about_description:
+          type: text
+        status_eyebrow:
+          type: string
+        status_title:
+          type: string
+        status_description:
+          type: text
+        status_items:
+          type: text
+        platforms_eyebrow:
+          type: string
+        platforms_title:
+          type: string
+        platforms_description:
+          type: text
+        platform_items:
+          type: text
+        differentiators_eyebrow:
+          type: string
+        differentiators_title:
+          type: string
+        differentiators_description:
+          type: text
+        differentiator_items:
+          type: text
+        vision_eyebrow:
+          type: string
+        vision_title:
+          type: string
+        vision_description:
+          type: text
+        vision_items:
+          type: text
+        faq_eyebrow:
+          type: string
+        faq_title:
+          type: string
+        faq_items:
+          type: text
+        footer_primary:
+          type: text
+        footer_secondary:
+          type: text
+    en:
+      type: mapping
+      label: 'English content'
+      mapping: *home_language_fields

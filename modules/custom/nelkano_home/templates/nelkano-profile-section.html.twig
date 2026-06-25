@@ -1,0 +1,122 @@
+{% if section == 'amigos' %}
+  <section class="nk-account-grid">
+    <article class="nk-panel">
+      <div class="nk-panel-heading">
+        <h2>{{ language == 'en' ? 'Friends' : 'Amigos' }}</h2>
+        <span>{{ friends|length }}</span>
+      </div>
+      {% if friends %}
+        <ul class="nk-person-list">
+          {% for item in friends %}
+            <li>
+              <a href="{{ item.other.url }}">
+                {% if item.other.avatar_url %}
+                  <img class="nk-mini-avatar nk-avatar-image" src="{{ item.other.avatar_url }}" width="42" height="42" alt="">
+                {% else %}
+                  <span class="nk-mini-avatar" style="--avatar-color: {{ item.other.avatar_color }}">{{ item.other.initial }}</span>
+                {% endif %}
+                <span><strong>{{ item.other.name }}</strong><small>{{ item.online ? 'Online' : 'Offline' }}</small></span>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="nk-muted">{{ language == 'en' ? 'No friends added yet.' : 'Todavia no hay amigos anadidos.' }}</p>
+      {% endif %}
+    </article>
+
+    <article class="nk-panel">
+      <div class="nk-panel-heading">
+        <h2>{{ language == 'en' ? 'Received invitations' : 'Invitaciones recibidas' }}</h2>
+        <span>{{ incoming|length }}</span>
+      </div>
+      {% if incoming %}
+        <ul class="nk-person-list">
+          {% for item in incoming %}
+            <li>
+              <a href="{{ item.other.url }}"><span class="nk-mini-avatar" style="--avatar-color: {{ item.other.avatar_color }}">{{ item.other.initial }}</span><span><strong>{{ item.other.name }}</strong><small>{{ language == 'en' ? 'Wants to connect' : 'Quiere conectar' }}</small></span></a>
+              <div class="nk-list-actions">{{ item.accept_form|raw }}{{ item.reject_form|raw }}</div>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="nk-muted">{{ language == 'en' ? 'You have no pending invitations.' : 'No tienes invitaciones pendientes.' }}</p>
+      {% endif %}
+    </article>
+
+    <article class="nk-panel">
+      <div class="nk-panel-heading">
+        <h2>{{ language == 'en' ? 'Sent invitations' : 'Invitaciones enviadas' }}</h2>
+        <span>{{ outgoing|length }}</span>
+      </div>
+      {% if outgoing %}
+        <ul class="nk-person-list">
+          {% for item in outgoing %}
+            <li>
+              <a href="{{ item.other.url }}"><span class="nk-mini-avatar" style="--avatar-color: {{ item.other.avatar_color }}">{{ item.other.initial }}</span><span><strong>{{ item.other.name }}</strong><small>{{ language == 'en' ? 'Pending' : 'Pendiente' }}</small></span></a>
+              <div class="nk-list-actions">{{ item.cancel_form|raw }}</div>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="nk-muted">{{ language == 'en' ? 'No sent invitations.' : 'No hay invitaciones enviadas.' }}</p>
+      {% endif %}
+    </article>
+
+    <article class="nk-panel">
+      <h2>{{ language == 'en' ? 'Add friend' : 'Anadir amigo' }}</h2>
+      <p class="nk-muted">{{ language == 'en' ? 'Search by email or username. No emulator files are shared.' : 'Busca por email o nombre de usuario. No se comparte ningun archivo del emulador.' }}</p>
+      {{ invite_form|raw }}
+    </article>
+  </section>
+{% else %}
+  <section class="nk-account-grid">
+    <article class="nk-panel">
+      <div class="nk-panel-heading">
+        <h2>{{ language == 'en' ? 'Account settings' : 'Ajustes de cuenta' }}</h2>
+        <span>{{ language == 'en' ? 'Email and access' : 'Correo y acceso' }}</span>
+      </div>
+      <p class="nk-muted">{{ language == 'en' ? 'Change your email or password. Sensitive changes require your current password.' : 'Cambia tu correo o contrasena. Para proteger la cuenta, los cambios sensibles piden tu contrasena actual.' }}</p>
+      {{ account_form|raw }}
+    </article>
+
+    <article class="nk-panel">
+      <div class="nk-panel-heading">
+        <h2>{{ language == 'en' ? 'Social profile' : 'Perfil social' }}</h2>
+        <span>{{ language == 'en' ? 'Avatar and status' : 'Avatar y estado' }}</span>
+      </div>
+      <p class="nk-muted">{{ language == 'en' ? 'Define how other users see you inside Nelkano.' : 'Define como te ven otros usuarios dentro de Nelkano.' }}</p>
+      {{ profile_form|raw }}
+    </article>
+
+    <article class="nk-panel nk-wide">
+      <div class="nk-panel-heading">
+        <h2>{{ language == 'en' ? 'Your synced activity' : 'Tu actividad sincronizada' }}</h2>
+        <span>{{ language == 'en' ? 'Private and synced' : 'Privado y sincronizado' }}</span>
+      </div>
+      <p class="nk-muted nk-activity-intro">{{ language == 'en' ? 'Your play activity follows your Nelkano account across Android, Windows and the web when you sign in.' : 'Tu actividad de juego acompana a tu cuenta Nelkano entre Android, Windows y la web cuando inicias sesion.' }}</p>
+      <div class="nk-stat-grid">
+        <div><strong>{{ activity.session_count }}</strong><span>{{ language == 'en' ? 'registered sessions' : 'partidas registradas' }}</span></div>
+        <div><strong>{{ activity.total_play }}</strong><span>{{ language == 'en' ? 'play time' : 'tiempo jugado' }}</span></div>
+        <div><strong>{{ activity.platform_count }}</strong><span>{{ language == 'en' ? 'systems used' : 'sistemas usados' }}</span></div>
+      </div>
+      {% if activity.systems %}
+        <h3 class="nk-section-subtitle">{{ language == 'en' ? 'Activity by system' : 'Actividad por sistema' }}</h3>
+        <ul class="nk-activity-list">
+          {% for item in activity.systems %}
+            <li>
+              <span class="nk-activity-system">
+                <strong>{{ item.label }}</strong>
+                <small>{{ item.meta }}</small>
+              </span>
+              <span class="nk-activity-time">{{ item.play_time }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="nk-muted">{{ language == 'en' ? 'No emulator activity has been synced yet.' : 'Todavia no hay actividad del emulador sincronizada.' }}</p>
+      {% endif %}
+      <p class="nk-muted">{{ language == 'en' ? 'Only usage activity is synced. Your ROMs, BIOS, saves, save states, covers and local files stay on your devices.' : 'Solo se sincroniza actividad de uso. Tus ROMs, BIOS, partidas guardadas, save states, caratulas y archivos locales permanecen en tus dispositivos.' }}</p>
+    </article>
+  </section>
+{% endif %}

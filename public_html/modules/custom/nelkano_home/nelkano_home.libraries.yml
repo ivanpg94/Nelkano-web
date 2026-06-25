@@ -1,0 +1,6 @@
+landing:
+  css:
+    theme:
+      css/landing.css: {}
+  dependencies:
+    - core/drupal

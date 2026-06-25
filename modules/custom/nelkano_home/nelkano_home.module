@@ -1,0 +1,95 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function nelkano_home_theme(): array {
+  return [
+    'nelkano_home' => [
+      'variables' => [
+        'content' => [],
+        'language' => 'es',
+        'alternate_url' => '/en',
+        'logo_url' => '',
+      ],
+      'template' => 'nelkano-home',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_mail().
+ */
+function nelkano_home_mail(string $key, array &$message, array $params): void {
+  $message['headers']['From'] = 'Nelkano Emulator <contacto@nelkano.com>';
+  $message['headers']['Sender'] = 'contacto@nelkano.com';
+  $message['headers']['Reply-To'] = 'contacto@nelkano.com';
+  $message['headers']['MIME-Version'] = '1.0';
+  $message['headers']['Content-Type'] = 'text/html; charset=UTF-8';
+
+  if ($key === 'account_verify') {
+    $name = htmlspecialchars((string) ($params['name'] ?? 'jugador'), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $verify_url = htmlspecialchars((string) ($params['verify_url'] ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $message['subject'] = 'Activa tu cuenta de Nelkano Emulator';
+    $message['body'][] = nelkano_home_email_template(
+      'Activa tu cuenta',
+      'Tu biblioteca, tus guardados y tus sesiones deben estar bajo tu control.',
+      [
+        "Hola {$name},",
+        'Gracias por unirte a Nelkano Emulator. Verifica tu correo para activar tu cuenta y preparar el acceso a las funciones web del proyecto.',
+        'Nelkano no incluye juegos, ROMs ni BIOS. Tu cuenta sirve para conectar tu experiencia con tus propios archivos compatibles y tus datos del emulador.',
+      ],
+      'Verificar cuenta',
+      $verify_url,
+    );
+    return;
+  }
+
+  if ($key === 'contact_message') {
+    $name = htmlspecialchars((string) ($params['name'] ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $mail = htmlspecialchars((string) ($params['mail'] ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $subject = htmlspecialchars((string) ($params['subject'] ?? 'Contacto Nelkano'), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $body = nl2br(htmlspecialchars((string) ($params['message'] ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'));
+    $message['subject'] = '[Nelkano] ' . $subject;
+    $message['body'][] = nelkano_home_email_template(
+      'Nuevo mensaje desde nelkano.com',
+      'Consulta recibida desde la pagina de contacto.',
+      [
+        '<strong>Nombre:</strong> ' . $name,
+        '<strong>Email:</strong> ' . $mail,
+        '<strong>Asunto:</strong> ' . $subject,
+        '<strong>Mensaje:</strong><br>' . $body,
+      ],
+      NULL,
+      NULL,
+    );
+  }
+}
+
+function nelkano_home_email_template(string $title, string $lead, array $paragraphs, ?string $buttonText, ?string $buttonUrl): string {
+  $content = '';
+  foreach ($paragraphs as $paragraph) {
+    $content .= '<p style="margin:0 0 16px;color:#cbd5e1;font-size:16px;line-height:1.6;">' . $paragraph . '</p>';
+  }
+
+  $button = '';
+  if ($buttonText && $buttonUrl) {
+    $button = '<p style="margin:28px 0 0;"><a href="' . $buttonUrl . '" style="background:#a414ff;border-radius:12px;color:#ffffff;display:inline-block;font-size:16px;font-weight:800;padding:14px 22px;text-decoration:none;">' . htmlspecialchars($buttonText, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</a></p>';
+  }
+
+  $logo_url = \Drupal::request()->getSchemeAndHttpHost() . '/' . \Drupal::service('extension.list.module')->getPath('nelkano_home') . '/assets/logo-88.png';
+
+  return '<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>'
+    . '<body style="background:#060606;margin:0;padding:0;font-family:Inter,Segoe UI,Arial,sans-serif;color:#ffffff;">'
+    . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#060606;margin:0;padding:32px 16px;"><tr><td align="center">'
+    . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:620px;background:#0b0b0d;border:1px solid #272727;border-radius:18px;overflow:hidden;">'
+    . '<tr><td style="padding:32px 32px 12px;">'
+    . '<img src="' . htmlspecialchars($logo_url, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '" width="64" height="64" alt="Nelkano" style="border-radius:18px;display:block;">'
+    . '<h1 style="font-size:30px;line-height:1.1;margin:24px 0 10px;color:#ffffff;font-weight:900;">' . htmlspecialchars($title, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</h1>'
+    . '<p style="margin:0 0 24px;color:#b8b8c4;font-size:17px;line-height:1.6;">' . htmlspecialchars($lead, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</p>'
+    . $content
+    . $button
+    . '<p style="border-top:1px solid #272727;margin:30px 0 0;padding-top:18px;color:#8b93a3;font-size:13px;line-height:1.5;">Nelkano Emulator es un proyecto de emulacion gratuito. No distribuimos juegos, ROMs ni BIOS. Usa solo archivos compatibles sobre los que tengas derechos.</p>'
+    . '</td></tr></table>'
+    . '</td></tr></table></body></html>';
+}

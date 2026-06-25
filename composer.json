@@ -1,0 +1,80 @@
+{
+  "name": "nelkano/drupal-web",
+  "description": "Nelkano Emulator Drupal 11 website.",
+  "type": "project",
+  "license": "proprietary",
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packages.drupal.org/8"
+    },
+    {
+      "type": "path",
+      "url": "modules/custom/nelkano_home",
+      "options": {
+        "symlink": false
+      }
+    }
+  ],
+  "require": {
+    "composer/installers": "^2.3",
+    "drupal/admin_toolbar": "^3.6",
+    "drupal/core-composer-scaffold": "^11.0",
+    "drupal/core-project-message": "^11.0",
+    "drupal/core-recommended": "^11.0",
+    "drupal/google_tag": "^2.0",
+    "drupal/metatag": "^2.1",
+    "drupal/pathauto": "^1.13",
+    "drupal/redirect": "^1.11",
+    "drupal/simple_sitemap": "^4.2",
+    "drush/drush": "^13.0",
+    "nelkano/nelkano_home": "^1.0"
+  },
+  "config": {
+    "allow-plugins": {
+      "composer/installers": true,
+      "drupal/core-composer-scaffold": true,
+      "drupal/core-project-message": true
+    },
+    "sort-packages": true
+  },
+  "extra": {
+    "drupal-scaffold": {
+      "locations": {
+        "web-root": "public_html/"
+      }
+    },
+    "installer-paths": {
+      "public_html/core": [
+        "type:drupal-core"
+      ],
+      "public_html/libraries/{$name}": [
+        "type:drupal-library"
+      ],
+      "public_html/modules/contrib/{$name}": [
+        "type:drupal-module"
+      ],
+      "public_html/modules/custom/{$name}": [
+        "type:drupal-custom-module"
+      ],
+      "public_html/profiles/contrib/{$name}": [
+        "type:drupal-profile"
+      ],
+      "public_html/themes/contrib/{$name}": [
+        "type:drupal-theme"
+      ],
+      "public_html/themes/custom/{$name}": [
+        "type:drupal-custom-theme"
+      ]
+    },
+    "drupal-core-project-message": {
+      "include-keys": [
+        "homepage",
+        "support"
+      ],
+      "post-create-project-cmd-message": []
+    }
+  }
+}

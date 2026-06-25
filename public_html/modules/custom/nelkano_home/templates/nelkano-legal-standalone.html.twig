@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="{{ language }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page.title }}</title>
+    <meta name="description" content="{{ page.description }}">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ page.canonical }}">
+    <link rel="alternate" hreflang="{{ language }}" href="{{ page.canonical }}">
+    <link rel="alternate" hreflang="{{ page.alternate_lang }}" href="{{ page.alternate }}">
+    <link rel="alternate" hreflang="x-default" href="{{ page.default_url }}">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Nelkano Emulator">
+    <meta property="og:title" content="{{ page.title }}">
+    <meta property="og:description" content="{{ page.description }}">
+    <meta property="og:url" content="{{ page.canonical }}">
+    <meta property="og:image" content="{{ social_image_url }}">
+    <meta property="og:image:secure_url" content="{{ social_image_url }}">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Nelkano Emulator">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ page.title }}">
+    <meta name="twitter:description" content="{{ page.description }}">
+    <meta name="twitter:image" content="{{ social_image_url }}">
+    <meta name="twitter:image:alt" content="Nelkano Emulator">
+    <link rel="icon" href="{{ logo_url }}" type="image/png">
+    <style>{{ css_inline|raw }}</style>
+    {% include '@nelkano_home/nelkano-analytics.html.twig' %}
+  </head>
+  <body>
+    <main class="nk-page nk-legal-page nk-lang-{{ language }}">
+      <a class="nk-skip-link" href="#legal-content">{{ language == 'es' ? 'Saltar al contenido legal' : 'Skip to legal content' }}</a>
+      {% include '@nelkano_home/nelkano-header.html.twig' %}
+
+      <section class="nk-legal-hero">
+        <div class="nk-section-narrow">
+          <p class="nk-eyebrow">{{ page.eyebrow }}</p>
+          <h1>{{ page.heading }}</h1>
+          <p class="nk-lead">{{ page.intro }}</p>
+        </div>
+      </section>
+
+      <section id="legal-content" class="nk-legal-content">
+        {% for section in page.sections %}
+          <article class="nk-legal-section">
+            <h2>{{ section.title }}</h2>
+            {% for paragraph in section.paragraphs %}
+              <p>{{ paragraph }}</p>
+            {% endfor %}
+          </article>
+        {% endfor %}
+      </section>
+
+      <footer class="nk-footer">
+        <p>Nelkano Emulator</p>
+        <nav class="nk-footer-links" aria-label="{{ language == 'es' ? 'Enlaces legales' : 'Legal links' }}">
+          <a href="{{ language == 'es' ? '/aviso-legal' : '/en/legal-notice' }}">{{ language == 'es' ? 'Aviso legal' : 'Legal notice' }}</a>
+          <a href="{{ language == 'es' ? '/privacidad-cookies' : '/en/privacy-cookies' }}">{{ language == 'es' ? 'Privacidad y cookies' : 'Privacy and cookies' }}</a>
+          <a href="/contacto">{{ language == 'es' ? 'Contacto' : 'Contact' }}</a>
+          <button type="button" data-consent-settings>{{ language == 'es' ? 'Configurar cookies' : 'Cookie settings' }}</button>
+        </nav>
+      </footer>
+      {% include '@nelkano_home/nelkano-consent-banner.html.twig' %}
+    </main>
+  </body>
+</html>

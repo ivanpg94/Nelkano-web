@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="{{ language|default('es') }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ profile.name }} - Nelkano</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="{{ logo_url }}" type="image/png">
+    <link rel="stylesheet" href="{{ header_css_url }}">
+    <link rel="stylesheet" href="{{ account_css_url }}">
+  </head>
+  <body>
+    {% include '@nelkano_home/nelkano-header.html.twig' %}
+    <main class="nk-account-page">
+      <section class="nk-account-shell">
+        {{ messages|raw }}
+
+        <section class="nk-profile-hero">
+          {% if profile.avatar_url %}
+            <img class="nk-avatar nk-avatar-image" src="{{ profile.avatar_url }}" width="104" height="104" alt="">
+          {% else %}
+            <div class="nk-avatar" style="--avatar-color: {{ profile.avatar_color }}">{{ profile.initial }}</div>
+          {% endif %}
+          <div>
+            <p class="nk-eyebrow">{{ online ? (language == 'en' ? 'Online now' : 'Online ahora') : (language == 'en' ? 'Offline' : 'Desconectado') }}</p>
+            <h1>{{ profile.name }}</h1>
+            <p class="nk-muted">{{ profile.status_text }}</p>
+          </div>
+          <div class="nk-profile-meta">
+            <span>{{ language == 'en' ? 'Member since' : 'Miembro desde' }} {{ member_for }}</span>
+            <span>{{ friends|length }} {{ language == 'en' ? 'friends' : 'amigos' }}</span>
+          </div>
+        </section>
+
+        {% if not is_owner %}
+          <section class="nk-panel">
+            <h2>{{ language == 'en' ? 'Connection' : 'Conexion' }}</h2>
+            {% if relationship %}
+              {% if relationship.status == 'accepted' %}
+                <p class="nk-muted">{{ language == 'en' ? 'You are already friends on Nelkano.' : 'Ya sois amigos en Nelkano.' }}</p>
+              {% elseif relationship.requester_uid == viewer.uid %}
+                <p class="nk-muted">{{ language == 'en' ? 'Invitation sent. Waiting for a response.' : 'Invitacion enviada. Esperando respuesta.' }}</p>
+              {% else %}
+                <p class="nk-muted">{{ language == 'en' ? 'This user has sent you an invitation.' : 'Este usuario te ha enviado una invitacion.' }}</p>
+              {% endif %}
+            {% else %}
+              <p class="nk-muted">{{ language == 'en' ? 'Send an invitation to share presence and prepare future sessions.' : 'Envia una invitacion para compartir presencia y preparar futuras sesiones.' }}</p>
+              {{ send_form|raw }}
+            {% endif %}
+          </section>
+        {% endif %}
+
+        {% if is_owner %}
+          <nav class="nk-section-tabs" aria-label="{{ language == 'en' ? 'Account sections' : 'Secciones de cuenta' }}">
+            <button class="is-active" type="button" data-profile-section="{{ language == 'en' ? 'profile' : 'perfil' }}">{{ language == 'en' ? 'Profile' : 'Perfil' }}</button>
+            <button type="button" data-profile-section="{{ language == 'en' ? 'friends' : 'amigos' }}">{{ language == 'en' ? 'Friends' : 'Amigos' }}</button>
+          </nav>
+          <section id="nk-profile-content" class="nk-profile-content" data-section-endpoint="{{ language == 'en' ? '/en/user/section' : '/user/section' }}">
+            {{ section_html|raw }}
+          </section>
+        {% endif %}
+      </section>
+    </main>
+    <script>
+      (function () {
+        var root = document.getElementById('nk-profile-content');
+        if (!root) return;
+        var buttons = document.querySelectorAll('[data-profile-section]');
+        buttons.forEach(function (button) {
+          button.addEventListener('click', function () {
+            var section = button.getAttribute('data-profile-section');
+            buttons.forEach(function (item) { item.classList.toggle('is-active', item === button); });
+            root.setAttribute('aria-busy', 'true');
+            fetch(root.getAttribute('data-section-endpoint') + '/' + encodeURIComponent(section), {
+              credentials: 'same-origin',
+              headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            }).then(function (response) {
+              if (!response.ok) throw new Error('No se pudo cargar la seccion');
+              return response.text();
+            }).then(function (html) {
+              root.innerHTML = html;
+              root.setAttribute('aria-busy', 'false');
+            }).catch(function () {
+              root.setAttribute('aria-busy', 'false');
+            });
+          });
+        });
+      }());
+    </script>
+  </body>
+</html>

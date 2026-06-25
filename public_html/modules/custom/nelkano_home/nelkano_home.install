@@ -1,0 +1,492 @@
+<?php
+
+/**
+ * @file
+ * Install and update hooks for Nelkano Home.
+ */
+
+/**
+ * Defines custom Nelkano account, activity and multiplayer storage.
+ */
+function nelkano_home_schema(): array {
+  return [
+    'nelkano_profile' => nelkano_home_profile_schema(),
+    'nelkano_friendship' => nelkano_home_friendship_schema(),
+    'nelkano_device' => nelkano_home_device_schema(),
+    'nelkano_library_item' => nelkano_home_library_item_schema(),
+    'nelkano_play_session' => nelkano_home_play_session_schema(),
+    'nelkano_stream_session' => nelkano_home_stream_session_schema(),
+    'nelkano_stream_signal_event' => nelkano_home_stream_signal_event_schema(),
+    'nelkano_game_session' => nelkano_home_game_session_schema(),
+    'nelkano_game_signal_event' => nelkano_home_game_signal_event_schema(),
+  ];
+}
+
+/**
+ * Refresh public copy after the legal/SEO preventive review.
+ */
+function nelkano_home_update_11001(): void {
+  nelkano_home_refresh_public_copy();
+}
+
+/**
+ * Refresh public copy with user-facing language and Drive details.
+ */
+function nelkano_home_update_11002(): void {
+  nelkano_home_refresh_public_copy();
+}
+
+/**
+ * Open public registration with email verification and set project mail.
+ */
+function nelkano_home_update_11003(): void {
+  \Drupal::configFactory()->getEditable('user.settings')
+    ->set('register', 'visitors')
+    ->set('verify_mail', TRUE)
+    ->set('notify.register_no_approval_required', TRUE)
+    ->save(TRUE);
+
+  \Drupal::configFactory()->getEditable('system.site')
+    ->set('mail', 'contacto@nelkano.com')
+    ->save(TRUE);
+}
+
+/**
+ * Enable the improved administration toolbar.
+ */
+function nelkano_home_update_11004(): void {
+  $available = \Drupal::service('extension.list.module')->getList();
+  $modules = array_values(array_filter([
+    isset($available['admin_toolbar']) ? 'admin_toolbar' : NULL,
+    isset($available['admin_toolbar_tools']) ? 'admin_toolbar_tools' : NULL,
+  ]));
+  if ($modules) {
+    \Drupal::service('module_installer')->install($modules);
+  }
+}
+
+/**
+ * Add social profile and friendship storage.
+ */
+function nelkano_home_update_11005(): void {
+  $schema = \Drupal::database()->schema();
+  if (!$schema->tableExists('nelkano_profile')) {
+    $schema->createTable('nelkano_profile', nelkano_home_profile_schema());
+  }
+  if (!$schema->tableExists('nelkano_friendship')) {
+    $schema->createTable('nelkano_friendship', nelkano_home_friendship_schema());
+  }
+}
+
+/**
+ * Profile table schema.
+ */
+function nelkano_home_profile_schema(): array {
+  return [
+    'description' => 'Nelkano social profile data without ROMs or saves.',
+    'fields' => [
+      'uid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'display_name' => [
+        'type' => 'varchar',
+        'length' => 80,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'status_text' => [
+        'type' => 'varchar',
+        'length' => 140,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'avatar_color' => [
+        'type' => 'varchar',
+        'length' => 16,
+        'not null' => TRUE,
+        'default' => '#a414ff',
+      ],
+      'avatar_file_uri' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'created' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'updated' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'primary key' => ['uid'],
+    'foreign keys' => [
+      'profile_user' => [
+        'table' => 'users_field_data',
+        'columns' => ['uid' => 'uid'],
+      ],
+    ],
+  ];
+}
+
+/**
+ * Add optional profile avatar image storage.
+ */
+function nelkano_home_update_11006(): void {
+  $schema = \Drupal::database()->schema();
+  if ($schema->tableExists('nelkano_profile') && !$schema->fieldExists('nelkano_profile', 'avatar_file_uri')) {
+    $schema->addField('nelkano_profile', 'avatar_file_uri', [
+      'type' => 'varchar',
+      'length' => 255,
+      'not null' => TRUE,
+      'default' => '',
+    ]);
+  }
+}
+
+/**
+ * Use the Nelkano HTML mailer for transactional project emails.
+ */
+function nelkano_home_update_11007(): void {
+  \Drupal::configFactory()
+    ->getEditable('system.mail')
+    ->set('interface.nelkano_home', 'nelkano_html_mail')
+    ->save(TRUE);
+}
+
+/**
+ * Add emulator activity sync storage.
+ */
+function nelkano_home_update_11008(): void {
+  $schema = \Drupal::database()->schema();
+  if (!$schema->tableExists('nelkano_device')) {
+    $schema->createTable('nelkano_device', nelkano_home_device_schema());
+  }
+  if (!$schema->tableExists('nelkano_library_item')) {
+    $schema->createTable('nelkano_library_item', nelkano_home_library_item_schema());
+  }
+  if (!$schema->tableExists('nelkano_play_session')) {
+    $schema->createTable('nelkano_play_session', nelkano_home_play_session_schema());
+  }
+}
+
+/**
+ * Add account-owned Android streaming sessions.
+ */
+function nelkano_home_update_11009(): void {
+  $schema = \Drupal::database()->schema();
+  if (!$schema->tableExists('nelkano_stream_session')) {
+    $schema->createTable('nelkano_stream_session', nelkano_home_stream_session_schema());
+  }
+}
+
+/**
+ * Add HTTP polling signaling events for Hostinger-compatible streaming.
+ */
+function nelkano_home_update_11010(): void {
+  $schema = \Drupal::database()->schema();
+  if (!$schema->tableExists('nelkano_stream_signal_event')) {
+    $schema->createTable('nelkano_stream_signal_event', nelkano_home_stream_signal_event_schema());
+  }
+}
+
+/**
+ * Add account-owned multiplayer game sessions and signaling.
+ */
+function nelkano_home_update_11011(): void {
+  $schema = \Drupal::database()->schema();
+  if (!$schema->tableExists('nelkano_game_session')) {
+    $schema->createTable('nelkano_game_session', nelkano_home_game_session_schema());
+  }
+  if (!$schema->tableExists('nelkano_game_signal_event')) {
+    $schema->createTable('nelkano_game_signal_event', nelkano_home_game_signal_event_schema());
+  }
+}
+
+/**
+ * Friendship table schema.
+ */
+function nelkano_home_friendship_schema(): array {
+  return [
+    'description' => 'Nelkano friendship invitations and accepted relationships.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+      ],
+      'requester_uid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'recipient_uid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'status' => [
+        'type' => 'varchar',
+        'length' => 16,
+        'not null' => TRUE,
+        'default' => 'pending',
+      ],
+      'created' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'updated' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'requester' => ['requester_uid'],
+      'recipient' => ['recipient_uid'],
+      'status' => ['status'],
+    ],
+    'unique keys' => [
+      'pair' => ['requester_uid', 'recipient_uid'],
+    ],
+  ];
+}
+
+/**
+ * Multiplayer game session table schema.
+ */
+function nelkano_home_game_session_schema(): array {
+  return [
+    'description' => 'Nelkano multiplayer game sessions. Stores no ROMs, saves or save states.',
+    'fields' => [
+      'id' => ['type' => 'serial', 'not null' => TRUE],
+      'session_id' => ['type' => 'varchar', 'length' => 64, 'not null' => TRUE],
+      'host_uid' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'guest_uid' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'host_device_id' => ['type' => 'varchar', 'length' => 128, 'not null' => TRUE, 'default' => ''],
+      'guest_device_id' => ['type' => 'varchar', 'length' => 128, 'not null' => TRUE, 'default' => ''],
+      'system' => ['type' => 'varchar', 'length' => 24, 'not null' => TRUE, 'default' => 'GBA'],
+      'mode' => ['type' => 'varchar', 'length' => 32, 'not null' => TRUE, 'default' => 'LINK_CABLE'],
+      'rom_hash' => ['type' => 'varchar', 'length' => 128, 'not null' => TRUE, 'default' => ''],
+      'status' => ['type' => 'varchar', 'length' => 16, 'not null' => TRUE, 'default' => 'pending'],
+      'created' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'updated' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'expires' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'closed' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'session_id' => ['session_id'],
+      'host_uid' => ['host_uid'],
+      'guest_uid' => ['guest_uid'],
+      'status' => ['status'],
+      'expires' => ['expires'],
+    ],
+    'unique keys' => [
+      'session_unique' => ['session_id'],
+    ],
+  ];
+}
+
+/**
+ * Multiplayer signaling event table schema.
+ */
+function nelkano_home_game_signal_event_schema(): array {
+  return [
+    'description' => 'Small WebRTC signaling messages for multiplayer game sessions.',
+    'fields' => [
+      'id' => ['type' => 'serial', 'not null' => TRUE],
+      'session_id' => ['type' => 'varchar', 'length' => 64, 'not null' => TRUE],
+      'sender_uid' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'target' => ['type' => 'varchar', 'length' => 16, 'not null' => TRUE, 'default' => 'guest'],
+      'type' => ['type' => 'varchar', 'length' => 32, 'not null' => TRUE, 'default' => ''],
+      'payload' => ['type' => 'text', 'size' => 'big', 'not null' => FALSE],
+      'created' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'session_target' => ['session_id', 'target'],
+      'created' => ['created'],
+    ],
+  ];
+}
+
+/**
+ * Device table schema.
+ */
+function nelkano_home_device_schema(): array {
+  return [
+    'description' => 'Nelkano app devices linked to a user account.',
+    'fields' => [
+      'id' => ['type' => 'serial', 'not null' => TRUE],
+      'uid' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE],
+      'device_id' => ['type' => 'varchar', 'length' => 128, 'not null' => TRUE],
+      'platform' => ['type' => 'varchar', 'length' => 32, 'not null' => TRUE, 'default' => 'unknown'],
+      'name' => ['type' => 'varchar', 'length' => 120, 'not null' => TRUE, 'default' => ''],
+      'last_seen' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'created' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'uid' => ['uid'],
+      'last_seen' => ['last_seen'],
+    ],
+    'unique keys' => [
+      'user_device' => ['uid', 'device_id'],
+    ],
+  ];
+}
+
+/**
+ * Library activity table schema.
+ */
+function nelkano_home_library_item_schema(): array {
+  return [
+    'description' => 'Private emulator activity metadata. It stores no ROMs, BIOS, saves, states or local paths.',
+    'fields' => [
+      'id' => ['type' => 'serial', 'not null' => TRUE],
+      'uid' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE],
+      'client_item_id' => ['type' => 'varchar', 'length' => 128, 'not null' => TRUE],
+      'system' => ['type' => 'varchar', 'length' => 24, 'not null' => TRUE],
+      'display_name' => ['type' => 'varchar', 'length' => 180, 'not null' => TRUE, 'default' => ''],
+      'favorite' => ['type' => 'int', 'size' => 'tiny', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'added_at' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'last_played_at' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'total_play_ms' => ['type' => 'int', 'size' => 'big', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'play_count' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'save_count' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'deleted_at' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'updated_at' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'uid_recent' => ['uid', 'last_played_at'],
+      'uid_favorite' => ['uid', 'favorite'],
+      'system' => ['system'],
+    ],
+    'unique keys' => [
+      'user_item' => ['uid', 'client_item_id'],
+    ],
+  ];
+}
+
+/**
+ * Play session table schema.
+ */
+function nelkano_home_play_session_schema(): array {
+  return [
+    'description' => 'Idempotent play sessions synced by desktop and Android.',
+    'fields' => [
+      'id' => ['type' => 'serial', 'not null' => TRUE],
+      'uid' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE],
+      'library_item_id' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE],
+      'device_id' => ['type' => 'varchar', 'length' => 128, 'not null' => TRUE],
+      'session_id' => ['type' => 'varchar', 'length' => 128, 'not null' => TRUE],
+      'started_at' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'ended_at' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'duration_ms' => ['type' => 'int', 'size' => 'big', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'created' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'uid' => ['uid'],
+      'library_item' => ['library_item_id'],
+      'ended_at' => ['ended_at'],
+    ],
+    'unique keys' => [
+      'user_session' => ['uid', 'session_id'],
+    ],
+  ];
+}
+
+/**
+ * Active streaming session table schema.
+ */
+function nelkano_home_stream_session_schema(): array {
+  return [
+    'description' => 'Active WebRTC streaming sessions registered by logged-in Nelkano apps.',
+    'fields' => [
+      'id' => ['type' => 'serial', 'not null' => TRUE],
+      'uid' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE],
+      'device_id' => ['type' => 'varchar', 'length' => 128, 'not null' => TRUE],
+      'device_name' => ['type' => 'varchar', 'length' => 120, 'not null' => TRUE, 'default' => ''],
+      'platform' => ['type' => 'varchar', 'length' => 32, 'not null' => TRUE, 'default' => 'android'],
+      'session_id' => ['type' => 'varchar', 'length' => 64, 'not null' => TRUE],
+      'pin' => ['type' => 'varchar', 'length' => 32, 'not null' => TRUE, 'default' => ''],
+      'join_uri' => ['type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => ''],
+      'signaling_url' => ['type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => ''],
+      'status' => ['type' => 'varchar', 'length' => 16, 'not null' => TRUE, 'default' => 'active'],
+      'created' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'updated' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'expires' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'closed' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'uid_active' => ['uid', 'status', 'expires'],
+      'session_id' => ['session_id'],
+      'device' => ['uid', 'device_id'],
+    ],
+  ];
+}
+
+/**
+ * Streaming signaling event table schema.
+ */
+function nelkano_home_stream_signal_event_schema(): array {
+  return [
+    'description' => 'Short-lived WebRTC signaling messages exchanged between Android and the web viewer.',
+    'fields' => [
+      'id' => ['type' => 'serial', 'not null' => TRUE],
+      'uid' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE],
+      'session_id' => ['type' => 'varchar', 'length' => 64, 'not null' => TRUE],
+      'target' => ['type' => 'varchar', 'length' => 16, 'not null' => TRUE, 'default' => 'receiver'],
+      'type' => ['type' => 'varchar', 'length' => 32, 'not null' => TRUE],
+      'payload' => ['type' => 'text', 'size' => 'big', 'not null' => FALSE],
+      'created' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'session_target' => ['session_id', 'target', 'id'],
+      'uid_created' => ['uid', 'created'],
+    ],
+  ];
+}
+
+/**
+ * Copies shipped landing text to active configuration.
+ */
+function nelkano_home_refresh_public_copy(): void {
+  $module_path = \Drupal::service('extension.list.module')->getPath('nelkano_home');
+  $config_path = DRUPAL_ROOT . '/../' . $module_path . '/config/install/nelkano_home.settings.yml';
+
+  if (!is_file($config_path)) {
+    $config_path = DRUPAL_ROOT . '/' . $module_path . '/config/install/nelkano_home.settings.yml';
+  }
+
+  if (!is_file($config_path)) {
+    return;
+  }
+
+  $data = \Drupal\Core\Serialization\Yaml::decode(file_get_contents($config_path) ?: '') ?: [];
+  $config = \Drupal::configFactory()->getEditable('nelkano_home.settings');
+
+  foreach (['es', 'en'] as $language) {
+    foreach (($data[$language] ?? []) as $key => $value) {
+      $config->set($language . '.' . $key, $value);
+    }
+  }
+
+  $config->save(TRUE);
+}

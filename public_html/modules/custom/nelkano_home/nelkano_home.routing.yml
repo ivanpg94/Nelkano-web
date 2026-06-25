@@ -1,0 +1,378 @@
+nelkano_home.front:
+  path: '/home'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::spanish'
+    _title: 'Nelkano'
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.english:
+  path: '/en'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::english'
+    _title: 'Nelkano'
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.legal_notice_es:
+  path: '/aviso-legal'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::legalNoticeSpanish'
+    _title: 'Aviso legal'
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.privacy_cookies_es:
+  path: '/privacidad-cookies'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::privacyCookiesSpanish'
+    _title: 'Privacidad y cookies'
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.legal_notice_en:
+  path: '/en/legal-notice'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::legalNoticeEnglish'
+    _title: 'Legal notice'
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.privacy_cookies_en:
+  path: '/en/privacy-cookies'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::privacyCookiesEnglish'
+    _title: 'Privacy and cookies'
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.contact:
+  path: '/contacto'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\ContactController::page'
+    _title: 'Contacto'
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.contact_en:
+  path: '/en/contact'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\ContactController::page'
+    _title: 'Contact'
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.login_en:
+  path: '/en/user/login'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AuthController::login'
+    _title: 'Log in'
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.register_en:
+  path: '/en/user/register'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AuthController::register'
+    _title: 'Create account'
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.password_en:
+  path: '/en/user/password'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AuthController::password'
+    _title: 'Reset password'
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_auth_login:
+  path: '/api/nelkano/auth/login'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::login'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_auth_register:
+  path: '/api/nelkano/auth/register'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::register'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_auth_me:
+  path: '/api/nelkano/auth/me'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::me'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_auth_status:
+  path: '/api/nelkano/auth/status'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::status'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_activity:
+  path: '/api/nelkano/activity'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::activity'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_activity_sync:
+  path: '/api/nelkano/activity/sync'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::syncActivity'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_friends:
+  path: '/api/nelkano/friends'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::friends'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_profile_get:
+  path: '/api/nelkano/profile'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::profile'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_profile_update:
+  path: '/api/nelkano/profile'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::updateProfile'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_friends_search:
+  path: '/api/nelkano/friends/search'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::searchFriends'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_friends_request:
+  path: '/api/nelkano/friends/request'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::requestFriend'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_friends_accept:
+  path: '/api/nelkano/friends/accept'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::acceptFriend'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_friends_reject:
+  path: '/api/nelkano/friends/reject'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::rejectFriend'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_friends_remove:
+  path: '/api/nelkano/friends/remove'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::removeFriend'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_game_session_connect:
+  path: '/api/nelkano/game/session/connect'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::connectGameSession'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_game_session_end:
+  path: '/api/nelkano/game/session/end'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::endGameSession'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_game_signaling_event:
+  path: '/api/nelkano/game/signaling/event'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::gameSignalingEvent'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_game_signaling_events:
+  path: '/api/nelkano/game/signaling/events'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::gameSignalingEvents'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_stream_session_active:
+  path: '/api/nelkano/stream/session/active'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::activeStreamSession'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_stream_session_register:
+  path: '/api/nelkano/stream/session'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::registerStreamSession'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_stream_session_end:
+  path: '/api/nelkano/stream/session/end'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::endStreamSession'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_stream_signaling_session:
+  path: '/api/nelkano/stream/signaling/session'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::createStreamSignalingSession'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_stream_signaling_event:
+  path: '/api/nelkano/stream/signaling/event'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::streamSignalingEvent'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_stream_signaling_events:
+  path: '/api/nelkano/stream/signaling/events'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::streamSignalingEvents'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_stream_frame_post:
+  path: '/api/nelkano/stream/frame'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::streamFramePost'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_stream_frame_get:
+  path: '/api/nelkano/stream/frame'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::streamFrameGet'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_stream_signaling_end:
+  path: '/api/nelkano/stream/signaling/session/end'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::endStreamSession'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.verify:
+  path: '/user/verify/{uid}/{token}'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AuthController::verify'
+    _title: 'Verificar cuenta'
+  requirements:
+    _permission: 'access content'
+    uid: '\d+'
+    token: '[A-Fa-f0-9]{64}'
+
+nelkano_home.settings:
+  path: '/admin/config/nelkano/home'
+  defaults:
+    _form: '\Drupal\nelkano_home\Form\HomeSettingsForm'
+    _title: 'Nelkano home'
+  requirements:
+    _permission: 'administer site configuration'
+
+nelkano_home.user_stream:
+  path: '/user/stream'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::userStream'
+    _title: 'Nelkano stream'
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.user_stream_en:
+  path: '/en/user/stream'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::userStream'
+    _title: 'Nelkano stream'
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.account:
+  path: '/cuenta'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\ProfileController::current'
+    _title: 'Mi perfil'
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.account_en:
+  path: '/en/user'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\ProfileController::current'
+    _title: 'My profile'
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.account_section:
+  path: '/user/section/{section}'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\ProfileController::section'
+    _title: 'Mi perfil'
+  requirements:
+    _user_is_logged_in: 'TRUE'
+    section: 'perfil|amigos'
+
+nelkano_home.account_section_en:
+  path: '/en/user/section/{section}'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\ProfileController::section'
+    _title: 'My profile'
+  requirements:
+    _user_is_logged_in: 'TRUE'
+    section: 'profile|friends'
+
+nelkano_home.sitemap:
+  path: '/sitemap.xml'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::sitemap'
+  requirements:
+    _permission: 'access content'

@@ -1,0 +1,17 @@
+/vendor/
+/public_html/core/
+/public_html/modules/contrib/
+/public_html/themes/contrib/
+/public_html/profiles/contrib/
+/public_html/libraries/
+/public_html/sites/*/files/
+/public_html/sites/*/private/
+/public_html/sites/*/settings.php
+/public_html/sites/*/settings.local.php
+/public_html/sites/*/services.local.yml
+/public_html/sites/*/development.services.yml
+/.env
+*.sql
+*.sql.gz
+Thumbs.db
+.DS_Store

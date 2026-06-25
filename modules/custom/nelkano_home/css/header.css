@@ -1,0 +1,173 @@
+:root {
+  --nk-bg-nav: rgba(7, 7, 10, 0.82);
+  --nk-border: rgba(255, 255, 255, 0.1);
+  --nk-text: #ffffff;
+  --nk-text-soft: #e2e8f0;
+  --nk-muted: #94a3b8;
+  --nk-violet: #6d28d9;
+  --nk-fuchsia: #a21caf;
+}
+
+.nk-app-nav {
+  background: var(--nk-bg-nav);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--nk-border);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.nk-nav-inner {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: min(1280px, 100vw);
+  padding: 16px 24px;
+  width: 100%;
+}
+
+.nk-brand {
+  align-items: center;
+  color: inherit;
+  display: inline-flex;
+  gap: 12px;
+  min-width: 0;
+  text-decoration: none;
+}
+
+.nk-logo-mark {
+  border: 1px solid var(--nk-border);
+  border-radius: 16px;
+  box-shadow: 0 0 30px rgba(168, 85, 247, 0.28);
+  display: inline-block;
+  flex: 0 0 auto;
+  height: 44px;
+  object-fit: cover;
+  width: 44px;
+}
+
+.nk-brand span {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.nk-brand strong {
+  color: var(--nk-text);
+  font-size: 1.125rem;
+}
+
+.nk-brand small {
+  color: var(--nk-muted);
+  font-size: 0.75rem;
+}
+
+.nk-nav-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.nk-nav-pill {
+  border-radius: 999px;
+  color: var(--nk-text-soft);
+  font-size: 0.875rem;
+  font-weight: 700;
+  padding: 9px 14px;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.nk-nav-pill:hover,
+.nk-nav-pill:focus-visible {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--nk-text);
+}
+
+.nk-button {
+  align-items: center;
+  border-radius: 16px;
+  display: inline-flex;
+  font-size: 0.875rem;
+  font-weight: 800;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 20px;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.nk-button:hover,
+.nk-button:focus-visible {
+  transform: translateY(-1px);
+}
+
+.nk-button-primary {
+  background: linear-gradient(90deg, var(--nk-violet), var(--nk-fuchsia));
+  border: 1px solid rgba(240, 171, 252, 0.25);
+  box-shadow: 0 0 30px rgba(192, 38, 211, 0.28);
+  color: #ffffff;
+}
+
+.nk-login {
+  gap: 9px;
+  max-width: min(340px, 100%);
+}
+
+.nk-account-initial {
+  align-items: center;
+  background: radial-gradient(circle at 35% 25%, #ffffff, var(--avatar-color) 42%, #2b003f);
+  border-radius: 999px;
+  color: #ffffff;
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: 0.78rem;
+  font-weight: 900;
+  height: 24px;
+  justify-content: center;
+  width: 24px;
+}
+
+.nk-account-name {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nk-button-secondary {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--nk-border);
+  color: #ffffff;
+}
+
+@media (max-width: 760px) {
+  .nk-nav-inner {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
+    padding: 14px 18px;
+  }
+
+  .nk-nav-actions {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .nk-nav-pill,
+  .nk-button {
+    min-height: 38px;
+    padding-inline: 12px;
+  }
+
+  .nk-login {
+    max-width: 100%;
+  }
+
+  .nk-account-name {
+    max-width: min(70vw, 280px);
+  }
+}
