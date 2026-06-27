@@ -124,6 +124,20 @@ h2 {
   width: 100%;
 }
 
+.nk-stream-audio {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.nk-stream-audio[hidden] {
+  display: none;
+}
+
+.nk-stream-audio:disabled {
+  cursor: default;
+  opacity: 0.72;
+}
+
 .nk-stream-form label {
   color: var(--nk-text-info-soft);
   display: grid;

@@ -4,6 +4,7 @@
 
   var form = document.querySelector('[data-stream-form]');
   var disconnectButton = document.querySelector('[data-stream-disconnect]');
+  var audioButton = document.querySelector('[data-stream-audio]');
   var stateNode = document.querySelector('[data-stream-state]');
   var sessionNode = document.querySelector('[data-stream-session]');
   var hintNode = document.querySelector('[data-stream-hint]');
@@ -35,6 +36,8 @@
   var localCandidates = [];
   var currentSessionId = '';
   var webRtcConnected = false;
+  var audioWanted = false;
+  var remoteAudioAvailable = false;
 
   function setState(value) {
     if (stateNode) stateNode.textContent = value;
@@ -66,6 +69,26 @@
     frameVisibleLogged = false;
   }
 
+  function updateAudioButton() {
+    if (!audioButton) return;
+    var canEnableAudio = remoteAudioAvailable || webRtcConnected;
+    audioButton.hidden = !canEnableAudio;
+    audioButton.disabled = audioWanted && video && !video.muted;
+    audioButton.textContent = audioWanted && video && !video.muted ? 'Sonido activado' : 'Activar sonido';
+  }
+
+  function applyAudioPreference() {
+    if (!video) return;
+    video.muted = !audioWanted;
+    if (audioWanted) {
+      video.volume = 1;
+      video.play().catch(function (error) {
+        log('El navegador bloqueo el audio hasta una pulsacion: ' + error.message);
+      });
+    }
+    updateAudioButton();
+  }
+
   function send(type, sessionId, payload) {
     if (httpEndpoint) {
       var target = (type === 'answer' || type === 'ice-candidate' || type === 'disconnect' || type === 'receiver-waiting') ? 'android' : 'receiver';
@@ -92,6 +115,7 @@
     pendingCandidates = [];
     localCandidates = [];
     webRtcConnected = false;
+    remoteAudioAvailable = false;
     if (peer) {
       peer.onicecandidate = null;
       peer.ontrack = null;
@@ -110,6 +134,7 @@
     frameVisibleLogged = false;
     frameEmptyPolls = 0;
     if (empty) empty.hidden = false;
+    updateAudioButton();
   }
 
   function disconnect(options) {
@@ -154,7 +179,7 @@
     startIceConnectingTimer();
     remoteStream = new MediaStream();
     if (video) {
-      video.muted = true;
+      video.muted = !audioWanted;
       video.autoplay = true;
       video.playsInline = true;
       video.srcObject = remoteStream;
@@ -174,7 +199,12 @@
         };
         video.play().catch(function () {});
       }
+      if (event.track.kind === 'audio') {
+        remoteAudioAvailable = true;
+        applyAudioPreference();
+      }
       showWebRtcVideo();
+      updateAudioButton();
       log('Pista remota recibida: ' + event.track.kind);
     };
     peer.onicecandidate = function (event) {
@@ -194,9 +224,12 @@
       if (state === 'connected') {
         clearIceConnectingTimer();
         showWebRtcVideo();
+        updateAudioButton();
         setHint('WebRTC conectado. El fallback HTTP queda preparado por si la conexion cae.');
       } else if (state === 'failed' || state === 'disconnected') {
         webRtcConnected = false;
+        remoteAudioAvailable = false;
+        updateAudioButton();
         setHint('WebRTC no pudo mantener la conexion directa. Usando video HTTP si esta disponible.');
         if (currentSessionId && frameUrl && !framePolling) {
           startFramePolling(currentSessionId);
@@ -614,6 +647,15 @@
 
   if (disconnectButton) {
     disconnectButton.addEventListener('click', disconnect);
+  }
+
+  if (audioButton) {
+    audioButton.addEventListener('click', function () {
+      audioWanted = true;
+      applyAudioPreference();
+      log('Sonido WebRTC activado por el usuario');
+    });
+    updateAudioButton();
   }
 
   function connectFromActiveSession(session) {
