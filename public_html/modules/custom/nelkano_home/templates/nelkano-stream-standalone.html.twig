@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="es">
   <head>
     <meta charset="utf-8">
@@ -17,18 +17,38 @@
   </head>
   <body>
     {% include '@nelkano_home/nelkano-header.html.twig' %}
-    <main class="nk-stream" data-stream-ws-url="{{ stream_ws_url }}" data-stream-active-url="{{ stream_active_url }}" data-stream-frame-url="/api/nelkano/stream/frame" data-stream-ice-config-url="{{ stream_ice_config_url }}" data-stream-ice-servers="{{ stream_ice_servers }}" data-stream-ice-policy="{{ stream_ice_policy }}">
+    <main class="nk-stream" data-stream-ws-url="{{ stream_ws_url }}" data-stream-active-url="{{ stream_active_url }}" data-stream-frame-url="/api/nelkano/stream/frame" data-stream-audio-url="/api/nelkano/stream/audio" data-stream-ice-config-url="{{ stream_ice_config_url }}" data-stream-ice-servers="{{ stream_ice_servers }}" data-stream-ice-policy="{{ stream_ice_policy }}">
       <section class="nk-stream-layout">
         <div class="nk-viewer">
-          <video id="stream-video" autoplay muted playsinline controls></video>
+          <video id="stream-video" autoplay muted playsinline></video>
           <img id="stream-fallback-frame" alt="Emision de Android por HTTP" hidden>
           <div class="nk-video-empty" data-video-empty>
             <span>Esperando video</span>
           </div>
+          <div class="nk-viewer-controls" data-stream-controls>
+            <div class="nk-volume-control" data-volume-control>
+              <button class="nk-viewer-audio" type="button" data-stream-audio disabled aria-label="Activar sonido" title="Activar sonido">
+                <svg class="nk-volume-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+                  <path class="nk-volume-speaker" d="M4 12.5v7h5.2L18 27V5L9.2 12.5H4z"></path>
+                  <path class="nk-volume-wave nk-volume-wave-1" d="M21 11.5c1.5 1.2 2.3 2.8 2.3 4.5S22.5 19.3 21 20.5"></path>
+                  <path class="nk-volume-wave nk-volume-wave-2" d="M24.4 7.8c2.5 2.1 3.9 5 3.9 8.2s-1.4 6.1-3.9 8.2"></path>
+                  <path class="nk-volume-mute" d="M22 11l7 10M29 11l-7 10"></path>
+                </svg>
+              </button>
+              <div class="nk-volume-popover">
+                <input type="range" min="0" max="100" value="100" data-stream-volume aria-label="Volumen">
+              </div>
+            </div>
+            <button class="nk-viewer-fullscreen" type="button" data-stream-fullscreen aria-label="Pantalla completa" title="Pantalla completa">
+              <svg class="nk-fullscreen-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+                <path d="M6 13V6h7M19 6h7v7M26 19v7h-7M13 26H6v-7"></path>
+              </svg>
+            </button>
+          </div>
         </div>
 
         <aside class="nk-panel" aria-labelledby="stream-title">
-          <p class="nk-eyebrow">Receptor WebRTC</p>
+          <p class="nk-eyebrow">Receptor HTTP</p>
           <h1 id="stream-title">Ver una emision de Android</h1>
           <p class="nk-copy" data-stream-copy>Abre Nelkano en Android con tu cuenta, entra en el juego y pulsa Streaming. Esta pagina conectara automaticamente cuando detecte tu emision activa.</p>
 
@@ -36,7 +56,6 @@
             Abre el emulador en Android y pulsa Streaming.
           </div>
 
-          <button class="nk-button nk-stream-audio" type="button" data-stream-audio hidden>Activar sonido</button>
           <button class="nk-button nk-stream-disconnect" type="button" data-stream-disconnect>Desconectar</button>
 
           <form class="nk-stream-form nk-stream-form-hidden" data-stream-form>

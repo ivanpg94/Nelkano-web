@@ -1075,6 +1075,107 @@ final class AppAuthController extends ControllerBase {
     ]);
   }
 
+  public function streamAudioPost(Request $request): JsonResponse {
+    $account = $this->accountFromBearer($request);
+    if (!$account instanceof User) {
+      return $this->error('Token no valido o caducado.', 401);
+    }
+    $payload = json_decode((string) $request->getContent(), TRUE);
+    if (!is_array($payload)) {
+      return $this->error('Peticion no valida.', 400);
+    }
+    $session_id = $this->cleanId((string) ($payload['sessionId'] ?? ''));
+    if ($session_id === '' || !$this->activeStreamSessionRow((int) $account->id(), $session_id)) {
+      return $this->error('Sesion de streaming no encontrada.', 404);
+    }
+    $sample_rate = max(8000, min(48000, (int) ($payload['sampleRate'] ?? 0)));
+    $channel_count = max(1, min(2, (int) ($payload['channelCount'] ?? 1)));
+    $duration_ms = max(20, min(1000, (int) ($payload['durationMs'] ?? 0)));
+    $binary = base64_decode((string) ($payload['pcm'] ?? ''), TRUE);
+    if ($binary === FALSE || strlen($binary) < 2 || strlen($binary) > 128000 || (strlen($binary) % 2) !== 0) {
+      return $this->error('Audio de streaming no valido.', 400);
+    }
+
+    $path = $this->streamAudioPath((int) $account->id(), $session_id);
+    if ($path === '' || @file_put_contents($path, $binary, LOCK_EX) === FALSE) {
+      return $this->error('No se pudo guardar el audio.', 500);
+    }
+    $previous_sequence = is_file($path . '.seq') ? (int) trim((string) @file_get_contents($path . '.seq')) : 0;
+    $sequence = max((int) floor(microtime(TRUE) * 1000), $previous_sequence + 1);
+    @file_put_contents($path . '.seq', (string) $sequence, LOCK_EX);
+    @file_put_contents($path . '.rate', (string) $sample_rate, LOCK_EX);
+    @file_put_contents($path . '.channels', (string) $channel_count, LOCK_EX);
+    @file_put_contents($path . '.duration', (string) $duration_ms, LOCK_EX);
+    $now = \Drupal::time()->getRequestTime();
+    \Drupal::database()->update('nelkano_stream_session')
+      ->fields(['updated' => $now, 'expires' => $now + 7200])
+      ->condition('uid', (int) $account->id())
+      ->condition('session_id', $session_id)
+      ->execute();
+
+    return new JsonResponse([
+      'ok' => TRUE,
+      'sequence' => $sequence,
+    ]);
+  }
+
+  public function streamAudioGet(Request $request): JsonResponse {
+    $account = $this->accountFromRequest($request);
+    if (!$account instanceof User) {
+      return $this->error('Inicia sesion para usar el streaming.', 401);
+    }
+    $session_id = $this->cleanId((string) $request->query->get('sessionId', ''));
+    if ($session_id === '' || !$this->activeStreamSessionRow((int) $account->id(), $session_id)) {
+      return $this->error('Sesion de streaming no encontrada.', 404);
+    }
+    $path = $this->streamAudioPath((int) $account->id(), $session_id, FALSE);
+    $since = max(0, (int) $request->query->get('since', 0));
+    $wait_ms = min(800, max(0, (int) $request->query->get('wait', 0)));
+    $deadline = microtime(TRUE) + ($wait_ms / 1000);
+    $sequence_path = $path === '' ? '' : $path . '.seq';
+    $sequence = 0;
+    do {
+      if ($path !== '' && is_file($path)) {
+        $sequence = is_file($sequence_path)
+          ? (int) trim((string) @file_get_contents($sequence_path))
+          : ((int) (@filemtime($path) ?: 0) * 1000);
+        if ($sequence <= 0 || $sequence > $since) {
+          break;
+        }
+      }
+      if (microtime(TRUE) >= $deadline) {
+        break;
+      }
+      usleep(30000);
+    } while (TRUE);
+    if ($path === '' || !is_file($path)) {
+      return new JsonResponse(['ok' => TRUE, 'audio' => FALSE]);
+    }
+    if ($sequence > 0 && $sequence <= $since) {
+      return new JsonResponse(['ok' => TRUE, 'audio' => FALSE, 'sequence' => $sequence]);
+    }
+    $binary = @file_get_contents($path);
+    if ($binary === FALSE || $binary === '') {
+      return new JsonResponse(['ok' => TRUE, 'audio' => FALSE]);
+    }
+    $rate_path = $path . '.rate';
+    $channels_path = $path . '.channels';
+    $duration_path = $path . '.duration';
+    $sample_rate = is_file($rate_path) ? (int) trim((string) @file_get_contents($rate_path)) : 16000;
+    $channel_count = is_file($channels_path) ? (int) trim((string) @file_get_contents($channels_path)) : 1;
+    $duration_ms = is_file($duration_path) ? (int) trim((string) @file_get_contents($duration_path)) : 0;
+
+    return new JsonResponse([
+      'ok' => TRUE,
+      'audio' => TRUE,
+      'sequence' => $sequence,
+      'sampleRate' => max(8000, min(48000, $sample_rate)),
+      'channelCount' => max(1, min(2, $channel_count)),
+      'durationMs' => max(0, min(1000, $duration_ms)),
+      'pcm' => base64_encode($binary),
+    ]);
+  }
+
   public function status(): JsonResponse {
     $account = $this->currentUser();
     return new JsonResponse([
@@ -1600,6 +1701,25 @@ final class AppAuthController extends ControllerBase {
       return '';
     }
     return $real_directory . DIRECTORY_SEPARATOR . $session_id . '.frame';
+  }
+
+  private function streamAudioPath(int $uid, string $session_id, bool $create = TRUE): string {
+    if ($uid <= 0 || $session_id === '') {
+      return '';
+    }
+    $file_system = \Drupal::service('file_system');
+    if (!$file_system instanceof FileSystemInterface) {
+      return '';
+    }
+    $directory = 'public://nelkano-stream/' . $uid;
+    if ($create) {
+      $file_system->prepareDirectory($directory, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS);
+    }
+    $real_directory = $file_system->realpath($directory);
+    if (!is_string($real_directory) || $real_directory === '') {
+      return '';
+    }
+    return $real_directory . DIRECTORY_SEPARATOR . $session_id . '.audio';
   }
 
   private function streamFrameMime(string $binary, string $requested): string {

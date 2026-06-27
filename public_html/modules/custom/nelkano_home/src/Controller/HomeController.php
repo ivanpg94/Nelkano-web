@@ -80,12 +80,14 @@ final class HomeController extends ControllerBase {
     $module_path = $this->moduleExtensionList->getPath('nelkano_home');
     $language = $this->requestLanguage();
     $template = file_get_contents(DRUPAL_ROOT . '/' . $module_path . '/templates/nelkano-stream-standalone.html.twig');
+    $stream_css_path = DRUPAL_ROOT . '/' . $module_path . '/css/stream.css';
     $stream_js_path = DRUPAL_ROOT . '/' . $module_path . '/js/stream-viewer.js';
+    $stream_css_version = is_file($stream_css_path) ? (string) filemtime($stream_css_path) : (string) time();
     $stream_js_version = is_file($stream_js_path) ? (string) filemtime($stream_js_path) : (string) time();
     $html = \Drupal::service('twig')->createTemplate($template)->render([
       'base_css_url' => '/' . $module_path . '/css/base.css',
       'header_css_url' => '/' . $module_path . '/css/header.css',
-      'stream_css_url' => '/' . $module_path . '/css/stream.css',
+      'stream_css_url' => '/' . $module_path . '/css/stream.css?v=' . $stream_css_version,
       'stream_js_url' => '/' . $module_path . '/js/stream-viewer.js?v=' . $stream_js_version,
       'stream_ws_url' => $this->streamWebSocketUrl(),
       'stream_active_url' => '/api/nelkano/stream/session/active',

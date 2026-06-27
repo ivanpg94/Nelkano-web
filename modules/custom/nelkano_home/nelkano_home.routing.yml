@@ -342,6 +342,22 @@ nelkano_home.api_stream_frame_get:
   requirements:
     _permission: 'access content'
 
+nelkano_home.api_stream_audio_post:
+  path: '/api/nelkano/stream/audio'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::streamAudioPost'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_stream_audio_get:
+  path: '/api/nelkano/stream/audio'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::streamAudioGet'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
 nelkano_home.api_stream_signaling_end:
   path: '/api/nelkano/stream/signaling/session/end'
   defaults:

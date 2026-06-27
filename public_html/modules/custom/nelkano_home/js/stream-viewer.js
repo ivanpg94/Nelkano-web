@@ -2,9 +2,15 @@
   var root = document.querySelector('.nk-stream');
   if (!root) return;
 
+  var HTTP_SYNC_DELAY_MS = 700;
+  var HTTP_SYNC_DELAY_SECONDS = HTTP_SYNC_DELAY_MS / 1000;
+
   var form = document.querySelector('[data-stream-form]');
   var disconnectButton = document.querySelector('[data-stream-disconnect]');
   var audioButton = document.querySelector('[data-stream-audio]');
+  var volumeInput = document.querySelector('[data-stream-volume]');
+  var volumeControl = document.querySelector('[data-volume-control]');
+  var fullscreenButton = document.querySelector('[data-stream-fullscreen]');
   var stateNode = document.querySelector('[data-stream-state]');
   var sessionNode = document.querySelector('[data-stream-session]');
   var hintNode = document.querySelector('[data-stream-hint]');
@@ -16,6 +22,7 @@
   var wsUrl = root.getAttribute('data-stream-ws-url') || '';
   var activeUrl = root.getAttribute('data-stream-active-url') || '';
   var frameUrl = root.getAttribute('data-stream-frame-url') || '';
+  var audioUrl = root.getAttribute('data-stream-audio-url') || '';
   var iceConfigUrl = root.getAttribute('data-stream-ice-config-url') || '';
   var icePolicy = root.getAttribute('data-stream-ice-policy') || 'all';
   var dynamicIceServers = null;
@@ -29,6 +36,16 @@
   var frameSequence = 0;
   var frameVisibleLogged = false;
   var frameEmptyPolls = 0;
+  var frameDisplayQueue = [];
+  var frameDisplayTimer = null;
+  var audioPolling = false;
+  var audioSequence = 0;
+  var audioContext = null;
+  var audioGain = null;
+  var audioVolume = 1;
+  var audioNextAt = 0;
+  var audioChunksPlayed = 0;
+  var audioChunksMissed = 0;
   var pollCursor = 0;
   var peer = null;
   var remoteStream = null;
@@ -37,6 +54,7 @@
   var currentSessionId = '';
   var webRtcConnected = false;
   var audioWanted = false;
+  var previousAudioVolume = 1;
   var remoteAudioAvailable = false;
 
   function setState(value) {
@@ -48,7 +66,9 @@
   }
 
   function setHint(value) {
-    if (hintNode) hintNode.textContent = value;
+    if (!hintNode) return;
+    hintNode.textContent = value;
+    hintNode.hidden = !value;
   }
 
   function log(message) {
@@ -67,26 +87,136 @@
     }
     if (empty) empty.hidden = true;
     frameVisibleLogged = false;
+    clearFrameDisplayQueue();
   }
 
   function updateAudioButton() {
     if (!audioButton) return;
-    var canEnableAudio = remoteAudioAvailable || webRtcConnected;
-    audioButton.hidden = !canEnableAudio;
-    audioButton.disabled = audioWanted && video && !video.muted;
-    audioButton.textContent = audioWanted && video && !video.muted ? 'Sonido activado' : 'Activar sonido';
+    var hasSession = !!currentSessionId;
+    var muted = !audioWanted || audioVolume <= 0;
+    audioButton.disabled = !hasSession;
+    audioButton.setAttribute('data-muted', muted ? 'true' : 'false');
+    audioButton.setAttribute('aria-label', muted ? 'Activar sonido' : 'Silenciar');
+    audioButton.setAttribute('title', muted ? 'Activar sonido' : 'Silenciar');
+  }
+
+  function applyAudioVolume() {
+    if (video) {
+      video.muted = !audioWanted || audioVolume <= 0;
+      video.volume = audioVolume;
+    }
+    if (audioGain) {
+      audioGain.gain.value = audioWanted ? audioVolume : 0;
+    }
+    updateAudioButton();
   }
 
   function applyAudioPreference() {
-    if (!video) return;
-    video.muted = !audioWanted;
-    if (audioWanted) {
-      video.volume = 1;
+    applyAudioVolume();
+    if (video && audioWanted) {
       video.play().catch(function (error) {
         log('El navegador bloqueo el audio hasta una pulsacion: ' + error.message);
       });
     }
-    updateAudioButton();
+  }
+
+  function ensureAudioContext() {
+    var AudioCtor = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtor) {
+      log('Este navegador no soporta Web Audio para el fallback HTTP');
+      return null;
+    }
+    if (!audioContext) {
+      audioContext = new AudioCtor();
+    }
+    if (!audioGain) {
+      audioGain = audioContext.createGain();
+      audioGain.gain.value = audioWanted ? audioVolume : 0;
+      audioGain.connect(audioContext.destination);
+    }
+    if (audioContext.state === 'suspended') {
+      audioContext.resume().catch(function (error) {
+        log('No se pudo activar el audio: ' + error.message);
+      });
+    }
+    return audioContext;
+  }
+
+  function decodeBase64Pcm(value) {
+    var binary = window.atob(value || '');
+    var bytes = new Uint8Array(binary.length);
+    for (var i = 0; i < binary.length; i++) {
+      bytes[i] = binary.charCodeAt(i) & 255;
+    }
+    return bytes;
+  }
+
+  function playHttpAudioChunk(data) {
+    var context = ensureAudioContext();
+    if (!context || !data || !data.pcm) return;
+    var sampleRate = Math.max(8000, Math.min(48000, Number(data.sampleRate || 16000)));
+    var channelCount = Math.max(1, Math.min(2, Number(data.channelCount || 1)));
+    var bytes = decodeBase64Pcm(String(data.pcm || ''));
+    var frameCount = Math.floor(bytes.length / (2 * channelCount));
+    if (frameCount <= 0) return;
+    var buffer = context.createBuffer(channelCount, frameCount, sampleRate);
+    for (var channel = 0; channel < channelCount; channel++) {
+      var output = buffer.getChannelData(channel);
+      for (var frame = 0; frame < frameCount; frame++) {
+        var offset = (frame * channelCount + channel) * 2;
+        var sample = bytes[offset] | (bytes[offset + 1] << 8);
+        if (sample >= 32768) sample -= 65536;
+        output[frame] = Math.max(-1, Math.min(1, sample / 32768));
+      }
+    }
+    var now = context.currentTime;
+    if (!audioNextAt || audioNextAt < now + 0.08 || audioNextAt > now + 2.2) {
+      audioNextAt = now + HTTP_SYNC_DELAY_SECONDS;
+      if (audioChunksPlayed > 0) audioChunksMissed++;
+    }
+    var source = context.createBufferSource();
+    source.buffer = buffer;
+    source.connect(audioGain || context.destination);
+    source.start(audioNextAt);
+    audioNextAt += buffer.duration;
+    audioChunksPlayed++;
+    if (audioChunksPlayed === 1 || audioChunksPlayed % 20 === 0) {
+      log('Audio HTTP activo: chunks=' + audioChunksPlayed + ' reajustes=' + audioChunksMissed);
+    }
+  }
+
+  function startHttpAudioPolling(sessionId) {
+    if (!audioUrl || audioPolling || !audioWanted || !sessionId) return;
+    audioPolling = true;
+    audioSequence = 0;
+    audioNextAt = 0;
+    pollHttpAudio(sessionId);
+  }
+
+  async function pollHttpAudio(sessionId) {
+    while (audioPolling && audioWanted && currentSessionId === sessionId && audioUrl) {
+      try {
+        var response = await fetch(audioUrl + '?sessionId=' + encodeURIComponent(sessionId) + '&since=' + audioSequence + '&wait=800', {
+          credentials: 'same-origin',
+          cache: 'no-store',
+          headers: { 'Accept': 'application/json' }
+        });
+        var data = await response.json();
+        if (!response.ok || !data.ok) {
+          throw new Error(data.message || ('HTTP ' + response.status));
+        }
+        if (data.audio && data.pcm) {
+          audioSequence = Math.max(audioSequence, Number(data.sequence || audioSequence));
+          playHttpAudioChunk(data);
+        } else if (data.sequence) {
+          audioSequence = Math.max(audioSequence, Number(data.sequence || audioSequence));
+        }
+      } catch (error) {
+        log('Audio HTTP fallo: ' + error.message);
+        await sleep(900);
+      }
+    }
+    audioPolling = false;
   }
 
   function send(type, sessionId, payload) {
@@ -133,6 +263,10 @@
     frameSequence = 0;
     frameVisibleLogged = false;
     frameEmptyPolls = 0;
+    clearFrameDisplayQueue();
+    audioPolling = false;
+    audioSequence = 0;
+    audioNextAt = 0;
     if (empty) empty.hidden = false;
     updateAudioButton();
   }
@@ -142,6 +276,7 @@
     var notifyAndroid = options.notifyAndroid !== false;
     var sessionId = currentSessionId;
     polling = false;
+    audioPolling = false;
     if (notifyAndroid && httpEndpoint && sessionId) {
       send('disconnect', sessionId, { reason: 'receiver_disconnect' });
     }
@@ -230,7 +365,7 @@
         webRtcConnected = false;
         remoteAudioAvailable = false;
         updateAudioButton();
-        setHint('WebRTC no pudo mantener la conexion directa. Usando video HTTP si esta disponible.');
+      setHint('Usando video HTTP y audio HTTP si lo activas.');
         if (currentSessionId && frameUrl && !framePolling) {
           startFramePolling(currentSessionId);
         }
@@ -252,8 +387,8 @@
       var state = peer.connectionState || 'connecting';
       if (state === 'connected') return;
       setState('Video HTTP');
-      setHint('WebRTC no conecto a tiempo. Usando fallback HTTP mientras la conexion directa sigue intentando mejorar.');
-      log('WebRTC timeout; fallback HTTP activo');
+      setHint('Usando video HTTP y audio HTTP si lo activas.');
+      log('Modo HTTP activo');
     }, 12000);
   }
 
@@ -434,7 +569,15 @@
     }
   }
 
-  function showHttpFrame(data) {
+  function clearFrameDisplayQueue() {
+    frameDisplayQueue = [];
+    if (frameDisplayTimer) {
+      window.clearTimeout(frameDisplayTimer);
+      frameDisplayTimer = null;
+    }
+  }
+
+  function renderHttpFrame(data) {
     if (!fallbackImage || !data || !data.image) return;
     if (webRtcConnected) return;
     fallbackImage.src = 'data:' + (data.mime || 'image/jpeg') + ';base64,' + data.image;
@@ -443,9 +586,42 @@
     if (!frameVisibleLogged) {
       frameVisibleLogged = true;
       setState('Video HTTP');
-      setHint('Video recibido desde Android. WebRTC seguira intentando mejorar la conexion si puede.');
+      setHint('');
       log('Video recibido por fallback HTTP');
     }
+  }
+
+  function scheduleFrameDisplay() {
+    if (frameDisplayTimer || frameDisplayQueue.length === 0) return;
+    var delay = Math.max(0, frameDisplayQueue[0].dueAt - Date.now());
+    frameDisplayTimer = window.setTimeout(function () {
+      frameDisplayTimer = null;
+      var now = Date.now();
+      var ready = null;
+      while (frameDisplayQueue.length > 0 && frameDisplayQueue[0].dueAt <= now) {
+        ready = frameDisplayQueue.shift().data;
+      }
+      if (ready) {
+        renderHttpFrame(ready);
+      }
+      scheduleFrameDisplay();
+    }, delay);
+  }
+
+  function showHttpFrame(data) {
+    if (!audioWanted) {
+      clearFrameDisplayQueue();
+      renderHttpFrame(data);
+      return;
+    }
+    frameDisplayQueue.push({
+      dueAt: Date.now() + HTTP_SYNC_DELAY_MS,
+      data: data
+    });
+    if (frameDisplayQueue.length > 16) {
+      frameDisplayQueue.splice(0, frameDisplayQueue.length - 16);
+    }
+    scheduleFrameDisplay();
   }
 
   function startFramePolling(sessionId) {
@@ -454,6 +630,7 @@
     frameSequence = 0;
     frameVisibleLogged = false;
     frameEmptyPolls = 0;
+    clearFrameDisplayQueue();
     pollHttpFrames();
   }
 
@@ -482,7 +659,7 @@
             log('Esperando frames HTTP de Android');
           }
         }
-        await sleep(fallbackImage && !fallbackImage.hidden ? 20 : 80);
+        await sleep(fallbackImage && !fallbackImage.hidden ? 45 : 90);
       } catch (error) {
         var message = String(error && error.message ? error.message : '');
         if (message.toLowerCase().indexOf('sesion de streaming no encontrada') !== -1 || message.indexOf('404') !== -1) {
@@ -509,17 +686,18 @@
     currentSessionId = sessionId;
     httpEndpoint = endpoint.replace(/\/$/, '');
     pollCursor = 0;
-    polling = true;
+    polling = false;
     webRtcConnected = false;
-    setState('Conectando WebRTC');
+    setState('Video HTTP');
     setSession('Sesion enlazada con Android');
+    updateAudioButton();
     if (urlNode) urlNode.textContent = httpEndpoint + '/events';
-    log('Conectando por signaling HTTP con WebRTC y fallback HTTP.');
-    await loadIceConfig(true);
-    createPeer(sessionId);
+    setHint('Usando video HTTP y audio HTTP.');
+    log('Modo HTTP activo: video HTTP y audio HTTP');
     startFramePolling(sessionId);
-    pollHttpEvents();
-    send('receiver-waiting', sessionId, {});
+    if (audioWanted) {
+      startHttpAudioPolling(sessionId);
+    }
   }
 
   async function pollHttpEvents() {
@@ -569,6 +747,7 @@
     }
     currentSessionId = sessionId;
     httpEndpoint = '';
+    updateAudioButton();
     setSession('Conectando con tu emision de Android');
     socket = new WebSocket(wsUrl);
     var activeSocket = socket;
@@ -651,11 +830,73 @@
 
   if (audioButton) {
     audioButton.addEventListener('click', function () {
-      audioWanted = true;
+      if (!audioWanted) {
+        audioWanted = true;
+        if (audioVolume <= 0) {
+          audioVolume = previousAudioVolume > 0 ? previousAudioVolume : 1;
+          if (volumeInput) volumeInput.value = String(Math.round(audioVolume * 100));
+        }
+      } else if (audioVolume > 0) {
+        previousAudioVolume = audioVolume;
+        audioVolume = 0;
+        if (volumeInput) volumeInput.value = '0';
+      } else {
+        audioVolume = previousAudioVolume > 0 ? previousAudioVolume : 1;
+        if (volumeInput) volumeInput.value = String(Math.round(audioVolume * 100));
+      }
       applyAudioPreference();
-      log('Sonido WebRTC activado por el usuario');
+      if (volumeControl) {
+        volumeControl.setAttribute('data-volume-open', 'true');
+      }
+      if (currentSessionId) {
+        startHttpAudioPolling(currentSessionId);
+      }
+      log('Sonido activado por el usuario');
     });
     updateAudioButton();
+  }
+
+  if (volumeInput) {
+    audioVolume = Math.max(0, Math.min(1, Number(volumeInput.value || 100) / 100));
+    volumeInput.addEventListener('input', function () {
+      audioVolume = Math.max(0, Math.min(1, Number(volumeInput.value || 0) / 100));
+      if (audioVolume > 0) {
+        previousAudioVolume = audioVolume;
+      }
+      applyAudioVolume();
+      if (volumeControl) {
+        volumeControl.setAttribute('data-volume-open', 'true');
+      }
+    });
+  }
+
+  document.addEventListener('click', function (event) {
+    if (!volumeControl || volumeControl.contains(event.target)) return;
+    volumeControl.removeAttribute('data-volume-open');
+  });
+
+  if (fullscreenButton) {
+    fullscreenButton.addEventListener('click', function () {
+      var target = document.querySelector('.nk-viewer');
+      if (!target) return;
+      var exit = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
+      if (document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
+        if (exit) {
+          var exitResult = exit.call(document);
+          if (exitResult && typeof exitResult.catch === 'function') exitResult.catch(function () {});
+        }
+        return;
+      }
+      var request = target.requestFullscreen || target.webkitRequestFullscreen || target.msRequestFullscreen;
+      if (request) {
+        var result = request.call(target);
+        if (result && typeof result.catch === 'function') {
+          result.catch(function (error) {
+            log('No se pudo activar pantalla completa: ' + error.message);
+          });
+        }
+      }
+    });
   }
 
   function connectFromActiveSession(session) {
