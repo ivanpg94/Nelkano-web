@@ -61,10 +61,11 @@ final class ProfileController extends ControllerBase {
     $data = $this->viewData($user, $viewer, $language === 'en' ? 'profile' : 'perfil', $language);
     $html = \Drupal::service('twig')->createTemplate($template)->render($data + [
       'messages' => $this->renderer->renderRoot($messages),
+      'base_css_url' => '/' . $this->moduleExtensionList->getPath('nelkano_home') . '/css/base.css',
       'header_css_url' => '/' . $this->moduleExtensionList->getPath('nelkano_home') . '/css/header.css',
       'account_css_url' => '/' . $this->moduleExtensionList->getPath('nelkano_home') . '/css/account.css',
       'section_html' => $this->renderSection($data),
-    ] + $this->chromeContext(
+    ] + $this->userMenuContext($language, 'profile', (bool) $data['is_owner']) + $this->chromeContext(
       $this->moduleExtensionList->getPath('nelkano_home'),
       $language,
       $language === 'en' ? '/user' : '/en/user',

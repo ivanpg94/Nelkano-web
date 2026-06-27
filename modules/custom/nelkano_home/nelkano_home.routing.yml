@@ -46,6 +46,38 @@ nelkano_home.privacy_cookies_en:
   requirements:
     _permission: 'access content'
 
+nelkano_home.releases_es:
+  path: '/versiones'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::releasesSpanish'
+    _title: 'Versiones'
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.releases_en:
+  path: '/en/releases'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::releasesEnglish'
+    _title: 'Releases'
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.security_privacy_es:
+  path: '/seguridad-privacidad'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::securityPrivacySpanish'
+    _title: 'Seguridad y privacidad'
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.security_privacy_en:
+  path: '/en/security-privacy'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::securityPrivacyEnglish'
+    _title: 'Security and privacy'
+  requirements:
+    _permission: 'access content'
+
 nelkano_home.contact:
   path: '/contacto'
   defaults:
@@ -59,6 +91,22 @@ nelkano_home.contact_en:
   defaults:
     _controller: '\Drupal\nelkano_home\Controller\ContactController::page'
     _title: 'Contact'
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.not_found:
+  path: '/pagina-no-encontrada'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::notFound'
+    _title: 'Pagina no encontrada'
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.access_denied:
+  path: '/acceso-denegado'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::accessDenied'
+    _title: 'Acceso denegado'
   requirements:
     _permission: 'access content'
 
@@ -319,6 +367,66 @@ nelkano_home.settings:
     _title: 'Nelkano home'
   requirements:
     _permission: 'administer site configuration'
+
+nelkano_home.docs_settings:
+  path: '/admin/config/nelkano/docs'
+  defaults:
+    _form: '\Drupal\nelkano_home\Form\NelkanoDocsSettingsForm'
+    _title: 'Nelkano documentation'
+  requirements:
+    _permission: 'administer site configuration'
+
+nelkano_home.admin_home:
+  path: '/admin/nelkano/home'
+  defaults:
+    _form: '\Drupal\nelkano_home\Form\HomeSettingsForm'
+    _title: 'Home'
+  requirements:
+    _permission: 'administer nelkano editable pages'
+
+nelkano_home.admin_privacy_cookies:
+  path: '/admin/nelkano/privacidad-cookies'
+  defaults:
+    _form: '\Drupal\nelkano_home\Form\NelkanoDocsSettingsForm'
+    _title: 'Privacidad y cookies'
+    page_key: 'privacy_cookies'
+  requirements:
+    _permission: 'administer nelkano editable pages'
+
+nelkano_home.admin_legal_notice:
+  path: '/admin/nelkano/aviso-legal'
+  defaults:
+    _form: '\Drupal\nelkano_home\Form\NelkanoDocsSettingsForm'
+    _title: 'Aviso legal'
+    page_key: 'legal_notice'
+  requirements:
+    _permission: 'administer nelkano editable pages'
+
+nelkano_home.admin_releases:
+  path: '/admin/nelkano/versiones'
+  defaults:
+    _form: '\Drupal\nelkano_home\Form\NelkanoDocsSettingsForm'
+    _title: 'Versiones'
+    page_key: 'releases'
+  requirements:
+    _permission: 'administer nelkano editable pages'
+
+nelkano_home.admin_security_privacy:
+  path: '/admin/nelkano/seguridad-privacidad'
+  defaults:
+    _form: '\Drupal\nelkano_home\Form\NelkanoDocsSettingsForm'
+    _title: 'Seguridad y privacidad'
+    page_key: 'security'
+  requirements:
+    _permission: 'administer nelkano editable pages'
+
+nelkano_home.admin:
+  path: '/admin/nelkano'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AdminController::index'
+    _title: 'Nelkano'
+  requirements:
+    _permission: 'administer nelkano editable pages'
 
 nelkano_home.user_stream:
   path: '/user/stream'

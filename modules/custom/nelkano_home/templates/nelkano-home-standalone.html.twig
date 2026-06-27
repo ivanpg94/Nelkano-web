@@ -14,7 +14,7 @@
     <link rel="alternate" hreflang="{{ seo.alternate_lang }}" href="{{ seo.alternate }}">
     <link rel="alternate" hreflang="x-default" href="{{ language == 'es' ? seo.canonical : seo.alternate }}">
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Nelkano Emulator">
+    <meta property="og:site_name" content="Nelkano">
     <meta property="og:title" content="{{ seo.title }}">
     <meta property="og:description" content="{{ seo.description }}">
     <meta property="og:url" content="{{ seo.canonical }}">
@@ -23,20 +23,23 @@
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Nelkano Emulator">
+    <meta property="og:image:alt" content="Nelkano">
     <meta property="og:locale" content="{{ seo.locale }}">
     <meta property="og:locale:alternate" content="{{ seo.alternate_locale }}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ seo.title }}">
     <meta name="twitter:description" content="{{ seo.description }}">
     <meta name="twitter:image" content="{{ seo.social_image }}">
-    <meta name="twitter:image:alt" content="Nelkano Emulator">
+    <meta name="twitter:image:alt" content="Nelkano">
     <link rel="icon" href="{{ logo_url }}" type="image/png">
+    {% include '@nelkano_home/nelkano-theme-init.html.twig' %}
     <style>{{ css_inline|raw }}</style>
+    {# Future color-mode toggle script. <script defer src="{{ theme_js_url }}"></script> #}
     <script type="application/ld+json">{{ seo.schema_json|raw }}</script>
     {% include '@nelkano_home/nelkano-analytics.html.twig' %}
   </head>
   <body>
     {% include '@nelkano_home/nelkano-home.html.twig' %}
+    <script defer src="{{ base_js_url }}"></script>
   </body>
 </html>

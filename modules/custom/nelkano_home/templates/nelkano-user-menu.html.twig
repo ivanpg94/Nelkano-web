@@ -1,0 +1,11 @@
+{% if user_menu_items|default([]) %}
+  <nav class="nk-account-menu" aria-label="{{ user_menu_label|default('Menu de usuario') }}">
+    {% for item in user_menu_items %}
+      {% if item.section|default('') and user_menu_section_endpoint|default('') %}
+        <button class="nk-account-menu-item{{ item.active ? ' is-active' : '' }}" type="button" data-user-menu-section="{{ item.section }}">{{ item.label }}</button>
+      {% else %}
+        <a class="nk-account-menu-item{{ item.active ? ' is-active' : '' }}" href="{{ item.url }}">{{ item.label }}</a>
+      {% endif %}
+    {% endfor %}
+  </nav>
+{% endif %}

@@ -1,0 +1,14 @@
+uuid: 032a81bf-4b67-49b6-b13d-7335d33fe615
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.nelkano_editor
+  module:
+    - user
+id: user_remove_role_action.nelkano_editor
+label: 'Remove the Nelkano editor role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: nelkano_editor

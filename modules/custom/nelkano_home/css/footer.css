@@ -1,0 +1,112 @@
+.nk-footer {
+  align-items: center;
+  border-top: 1px solid var(--nk-border);
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin-inline: auto;
+  max-width: min(var(--nk-layout-max), 100%);
+  min-width: 0;
+  padding-block: var(--nk-page-padding-block-tight);
+  padding-inline: var(--nk-layout-gutter);
+  width: 100%;
+}
+
+.nk-footer p,
+.nk-footer a,
+.nk-footer button {
+  appearance: none;
+  background: var(--nk-text-transparent);
+  border: 0;
+  color: var(--nk-text-muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--nk-text-sm);
+  padding: 0;
+}
+
+.nk-footer-links {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: flex-end;
+}
+
+.nk-footer-links a,
+.nk-footer-links button {
+  text-decoration: underline;
+  text-decoration-color: var(--nk-decoration-muted);
+  text-underline-offset: 4px;
+}
+
+.nk-footer-links a:hover,
+.nk-footer-links button:hover,
+.nk-footer-links button:focus-visible {
+  color: var(--nk-text-soft);
+}
+
+.nk-consent {
+  align-items: center;
+  background: var(--nk-surface-consent);
+  border: 1px solid var(--nk-border);
+  border-radius: 20px;
+  bottom: 18px;
+  box-shadow: var(--nk-shadow-consent);
+  display: flex;
+  gap: 18px;
+  justify-content: space-between;
+  left: 50%;
+  max-width: min(920px, calc(100vw - 32px));
+  padding: 18px;
+  position: fixed;
+  transform: translateX(-50%);
+  width: 100%;
+  z-index: 80;
+}
+
+.nk-consent[hidden] {
+  display: none;
+}
+
+.nk-consent strong {
+  color: var(--nk-text);
+  display: block;
+  font-size: var(--nk-text-md);
+}
+
+.nk-consent p {
+  color: var(--nk-text-soft);
+  font-size: var(--nk-text-sm);
+  line-height: 1.55;
+  margin-top: 6px;
+}
+
+.nk-consent-actions {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 10px;
+}
+
+@media (max-width: 640px) {
+  .nk-footer {
+    display: grid;
+    max-width: 100%;
+    overflow-x: clip;
+    padding-inline: var(--nk-layout-gutter-mobile);
+  }
+
+  .nk-footer-links {
+    justify-content: flex-start;
+  }
+
+  .nk-consent {
+    align-items: stretch;
+    display: grid;
+  }
+
+  .nk-consent-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}

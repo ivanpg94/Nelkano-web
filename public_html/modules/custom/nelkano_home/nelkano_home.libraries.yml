@@ -1,6 +1,31 @@
+base:
+  css:
+    theme:
+      css/base.css: {}
+  js:
+    js/messages.js: {}
+  # Future color-mode toggle.
+  # js:
+  #   js/theme-toggle.js: {}
+  dependencies:
+    - core/drupal
+
 landing:
   css:
     theme:
       css/landing.css: {}
   dependencies:
     - core/drupal
+    - nelkano_home/base
+
+admin_forms:
+  css:
+    theme:
+      css/header.css: {}
+      css/admin-forms.css: {}
+  js:
+    js/admin-forms.js: {}
+  dependencies:
+    - core/drupal
+    - core/once
+    - nelkano_home/base

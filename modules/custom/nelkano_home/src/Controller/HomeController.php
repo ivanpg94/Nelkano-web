@@ -51,6 +51,30 @@ final class HomeController extends ControllerBase {
     return $this->buildLegal('en', 'privacy_cookies');
   }
 
+  public function releasesSpanish(): Response {
+    return $this->buildDocs('es', 'releases');
+  }
+
+  public function releasesEnglish(): Response {
+    return $this->buildDocs('en', 'releases');
+  }
+
+  public function securityPrivacySpanish(): Response {
+    return $this->buildDocs('es', 'security');
+  }
+
+  public function securityPrivacyEnglish(): Response {
+    return $this->buildDocs('en', 'security');
+  }
+
+  public function notFound(): Response {
+    return $this->buildErrorPage(404);
+  }
+
+  public function accessDenied(): Response {
+    return $this->buildErrorPage(403);
+  }
+
   public function userStream(): Response {
     $module_path = $this->moduleExtensionList->getPath('nelkano_home');
     $language = $this->requestLanguage();
@@ -58,6 +82,7 @@ final class HomeController extends ControllerBase {
     $stream_js_path = DRUPAL_ROOT . '/' . $module_path . '/js/stream-viewer.js';
     $stream_js_version = is_file($stream_js_path) ? (string) filemtime($stream_js_path) : (string) time();
     $html = \Drupal::service('twig')->createTemplate($template)->render([
+      'base_css_url' => '/' . $module_path . '/css/base.css',
       'header_css_url' => '/' . $module_path . '/css/header.css',
       'stream_css_url' => '/' . $module_path . '/css/stream.css',
       'stream_js_url' => '/' . $module_path . '/js/stream-viewer.js?v=' . $stream_js_version,
@@ -88,9 +113,13 @@ final class HomeController extends ControllerBase {
       ['loc' => $base_url . '/en', 'priority' => '0.9'],
       ['loc' => $base_url . '/aviso-legal', 'priority' => '0.4'],
       ['loc' => $base_url . '/privacidad-cookies', 'priority' => '0.4'],
+      ['loc' => $base_url . '/versiones', 'priority' => '0.6'],
+      ['loc' => $base_url . '/seguridad-privacidad', 'priority' => '0.5'],
       ['loc' => $base_url . '/contacto', 'priority' => '0.3'],
       ['loc' => $base_url . '/en/legal-notice', 'priority' => '0.3'],
       ['loc' => $base_url . '/en/privacy-cookies', 'priority' => '0.3'],
+      ['loc' => $base_url . '/en/releases', 'priority' => '0.5'],
+      ['loc' => $base_url . '/en/security-privacy', 'priority' => '0.4'],
     ];
 
     $xml = ['<?xml version="1.0" encoding="UTF-8"?>'];
@@ -116,9 +145,15 @@ final class HomeController extends ControllerBase {
     $content['differentiator_items'] = $this->parseRows($content['differentiator_items'] ?? '', ['title', 'description']);
     $content['vision_items'] = $this->parseLines($content['vision_items'] ?? '');
     $content['faq_items'] = $this->parseRows($content['faq_items'] ?? '', ['question', 'answer']);
+    $content['trust_items'] = $this->parseRows($content['trust_items'] ?? '', ['title', 'description', 'url']);
     $module_path = $this->moduleExtensionList->getPath('nelkano_home');
     $android_download = $this->resolveDownload($content['android_url'] ?? '', $module_path, 'apk');
-    $windows_download = $this->resolveDownload($content['windows_url'] ?? '', $module_path, 'exe');
+    $show_secondary_download = trim((string) ($content['windows_title'] ?? '')) !== ''
+      || trim((string) ($content['windows_description'] ?? '')) !== ''
+      || trim((string) ($content['windows_url'] ?? '')) !== '';
+    $windows_download = $show_secondary_download
+      ? $this->resolveDownload($content['windows_url'] ?? '', $module_path, 'exe')
+      : ['url' => '', 'meta' => []];
     $content['android_download_url'] = $android_download['url'];
     $content['android_download_meta'] = $android_download['meta'];
     $content['windows_download_url'] = $windows_download['url'];
@@ -169,6 +204,90 @@ final class HomeController extends ControllerBase {
     ]);
   }
 
+  private function buildDocs(string $language, string $pageKey): Response {
+    $module_path = $this->moduleExtensionList->getPath('nelkano_home');
+    $page = $this->docsPage($language, $pageKey);
+    $template = file_get_contents(DRUPAL_ROOT . '/' . $module_path . '/templates/nelkano-docs-standalone.html.twig');
+    $html = \Drupal::service('twig')->createTemplate($template)->render([
+      'page' => $page,
+      'social_image_url' => $this->socialImageUrl($module_path),
+      'css_inline' => $this->loadInlineCss($module_path),
+      'analytics' => $this->analyticsSettings(),
+    ] + $this->chromeContext(
+      $module_path,
+      $language,
+      $page['alternate_path'],
+      $language === 'es' ? 'English' : 'Espanol',
+    ));
+
+    return new Response($html, 200, [
+      'Content-Type' => 'text/html; charset=UTF-8',
+      'Cache-Control' => 'public, max-age=3600',
+      'X-Content-Type-Options' => 'nosniff',
+      'Referrer-Policy' => 'strict-origin-when-cross-origin',
+    ]);
+  }
+
+  private function buildErrorPage(int $statusCode): Response {
+    $module_path = $this->moduleExtensionList->getPath('nelkano_home');
+    $language = $this->errorLanguage();
+    $is_not_found = $statusCode === 404;
+    $home_url = $language === 'en' ? '/en' : '/';
+    $page = [
+      'status' => (string) $statusCode,
+      'title' => $is_not_found
+        ? ($language === 'en' ? 'Page not found - Nelkano' : 'Pagina no encontrada - Nelkano')
+        : ($language === 'en' ? 'Access denied - Nelkano' : 'Acceso denegado - Nelkano'),
+      'eyebrow' => $is_not_found
+        ? ($language === 'en' ? '404 error' : 'Error 404')
+        : ($language === 'en' ? '403 error' : 'Error 403'),
+      'heading' => $is_not_found
+        ? ($language === 'en' ? 'This page does not exist' : 'Esta pagina no existe')
+        : ($language === 'en' ? 'You cannot access this page' : 'No puedes acceder a esta pagina'),
+      'intro' => $is_not_found
+        ? ($language === 'en'
+          ? 'The Nelkano page you are looking for may have moved, changed name or never existed.'
+          : 'La pagina de Nelkano que buscas puede haberse movido, cambiado de nombre o no haber existido nunca.')
+        : ($language === 'en'
+          ? 'This area requires permission or an active Nelkano session. Sign in with the right account or return to the public site.'
+          : 'Esta zona requiere permisos o una sesion activa de Nelkano. Inicia sesion con la cuenta correcta o vuelve a la web publica.'),
+      'primary_label' => $language === 'en' ? 'Go to home' : 'Ir al inicio',
+      'primary_url' => $home_url,
+      'secondary_label' => $language === 'en' ? 'Contact' : 'Contacto',
+      'secondary_url' => $language === 'en' ? '/en/contact' : '/contacto',
+    ];
+    if ($statusCode === 403) {
+      $page['secondary_label'] = $language === 'en' ? 'Log in' : 'Iniciar sesion';
+      $page['secondary_url'] = $language === 'en' ? '/en/user/login' : '/user/login';
+    }
+
+    $template = file_get_contents(DRUPAL_ROOT . '/' . $module_path . '/templates/nelkano-error-standalone.html.twig');
+    $html = \Drupal::service('twig')->createTemplate($template)->render([
+      'page' => $page,
+      'css_inline' => $this->loadInlineCss($module_path),
+      'analytics' => $this->analyticsSettings(),
+    ] + $this->chromeContext(
+      $module_path,
+      $language,
+      $language === 'en' ? '/pagina-no-encontrada' : '/en',
+      $language === 'en' ? 'Espanol' : 'English',
+    ));
+
+    return new Response($html, $statusCode, [
+      'Content-Type' => 'text/html; charset=UTF-8',
+      'Cache-Control' => 'no-store, private',
+      'X-Content-Type-Options' => 'nosniff',
+      'Referrer-Policy' => 'strict-origin-when-cross-origin',
+    ]);
+  }
+
+  private function errorLanguage(): string {
+    $request_stack = \Drupal::requestStack();
+    $main_request = $request_stack->getMainRequest();
+    $path = $main_request ? $main_request->getPathInfo() : \Drupal::request()->getPathInfo();
+    return str_starts_with($path, '/en') ? 'en' : 'es';
+  }
+
   private function parseRows(string $value, array $keys): array {
     $rows = [];
 
@@ -196,23 +315,23 @@ final class HomeController extends ControllerBase {
         'legal_notice' => [
           'path' => '/aviso-legal',
           'alternate_path' => '/en/legal-notice',
-          'title' => 'Aviso legal - Nelkano Emulator',
-          'description' => 'Aviso legal de Nelkano Emulator: titularidad, condiciones de uso, propiedad intelectual, descargas y responsabilidad.',
+          'title' => 'Aviso legal - Nelkano',
+          'description' => 'Aviso legal de Nelkano: titularidad, condiciones de uso, propiedad intelectual, descargas y responsabilidad.',
           'eyebrow' => 'Aviso legal',
           'heading' => 'Aviso legal',
-          'intro' => 'Esta pagina recoge las condiciones basicas de uso de la web y de las descargas publicadas para Nelkano Emulator.',
+          'intro' => 'Esta pagina recoge las condiciones basicas de uso de la web y de las descargas publicadas para Nelkano.',
           'sections' => [
             [
               'title' => 'Datos del titular',
               'paragraphs' => [
-                'Nelkano Emulator es una pagina informativa y de descarga de un proyecto de software gratuito. Actualmente no se venden productos o servicios desde la web, no se contratan planes y no se procesan pagos.',
+                'Nelkano es una pagina informativa y de descarga de un proyecto de software gratuito. Actualmente no se venden productos o servicios desde la web, no se contratan planes y no se procesan pagos.',
                 'Contacto legal y de privacidad: contacto@nelkano.com. Si el proyecto incorpora venta, contratacion, publicidad, formularios comerciales u otra actividad economica, esta seccion debera ampliarse con los datos identificativos que correspondan.',
               ],
             ],
             [
               'title' => 'Objeto del sitio',
               'paragraphs' => [
-                'Nelkano Emulator es una web informativa y de descarga de una aplicacion de emulacion para Android y Windows. La web no ejecuta juegos en el navegador y no incluye ROMs, BIOS, firmware, saves, claves ni contenido protegido de terceros.',
+                'Nelkano es una web informativa y de descarga de una aplicacion de emulacion para Android. La web no ejecuta juegos en el navegador y no incluye ROMs, BIOS, firmware, saves, claves ni contenido protegido de terceros.',
                 'El objetivo es ofrecer informacion clara sobre el estado del proyecto, publicar builds disponibles y facilitar el acceso a documentacion o avisos relevantes.',
               ],
             ],
@@ -220,13 +339,13 @@ final class HomeController extends ControllerBase {
               'title' => 'Condiciones de uso',
               'paragraphs' => [
                 'El usuario debe usar la web y las aplicaciones descargadas de forma licita, responsable y respetando la normativa aplicable, los derechos de propiedad intelectual e industrial y los derechos de terceros.',
-                'Nelkano Emulator no autoriza ni promueve la descarga, distribucion o uso de copias no autorizadas de videojuegos, BIOS, firmware, marcas, imagenes o cualquier otro contenido protegido. El usuario es responsable de disponer de derechos suficientes sobre el software, copias de seguridad o archivos que cargue en la aplicacion.',
+                'Nelkano no autoriza ni promueve la descarga, distribucion o uso de copias no autorizadas de videojuegos, BIOS, firmware, marcas, imagenes o cualquier otro contenido protegido. El usuario es responsable de disponer de derechos suficientes sobre el software, copias de seguridad o archivos que cargue en la aplicacion.',
               ],
             ],
             [
               'title' => 'Descargas y compatibilidad',
               'paragraphs' => [
-                'Las descargas publicadas pueden encontrarse en fase alpha, beta o desarrollo activo. Aunque se trabaja para mejorar estabilidad, compatibilidad y rendimiento, no se garantiza que todos los juegos, dispositivos, mandos o sistemas funcionen correctamente.',
+                'Las descargas publicadas pueden encontrarse en fase beta o desarrollo activo. Aunque se trabaja para mejorar estabilidad, compatibilidad y rendimiento, no se garantiza que todos los juegos, dispositivos, mandos o sistemas funcionen correctamente.',
                 'La informacion sobre sistemas compatibles y compatibilidad debe entenderse como una descripcion del estado del proyecto en cada momento, no como una garantia permanente de funcionamiento.',
               ],
             ],
@@ -240,8 +359,8 @@ final class HomeController extends ControllerBase {
             [
               'title' => 'Propiedad intelectual',
               'paragraphs' => [
-                'El codigo, textos, diseno, logotipos, estructura y elementos propios de Nelkano Emulator pertenecen a sus titulares o se usan con la autorizacion correspondiente. Las marcas de consolas, sistemas y videojuegos citadas pertenecen a sus respectivos propietarios.',
-                'Las menciones a sistemas clasicos se realizan con finalidad descriptiva de compatibilidad tecnica. Nelkano Emulator no esta afiliado, patrocinado, autorizado ni aprobado por Nintendo ni por otros titulares de marcas o derechos salvo que se indique expresamente.',
+                'El codigo, textos, diseno, logotipos, estructura y elementos propios de Nelkano pertenecen a sus titulares o se usan con la autorizacion correspondiente. Las marcas de consolas, sistemas y videojuegos citadas pertenecen a sus respectivos propietarios.',
+                'Las menciones a sistemas clasicos se realizan con finalidad descriptiva de compatibilidad tecnica. Nelkano no esta afiliado, patrocinado, autorizado ni aprobado por Nintendo ni por otros titulares de marcas o derechos salvo que se indique expresamente.',
               ],
             ],
             [
@@ -262,16 +381,16 @@ final class HomeController extends ControllerBase {
         'privacy_cookies' => [
           'path' => '/privacidad-cookies',
           'alternate_path' => '/en/privacy-cookies',
-          'title' => 'Privacidad y cookies - Nelkano Emulator',
-          'description' => 'Politica de privacidad y cookies de Nelkano Emulator: datos tratados, finalidades, derechos y uso de cookies.',
+          'title' => 'Privacidad y cookies - Nelkano',
+          'description' => 'Politica de privacidad y cookies de Nelkano: datos tratados, finalidades, derechos y uso de cookies.',
           'eyebrow' => 'Privacidad y cookies',
           'heading' => 'Politica de privacidad y cookies',
-          'intro' => 'Esta politica explica que datos puede tratar la web de Nelkano Emulator y como se gestionan las cookies.',
+          'intro' => 'Esta politica explica que datos puede tratar la web de Nelkano y como se gestionan las cookies.',
           'sections' => [
             [
               'title' => 'Responsable del tratamiento',
               'paragraphs' => [
-                'Nelkano Emulator es una landing informativa y gratuita. No se venden productos o servicios desde esta web y no se procesan pagos.',
+                'Nelkano es una landing informativa y gratuita. No se venden productos o servicios desde esta web y no se procesan pagos.',
                 'Contacto de privacidad: contacto@nelkano.com. El tratamiento de datos personales se limita principalmente a la navegacion tecnica, seguridad del servidor, descargas, registro de cuenta, verificacion por correo y comunicaciones que el usuario envie mediante la pagina de contacto o canales externos. Si se activan pagos o funciones comerciales, esta informacion debera actualizarse antes de su uso publico.',
               ],
             ],
@@ -312,7 +431,7 @@ final class HomeController extends ControllerBase {
               'paragraphs' => [
                 'En la landing publica se usan cookies tecnicas o necesarias para funcionamiento, seguridad o administracion de Drupal, especialmente sesiones de administracion. Estas cookies no requieren consentimiento cuando son estrictamente necesarias.',
                 'La analitica de Google Analytics 4 solo se carga si el usuario acepta la medicion en el aviso de cookies. Si se rechaza, la web no carga Google Analytics para esa sesion de navegador.',
-                'Cuando se acepta la analitica, se pueden medir visitas de pagina y eventos agregados como clics en descargas de Android o Windows. Estos datos ayudan a entender el uso de la web y mejorar el proyecto; no se usan para vender datos personales.',
+                'Cuando se acepta la analitica, se pueden medir visitas de pagina y eventos agregados como clics en descargas de Android. Estos datos ayudan a entender el uso de la web y mejorar el proyecto; no se usan para vender datos personales.',
                 'La decision puede cambiarse desde el enlace Configurar cookies disponible en el pie de pagina.',
                 'El usuario puede borrar o bloquear cookies desde la configuracion de su navegador. Al hacerlo, algunas funciones tecnicas de administracion o sesion podrian dejar de funcionar correctamente.',
               ],
@@ -330,23 +449,23 @@ final class HomeController extends ControllerBase {
         'legal_notice' => [
           'path' => '/en/legal-notice',
           'alternate_path' => '/aviso-legal',
-          'title' => 'Legal notice - Nelkano Emulator',
-          'description' => 'Legal notice for Nelkano Emulator: ownership, terms of use, intellectual property, downloads and liability.',
+          'title' => 'Legal notice - Nelkano',
+          'description' => 'Legal notice for Nelkano: ownership, terms of use, intellectual property, downloads and liability.',
           'eyebrow' => 'Legal notice',
           'heading' => 'Legal notice',
-          'intro' => 'This page sets out the basic terms for using the website and the downloads published for Nelkano Emulator.',
+          'intro' => 'This page sets out the basic terms for using the website and the downloads published for Nelkano.',
           'sections' => [
             [
               'title' => 'Website owner',
               'paragraphs' => [
-                'Nelkano Emulator is an informational and download page for a free software project. The website currently does not sell products or services, offer paid plans or process payments.',
+                'Nelkano is an informational and download page for a free software project. The website currently does not sell products or services, offer paid plans or process payments.',
                 'Legal and privacy contact: contacto@nelkano.com. If the project adds sales, subscriptions, advertising, commercial forms or any other economic activity, this section must be expanded with the required identifying information.',
               ],
             ],
             [
               'title' => 'Purpose of the website',
               'paragraphs' => [
-                'Nelkano Emulator is an informational and download website for an emulation app for Android and Windows. The website does not run games in the browser and does not include ROMs, BIOS files, firmware, saves, keys or protected third-party content.',
+                'Nelkano is an informational and download website for an emulation app for Android. The website does not run games in the browser and does not include ROMs, BIOS files, firmware, saves, keys or protected third-party content.',
                 'Its purpose is to provide clear project status information, publish available builds and make relevant documentation or notices accessible.',
               ],
             ],
@@ -354,13 +473,13 @@ final class HomeController extends ControllerBase {
               'title' => 'Terms of use',
               'paragraphs' => [
                 'Users must use the website and downloaded applications lawfully, responsibly and in compliance with applicable rules, intellectual property rights and third-party rights.',
-                'Nelkano Emulator does not authorize or promote downloading, distributing or using unauthorized copies of games, BIOS files, firmware, trademarks, images or any other protected content. Users are responsible for having sufficient rights over any software, backups or files they load into the app.',
+                'Nelkano does not authorize or promote downloading, distributing or using unauthorized copies of games, BIOS files, firmware, trademarks, images or any other protected content. Users are responsible for having sufficient rights over any software, backups or files they load into the app.',
               ],
             ],
             [
               'title' => 'Downloads and compatibility',
               'paragraphs' => [
-                'Published downloads may be alpha, beta or actively developed builds. Although stability, compatibility and performance are continuously improved, not every game, device, controller or system is guaranteed to work correctly.',
+                'Published downloads may be beta or actively developed builds. Although stability, compatibility and performance are continuously improved, not every game, device, controller or system is guaranteed to work correctly.',
                 'Compatible system and compatibility information should be understood as a description of the project status at a given time, not as a permanent operating guarantee.',
               ],
             ],
@@ -374,8 +493,8 @@ final class HomeController extends ControllerBase {
             [
               'title' => 'Intellectual property',
               'paragraphs' => [
-                'Nelkano Emulator code, text, design, logos, structure and original materials belong to their respective owners or are used with permission. Console, system and game trademarks belong to their respective owners.',
-                'References to classic systems are descriptive of technical compatibility. Nelkano Emulator is not affiliated with, sponsored, authorized or approved by Nintendo or any other trademark or rights holder unless expressly stated.',
+                'Nelkano code, text, design, logos, structure and original materials belong to their respective owners or are used with permission. Console, system and game trademarks belong to their respective owners.',
+                'References to classic systems are descriptive of technical compatibility. Nelkano is not affiliated with, sponsored, authorized or approved by Nintendo or any other trademark or rights holder unless expressly stated.',
               ],
             ],
             [
@@ -390,16 +509,16 @@ final class HomeController extends ControllerBase {
         'privacy_cookies' => [
           'path' => '/en/privacy-cookies',
           'alternate_path' => '/privacidad-cookies',
-          'title' => 'Privacy and cookies - Nelkano Emulator',
-          'description' => 'Privacy and cookies policy for Nelkano Emulator: data processing, purposes, rights and cookie use.',
+          'title' => 'Privacy and cookies - Nelkano',
+          'description' => 'Privacy and cookies policy for Nelkano: data processing, purposes, rights and cookie use.',
           'eyebrow' => 'Privacy and cookies',
           'heading' => 'Privacy and cookies policy',
-          'intro' => 'This policy explains what data the Nelkano Emulator website may process and how cookies are handled.',
+          'intro' => 'This policy explains what data the Nelkano website may process and how cookies are handled.',
           'sections' => [
             [
               'title' => 'Controller',
               'paragraphs' => [
-                'Nelkano Emulator is a free informational landing page. The website does not sell products or services or process payments.',
+                'Nelkano is a free informational landing page. The website does not sell products or services or process payments.',
                 'Privacy contact: contacto@nelkano.com. Personal data processing is mainly limited to technical browsing, server security, downloads, account registration, email verification and communications sent by users through the contact page or external channels. If payments or commercial features are enabled, this information must be updated before public use.',
               ],
             ],
@@ -440,7 +559,7 @@ final class HomeController extends ControllerBase {
               'paragraphs' => [
                 'The public landing page uses technical or strictly necessary cookies for Drupal operation, security or administration, especially administration sessions. Strictly necessary cookies do not require consent.',
                 'Google Analytics 4 only loads if the user accepts measurement in the cookie notice. If rejected, the website does not load Google Analytics for that browser session.',
-                'When analytics are accepted, page views and aggregated events such as Android or Windows download clicks may be measured. This helps understand website usage and improve the project; it is not used to sell personal data.',
+                'When analytics are accepted, page views and aggregated events such as Android download clicks may be measured. This helps understand website usage and improve the project; it is not used to sell personal data.',
                 'The decision can be changed from the Cookie settings link available in the footer.',
                 'Users can delete or block cookies in their browser settings. Doing so may affect technical administration or session features.',
               ],
@@ -456,11 +575,116 @@ final class HomeController extends ControllerBase {
       ],
     ];
 
-    $page = $pages[$language][$pageKey];
+    $page = $this->configuredLegalPage($pages[$language][$pageKey], $language, $pageKey);
     $page['canonical'] = $base_url . $page['path'];
     $page['alternate'] = $base_url . $page['alternate_path'];
     $page['alternate_lang'] = $language === 'es' ? 'en' : 'es';
     $page['default_url'] = $language === 'es' ? $page['canonical'] : $page['alternate'];
+    return $page;
+  }
+
+  private function configuredLegalPage(array $page, string $language, string $pageKey): array {
+    $content = $this->homeConfigFactory->get('nelkano_home.docs')->get($language) ?? [];
+    $title = trim((string) ($content[$pageKey . '_seo_title'] ?? ''));
+    $description = trim((string) ($content[$pageKey . '_seo_description'] ?? ''));
+    $eyebrow = trim((string) ($content[$pageKey . '_eyebrow'] ?? ''));
+    $heading = trim((string) ($content[$pageKey . '_title'] ?? ''));
+    $intro = trim((string) ($content[$pageKey . '_intro'] ?? ''));
+    $sections = $this->parseLegalSections($content[$pageKey . '_sections'] ?? '');
+
+    if ($title !== '') {
+      $page['title'] = $title;
+    }
+    if ($description !== '') {
+      $page['description'] = $description;
+    }
+    if ($eyebrow !== '') {
+      $page['eyebrow'] = $eyebrow;
+    }
+    if ($heading !== '') {
+      $page['heading'] = $heading;
+    }
+    if ($intro !== '') {
+      $page['intro'] = $intro;
+    }
+    if ($sections !== []) {
+      $page['sections'] = $sections;
+    }
+
+    return $page;
+  }
+
+  private function parseLegalSections(string $value): array {
+    $sections = [];
+    foreach (preg_split('/\R/', trim($value)) ?: [] as $line) {
+      $line = trim($line);
+      if ($line === '') {
+        continue;
+      }
+      [$title, $paragraphs] = array_pad(array_map('trim', explode('|', $line, 2)), 2, '');
+      if ($title === '') {
+        continue;
+      }
+      $sections[] = [
+        'title' => $title,
+        'paragraphs' => array_values(array_filter(array_map('trim', preg_split('/\s*\|\|\s*/', $paragraphs) ?: []))),
+      ];
+    }
+    return $sections;
+  }
+
+  private function docsPage(string $language, string $pageKey): array {
+    $base_url = \Drupal::request()->getSchemeAndHttpHost();
+    $config = $this->homeConfigFactory->get('nelkano_home.docs');
+    $content = $config->get($language) ?? [];
+    $paths = [
+      'releases' => [
+        'es' => '/versiones',
+        'en' => '/en/releases',
+      ],
+      'security' => [
+        'es' => '/seguridad-privacidad',
+        'en' => '/en/security-privacy',
+      ],
+    ];
+
+    $prefix = $pageKey;
+    $page = [
+      'type' => $pageKey,
+      'path' => $paths[$pageKey][$language],
+      'alternate_path' => $paths[$pageKey][$language === 'es' ? 'en' : 'es'],
+      'title' => trim((string) ($content[$prefix . '_seo_title'] ?? 'Nelkano')),
+      'description' => trim((string) ($content[$prefix . '_seo_description'] ?? '')),
+      'eyebrow' => trim((string) ($content[$prefix . '_eyebrow'] ?? 'Nelkano')),
+      'heading' => trim((string) ($content[$prefix . '_title'] ?? 'Nelkano')),
+      'intro' => trim((string) ($content[$prefix . '_intro'] ?? '')),
+    ];
+
+    if ($pageKey === 'releases') {
+      $filename = trim((string) ($content['releases_filename'] ?? ''));
+      $download_path = $filename !== '' ? DRUPAL_ROOT . '/' . $this->moduleExtensionList->getPath('nelkano_home') . '/emulator/' . $filename : '';
+      $download_meta = is_file($download_path) ? $this->downloadMeta($download_path) : [];
+      $page['release'] = [
+        'version' => trim((string) ($content['releases_version'] ?? '')),
+        'filename' => $filename,
+        'date' => trim((string) ($content['releases_date'] ?? '')),
+        'requirements' => trim((string) ($content['releases_requirements'] ?? '')),
+        'changes' => $this->parseLines($content['releases_changes'] ?? ''),
+        'notice' => trim((string) ($content['releases_notice'] ?? '')),
+        'url' => $filename !== '' ? '/' . $this->moduleExtensionList->getPath('nelkano_home') . '/emulator/' . rawurlencode($filename) : '',
+        'meta' => $download_meta,
+      ];
+    }
+    else {
+      $page['sections'] = $this->parseRows($content['security_sections'] ?? '', ['title', 'description']);
+    }
+
+    $page['canonical'] = $base_url . $page['path'];
+    $page['alternate'] = $base_url . $page['alternate_path'];
+    $page['alternate_lang'] = $language === 'es' ? 'en' : 'es';
+    $page['default_url'] = $language === 'es' ? $page['canonical'] : $page['alternate'];
+    $page['locale'] = $language === 'es' ? 'es_ES' : 'en_US';
+    $page['alternate_locale'] = $language === 'es' ? 'en_US' : 'es_ES';
     return $page;
   }
 
@@ -477,9 +701,15 @@ final class HomeController extends ControllerBase {
   private function resolveDownload(string $configuredUrl, string $modulePath, string $extension): array {
     $trimmed = trim($configuredUrl);
     if ($trimmed !== '' && $trimmed !== '#') {
+      $relative_path = rawurldecode(parse_url($trimmed, PHP_URL_PATH) ?: '');
+      $local_prefix = '/' . $modulePath . '/emulator/';
+      $local_path = str_starts_with($relative_path, $local_prefix)
+        ? DRUPAL_ROOT . $relative_path
+        : '';
+
       return [
         'url' => $trimmed,
-        'meta' => [],
+        'meta' => $local_path !== '' && is_file($local_path) ? $this->downloadMeta($local_path) : [],
       ];
     }
 
@@ -501,7 +731,7 @@ final class HomeController extends ControllerBase {
 
   private function downloadMeta(string $path): array {
     $filename = basename($path);
-    $version = '0.1.0-alpha';
+    $version = $this->publicVersion();
     if (preg_match('/v([0-9][A-Za-z0-9.\-]*)/', $filename, $matches) === 1) {
       $version = $matches[1];
     }
@@ -512,6 +742,11 @@ final class HomeController extends ControllerBase {
       'size' => $this->formatBytes((int) filesize($path)),
       'sha256' => strtoupper(hash_file('sha256', $path)),
     ];
+  }
+
+  private function publicVersion(): string {
+    $version = trim((string) ($this->homeConfigFactory->get('nelkano_home.docs')->get('es.releases_version') ?? ''));
+    return $version !== '' ? $version : '1.0.0-beta';
   }
 
   private function formatBytes(int $bytes): string {
@@ -527,7 +762,9 @@ final class HomeController extends ControllerBase {
   }
 
   private function loadInlineCss(string $modulePath): string {
-    $css = (file_get_contents(DRUPAL_ROOT . '/' . $modulePath . '/css/header.css') ?: '')
+    $css = (file_get_contents(DRUPAL_ROOT . '/' . $modulePath . '/css/base.css') ?: '')
+      . "\n" . (file_get_contents(DRUPAL_ROOT . '/' . $modulePath . '/css/header.css') ?: '')
+      . "\n" . (file_get_contents(DRUPAL_ROOT . '/' . $modulePath . '/css/footer.css') ?: '')
       . "\n" . (file_get_contents(DRUPAL_ROOT . '/' . $modulePath . '/css/landing.css') ?: '');
     $css = preg_replace('/\/\*.*?\*\//s', '', $css) ?? $css;
     $css = preg_replace('/\s+/', ' ', $css) ?? $css;
@@ -576,7 +813,7 @@ final class HomeController extends ControllerBase {
     $canonical = $base_url . $canonical_path;
     $alternate = $base_url . ($language === 'es' ? '/en' : '/');
     $social_image = $base_url . '/' . $this->moduleExtensionList->getPath('nelkano_home') . '/assets/' . self::SOCIAL_IMAGE_FILENAME;
-    $title = trim($content['seo_title'] ?? '') ?: trim($content['hero_title'] ?? 'Nelkano Emulator');
+    $title = trim($content['seo_title'] ?? '') ?: trim($content['hero_title'] ?? 'Nelkano');
     $description = trim($content['seo_description'] ?? '') ?: trim($content['hero_description'] ?? '');
     $keywords = trim($content['seo_keywords'] ?? '');
     $locale = $language === 'es' ? 'es_ES' : 'en_US';
@@ -603,22 +840,22 @@ final class HomeController extends ControllerBase {
       '@graph' => [
         [
           '@type' => 'WebSite',
-          'name' => 'Nelkano Emulator',
+          'name' => 'Nelkano',
           'url' => $base_url . '/',
           'inLanguage' => $language,
           'description' => $description,
         ],
         [
           '@type' => 'SoftwareApplication',
-          'name' => 'Nelkano Emulator',
+          'name' => 'Nelkano',
           'applicationCategory' => $app_category,
-          'operatingSystem' => 'Android, Windows',
+        'operatingSystem' => 'Android',
           'offers' => [
             '@type' => 'Offer',
             'price' => '0',
             'priceCurrency' => 'EUR',
           ],
-          'softwareVersion' => '0.1.0-alpha',
+          'softwareVersion' => $this->publicVersion(),
           'description' => $description,
           'url' => $canonical,
         ],
@@ -640,7 +877,7 @@ final class HomeController extends ControllerBase {
       [['#tag' => 'link', '#attributes' => ['rel' => 'alternate', 'hreflang' => $language === 'es' ? 'en' : 'es', 'href' => $alternate]], 'nelkano_alternate_other'],
       [['#tag' => 'link', '#attributes' => ['rel' => 'alternate', 'hreflang' => 'x-default', 'href' => $base_url . '/']], 'nelkano_alternate_default'],
       [['#tag' => 'meta', '#attributes' => ['property' => 'og:type', 'content' => 'website']], 'nelkano_og_type'],
-      [['#tag' => 'meta', '#attributes' => ['property' => 'og:site_name', 'content' => 'Nelkano Emulator']], 'nelkano_og_site_name'],
+      [['#tag' => 'meta', '#attributes' => ['property' => 'og:site_name', 'content' => 'Nelkano']], 'nelkano_og_site_name'],
       [['#tag' => 'meta', '#attributes' => ['property' => 'og:title', 'content' => $title]], 'nelkano_og_title'],
       [['#tag' => 'meta', '#attributes' => ['property' => 'og:description', 'content' => $description]], 'nelkano_og_description'],
       [['#tag' => 'meta', '#attributes' => ['property' => 'og:url', 'content' => $canonical]], 'nelkano_og_url'],
@@ -649,14 +886,14 @@ final class HomeController extends ControllerBase {
       [['#tag' => 'meta', '#attributes' => ['property' => 'og:image:type', 'content' => 'image/png']], 'nelkano_og_image_type'],
       [['#tag' => 'meta', '#attributes' => ['property' => 'og:image:width', 'content' => '1200']], 'nelkano_og_image_width'],
       [['#tag' => 'meta', '#attributes' => ['property' => 'og:image:height', 'content' => '630']], 'nelkano_og_image_height'],
-      [['#tag' => 'meta', '#attributes' => ['property' => 'og:image:alt', 'content' => 'Nelkano Emulator']], 'nelkano_og_image_alt'],
+      [['#tag' => 'meta', '#attributes' => ['property' => 'og:image:alt', 'content' => 'Nelkano']], 'nelkano_og_image_alt'],
       [['#tag' => 'meta', '#attributes' => ['property' => 'og:locale', 'content' => $locale]], 'nelkano_og_locale'],
       [['#tag' => 'meta', '#attributes' => ['property' => 'og:locale:alternate', 'content' => $alternate_locale]], 'nelkano_og_locale_alternate'],
       [['#tag' => 'meta', '#attributes' => ['name' => 'twitter:card', 'content' => 'summary_large_image']], 'nelkano_twitter_card'],
       [['#tag' => 'meta', '#attributes' => ['name' => 'twitter:title', 'content' => $title]], 'nelkano_twitter_title'],
       [['#tag' => 'meta', '#attributes' => ['name' => 'twitter:description', 'content' => $description]], 'nelkano_twitter_description'],
       [['#tag' => 'meta', '#attributes' => ['name' => 'twitter:image', 'content' => $social_image]], 'nelkano_twitter_image'],
-      [['#tag' => 'meta', '#attributes' => ['name' => 'twitter:image:alt', 'content' => 'Nelkano Emulator']], 'nelkano_twitter_image_alt'],
+      [['#tag' => 'meta', '#attributes' => ['name' => 'twitter:image:alt', 'content' => 'Nelkano']], 'nelkano_twitter_image_alt'],
       [['#tag' => 'script', '#attributes' => ['type' => 'application/ld+json'], '#value' => json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)], 'nelkano_json_ld'],
     ];
 

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="{{ language }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page.title }}</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="{{ logo_url }}" type="image/png">
+    {% include '@nelkano_home/nelkano-theme-init.html.twig' %}
+    <style>{{ css_inline|raw }}</style>
+    {# Future color-mode toggle script. <script defer src="{{ theme_js_url }}"></script> #}
+    {% include '@nelkano_home/nelkano-analytics.html.twig' %}
+  </head>
+  <body>
+    <main class="nk-page nk-error-page nk-lang-{{ language }}">
+      {% include '@nelkano_home/nelkano-header.html.twig' %}
+
+      <section class="nk-error-shell" aria-labelledby="nk-error-title">
+        <div class="nk-error-code">{{ page.status }}</div>
+        <p class="nk-eyebrow">{{ page.eyebrow }}</p>
+        <h1 id="nk-error-title">{{ page.heading }}</h1>
+        <p class="nk-lead">{{ page.intro }}</p>
+        <div class="nk-actions">
+          <a class="nk-button nk-button-primary" href="{{ page.primary_url }}">{{ page.primary_label }}</a>
+          <a class="nk-button nk-button-secondary" href="{{ page.secondary_url }}">{{ page.secondary_label }}</a>
+        </div>
+      </section>
+
+      {% include '@nelkano_home/nelkano-footer.html.twig' %}
+      {% include '@nelkano_home/nelkano-consent-banner.html.twig' %}
+    </main>
+    <script defer src="{{ base_js_url }}"></script>
+  </body>
+</html>

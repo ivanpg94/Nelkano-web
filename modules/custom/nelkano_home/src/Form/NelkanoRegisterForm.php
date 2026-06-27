@@ -88,7 +88,7 @@ final class NelkanoRegisterForm extends FormBase {
       '#required' => TRUE,
     ];
 
-    $form['actions'] = ['#type' => 'actions'];
+    $form['actions'] = ['#type' => 'actions', '#weight' => 20];
     $form['actions']['submit'] = [
       '#type' => 'submit',
       '#value' => $language === 'en' ? 'Create account' : 'Crear Cuenta',
@@ -96,6 +96,7 @@ final class NelkanoRegisterForm extends FormBase {
     ];
 
     $form['switch'] = [
+      '#weight' => 30,
       '#markup' => $switch,
     ];
 

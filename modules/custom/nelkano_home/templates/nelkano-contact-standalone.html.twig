@@ -3,25 +3,44 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ page_title }} - Nelkano Emulator</title>
-    <meta name="description" content="{{ language == 'en' ? 'Contact Nelkano Emulator for support, suggestions or technical issues.' : 'Contacta con Nelkano Emulator para soporte, propuestas o incidencias tecnicas.' }}">
+    <title>{{ page_title }} - Nelkano</title>
+    <meta name="description" content="{{ language == 'en' ? 'Contact Nelkano for support, suggestions or technical issues.' : 'Contacta con Nelkano para soporte, propuestas o incidencias tecnicas.' }}">
     <link rel="icon" href="{{ logo_url }}" type="image/png">
+    {% include '@nelkano_home/nelkano-theme-init.html.twig' %}
+    <link rel="stylesheet" href="{{ base_css_url }}">
     <link rel="stylesheet" href="{{ header_css_url }}">
-    <link rel="stylesheet" href="{{ auth_css_url }}">
+    <link rel="stylesheet" href="{{ footer_css_url }}">
+    <link rel="stylesheet" href="{{ contact_css_url }}">
+    {# Future color-mode toggle script. <script defer src="{{ theme_js_url }}"></script> #}
+    {% include '@nelkano_home/nelkano-analytics.html.twig' %}
   </head>
   <body>
     {% include '@nelkano_home/nelkano-header.html.twig' %}
-    <main class="nk-auth-page nk-contact-page">
-      <section class="nk-auth-brand">
-        <img src="{{ logo_url }}" width="84" height="84" alt="">
-        <h1>{{ page_title }}</h1>
-        <p>{{ contact_intro }}</p>
-      </section>
+    <main class="nk-contact-page">
+      <div class="nk-contact-layout">
+        <section class="nk-contact-brand">
+          <p class="nk-contact-kicker">{{ contact_kicker }}</p>
+          <h1>{{ page_title }}</h1>
+          <p>{{ contact_intro }}</p>
+          <ul class="nk-contact-points" aria-label="{{ language == 'en' ? 'Contact notes' : 'Notas de contacto' }}">
+            {% for point in contact_points %}
+              <li>{{ point }}</li>
+            {% endfor %}
+          </ul>
+        </section>
 
-      <section class="nk-auth-card nk-contact-card" aria-label="{{ language == 'en' ? 'Contact form' : 'Formulario de contacto' }}">
-        {{ messages|raw }}
-        {{ form|raw }}
-      </section>
+        <section class="nk-contact-card" aria-label="{{ language == 'en' ? 'Contact form' : 'Formulario de contacto' }}">
+          <div class="nk-contact-card-head">
+            <span>{{ contact_form_kicker }}</span>
+            <h2>{{ language == 'en' ? 'Send a message' : 'Enviar mensaje' }}</h2>
+          </div>
+          {{ messages|raw }}
+          {{ form|raw }}
+        </section>
+      </div>
     </main>
+    {% include '@nelkano_home/nelkano-footer.html.twig' %}
+    {% include '@nelkano_home/nelkano-consent-banner.html.twig' %}
+    <script defer src="{{ base_js_url }}"></script>
   </body>
 </html>

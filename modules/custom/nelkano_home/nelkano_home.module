@@ -1,5 +1,7 @@
 <?php
 
+use Drupal\Core\Form\FormStateInterface;
+
 /**
  * Implements hook_theme().
  */
@@ -18,10 +20,27 @@ function nelkano_home_theme(): array {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter() for the core login form.
+ */
+function nelkano_home_form_user_login_form_alter(array &$form, FormStateInterface $form_state): void {
+  $form['#submit'][] = 'nelkano_home_user_login_redirect_submit';
+}
+
+/**
+ * Redirects Nelkano editors to their limited admin area after login.
+ */
+function nelkano_home_user_login_redirect_submit(array &$form, FormStateInterface $form_state): void {
+  $account = \Drupal::currentUser();
+  if (in_array('nelkano_editor', $account->getRoles(), TRUE)) {
+    $form_state->setRedirect('nelkano_home.admin');
+  }
+}
+
+/**
  * Implements hook_mail().
  */
 function nelkano_home_mail(string $key, array &$message, array $params): void {
-  $message['headers']['From'] = 'Nelkano Emulator <contacto@nelkano.com>';
+  $message['headers']['From'] = 'Nelkano <contacto@nelkano.com>';
   $message['headers']['Sender'] = 'contacto@nelkano.com';
   $message['headers']['Reply-To'] = 'contacto@nelkano.com';
   $message['headers']['MIME-Version'] = '1.0';
@@ -30,13 +49,13 @@ function nelkano_home_mail(string $key, array &$message, array $params): void {
   if ($key === 'account_verify') {
     $name = htmlspecialchars((string) ($params['name'] ?? 'jugador'), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     $verify_url = htmlspecialchars((string) ($params['verify_url'] ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-    $message['subject'] = 'Activa tu cuenta de Nelkano Emulator';
+    $message['subject'] = 'Activa tu cuenta de Nelkano';
     $message['body'][] = nelkano_home_email_template(
       'Activa tu cuenta',
       'Tu biblioteca, tus guardados y tus sesiones deben estar bajo tu control.',
       [
         "Hola {$name},",
-        'Gracias por unirte a Nelkano Emulator. Verifica tu correo para activar tu cuenta y preparar el acceso a las funciones web del proyecto.',
+        'Gracias por unirte a Nelkano. Verifica tu correo para activar tu cuenta y preparar el acceso a las funciones web del proyecto.',
         'Nelkano no incluye juegos, ROMs ni BIOS. Tu cuenta sirve para conectar tu experiencia con tus propios archivos compatibles y tus datos del emulador.',
       ],
       'Verificar cuenta',
@@ -89,7 +108,7 @@ function nelkano_home_email_template(string $title, string $lead, array $paragra
     . '<p style="margin:0 0 24px;color:#b8b8c4;font-size:17px;line-height:1.6;">' . htmlspecialchars($lead, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</p>'
     . $content
     . $button
-    . '<p style="border-top:1px solid #272727;margin:30px 0 0;padding-top:18px;color:#8b93a3;font-size:13px;line-height:1.5;">Nelkano Emulator es un proyecto de emulacion gratuito. No distribuimos juegos, ROMs ni BIOS. Usa solo archivos compatibles sobre los que tengas derechos.</p>'
+    . '<p style="border-top:1px solid #272727;margin:30px 0 0;padding-top:18px;color:#8b93a3;font-size:13px;line-height:1.5;">Nelkano es un proyecto de emulacion gratuito. No distribuimos juegos, ROMs ni BIOS. Usa solo archivos compatibles sobre los que tengas derechos.</p>'
     . '</td></tr></table>'
     . '</td></tr></table></body></html>';
 }

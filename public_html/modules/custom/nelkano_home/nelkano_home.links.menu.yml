@@ -1,6 +1,41 @@
+nelkano_home.admin:
+  title: 'Nelkano'
+  description: 'Manage Nelkano editable pages.'
+  route_name: nelkano_home.admin
+  parent: system.admin
+  weight: 10
+
 nelkano_home.settings:
-  title: 'Nelkano home'
+  title: 'Home'
   description: 'Edit landing page texts in Spanish and English.'
-  route_name: nelkano_home.settings
-  parent: system.admin_config_content
-  weight: 20
+  route_name: nelkano_home.admin_home
+  parent: nelkano_home.admin
+  weight: 0
+
+nelkano_home.privacy_cookies_settings:
+  title: 'Privacidad y cookies'
+  description: 'Edit privacy and cookies page.'
+  route_name: nelkano_home.admin_privacy_cookies
+  parent: nelkano_home.admin
+  weight: 1
+
+nelkano_home.legal_notice_settings:
+  title: 'Aviso legal'
+  description: 'Edit legal notice page.'
+  route_name: nelkano_home.admin_legal_notice
+  parent: nelkano_home.admin
+  weight: 2
+
+nelkano_home.releases_settings:
+  title: 'Versiones'
+  description: 'Edit releases page.'
+  route_name: nelkano_home.admin_releases
+  parent: nelkano_home.admin
+  weight: 3
+
+nelkano_home.security_privacy_settings:
+  title: 'Seguridad y privacidad'
+  description: 'Edit security and privacy page.'
+  route_name: nelkano_home.admin_security_privacy
+  parent: nelkano_home.admin
+  weight: 4

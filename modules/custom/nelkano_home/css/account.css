@@ -1,67 +1,37 @@
-:root {
-  color-scheme: dark;
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: #050505;
-  color: #f7f7fb;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-.visually-hidden {
-  position: absolute !important;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(1px, 1px, 1px, 1px);
-  white-space: nowrap;
-}
-
-body {
-  margin: 0;
-  min-height: 100vh;
-}
-
-a {
+.nk-account-page a {
   color: inherit;
   text-decoration: none;
 }
 
-button,
-input,
-select {
-  font: inherit;
-}
-
 .nk-account-page {
-  min-height: 100vh;
-  padding: 24px;
+  font-family: var(--nk-font-sans);
 }
 
-.nk-account-shell {
-  margin: 0 auto;
-  max-width: 1180px;
+.nk-account-page *,
+.nk-account-page *::before,
+.nk-account-page *::after {
+  min-width: 0;
 }
 
 .nk-muted,
 .nk-person-list small {
-  color: #b8b8c4;
+  color: var(--nk-text-muted-strong);
 }
 
 .nk-small-button {
-  background: #151515;
-  border: 1px solid #2d2d2d;
+  background: var(--nk-surface-muted);
+  border: 1px solid var(--nk-border-control-muted);
   border-radius: 8px;
-  color: #f7f7fb;
+  color: var(--nk-text-page);
   padding: 10px 14px;
 }
 
 .nk-profile-hero,
 .nk-panel {
-  background: rgba(8, 8, 8, 0.92);
-  border: 1px solid #272727;
+  background: var(--nk-surface-overlay);
+  border: 1px solid var(--nk-border-strong);
   border-radius: 14px;
+  min-width: 0;
 }
 
 .nk-profile-hero {
@@ -70,13 +40,13 @@ select {
   gap: 22px;
   grid-template-columns: auto minmax(0, 1fr) auto;
   margin-bottom: 20px;
-  padding: clamp(22px, 5vw, 38px);
+  padding: var(--nk-panel-padding);
 }
 
 .nk-avatar,
 .nk-mini-avatar {
   align-items: center;
-  background: radial-gradient(circle at 35% 25%, #ffffff, var(--avatar-color) 38%, #2b003f);
+  background: var(--nk-gradient-avatar);
   display: inline-flex;
   font-weight: 900;
   justify-content: center;
@@ -84,27 +54,27 @@ select {
 
 .nk-avatar {
   border-radius: 24px;
-  font-size: 2.4rem;
+  font-size: var(--nk-title-2xl);
   height: 104px;
   width: 104px;
 }
 
 .nk-avatar-image {
-  color: transparent;
+  color: var(--nk-text-transparent);
   object-fit: cover;
 }
 
 .nk-mini-avatar {
   border-radius: 10px;
-  color: #050505;
+  color: var(--nk-bg-page);
   flex: 0 0 auto;
   height: 42px;
   width: 42px;
 }
 
 .nk-eyebrow {
-  color: #c04dff;
-  font-size: 0.8rem;
+  color: var(--nk-primary-soft);
+  font-size: var(--nk-meta-md);
   font-weight: 800;
   letter-spacing: 0.1em;
   margin: 0 0 8px;
@@ -118,7 +88,7 @@ p {
 }
 
 h1 {
-  font-size: clamp(2rem, 4.4vw, 3.6rem);
+  font-size: var(--nk-title-account);
   line-height: 1;
   margin-bottom: 12px;
   max-width: 100%;
@@ -126,7 +96,7 @@ h1 {
 }
 
 h2 {
-  font-size: 1.15rem;
+  font-size: var(--nk-text-2xl);
   margin-bottom: 16px;
 }
 
@@ -134,15 +104,17 @@ h2 {
   display: grid;
   gap: 8px;
   justify-items: end;
-  min-width: max-content;
+  min-width: 0;
 }
 
 .nk-profile-meta span,
 .nk-panel-heading span {
-  background: #151515;
-  border: 1px solid #2d2d2d;
+  background: var(--nk-surface-muted);
+  border: 1px solid var(--nk-border-control-muted);
   border-radius: 999px;
-  color: #d8d8e3;
+  color: var(--nk-text-softer);
+  max-width: 100%;
+  overflow-wrap: anywhere;
   padding: 8px 12px;
 }
 
@@ -150,10 +122,37 @@ h2 {
   display: grid;
   gap: 18px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  min-width: 0;
+}
+
+.nk-account-menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 18px;
+}
+
+.nk-account-menu-item {
+  appearance: none;
+  background: var(--nk-surface-strong);
+  border: 1px solid var(--nk-border-muted);
+  border-radius: 999px;
+  color: var(--nk-text-softer);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+  min-height: 38px;
+  padding: 0 14px;
+  text-decoration: none;
+}
+
+.nk-account-menu-item.is-active {
+  background: var(--nk-surface-control-alt);
+  color: var(--nk-text);
 }
 
 .nk-panel {
-  padding: 22px;
+  padding: var(--nk-panel-padding);
 }
 
 .nk-wide {
@@ -163,8 +162,15 @@ h2 {
 .nk-panel-heading {
   align-items: center;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   gap: 16px;
+  min-width: 0;
+}
+
+.nk-panel-heading h2 {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .nk-person-list {
@@ -183,8 +189,8 @@ h2 {
 }
 
 .nk-person-list li {
-  background: #111111;
-  border: 1px solid #262626;
+  background: var(--nk-surface-strong);
+  border: 1px solid var(--nk-border-muted);
   border-radius: 10px;
   justify-content: space-between;
   padding: 12px;
@@ -207,6 +213,7 @@ h2 {
 .nk-account-form {
   display: grid;
   gap: 14px;
+  min-width: 0;
 }
 
 .nk-account-form .form-item {
@@ -214,43 +221,57 @@ h2 {
 }
 
 .nk-account-form label {
-  color: #ffffff;
+  color: var(--nk-text);
   display: block;
   font-weight: 750;
   margin-bottom: 8px;
 }
 
 .nk-account-form input[type="email"],
+.nk-account-form input[type="number"],
 .nk-account-form input[type="file"],
 .nk-account-form input[type="password"],
+.nk-account-form input[type="search"],
+.nk-account-form input[type="tel"],
 .nk-account-form input[type="text"],
+.nk-account-form input[type="url"],
+.nk-account-form textarea,
 .nk-account-form select {
-  background: #292929;
-  border: 1px solid #292929;
+  background: var(--nk-surface-control);
+  border: 1px solid var(--nk-surface-control);
   border-radius: 10px;
-  color: #ffffff;
+  color: var(--nk-text);
+  max-width: 100%;
   min-height: 46px;
+  min-width: 0;
   padding: 0 14px;
   width: 100%;
 }
 
+.nk-account-form textarea {
+  line-height: 1.45;
+  min-height: 120px;
+  padding-block: 12px;
+}
+
 .nk-account-form input[type="file"] {
-  background: #191919;
-  border: 1px dashed rgba(192, 77, 255, 0.55);
-  color: transparent;
+  background: var(--nk-surface-control-alt);
+  border: 1px dashed var(--nk-border-primary-message);
+  color: var(--nk-text-transparent);
   cursor: pointer;
-  font-size: 0;
+  font-size: var(--nk-text-hidden);
   min-height: 52px;
   padding: 7px;
 }
 
 .nk-account-form input[type="file"]::file-selector-button {
-  background: linear-gradient(90deg, #9e12ff, #b414ff);
+  background: var(--nk-gradient-primary);
   border: 0;
   border-radius: 10px;
-  color: #ffffff;
+  color: var(--nk-action-text);
   cursor: pointer;
-  font: 800 1rem Inter, "Segoe UI", Arial, sans-serif;
+  font-family: var(--nk-font-sans);
+  font-size: var(--nk-text-base);
   font-weight: 800;
   margin-right: 14px;
   min-height: 38px;
@@ -259,12 +280,14 @@ h2 {
 }
 
 .nk-account-form input[type="file"]::-webkit-file-upload-button {
-  background: linear-gradient(90deg, #9e12ff, #b414ff);
+  background: var(--nk-gradient-primary);
   border: 0;
   border-radius: 10px;
-  color: #ffffff;
+  color: var(--nk-action-text);
   cursor: pointer;
-  font: 800 1rem Inter, "Segoe UI", Arial, sans-serif;
+  font-family: var(--nk-font-sans);
+  font-size: var(--nk-text-base);
+  font-weight: 800;
   min-height: 38px;
   padding: 0 16px;
   width: 100%;
@@ -272,45 +295,16 @@ h2 {
 
 .nk-account-form input:focus,
 .nk-account-form select:focus {
-  border-color: #a414ff;
-  box-shadow: 0 0 0 3px rgba(164, 20, 255, 0.22);
+  border-color: var(--nk-primary);
+  box-shadow: var(--nk-focus-primary);
   outline: none;
 }
 
 .nk-account-form .description {
-  color: #9ca3af;
-  font-size: 0.9rem;
+  color: var(--nk-text-muted);
+  font-size: var(--nk-text-md);
   line-height: 1.45;
   margin-top: 6px;
-}
-
-.nk-section-tabs {
-  background: #111111;
-  border: 1px solid #262626;
-  border-radius: 12px;
-  display: inline-grid;
-  gap: 6px;
-  grid-template-columns: repeat(2, minmax(120px, 1fr));
-  padding: 6px;
-  width: min(100%, 420px);
-  margin: 0 0 18px;
-}
-
-.nk-section-tabs button {
-  appearance: none;
-  background: transparent;
-  border: 0;
-  border-radius: 9px;
-  color: #b8b8c4;
-  cursor: pointer;
-  font-weight: 800;
-  padding: 12px 16px;
-  text-align: center;
-}
-
-.nk-section-tabs button.is-active {
-  background: linear-gradient(90deg, #9e12ff, #b414ff);
-  color: #ffffff;
 }
 
 .nk-profile-content[aria-busy="true"] {
@@ -319,10 +313,10 @@ h2 {
 
 .nk-account-submit,
 .nk-account-form input[type="submit"] {
-  background: linear-gradient(90deg, #9e12ff, #b414ff);
+  background: var(--nk-gradient-primary);
   border: 0;
   border-radius: 10px;
-  color: #ffffff;
+  color: var(--nk-action-text);
   cursor: pointer;
   font-weight: 800;
   min-height: 44px;
@@ -343,8 +337,8 @@ h2 {
 }
 
 .nk-stat-grid div {
-  background: linear-gradient(180deg, #151515, #101010);
-  border: 1px solid #262626;
+  background: var(--nk-gradient-stat);
+  border: 1px solid var(--nk-border-muted);
   border-radius: 10px;
   min-height: 96px;
   padding: 18px;
@@ -356,22 +350,22 @@ h2 {
 }
 
 .nk-stat-grid strong {
-  font-size: 1.85rem;
+  font-size: var(--nk-title-lg);
   line-height: 1.05;
   margin-bottom: 6px;
 }
 
 .nk-stat-grid span {
-  color: #d8d8e6;
+  color: var(--nk-text-softer);
 }
 
 .nk-activity-intro {
-  max-width: 760px;
+  max-width: var(--nk-layout-narrow);
 }
 
 .nk-section-subtitle {
-  color: #ffffff;
-  font-size: 1rem;
+  color: var(--nk-text);
+  font-size: var(--nk-text-base);
   margin: 20px 0 10px;
 }
 
@@ -385,8 +379,8 @@ h2 {
 
 .nk-activity-list li {
   align-items: center;
-  background: #111111;
-  border: 1px solid #262626;
+  background: var(--nk-surface-strong);
+  border: 1px solid var(--nk-border-muted);
   border-radius: 10px;
   display: flex;
   gap: 12px;
@@ -396,7 +390,7 @@ h2 {
 
 .nk-activity-list span,
 .nk-activity-list small {
-  color: #b8b8c4;
+  color: var(--nk-text-muted-strong);
 }
 
 .nk-activity-system {
@@ -405,11 +399,11 @@ h2 {
 }
 
 .nk-activity-system strong {
-  color: #ffffff;
+  color: var(--nk-text);
 }
 
 .nk-activity-time {
-  color: #ffffff !important;
+  color: var(--nk-text) !important;
   font-weight: 800;
   white-space: nowrap;
 }
@@ -420,17 +414,17 @@ h2 {
 }
 
 .nk-account-page .messages-list {
-  background: transparent;
+  background: var(--nk-text-transparent);
   border: 0;
   padding: 0 !important;
 }
 
 .nk-account-page .messages {
-  background: #161020;
-  border: 1px solid rgba(192, 77, 255, 0.55);
+  background: var(--nk-surface-message);
+  border: 1px solid var(--nk-border-primary-message);
   border-radius: 10px;
-  color: #f2e8ff;
-  font-size: 0.95rem;
+  color: var(--nk-text-message);
+  font-size: var(--nk-text-md);
   line-height: 1.35;
   padding: 10px 12px !important;
 }
@@ -461,10 +455,6 @@ h2 {
 }
 
 @media (max-width: 760px) {
-  .nk-account-page {
-    padding: 18px;
-  }
-
   .nk-profile-hero {
     align-items: flex-start;
     grid-template-columns: 1fr;
@@ -478,4 +468,15 @@ h2 {
   .nk-stat-grid {
     grid-template-columns: 1fr;
   }
+
+  .nk-account-menu {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .nk-account-menu-item {
+    justify-content: center;
+    text-align: center;
+  }
+
 }

@@ -1,0 +1,11 @@
+<footer class="nk-footer">
+  <p>{{ footer_primary|default(language == 'en' ? 'Nelkano: free multisystem emulator for Android.' : 'Nelkano: emulador multisistema gratuito para Android.') }}</p>
+  <nav class="nk-footer-links" aria-label="{{ language == 'en' ? 'Footer links' : 'Enlaces del pie de pagina' }}">
+    <a href="{{ language == 'en' ? '/en/legal-notice' : '/aviso-legal' }}">{{ language == 'en' ? 'Legal notice' : 'Aviso legal' }}</a>
+    <a href="{{ language == 'en' ? '/en/privacy-cookies' : '/privacidad-cookies' }}">{{ language == 'en' ? 'Privacy and cookies' : 'Privacidad y cookies' }}</a>
+    <a href="{{ language == 'en' ? '/en/releases' : '/versiones' }}">{{ language == 'en' ? 'Releases' : 'Versiones' }}</a>
+    <a href="{{ language == 'en' ? '/en/security-privacy' : '/seguridad-privacidad' }}">{{ language == 'en' ? 'Security' : 'Seguridad' }}</a>
+    <a href="{{ language == 'en' ? '/en/contact' : '/contacto' }}">{{ language == 'en' ? 'Contact' : 'Contacto' }}</a>
+    <button type="button" data-consent-settings>{{ language == 'en' ? 'Cookie settings' : 'Configurar cookies' }}</button>
+  </nav>
+</footer>

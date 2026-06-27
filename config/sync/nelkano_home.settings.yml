@@ -2,12 +2,12 @@ _core:
   default_config_hash: kcBAhc18lv6pV_FJTF3f0cdZOTm93caVv4BfraFNI4g
 es:
   nav_language: English
-  seo_title: 'Nelkano Emulator - Emulador gratis para Android y Windows'
-  seo_description: 'Descarga Nelkano Emulator, un emulador multisistema gratis para Android y Windows. No incluye ROMs, BIOS ni contenido protegido.'
-  seo_keywords: 'emulador android, emulador windows, emulador gratis, game boy, gba, gbc, nes, nintendo ds, chip-8, nelkano'
-  hero_badge: 'Emulador gratis para Android y Windows'
-  hero_title: 'Nelkano Emulator para Android y Windows'
-  hero_description: 'Descarga Nelkano, un emulador multisistema gratuito con biblioteca local, guardados, save states, sincronizacion con Google Drive, modo claro y soporte para mandos. No incluye ROMs, BIOS ni contenido protegido: abre solo archivos compatibles sobre los que tengas derechos.'
+  seo_title: 'Nelkano - Emulador gratis para Android'
+  seo_description: 'Descarga Nelkano, un emulador multisistema gratis para Android con biblioteca, guardados, cuenta, streaming y sincronizacion. No incluye ROMs, BIOS ni contenido protegido.'
+  seo_keywords: 'emulador android, emulador gratis, game boy, gba, gbc, nes, mega drive, nintendo ds, chip-8, rpg maker, nelkano'
+  hero_badge: 'Emulador multisistema gratis para Android'
+  hero_title: 'Nelkano para Android'
+  hero_description: 'Descarga Nelkano, un emulador multisistema gratuito con biblioteca local, guardados, save states, cuenta Nelkano, amigos, streaming web, sincronizacion con Google Drive, temas y soporte para mandos. No incluye ROMs, BIOS ni contenido protegido: abre solo archivos compatibles sobre los que tengas derechos.'
   primary_cta: 'Descargar Android'
   primary_url: '#downloads'
   secondary_cta: 'Ver estado del proyecto'
@@ -16,14 +16,14 @@ es:
   android_title: Android
   android_channel: 'APK nativo'
   android_description: 'Build para movil con biblioteca local, controles tactiles, soporte de mando y sistemas compatibles segun version. No incluye juegos, ROMs ni BIOS.'
-  android_url: '#'
-  windows_title: Windows
-  windows_channel: 'Build de escritorio'
-  windows_description: 'Version de escritorio para PC, pruebas de compatibilidad y seguimiento del emulador. No incluye juegos, ROMs ni BIOS.'
-  windows_url: '#'
+  android_url: /modules/custom/nelkano_home/emulator/Nelkano%201.0.0-beta.apk
+  windows_title: ''
+  windows_channel: ''
+  windows_description: ''
+  windows_url: ''
   about_eyebrow: 'Que es Nelkano'
   about_title: 'Un emulador multisistema con una base cada vez mas solida'
-  about_description: 'Nelkano combina emuladores propios, apps nativas para Android y Windows, biblioteca local, guardados, save states, modo claro y sincronizacion opcional con Google Drive. El objetivo es ofrecer una experiencia clara para abrir archivos propios compatibles y probar compatibilidad real, sin prometer mas de lo que cada sistema puede dar hoy.'
+  about_description: 'Nelkano combina emuladores propios, una app nativa para Android, biblioteca local, guardados, save states, cuenta Nelkano, amigos, streaming web y sincronizacion opcional con Google Drive. El objetivo es ofrecer una experiencia clara para abrir archivos propios compatibles y probar compatibilidad real, sin prometer mas de lo que cada sistema puede dar hoy.'
   status_eyebrow: 'Estado actual'
   status_title: 'Estado real de los sistemas'
   status_description: 'Algunos sistemas ya estan en una fase muy usable; otros siguen mejorando precision y compatibilidad. El estado se basa en pruebas tecnicas y trabajo real del emulador.'
@@ -34,16 +34,17 @@ es:
     Game Boy Advance|Jugable y en mejora|Ejecuta una parte creciente de la biblioteca compatible y se sigue midiendo con pruebas reales para ampliar compatibilidad.
     NES|Jugable y muy avanzado|Emulacion NES con video, audio, mandos y muchos mappers importantes; la suite de pruebas y compatibilidad ya ofrece una base muy solida.
     RPG Maker MV/MZ|Experimental funcional|Runtime por WebView/NW.js para juegos exportados por el propio RPG Maker, con importacion, input, audio y guardados en evolucion.
-    RPG Maker 2000/2003|Core propio en preparacion|El soporte se hara con un core propio de Nelkano para poder integrarlo dentro de Android y Windows sin runtimes externos.
+    RPG Maker 2000/2003|Core propio en preparacion|El soporte se hara con un core propio de Nelkano para poder integrarlo dentro de Android sin depender de runtimes externos.
     Nintendo DS|Experimental activo|Foco tecnico actual: ARM9/ARM7, planificador interno, comunicacion entre procesadores, video 2D/3D parcial, timings, guardados y arranque de pruebas cada vez mas exigentes.
   platforms_eyebrow: Plataformas
-  platforms_title: 'Descarga en Android y Windows'
-  platforms_description: 'La emulacion real vive en las apps nativas. La web sirve para descargar builds, consultar el estado de compatibilidad y mantener una referencia clara del proyecto.'
+  platforms_title: 'Descarga en Android'
+  platforms_description: 'La emulacion real vive en la app Android. La web sirve para descargar builds, ver sesiones de streaming, consultar el estado de compatibilidad y mantener una referencia clara del proyecto.'
   platform_items: |-
     Android|APK para movil con biblioteca local, controles tactiles, soporte de mando y sistemas compatibles segun version.
-    Windows / Desktop|Version de escritorio para PC con biblioteca, emulacion, save states, ajustes, modo claro y pruebas rapidas del proyecto.
+    Cuenta Nelkano|Perfil, actividad de juego, amigos, sesiones online y funciones conectadas desde la app.
+    Streaming web|Emite una partida desde Android y abre el visor web con la misma cuenta para seguir la sesion.
     Google Drive opcional|Sincroniza biblioteca, guardados y save states en tu propia cuenta de Google. Nelkano no almacena esos archivos en servidores propios.
-    Web|Pagina oficial para descargar Nelkano, revisar compatibilidad y acceder a informacion legal y de privacidad.
+    Web|Pagina oficial para descargar Nelkano, ver streaming, revisar compatibilidad y acceder a informacion legal y de privacidad.
   differentiators_eyebrow: Experiencia
   differentiators_title: 'Hecho para jugar, probar y seguir mejorando'
   differentiators_description: 'Nelkano une trabajo de bajo nivel en emulacion con una experiencia sencilla: descargar, abrir tus archivos propios compatibles y consultar un estado de compatibilidad explicado con honestidad.'
@@ -51,36 +52,43 @@ es:
     Biblioteca organizada|Agrupa tus archivos propios por sistema, conserva sesiones recientes y facilita volver a abrirlos.
     Sincronizacion con Drive|Vincula tu cuenta de Google desde ajustes para subir o bajar biblioteca, guardados y save states desde tu propio Drive.
     Guardados y save states|La base del proyecto prioriza guardar, cargar y proteger el progreso en los sistemas que ya lo soportan.
-    Modo claro y oscuro|La interfaz esta pensada para usarse comoda tanto en escritorio como en movil, con tema claro cuando prefieres mas luz.
-    Mandos y controles|Soporte de input en escritorio y Android, con foco en mandos Bluetooth y controles comodos.
+    Cuenta, amigos y actividad|Inicia sesion para sincronizar tiempo de juego, perfil, amigos y funciones online vinculadas a Nelkano.
+    Streaming y online|La app prepara sesiones conectadas para emitir gameplay, compartir presencia y experimentar funciones multijugador.
+        Mandos y controles|Soporte de controles tactiles y mandos Bluetooth, con mapeo y perfiles de entrada.
     Compatibilidad transparente|Cada sistema se comunica por su estado real: muy estable, avanzado, jugable o experimental.
   vision_eyebrow: 'Hoja de ruta'
   vision_title: 'Una base gratuita que seguira creciendo'
-  vision_description: 'La prioridad es mejorar compatibilidad, estabilidad y experiencia de uso en Android y Windows, siempre explicando de forma clara que incluye cada version.'
+  vision_description: 'La prioridad es mejorar compatibilidad, estabilidad y experiencia de uso en Android, siempre explicando de forma clara que incluye cada version.'
   vision_items: |-
     Mejorar precision y compatibilidad de los sistemas
-    Mantener descargas claras para Android y Windows
-    Reforzar guardados, biblioteca, mandos, modo claro y sincronizacion
+    Mantener descargas claras para Android
+    Reforzar guardados, biblioteca, cuenta, amigos, streaming, mandos, temas y sincronizacion
     Publicar el estado real sin promesas cerradas
   faq_eyebrow: FAQ
   faq_title: 'Preguntas frecuentes'
   faq_items: |-
-    La web emula archivos?|No. La emulacion real vive en las apps de Android y Windows. Esta web sirve para descargar builds y explicar el estado del proyecto.
-    Que sistemas soporta Nelkano?|El proyecto trabaja con CHIP-8, Game Boy, Game Boy Color, Game Boy Advance, NES, RPG Maker y Nintendo DS, cada uno con un nivel de compatibilidad distinto.
+    La web emula archivos?|No. La emulacion real vive en la app Android. Esta web sirve para descargar builds, ver streaming y explicar el estado del proyecto.
+    Que sistemas soporta Nelkano?|El proyecto trabaja con CHIP-8, Game Boy, Game Boy Color, Game Boy Advance, NES, Mega Drive, RPG Maker y Nintendo DS, cada uno con un nivel de compatibilidad distinto.
     Nelkano es gratis?|Si. La descarga disponible desde esta web es gratuita. Si alguna funcion cambia o se amplia en el futuro, la pagina indicara claramente que incluye cada version.
     Incluye juegos, ROMs o BIOS?|No. Nelkano no incluye ROMs, BIOS, firmware, saves ni contenido protegido. El usuario debe usar solo archivos sobre los que tenga derechos.
-    Que pasa con RPG Maker 2000/2003?|Ese soporte se prepara como core propio de Nelkano integrado en las apps nativas.
+    Que pasa con RPG Maker 2000/2003?|Ese soporte se prepara como core propio de Nelkano integrado en Android.
     Nintendo DS ya esta terminado?|No. Nintendo DS esta en desarrollo activo y es uno de los focos tecnicos principales.
-  footer_primary: 'Nelkano Emulator: emulador multisistema gratuito para Android y Windows.'
+  trust_eyebrow: 'Proyecto verificable'
+  trust_title: 'Informacion clara para la beta publica'
+  trust_description: 'La primera beta publica se acompana de versionado, compatibilidad y privacidad documentadas para que puedas revisar que incluye Nelkano antes de instalarlo.'
+  trust_items: |-
+    Versiones|Consulta la beta publica, cambios, requisitos y verificacion de descarga.|/versiones
+    Seguridad y privacidad|Entiende permisos, datos locales, cuenta Nelkano y sincronizacion opcional.|/seguridad-privacidad
+  footer_primary: 'Nelkano: emulador multisistema gratuito para Android.'
   footer_secondary: ''
 en:
   nav_language: Espanol
-  seo_title: 'Nelkano Emulator - Free emulator for Android and Windows'
-  seo_description: 'Download Nelkano Emulator, a free multisystem emulator for Android and Windows. It does not include ROMs, BIOS files or protected content.'
-  seo_keywords: 'android emulator, windows emulator, free emulator, game boy, gba, gbc, nes, nintendo ds, chip-8, nelkano'
-  hero_badge: 'Free emulator for Android and Windows'
-  hero_title: 'Nelkano Emulator for Android and Windows'
-  hero_description: 'Download Nelkano, a free multisystem emulator with a local library, saves, save states, Google Drive sync, light mode and controller support. It does not include ROMs, BIOS files or protected content: open only compatible files you have rights to use.'
+  seo_title: 'Nelkano - Free emulator for Android'
+  seo_description: 'Download Nelkano, a free multisystem emulator for Android with library, saves, account, streaming and synchronization. It does not include ROMs, BIOS files or protected content.'
+  seo_keywords: 'android emulator, free emulator, game boy, gba, gbc, nes, mega drive, nintendo ds, chip-8, rpg maker, nelkano'
+  hero_badge: 'Free multisystem emulator for Android'
+  hero_title: 'Nelkano for Android'
+  hero_description: 'Download Nelkano, a free multisystem emulator with a local library, saves, save states, Nelkano account, friends, web streaming, Google Drive sync, themes and controller support. It does not include ROMs, BIOS files or protected content: open only compatible files you have rights to use.'
   primary_cta: 'Download Android'
   primary_url: '#downloads'
   secondary_cta: 'View project status'
@@ -89,14 +97,14 @@ en:
   android_title: Android
   android_channel: 'Native APK'
   android_description: 'Mobile build with local library, touch controls, controller support and compatible systems per version. No games, ROMs or BIOS files are included.'
-  android_url: '#'
-  windows_title: Windows
-  windows_channel: 'Desktop build'
-  windows_description: 'Desktop version for PC, compatibility testing and following emulator progress. No games, ROMs or BIOS files are included.'
-  windows_url: '#'
+  android_url: /modules/custom/nelkano_home/emulator/Nelkano%201.0.0-beta.apk
+  windows_title: ''
+  windows_channel: ''
+  windows_description: ''
+  windows_url: ''
   about_eyebrow: 'What is Nelkano'
   about_title: 'A multisystem emulator with an increasingly solid base'
-  about_description: 'Nelkano combines custom emulators, native Android and Windows apps, a local library, saves, save states, light mode and optional Google Drive synchronization. The goal is a clear experience for opening your own compatible files and testing real compatibility, without promising more than each system can currently deliver.'
+  about_description: 'Nelkano combines custom emulators, a native Android app, a local library, saves, save states, Nelkano account, friends, web streaming and optional Google Drive synchronization. The goal is a clear experience for opening your own compatible files and testing real compatibility, without promising more than each system can currently deliver.'
   status_eyebrow: 'Current status'
   status_title: 'Real system status'
   status_description: 'Some systems are already very usable; others are still being refined for accuracy and compatibility. Status is based on technical tests and current emulator work.'
@@ -107,16 +115,17 @@ en:
     Game Boy Advance|Playable and improving|Runs a growing part of the compatible library and is measured with real tests to expand compatibility.
     NES|Playable and very advanced|NES emulation with video, audio, controllers and many important mappers; the test and compatibility suite already provides a very solid base.
     RPG Maker MV/MZ|Functional experimental|WebView/NW.js runtime for games exported by RPG Maker itself, with import, input, audio and saves still evolving.
-    RPG Maker 2000/2003|Preparing own core|Support will use Nelkano own core so it can be integrated into Android and Windows without external runtimes.
+    RPG Maker 2000/2003|Preparing own core|Support will use Nelkano own core so it can be integrated into Android without relying on external runtimes.
     Nintendo DS|Active experimental|Current technical focus: ARM9/ARM7, internal scheduling, processor communication, partial 2D/3D video, timings, saves and increasingly demanding boot tests.
   platforms_eyebrow: Platforms
-  platforms_title: 'Download on Android and Windows'
-  platforms_description: 'Real emulation lives in the native apps. The website provides builds, compatibility status and a clear project reference.'
+  platforms_title: 'Download on Android'
+  platforms_description: 'Real emulation lives in the Android app. The website provides builds, web streaming, compatibility status and a clear project reference.'
   platform_items: |-
     Android|Mobile APK with local library, touch controls, controller support and compatible systems per version.
-    Windows / Desktop|Desktop PC build with library, emulation, save states, settings, light mode and fast project testing.
+    Nelkano account|Profile, play activity, friends, online sessions and connected app features.
+    Web streaming|Stream a game from Android and open the web viewer with the same account to follow the session.
     Optional Google Drive|Sync library, saves and save states in your own Google account. Nelkano does not store those files on its own servers.
-    Web|Official page to download Nelkano, review compatibility and access legal and privacy information.
+    Web|Official page to download Nelkano, watch streaming, review compatibility and access legal and privacy information.
   differentiators_eyebrow: Experience
   differentiators_title: 'Built to play, test and keep improving'
   differentiators_description: 'Nelkano combines low-level emulation work with a simple experience: download, open your own compatible files and review compatibility status explained honestly.'
@@ -124,25 +133,32 @@ en:
     Organized library|Group your own files by system, keep recent sessions and make it easier to open them again.
     Google Drive sync|Link your Google account from settings to upload or download library data, saves and save states from your own Drive.
     Saves and save states|The project prioritizes saving, loading and protecting progress in the systems that already support it.
-    Light and dark mode|The interface is designed for comfortable use on desktop and mobile, with a light theme when you prefer more brightness.
-    Controllers and input|Input support on desktop and Android, with focus on Bluetooth controllers and comfortable controls.
+    Account, friends and activity|Sign in to synchronize play time, profile, friends and online features linked to Nelkano.
+    Streaming and online|The app prepares connected sessions to stream gameplay, share presence and experiment with multiplayer features.
+        Controllers and input|Touch controls and Bluetooth controller support, with input mapping and profiles.
     Transparent compatibility|Each system is described by its real status: very stable, advanced, playable or experimental.
   vision_eyebrow: Roadmap
   vision_title: 'A free base that will keep growing'
-  vision_description: 'The priority is improving compatibility, stability and usability on Android and Windows, while clearly explaining what each version includes.'
+  vision_description: 'The priority is improving compatibility, stability and usability on Android, while clearly explaining what each version includes.'
   vision_items: |-
     Improve system accuracy and compatibility
-    Keep downloads clear for Android and Windows
-    Strengthen saves, library, controllers, light mode and synchronization
+    Keep downloads clear for Android
+    Strengthen saves, library, account, friends, streaming, controllers, themes and synchronization
     Publish real status without locked promises
   faq_eyebrow: FAQ
   faq_title: 'Frequently asked questions'
   faq_items: |-
-    Does the website emulate files?|No. Real emulation lives in the Android and Windows apps. This website is for downloads and project status.
-    Which systems does Nelkano support?|The project works on CHIP-8, Game Boy, Game Boy Color, Game Boy Advance, NES, RPG Maker and Nintendo DS, each with a different compatibility level.
+    Does the website emulate files?|No. Real emulation lives in the Android app. This website is for downloads, streaming and project status.
+    Which systems does Nelkano support?|The project works on CHIP-8, Game Boy, Game Boy Color, Game Boy Advance, NES, Mega Drive, RPG Maker and Nintendo DS, each with a different compatibility level.
     Is Nelkano free?|Yes. The download available from this website is free. If any feature changes or expands in the future, the page will clearly state what each version includes.
     Does it include games, ROMs or BIOS files?|No. Nelkano does not include ROMs, BIOS files, firmware, saves or protected content. Users must only use files they have rights to use.
-    What about RPG Maker 2000/2003?|That support is being prepared as Nelkano own core integrated into the native apps.
+    What about RPG Maker 2000/2003?|That support is being prepared as Nelkano own core integrated into Android.
     Is Nintendo DS finished?|No. Nintendo DS is in active development and remains one of the main technical focuses.
-  footer_primary: 'Nelkano Emulator: free multisystem emulator for Android and Windows.'
+  trust_eyebrow: 'Verifiable project'
+  trust_title: 'Clear information for the public beta'
+  trust_description: 'The first public beta includes documented versioning, compatibility and privacy information so you can review what Nelkano includes before installing it.'
+  trust_items: |-
+    Releases|Check the public beta, changes, requirements and download verification.|/en/releases
+    Security and privacy|Understand permissions, local data, Nelkano account and optional synchronization.|/en/security-privacy
+  footer_primary: 'Nelkano: free multisystem emulator for Android.'
   footer_secondary: ''

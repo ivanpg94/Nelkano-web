@@ -28,12 +28,12 @@ final class NelkanoContactForm extends FormBase {
   }
 
   public function buildForm(array $form, FormStateInterface $form_state, string $language = 'es'): array {
-    $form['#attributes']['class'][] = 'nk-auth-form';
+    $form['#attributes']['class'][] = 'nk-contact-form';
     $form['#action'] = $language === 'en' ? '/en/contact' : Url::fromRoute('nelkano_home.contact')->toString();
 
     $form['grid'] = [
       '#type' => 'container',
-      '#attributes' => ['class' => ['nk-auth-grid']],
+      '#attributes' => ['class' => ['nk-contact-grid']],
     ];
     $form['grid']['name'] = [
       '#type' => 'textfield',
@@ -80,7 +80,7 @@ final class NelkanoContactForm extends FormBase {
     $form['actions']['submit'] = [
       '#type' => 'submit',
       '#value' => $language === 'en' ? 'Send message' : 'Enviar mensaje',
-      '#attributes' => ['class' => ['nk-auth-submit']],
+      '#attributes' => ['class' => ['nk-contact-submit']],
     ];
 
     return $form;

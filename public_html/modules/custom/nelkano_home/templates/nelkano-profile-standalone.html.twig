@@ -6,8 +6,13 @@
     <title>{{ profile.name }} - Nelkano</title>
     <meta name="robots" content="noindex, nofollow">
     <link rel="icon" href="{{ logo_url }}" type="image/png">
+    {% include '@nelkano_home/nelkano-theme-init.html.twig' %}
+    <link rel="stylesheet" href="{{ base_css_url }}">
     <link rel="stylesheet" href="{{ header_css_url }}">
+    <link rel="stylesheet" href="{{ footer_css_url }}">
     <link rel="stylesheet" href="{{ account_css_url }}">
+    {# Future color-mode toggle script. <script defer src="{{ theme_js_url }}"></script> #}
+    {% include '@nelkano_home/nelkano-analytics.html.twig' %}
   </head>
   <body>
     {% include '@nelkano_home/nelkano-header.html.twig' %}
@@ -51,24 +56,23 @@
         {% endif %}
 
         {% if is_owner %}
-          <nav class="nk-section-tabs" aria-label="{{ language == 'en' ? 'Account sections' : 'Secciones de cuenta' }}">
-            <button class="is-active" type="button" data-profile-section="{{ language == 'en' ? 'profile' : 'perfil' }}">{{ language == 'en' ? 'Profile' : 'Perfil' }}</button>
-            <button type="button" data-profile-section="{{ language == 'en' ? 'friends' : 'amigos' }}">{{ language == 'en' ? 'Friends' : 'Amigos' }}</button>
-          </nav>
+          {% include '@nelkano_home/nelkano-user-menu.html.twig' %}
           <section id="nk-profile-content" class="nk-profile-content" data-section-endpoint="{{ language == 'en' ? '/en/user/section' : '/user/section' }}">
             {{ section_html|raw }}
           </section>
         {% endif %}
       </section>
     </main>
+    {% include '@nelkano_home/nelkano-footer.html.twig' %}
+    {% include '@nelkano_home/nelkano-consent-banner.html.twig' %}
     <script>
       (function () {
         var root = document.getElementById('nk-profile-content');
         if (!root) return;
-        var buttons = document.querySelectorAll('[data-profile-section]');
+        var buttons = document.querySelectorAll('[data-user-menu-section]');
         buttons.forEach(function (button) {
           button.addEventListener('click', function () {
-            var section = button.getAttribute('data-profile-section');
+            var section = button.getAttribute('data-user-menu-section');
             buttons.forEach(function (item) { item.classList.toggle('is-active', item === button); });
             root.setAttribute('aria-busy', 'true');
             fetch(root.getAttribute('data-section-endpoint') + '/' + encodeURIComponent(section), {
@@ -87,5 +91,6 @@
         });
       }());
     </script>
+    <script defer src="{{ base_js_url }}"></script>
   </body>
 </html>

@@ -7,8 +7,10 @@ use Drupal\Core\Form\FormStateInterface;
 
 final class HomeSettingsForm extends ConfigFormBase {
 
+  use AdminFormUiTrait;
+
   private const LANGUAGES = [
-    'es' => 'Spanish',
+    'es' => 'Espanol',
     'en' => 'English',
   ];
 
@@ -38,13 +40,13 @@ final class HomeSettingsForm extends ConfigFormBase {
         'title' => 'Android URL',
         'description' => 'If empty or #, the newest .apk in modules/custom/nelkano_home/emulator is used.',
       ],
-      'windows_title' => ['type' => 'textfield', 'title' => 'Windows title'],
-      'windows_channel' => ['type' => 'textfield', 'title' => 'Windows channel'],
-      'windows_description' => ['type' => 'textarea', 'title' => 'Windows description'],
+      'windows_title' => ['type' => 'textfield', 'title' => 'Secondary download title'],
+      'windows_channel' => ['type' => 'textfield', 'title' => 'Secondary download channel'],
+      'windows_description' => ['type' => 'textarea', 'title' => 'Secondary download description'],
       'windows_url' => [
         'type' => 'textfield',
-        'title' => 'Windows URL',
-        'description' => 'If empty or #, the newest .exe in modules/custom/nelkano_home/emulator is used.',
+        'title' => 'Secondary download URL',
+        'description' => 'Leave title, description and URL empty to hide the secondary download card.',
       ],
     ],
     'About' => [
@@ -101,6 +103,16 @@ final class HomeSettingsForm extends ConfigFormBase {
         'description' => 'One per line: Question|Answer',
       ],
     ],
+    'Trust' => [
+      'trust_eyebrow' => ['type' => 'textfield', 'title' => 'Eyebrow'],
+      'trust_title' => ['type' => 'textfield', 'title' => 'Title'],
+      'trust_description' => ['type' => 'textarea', 'title' => 'Description'],
+      'trust_items' => [
+        'type' => 'textarea',
+        'title' => 'Trust links',
+        'description' => 'One per line: Title|Description|URL',
+      ],
+    ],
     'Footer' => [
       'footer_primary' => ['type' => 'textarea', 'title' => 'Primary text'],
       'footer_secondary' => ['type' => 'textarea', 'title' => 'Secondary text'],
@@ -117,46 +129,64 @@ final class HomeSettingsForm extends ConfigFormBase {
 
   public function buildForm(array $form, FormStateInterface $form_state): array {
     $config = $this->config('nelkano_home.settings');
+    $active_language = $this->activeAdminLanguage();
+    $this->applyNelkanoAdminChrome(
+      $form,
+      'home',
+      'Home',
+      'Gestiona el contenido principal, descargas y secciones publicas de Nelkano.',
+      '/',
+      $active_language,
+    );
 
-    $form['intro'] = [
-      '#markup' => '<p>Edit the public landing page. Spanish is shown at <code>/</code>; English is shown at <code>/en</code>.</p>',
+    $form['active_language'] = [
+      '#type' => 'value',
+      '#value' => $active_language,
     ];
 
     foreach (self::LANGUAGES as $langcode => $language_label) {
+      if ($langcode !== $active_language) {
+        continue;
+      }
       $form[$langcode] = [
-        '#type' => 'details',
-        '#title' => $language_label,
-        '#open' => $langcode === 'es',
+        '#type' => 'container',
         '#tree' => TRUE,
+        '#attributes' => ['class' => ['nk-admin-language-fields']],
       ];
 
       foreach (self::FIELDS as $section_label => $fields) {
         $section_key = strtolower(str_replace(' ', '_', $section_label));
         $form[$langcode][$section_key] = [
           '#type' => 'details',
-          '#title' => $section_label,
+          '#title' => $this->adminLabel($section_label, $active_language),
           '#open' => in_array($section_label, ['Hero', 'Downloads'], TRUE),
         ];
 
         foreach ($fields as $key => $definition) {
           $form[$langcode][$section_key][$key] = [
             '#type' => $definition['type'],
-            '#title' => $definition['title'],
+            '#title' => $this->adminLabel($definition['title'], $active_language),
             '#default_value' => $config->get("$langcode.$key") ?? '',
-            '#description' => $definition['description'] ?? NULL,
+            '#description' => $this->adminDescription($definition['description'] ?? NULL, $active_language),
           ];
         }
       }
     }
 
-    return parent::buildForm($form, $form_state);
+    $form = parent::buildForm($form, $form_state);
+    $form['actions']['submit']['#value'] = $active_language === 'es' ? 'Guardar cambios' : 'Save changes';
+    return $form;
   }
 
   public function submitForm(array &$form, FormStateInterface $form_state): void {
     $config = $this->configFactory->getEditable('nelkano_home.settings');
+    $active_language = (string) ($form_state->getValue('active_language') ?? 'es');
 
     foreach (array_keys(self::LANGUAGES) as $langcode) {
-      $language_values = [];
+      if ($langcode !== $active_language) {
+        continue;
+      }
+      $language_values = $config->get($langcode) ?? [];
       foreach (self::FIELDS as $section_label => $fields) {
         $section_key = strtolower(str_replace(' ', '_', $section_label));
         foreach (array_keys($fields) as $key) {

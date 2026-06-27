@@ -90,6 +90,14 @@ nelkano_home.settings:
           type: string
         faq_items:
           type: text
+        trust_eyebrow:
+          type: string
+        trust_title:
+          type: string
+        trust_description:
+          type: text
+        trust_items:
+          type: text
         footer_primary:
           type: text
         footer_secondary:
@@ -98,3 +106,86 @@ nelkano_home.settings:
       type: mapping
       label: 'English content'
       mapping: *home_language_fields
+
+nelkano_home.docs:
+  type: config_object
+  label: 'Nelkano documentation settings'
+  mapping:
+    es:
+      type: mapping
+      label: 'Spanish documentation'
+      mapping: &docs_language_fields
+        privacy_cookies_seo_title:
+          type: string
+        privacy_cookies_seo_description:
+          type: text
+        privacy_cookies_eyebrow:
+          type: string
+        privacy_cookies_title:
+          type: string
+        privacy_cookies_intro:
+          type: text
+        privacy_cookies_sections:
+          type: text
+        legal_notice_seo_title:
+          type: string
+        legal_notice_seo_description:
+          type: text
+        legal_notice_eyebrow:
+          type: string
+        legal_notice_title:
+          type: string
+        legal_notice_intro:
+          type: text
+        legal_notice_sections:
+          type: text
+        releases_seo_title:
+          type: string
+        releases_seo_description:
+          type: text
+        releases_eyebrow:
+          type: string
+        releases_title:
+          type: string
+        releases_intro:
+          type: text
+        releases_version:
+          type: string
+        releases_filename:
+          type: string
+        releases_date:
+          type: string
+        releases_requirements:
+          type: string
+        releases_changes:
+          type: text
+        releases_notice:
+          type: text
+        compatibility_seo_title:
+          type: string
+        compatibility_seo_description:
+          type: text
+        compatibility_eyebrow:
+          type: string
+        compatibility_title:
+          type: string
+        compatibility_intro:
+          type: text
+        compatibility_items:
+          type: text
+        security_seo_title:
+          type: string
+        security_seo_description:
+          type: text
+        security_eyebrow:
+          type: string
+        security_title:
+          type: string
+        security_intro:
+          type: text
+        security_sections:
+          type: text
+    en:
+      type: mapping
+      label: 'English documentation'
+      mapping: *docs_language_fields

@@ -1,0 +1,139 @@
+es:
+  privacy_cookies_seo_title: 'Privacidad y cookies - Nelkano'
+  privacy_cookies_seo_description: 'Politica de privacidad y cookies de Nelkano: datos tratados, finalidades, derechos y uso de cookies.'
+  privacy_cookies_eyebrow: 'Privacidad y cookies'
+  privacy_cookies_title: 'Politica de privacidad y cookies'
+  privacy_cookies_intro: 'Esta politica explica que datos puede tratar la web de Nelkano y como se gestionan las cookies.'
+  privacy_cookies_sections: |-
+    Responsable del tratamiento|Nelkano es una landing informativa y gratuita. No se venden productos o servicios desde esta web y no se procesan pagos.||Contacto de privacidad: contacto@nelkano.com. El tratamiento de datos personales se limita principalmente a la navegacion tecnica, seguridad del servidor, descargas, registro de cuenta, verificacion por correo y comunicaciones que el usuario envie mediante la pagina de contacto o canales externos. Si se activan pagos o funciones comerciales, esta informacion debera actualizarse antes de su uso publico.
+    Datos tratados y finalidades|La web puede tratar datos tecnicos de navegacion, como direccion IP, fecha y hora, identificadores de solicitud, agente de usuario y registros de seguridad, con la finalidad de servir la pagina, prevenir abusos, diagnosticar errores y mantener la disponibilidad.||Si el usuario contacta por correo u otro canal indicado, se trataran los datos incluidos en esa comunicacion para responder la consulta, gestionar incidencias o atender solicitudes relacionadas con el proyecto.||Las descargas publicas de la landing no requieren crear cuenta ni introducir datos personales. La aplicacion puede guardar en el dispositivo biblioteca local, rutas o nombres de archivos elegidos por el usuario, sistema asociado, configuracion, guardados, save states y datos tecnicos necesarios para abrir archivos compatibles.||La sincronizacion con Google Drive es opcional y se vincula desde los ajustes de la aplicacion mediante la pantalla de autorizacion de Google. Al vincularla, Nelkano usa el permiso limitado drive.file para crear o acceder a los archivos del proyecto en Drive, no para leer todo el contenido de la cuenta.||Cuando el usuario sube datos a Drive, la aplicacion crea o usa una carpeta de sincronizacion del proyecto, normalmente llamada Nelkano Sync, y guarda alli el manifiesto de biblioteca, archivos compatibles seleccionados por el usuario, guardados y save states. Esos datos se almacenan en la cuenta de Google del usuario; Nelkano no los recibe ni los almacena en servidores propios.||La vinculacion puede deshacerse cerrando sesion en la aplicacion o revocando el acceso desde la cuenta de Google. La opcion Eliminar datos en la nube borra la carpeta de sincronizacion de Nelkano en Drive y conserva los datos locales del dispositivo.
+    Base juridica|El tratamiento tecnico necesario para mostrar la web y proteger el servicio se basa en el interes legitimo de mantener la seguridad, integridad y disponibilidad del sitio.||Las comunicaciones iniciadas por el usuario se tratan para atender su solicitud. El registro se usa para crear la cuenta, verificar el correo y permitir acceso a funciones de usuario. Las cookies o tecnologias no necesarias, como analitica o marketing, solo deben activarse cuando exista una base valida y, cuando sea exigible, consentimiento previo.
+    Conservacion y destinatarios|Los registros tecnicos deben conservarse durante el tiempo necesario para seguridad, diagnostico y cumplimiento legal. Las comunicaciones y datos de verificacion de cuenta se conservaran mientras sean necesarios para responder, operar la cuenta de usuario y durante los plazos exigibles por responsabilidades legales. Los datos locales de la aplicacion permanecen en el dispositivo hasta que el usuario los borra, desinstala la aplicacion o usa las opciones de limpieza disponibles.||Los datos pueden ser tratados por proveedores tecnicos de alojamiento, infraestructura, seguridad o mantenimiento, y por autoridades publicas cuando exista obligacion legal.
+    Derechos de las personas|Las personas pueden solicitar acceso, rectificacion, supresion, oposicion, limitacion, portabilidad cuando proceda y retirada del consentimiento cuando el tratamiento dependa de el escribiendo a contacto@nelkano.com.||Tambien pueden presentar una reclamacion ante la Agencia Espanola de Proteccion de Datos si consideran que el tratamiento no se ajusta a la normativa. Para borrar datos locales, el usuario puede eliminar la biblioteca/guardados desde la aplicacion cuando exista esa opcion, borrar los datos de la app o desinstalarla; para Google Drive, puede usar Eliminar datos en la nube, borrar la carpeta de sincronizacion o revocar el acceso desde su cuenta de Google.
+    Cookies|En la landing publica se usan cookies tecnicas o necesarias para funcionamiento, seguridad o administracion de Drupal, especialmente sesiones de administracion. Estas cookies no requieren consentimiento cuando son estrictamente necesarias.||La analitica de Google Analytics 4 solo se carga si el usuario acepta la medicion en el aviso de cookies. Si se rechaza, la web no carga Google Analytics para esa sesion de navegador.||Cuando se acepta la analitica, se pueden medir visitas de pagina y eventos agregados como clics en descargas de Android. Estos datos ayudan a entender el uso de la web y mejorar el proyecto; no se usan para vender datos personales.||La decision puede cambiarse desde el enlace Configurar cookies disponible en el pie de pagina.||El usuario puede borrar o bloquear cookies desde la configuracion de su navegador. Al hacerlo, algunas funciones tecnicas de administracion o sesion podrian dejar de funcionar correctamente.
+    Cambios de la politica|Esta politica puede actualizarse para reflejar cambios tecnicos, legales o de producto. La version publicada debe corresponder siempre con el funcionamiento real de la web.
+  legal_notice_seo_title: 'Aviso legal - Nelkano'
+  legal_notice_seo_description: 'Aviso legal de Nelkano: titularidad, condiciones de uso, propiedad intelectual, descargas y responsabilidad.'
+  legal_notice_eyebrow: 'Aviso legal'
+  legal_notice_title: 'Aviso legal'
+  legal_notice_intro: 'Esta pagina recoge las condiciones basicas de uso de la web y de las descargas publicadas para Nelkano.'
+  legal_notice_sections: |-
+    Datos del titular|Nelkano es una pagina informativa y de descarga de un proyecto de software gratuito. Actualmente no se venden productos o servicios desde la web, no se contratan planes y no se procesan pagos.||Contacto legal y de privacidad: contacto@nelkano.com. Si el proyecto incorpora venta, contratacion, publicidad, formularios comerciales u otra actividad economica, esta seccion debera ampliarse con los datos identificativos que correspondan.
+    Objeto del sitio|Nelkano es una web informativa y de descarga de una aplicacion de emulacion para Android. La web no ejecuta juegos en el navegador y no incluye ROMs, BIOS, firmware, saves, claves ni contenido protegido de terceros.||El objetivo es ofrecer informacion clara sobre el estado del proyecto, publicar builds disponibles y facilitar el acceso a documentacion o avisos relevantes.
+    Condiciones de uso|El usuario debe usar la web y las aplicaciones descargadas de forma licita, responsable y respetando la normativa aplicable, los derechos de propiedad intelectual e industrial y los derechos de terceros.||Nelkano no autoriza ni promueve la descarga, distribucion o uso de copias no autorizadas de videojuegos, BIOS, firmware, marcas, imagenes o cualquier otro contenido protegido. El usuario es responsable de disponer de derechos suficientes sobre el software, copias de seguridad o archivos que cargue en la aplicacion.
+    Descargas y compatibilidad|Las descargas publicadas pueden encontrarse en fase beta o desarrollo activo. Aunque se trabaja para mejorar estabilidad, compatibilidad y rendimiento, no se garantiza que todos los juegos, dispositivos, mandos o sistemas funcionen correctamente.||La informacion sobre sistemas compatibles y compatibilidad debe entenderse como una descripcion del estado del proyecto en cada momento, no como una garantia permanente de funcionamiento.
+    RPG Maker 2000/2003|El soporte para RPG Maker 2000/2003 se plantea como un core propio de Nelkano, en desarrollo progresivo, para integrarlo dentro de las aplicaciones nativas sin incluir runtimes externos.||Nelkano no incluye juegos, RTP, assets comerciales ni contenido protegido de RPG Maker. El usuario debe usar solo proyectos y archivos sobre los que tenga derechos suficientes.
+    Propiedad intelectual|El codigo, textos, diseno, logotipos, estructura y elementos propios de Nelkano pertenecen a sus titulares o se usan con la autorizacion correspondiente. Las marcas de consolas, sistemas y videojuegos citadas pertenecen a sus respectivos propietarios.||Las menciones a sistemas clasicos se realizan con finalidad descriptiva de compatibilidad tecnica. Nelkano no esta afiliado, patrocinado, autorizado ni aprobado por Nintendo ni por otros titulares de marcas o derechos salvo que se indique expresamente.
+    Responsabilidad|El titular no se responsabiliza del uso indebido de la web, de las aplicaciones o de archivos aportados por el usuario. Tampoco se responsabiliza de danos derivados de instalaciones fuera de las fuentes oficiales, modificaciones no autorizadas o uso en dispositivos no compatibles.||Los enlaces externos, si existen, se facilitan como referencia. El titular no controla de forma permanente sus contenidos y retirara o corregira enlaces cuando tenga conocimiento efectivo de que pueden ser ilicitos o inadecuados.
+    Ley aplicable|Esta pagina se ha redactado tomando como referencia la normativa espanola y europea aplicable a servicios de la sociedad de la informacion, proteccion de datos y cookies. Debe mantenerse actualizada si cambia el responsable, el modelo de servicio, las descargas, la publicidad, la analitica o las funciones de la aplicacion.
+  releases_seo_title: 'Versiones de Nelkano'
+  releases_seo_description: 'Historial publico de versiones de Nelkano para Android, con changelog, requisitos y verificacion de descarga.'
+  releases_eyebrow: Versiones
+  releases_title: 'Primera beta publica'
+  releases_intro: 'Nelkano empieza su historial publico verificable desde la beta para Android. Las builds anteriores fueron versiones tempranas de trabajo y no se destacan como descargas publicas.'
+  releases_version: 1.0.0-beta
+  releases_filename: 'Nelkano 1.0.0-beta.apk'
+  releases_date: 'Pendiente de publicacion'
+  releases_requirements: 'Android compatible con la version publicada; se recomienda un dispositivo actual y espacio suficiente para biblioteca y guardados.'
+  releases_changes: |-
+    Primera beta publica para Android.
+    Biblioteca local, guardados y save states segun sistema.
+    Cuenta Nelkano, amigos, actividad y streaming web.
+    Sincronizacion opcional con Google Drive usando el permiso limitado drive.file.
+    Estados de compatibilidad explicados por sistema.
+  releases_notice: 'Nelkano no incluye juegos, ROMs, BIOS, firmware, claves, saves ni contenido protegido. Usa solo archivos compatibles sobre los que tengas derechos.'
+  compatibility_seo_title: 'Compatibilidad de Nelkano'
+  compatibility_seo_description: 'Estado real de compatibilidad de los sistemas soportados por Nelkano para Android.'
+  compatibility_eyebrow: Compatibilidad
+  compatibility_title: 'Estado verificable por sistema'
+  compatibility_intro: 'Esta tabla resume el estado tecnico de cada sistema en la beta publica. No es una garantia de compatibilidad total: cada juego, dispositivo y mando puede comportarse de forma distinta.'
+  compatibility_items: |-
+    CHIP-8|Muy estable|Entrada, video y ejecucion de programas CHIP-8 habituales.|Pueden existir diferencias en programas que dependan de variantes no estandar.|Beta 1.0.0
+    Game Boy|Muy estable|Ejecucion DMG, guardado y carga en juegos compatibles.|La precision sigue revisandose con pruebas tecnicas y casos concretos.|Beta 1.0.0
+    Game Boy Color|Avanzado|Color, bancos de memoria, paletas y comportamientos CGB principales.|Aun se pulen detalles graficos y de timings.|Beta 1.0.0
+    Game Boy Advance|Jugable y en mejora|Ejecucion de una parte creciente de la biblioteca compatible.|Compatibilidad y rendimiento varian segun juego y dispositivo.|Beta 1.0.0
+    NES|Jugable y muy avanzado|Video, audio, mandos y muchos mappers importantes.|Algunos mappers o casos de precision pueden requerir trabajo adicional.|Beta 1.0.0
+    RPG Maker MV/MZ|Experimental funcional|Importacion y ejecucion mediante runtime WebView para proyectos exportados.|Input, audio, guardados y rendimiento siguen en evolucion.|Beta 1.0.0
+    RPG Maker 2000/2003|Core propio en preparacion|Trabajo tecnico orientado a integracion nativa en Android.|No debe tratarse como soporte final ni completo todavia.|Beta 1.0.0
+    Nintendo DS|Experimental activo|Arranque de pruebas y avances en ARM9/ARM7, video parcial, timings y guardados.|No es una implementacion completa para todo el catalogo.|Beta 1.0.0
+  security_seo_title: 'Seguridad y privacidad de Nelkano'
+  security_seo_description: 'Informacion sobre permisos, datos locales, cuenta Nelkano y sincronizacion opcional con Google Drive.'
+  security_eyebrow: 'Seguridad y privacidad'
+  security_title: 'Que hace Nelkano con tus datos'
+  security_intro: 'La beta publica se documenta con una politica prudente: explicar que datos usa la app, que queda en tu dispositivo y que servicios externos pueden intervenir si los activas.'
+  security_sections: |-
+    Descargas oficiales|Descarga Nelkano solo desde la web oficial. Cada version publica debe indicar nombre de archivo, tamano y SHA-256 para poder verificarla.
+    Datos locales|La biblioteca, configuracion, guardados y save states se gestionan en el dispositivo salvo que actives funciones de sincronizacion.
+    Cuenta Nelkano|La cuenta sirve para perfil, amigos, actividad, sesiones online y funciones conectadas. No sustituye a tus archivos locales ni incluye contenido protegido.
+    Google Drive opcional|La sincronizacion con Drive usa el permiso limitado drive.file para crear o acceder a archivos del proyecto en tu propia cuenta de Google, no para leer todo tu Drive.
+    Contenido protegido|Nelkano no incluye juegos, ROMs, BIOS, firmware, claves ni saves. El usuario debe usar solo archivos sobre los que tenga derechos.
+    Servidores propios|Nelkano no sube ROMs ni BIOS a servidores propios y no vende datos personales.
+en:
+  privacy_cookies_seo_title: 'Privacy and cookies - Nelkano'
+  privacy_cookies_seo_description: 'Privacy and cookies policy for Nelkano: data processing, purposes, rights and cookie use.'
+  privacy_cookies_eyebrow: 'Privacy and cookies'
+  privacy_cookies_title: 'Privacy and cookies policy'
+  privacy_cookies_intro: 'This policy explains what data the Nelkano website may process and how cookies are handled.'
+  privacy_cookies_sections: |-
+    Controller|Nelkano is a free informational landing page. The website does not sell products or services or process payments.||Privacy contact: contacto@nelkano.com. Personal data processing is mainly limited to technical browsing, server security, downloads, account registration, email verification and communications sent by users through the contact page or external channels. If payments or commercial features are enabled, this information must be updated before public use.
+    Data processed and purposes|The website may process technical browsing data such as IP address, date and time, request identifiers, user agent and security logs to serve the page, prevent abuse, diagnose errors and maintain availability.||If users contact the project by email or another stated channel, the data included in that communication will be processed to answer the request, manage issues or handle project-related queries.||Public downloads on this landing page do not require an account or personal data. The app may store on the device the local library, paths or names of files chosen by the user, associated system, settings, saves, save states and technical data needed to open compatible files.||Google Drive synchronization is optional and is linked from the app settings through the Google authorization screen. When linked, Nelkano uses the limited drive.file permission to create or access project files in Drive, not to read the full contents of the account.||When users upload data to Drive, the app creates or uses a project sync folder, usually named Nelkano Sync, and stores the library manifest, compatible files selected by the user, saves and save states there. Those files are stored in the user Google account; Nelkano does not receive or store them on its own servers.||Linking can be undone by signing out in the app or revoking access from the Google account. The Delete cloud data option removes the Nelkano sync folder from Drive and keeps local device data intact.
+    Legal basis|Technical processing required to display and protect the website is based on the legitimate interest in maintaining security, integrity and availability.||User-initiated communications are processed to answer the request. Registration is used to create the account, verify email and allow access to user features. Non-essential cookies or technologies, such as analytics or marketing, should only be enabled with a valid legal basis and, when required, prior consent.
+    Retention and recipients|Technical logs should be retained only as long as necessary for security, diagnostics and legal compliance. Communications and account verification data will be kept while needed to respond, operate the user account and for legally required liability periods. Local app data remains on the device until the user deletes it, uninstalls the app or uses available cleanup options.||Data may be processed by hosting, infrastructure, security or maintenance providers, and by public authorities where legally required.
+    Data subject rights|Individuals may request access, rectification, erasure, objection, restriction, portability where applicable and withdrawal of consent when processing depends on it by writing to contacto@nelkano.com.||They may also lodge a complaint with the Spanish Data Protection Agency if they consider that processing does not comply with the law. To delete local data, users can remove the library/saves from the app when available, clear app data or uninstall it; for Google Drive, they can use Delete cloud data, delete the sync folder or revoke access from their Google account.
+    Cookies|The public landing page uses technical or strictly necessary cookies for Drupal operation, security or administration, especially administration sessions. Strictly necessary cookies do not require consent.||Google Analytics 4 only loads if the user accepts measurement in the cookie notice. If rejected, the website does not load Google Analytics for that browser session.||When analytics are accepted, page views and aggregated events such as Android download clicks may be measured. This helps understand website usage and improve the project; it is not used to sell personal data.||The decision can be changed from the Cookie settings link available in the footer.||Users can delete or block cookies in their browser settings. Doing so may affect technical administration or session features.
+    Policy changes|This policy may be updated to reflect technical, legal or product changes. The published version should always match the website actual behavior.
+  legal_notice_seo_title: 'Legal notice - Nelkano'
+  legal_notice_seo_description: 'Legal notice for Nelkano: ownership, terms of use, intellectual property, downloads and liability.'
+  legal_notice_eyebrow: 'Legal notice'
+  legal_notice_title: 'Legal notice'
+  legal_notice_intro: 'This page sets out the basic terms for using the website and the downloads published for Nelkano.'
+  legal_notice_sections: |-
+    Website owner|Nelkano is an informational and download page for a free software project. The website currently does not sell products or services, offer paid plans or process payments.||Legal and privacy contact: contacto@nelkano.com. If the project adds sales, subscriptions, advertising, commercial forms or any other economic activity, this section must be expanded with the required identifying information.
+    Purpose of the website|Nelkano is an informational and download website for an emulation app for Android. The website does not run games in the browser and does not include ROMs, BIOS files, firmware, saves, keys or protected third-party content.||Its purpose is to provide clear project status information, publish available builds and make relevant documentation or notices accessible.
+    Terms of use|Users must use the website and downloaded applications lawfully, responsibly and in compliance with applicable rules, intellectual property rights and third-party rights.||Nelkano does not authorize or promote downloading, distributing or using unauthorized copies of games, BIOS files, firmware, trademarks, images or any other protected content. Users are responsible for having sufficient rights over any software, backups or files they load into the app.
+    Downloads and compatibility|Published downloads may be beta or actively developed builds. Although stability, compatibility and performance are continuously improved, not every game, device, controller or system is guaranteed to work correctly.||Compatible system and compatibility information should be understood as a description of the project status at a given time, not as a permanent operating guarantee.
+    RPG Maker 2000/2003|RPG Maker 2000/2003 support is planned as Nelkano own core, developed progressively, so it can be integrated into the native applications without bundling external runtimes.||Nelkano does not include games, RTP, commercial RPG Maker assets or protected content. Users must only use projects and files they have sufficient rights to use.
+    Intellectual property|Nelkano code, text, design, logos, structure and original materials belong to their respective owners or are used with permission. Console, system and game trademarks belong to their respective owners.||References to classic systems are descriptive of technical compatibility. Nelkano is not affiliated with, sponsored, authorized or approved by Nintendo or any other trademark or rights holder unless expressly stated.
+    Liability|The owner is not responsible for misuse of the website, applications or files provided by users. The owner is also not responsible for damage caused by installations from unofficial sources, unauthorized modifications or unsupported devices.||External links, if any, are provided for reference. Their content is not permanently controlled and links will be removed or corrected when there is actual knowledge that they may be unlawful or inappropriate.
+  releases_seo_title: 'Nelkano releases'
+  releases_seo_description: 'Public release history for Nelkano on Android, with changelog, requirements and download verification.'
+  releases_eyebrow: Releases
+  releases_title: 'First public beta'
+  releases_intro: 'Nelkano starts its verifiable public history with the Android beta. Earlier builds were early work versions and are not highlighted as public downloads.'
+  releases_version: 1.0.0-beta
+  releases_filename: 'Nelkano 1.0.0-beta.apk'
+  releases_date: 'Pending publication'
+  releases_requirements: 'Android compatible with the published version; a current device and enough storage for library and saves are recommended.'
+  releases_changes: |-
+    First public beta for Android.
+    Local library, saves and save states depending on system support.
+    Nelkano account, friends, activity and web streaming.
+    Optional Google Drive sync using the limited drive.file permission.
+    Compatibility status explained by system.
+  releases_notice: 'Nelkano does not include games, ROMs, BIOS files, firmware, keys, saves or protected content. Use only compatible files you have rights to use.'
+  compatibility_seo_title: 'Nelkano compatibility'
+  compatibility_seo_description: 'Real compatibility status for the systems supported by Nelkano on Android.'
+  compatibility_eyebrow: Compatibility
+  compatibility_title: 'Verifiable status by system'
+  compatibility_intro: 'This table summarizes the technical status of each system in the public beta. It is not a guarantee of full compatibility: each game, device and controller may behave differently.'
+  compatibility_items: |-
+    CHIP-8|Very stable|Input, video and execution of common CHIP-8 programs.|Programs depending on non-standard variants may behave differently.|Beta 1.0.0
+    Game Boy|Very stable|DMG execution, saving and loading in compatible games.|Accuracy is still reviewed with technical tests and concrete cases.|Beta 1.0.0
+    Game Boy Color|Advanced|Color, memory banks, palettes and main CGB behavior.|Some graphics and timing details are still being refined.|Beta 1.0.0
+    Game Boy Advance|Playable and improving|Runs a growing part of the compatible library.|Compatibility and performance vary by game and device.|Beta 1.0.0
+    NES|Playable and very advanced|Video, audio, controllers and many important mappers.|Some mappers or accuracy cases may need further work.|Beta 1.0.0
+    RPG Maker MV/MZ|Functional experimental|Import and execution through a WebView runtime for exported projects.|Input, audio, saves and performance are still evolving.|Beta 1.0.0
+    RPG Maker 2000/2003|Preparing own core|Technical work aimed at native Android integration.|It should not be treated as final or complete support yet.|Beta 1.0.0
+    Nintendo DS|Active experimental|Booting tests and progress on ARM9/ARM7, partial video, timings and saves.|It is not a complete implementation for the whole catalog.|Beta 1.0.0
+  security_seo_title: 'Nelkano security and privacy'
+  security_seo_description: 'Information about permissions, local data, Nelkano account and optional Google Drive synchronization.'
+  security_eyebrow: 'Security and privacy'
+  security_title: 'What Nelkano does with your data'
+  security_intro: 'The public beta is documented with a cautious policy: explain what data the app uses, what stays on your device and what external services may be involved if you enable them.'
+  security_sections: |-
+    Official downloads|Download Nelkano only from the official website. Each public version should list filename, size and SHA-256 so it can be verified.
+    Local data|The library, settings, saves and save states are managed on the device unless you enable synchronization features.
+    Nelkano account|The account is used for profile, friends, activity, online sessions and connected features. It does not replace your local files and does not include protected content.
+    Optional Google Drive|Drive sync uses the limited drive.file permission to create or access project files in your own Google account, not to read your whole Drive.
+    Protected content|Nelkano does not include games, ROMs, BIOS files, firmware, keys or saves. Users must only use files they have rights to use.
+    Own servers|Nelkano does not upload ROMs or BIOS files to its own servers and does not sell personal data.

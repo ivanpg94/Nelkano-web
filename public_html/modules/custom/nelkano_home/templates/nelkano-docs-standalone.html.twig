@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="{{ language }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page.title }}</title>
+    <meta name="description" content="{{ page.description }}">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="{{ page.canonical }}">
+    <link rel="alternate" hreflang="{{ language }}" href="{{ page.canonical }}">
+    <link rel="alternate" hreflang="{{ page.alternate_lang }}" href="{{ page.alternate }}">
+    <link rel="alternate" hreflang="x-default" href="{{ page.default_url }}">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Nelkano">
+    <meta property="og:title" content="{{ page.title }}">
+    <meta property="og:description" content="{{ page.description }}">
+    <meta property="og:url" content="{{ page.canonical }}">
+    <meta property="og:image" content="{{ social_image_url }}">
+    <meta property="og:image:alt" content="Nelkano">
+    <meta property="og:locale" content="{{ page.locale }}">
+    <meta property="og:locale:alternate" content="{{ page.alternate_locale }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ page.title }}">
+    <meta name="twitter:description" content="{{ page.description }}">
+    <meta name="twitter:image" content="{{ social_image_url }}">
+    <link rel="icon" href="{{ logo_url }}" type="image/png">
+    {% include '@nelkano_home/nelkano-theme-init.html.twig' %}
+    <style>{{ css_inline|raw }}</style>
+    {# Future color-mode toggle script. <script defer src="{{ theme_js_url }}"></script> #}
+    {% include '@nelkano_home/nelkano-analytics.html.twig' %}
+  </head>
+  <body>
+    {% include '@nelkano_home/nelkano-header.html.twig' %}
+    <main class="nk-page nk-doc-page nk-lang-{{ language }}">
+      <section class="nk-legal-hero nk-doc-hero">
+        <p class="nk-eyebrow">{{ page.eyebrow }}</p>
+        <h1>{{ page.heading }}</h1>
+        <p>{{ page.intro }}</p>
+      </section>
+
+      <section class="nk-legal-content nk-doc-content">
+        {% if page.type == 'releases' %}
+          {% set release = page.release %}
+          <article class="nk-doc-panel">
+            <div class="nk-doc-release-head">
+              <div>
+                <p class="nk-eyebrow">{{ language == 'es' ? 'Version publica' : 'Public version' }}</p>
+                <h2>Nelkano {{ release.version }}</h2>
+              </div>
+              <span class="nk-status-pill">{{ release.date }}</span>
+            </div>
+            <dl class="nk-doc-meta">
+              <div><dt>{{ language == 'es' ? 'Archivo' : 'File' }}</dt><dd>{{ release.filename }}</dd></div>
+              {% if release.meta.size|default('') %}
+                <div><dt>{{ language == 'es' ? 'Tamano' : 'Size' }}</dt><dd>{{ release.meta.size }}</dd></div>
+              {% endif %}
+              {% if release.meta.sha256|default('') %}
+                <div class="nk-hash-row"><dt>SHA-256</dt><dd class="nk-hash">{{ release.meta.sha256 }}</dd></div>
+              {% endif %}
+              <div><dt>{{ language == 'es' ? 'Requisitos' : 'Requirements' }}</dt><dd>{{ release.requirements }}</dd></div>
+            </dl>
+            {% if release.url %}
+              <a class="nk-button nk-button-primary" href="{{ release.url }}">{{ language == 'es' ? 'Descargar beta' : 'Download beta' }}</a>
+            {% endif %}
+          </article>
+
+          <article class="nk-legal-section">
+            <h2>{{ language == 'es' ? 'Cambios principales' : 'Main changes' }}</h2>
+            <ul class="nk-doc-list">
+              {% for item in release.changes %}
+                <li>{{ item }}</li>
+              {% endfor %}
+            </ul>
+            <p>{{ release.notice }}</p>
+          </article>
+        {% else %}
+          {% for section in page.sections %}
+            <article class="nk-legal-section">
+              <h2>{{ section.title }}</h2>
+              <p>{{ section.description }}</p>
+            </article>
+          {% endfor %}
+        {% endif %}
+      </section>
+
+      {% include '@nelkano_home/nelkano-footer.html.twig' %}
+      {% include '@nelkano_home/nelkano-consent-banner.html.twig' %}
+    </main>
+    <script defer src="{{ base_js_url }}"></script>
+  </body>
+</html>

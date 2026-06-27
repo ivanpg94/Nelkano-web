@@ -11,7 +11,7 @@
     <link rel="alternate" hreflang="{{ page.alternate_lang }}" href="{{ page.alternate }}">
     <link rel="alternate" hreflang="x-default" href="{{ page.default_url }}">
     <meta property="og:type" content="article">
-    <meta property="og:site_name" content="Nelkano Emulator">
+    <meta property="og:site_name" content="Nelkano">
     <meta property="og:title" content="{{ page.title }}">
     <meta property="og:description" content="{{ page.description }}">
     <meta property="og:url" content="{{ page.canonical }}">
@@ -20,14 +20,16 @@
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Nelkano Emulator">
+    <meta property="og:image:alt" content="Nelkano">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ page.title }}">
     <meta name="twitter:description" content="{{ page.description }}">
     <meta name="twitter:image" content="{{ social_image_url }}">
-    <meta name="twitter:image:alt" content="Nelkano Emulator">
+    <meta name="twitter:image:alt" content="Nelkano">
     <link rel="icon" href="{{ logo_url }}" type="image/png">
+    {% include '@nelkano_home/nelkano-theme-init.html.twig' %}
     <style>{{ css_inline|raw }}</style>
+    {# Future color-mode toggle script. <script defer src="{{ theme_js_url }}"></script> #}
     {% include '@nelkano_home/nelkano-analytics.html.twig' %}
   </head>
   <body>
@@ -54,16 +56,9 @@
         {% endfor %}
       </section>
 
-      <footer class="nk-footer">
-        <p>Nelkano Emulator</p>
-        <nav class="nk-footer-links" aria-label="{{ language == 'es' ? 'Enlaces legales' : 'Legal links' }}">
-          <a href="{{ language == 'es' ? '/aviso-legal' : '/en/legal-notice' }}">{{ language == 'es' ? 'Aviso legal' : 'Legal notice' }}</a>
-          <a href="{{ language == 'es' ? '/privacidad-cookies' : '/en/privacy-cookies' }}">{{ language == 'es' ? 'Privacidad y cookies' : 'Privacy and cookies' }}</a>
-          <a href="/contacto">{{ language == 'es' ? 'Contacto' : 'Contact' }}</a>
-          <button type="button" data-consent-settings>{{ language == 'es' ? 'Configurar cookies' : 'Cookie settings' }}</button>
-        </nav>
-      </footer>
+      {% include '@nelkano_home/nelkano-footer.html.twig' %}
       {% include '@nelkano_home/nelkano-consent-banner.html.twig' %}
     </main>
+    <script defer src="{{ base_js_url }}"></script>
   </body>
 </html>

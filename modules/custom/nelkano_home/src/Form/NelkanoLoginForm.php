@@ -62,7 +62,7 @@ final class NelkanoLoginForm extends FormBase {
       '#attributes' => ['class' => ['nk-auth-link']],
     ];
 
-    $form['actions'] = ['#type' => 'actions'];
+    $form['actions'] = ['#type' => 'actions', '#weight' => 20];
     $form['actions']['submit'] = [
       '#type' => 'submit',
       '#value' => $language === 'en' ? 'Log in' : 'Iniciar Sesion',
@@ -70,6 +70,7 @@ final class NelkanoLoginForm extends FormBase {
     ];
 
     $form['switch'] = [
+      '#weight' => 30,
       '#markup' => $language === 'en'
         ? '<div class="nk-auth-switch">No account yet? <a href="/en/user/register">Create one</a></div>'
         : '<div class="nk-auth-switch">¿No tienes una cuenta? <a href="/user/register">Registrate</a></div>',
@@ -107,7 +108,7 @@ final class NelkanoLoginForm extends FormBase {
     $account = User::load((int) $form_state->get('uid'));
     if ($account) {
       user_login_finalize($account);
-      $form_state->setRedirect($this->isEnglishRequest() ? 'nelkano_home.user_stream_en' : 'nelkano_home.user_stream');
+      $form_state->setRedirect($account->hasRole('nelkano_editor') ? 'nelkano_home.admin' : ($this->isEnglishRequest() ? 'nelkano_home.user_stream_en' : 'nelkano_home.user_stream'));
     }
   }
 

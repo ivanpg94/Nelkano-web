@@ -3,23 +3,67 @@
     <a class="nk-brand" href="{{ nav_home_url|default('/') }}">
       <img class="nk-logo-mark" src="{{ logo_url }}" width="44" height="44" alt="">
       <span>
-        <strong>Nelkano Emulator</strong>
-        <small>{{ nav_subtitle|default('Emulador para Android + Windows') }}</small>
+        <strong>Nelkano</strong>
+        <small>{{ nav_subtitle|default('Emulador para Android') }}</small>
       </span>
     </a>
-    <nav class="nk-nav-actions" aria-label="{{ nav_aria_label|default('Navegacion principal') }}">
+
+    <input class="nk-menu-toggle" type="checkbox" id="nk-menu-toggle" aria-hidden="true">
+    {% if nav_alternate_url|default('') %}
+      <a class="nk-language-link nk-language-link-mobile" href="{{ nav_alternate_url }}" aria-label="{{ nav_alternate_label|default('English') }}">
+        <img class="nk-language-flag" src="{{ nav_alternate_flag_url }}" width="30" height="30" alt="">
+      </a>
+    {% endif %}
+    {#
+    Future color-mode toggle.
+    <button class="nk-theme-toggle nk-theme-toggle-mobile" type="button" data-theme-toggle data-theme-language="{{ language|default('es') }}" aria-label="{{ theme_toggle_label|default('Cambiar modo de color') }}">
+      <span class="nk-theme-toggle-track" aria-hidden="true">
+        <span class="nk-theme-toggle-sun"></span>
+        <span class="nk-theme-toggle-moon"></span>
+        <span class="nk-theme-toggle-thumb"></span>
+      </span>
+    </button>
+    #}
+    <label class="nk-menu-button" for="nk-menu-toggle" aria-label="{{ language == 'en' ? 'Open menu' : 'Abrir menu' }}">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+
+    <nav class="nk-main-menu" aria-label="{{ nav_aria_label|default('Navegacion principal') }}">
+      {#
+      Future color-mode toggle.
+      <button class="nk-theme-toggle nk-theme-toggle-desktop" type="button" data-theme-toggle data-theme-language="{{ language|default('es') }}" aria-label="{{ theme_toggle_label|default('Cambiar modo de color') }}">
+        <span class="nk-theme-toggle-track" aria-hidden="true">
+          <span class="nk-theme-toggle-sun"></span>
+          <span class="nk-theme-toggle-moon"></span>
+          <span class="nk-theme-toggle-thumb"></span>
+        </span>
+      </button>
+      #}
       {% if nav_alternate_url|default('') %}
-        <a class="nk-nav-pill" href="{{ nav_alternate_url }}">{{ nav_alternate_label|default('English') }}</a>
+        <a class="nk-language-link nk-language-link-desktop" href="{{ nav_alternate_url }}" aria-label="{{ nav_alternate_label|default('English') }}">
+          <img class="nk-language-flag" src="{{ nav_alternate_flag_url }}" width="30" height="30" alt="">
+        </a>
       {% endif %}
       {% for link in nav_links|default([]) %}
-        <a class="nk-nav-pill" href="{{ link.url }}">{{ link.label }}</a>
+        <a href="{{ link.url }}">{{ link.label }}</a>
       {% endfor %}
-      <a class="nk-button nk-button-primary nk-login" href="{{ nav_account_url|default('/user/login') }}">
-        {% if nav_account_initial|default('') %}
-          <span class="nk-account-initial" style="--avatar-color: {{ nav_account_color|default('#a414ff') }}">{{ nav_account_initial }}</span>
+      {% if nav_is_authenticated|default(false) %}
+        <a class="nk-profile-link" href="{{ nav_account_url|default('/user') }}" aria-label="{{ nav_account_label|default('Mi perfil') }}">
+          {% if nav_account_avatar_url|default('') %}
+            <img class="nk-user-avatar" src="{{ nav_account_avatar_url }}" width="36" height="36" alt="">
+          {% else %}
+            <span class="nk-user-avatar" style="--avatar-color: {{ nav_account_color|default('#a414ff') }}">{{ nav_account_initial|default('N') }}</span>
+          {% endif %}
+          <span class="nk-profile-label">{{ nav_profile_label|default('Mi perfil') }}</span>
+        </a>
+        {% if nav_logout_url|default('') %}
+          <a class="nk-logout-link" href="{{ nav_logout_url }}">{{ nav_logout_label|default('Cerrar sesion') }}</a>
         {% endif %}
-        <span class="nk-account-name">{{ nav_account_label|default('Login') }}</span>
-      </a>
+      {% else %}
+        <a href="{{ nav_account_url|default('/user/login') }}">{{ nav_account_label|default('Login') }}</a>
+      {% endif %}
     </nav>
   </div>
 </header>

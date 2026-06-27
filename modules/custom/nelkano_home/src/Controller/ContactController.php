@@ -31,11 +31,17 @@ final class ContactController extends ControllerBase {
     $html = \Drupal::service('twig')->createTemplate($template)->render([
       'messages' => $rendered_messages,
       'form' => $rendered_form,
-      'auth_css_url' => '/' . $module_path . '/css/auth.css',
+      'base_css_url' => '/' . $module_path . '/css/base.css',
+      'contact_css_url' => '/' . $module_path . '/css/contact.css',
       'page_title' => $language === 'en' ? 'Contact' : 'Contacto',
+      'contact_kicker' => $language === 'en' ? 'Support and suggestions' : 'Soporte y propuestas',
+      'contact_form_kicker' => $language === 'en' ? 'Clear details help' : 'Los detalles ayudan',
       'contact_intro' => $language === 'en'
         ? 'Tell me what you need and help me improve Nelkano with clear details.'
         : 'Cuentame que necesitas y ayudame a mejorar Nelkano con informacion clara.',
+      'contact_points' => $language === 'en'
+        ? ['Technical issues: include platform, version and steps.', 'Suggestions: explain the use case you want to improve.', 'Do not send ROMs, BIOS or protected content.']
+        : ['Errores tecnicos: incluye plataforma, version y pasos.', 'Propuestas: explica el caso de uso que quieres mejorar.', 'No envies ROMs, BIOS ni contenido protegido.'],
     ] + $this->chromeContext(
       $module_path,
       $language,

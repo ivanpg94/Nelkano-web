@@ -1,6 +1,6 @@
 {
   "name": "nelkano/drupal-web",
-  "description": "Nelkano Emulator Drupal 11 website.",
+  "description": "Nelkano Drupal 11 website.",
   "type": "project",
   "license": "proprietary",
   "minimum-stability": "stable",

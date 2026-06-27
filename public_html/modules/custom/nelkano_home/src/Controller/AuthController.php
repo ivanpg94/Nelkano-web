@@ -24,6 +24,9 @@ final class AuthController extends ControllerBase {
   public function login(): Response {
     $language = $this->requestLanguage();
     if ($this->currentUser()->isAuthenticated()) {
+      if (in_array('nelkano_editor', $this->currentUser()->getRoles(), TRUE)) {
+        return new RedirectResponse('/admin/nelkano');
+      }
       return new RedirectResponse($language === 'en' ? '/en/user/stream' : '/user/stream');
     }
 
@@ -38,6 +41,9 @@ final class AuthController extends ControllerBase {
   public function register(): Response {
     $language = $this->requestLanguage();
     if ($this->currentUser()->isAuthenticated()) {
+      if (in_array('nelkano_editor', $this->currentUser()->getRoles(), TRUE)) {
+        return new RedirectResponse('/admin/nelkano');
+      }
       return new RedirectResponse($language === 'en' ? '/en/user/stream' : '/user/stream');
     }
 
@@ -52,10 +58,14 @@ final class AuthController extends ControllerBase {
   public function password(): Response {
     $language = $this->requestLanguage();
     if ($this->currentUser()->isAuthenticated()) {
+      if (in_array('nelkano_editor', $this->currentUser()->getRoles(), TRUE)) {
+        return new RedirectResponse('/admin/nelkano');
+      }
       return new RedirectResponse($language === 'en' ? '/en/user' : '/user');
     }
 
     $form = $this->formBuilder()->getForm('Drupal\user\Form\UserPasswordForm');
+    $form['#attributes']['class'][] = 'nk-auth-form';
     $form['#action'] = $language === 'en' ? '/en/user/password' : \Drupal\Core\Url::fromRoute('user.pass')->toString();
     $form['name']['#title'] = $language === 'en' ? 'Email or username' : 'Correo electronico o usuario';
     $form['name']['#attributes']['placeholder'] = 'tu@email.com';
@@ -117,9 +127,26 @@ final class AuthController extends ControllerBase {
         'password' => $language === 'en' ? 'Reset password' : 'Recuperar contrasena',
         default => $language === 'en' ? 'Log in' : 'Iniciar sesion',
       },
+      'auth_title' => match ($mode) {
+        'register' => $language === 'en' ? 'Create your Nelkano account' : 'Crea tu cuenta Nelkano',
+        'password' => $language === 'en' ? 'Recover your account' : 'Recupera tu cuenta',
+        default => $language === 'en' ? 'Welcome back' : 'Bienvenido de nuevo',
+      },
+      'eyebrow' => match ($mode) {
+        'register' => $language === 'en' ? 'New account' : 'Nueva cuenta',
+        'password' => $language === 'en' ? 'Account access' : 'Acceso a cuenta',
+        default => $language === 'en' ? 'Private area' : 'Area privada',
+      },
+      'form_kicker' => match ($mode) {
+        'register' => $language === 'en' ? 'Start in one minute' : 'Empieza en un minuto',
+        'password' => $language === 'en' ? 'Recovery email' : 'Correo de recuperacion',
+        default => $language === 'en' ? 'Access form' : 'Formulario de acceso',
+      },
+      'auth_points' => $this->authPoints($mode, $language),
       'subtitle' => $subtitle,
       'messages' => $rendered_messages,
       'form' => $rendered_form,
+      'base_css_url' => '/' . $module_path . '/css/base.css',
       'auth_css_url' => '/' . $module_path . '/css/auth.css',
     ] + $this->chromeContext(
       $module_path,
@@ -144,6 +171,22 @@ final class AuthController extends ControllerBase {
     ];
     $pair = $paths[$mode] ?? $paths['login'];
     return $language === 'en' ? $pair[0] : $pair[1];
+  }
+
+  private function authPoints(string $mode, string $language): array {
+    if ($language === 'en') {
+      return match ($mode) {
+        'register' => ['Save your profile', 'Prepare web streaming', 'Keep your account ready for future sync'],
+        'password' => ['Enter your email', 'Open the recovery link', 'Choose a new password'],
+        default => ['Access your profile', 'Open streaming', 'Manage your Nelkano account'],
+      };
+    }
+
+    return match ($mode) {
+      'register' => ['Guarda tu perfil', 'Prepara el streaming web', 'Deja tu cuenta lista para futuras sincronizaciones'],
+      'password' => ['Introduce tu correo', 'Abre el enlace de recuperacion', 'Elige una nueva contrasena'],
+      default => ['Accede a tu perfil', 'Abre el streaming', 'Gestiona tu cuenta Nelkano'],
+    };
   }
 
 }

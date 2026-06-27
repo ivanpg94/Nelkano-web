@@ -1,6 +1,6 @@
+{% include '@nelkano_home/nelkano-header.html.twig' %}
 <main class="nk-page nk-lang-{{ language }}">
   <a class="nk-skip-link" href="#downloads">{{ language == 'es' ? 'Saltar a descargas' : 'Skip to downloads' }}</a>
-  {% include '@nelkano_home/nelkano-header.html.twig' %}
 
   <section class="nk-hero">
     <div class="nk-hero-bg" aria-hidden="true"></div>
@@ -10,7 +10,8 @@
         <h1>{{ content.hero_title }}</h1>
         <p class="nk-lead">{{ content.hero_description }}</p>
 
-        <div id="downloads" class="nk-downloads">
+        {% set has_secondary_download = content.windows_title or content.windows_description or content.windows_download_url %}
+        <div id="downloads" class="nk-downloads{{ has_secondary_download ? '' : ' nk-downloads-single' }}">
           <article class="nk-download-card">
             <div class="nk-download-top">
               <div>
@@ -33,27 +34,29 @@
             {% endif %}
           </article>
 
-          <article class="nk-download-card">
-            <div class="nk-download-top">
-              <div>
-                <span>{{ content.windows_channel }}</span>
-                <h2>{{ content.windows_title }}</h2>
+          {% if has_secondary_download %}
+            <article class="nk-download-card">
+              <div class="nk-download-top">
+                <div>
+                  <span>{{ content.windows_channel }}</span>
+                  <h2>{{ content.windows_title }}</h2>
+                </div>
+                <div class="nk-icon" aria-hidden="true">W</div>
               </div>
-              <div class="nk-icon" aria-hidden="true">W</div>
-            </div>
-            <p>{{ content.windows_description }}</p>
-            {% if content.windows_download_meta %}
-              {% set meta = content.windows_download_meta %}
-              <dl class="nk-download-meta" aria-label="{{ language == 'es' ? 'Detalles de descarga Windows' : 'Windows download details' }}">
-                <div><dt>{{ language == 'es' ? 'Version' : 'Version' }}</dt><dd>{{ meta.version }}</dd></div>
-                <div><dt>{{ language == 'es' ? 'Tamano' : 'Size' }}</dt><dd>{{ meta.size }}</dd></div>
-                <div class="nk-hash-row"><dt>SHA-256</dt><dd class="nk-hash">{{ meta.sha256 }}</dd></div>
-              </dl>
-            {% endif %}
-            {% if content.windows_download_url %}
-              <a class="nk-button nk-button-primary" href="{{ content.windows_download_url }}" aria-label="{{ language == 'es' ? 'Descargar Windows' : 'Download Windows' }}" data-analytics-event="download_windows_click" data-analytics-platform="windows" data-analytics-file="{{ content.windows_download_meta.filename|default('windows') }}">{{ content.windows_title }}</a>
-            {% endif %}
-          </article>
+              <p>{{ content.windows_description }}</p>
+              {% if content.windows_download_meta %}
+                {% set meta = content.windows_download_meta %}
+                <dl class="nk-download-meta" aria-label="{{ language == 'es' ? 'Detalles de descarga secundaria' : 'Secondary download details' }}">
+                  <div><dt>{{ language == 'es' ? 'Version' : 'Version' }}</dt><dd>{{ meta.version }}</dd></div>
+                  <div><dt>{{ language == 'es' ? 'Tamano' : 'Size' }}</dt><dd>{{ meta.size }}</dd></div>
+                  <div class="nk-hash-row"><dt>SHA-256</dt><dd class="nk-hash">{{ meta.sha256 }}</dd></div>
+                </dl>
+              {% endif %}
+              {% if content.windows_download_url %}
+                <a class="nk-button nk-button-primary" href="{{ content.windows_download_url }}" aria-label="{{ content.windows_title }}" data-analytics-event="download_secondary_click" data-analytics-platform="secondary" data-analytics-file="{{ content.windows_download_meta.filename|default('secondary') }}">{{ content.windows_title }}</a>
+              {% endif %}
+            </article>
+          {% endif %}
         </div>
 
         <div class="nk-actions">
@@ -73,12 +76,12 @@
   </section>
 
   <section id="project-status" class="nk-section nk-split nk-status">
-    <div>
+    <div class="nk-status-intro">
       <p class="nk-eyebrow">{{ content.status_eyebrow }}</p>
       <h2>{{ content.status_title }}</h2>
       <p class="nk-section-copy">{{ content.status_description }}</p>
     </div>
-    <div class="nk-card-grid">
+    <div class="nk-card-grid nk-status-grid">
       {% for item in content.status_items %}
         <article class="nk-card">
           <div class="nk-card-head">
@@ -109,6 +112,24 @@
       {% endfor %}
     </div>
   </section>
+
+  {% if content.trust_items|default([]) %}
+    <section class="nk-section nk-trust-section">
+      <div class="nk-section-narrow">
+        <p class="nk-eyebrow">{{ content.trust_eyebrow }}</p>
+        <h2>{{ content.trust_title }}</h2>
+        <p class="nk-section-copy">{{ content.trust_description }}</p>
+      </div>
+      <div class="nk-card-grid nk-card-grid-two">
+        {% for item in content.trust_items %}
+          <a class="nk-card nk-trust-card" href="{{ item.url }}">
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.description }}</p>
+          </a>
+        {% endfor %}
+      </div>
+    </section>
+  {% endif %}
 
   <section class="nk-section">
     <div class="nk-feature-band">
@@ -156,14 +177,6 @@
     </div>
   </section>
 
-  <footer class="nk-footer">
-    <p>{{ content.footer_primary }}</p>
-    <nav class="nk-footer-links" aria-label="{{ language == 'es' ? 'Enlaces legales' : 'Legal links' }}">
-      <a href="{{ language == 'es' ? '/aviso-legal' : '/en/legal-notice' }}">{{ language == 'es' ? 'Aviso legal' : 'Legal notice' }}</a>
-      <a href="{{ language == 'es' ? '/privacidad-cookies' : '/en/privacy-cookies' }}">{{ language == 'es' ? 'Privacidad y cookies' : 'Privacy and cookies' }}</a>
-      <a href="/contacto">{{ language == 'es' ? 'Contacto' : 'Contact' }}</a>
-      <button type="button" data-consent-settings>{{ language == 'es' ? 'Configurar cookies' : 'Cookie settings' }}</button>
-    </nav>
-  </footer>
+  {% include '@nelkano_home/nelkano-footer.html.twig' with { footer_primary: content.footer_primary } %}
   {% include '@nelkano_home/nelkano-consent-banner.html.twig' %}
 </main>

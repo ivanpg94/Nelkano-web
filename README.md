@@ -1,6 +1,6 @@
 # Nelkano-web
 
-Web de produccion de Nelkano Emulator alojada en Hostinger.
+Web de produccion de Nelkano alojada en Hostinger.
 
 ## Estructura
 

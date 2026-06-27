@@ -6,8 +6,13 @@
     <title>Nelkano Stream</title>
     <meta name="robots" content="noindex, nofollow">
     <link rel="icon" href="{{ logo_url }}" type="image/png">
+    {% include '@nelkano_home/nelkano-theme-init.html.twig' %}
+    <link rel="stylesheet" href="{{ base_css_url }}">
     <link rel="stylesheet" href="{{ header_css_url }}">
+    <link rel="stylesheet" href="{{ footer_css_url }}">
     <link rel="stylesheet" href="{{ stream_css_url }}">
+    {# Future color-mode toggle script. <script defer src="{{ theme_js_url }}"></script> #}
+    {% include '@nelkano_home/nelkano-analytics.html.twig' %}
     <script defer src="{{ stream_js_url }}"></script>
   </head>
   <body>
@@ -60,5 +65,8 @@
         <ol data-stream-log></ol>
       </section>
     </main>
+    {% include '@nelkano_home/nelkano-footer.html.twig' %}
+    {% include '@nelkano_home/nelkano-consent-banner.html.twig' %}
+    <script defer src="{{ base_js_url }}"></script>
   </body>
 </html>

@@ -1,6 +1,6 @@
 {
   "name": "nelkano/nelkano_home",
-  "description": "Nelkano Emulator landing page for Drupal.",
+  "description": "Nelkano landing page for Drupal.",
   "type": "drupal-custom-module",
   "version": "1.0.0",
   "license": "proprietary",

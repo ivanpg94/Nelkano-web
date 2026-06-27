@@ -1,0 +1,438 @@
+:root {
+  color-scheme: dark;
+  --nk-font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --nk-font-display: Inter, "Segoe UI", Roboto, Arial, ui-sans-serif, system-ui, sans-serif;
+  --nk-font-mono: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  --nk-text-2xs: 0.68rem;
+  --nk-text-hidden: 0;
+  --nk-text-xs: 0.75rem;
+  --nk-text-sm: 0.875rem;
+  --nk-text-md: 0.95rem;
+  --nk-text-base: 1rem;
+  --nk-text-lg: 1.05rem;
+  --nk-text-xl: 1.125rem;
+  --nk-text-2xl: 1.15rem;
+  --nk-text-3xl: 1.2rem;
+  --nk-title-sm: 1.35rem;
+  --nk-title-md: 1.5rem;
+  --nk-title-lg: 1.85rem;
+  --nk-title-xl: 2rem;
+  --nk-title-2xl: 2.4rem;
+  --nk-title-hero: clamp(3rem, 7vw, 4.35rem);
+  --nk-title-section: clamp(2rem, 4vw, 2.25rem);
+  --nk-title-page: clamp(2.5rem, 5vw, 4rem);
+  --nk-title-error: clamp(2.35rem, 6vw, 4rem);
+  --nk-title-code: clamp(4rem, 12vw, 8rem);
+  --nk-title-mobile: 1.9rem;
+  --nk-title-section-mobile: 1.75rem;
+  --nk-title-stream: clamp(2rem, 4vw, 3rem);
+  --nk-title-account: clamp(2rem, 4.4vw, 3.6rem);
+  --nk-form-checkbox-label-size: clamp(1.05rem, 2.5vw, 1.45rem);
+  --nk-nav-brand-size: 1.125rem;
+  --nk-nav-brand-mobile-size: 1.08rem;
+  --nk-nav-subtitle-mobile-size: 0.76rem;
+  --nk-meta-xs: 0.72rem;
+  --nk-meta-sm: 0.78rem;
+  --nk-meta-md: 0.8rem;
+  --nk-code-sm: 0.82rem;
+  --nk-layout-max: 1280px;
+  --nk-layout-hero-copy: 1152px;
+  --nk-layout-title: 1030px;
+  --nk-layout-faq: 1024px;
+  --nk-layout-readable: 920px;
+  --nk-layout-narrow: 768px;
+  --nk-layout-contact: 720px;
+  --nk-layout-form: 654px;
+  --nk-layout-form-pages: 1040px;
+  --nk-layout-gutter: clamp(16px, 3vw, 24px);
+  --nk-layout-gutter-mobile: 16px;
+  --nk-layout-safe-width: calc(100vw - (var(--nk-layout-gutter-mobile) * 2));
+  --nk-page-top-gap: clamp(24px, 4vw, 44px);
+  --nk-page-padding-block: clamp(32px, 6vw, 64px);
+  --nk-page-padding-block-tight: var(--nk-page-top-gap);
+  --nk-section-padding-block: clamp(48px, 8vw, 72px);
+  --nk-hero-padding-block-start: var(--nk-page-top-gap);
+  --nk-hero-padding-block-end: clamp(56px, 8vw, 88px);
+  --nk-panel-padding: clamp(18px, 3vw, 28px);
+  --nk-card-padding: clamp(18px, 2.5vw, 24px);
+  --nk-content-gap: 18px;
+  --nk-grid-gap: 20px;
+  --nk-bg: #05070d;
+  --nk-bg-page: #05070d;
+  --nk-bg-nav: rgba(5, 5, 8, 0.96);
+  --nk-bg-nav-mobile: rgba(5, 5, 8, 0.98);
+  --nk-bg-hero: linear-gradient(180deg, #06070d 0%, #0a0e17 100%);
+  --nk-bg-hero-mobile: linear-gradient(180deg, #07111b 0%, #0a0e17 100%);
+  --nk-bg-hero-accent-a: rgba(56, 189, 248, 0.16);
+  --nk-bg-hero-accent-b: rgba(234, 88, 12, 0.16);
+  --nk-surface: #0c1320;
+  --nk-surface-alt: #0f1521;
+  --nk-surface-strong: #080808;
+  --nk-surface-muted: #151515;
+  --nk-surface-control: #292929;
+  --nk-surface-control-alt: #191919;
+  --nk-surface-message: #161020;
+  --nk-surface-info: #111b2c;
+  --nk-surface-button: #172235;
+  --nk-surface-video: #02050c;
+  --nk-surface-card-translucent: rgba(12, 19, 32, 0.9);
+  --nk-surface-consent: rgba(12, 19, 32, 0.98);
+  --nk-surface-spark: rgba(10, 15, 24, 0.7);
+  --nk-surface-soft: rgba(255, 255, 255, 0.04);
+  --nk-surface-soft-low: rgba(255, 255, 255, 0.035);
+  --nk-surface-soft-hover: rgba(255, 255, 255, 0.08);
+  --nk-surface-overlay: rgba(8, 8, 8, 0.92);
+  --nk-surface-overlay-strong: rgba(8, 8, 8, 0.88);
+  --nk-border: rgba(255, 255, 255, 0.1);
+  --nk-border-soft: rgba(255, 255, 255, 0.08);
+  --nk-border-strong: #272727;
+  --nk-border-muted: #262626;
+  --nk-border-control: #292929;
+  --nk-border-control-muted: #2d2d2d;
+  --nk-border-input-muted: #777b82;
+  --nk-border-info: rgba(56, 189, 248, 0.22);
+  --nk-border-info-strong: rgba(56, 189, 248, 0.2);
+  --nk-border-muted-blue: rgba(148, 163, 184, 0.22);
+  --nk-border-muted-blue-soft: rgba(148, 163, 184, 0.2);
+  --nk-border-muted-blue-line: rgba(148, 163, 184, 0.16);
+  --nk-border-muted-blue-strong: rgba(148, 163, 184, 0.32);
+  --nk-border-button-muted: rgba(148, 163, 184, 0.28);
+  --nk-border-primary: rgba(240, 171, 252, 0.25);
+  --nk-border-primary-message: rgba(192, 77, 255, 0.55);
+  --nk-border-success: rgba(52, 211, 153, 0.3);
+  --nk-text: #ffffff;
+  --nk-text-page: #f7f7fb;
+  --nk-text-soft: #e2e8f0;
+  --nk-text-softer: #d8d8e3;
+  --nk-text-muted: #94a3b8;
+  --nk-text-muted-strong: #b8b8c4;
+  --nk-text-muted-blue: #aebbd1;
+  --nk-text-copy: #cbd5e1;
+  --nk-text-info-soft: #d9e5f7;
+  --nk-text-message: #f2e8ff;
+  --nk-text-danger: #ff8aa8;
+  --nk-text-inverse: #05070d;
+  --nk-text-transparent: transparent;
+  --nk-primary: #a414ff;
+  --nk-primary-soft: #c04dff;
+  --nk-primary-hover: #e199ff;
+  --nk-primary-surface: rgba(164, 20, 255, 0.1);
+  --nk-violet: #6d28d9;
+  --nk-fuchsia: #a21caf;
+  --nk-action-a: #9e12ff;
+  --nk-action-b: #b414ff;
+  --nk-action-hover-a: #b22bff;
+  --nk-action-hover-b: #c84dff;
+  --nk-action-text: #ffffff;
+  --nk-info: #38bdf8;
+  --nk-info-soft: #bae6fd;
+  --nk-info-surface: rgba(56, 189, 248, 0.1);
+  --nk-success: #6ee7b7;
+  --nk-success-text: #a7f3d0;
+  --nk-success-surface: rgba(52, 211, 153, 0.1);
+  --nk-avatar-end: #2b003f;
+  --nk-avatar-highlight: #ffffff;
+  --nk-stream-primary-text: #04101d;
+  --nk-video-bg: #000000;
+  --nk-gradient-primary: linear-gradient(90deg, var(--nk-action-a), var(--nk-action-b));
+  --nk-gradient-primary-hover: linear-gradient(90deg, var(--nk-action-hover-a), var(--nk-action-hover-b));
+  --nk-gradient-brand: linear-gradient(90deg, var(--nk-violet), var(--nk-fuchsia));
+  --nk-gradient-avatar: radial-gradient(circle at 35% 25%, var(--nk-avatar-highlight), var(--avatar-color) 38%, var(--nk-avatar-end));
+  --nk-gradient-avatar-nav: radial-gradient(circle at 35% 25%, var(--nk-avatar-highlight), var(--avatar-color) 42%, var(--nk-avatar-end));
+  --nk-gradient-panel: linear-gradient(145deg, #121c2b, #0d1118);
+  --nk-gradient-stat: linear-gradient(180deg, #151515, #101010);
+  --nk-gradient-stream-empty: linear-gradient(145deg, rgba(16, 24, 39, 0.92), rgba(5, 9, 20, 0.96));
+  --nk-shadow-primary: 0 0 30px rgba(192, 38, 211, 0.28);
+  --nk-shadow-logo: 0 0 30px rgba(168, 85, 247, 0.28);
+  --nk-shadow-panel: 0 20px 70px rgba(0, 0, 0, 0.16);
+  --nk-shadow-consent: 0 18px 60px rgba(0, 0, 0, 0.36);
+  --nk-focus-primary: 0 0 0 3px rgba(164, 20, 255, 0.22);
+  --nk-focus-primary-color: rgba(164, 20, 255, 0.22);
+  --nk-outline-info: 2px solid rgba(56, 189, 248, 0.18);
+  --nk-decoration-muted: rgba(148, 163, 184, 0.4);
+  --nk-flag-ring: 0 0 0 1px rgba(255, 255, 255, 0.14);
+  --nk-flag-ring-hover: 0 0 0 1px rgba(255, 255, 255, 0.28);
+  --nk-theme-sun: #facc15;
+  --nk-theme-sun-ring: rgba(250, 204, 21, 0.18);
+  --nk-theme-thumb-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
+}
+
+:root:not([data-theme="dark"]),
+:root[data-theme="light"] {
+  color-scheme: light;
+  --nk-bg: #f6f8fc;
+  --nk-bg-page: #f6f8fc;
+  --nk-bg-nav: rgba(255, 255, 255, 0.9);
+  --nk-bg-nav-mobile: rgba(255, 255, 255, 0.96);
+  --nk-bg-hero: linear-gradient(180deg, #f8fbff 0%, #eef4fb 100%);
+  --nk-bg-hero-mobile: linear-gradient(180deg, #f8fbff 0%, #eef4fb 100%);
+  --nk-bg-hero-accent-a: rgba(14, 165, 233, 0.16);
+  --nk-bg-hero-accent-b: rgba(168, 85, 247, 0.12);
+  --nk-surface: #ffffff;
+  --nk-surface-alt: #f8fafc;
+  --nk-surface-strong: #ffffff;
+  --nk-surface-muted: #eef2f7;
+  --nk-surface-control: #ffffff;
+  --nk-surface-control-alt: #f1f5f9;
+  --nk-surface-message: #fbf5ff;
+  --nk-surface-info: #eef8ff;
+  --nk-surface-button: #f8fafc;
+  --nk-surface-video: #0f172a;
+  --nk-surface-card-translucent: rgba(255, 255, 255, 0.88);
+  --nk-surface-consent: rgba(255, 255, 255, 0.98);
+  --nk-surface-spark: rgba(255, 255, 255, 0.78);
+  --nk-surface-soft: rgba(15, 23, 42, 0.04);
+  --nk-surface-soft-low: rgba(15, 23, 42, 0.03);
+  --nk-surface-soft-hover: rgba(15, 23, 42, 0.08);
+  --nk-surface-overlay: rgba(255, 255, 255, 0.92);
+  --nk-surface-overlay-strong: rgba(255, 255, 255, 0.94);
+  --nk-border: rgba(15, 23, 42, 0.12);
+  --nk-border-soft: rgba(15, 23, 42, 0.08);
+  --nk-border-strong: #dbe3ee;
+  --nk-border-muted: #dce4ef;
+  --nk-border-control: #d9e2ee;
+  --nk-border-control-muted: #d2dce8;
+  --nk-border-input-muted: #94a3b8;
+  --nk-border-info: rgba(14, 165, 233, 0.26);
+  --nk-border-info-strong: rgba(14, 165, 233, 0.24);
+  --nk-border-muted-blue: rgba(15, 23, 42, 0.16);
+  --nk-border-muted-blue-soft: rgba(15, 23, 42, 0.12);
+  --nk-border-muted-blue-line: rgba(15, 23, 42, 0.1);
+  --nk-border-muted-blue-strong: rgba(15, 23, 42, 0.2);
+  --nk-border-button-muted: rgba(15, 23, 42, 0.16);
+  --nk-border-primary: rgba(126, 34, 206, 0.22);
+  --nk-border-primary-message: rgba(168, 85, 247, 0.38);
+  --nk-border-success: rgba(16, 185, 129, 0.28);
+  --nk-text: #111827;
+  --nk-text-page: #111827;
+  --nk-text-soft: #334155;
+  --nk-text-softer: #475569;
+  --nk-text-muted: #64748b;
+  --nk-text-muted-strong: #475569;
+  --nk-text-muted-blue: #53657d;
+  --nk-text-copy: #334155;
+  --nk-text-info-soft: #1e3a5f;
+  --nk-text-message: #581c87;
+  --nk-text-danger: #be123c;
+  --nk-text-inverse: #ffffff;
+  --nk-primary: #8b2cff;
+  --nk-primary-soft: #7e22ce;
+  --nk-primary-hover: #581c87;
+  --nk-primary-surface: rgba(168, 85, 247, 0.12);
+  --nk-violet: #7c3aed;
+  --nk-fuchsia: #c026d3;
+  --nk-action-a: #7c3aed;
+  --nk-action-b: #c026d3;
+  --nk-action-hover-a: #6d28d9;
+  --nk-action-hover-b: #a21caf;
+  --nk-action-text: #ffffff;
+  --nk-info: #0284c7;
+  --nk-info-soft: #075985;
+  --nk-info-surface: rgba(14, 165, 233, 0.1);
+  --nk-success: #059669;
+  --nk-success-text: #047857;
+  --nk-success-surface: rgba(16, 185, 129, 0.1);
+  --nk-avatar-highlight: #ffffff;
+  --nk-gradient-panel: linear-gradient(145deg, #ffffff, #eef4fb);
+  --nk-gradient-stat: linear-gradient(180deg, #ffffff, #f2f6fb);
+  --nk-gradient-stream-empty: linear-gradient(145deg, #eef4fb, #f8fbff);
+  --nk-shadow-primary: 0 16px 36px rgba(126, 34, 206, 0.18);
+  --nk-shadow-logo: 0 14px 30px rgba(126, 34, 206, 0.2);
+  --nk-shadow-consent: 0 18px 60px rgba(15, 23, 42, 0.14);
+  --nk-focus-primary: 0 0 0 3px rgba(139, 44, 255, 0.18);
+  --nk-focus-primary-color: rgba(139, 44, 255, 0.18);
+  --nk-outline-info: 2px solid rgba(2, 132, 199, 0.18);
+  --nk-decoration-muted: rgba(100, 116, 139, 0.36);
+  --nk-flag-ring: 0 0 0 1px rgba(15, 23, 42, 0.14);
+  --nk-flag-ring-hover: 0 0 0 1px rgba(126, 34, 206, 0.34);
+  --nk-theme-sun: #eab308;
+  --nk-theme-sun-ring: rgba(234, 179, 8, 0.2);
+  --nk-theme-thumb-shadow: 0 6px 18px rgba(15, 23, 42, 0.18);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 0;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
+  width: 100%;
+}
+
+body {
+  background: var(--nk-bg);
+  color: var(--nk-text);
+  display: flex;
+  flex-direction: column;
+  font-family: var(--nk-font-sans);
+  margin: 0;
+  min-height: 100vh;
+  min-width: 0;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+[data-drupal-messages],
+.messages__wrapper {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 var(--nk-content-gap);
+}
+
+.messages {
+  background: var(--nk-surface-message);
+  border: 1px solid var(--nk-border-primary-message);
+  border-radius: 14px;
+  color: var(--nk-text-message);
+  font-size: var(--nk-text-sm);
+  font-weight: 750;
+  line-height: 1.5;
+  margin: 0;
+  padding: 14px 16px;
+  transform: translateY(0);
+  transition:
+    height 260ms ease,
+    margin 260ms ease,
+    opacity 220ms ease,
+    padding 260ms ease,
+    transform 220ms ease;
+}
+
+.messages--status {
+  background: var(--nk-success-surface);
+  border-color: var(--nk-border-success);
+  color: var(--nk-success-text);
+}
+
+.messages--warning {
+  background: var(--nk-surface-info);
+  border-color: var(--nk-border-info);
+  color: var(--nk-text-info-soft);
+}
+
+.messages--error {
+  color: var(--nk-text-danger);
+}
+
+.messages a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.messages ul,
+.messages ol {
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
+
+.messages.nk-message-leaving {
+  border-width: 0;
+  margin-bottom: 0;
+  opacity: 0;
+  padding-bottom: 0;
+  padding-top: 0;
+  transform: translateY(-6px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .messages {
+    transition: none;
+  }
+}
+
+.nk-page,
+.nk-auth-page,
+.nk-account-page,
+.nk-stream {
+  background: var(--nk-bg-page);
+  color: var(--nk-text-page);
+  box-sizing: border-box;
+  min-height: 100vh;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+body > .nk-auth-page,
+body > .nk-account-page,
+body > .nk-contact-page,
+body > .nk-stream {
+  flex: 1 0 auto;
+  min-height: 0;
+}
+
+body > .nk-footer {
+  flex: 0 0 auto;
+}
+
+.nk-page-shell,
+.nk-auth-layout,
+.nk-account-shell,
+.nk-stream-layout,
+.nk-log,
+.nk-hero-inner,
+.nk-section,
+.nk-legal-hero,
+.nk-legal-content {
+  margin-inline: auto;
+  max-width: min(var(--nk-layout-max), 100%);
+  min-width: 0;
+  width: 100%;
+}
+
+.nk-account-page > .nk-account-shell,
+.nk-stream > .nk-stream-layout,
+.nk-stream > .nk-log {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: min(var(--nk-layout-max), 100%);
+  width: 100%;
+}
+
+.nk-auth-page,
+.nk-account-page,
+.nk-stream,
+.nk-hero-inner,
+.nk-section,
+.nk-legal-hero,
+.nk-legal-content {
+  padding-inline: var(--nk-layout-gutter);
+}
+
+.nk-auth-page,
+.nk-account-page,
+.nk-stream {
+  padding-block: var(--nk-page-padding-block-tight);
+}
+
+@media (max-width: 640px) {
+  .nk-auth-page,
+  .nk-account-page,
+  .nk-stream,
+  .nk-hero-inner,
+  .nk-section,
+  .nk-legal-hero,
+  .nk-legal-content {
+    padding-inline: var(--nk-layout-gutter-mobile);
+  }
+}
+
+.visually-hidden {
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  overflow: hidden;
+  position: absolute !important;
+  white-space: nowrap;
+  width: 1px;
+}

@@ -29,6 +29,7 @@
   var pendingCandidates = [];
   var localCandidates = [];
   var currentSessionId = '';
+  var webRtcConnected = false;
 
   function setState(value) {
     if (stateNode) stateNode.textContent = value;
@@ -49,9 +50,19 @@
     logNode.prepend(item);
   }
 
+  function showWebRtcVideo() {
+    webRtcConnected = true;
+    if (fallbackImage) {
+      fallbackImage.hidden = true;
+      fallbackImage.removeAttribute('src');
+    }
+    if (empty) empty.hidden = true;
+    frameVisibleLogged = false;
+  }
+
   function send(type, sessionId, payload) {
     if (httpEndpoint) {
-      var target = (type === 'answer' || type === 'ice-candidate' || type === 'disconnect') ? 'android' : 'receiver';
+      var target = (type === 'answer' || type === 'ice-candidate' || type === 'disconnect' || type === 'receiver-waiting') ? 'android' : 'receiver';
       fetch(httpEndpoint + '/event', {
         method: 'POST',
         credentials: 'same-origin',
@@ -73,6 +84,7 @@
   function closePeer() {
     pendingCandidates = [];
     localCandidates = [];
+    webRtcConnected = false;
     if (peer) {
       peer.onicecandidate = null;
       peer.ontrack = null;
@@ -154,7 +166,7 @@
         };
         video.play().catch(function () {});
       }
-      if (empty) empty.hidden = true;
+      showWebRtcVideo();
       log('Pista remota recibida: ' + event.track.kind);
     };
     peer.onicecandidate = function (event) {
@@ -171,8 +183,15 @@
       var state = peer ? peer.connectionState : 'closed';
       setState('WebRTC: ' + state);
       log('Estado WebRTC: ' + state);
-      if (state === 'failed' || state === 'disconnected') {
+      if (state === 'connected') {
+        showWebRtcVideo();
+        setHint('WebRTC conectado. El fallback HTTP queda preparado por si la conexion cae.');
+      } else if (state === 'failed' || state === 'disconnected') {
+        webRtcConnected = false;
         setHint('WebRTC no pudo mantener la conexion directa. Usando video HTTP si esta disponible.');
+        if (currentSessionId && frameUrl && !framePolling) {
+          startFramePolling(currentSessionId);
+        }
       }
     };
   }
@@ -313,6 +332,7 @@
 
   function showHttpFrame(data) {
     if (!fallbackImage || !data || !data.image) return;
+    if (webRtcConnected) return;
     fallbackImage.src = 'data:' + (data.mime || 'image/jpeg') + ';base64,' + data.image;
     fallbackImage.hidden = false;
     if (empty) empty.hidden = true;
@@ -358,7 +378,7 @@
             log('Esperando frames HTTP de Android');
           }
         }
-        await sleep(fallbackImage && !fallbackImage.hidden ? 650 : 900);
+        await sleep(fallbackImage && !fallbackImage.hidden ? 250 : 500);
       } catch (error) {
         var message = String(error && error.message ? error.message : '');
         if (message.toLowerCase().indexOf('sesion de streaming no encontrada') !== -1 || message.indexOf('404') !== -1) {
@@ -385,12 +405,16 @@
     currentSessionId = sessionId;
     httpEndpoint = endpoint.replace(/\/$/, '');
     pollCursor = 0;
-    polling = false;
-    setState('Esperando video HTTP');
+    polling = true;
+    webRtcConnected = false;
+    setState('Conectando WebRTC');
     setSession('Sesion enlazada con Android');
-    if (urlNode) urlNode.textContent = httpEndpoint + '/frame';
-    log('Conectando por streaming HTTP. WebRTC queda desactivado en produccion.');
+    if (urlNode) urlNode.textContent = httpEndpoint + '/events';
+    log('Conectando por signaling HTTP con WebRTC y fallback HTTP.');
+    createPeer(sessionId);
     startFramePolling(sessionId);
+    pollHttpEvents();
+    send('receiver-waiting', sessionId, {});
   }
 
   async function pollHttpEvents() {

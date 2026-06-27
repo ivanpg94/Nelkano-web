@@ -23,6 +23,10 @@ final class RouteSubscriber extends RouteSubscriberBase {
       $route->setDefault('_title', 'Recuperar contrasena');
     }
 
+    if ($route = $collection->get('user.logout.confirm')) {
+      $route->setRequirement('_access', 'FALSE');
+    }
+
     if ($route = $collection->get('user.page')) {
       $route->setDefault('_controller', '\Drupal\nelkano_home\Controller\ProfileController::current');
       $route->setDefault('_title', 'Mi perfil');
