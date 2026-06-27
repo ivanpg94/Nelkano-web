@@ -427,7 +427,7 @@
   async function pollHttpFrames() {
     while (framePolling && frameUrl && currentSessionId) {
       try {
-        var response = await fetch(frameUrl + '?sessionId=' + encodeURIComponent(currentSessionId) + '&since=' + frameSequence, {
+        var response = await fetch(frameUrl + '?sessionId=' + encodeURIComponent(currentSessionId) + '&since=' + frameSequence + '&wait=800', {
           credentials: 'same-origin',
           cache: 'no-store',
           headers: { 'Accept': 'application/json' }
@@ -449,7 +449,7 @@
             log('Esperando frames HTTP de Android');
           }
         }
-        await sleep(fallbackImage && !fallbackImage.hidden ? 60 : 160);
+        await sleep(fallbackImage && !fallbackImage.hidden ? 20 : 80);
       } catch (error) {
         var message = String(error && error.message ? error.message : '');
         if (message.toLowerCase().indexOf('sesion de streaming no encontrada') !== -1 || message.indexOf('404') !== -1) {

@@ -1031,14 +1031,28 @@ final class AppAuthController extends ControllerBase {
       return $this->error('Sesion de streaming no encontrada.', 404);
     }
     $path = $this->streamFramePath((int) $account->id(), $session_id, FALSE);
+    $since = max(0, (int) $request->query->get('since', 0));
+    $wait_ms = min(800, max(0, (int) $request->query->get('wait', 0)));
+    $deadline = microtime(TRUE) + ($wait_ms / 1000);
+    $sequence_path = $path === '' ? '' : $path . '.seq';
+    $sequence = 0;
+    do {
+      if ($path !== '' && is_file($path)) {
+        $sequence = is_file($sequence_path)
+          ? (int) trim((string) @file_get_contents($sequence_path))
+          : ((int) (@filemtime($path) ?: 0) * 1000);
+        if ($sequence <= 0 || $sequence > $since) {
+          break;
+        }
+      }
+      if (microtime(TRUE) >= $deadline) {
+        break;
+      }
+      usleep(50000);
+    } while (TRUE);
     if ($path === '' || !is_file($path)) {
       return new JsonResponse(['ok' => TRUE, 'frame' => FALSE]);
     }
-    $sequence_path = $path . '.seq';
-    $sequence = is_file($sequence_path)
-      ? (int) trim((string) @file_get_contents($sequence_path))
-      : ((int) (@filemtime($path) ?: 0) * 1000);
-    $since = max(0, (int) $request->query->get('since', 0));
     if ($sequence > 0 && $sequence <= $since) {
       return new JsonResponse(['ok' => TRUE, 'frame' => FALSE, 'sequence' => $sequence]);
     }
