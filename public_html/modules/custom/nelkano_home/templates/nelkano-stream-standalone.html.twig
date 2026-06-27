@@ -17,7 +17,7 @@
   </head>
   <body>
     {% include '@nelkano_home/nelkano-header.html.twig' %}
-    <main class="nk-stream" data-stream-ws-url="{{ stream_ws_url }}" data-stream-active-url="{{ stream_active_url }}" data-stream-frame-url="/api/nelkano/stream/frame" data-stream-ice-servers="{{ stream_ice_servers }}" data-stream-ice-policy="{{ stream_ice_policy }}">
+    <main class="nk-stream" data-stream-ws-url="{{ stream_ws_url }}" data-stream-active-url="{{ stream_active_url }}" data-stream-frame-url="/api/nelkano/stream/frame" data-stream-ice-config-url="{{ stream_ice_config_url }}" data-stream-ice-servers="{{ stream_ice_servers }}" data-stream-ice-policy="{{ stream_ice_policy }}">
       <section class="nk-stream-layout">
         <div class="nk-viewer">
           <video id="stream-video" autoplay muted playsinline controls></video>

@@ -6,6 +6,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Extension\ModuleExtensionList;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 final class HomeController extends ControllerBase {
@@ -88,6 +89,7 @@ final class HomeController extends ControllerBase {
       'stream_js_url' => '/' . $module_path . '/js/stream-viewer.js?v=' . $stream_js_version,
       'stream_ws_url' => $this->streamWebSocketUrl(),
       'stream_active_url' => '/api/nelkano/stream/session/active',
+      'stream_ice_config_url' => '/api/nelkano/stream/ice-config',
       'stream_ice_servers' => $this->streamIceServersJson(),
       'stream_ice_policy' => $this->streamIcePolicy(),
     ] + $this->chromeContext(
@@ -102,6 +104,18 @@ final class HomeController extends ControllerBase {
       'Cache-Control' => 'no-store, private',
       'X-Content-Type-Options' => 'nosniff',
       'Referrer-Policy' => 'strict-origin-when-cross-origin',
+    ]);
+  }
+
+  public function streamIceConfig(): JsonResponse {
+    return new JsonResponse([
+      'ok' => TRUE,
+      'iceServers' => $this->streamIceServersArray(),
+      'iceTransportPolicy' => $this->streamIcePolicy(),
+      'ttlSeconds' => 300,
+    ], 200, [
+      'Cache-Control' => 'no-store, private',
+      'X-Content-Type-Options' => 'nosniff',
     ]);
   }
 
@@ -788,17 +802,21 @@ final class HomeController extends ControllerBase {
   }
 
   private function streamIceServersJson(): string {
+    return json_encode($this->streamIceServersArray(), JSON_UNESCAPED_SLASHES);
+  }
+
+  private function streamIceServersArray(): array {
     $raw = trim((string) getenv('NELKANO_STREAM_ICE_SERVERS'));
     if ($raw !== '') {
-      json_decode($raw, TRUE);
-      if (json_last_error() === JSON_ERROR_NONE) {
-        return $raw;
+      $decoded = json_decode($raw, TRUE);
+      if (json_last_error() === JSON_ERROR_NONE && is_array($decoded) && $decoded !== []) {
+        return $decoded;
       }
     }
 
-    return json_encode([
+    return [
       ['urls' => 'stun:stun.l.google.com:19302'],
-    ], JSON_UNESCAPED_SLASHES);
+    ];
   }
 
   private function streamIcePolicy(): string {

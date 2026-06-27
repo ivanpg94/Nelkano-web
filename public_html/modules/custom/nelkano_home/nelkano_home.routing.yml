@@ -444,6 +444,14 @@ nelkano_home.user_stream_en:
   requirements:
     _permission: 'access content'
 
+nelkano_home.stream_ice_config:
+  path: '/api/nelkano/stream/ice-config'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::streamIceConfig'
+    _title: 'Nelkano stream ICE config'
+  requirements:
+    _permission: 'access content'
+
 nelkano_home.account:
   path: '/cuenta'
   defaults:

@@ -15,7 +15,12 @@
   var wsUrl = root.getAttribute('data-stream-ws-url') || '';
   var activeUrl = root.getAttribute('data-stream-active-url') || '';
   var frameUrl = root.getAttribute('data-stream-frame-url') || '';
+  var iceConfigUrl = root.getAttribute('data-stream-ice-config-url') || '';
   var icePolicy = root.getAttribute('data-stream-ice-policy') || 'all';
+  var dynamicIceServers = null;
+  var dynamicIcePolicy = '';
+  var iceConfigLoadedAt = 0;
+  var iceConnectingTimer = null;
   var socket = null;
   var httpEndpoint = '';
   var polling = false;
@@ -52,6 +57,7 @@
 
   function showWebRtcVideo() {
     webRtcConnected = true;
+    clearIceConnectingTimer();
     if (fallbackImage) {
       fallbackImage.hidden = true;
       fallbackImage.removeAttribute('src');
@@ -82,6 +88,7 @@
   }
 
   function closePeer() {
+    clearIceConnectingTimer();
     pendingCandidates = [];
     localCandidates = [];
     webRtcConnected = false;
@@ -142,8 +149,9 @@
     closePeer();
     peer = new RTCPeerConnection({
       iceServers: parseIceServers(),
-      iceTransportPolicy: icePolicy === 'relay' ? 'relay' : 'all'
+      iceTransportPolicy: activeIcePolicy() === 'relay' ? 'relay' : 'all'
     });
+    startIceConnectingTimer();
     remoteStream = new MediaStream();
     if (video) {
       video.muted = true;
@@ -184,6 +192,7 @@
       setState('WebRTC: ' + state);
       log('Estado WebRTC: ' + state);
       if (state === 'connected') {
+        clearIceConnectingTimer();
         showWebRtcVideo();
         setHint('WebRTC conectado. El fallback HTTP queda preparado por si la conexion cae.');
       } else if (state === 'failed' || state === 'disconnected') {
@@ -196,7 +205,29 @@
     };
   }
 
+  function clearIceConnectingTimer() {
+    if (!iceConnectingTimer) return;
+    window.clearTimeout(iceConnectingTimer);
+    iceConnectingTimer = null;
+  }
+
+  function startIceConnectingTimer() {
+    clearIceConnectingTimer();
+    iceConnectingTimer = window.setTimeout(function () {
+      iceConnectingTimer = null;
+      if (!peer || webRtcConnected) return;
+      var state = peer.connectionState || 'connecting';
+      if (state === 'connected') return;
+      setState('Video HTTP');
+      setHint('WebRTC no conecto a tiempo. Usando fallback HTTP mientras la conexion directa sigue intentando mejorar.');
+      log('WebRTC timeout; fallback HTTP activo');
+    }, 12000);
+  }
+
   function parseIceServers() {
+    if (Array.isArray(dynamicIceServers) && dynamicIceServers.length > 0) {
+      return dynamicIceServers;
+    }
     var raw = root.getAttribute('data-stream-ice-servers') || '';
     if (raw) {
       try {
@@ -207,6 +238,43 @@
       }
     }
     return [{ urls: 'stun:stun.l.google.com:19302' }];
+  }
+
+  function activeIcePolicy() {
+    return dynamicIcePolicy || icePolicy || 'all';
+  }
+
+  async function loadIceConfig(force) {
+    var now = Date.now();
+    if (!force && iceConfigLoadedAt && now - iceConfigLoadedAt < 240000) {
+      return;
+    }
+    if (!iceConfigUrl) {
+      iceConfigLoadedAt = now;
+      return;
+    }
+    try {
+      var response = await fetch(iceConfigUrl, {
+        credentials: 'same-origin',
+        cache: 'no-store',
+        headers: { 'Accept': 'application/json' }
+      });
+      var data = await response.json();
+      if (!response.ok || !data.ok) {
+        throw new Error(data.message || ('HTTP ' + response.status));
+      }
+      if (Array.isArray(data.iceServers) && data.iceServers.length > 0) {
+        dynamicIceServers = data.iceServers;
+      }
+      dynamicIcePolicy = data.iceTransportPolicy === 'relay' ? 'relay' : 'all';
+      iceConfigLoadedAt = now;
+      log('ICE config cargada: policy=' + activeIcePolicy() + ' servers=' + parseIceServers().length);
+    } catch (error) {
+      iceConfigLoadedAt = now;
+      dynamicIceServers = null;
+      dynamicIcePolicy = '';
+      log('ICE config dinamica no disponible; usando fallback local: ' + error.message);
+    }
   }
 
   function waitForIceGatheringComplete() {
@@ -267,7 +335,10 @@
       log('Offer vacia recibida');
       return;
     }
-    if (!peer) createPeer(sessionId);
+    if (!peer) {
+      await loadIceConfig(false);
+      createPeer(sessionId);
+    }
     setState('Creando answer');
     await peer.setRemoteDescription(new RTCSessionDescription({
       type: offer.type || 'offer',
@@ -395,7 +466,7 @@
     }
   }
 
-  function connectHttp(sessionId, endpoint) {
+  async function connectHttp(sessionId, endpoint) {
     disconnect({ notifyAndroid: false });
     if (!sessionId || !endpoint) {
       setState('Sin emision activa');
@@ -411,6 +482,7 @@
     setSession('Sesion enlazada con Android');
     if (urlNode) urlNode.textContent = httpEndpoint + '/events';
     log('Conectando por signaling HTTP con WebRTC y fallback HTTP.');
+    await loadIceConfig(true);
     createPeer(sessionId);
     startFramePolling(sessionId);
     pollHttpEvents();
@@ -472,8 +544,15 @@
     activeSocket.addEventListener('open', function () {
       if (socket !== activeSocket) return;
       setState('Uniendo sesion');
-      createPeer(sessionId);
-      send('join-session', sessionId, { pin: pin });
+      loadIceConfig(true).then(function () {
+        if (socket !== activeSocket) return;
+        createPeer(sessionId);
+        send('join-session', sessionId, { pin: pin });
+      }).catch(function () {
+        if (socket !== activeSocket) return;
+        createPeer(sessionId);
+        send('join-session', sessionId, { pin: pin });
+      });
     });
     activeSocket.addEventListener('message', function (event) {
       if (socket !== activeSocket) return;
