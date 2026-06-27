@@ -449,7 +449,7 @@
             log('Esperando frames HTTP de Android');
           }
         }
-        await sleep(fallbackImage && !fallbackImage.hidden ? 250 : 500);
+        await sleep(fallbackImage && !fallbackImage.hidden ? 60 : 160);
       } catch (error) {
         var message = String(error && error.message ? error.message : '');
         if (message.toLowerCase().indexOf('sesion de streaming no encontrada') !== -1 || message.indexOf('404') !== -1) {

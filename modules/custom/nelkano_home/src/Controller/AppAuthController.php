@@ -993,11 +993,12 @@ final class AppAuthController extends ControllerBase {
       return $this->error('Sesion de streaming no encontrada.', 404);
     }
     $binary = base64_decode((string) ($payload['image'] ?? ''), TRUE);
-    if ($binary === FALSE || strlen($binary) < 64 || strlen($binary) > 350000) {
+    if ($binary === FALSE || strlen($binary) < 64 || strlen($binary) > 1200000) {
       return $this->error('Frame de streaming no valido.', 400);
     }
-    if (substr($binary, 0, 2) !== "\xFF\xD8") {
-      return $this->error('El frame debe ser JPEG.', 400);
+    $mime = $this->streamFrameMime($binary, (string) ($payload['mime'] ?? ''));
+    if ($mime === '') {
+      return $this->error('El frame debe ser JPEG, PNG o WebP.', 400);
     }
 
     $path = $this->streamFramePath((int) $account->id(), $session_id);
@@ -1006,6 +1007,7 @@ final class AppAuthController extends ControllerBase {
     }
     $sequence = (int) floor(microtime(TRUE) * 1000);
     @file_put_contents($path . '.seq', (string) $sequence, LOCK_EX);
+    @file_put_contents($path . '.mime', $mime, LOCK_EX);
     $now = \Drupal::time()->getRequestTime();
     \Drupal::database()->update('nelkano_stream_session')
       ->fields(['updated' => $now, 'expires' => $now + 7200])
@@ -1044,12 +1046,17 @@ final class AppAuthController extends ControllerBase {
     if ($binary === FALSE || $binary === '') {
       return new JsonResponse(['ok' => TRUE, 'frame' => FALSE]);
     }
+    $mime_path = $path . '.mime';
+    $mime = is_file($mime_path) ? trim((string) @file_get_contents($mime_path)) : '';
+    if (!in_array($mime, ['image/jpeg', 'image/png', 'image/webp'], TRUE)) {
+      $mime = $this->streamFrameMime($binary, '');
+    }
 
     return new JsonResponse([
       'ok' => TRUE,
       'frame' => TRUE,
       'sequence' => $sequence,
-      'mime' => 'image/jpeg',
+      'mime' => $mime !== '' ? $mime : 'image/jpeg',
       'image' => base64_encode($binary),
     ]);
   }
@@ -1578,7 +1585,30 @@ final class AppAuthController extends ControllerBase {
     if (!is_string($real_directory) || $real_directory === '') {
       return '';
     }
-    return $real_directory . DIRECTORY_SEPARATOR . $session_id . '.jpg';
+    return $real_directory . DIRECTORY_SEPARATOR . $session_id . '.frame';
+  }
+
+  private function streamFrameMime(string $binary, string $requested): string {
+    $requested = strtolower(trim($requested));
+    if ($requested === 'image/jpeg' && substr($binary, 0, 2) === "\xFF\xD8") {
+      return 'image/jpeg';
+    }
+    if ($requested === 'image/png' && substr($binary, 0, 8) === "\x89PNG\r\n\x1A\n") {
+      return 'image/png';
+    }
+    if ($requested === 'image/webp' && substr($binary, 0, 4) === 'RIFF' && substr($binary, 8, 4) === 'WEBP') {
+      return 'image/webp';
+    }
+    if (substr($binary, 0, 2) === "\xFF\xD8") {
+      return 'image/jpeg';
+    }
+    if (substr($binary, 0, 8) === "\x89PNG\r\n\x1A\n") {
+      return 'image/png';
+    }
+    if (substr($binary, 0, 4) === 'RIFF' && substr($binary, 8, 4) === 'WEBP') {
+      return 'image/webp';
+    }
+    return '';
   }
 
   private function cleanId(string $value): string {
