@@ -57,7 +57,6 @@ function nelkano_home_user_login_redirect_submit(array &$form, FormStateInterfac
 function nelkano_home_mail(string $key, array &$message, array $params): void {
   $message['headers']['From'] = 'Nelkano <contacto@nelkano.com>';
   $message['headers']['Sender'] = 'contacto@nelkano.com';
-  $message['headers']['Reply-To'] = 'contacto@nelkano.com';
 
   if ($key === 'account_verify') {
     $name = trim((string) ($params['name'] ?? 'jugador'));
