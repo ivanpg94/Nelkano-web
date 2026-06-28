@@ -58,28 +58,23 @@ function nelkano_home_mail(string $key, array &$message, array $params): void {
   $message['headers']['From'] = 'Nelkano <contacto@nelkano.com>';
   $message['headers']['Sender'] = 'contacto@nelkano.com';
   $message['headers']['Reply-To'] = 'contacto@nelkano.com';
-  $message['headers']['MIME-Version'] = '1.0';
-  $message['headers']['Content-Type'] = 'text/html; charset=UTF-8';
 
   if ($key === 'account_verify') {
-    $name = htmlspecialchars((string) ($params['name'] ?? 'jugador'), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-    $verify_url = htmlspecialchars((string) ($params['verify_url'] ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $name = trim((string) ($params['name'] ?? 'jugador'));
+    $verify_url = trim((string) ($params['verify_url'] ?? ''));
     $message['subject'] = 'Activa tu cuenta de Nelkano';
-    $message['body'][] = nelkano_home_email_template(
-      'Activa tu cuenta',
-      'Tu biblioteca, tus guardados y tus sesiones deben estar bajo tu control.',
-      [
-        "Hola {$name},",
-        'Gracias por unirte a Nelkano. Verifica tu correo para activar tu cuenta y preparar el acceso a las funciones web del proyecto.',
-        'Nelkano no incluye juegos, ROMs ni BIOS. Tu cuenta sirve para conectar tu experiencia con tus propios archivos compatibles y tus datos del emulador.',
-      ],
-      'Verificar cuenta',
-      $verify_url,
-    );
+    $message['body'][] = "Hola {$name},";
+    $message['body'][] = 'Gracias por unirte a Nelkano. Verifica tu correo para activar tu cuenta y preparar el acceso a las funciones web del proyecto.';
+    $message['body'][] = 'Abre este enlace para verificar tu cuenta:';
+    $message['body'][] = $verify_url;
+    $message['body'][] = 'Este enlace caduca en 24 horas.';
+    $message['body'][] = 'Nelkano no incluye juegos, ROMs ni BIOS. Tu cuenta sirve para conectar tu experiencia con tus propios archivos compatibles y tus datos del emulador.';
     return;
   }
 
   if ($key === 'contact_message') {
+    $message['headers']['MIME-Version'] = '1.0';
+    $message['headers']['Content-Type'] = 'text/html; charset=UTF-8';
     $name = htmlspecialchars((string) ($params['name'] ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     $mail = htmlspecialchars((string) ($params['mail'] ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     $subject = htmlspecialchars((string) ($params['subject'] ?? 'Contacto Nelkano'), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
