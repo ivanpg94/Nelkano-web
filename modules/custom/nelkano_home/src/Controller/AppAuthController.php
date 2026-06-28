@@ -102,38 +102,16 @@ final class AppAuthController extends ControllerBase {
     $account->save();
     $this->createInitialProfile((int) $account->id(), $name);
 
-    $token = bin2hex(random_bytes(32));
-    $expires = \Drupal::time()->getRequestTime() + 86400;
-    $user_data = \Drupal::service('user.data');
-    $user_data->set('nelkano_home', (int) $account->id(), 'verification_hash', hash('sha256', $token));
-    $user_data->set('nelkano_home', (int) $account->id(), 'verification_expires', $expires);
-
-    $verify_url = Url::fromRoute('nelkano_home.verify', [
-      'uid' => $account->id(),
-      'token' => $token,
-    ], ['absolute' => TRUE])->toString();
-
-    $result = \Drupal::service('plugin.manager.mail')->mail(
-      'nelkano_home',
-      'account_verify',
-      $mail,
-      \Drupal::languageManager()->getDefaultLanguage()->getId(),
-      [
-        'name' => $name,
-        'verify_url' => $verify_url,
-      ],
-      'contacto@nelkano.com',
-      TRUE
-    );
+    $verification = $this->sendVerificationMail($account, $name, $mail);
 
     return new JsonResponse([
       'ok' => TRUE,
-      'message' => !empty($result['result'])
+      'message' => $verification['sent']
         ? 'Cuenta creada. Te hemos enviado un correo para verificarla.'
         : 'Cuenta creada, pero no se pudo enviar el correo de verificacion. Contacta con soporte.',
-      'email_sent' => !empty($result['result']),
-      'verify_url' => $this->isLocalHost($request) ? $verify_url : NULL,
-    ], !empty($result['result']) ? 201 : 202);
+      'email_sent' => $verification['sent'],
+      'verify_url' => $this->isLocalHost($request) ? $verification['verify_url'] : NULL,
+    ], $verification['sent'] ? 201 : 202);
   }
 
   public function me(Request $request): JsonResponse {
@@ -1387,6 +1365,50 @@ final class AppAuthController extends ControllerBase {
         'updated' => $now,
       ])
       ->execute();
+  }
+
+  /**
+   * Creates a one-use verification token and sends the activation email.
+   *
+   * @return array{sent: bool, verify_url: string}
+   */
+  private function sendVerificationMail(User $account, string $display_name, string $mail): array {
+    $token = bin2hex(random_bytes(32));
+    $expires = \Drupal::time()->getRequestTime() + 86400;
+    $uid = (int) $account->id();
+    $user_data = \Drupal::service('user.data');
+    $user_data->set('nelkano_home', $uid, 'verification_hash', hash('sha256', $token));
+    $user_data->set('nelkano_home', $uid, 'verification_expires', $expires);
+
+    $verify_url = Url::fromRoute('nelkano_home.verify', [
+      'uid' => $uid,
+      'token' => $token,
+    ], ['absolute' => TRUE])->toString();
+
+    $result = \Drupal::service('plugin.manager.mail')->mail(
+      'nelkano_home',
+      'account_verify',
+      $mail,
+      \Drupal::languageManager()->getDefaultLanguage()->getId(),
+      [
+        'name' => $display_name,
+        'verify_url' => $verify_url,
+      ],
+      'contacto@nelkano.com',
+      TRUE
+    );
+    $sent = !empty($result['result']);
+    if (!$sent) {
+      \Drupal::logger('nelkano_home')->error('No se pudo enviar el correo de activacion para la cuenta @uid a @mail.', [
+        '@uid' => $uid,
+        '@mail' => $mail,
+      ]);
+    }
+
+    return [
+      'sent' => $sent,
+      'verify_url' => $verify_url,
+    ];
   }
 
   private function isLocalHost(Request $request): bool {

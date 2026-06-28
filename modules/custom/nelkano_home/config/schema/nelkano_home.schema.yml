@@ -8,6 +8,8 @@ nelkano_home.settings:
       mapping: &home_language_fields
         nav_language:
           type: string
+        hero_enabled:
+          type: boolean
         seo_title:
           type: string
         seo_description:
@@ -28,6 +30,8 @@ nelkano_home.settings:
           type: string
         secondary_url:
           type: string
+        downloads_enabled:
+          type: boolean
         downloads_title:
           type: string
         android_title:
@@ -46,12 +50,16 @@ nelkano_home.settings:
           type: text
         windows_url:
           type: string
+        about_enabled:
+          type: boolean
         about_eyebrow:
           type: string
         about_title:
           type: string
         about_description:
           type: text
+        status_enabled:
+          type: boolean
         status_eyebrow:
           type: string
         status_title:
@@ -59,7 +67,18 @@ nelkano_home.settings:
         status_description:
           type: text
         status_items:
-          type: text
+          type: sequence
+          sequence:
+            type: mapping
+            mapping:
+              system:
+                type: string
+              status:
+                type: string
+              description:
+                type: text
+        platforms_enabled:
+          type: boolean
         platforms_eyebrow:
           type: string
         platforms_title:
@@ -67,7 +86,16 @@ nelkano_home.settings:
         platforms_description:
           type: text
         platform_items:
-          type: text
+          type: sequence
+          sequence:
+            type: mapping
+            mapping:
+              title:
+                type: string
+              description:
+                type: text
+        differentiators_enabled:
+          type: boolean
         differentiators_eyebrow:
           type: string
         differentiators_title:
@@ -75,7 +103,16 @@ nelkano_home.settings:
         differentiators_description:
           type: text
         differentiator_items:
-          type: text
+          type: sequence
+          sequence:
+            type: mapping
+            mapping:
+              title:
+                type: string
+              description:
+                type: text
+        vision_enabled:
+          type: boolean
         vision_eyebrow:
           type: string
         vision_title:
@@ -83,13 +120,29 @@ nelkano_home.settings:
         vision_description:
           type: text
         vision_items:
-          type: text
+          type: sequence
+          sequence:
+            type: mapping
+            mapping:
+              text:
+                type: text
+        faq_enabled:
+          type: boolean
         faq_eyebrow:
           type: string
         faq_title:
           type: string
         faq_items:
-          type: text
+          type: sequence
+          sequence:
+            type: mapping
+            mapping:
+              question:
+                type: string
+              answer:
+                type: text
+        trust_enabled:
+          type: boolean
         trust_eyebrow:
           type: string
         trust_title:
@@ -97,7 +150,16 @@ nelkano_home.settings:
         trust_description:
           type: text
         trust_items:
-          type: text
+          type: sequence
+          sequence:
+            type: mapping
+            mapping:
+              title:
+                type: string
+              description:
+                type: text
+              url:
+                type: string
         footer_primary:
           type: text
         footer_secondary:
@@ -126,7 +188,14 @@ nelkano_home.docs:
         privacy_cookies_intro:
           type: text
         privacy_cookies_sections:
-          type: text
+          type: sequence
+          sequence:
+            type: mapping
+            mapping:
+              title:
+                type: string
+              paragraphs:
+                type: text
         legal_notice_seo_title:
           type: string
         legal_notice_seo_description:
@@ -138,7 +207,14 @@ nelkano_home.docs:
         legal_notice_intro:
           type: text
         legal_notice_sections:
-          type: text
+          type: sequence
+          sequence:
+            type: mapping
+            mapping:
+              title:
+                type: string
+              paragraphs:
+                type: text
         releases_seo_title:
           type: string
         releases_seo_description:
@@ -158,9 +234,35 @@ nelkano_home.docs:
         releases_requirements:
           type: string
         releases_changes:
-          type: text
+          type: sequence
+          sequence:
+            type: mapping
+            mapping:
+              text:
+                type: text
         releases_notice:
           type: text
+        releases_items:
+          type: sequence
+          sequence:
+            type: mapping
+            mapping:
+              visible:
+                type: boolean
+              version:
+                type: string
+              apk_file:
+                type: string
+              filename:
+                type: string
+              date:
+                type: string
+              requirements:
+                type: text
+              changes:
+                type: text
+              notice:
+                type: text
         compatibility_seo_title:
           type: string
         compatibility_seo_description:
@@ -172,7 +274,20 @@ nelkano_home.docs:
         compatibility_intro:
           type: text
         compatibility_items:
-          type: text
+          type: sequence
+          sequence:
+            type: mapping
+            mapping:
+              system:
+                type: string
+              status:
+                type: string
+              works:
+                type: text
+              limitations:
+                type: text
+              last_review:
+                type: string
         security_seo_title:
           type: string
         security_seo_description:
@@ -184,7 +299,14 @@ nelkano_home.docs:
         security_intro:
           type: text
         security_sections:
-          type: text
+          type: sequence
+          sequence:
+            type: mapping
+            mapping:
+              title:
+                type: string
+              description:
+                type: text
     en:
       type: mapping
       label: 'English documentation'

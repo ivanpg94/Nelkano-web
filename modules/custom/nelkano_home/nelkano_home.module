@@ -3,6 +3,21 @@
 use Drupal\Core\Form\FormStateInterface;
 
 /**
+ * Implements hook_page_attachments_alter().
+ */
+function nelkano_home_page_attachments_alter(array &$attachments): void {
+  $route_name = \Drupal::routeMatch()->getRouteName() ?: '';
+  if (!str_starts_with($route_name, 'nelkano_home.admin')) {
+    return;
+  }
+
+  $attachments['#attached']['library'] = array_values(array_filter(
+    $attachments['#attached']['library'] ?? [],
+    static fn(string $library): bool => !preg_match('/^(claro|seven|gin|adminimal_admin_toolbar)\//', $library),
+  ));
+}
+
+/**
  * Implements hook_theme().
  */
 function nelkano_home_theme(): array {

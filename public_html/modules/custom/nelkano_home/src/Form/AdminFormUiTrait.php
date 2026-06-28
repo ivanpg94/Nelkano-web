@@ -16,7 +16,7 @@ trait AdminFormUiTrait {
     $form['admin_header'] = [
       '#weight' => -1000,
       '#markup' => '<div class="nk-admin-panel-head">'
-        . '<div><p class="nk-admin-kicker">Pagina editable</p><h1>' . htmlspecialchars($title, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</h1>'
+        . '<div><h1>' . htmlspecialchars($title, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</h1>'
         . '<p>' . htmlspecialchars($description, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</p></div>'
         . '<div class="nk-admin-head-actions">' . $this->nelkanoAdminLanguageLinks($activeLanguage)
         . '<a class="nk-admin-public-link" href="' . htmlspecialchars($publicPath, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '" target="_blank" rel="noopener">Ver pagina</a></div>'
@@ -111,6 +111,17 @@ trait AdminFormUiTrait {
       'Vision bullets' => 'Puntos de vision',
       'FAQ items' => 'Preguntas y respuestas',
       'Trust links' => 'Elementos verificables',
+      'Compatibility rows' => 'Filas de compatibilidad',
+      'System' => 'Sistema',
+      'Question' => 'Pregunta',
+      'Answer' => 'Respuesta',
+      'Text' => 'Texto',
+      'Paragraphs' => 'Parrafos',
+      'Works' => 'Funciona',
+      'Limitations' => 'Limitaciones',
+      'Last review' => 'Ultima revision',
+      'Delete' => 'Eliminar',
+      'Add row' => 'Anadir fila',
       'Primary text' => 'Texto principal',
       'Secondary text' => 'Texto secundario',
       'Public version' => 'Version publica',
@@ -118,6 +129,8 @@ trait AdminFormUiTrait {
       'Publication date' => 'Fecha de publicacion',
       'Requirements' => 'Requisitos',
       'Changelog items' => 'Cambios',
+      'Release rows' => 'Versiones publicadas',
+      'Add one row per release. Put each change on its own line.' => 'Anade una fila por version. Escribe cada cambio en una linea distinta.',
       'Download notice' => 'Aviso de descarga',
       'Security sections' => 'Secciones de seguridad',
       'Titulo SEO' => 'Titulo SEO',
@@ -126,6 +139,7 @@ trait AdminFormUiTrait {
       'Titulo visible' => 'Titulo visible',
       'Introduccion' => 'Introduccion',
       'Contenido estructurado' => 'Contenido estructurado',
+      'Show section' => 'Mostrar seccion',
     ];
     $english = [
       'Titulo SEO' => 'SEO title',
@@ -157,6 +171,15 @@ trait AdminFormUiTrait {
       'One per line: Title|Description|URL' => 'Una linea por elemento: Titulo|Descripcion|URL',
       'One per line: Title|Paragraph 1||Paragraph 2' => 'Una linea por seccion: Titulo|Parrafo 1||Parrafo 2',
       'Una linea por seccion: Titulo|Parrafo 1||Parrafo 2' => 'Una linea por seccion: Titulo|Parrafo 1||Parrafo 2',
+      'Add one row per system.' => 'Anade una fila por sistema.',
+      'Add one row per card.' => 'Anade una fila por tarjeta.',
+      'Add one row per bullet.' => 'Anade una fila por punto.',
+      'Add one row per question.' => 'Anade una fila por pregunta.',
+      'Add one row per link.' => 'Anade una fila por enlace.',
+      'Add one row per change.' => 'Anade una fila por cambio.',
+      'Add one row per release. Put each change on its own line.' => 'Anade una fila por version. Escribe cada cambio en una linea distinta.',
+      'Add one row per section.' => 'Anade una fila por seccion.',
+      'Add one row per section. Put each paragraph on its own line.' => 'Anade una fila por seccion. Escribe cada parrafo en una linea distinta.',
     ];
     $english = [
       'Una linea por seccion: Titulo|Parrafo 1||Parrafo 2' => 'One section per line: Title|Paragraph 1||Paragraph 2',

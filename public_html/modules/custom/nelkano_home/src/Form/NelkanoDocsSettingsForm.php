@@ -8,6 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
 final class NelkanoDocsSettingsForm extends ConfigFormBase {
 
   use AdminFormUiTrait;
+  use ConfigRowsFormTrait;
 
   private const LANGUAGES = [
     'es' => 'Espanol',
@@ -22,9 +23,14 @@ final class NelkanoDocsSettingsForm extends ConfigFormBase {
       'privacy_cookies_title' => ['type' => 'textfield', 'title' => 'Titulo visible'],
       'privacy_cookies_intro' => ['type' => 'textarea', 'title' => 'Introduccion'],
       'privacy_cookies_sections' => [
-        'type' => 'textarea',
+        'type' => 'config_rows',
         'title' => 'Contenido estructurado',
-        'description' => 'Una linea por seccion: Titulo|Parrafo 1||Parrafo 2',
+        'description' => 'Add one row per section. Put each paragraph on its own line.',
+        'columns' => [
+          'title' => ['title' => 'Title'],
+          'paragraphs' => ['title' => 'Paragraphs', 'type' => 'textarea'],
+        ],
+        'legacy_keys' => ['title', 'paragraphs'],
       ],
     ],
     'Legal notice' => [
@@ -34,9 +40,14 @@ final class NelkanoDocsSettingsForm extends ConfigFormBase {
       'legal_notice_title' => ['type' => 'textfield', 'title' => 'Titulo visible'],
       'legal_notice_intro' => ['type' => 'textarea', 'title' => 'Introduccion'],
       'legal_notice_sections' => [
-        'type' => 'textarea',
+        'type' => 'config_rows',
         'title' => 'Contenido estructurado',
-        'description' => 'Una linea por seccion: Titulo|Parrafo 1||Parrafo 2',
+        'description' => 'Add one row per section. Put each paragraph on its own line.',
+        'columns' => [
+          'title' => ['title' => 'Title'],
+          'paragraphs' => ['title' => 'Paragraphs', 'type' => 'textarea'],
+        ],
+        'legacy_keys' => ['title', 'paragraphs'],
       ],
     ],
     'Releases' => [
@@ -45,16 +56,26 @@ final class NelkanoDocsSettingsForm extends ConfigFormBase {
       'releases_eyebrow' => ['type' => 'textfield', 'title' => 'Eyebrow'],
       'releases_title' => ['type' => 'textfield', 'title' => 'Title'],
       'releases_intro' => ['type' => 'textarea', 'title' => 'Intro'],
-      'releases_version' => ['type' => 'textfield', 'title' => 'Public version'],
-      'releases_filename' => ['type' => 'textfield', 'title' => 'APK filename'],
-      'releases_date' => ['type' => 'textfield', 'title' => 'Publication date'],
-      'releases_requirements' => ['type' => 'textarea', 'title' => 'Requirements'],
-      'releases_changes' => [
-        'type' => 'textarea',
-        'title' => 'Changelog items',
-        'description' => 'One item per line.',
+      'releases_items' => [
+        'type' => 'config_rows',
+        'layout' => 'cards',
+        'title' => 'Release rows',
+        'description' => 'Add one row per release. Put each change on its own line.',
+        'columns' => [
+          'visible' => ['title' => 'Mostrar version', 'type' => 'checkbox'],
+          'version' => ['title' => 'Public version'],
+          'apk_file' => [
+            'title' => 'APK',
+            'type' => 'managed_file',
+            'upload_location' => 'public://nelkano-releases',
+            'upload_validators' => ['FileExtension' => ['extensions' => 'apk']],
+            'description' => 'Sube el APK publico de esta version.',
+          ],
+          'filename' => ['title' => 'APK filename fallback'],
+          'date' => ['title' => 'Publication date'],
+          'changes' => ['title' => 'Changelog items', 'type' => 'textarea'],
+        ],
       ],
-      'releases_notice' => ['type' => 'textarea', 'title' => 'Download notice'],
     ],
     'Compatibility' => [
       'compatibility_seo_title' => ['type' => 'textfield', 'title' => 'SEO title'],
@@ -63,9 +84,16 @@ final class NelkanoDocsSettingsForm extends ConfigFormBase {
       'compatibility_title' => ['type' => 'textfield', 'title' => 'Title'],
       'compatibility_intro' => ['type' => 'textarea', 'title' => 'Intro'],
       'compatibility_items' => [
-        'type' => 'textarea',
+        'type' => 'config_rows',
         'title' => 'Compatibility rows',
-        'description' => 'One per line: System|Status|Works|Limitations|Last review',
+        'description' => 'Add one row per system.',
+        'columns' => [
+          'system' => ['title' => 'System'],
+          'status' => ['title' => 'Status'],
+          'works' => ['title' => 'Works', 'type' => 'textarea'],
+          'limitations' => ['title' => 'Limitations', 'type' => 'textarea'],
+          'last_review' => ['title' => 'Last review'],
+        ],
       ],
     ],
     'Security' => [
@@ -75,9 +103,13 @@ final class NelkanoDocsSettingsForm extends ConfigFormBase {
       'security_title' => ['type' => 'textfield', 'title' => 'Title'],
       'security_intro' => ['type' => 'textarea', 'title' => 'Intro'],
       'security_sections' => [
-        'type' => 'textarea',
+        'type' => 'config_rows',
         'title' => 'Security sections',
-        'description' => 'One per line: Title|Description',
+        'description' => 'Add one row per section.',
+        'columns' => [
+          'title' => ['title' => 'Title'],
+          'description' => ['title' => 'Description', 'type' => 'textarea'],
+        ],
       ],
     ],
   ];
@@ -133,16 +165,32 @@ final class NelkanoDocsSettingsForm extends ConfigFormBase {
         $form[$langcode][$section_key] = [
           '#type' => 'details',
           '#title' => $this->adminLabel($this->sectionUiTitle($section_label), $active_language),
-          '#open' => TRUE,
+          '#open' => FALSE,
         ];
 
         foreach ($fields as $key => $definition) {
-          $form[$langcode][$section_key][$key] = [
-            '#type' => $definition['type'],
-            '#title' => $this->adminLabel($definition['title'], $active_language),
-            '#default_value' => $config->get("$langcode.$key") ?? '',
-            '#description' => $this->adminDescription($definition['description'] ?? NULL, $active_language),
-          ];
+          if ($definition['type'] === 'config_rows') {
+            $stored_value = $config->get("$langcode.$key") ?? '';
+            if ($key === 'releases_items' && $stored_value === '') {
+              $stored_value = $this->legacyReleaseRows($config->get($langcode) ?? []);
+            }
+            $form[$langcode][$section_key][$key] = $this->buildConfigRowsElement(
+              $stored_value,
+              $definition,
+              [$langcode, $section_key, $key],
+              $active_language,
+              $form_state,
+            );
+            $form[$langcode][$section_key][$key]['#title'] = $this->adminLabel($definition['title'], $active_language);
+          }
+          else {
+            $form[$langcode][$section_key][$key] = [
+              '#type' => $definition['type'],
+              '#title' => $this->adminLabel($definition['title'], $active_language),
+              '#default_value' => $config->get("$langcode.$key") ?? '',
+              '#description' => $this->adminDescription($definition['description'] ?? NULL, $active_language),
+            ];
+          }
         }
       }
     }
@@ -169,7 +217,10 @@ final class NelkanoDocsSettingsForm extends ConfigFormBase {
           continue;
         }
         foreach (array_keys($fields) as $key) {
-          $language_values[$key] = $form_state->getValue([$langcode, $section_key, $key]);
+          $value = $form_state->getValue([$langcode, $section_key, $key]);
+          $language_values[$key] = ($fields[$key]['type'] ?? '') === 'config_rows'
+            ? $this->normalizeConfigRowsValue($value, $fields[$key])
+            : $value;
         }
       }
       $config->set($langcode, $language_values);
@@ -217,6 +268,34 @@ final class NelkanoDocsSettingsForm extends ConfigFormBase {
         'public_path' => '/',
       ],
     };
+  }
+
+  private function legacyReleaseRows(array $content): array {
+    $version = trim((string) ($content['releases_version'] ?? ''));
+    $filename = trim((string) ($content['releases_filename'] ?? ''));
+    $date = trim((string) ($content['releases_date'] ?? ''));
+    $requirements = trim((string) ($content['releases_requirements'] ?? ''));
+    $changes = $content['releases_changes'] ?? '';
+    $notice = trim((string) ($content['releases_notice'] ?? ''));
+
+    if ($version === '' && $filename === '' && $date === '' && $requirements === '' && $notice === '') {
+      return [];
+    }
+
+    if (is_array($changes)) {
+      $changes = implode("\n", array_map(static fn($item): string => is_array($item) ? (string) ($item['text'] ?? '') : (string) $item, $changes));
+    }
+
+    return [[
+      'visible' => '1',
+      'version' => $version,
+      'apk_file' => '',
+      'filename' => $filename,
+      'date' => $date,
+      'requirements' => $requirements,
+      'changes' => trim((string) $changes),
+      'notice' => $notice,
+    ]];
   }
 
   private function sectionUiTitle(string $sectionLabel): string {

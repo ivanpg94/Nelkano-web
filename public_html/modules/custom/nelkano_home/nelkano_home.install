@@ -212,6 +212,69 @@ function nelkano_home_update_11011(): void {
 }
 
 /**
+ * Move the first beta APK to public files and link it from release config.
+ */
+function nelkano_home_update_11012(): void {
+  $uri = nelkano_home_public_release_apk_uri('Nelkano 1.0.0-beta.apk');
+  if ($uri === '') {
+    return;
+  }
+
+  $config = \Drupal::configFactory()->getEditable('nelkano_home.docs');
+  foreach (['es', 'en'] as $language) {
+    $items = $config->get($language . '.releases_items') ?? [];
+    if (!is_array($items)) {
+      continue;
+    }
+    foreach ($items as &$item) {
+      if (is_array($item) && ($item['version'] ?? '') === '1.0.0-beta') {
+        $item['apk_file'] = $uri;
+      }
+    }
+    unset($item);
+    $config->set($language . '.releases_items', $items);
+  }
+  $config->save(TRUE);
+}
+
+/**
+ * Copies a packaged APK to public files and returns its URI.
+ */
+function nelkano_home_public_release_apk_uri(string $filename): string {
+  $directory = 'public://nelkano-releases';
+  $file_system = \Drupal::service('file_system');
+  $file_system->prepareDirectory($directory, \Drupal\Core\File\FileSystemInterface::CREATE_DIRECTORY | \Drupal\Core\File\FileSystemInterface::MODIFY_PERMISSIONS);
+
+  $destination = $directory . '/' . $filename;
+  if (!is_file($file_system->realpath($destination) ?: '')) {
+    $module_path = \Drupal::service('extension.list.module')->getPath('nelkano_home');
+    $source = DRUPAL_ROOT . '/' . $module_path . '/emulator/' . $filename;
+    if (!is_file($source)) {
+      $source = DRUPAL_ROOT . '/../' . $module_path . '/emulator/' . $filename;
+    }
+    if (!is_file($source)) {
+      return '';
+    }
+    $file_system->copy($source, $destination, \Drupal\Core\File\FileExists::Replace);
+  }
+
+  $files = \Drupal::entityTypeManager()
+    ->getStorage('file')
+    ->loadByProperties(['uri' => $destination]);
+  $file = reset($files);
+  if (!$file) {
+    $file = \Drupal\file\Entity\File::create([
+      'uri' => $destination,
+      'status' => 1,
+    ]);
+  }
+  $file->setPermanent();
+  $file->save();
+
+  return $destination;
+}
+
+/**
  * Friendship table schema.
  */
 function nelkano_home_friendship_schema(): array {

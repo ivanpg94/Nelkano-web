@@ -40,39 +40,47 @@
 
       <section class="nk-legal-content nk-doc-content">
         {% if page.type == 'releases' %}
-          {% set release = page.release %}
-          <article class="nk-doc-panel">
-            <div class="nk-doc-release-head">
-              <div>
-                <p class="nk-eyebrow">{{ language == 'es' ? 'Version publica' : 'Public version' }}</p>
-                <h2>Nelkano {{ release.version }}</h2>
+          {% for release in page.releases %}
+            <article class="nk-doc-panel">
+              <div class="nk-doc-release-head">
+                <div>
+                  <p class="nk-eyebrow">{{ loop.first ? (language == 'es' ? 'Version actual' : 'Current version') : (language == 'es' ? 'Version anterior' : 'Previous version') }}</p>
+                  <h2>Nelkano {{ release.version }}</h2>
+                </div>
+                {% if release.date %}
+                  <span class="nk-status-pill">{{ release.date }}</span>
+                {% endif %}
               </div>
-              <span class="nk-status-pill">{{ release.date }}</span>
-            </div>
-            <dl class="nk-doc-meta">
-              <div><dt>{{ language == 'es' ? 'Archivo' : 'File' }}</dt><dd>{{ release.filename }}</dd></div>
-              {% if release.meta.size|default('') %}
-                <div><dt>{{ language == 'es' ? 'Tamano' : 'Size' }}</dt><dd>{{ release.meta.size }}</dd></div>
+              <dl class="nk-doc-meta">
+                {% if release.filename %}
+                  <div><dt>{{ language == 'es' ? 'Archivo' : 'File' }}</dt><dd>{{ release.filename }}</dd></div>
+                {% endif %}
+                {% if release.meta.size|default('') %}
+                  <div><dt>{{ language == 'es' ? 'Tamano' : 'Size' }}</dt><dd>{{ release.meta.size }}</dd></div>
+                {% endif %}
+                {% if release.meta.sha256|default('') %}
+                  <div class="nk-hash-row"><dt>SHA-256</dt><dd class="nk-hash">{{ release.meta.sha256 }}</dd></div>
+                {% endif %}
+              </dl>
+              {% if release.changes %}
+                <div class="nk-doc-release-changes">
+                  <h3>{{ language == 'es' ? 'Cambios principales' : 'Main changes' }}</h3>
+                  <ul class="nk-doc-list">
+                    {% for item in release.changes %}
+                      <li>{{ item }}</li>
+                    {% endfor %}
+                  </ul>
+                </div>
               {% endif %}
-              {% if release.meta.sha256|default('') %}
-                <div class="nk-hash-row"><dt>SHA-256</dt><dd class="nk-hash">{{ release.meta.sha256 }}</dd></div>
+              {% if release.url %}
+                <a class="nk-button nk-button-primary" href="{{ release.url }}">{{ language == 'es' ? 'Descargar APK' : 'Download APK' }}</a>
               {% endif %}
-              <div><dt>{{ language == 'es' ? 'Requisitos' : 'Requirements' }}</dt><dd>{{ release.requirements }}</dd></div>
-            </dl>
-            {% if release.url %}
-              <a class="nk-button nk-button-primary" href="{{ release.url }}">{{ language == 'es' ? 'Descargar beta' : 'Download beta' }}</a>
-            {% endif %}
-          </article>
-
-          <article class="nk-legal-section">
-            <h2>{{ language == 'es' ? 'Cambios principales' : 'Main changes' }}</h2>
-            <ul class="nk-doc-list">
-              {% for item in release.changes %}
-                <li>{{ item }}</li>
-              {% endfor %}
-            </ul>
-            <p>{{ release.notice }}</p>
-          </article>
+            </article>
+          {% else %}
+            <article class="nk-doc-panel">
+              <p>{{ language == 'es' ? 'Todavia no hay versiones publicadas.' : 'No releases have been published yet.' }}</p>
+            </article>
+          {% endfor %}
         {% else %}
           {% for section in page.sections %}
             <article class="nk-legal-section">

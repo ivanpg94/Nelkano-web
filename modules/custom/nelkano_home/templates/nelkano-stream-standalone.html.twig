@@ -52,10 +52,6 @@
           <h1 id="stream-title">Ver una emision de Android</h1>
           <p class="nk-copy" data-stream-copy>Abre Nelkano en Android con tu cuenta, entra en el juego y pulsa Streaming. Esta pagina conectara automaticamente cuando detecte tu emision activa.</p>
 
-          <div class="nk-stream-hint" data-stream-hint>
-            Abre el emulador en Android y pulsa Streaming.
-          </div>
-
           <button class="nk-button nk-stream-disconnect" type="button" data-stream-disconnect>Desconectar</button>
 
           <form class="nk-stream-form nk-stream-form-hidden" data-stream-form>
@@ -71,18 +67,7 @@
               <button class="nk-button nk-primary" type="submit">Conectar manualmente</button>
             </div>
           </form>
-
-          <dl class="nk-status">
-            <div><dt>Estado</dt><dd data-stream-state>Sin conectar</dd></div>
-            <div><dt>Sesion</dt><dd data-stream-session>Buscando tu emision activa</dd></div>
-            <div><dt>Signaling</dt><dd data-stream-url>{{ stream_ws_url }}</dd></div>
-          </dl>
         </aside>
-      </section>
-
-      <section class="nk-log" aria-label="Registro de conexion">
-        <h2>Registro</h2>
-        <ol data-stream-log></ol>
       </section>
     </main>
     {% include '@nelkano_home/nelkano-footer.html.twig' %}

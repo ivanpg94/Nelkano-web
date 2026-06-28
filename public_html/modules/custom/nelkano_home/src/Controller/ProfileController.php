@@ -31,7 +31,7 @@ final class ProfileController extends ControllerBase {
     );
   }
 
-  public function current(): Response {
+  public function current(): array|Response {
     $language = $this->requestLanguage();
     if (!$this->currentUser()->isAuthenticated()) {
       return new RedirectResponse($language === 'en' ? '/en/user/login' : '/user/login');
@@ -40,6 +40,10 @@ final class ProfileController extends ControllerBase {
     $account = User::load((int) $this->currentUser()->id());
     if (!$account instanceof UserInterface) {
       return new RedirectResponse($language === 'en' ? '/en/user/login' : '/user/login');
+    }
+
+    if ($this->currentUser()->hasPermission('administer users') && \Drupal::routeMatch()->getRouteName() === 'user.edit') {
+      return $this->nativeUserEditForm($account);
     }
 
     return $this->view($account);
@@ -80,8 +84,20 @@ final class ProfileController extends ControllerBase {
     ]);
   }
 
-  public function edit(UserInterface $user): Response {
+  public function edit(UserInterface $user): array|Response {
+    if ($this->currentUser()->hasPermission('administer users')) {
+      return $this->nativeUserEditForm($user);
+    }
+
     return $this->view($user);
+  }
+
+  private function nativeUserEditForm(UserInterface $user): array {
+    $form_object = $this->entityTypeManager()
+      ->getFormObject('user', 'default')
+      ->setEntity($user);
+
+    return $this->formBuilder()->getForm($form_object);
   }
 
   public function section(string $section, Request $request): Response {

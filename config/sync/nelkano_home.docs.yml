@@ -42,6 +42,21 @@ es:
     Sincronizacion opcional con Google Drive usando el permiso limitado drive.file.
     Estados de compatibilidad explicados por sistema.
   releases_notice: 'Nelkano no incluye juegos, ROMs, BIOS, firmware, claves, saves ni contenido protegido. Usa solo archivos compatibles sobre los que tengas derechos.'
+  releases_items:
+    -
+      visible: true
+      version: 1.0.0-beta
+      apk_file: 'public://nelkano-releases/Nelkano 1.0.0-beta.apk'
+      filename: 'Nelkano 1.0.0-beta.apk'
+      date: 27/06/2026
+      changes: "Primera beta publica para Android.\r\nBiblioteca local, guardados y save states.\r\nCuenta Nelkano, amigos, gba nelkano online y streaming web.\r\nSincronizacion opcional con Google Drive.\r\nCores disponibles: Chip8, Game boy, Game boy color, Fame boy advance, Megadrive, NES"
+    -
+      visible: false
+      version: 2.0.0-beta
+      apk_file: ''
+      filename: 'Nelkano 2.0.0-beta.apk'
+      date: 'Pendiente de publicacion'
+      changes: "Nuevo core Master System.\r\nFix formulario de registro: el correo electronico no llega desde la app.\r\nZIP/importacion."
   compatibility_seo_title: 'Compatibilidad de Nelkano'
   compatibility_seo_description: 'Estado real de compatibilidad de los sistemas soportados por Nelkano para Android.'
   compatibility_eyebrow: Compatibilidad
@@ -111,6 +126,32 @@ en:
     Optional Google Drive sync using the limited drive.file permission.
     Compatibility status explained by system.
   releases_notice: 'Nelkano does not include games, ROMs, BIOS files, firmware, keys, saves or protected content. Use only compatible files you have rights to use.'
+  releases_items:
+    -
+      visible: true
+      version: 1.0.0-beta
+      apk_file: 'public://nelkano-releases/Nelkano 1.0.0-beta.apk'
+      filename: 'Nelkano 1.0.0-beta.apk'
+      date: 'Pending publication'
+      requirements: 'Android compatible with the published version; a current device and enough storage for library and saves are recommended.'
+      changes: |-
+        First public beta for Android.
+        Local library, saves and save states depending on system support.
+        Nelkano account, friends, activity and web streaming.
+        Optional Google Drive sync using the limited drive.file permission.
+        Compatibility status explained by system.
+      notice: 'Nelkano does not include games, ROMs, BIOS files, firmware, keys, saves or protected content. Use only compatible files you have rights to use.'
+    -
+      visible: false
+      version: 2.0.0-beta
+      filename: 'Nelkano 2.0.0-beta.apk'
+      date: 'Pending publication'
+      requirements: 'Android compatible with the published version; a current device and enough storage for library and saves are recommended.'
+      changes: |-
+        New Master System core.
+        Registration form fix: activation email not sent from the app.
+        ZIP/import.
+      notice: 'Nelkano does not include games, ROMs, BIOS files, firmware, keys, saves or protected content. Use only compatible files you have rights to use.'
   compatibility_seo_title: 'Nelkano compatibility'
   compatibility_seo_description: 'Real compatibility status for the systems supported by Nelkano on Android.'
   compatibility_eyebrow: Compatibility

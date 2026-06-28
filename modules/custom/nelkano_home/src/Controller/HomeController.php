@@ -159,21 +159,13 @@ final class HomeController extends ControllerBase {
     $content['status_items'] = $this->parseRows($content['status_items'] ?? '', ['system', 'status', 'description']);
     $content['platform_items'] = $this->parseRows($content['platform_items'] ?? '', ['title', 'description']);
     $content['differentiator_items'] = $this->parseRows($content['differentiator_items'] ?? '', ['title', 'description']);
-    $content['vision_items'] = $this->parseLines($content['vision_items'] ?? '');
+    $content['vision_items'] = $this->parseLines($content['vision_items'] ?? '', 'text');
     $content['faq_items'] = $this->parseRows($content['faq_items'] ?? '', ['question', 'answer']);
     $content['trust_items'] = $this->parseRows($content['trust_items'] ?? '', ['title', 'description', 'url']);
     $module_path = $this->moduleExtensionList->getPath('nelkano_home');
-    $android_download = $this->resolveDownload($content['android_url'] ?? '', $module_path, 'apk');
-    $show_secondary_download = trim((string) ($content['windows_title'] ?? '')) !== ''
-      || trim((string) ($content['windows_description'] ?? '')) !== ''
-      || trim((string) ($content['windows_url'] ?? '')) !== '';
-    $windows_download = $show_secondary_download
-      ? $this->resolveDownload($content['windows_url'] ?? '', $module_path, 'exe')
-      : ['url' => '', 'meta' => []];
+    $android_download = $this->latestReleaseDownload($language, $module_path);
     $content['android_download_url'] = $android_download['url'];
     $content['android_download_meta'] = $android_download['meta'];
-    $content['windows_download_url'] = $windows_download['url'];
-    $content['windows_download_meta'] = $windows_download['meta'];
     $seo = $this->buildSeo($language, $content);
     $template = file_get_contents(DRUPAL_ROOT . '/' . $module_path . '/templates/nelkano-home-standalone.html.twig');
     $html = \Drupal::service('twig')->createTemplate($template)->render([
@@ -214,7 +206,7 @@ final class HomeController extends ControllerBase {
 
     return new Response($html, 200, [
       'Content-Type' => 'text/html; charset=UTF-8',
-      'Cache-Control' => 'public, max-age=3600',
+      'Cache-Control' => 'no-cache, must-revalidate',
       'X-Content-Type-Options' => 'nosniff',
       'Referrer-Policy' => 'strict-origin-when-cross-origin',
     ]);
@@ -238,7 +230,7 @@ final class HomeController extends ControllerBase {
 
     return new Response($html, 200, [
       'Content-Type' => 'text/html; charset=UTF-8',
-      'Cache-Control' => 'public, max-age=3600',
+      'Cache-Control' => 'no-cache, must-revalidate',
       'X-Content-Type-Options' => 'nosniff',
       'Referrer-Policy' => 'strict-origin-when-cross-origin',
     ]);
@@ -304,10 +296,29 @@ final class HomeController extends ControllerBase {
     return str_starts_with($path, '/en') ? 'en' : 'es';
   }
 
-  private function parseRows(string $value, array $keys): array {
+  private function parseRows(mixed $value, array $keys): array {
     $rows = [];
 
-    foreach (preg_split('/\R/', trim($value)) ?: [] as $line) {
+    if (is_array($value)) {
+      foreach ($value as $item) {
+        if (!is_array($item)) {
+          continue;
+        }
+        $row = [];
+        $has_value = FALSE;
+        foreach ($keys as $key) {
+          $raw_value = $item[$key] ?? '';
+          $row[$key] = is_bool($raw_value) ? ($raw_value ? '1' : '0') : trim((string) $raw_value);
+          $has_value = $has_value || $row[$key] !== '';
+        }
+        if ($has_value) {
+          $rows[] = $row;
+        }
+      }
+      return $rows;
+    }
+
+    foreach (preg_split('/\R/', trim((string) $value)) ?: [] as $line) {
       $line = trim($line);
       if ($line === '') {
         continue;
@@ -630,9 +641,27 @@ final class HomeController extends ControllerBase {
     return $page;
   }
 
-  private function parseLegalSections(string $value): array {
+  private function parseLegalSections(mixed $value): array {
     $sections = [];
-    foreach (preg_split('/\R/', trim($value)) ?: [] as $line) {
+    if (is_array($value)) {
+      foreach ($value as $item) {
+        if (!is_array($item)) {
+          continue;
+        }
+        $title = trim((string) ($item['title'] ?? ''));
+        if ($title === '') {
+          continue;
+        }
+        $paragraphs = $this->parseParagraphs($item['paragraphs'] ?? '');
+        $sections[] = [
+          'title' => $title,
+          'paragraphs' => $paragraphs,
+        ];
+      }
+      return $sections;
+    }
+
+    foreach (preg_split('/\R/', trim((string) $value)) ?: [] as $line) {
       $line = trim($line);
       if ($line === '') {
         continue;
@@ -677,19 +706,8 @@ final class HomeController extends ControllerBase {
     ];
 
     if ($pageKey === 'releases') {
-      $filename = trim((string) ($content['releases_filename'] ?? ''));
-      $download_path = $filename !== '' ? DRUPAL_ROOT . '/' . $this->moduleExtensionList->getPath('nelkano_home') . '/emulator/' . $filename : '';
-      $download_meta = is_file($download_path) ? $this->downloadMeta($download_path) : [];
-      $page['release'] = [
-        'version' => trim((string) ($content['releases_version'] ?? '')),
-        'filename' => $filename,
-        'date' => trim((string) ($content['releases_date'] ?? '')),
-        'requirements' => trim((string) ($content['releases_requirements'] ?? '')),
-        'changes' => $this->parseLines($content['releases_changes'] ?? ''),
-        'notice' => trim((string) ($content['releases_notice'] ?? '')),
-        'url' => $filename !== '' ? '/' . $this->moduleExtensionList->getPath('nelkano_home') . '/emulator/' . rawurlencode($filename) : '',
-        'meta' => $download_meta,
-      ];
+      $page['releases'] = $this->releaseRows($content, $this->moduleExtensionList->getPath('nelkano_home'));
+      $page['release'] = $page['releases'][0] ?? [];
     }
     else {
       $page['sections'] = $this->parseRows($content['security_sections'] ?? '', ['title', 'description']);
@@ -704,8 +722,124 @@ final class HomeController extends ControllerBase {
     return $page;
   }
 
-  private function parseLines(string $value): array {
-    return array_values(array_filter(array_map('trim', preg_split('/\R/', trim($value)) ?: [])));
+  private function parseLines(mixed $value, string $key = 'text'): array {
+    if (is_array($value)) {
+      $lines = [];
+      foreach ($value as $item) {
+        if (is_array($item)) {
+          $line = trim((string) ($item[$key] ?? ''));
+        }
+        else {
+          $line = trim((string) $item);
+        }
+        if ($line !== '') {
+          $lines[] = $line;
+        }
+      }
+      return $lines;
+    }
+    return array_values(array_filter(array_map('trim', preg_split('/\R/', trim((string) $value)) ?: [])));
+  }
+
+  private function releaseRows(array $content, string $modulePath): array {
+    $release_items = $content['releases_items'] ?? '';
+    $rows = is_array($release_items)
+      ? $this->parseRows($release_items, ['visible', 'version', 'apk_file', 'filename', 'date', 'changes'])
+      : $this->parseRows($release_items, ['version', 'filename', 'date', 'requirements', 'changes', 'notice']);
+    if ($rows === []) {
+      $rows = [[
+        'version' => trim((string) ($content['releases_version'] ?? '')),
+        'apk_file' => '',
+        'filename' => trim((string) ($content['releases_filename'] ?? '')),
+        'date' => trim((string) ($content['releases_date'] ?? '')),
+        'changes' => $content['releases_changes'] ?? '',
+      ]];
+    }
+
+    $releases = [];
+    foreach ($rows as $row) {
+      if ($this->releaseIsHidden($row)) {
+        continue;
+      }
+      $file = $this->releaseFile($row, $modulePath);
+      $releases[] = [
+        'version' => trim((string) ($row['version'] ?? '')),
+        'filename' => $file['filename'],
+        'date' => trim((string) ($row['date'] ?? '')),
+        'changes' => $this->parseLines($row['changes'] ?? '', 'text'),
+        'url' => $file['url'],
+        'meta' => is_file($file['path']) ? $this->downloadMeta($file['path'], trim((string) ($row['version'] ?? ''))) : [],
+      ];
+    }
+
+    usort($releases, fn(array $left, array $right): int => $this->compareReleaseRows($right, $left));
+    return $releases;
+  }
+
+  private function latestReleaseDownload(string $language, string $modulePath): array {
+    $content = $this->homeConfigFactory->get('nelkano_home.docs')->get($language) ?? [];
+    $releases = $this->releaseRows(is_array($content) ? $content : [], $modulePath);
+    $release = [];
+    foreach ($releases as $candidate) {
+      if (!empty($candidate['url'])) {
+        $release = $candidate;
+        break;
+      }
+    }
+    return [
+      'url' => (string) ($release['url'] ?? ''),
+      'meta' => (array) ($release['meta'] ?? []),
+    ];
+  }
+
+  private function releaseFile(array $row, string $modulePath): array {
+    $uri = trim((string) ($row['apk_file'] ?? ''));
+    if ($uri !== '') {
+      $path = \Drupal::service('file_system')->realpath($uri);
+      $filename = basename($uri);
+      return [
+        'filename' => $filename,
+        'path' => is_string($path) ? $path : '',
+        'url' => \Drupal::service('file_url_generator')->generateString($uri),
+      ];
+    }
+
+    $filename = trim((string) ($row['filename'] ?? ''));
+    return [
+      'filename' => $filename,
+      'path' => '',
+      'url' => '',
+    ];
+  }
+
+  private function compareReleaseRows(array $left, array $right): int {
+    $left_version = trim((string) ($left['version'] ?? ''));
+    $right_version = trim((string) ($right['version'] ?? ''));
+    if ($left_version !== '' || $right_version !== '') {
+      $comparison = version_compare($left_version, $right_version);
+      if ($comparison !== 0) {
+        return $comparison;
+      }
+    }
+
+    return strcmp((string) ($left['date'] ?? ''), (string) ($right['date'] ?? ''));
+  }
+
+  private function releaseIsHidden(array $row): bool {
+    $visible = strtolower(trim((string) ($row['visible'] ?? '')));
+    return in_array($visible, ['0', 'false', 'no', 'off'], TRUE);
+  }
+
+  private function parseParagraphs(mixed $value): array {
+    if (is_array($value)) {
+      return array_values(array_filter(array_map('trim', array_map('strval', $value))));
+    }
+    $text = trim((string) $value);
+    if ($text === '') {
+      return [];
+    }
+    $pattern = str_contains($text, '||') ? '/\s*\|\|\s*/' : '/\R+/';
+    return array_values(array_filter(array_map('trim', preg_split($pattern, $text) ?: [])));
   }
 
   private function analyticsSettings(): array {
@@ -745,9 +879,12 @@ final class HomeController extends ControllerBase {
     ];
   }
 
-  private function downloadMeta(string $path): array {
+  private function downloadMeta(string $path, ?string $versionOverride = NULL): array {
     $filename = basename($path);
-    $version = $this->publicVersion();
+    $version = trim((string) $versionOverride);
+    if ($version === '') {
+      $version = $this->publicVersion();
+    }
     if (preg_match('/v([0-9][A-Za-z0-9.\-]*)/', $filename, $matches) === 1) {
       $version = $matches[1];
     }
@@ -761,7 +898,9 @@ final class HomeController extends ControllerBase {
   }
 
   private function publicVersion(): string {
-    $version = trim((string) ($this->homeConfigFactory->get('nelkano_home.docs')->get('es.releases_version') ?? ''));
+    $content = $this->homeConfigFactory->get('nelkano_home.docs')->get('es') ?? [];
+    $releases = $this->releaseRows(is_array($content) ? $content : [], $this->moduleExtensionList->getPath('nelkano_home'));
+    $version = trim((string) ($releases[0]['version'] ?? $content['releases_version'] ?? ''));
     return $version !== '' ? $version : '1.0.0-beta';
   }
 

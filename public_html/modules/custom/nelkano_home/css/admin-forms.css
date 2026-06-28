@@ -4,6 +4,9 @@
 }
 
 body:has(.nk-admin-app) {
+  background: #f6f8fc !important;
+  color: #111827 !important;
+  margin: 0 !important;
   padding-top: 0 !important;
 }
 
@@ -12,6 +15,34 @@ body:has(.nk-admin-app) .region-breadcrumb,
 body:has(.nk-admin-app) .block-page-title-block,
 body:has(.nk-admin-app) .page-title {
   display: none !important;
+}
+
+body:has(.nk-admin-app) .layout-container,
+body:has(.nk-admin-app) .page-wrapper,
+body:has(.nk-admin-app) .main-content,
+body:has(.nk-admin-app) .main-content__container,
+body:has(.nk-admin-app) .region-content,
+body:has(.nk-admin-app) .block-system-main-block,
+body:has(.nk-admin-app) .content-header,
+body:has(.nk-admin-app) .layout-node-form,
+body:has(.nk-admin-app) .form-item,
+body:has(.nk-admin-app) .form-actions {
+  max-width: none !important;
+}
+
+body:has(.nk-admin-app) .layout-container,
+body:has(.nk-admin-app) .page-wrapper,
+body:has(.nk-admin-app) .main-content,
+body:has(.nk-admin-app) .main-content__container,
+body:has(.nk-admin-app) .region-content,
+body:has(.nk-admin-app) .block-system-main-block,
+body:has(.nk-admin-app) .content-header {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
 }
 
 .nk-admin-app,
@@ -226,16 +257,6 @@ body:has(.nk-admin-app) .page-title {
   padding: 28px;
 }
 
-.nk-admin-kicker {
-  color: #7c3aed;
-  font-size: 0.76rem;
-  font-weight: 950;
-  letter-spacing: 0.08em;
-  line-height: 1;
-  margin: 0 0 10px;
-  text-transform: uppercase;
-}
-
 .nk-admin-panel-head h1 {
   color: #111827;
   font-size: clamp(2rem, 4vw, 3.1rem);
@@ -245,7 +266,7 @@ body:has(.nk-admin-app) .page-title {
   margin: 0;
 }
 
-.nk-admin-panel-head p:not(.nk-admin-kicker) {
+.nk-admin-panel-head p {
   color: #5b6b84;
   font-size: 1rem;
   line-height: 1.45;
@@ -338,16 +359,24 @@ body:has(.nk-admin-app) .page-title {
   overflow: hidden;
 }
 
+.nk-admin-config-form details[open] {
+  border-color: #cdd8e7;
+}
+
 .nk-admin-config-form details details {
   background: #fbfdff;
   margin: 16px 0 0;
 }
 
 .nk-admin-config-form summary {
+  align-items: center;
   color: #111827;
   cursor: pointer;
+  display: flex;
   font-size: 1.12rem;
   font-weight: 900;
+  gap: 16px;
+  justify-content: space-between;
   line-height: 1.2;
   padding: 18px;
 }
@@ -369,9 +398,78 @@ body:has(.nk-admin-app) .page-title {
   padding: 0 18px 18px;
 }
 
+.nk-admin-config-form .nk-admin-section.is-section-disabled {
+  background:
+    linear-gradient(135deg, rgba(100, 116, 139, 0.14), rgba(148, 163, 184, 0.06)),
+    #f8fafc;
+  border-color: #cbd5e1;
+  box-shadow: inset 0 0 0 999px rgba(248, 250, 252, 0.42);
+}
+
+.nk-admin-config-form .nk-admin-section.is-section-disabled summary {
+  color: #64748b;
+}
+
+.nk-section-toggle-slot {
+  flex: 0 0 auto;
+}
+
+.nk-admin-config-form .nk-section-toggle {
+  align-items: center;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  display: inline-flex;
+  gap: 8px;
+  margin: 0;
+  min-height: 36px;
+  padding: 6px 12px;
+  transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.nk-admin-config-form .nk-section-toggle.is-enabled {
+  background: #ecfdf5;
+  border-color: #86efac;
+  box-shadow: 0 8px 22px rgba(34, 197, 94, 0.12);
+}
+
+.nk-admin-config-form .nk-section-toggle .form-item {
+  margin: 0;
+}
+
+.nk-admin-config-form .nk-section-toggle label {
+  color: #475569;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 900;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.nk-admin-config-form .nk-section-toggle.is-enabled label {
+  color: #15803d;
+}
+
+.nk-admin-config-form .nk-section-toggle .description {
+  display: none;
+}
+
 .nk-admin-config-form .form-item {
   margin: 0;
   min-width: 0;
+}
+
+.nk-admin-config-form .form-element,
+.nk-admin-config-form .form-text,
+.nk-admin-config-form .form-textarea,
+.nk-admin-config-form .form-select,
+.nk-admin-config-form .form-checkbox,
+.nk-admin-config-form .form-radio,
+.nk-admin-config-form .button {
+  appearance: auto;
+  box-shadow: none;
+  font-family: inherit;
+  letter-spacing: 0;
 }
 
 .nk-admin-config-form label {
@@ -384,7 +482,8 @@ body:has(.nk-admin-app) .page-title {
 }
 
 .nk-admin-config-form input.form-text,
-.nk-admin-config-form textarea.form-textarea {
+.nk-admin-config-form textarea.form-textarea,
+.nk-admin-config-form select.form-select {
   background: #ffffff;
   border: 1px solid #d6e0ec;
   border-radius: 8px;
@@ -403,21 +502,27 @@ body:has(.nk-admin-app) .page-title {
   min-height: 44px;
 }
 
+.nk-admin-config-form select.form-select {
+  min-height: 44px;
+}
+
 .nk-admin-config-form textarea.form-textarea {
   min-height: 112px;
 }
 
-.nk-admin-config-form textarea[name$="_sections"],
-.nk-admin-config-form textarea[name$="_items"],
-.nk-admin-config-form textarea[name$="_changes"] {
-  font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
-  min-height: 260px;
-}
-
 .nk-admin-config-form input.form-text:focus,
-.nk-admin-config-form textarea.form-textarea:focus {
+.nk-admin-config-form textarea.form-textarea:focus,
+.nk-admin-config-form select.form-select:focus {
   border-color: #8b2cff;
   box-shadow: 0 0 0 4px rgba(139, 44, 255, 0.14);
+}
+
+.nk-admin-config-form input.form-checkbox,
+.nk-admin-config-form input.form-radio {
+  accent-color: #7c3aed;
+  height: 18px;
+  margin: 0;
+  width: 18px;
 }
 
 .nk-admin-config-form .description {
@@ -425,6 +530,219 @@ body:has(.nk-admin-app) .page-title {
   font-size: 0.82rem;
   line-height: 1.4;
   margin-top: 7px;
+}
+
+.nk-config-rows {
+  border: 1px solid #dfe7f2;
+  border-radius: 12px;
+  display: grid;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 14px;
+}
+
+.nk-config-rows-title {
+  color: #111827;
+  font-size: 0.98rem;
+  font-weight: 950;
+  margin: 0;
+}
+
+.nk-config-rows-table {
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  margin: 0;
+  min-width: 760px;
+  width: 100%;
+}
+
+.nk-config-rows-table thead th {
+  color: #64748b;
+  font-size: 0.74rem;
+  font-weight: 900;
+  padding: 0 8px;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.nk-config-rows-table tbody tr {
+  background: #fbfdff;
+}
+
+.nk-config-rows-table td {
+  border-bottom: 1px solid #dfe7f2;
+  border-top: 1px solid #dfe7f2;
+  padding: 8px;
+  vertical-align: top;
+}
+
+.nk-config-rows-table td:first-child {
+  border-left: 1px solid #dfe7f2;
+  border-radius: 10px 0 0 10px;
+  color: #64748b;
+  font-weight: 900;
+  text-align: center;
+  width: 42px;
+}
+
+.nk-config-rows-table td:last-child {
+  border-radius: 0 10px 10px 0;
+  border-right: 1px solid #dfe7f2;
+  text-align: center;
+  width: 74px;
+}
+
+.nk-config-rows-table .form-item {
+  margin: 0;
+}
+
+.nk-config-rows-table textarea.form-textarea {
+  min-height: 82px;
+}
+
+.nk-config-rows-cards {
+  display: grid;
+  gap: 16px;
+}
+
+.nk-config-row-card {
+  background: #fbfdff;
+  border: 1px solid #dfe7f2;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.04);
+  overflow: hidden;
+}
+
+.nk-config-row-card > summary {
+  align-items: center;
+  background: #f8fafc;
+  border-bottom: 1px solid #dfe7f2;
+  color: #111827;
+  cursor: pointer;
+  display: flex;
+  font-size: 0.96rem;
+  font-weight: 950;
+  justify-content: space-between;
+  list-style: none;
+  padding: 15px 18px;
+}
+
+.nk-config-row-card > summary::-webkit-details-marker {
+  display: none;
+}
+
+.nk-config-row-card > summary::after {
+  border: solid #64748b;
+  border-width: 0 2px 2px 0;
+  content: "";
+  display: block;
+  height: 8px;
+  transform: rotate(45deg);
+  transition: transform 160ms ease;
+  width: 8px;
+}
+
+.nk-config-row-card[open] > summary::after {
+  transform: rotate(225deg);
+}
+
+.nk-config-row-card > .details-wrapper {
+  display: block !important;
+  padding: 0 !important;
+}
+
+.nk-config-row-card-top {
+  align-items: end;
+  border-bottom: 1px solid #dfe7f2;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(92px, 120px) minmax(132px, 160px) minmax(260px, 1fr) minmax(210px, 260px);
+  padding: 16px;
+}
+
+.nk-config-row-card-top .form-item {
+  margin: 0;
+}
+
+.nk-config-row-field-delete,
+.nk-config-row-field-visible {
+  align-self: center;
+}
+
+.nk-config-row-field-delete label,
+.nk-config-row-field-visible label {
+  margin: 0 0 0 8px;
+}
+
+.nk-config-row-field-delete .form-item__label,
+.nk-config-row-field-visible .form-item__label {
+  display: inline;
+}
+
+.nk-config-row-card-fields {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(240px, 360px) minmax(320px, 1fr);
+  padding: 16px;
+}
+
+.nk-config-row-card-fields > .form-item {
+  margin: 0;
+}
+
+.nk-config-row-card-fields > .nk-config-row-field-version {
+  grid-column: 1;
+}
+
+.nk-config-row-card-fields > .nk-config-row-field-apk-file {
+  grid-column: 2;
+}
+
+.nk-config-row-card-fields > .nk-config-row-field-changes {
+  grid-column: 1 / -1;
+}
+
+.nk-config-row-card-fields textarea.form-textarea {
+  min-height: 112px;
+}
+
+.nk-config-row-field-apk-file .managed-file,
+.nk-config-row-field-apk-file .js-form-managed-file {
+  align-items: start;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.nk-config-row-field-apk-file .file,
+.nk-config-row-field-apk-file .file--application-archive {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.nk-config-row-field-apk-file .button,
+.nk-config-row-field-apk-file input.button {
+  min-height: 40px;
+  padding: 0 16px;
+}
+
+.nk-config-row-field-apk-file .description {
+  grid-column: 1 / -1;
+  max-width: 46ch;
+}
+
+.nk-config-rows-actions.form-actions {
+  background: transparent;
+  border-top: 0;
+  justify-content: flex-start;
+  margin: 0;
+  padding: 0;
+}
+
+.nk-config-rows-actions .button {
+  background: #ffffff;
+  border: 1px solid #93c5fd;
+  color: #2563eb;
 }
 
 .nk-admin-config-form .form-actions {
@@ -459,9 +777,35 @@ body:has(.nk-admin-app) .page-title {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .nk-admin-config-form .nk-config-row-card > .details-wrapper {
+    display: block !important;
+  }
+
   .nk-admin-config-form details details .form-item:has(textarea),
   .nk-admin-config-form details details .form-item:has(.description) {
     grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 760px) {
+  .nk-config-row-card-top,
+  .nk-config-row-card-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .nk-config-row-card-top > .form-item,
+  .nk-config-row-card-fields > .form-item,
+  .nk-config-row-card-fields > .form-type--checkbox,
+  .nk-config-row-card-fields > .form-item:has(input[type="checkbox"]),
+  .nk-config-row-card-fields > .form-item:has(input[type="file"]),
+  .nk-config-row-card-fields > .form-item:has(.managed-file),
+  .nk-config-row-card-fields > .form-item:has(textarea) {
+    grid-column: 1 / -1;
+  }
+
+  .nk-config-row-field-apk-file .managed-file,
+  .nk-config-row-field-apk-file .js-form-managed-file {
+    grid-template-columns: 1fr;
   }
 }
 

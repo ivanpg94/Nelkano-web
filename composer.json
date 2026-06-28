@@ -21,9 +21,9 @@
   "require": {
     "composer/installers": "^2.3",
     "drupal/admin_toolbar": "^3.6",
-    "drupal/core-composer-scaffold": "^11.0",
-    "drupal/core-project-message": "^11.0",
-    "drupal/core-recommended": "^11.0",
+    "drupal/core-composer-scaffold": "11.3.13",
+    "drupal/core-project-message": "11.3.13",
+    "drupal/core-recommended": "11.3.13",
     "drupal/google_tag": "^2.0",
     "drupal/metatag": "^2.1",
     "drupal/pathauto": "^1.13",
