@@ -22,7 +22,16 @@ para activar campos, emitir/revocar credenciales y consultar/descargar reportes.
 
 Actualizado y validado el 2026-09-05 con `drush updb`, `drush cex` y la prueba
 HTTP de reportes. `config/sync` está montado con escritura para permitir `cex`;
-la exportación es la configuración completa del sitio local, no datos de nodos.
+`cex` exporta configuración, no datos de nodos. Atención: `config/sync` se ha
+corregido después usando la base versionada anterior de producción, conservando
+sus UUID, roles y ajustes y añadiendo los reportes y migraciones de Drupal 11.4.
+La base local se instaló por separado y tenía otros UUID. El 2026-09-05 se
+alinearon sus UUID de configuración por nombre/ID, con copia SQL previa y
+validación de Drupal sin borrados ni renombrados. Después se ejecutó `cim`
+correctamente; un segundo `cim` no tiene cambios y DB/sync coinciden. Los UUID
+de contenido y los reportes se conservaron. Esta corrección se aplicó solo a
+Docker local, nunca a producción. No exportar sobre este directorio desde otra
+instalación independiente sin conciliar antes sus identificadores y ajustes.
 
 El Composer versionado conserva `public_html/` para el despliegue. El runtime
 Docker usa su propio `/opt/drupal/composer.json`, con docroot `web/` y el paquete

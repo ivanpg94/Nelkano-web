@@ -1,0 +1,14 @@
+uuid: 9513f160-3cca-4367-8ba7-3036af7f4ced
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.nelkano_editor
+  module:
+    - user
+id: user_add_role_action.nelkano_editor
+label: 'Add the Nelkano editor role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: nelkano_editor

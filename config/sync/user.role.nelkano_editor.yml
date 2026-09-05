@@ -1,0 +1,17 @@
+uuid: 59100946-72b5-4ff9-9ce2-6b5b993d7559
+langcode: en
+status: true
+dependencies:
+  module:
+    - nelkano_home
+    - system
+    - toolbar
+id: nelkano_editor
+label: 'Nelkano editor'
+weight: 4
+is_admin: false
+permissions:
+  - 'access administration pages'
+  - 'access toolbar'
+  - 'administer nelkano editable pages'
+  - 'view the administration theme'

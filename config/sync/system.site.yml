@@ -1,13 +1,13 @@
 _core:
   default_config_hash: ijfbzDTN4CbE7Sr-6ubWzy_t1vH4OtU1doNCLssVz-4
 langcode: en
-uuid: d31388ff-2d61-41db-99ca-fac9052236cd
-name: 'Nelkano Emulator'
-mail: admin@example.com
-slogan: 'Emulador gratis para Android y Windows'
+uuid: 62188186-7c1f-4621-8dec-4b807f0ee534
+name: Nelkano
+mail: contacto@nelkano.com
+slogan: 'Emulador multisistema para Android'
 page:
-  403: ''
-  404: ''
+  403: /acceso-denegado
+  404: /pagina-no-encontrada
   front: /home
 admin_compact_mode: false
 weight_select_max: 100
