@@ -1,0 +1,23 @@
+uuid: e711c720-9b7b-4c61-b744-20fac604c139
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_report_app_build
+    - node.type.nelkano_error_report
+id: node.nelkano_error_report.field_report_app_build
+field_name: field_report_app_build
+entity_type: node
+bundle: nelkano_error_report
+label: 'Build de la aplicacion'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

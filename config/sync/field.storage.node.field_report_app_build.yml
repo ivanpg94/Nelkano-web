@@ -1,0 +1,20 @@
+uuid: 86482588-720b-4f25-9e95-89f67bbbb161
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_report_app_build
+field_name: field_report_app_build
+entity_type: node
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

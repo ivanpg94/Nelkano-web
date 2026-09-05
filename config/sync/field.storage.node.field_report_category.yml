@@ -1,0 +1,45 @@
+uuid: 881f40f9-5d12-47d7-8e93-f8c954c710aa
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_report_category
+field_name: field_report_category
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: crash
+      label: 'Cierre inesperado'
+    -
+      value: freeze
+      label: Bloqueo
+    -
+      value: graphics
+      label: Graficos
+    -
+      value: audio
+      label: Audio
+    -
+      value: controls
+      label: Controles
+    -
+      value: performance
+      label: Rendimiento
+    -
+      value: save_state
+      label: Guardado
+    -
+      value: other
+      label: Otro
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

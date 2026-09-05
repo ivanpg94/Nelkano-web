@@ -1,0 +1,19 @@
+uuid: 115a3840-ee46-4d25-bfff-78747c3c0f51
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_report_gpu
+    - node.type.nelkano_error_report
+id: node.nelkano_error_report.field_report_gpu
+field_name: field_report_gpu
+entity_type: node
+bundle: nelkano_error_report
+label: GPU
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

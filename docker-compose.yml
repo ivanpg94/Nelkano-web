@@ -21,7 +21,10 @@ services:
     volumes:
       - drupal_app:/opt/drupal
       - ./modules/custom:/opt/drupal/web/modules/custom
+      - ./config/sync:/opt/drupal/config/sync
+      - ./docker/php/nelkano.ini:/usr/local/etc/php/conf.d/nelkano.ini:ro
       - drupal_files:/opt/drupal/web/sites/default/files
+      - drupal_private:/opt/drupal/private
     restart: unless-stopped
 
   mailpit:
@@ -73,4 +76,5 @@ services:
 volumes:
   drupal_app:
   drupal_files:
+  drupal_private:
   drupal_db:

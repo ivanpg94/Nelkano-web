@@ -17,7 +17,7 @@ for ($i = 0; $i -lt 60; $i++) {
   Start-Sleep -Seconds 2
 }
 
-docker compose exec -T drupal sh -lc "composer require drush/drush:^13 drupal/metatag drupal/simple_sitemap drupal/pathauto drupal/redirect drupal/google_tag --no-interaction"
+docker compose exec -T drupal sh -lc "composer require drush/drush:^13 drupal/metatag drupal/simple_sitemap drupal/pathauto drupal/redirect drupal/google_tag drupal/views_data_export:^1.10 --no-interaction"
 
 $installed = docker compose exec -T drupal sh -lc "test -f web/sites/default/settings.php && grep -q 'database' web/sites/default/settings.php && echo yes || echo no"
 
@@ -29,11 +29,21 @@ if ($installed.Trim() -ne "yes") {
 docker compose exec -T drupal sh -lc "grep -q 'Nelkano versioned config sync' web/sites/default/settings.php || cat >> web/sites/default/settings.php <<'PHP'
 
 // Nelkano versioned config sync.
-\$settings['config_sync_directory'] = dirname(__DIR__, 3) . '/config/sync';
+`$settings['config_sync_directory'] = dirname(__DIR__, 3) . '/config/sync';
 PHP"
 
-docker compose exec -T drupal sh -lc "vendor/bin/drush en nelkano_home -y"
+docker compose exec -T drupal sh -lc "grep -q 'file_private_path' web/sites/default/settings.php || cat >> web/sites/default/settings.php <<'PHP'
+
+// Nelkano private error report storage.
+`$settings['file_private_path'] = dirname(__DIR__, 3) . '/private';
+PHP"
+
+docker compose exec -T drupal sh -lc "mkdir -p private && chown -R www-data:www-data private && chmod 750 private"
+docker compose exec -T drupal sh -lc "vendor/bin/drush en views_data_export nelkano_home -y"
 docker compose exec -T drupal sh -lc "vendor/bin/drush en token metatag metatag_open_graph metatag_twitter_cards pathauto redirect simple_sitemap google_tag -y"
+docker compose exec -T drupal sh -lc "vendor/bin/drush config:set user.settings register visitors -y"
+docker compose exec -T drupal sh -lc "vendor/bin/drush config:set user.settings verify_mail 1 -y"
+docker compose exec -T drupal sh -lc "vendor/bin/drush config:set system.mail interface.nelkano_home nelkano_html_mail -y"
 docker compose exec -T drupal sh -lc "vendor/bin/drush config:set system.site page.front /home -y"
 docker compose exec -T drupal sh -lc "vendor/bin/drush config:set block.block.olivero_page_title status 0 -y"
 docker compose exec -T drupal sh -lc "vendor/bin/drush config:set system.site name 'Nelkano Emulator' -y"
@@ -41,7 +51,7 @@ docker compose exec -T drupal sh -lc "vendor/bin/drush config:set system.site sl
 docker compose exec -T drupal sh -lc "vendor/bin/drush config:set system.performance css.preprocess 1 -y"
 docker compose exec -T drupal sh -lc "vendor/bin/drush config:set system.performance js.preprocess 1 -y"
 docker compose exec -T drupal sh -lc "vendor/bin/drush config:set system.performance cache.page.max_age 3600 -y"
-docker compose exec -T drupal sh -lc "test -f config/sync/system.site.yml && vendor/bin/drush config:set system.site uuid \$(grep '^uuid:' config/sync/system.site.yml | awk '{print \$2}') -y || true"
+docker compose exec -T drupal sh -lc "test -f config/sync/system.site.yml && vendor/bin/drush config:set system.site uuid `$(grep '^uuid:' config/sync/system.site.yml | awk '{print `$2}') -y || true"
 docker compose exec -T drupal sh -lc "vendor/bin/drush config:set metatag.metatag_defaults.global tags.description 'Nelkano Emulator es un emulador gratis para Android y Windows con cores para CHIP-8, Game Boy, Game Boy Color, Game Boy Advance, NES y Nintendo DS.' -y"
 docker compose exec -T drupal sh -lc "vendor/bin/drush config:set metatag.metatag_defaults.global tags.robots 'index, follow, max-image-preview:large' -y"
 docker compose exec -T drupal sh -lc "vendor/bin/drush config:set metatag.metatag_defaults.front tags.title 'Nelkano Emulator - Emulador gratis para Android y Windows' -y"

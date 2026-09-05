@@ -1,0 +1,80 @@
+uuid: 9ae6bc8d-1e4e-4638-9d05-2f514c3420ed
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.nelkano_error_report.body
+    - field.field.node.nelkano_error_report.field_report_abis
+    - field.field.node.nelkano_error_report.field_report_actual
+    - field.field.node.nelkano_error_report.field_report_android
+    - field.field.node.nelkano_error_report.field_report_app_build
+    - field.field.node.nelkano_error_report.field_report_app_version
+    - field.field.node.nelkano_error_report.field_report_backend
+    - field.field.node.nelkano_error_report.field_report_category
+    - field.field.node.nelkano_error_report.field_report_core_version
+    - field.field.node.nelkano_error_report.field_report_device_id
+    - field.field.node.nelkano_error_report.field_report_device_model
+    - field.field.node.nelkano_error_report.field_report_expected
+    - field.field.node.nelkano_error_report.field_report_game
+    - field.field.node.nelkano_error_report.field_report_gpu
+    - field.field.node.nelkano_error_report.field_report_logs
+    - field.field.node.nelkano_error_report.field_report_rom_hash
+    - field.field.node.nelkano_error_report.field_report_screenshot_uri
+    - field.field.node.nelkano_error_report.field_report_settings
+    - field.field.node.nelkano_error_report.field_report_slot
+    - field.field.node.nelkano_error_report.field_report_state_format
+    - field.field.node.nelkano_error_report.field_report_state_name
+    - field.field.node.nelkano_error_report.field_report_state_sha256
+    - field.field.node.nelkano_error_report.field_report_state_size
+    - field.field.node.nelkano_error_report.field_report_state_uri
+    - field.field.node.nelkano_error_report.field_report_status
+    - field.field.node.nelkano_error_report.field_report_system
+    - node.type.nelkano_error_report
+  module:
+    - text
+    - user
+id: node.nelkano_error_report.teaser
+targetEntityType: node
+bundle: nelkano_error_report
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_report_abis: true
+  field_report_actual: true
+  field_report_android: true
+  field_report_app_build: true
+  field_report_app_version: true
+  field_report_backend: true
+  field_report_category: true
+  field_report_core_version: true
+  field_report_device_id: true
+  field_report_device_model: true
+  field_report_expected: true
+  field_report_game: true
+  field_report_gpu: true
+  field_report_logs: true
+  field_report_rom_hash: true
+  field_report_screenshot_uri: true
+  field_report_settings: true
+  field_report_slot: true
+  field_report_state_format: true
+  field_report_state_name: true
+  field_report_state_sha256: true
+  field_report_state_size: true
+  field_report_state_uri: true
+  field_report_status: true
+  field_report_system: true

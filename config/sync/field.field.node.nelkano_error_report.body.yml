@@ -1,0 +1,24 @@
+uuid: 2e77628e-dbe2-42e1-8716-2b3360571b40
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.nelkano_error_report
+  module:
+    - text
+id: node.nelkano_error_report.body
+field_name: body
+entity_type: node
+bundle: nelkano_error_report
+label: 'Pasos para reproducir'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+  allowed_formats: {  }
+field_type: text_with_summary

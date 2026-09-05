@@ -1,0 +1,19 @@
+uuid: 1260bbc4-56a8-40b4-8efa-18d29bfc5f32
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_report_abis
+    - node.type.nelkano_error_report
+id: node.nelkano_error_report.field_report_abis
+field_name: field_report_abis
+entity_type: node
+bundle: nelkano_error_report
+label: ABIs
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

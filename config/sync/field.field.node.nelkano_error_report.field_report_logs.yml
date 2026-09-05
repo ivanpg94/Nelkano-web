@@ -1,0 +1,19 @@
+uuid: f606e739-5f36-419e-a383-44ad4c100a45
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_report_logs
+    - node.type.nelkano_error_report
+id: node.nelkano_error_report.field_report_logs
+field_name: field_report_logs
+entity_type: node
+bundle: nelkano_error_report
+label: 'Registros de diagnostico'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

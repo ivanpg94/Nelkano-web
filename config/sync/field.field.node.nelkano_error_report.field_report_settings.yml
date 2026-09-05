@@ -1,0 +1,19 @@
+uuid: 7f2d9b0e-92d8-40a2-955c-bc376d39def6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_report_settings
+    - node.type.nelkano_error_report
+id: node.nelkano_error_report.field_report_settings
+field_name: field_report_settings
+entity_type: node
+bundle: nelkano_error_report
+label: 'Configuracion del emulador'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

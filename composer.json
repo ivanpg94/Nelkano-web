@@ -21,14 +21,15 @@
   "require": {
     "composer/installers": "^2.3",
     "drupal/admin_toolbar": "^3.6",
-    "drupal/core-composer-scaffold": "11.3.13",
-    "drupal/core-project-message": "11.3.13",
-    "drupal/core-recommended": "11.3.13",
+    "drupal/core-composer-scaffold": "11.4.6",
+    "drupal/core-project-message": "11.4.6",
+    "drupal/core-recommended": "11.4.6",
     "drupal/google_tag": "^2.0",
     "drupal/metatag": "^2.1",
     "drupal/pathauto": "^1.13",
     "drupal/redirect": "^1.11",
     "drupal/simple_sitemap": "^4.2",
+    "drupal/views_data_export": "^1.10",
     "drush/drush": "^13.0",
     "nelkano/nelkano_home": "^1.0"
   },
@@ -36,7 +37,8 @@
     "allow-plugins": {
       "composer/installers": true,
       "drupal/core-composer-scaffold": true,
-      "drupal/core-project-message": true
+      "drupal/core-project-message": true,
+      "symfony/runtime": true
     },
     "sort-packages": true
   },

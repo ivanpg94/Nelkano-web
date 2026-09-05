@@ -1,0 +1,23 @@
+uuid: e52207e0-8c2d-48a7-b91f-634d5f009355
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_report_slot
+    - node.type.nelkano_error_report
+id: node.nelkano_error_report.field_report_slot
+field_name: field_report_slot
+entity_type: node
+bundle: nelkano_error_report
+label: Slot
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

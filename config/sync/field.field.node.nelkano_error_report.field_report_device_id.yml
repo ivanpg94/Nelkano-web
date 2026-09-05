@@ -1,0 +1,19 @@
+uuid: 4d543540-9514-4087-98ad-64fc928cc854
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_report_device_id
+    - node.type.nelkano_error_report
+id: node.nelkano_error_report.field_report_device_id
+field_name: field_report_device_id
+entity_type: node
+bundle: nelkano_error_report
+label: 'ID del dispositivo'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

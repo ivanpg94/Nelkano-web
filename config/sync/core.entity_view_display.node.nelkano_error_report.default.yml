@@ -1,0 +1,250 @@
+uuid: 452e8c49-6992-4a92-8851-bd62549367af
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.nelkano_error_report.body
+    - field.field.node.nelkano_error_report.field_report_abis
+    - field.field.node.nelkano_error_report.field_report_actual
+    - field.field.node.nelkano_error_report.field_report_android
+    - field.field.node.nelkano_error_report.field_report_app_build
+    - field.field.node.nelkano_error_report.field_report_app_version
+    - field.field.node.nelkano_error_report.field_report_backend
+    - field.field.node.nelkano_error_report.field_report_category
+    - field.field.node.nelkano_error_report.field_report_core_version
+    - field.field.node.nelkano_error_report.field_report_device_id
+    - field.field.node.nelkano_error_report.field_report_device_model
+    - field.field.node.nelkano_error_report.field_report_expected
+    - field.field.node.nelkano_error_report.field_report_game
+    - field.field.node.nelkano_error_report.field_report_gpu
+    - field.field.node.nelkano_error_report.field_report_logs
+    - field.field.node.nelkano_error_report.field_report_rom_hash
+    - field.field.node.nelkano_error_report.field_report_screenshot_uri
+    - field.field.node.nelkano_error_report.field_report_settings
+    - field.field.node.nelkano_error_report.field_report_slot
+    - field.field.node.nelkano_error_report.field_report_state_format
+    - field.field.node.nelkano_error_report.field_report_state_name
+    - field.field.node.nelkano_error_report.field_report_state_sha256
+    - field.field.node.nelkano_error_report.field_report_state_size
+    - field.field.node.nelkano_error_report.field_report_state_uri
+    - field.field.node.nelkano_error_report.field_report_status
+    - field.field.node.nelkano_error_report.field_report_system
+    - node.type.nelkano_error_report
+  module:
+    - nelkano_home
+    - options
+    - text
+    - user
+id: node.nelkano_error_report.default
+targetEntityType: node
+bundle: nelkano_error_report
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_report_abis:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  field_report_actual:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 11
+    region: content
+  field_report_android:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 12
+    region: content
+  field_report_app_build:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 13
+    region: content
+  field_report_app_version:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 14
+    region: content
+  field_report_backend:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 15
+    region: content
+  field_report_category:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 16
+    region: content
+  field_report_core_version:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 17
+    region: content
+  field_report_device_id:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 18
+    region: content
+  field_report_device_model:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 19
+    region: content
+  field_report_expected:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 20
+    region: content
+  field_report_game:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 21
+    region: content
+  field_report_gpu:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 22
+    region: content
+  field_report_logs:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 23
+    region: content
+  field_report_rom_hash:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 24
+    region: content
+  field_report_screenshot_uri:
+    type: nelkano_report_attachment
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 25
+    region: content
+  field_report_settings:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 26
+    region: content
+  field_report_slot:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 27
+    region: content
+  field_report_state_format:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 28
+    region: content
+  field_report_state_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 29
+    region: content
+  field_report_state_sha256:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 30
+    region: content
+  field_report_state_size:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 31
+    region: content
+  field_report_state_uri:
+    type: nelkano_report_attachment
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 32
+    region: content
+  field_report_status:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 33
+    region: content
+  field_report_system:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 34
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

@@ -1,0 +1,19 @@
+uuid: 1c665a40-12ba-4bbf-adb4-03e9df629d8b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_report_expected
+    - node.type.nelkano_error_report
+id: node.nelkano_error_report.field_report_expected
+field_name: field_report_expected
+entity_type: node
+bundle: nelkano_error_report
+label: 'Resultado esperado'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

@@ -1,0 +1,11 @@
+uuid: d312acfc-de1f-40d8-98eb-9af4701dcfbc
+langcode: en
+status: true
+dependencies: {  }
+name: 'Reporte de error del emulador'
+type: nelkano_error_report
+description: 'Reporte privado enviado desde una sesion autenticada de la aplicacion Nelkano.'
+help: null
+new_revision: false
+preview_mode: 0
+display_submitted: true

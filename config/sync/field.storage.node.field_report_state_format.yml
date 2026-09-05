@@ -1,0 +1,21 @@
+uuid: 4e099ef1-d1be-405b-af2d-562b9c26d77f
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_report_state_format
+field_name: field_report_state_format
+entity_type: node
+type: string
+settings:
+  max_length: 64
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

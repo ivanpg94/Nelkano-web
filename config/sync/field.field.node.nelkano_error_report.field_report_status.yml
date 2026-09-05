@@ -1,0 +1,21 @@
+uuid: ec043f22-8e23-4999-afa2-46603adc685c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_report_status
+    - node.type.nelkano_error_report
+  module:
+    - options
+id: node.nelkano_error_report.field_report_status
+field_name: field_report_status
+entity_type: node
+bundle: nelkano_error_report
+label: Estado
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

@@ -204,6 +204,13 @@ trait AdminFormUiTrait {
         . '<span><strong>' . htmlspecialchars($label, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</strong><small>' . htmlspecialchars($description, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</small></span>'
         . '</a>';
     }
+    $report_url = Url::fromRoute('nelkano_home.admin_error_reports')->toString();
+    $report_active = $activeKey === 'error_reports' ? ' is-active' : '';
+    $html .= '</nav><h2 class="nk-admin-sidebar-section">Datos del emulador</h2><nav aria-label="Datos del emulador">'
+      . '<a class="nk-admin-nav-item' . $report_active . '" href="' . htmlspecialchars($report_url, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '">'
+      . '<span class="nk-admin-nav-icon">R</span>'
+      . '<span><strong>Reportes de errores</strong><small>Consulta y exporta los fallos enviados desde la aplicacion.</small></span>'
+      . '</a>';
     return $html . '</nav></aside>';
   }
 

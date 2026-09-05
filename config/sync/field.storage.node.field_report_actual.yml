@@ -1,0 +1,19 @@
+uuid: 7e05aa6f-8f52-4f32-bfaf-29eb31389a26
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_report_actual
+field_name: field_report_actual
+entity_type: node
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

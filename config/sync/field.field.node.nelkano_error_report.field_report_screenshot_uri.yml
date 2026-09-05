@@ -1,0 +1,19 @@
+uuid: d45d2a23-6955-409e-abbe-fe028c549e55
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_report_screenshot_uri
+    - node.type.nelkano_error_report
+id: node.nelkano_error_report.field_report_screenshot_uri
+field_name: field_report_screenshot_uri
+entity_type: node
+bundle: nelkano_error_report
+label: 'URI privada de la captura'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
