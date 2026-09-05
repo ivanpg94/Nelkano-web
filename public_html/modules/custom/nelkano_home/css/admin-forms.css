@@ -166,6 +166,47 @@ body:has(.nk-admin-app) .content-header {
   margin: 0 0 18px;
 }
 
+.nk-admin-sidebar .nk-admin-sidebar-section {
+  border-top: 1px solid #e5e7eb;
+  margin-top: 22px;
+  padding-top: 22px;
+}
+
+.nk-admin-panel .view-nelkano-error-reports {
+  overflow-x: auto;
+  padding: 22px;
+}
+
+.nk-admin-panel .view-nelkano-error-reports table,
+.nk-admin-panel .nk-report-details {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+}
+
+.nk-admin-panel .view-nelkano-error-reports th,
+.nk-admin-panel .view-nelkano-error-reports td,
+.nk-admin-panel .nk-report-details th,
+.nk-admin-panel .nk-report-details td {
+  border-bottom: 1px solid #e8edf5;
+  padding: 14px 16px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.nk-admin-panel .view-nelkano-error-reports th,
+.nk-admin-panel .nk-report-details th {
+  color: #111827;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.nk-admin-panel .view-nelkano-error-reports a,
+.nk-admin-panel .nk-report-details a {
+  color: #7828dc;
+  font-weight: 800;
+}
+
 .nk-admin-sidebar nav {
   display: grid;
   gap: 10px;

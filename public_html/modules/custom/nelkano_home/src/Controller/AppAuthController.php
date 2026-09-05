@@ -7,6 +7,7 @@ namespace Drupal\nelkano_home\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Url;
+use Drupal\node\Entity\Node;
 use Drupal\user\Entity\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -124,6 +125,127 @@ final class AppAuthController extends ControllerBase {
       'ok' => TRUE,
       'user' => $this->userPayload($account),
     ]);
+  }
+
+  public function createErrorReport(Request $request): JsonResponse {
+    $account = $this->accountFromBearer($request);
+    if (!$account instanceof User) {
+      return $this->error('Token no valido o caducado.', 401);
+    }
+
+    $metadata = json_decode((string) $request->request->get('metadata', ''), TRUE);
+    $state = $request->files->get('state');
+    if (!is_array($metadata) || !$state instanceof \Symfony\Component\HttpFoundation\File\UploadedFile || !$state->isValid()) {
+      return $this->error('El reporte y el slot de guardado son obligatorios.', 400);
+    }
+
+    $summary = $this->cleanText((string) ($metadata['summary'] ?? ''), 180);
+    $steps = $this->cleanText((string) ($metadata['steps'] ?? ''), 20000);
+    $system = strtoupper($this->cleanText((string) ($metadata['system'] ?? ''), 32));
+    $rom_hash = strtolower($this->cleanId((string) ($metadata['rom_hash'] ?? '')));
+    $slot = (int) ($metadata['slot'] ?? -1);
+    $category = strtolower($this->cleanId((string) ($metadata['category'] ?? 'other')));
+    $allowed_categories = ['crash', 'freeze', 'graphics', 'audio', 'controls', 'performance', 'save_state', 'other'];
+    if ($summary === '' || $steps === '' || $system === '' || $rom_hash === '' || $slot < 0 || $slot > 5) {
+      return $this->error('Faltan datos obligatorios del reporte.', 400);
+    }
+    if (!in_array($category, $allowed_categories, TRUE)) {
+      $category = 'other';
+    }
+
+    $state_size = (int) $state->getSize();
+    if ($state_size <= 0 || $state_size > 268435456) {
+      return $this->error('El slot supera el limite de 256 MB.', 413);
+    }
+    $extension = strtolower((string) pathinfo($state->getClientOriginalName(), PATHINFO_EXTENSION));
+    if (!preg_match('/^[a-z0-9]{1,16}$/', $extension)) {
+      return $this->error('Formato de slot no valido.', 400);
+    }
+
+    $report_uuid = \Drupal::service('uuid')->generate();
+    $directory = 'private://nelkano-error-reports/' . $report_uuid;
+    $file_system = \Drupal::service('file_system');
+    if (!$file_system instanceof FileSystemInterface || !$file_system->prepareDirectory($directory, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS)) {
+      return $this->error('El almacenamiento privado de reportes no esta configurado.', 503);
+    }
+    $real_directory = $file_system->realpath($directory);
+    if (!is_string($real_directory) || $real_directory === '') {
+      return $this->error('El almacenamiento privado de reportes no esta disponible.', 503);
+    }
+
+    $state_filename = 'slot-' . $slot . '.' . $extension;
+    try {
+      $stored_state = $state->move($real_directory, $state_filename);
+    }
+    catch (\Throwable $error) {
+      return $this->error('No se pudo guardar el slot enviado.', 500);
+    }
+    $state_sha256 = hash_file('sha256', $stored_state->getPathname()) ?: '';
+    $declared_sha256 = strtolower($this->cleanId((string) ($metadata['state_sha256'] ?? '')));
+    if ($state_sha256 === '' || ($declared_sha256 !== '' && !hash_equals($state_sha256, $declared_sha256))) {
+      @unlink($stored_state->getPathname());
+      return $this->error('La integridad del slot no es valida.', 400);
+    }
+
+    $screenshot_uri = '';
+    $screenshot = $request->files->get('screenshot');
+    if ($screenshot instanceof \Symfony\Component\HttpFoundation\File\UploadedFile && $screenshot->isValid() && (int) $screenshot->getSize() <= 2097152) {
+      $image_info = @getimagesize($screenshot->getPathname());
+      if (is_array($image_info) && ($image_info[2] ?? 0) === IMAGETYPE_PNG) {
+        $screenshot->move($real_directory, 'screenshot.png');
+        $screenshot_uri = $directory . '/screenshot.png';
+      }
+    }
+
+    try {
+      $report = Node::create([
+        'type' => 'nelkano_error_report',
+        'title' => $summary,
+        'uid' => (int) $account->id(),
+        'status' => 0,
+        'body' => ['value' => $steps, 'format' => 'plain_text'],
+        'field_report_status' => 'new',
+        'field_report_category' => $category,
+        'field_report_system' => $system,
+        'field_report_game' => $this->cleanText((string) ($metadata['game_label'] ?? ''), 180),
+        'field_report_rom_hash' => $rom_hash,
+        'field_report_slot' => $slot,
+        'field_report_expected' => $this->cleanText((string) ($metadata['expected_result'] ?? ''), 20000),
+        'field_report_actual' => $this->cleanText((string) ($metadata['actual_result'] ?? ''), 20000),
+        'field_report_app_version' => $this->cleanText((string) ($metadata['app_version'] ?? ''), 64),
+        'field_report_app_build' => max(0, (int) ($metadata['app_build'] ?? 0)),
+        'field_report_core_version' => $this->cleanText((string) ($metadata['core_version'] ?? ''), 128),
+        'field_report_state_format' => $this->cleanText((string) ($metadata['state_format'] ?? $extension), 64),
+        'field_report_device_id' => $this->cleanId((string) ($metadata['device_id'] ?? '')),
+        'field_report_device_model' => $this->cleanText((string) ($metadata['device_model'] ?? ''), 160),
+        'field_report_android' => $this->cleanText((string) ($metadata['android_version'] ?? ''), 64),
+        'field_report_abis' => $this->cleanText((string) ($metadata['abis'] ?? ''), 255),
+        'field_report_gpu' => $this->cleanText((string) ($metadata['gpu'] ?? ''), 255),
+        'field_report_backend' => $this->cleanText((string) ($metadata['backend'] ?? ''), 128),
+        'field_report_settings' => $this->cleanText((string) ($metadata['settings_json'] ?? ''), 20000),
+        'field_report_logs' => $this->cleanText((string) ($metadata['logs'] ?? ''), 60000),
+        'field_report_state_uri' => $directory . '/' . $state_filename,
+        'field_report_state_name' => $state_filename,
+        'field_report_state_size' => $state_size,
+        'field_report_state_sha256' => $state_sha256,
+        'field_report_screenshot_uri' => $screenshot_uri,
+      ]);
+      $report->save();
+    }
+    catch (\Throwable $error) {
+      @unlink($stored_state->getPathname());
+      if ($screenshot_uri !== '') {
+        @unlink($file_system->realpath($screenshot_uri) ?: '');
+      }
+      \Drupal::logger('nelkano_home')->error('Error guardando un reporte del emulador: @message', ['@message' => $error->getMessage()]);
+      return $this->error('No se pudo registrar el reporte.', 500);
+    }
+
+    return new JsonResponse([
+      'ok' => TRUE,
+      'report' => ['id' => (int) $report->id(), 'uuid' => $report->uuid(), 'status' => 'new'],
+      'message' => 'Reporte recibido. Gracias por ayudar a mejorar Nelkano.',
+    ], 201);
   }
 
   public function activity(Request $request): JsonResponse {

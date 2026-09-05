@@ -20,7 +20,8 @@ services:
       NELKANO_STREAM_ICE_POLICY: relay
     volumes:
       - drupal_app:/opt/drupal
-      - ./modules/custom:/opt/drupal/web/modules/custom
+      - ./public_html/modules/custom:/opt/drupal/web/modules/custom
+      - ./scripts:/opt/drupal/scripts
       - ./config/sync:/opt/drupal/config/sync
       - ./docker/php/nelkano.ini:/usr/local/etc/php/conf.d/nelkano.ini:ro
       - drupal_files:/opt/drupal/web/sites/default/files

@@ -23,6 +23,14 @@ function nelkano_home_schema(): array {
 }
 
 /**
+ * Creates the report content type and its exportable View on fresh installs.
+ */
+function nelkano_home_install(): void {
+  require_once __DIR__ . '/nelkano_home.error_reports.inc';
+  nelkano_home_ensure_error_report_content();
+}
+
+/**
  * Refresh public copy after the legal/SEO preventive review.
  */
 function nelkano_home_update_11001(): void {
@@ -235,6 +243,55 @@ function nelkano_home_update_11012(): void {
     $config->set($language . '.releases_items', $items);
   }
   $config->save(TRUE);
+}
+
+/**
+ * Install storage for authenticated emulator error reports.
+ */
+function nelkano_home_update_11013(): void {
+  require_once __DIR__ . '/nelkano_home.error_reports.inc';
+  nelkano_home_ensure_error_report_content();
+}
+
+/**
+ * Replace the provisional report entity with private unpublished content.
+ */
+function nelkano_home_update_11014(): void {
+  require_once __DIR__ . '/nelkano_home.error_reports.inc';
+  nelkano_home_ensure_error_report_content();
+  nelkano_home_migrate_legacy_error_reports();
+}
+
+/**
+ * Add the reproduction body field and refresh the export display.
+ */
+function nelkano_home_update_11015(): void {
+  require_once __DIR__ . '/nelkano_home.error_reports.inc';
+  nelkano_home_ensure_error_report_content();
+}
+
+/**
+ * Give the data export route its explicit CSV format suffix.
+ */
+function nelkano_home_update_11016(): void {
+  require_once __DIR__ . '/nelkano_home.error_reports.inc';
+  nelkano_home_ensure_error_report_content();
+}
+
+/**
+ * Makes existing report fields visible in the standard node form and display.
+ */
+function nelkano_home_update_11017(): void {
+  require_once __DIR__ . '/nelkano_home.error_reports.inc';
+  nelkano_home_enable_error_report_displays();
+}
+
+/**
+ * Defines Nuevo, En proceso, Resuelto and Descartado for the report workflow.
+ */
+function nelkano_home_update_11018(): void {
+  require_once __DIR__ . '/nelkano_home.error_reports.inc';
+  nelkano_home_update_error_report_statuses();
 }
 
 /**

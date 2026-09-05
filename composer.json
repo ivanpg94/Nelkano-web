@@ -9,13 +9,6 @@
     {
       "type": "composer",
       "url": "https://packages.drupal.org/8"
-    },
-    {
-      "type": "path",
-      "url": "modules/custom/nelkano_home",
-      "options": {
-        "symlink": false
-      }
     }
   ],
   "require": {
@@ -30,8 +23,13 @@
     "drupal/redirect": "^1.11",
     "drupal/simple_sitemap": "^4.2",
     "drupal/views_data_export": "^1.10",
-    "drush/drush": "^13.0",
-    "nelkano/nelkano_home": "^1.0"
+    "drush/drush": "^13.0"
+  },
+  "scripts": {
+    "pre-install-cmd": "@php scripts/legacy-module-guard.php backup",
+    "post-install-cmd": "@php scripts/legacy-module-guard.php restore",
+    "pre-update-cmd": "@php scripts/legacy-module-guard.php backup",
+    "post-update-cmd": "@php scripts/legacy-module-guard.php restore"
   },
   "config": {
     "allow-plugins": {

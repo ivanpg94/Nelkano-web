@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f167182faac543bf0555bfe8702975bf",
+    "content-hash": "87f8cbae8531e451ed6e8ebb1d19d4d8",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3198,27 +3198,6 @@
                 "source": "https://github.com/mck89/peast/tree/v1.17.7"
             },
             "time": "2026-07-21T11:56:06+00:00"
-        },
-        {
-            "name": "nelkano/nelkano_home",
-            "version": "1.0.0",
-            "dist": {
-                "type": "path",
-                "url": "modules/custom/nelkano_home",
-                "reference": "249d3b3b65f99edbab069a0928f3f4697cf50178"
-            },
-            "require": {
-                "php": ">=8.3"
-            },
-            "type": "drupal-custom-module",
-            "license": [
-                "proprietary"
-            ],
-            "description": "Nelkano Emulator landing page for Drupal.",
-            "transport-options": {
-                "symlink": false,
-                "relative": true
-            }
         },
         {
             "name": "nikic/php-parser",

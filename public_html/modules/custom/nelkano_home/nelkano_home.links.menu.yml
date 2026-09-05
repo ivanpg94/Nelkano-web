@@ -39,3 +39,10 @@ nelkano_home.security_privacy_settings:
   route_name: nelkano_home.admin_security_privacy
   parent: nelkano_home.admin
   weight: 4
+
+nelkano_home.error_reports:
+  title: 'Reportes de errores'
+  description: 'Revisar reportes enviados desde el emulador.'
+  route_name: nelkano_home.admin_error_reports
+  parent: nelkano_home.admin
+  weight: 5

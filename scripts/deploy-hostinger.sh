@@ -1,40 +1,27 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-BRANCH="${1:-main}"
-REPO_DIR="${REPO_DIR:-$HOME/repo/nelkano-emulator-main}"
-APP_DIR="${APP_DIR:-$HOME/domains/nelkano.com}"
+# Deploy an already checked-out release. Never reset Git or change site UUIDs.
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+REPO_DIR="${REPO_DIR:-$(dirname -- "$SCRIPT_DIR")}"
+APP_DIR="${APP_DIR:-$REPO_DIR}"
 
-cd "$REPO_DIR"
-git fetch origin "$BRANCH"
-git checkout "$BRANCH"
-git reset --hard "origin/$BRANCH"
+test -f "$REPO_DIR/public_html/modules/custom/nelkano_home/src/Controller/ErrorReportApiController.php"
+test -f "$APP_DIR/public_html/sites/default/settings.php"
 
-rsync -a --delete \
-  --exclude='public_html/' \
-  --exclude='vendor/' \
-  web/ "$APP_DIR/"
-
-cd "$APP_DIR"
-composer install --no-dev --optimize-autoloader
-
-if ! grep -q "Nelkano versioned config sync" public_html/sites/default/settings.php; then
-  cat >> public_html/sites/default/settings.php <<'PHP'
-
-// Nelkano versioned config sync.
-$settings['config_sync_directory'] = dirname(__DIR__, 3) . '/config/sync';
-PHP
+if [[ "$(cd -- "$REPO_DIR" && pwd)" != "$(cd -- "$APP_DIR" && pwd)" ]]; then
+  rsync -a \
+    --exclude='/.git/' --exclude='/vendor/' --exclude='/.env' \
+    --exclude='/public_html/core/' --exclude='/public_html/modules/contrib/' \
+    --exclude='/public_html/themes/contrib/' --exclude='/public_html/libraries/' \
+    --exclude='/public_html/sites/*/files/' --exclude='/public_html/sites/*/private/' \
+    --exclude='/public_html/sites/*/settings*.php' --exclude='/public_html/sites/*/services*.yml' \
+    "$REPO_DIR/" "$APP_DIR/"
 fi
 
-rsync -a --delete \
-  "$REPO_DIR/web/modules/custom/nelkano_home/" \
-  "$APP_DIR/public_html/modules/custom/nelkano_home/"
-
-if [[ -f config/sync/system.site.yml ]]; then
-  SYNC_UUID="$(grep '^uuid:' config/sync/system.site.yml | awk '{print $2}')"
-  if [[ -n "$SYNC_UUID" ]]; then
-    vendor/bin/drush --root=public_html config:set system.site uuid "$SYNC_UUID" --yes
-  fi
-fi
-
-vendor/bin/drush --root=public_html deploy --yes
+cd -- "$APP_DIR"
+# Keep scripts enabled: they protect deployed code while Composer removes
+# the old nelkano/nelkano_home package on existing installations.
+composer install --no-dev --optimize-autoloader --no-interaction
+test -f public_html/modules/custom/nelkano_home/src/Controller/ErrorReportApiController.php
+./vendor/bin/drush --root=public_html deploy --yes

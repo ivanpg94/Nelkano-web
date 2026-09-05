@@ -1,3 +1,60 @@
+# PC API uses dedicated Bearer credentials in every controller action.
+# Cookie-based admin sessions and app player tokens are deliberately ignored.
+nelkano_home.report_api_list:
+  path: '/api/nelkano/v1/error-reports'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\ErrorReportApiController::listing'
+  methods: [GET]
+  requirements:
+    _access: 'TRUE'
+  options:
+    no_cache: TRUE
+
+nelkano_home.report_api_detail:
+  path: '/api/nelkano/v1/error-reports/{report}'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\ErrorReportApiController::detail'
+  methods: [GET]
+  requirements:
+    _access: 'TRUE'
+    report: '\d+'
+  options:
+    no_cache: TRUE
+
+nelkano_home.report_api_download:
+  path: '/api/nelkano/v1/error-reports/{report}/files/{attachment}'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\ErrorReportApiController::download'
+  methods: [GET]
+  requirements:
+    _access: 'TRUE'
+    report: '\d+'
+    attachment: 'state|screenshot'
+  options:
+    no_cache: TRUE
+
+nelkano_home.report_api_receipt:
+  path: '/api/nelkano/v1/error-reports/{report}/receipt'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\ErrorReportApiController::receipt'
+  methods: [POST]
+  requirements:
+    _access: 'TRUE'
+    report: '\d+'
+  options:
+    no_cache: TRUE
+
+nelkano_home.report_api_status:
+  path: '/api/nelkano/v1/error-reports/{report}/status'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\ErrorReportApiController::updateStatus'
+  methods: [PATCH]
+  requirements:
+    _access: 'TRUE'
+    report: '\d+'
+  options:
+    no_cache: TRUE
+
 nelkano_home.front:
   path: '/home'
   defaults:
@@ -163,6 +220,14 @@ nelkano_home.api_auth_status:
   defaults:
     _controller: '\Drupal\nelkano_home\Controller\AppAuthController::status'
   methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.api_error_report_create:
+  path: '/api/nelkano/error-reports'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::createErrorReport'
+  methods: [POST]
   requirements:
     _permission: 'access content'
 
@@ -443,6 +508,47 @@ nelkano_home.admin:
     _title: 'Nelkano'
   requirements:
     _permission: 'administer nelkano editable pages'
+
+nelkano_home.admin_error_reports:
+  path: '/admin/nelkano/error-reports'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\ErrorReportAdminController::listing'
+    _title: 'Reportes de errores'
+  requirements:
+    _permission: 'administer nelkano error reports'
+  options:
+    _admin_route: TRUE
+
+nelkano_home.admin_error_report_view:
+  path: '/admin/nelkano/error-reports/{report}'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\ErrorReportAdminController::view'
+    _title: 'Detalle del reporte'
+  requirements:
+    _permission: 'administer nelkano error reports'
+    report: '\d+'
+  options:
+    _admin_route: TRUE
+
+nelkano_home.admin_error_report_state:
+  path: '/admin/nelkano/error-reports/{report}/state'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\ErrorReportAdminController::downloadState'
+  requirements:
+    _permission: 'administer nelkano error reports'
+    report: '\d+'
+  options:
+    _admin_route: TRUE
+
+nelkano_home.admin_error_report_screenshot:
+  path: '/admin/nelkano/error-reports/{report}/screenshot'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\ErrorReportAdminController::downloadScreenshot'
+  requirements:
+    _permission: 'administer nelkano error reports'
+    report: '\d+'
+  options:
+    _admin_route: TRUE
 
 nelkano_home.user_stream:
   path: '/user/stream'

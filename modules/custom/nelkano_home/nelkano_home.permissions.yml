@@ -1,8 +1,0 @@
-administer nelkano editable pages:
-  title: 'Administer Nelkano editable pages'
-  description: 'Edit Nelkano public page configuration.'
-
-administer nelkano error reports:
-  title: 'Administer Nelkano error reports'
-  description: 'View emulator error reports and download their private attachments.'
-  restrict access: true
