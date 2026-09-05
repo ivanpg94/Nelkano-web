@@ -1,0 +1,43 @@
+[28-Jun-2026 08:54:56 UTC] ParseError: Unclosed '(' in /home/u985217890/domains/nelkano.com/vendor/drush/drush/src/Commands/core/PhpCommands.php(33) : eval()'d code on line 1 #0 [internal function]: Drush\Commands\core\PhpCommands->evaluate()
+#1 /home/u985217890/domains/nelkano.com/vendor/consolidation/annotated-command/src/CommandProcessor.php(276): call_user_func_array()
+#2 /home/u985217890/domains/nelkano.com/vendor/consolidation/annotated-command/src/CommandProcessor.php(212): Consolidation\AnnotatedCommand\CommandProcessor->runCommandCallback()
+#3 /home/u985217890/domains/nelkano.com/vendor/consolidation/annotated-command/src/CommandProcessor.php(175): Consolidation\AnnotatedCommand\CommandProcessor->validateRunAndAlter()
+#4 /home/u985217890/domains/nelkano.com/vendor/consolidation/annotated-command/src/AnnotatedCommand.php(389): Consolidation\AnnotatedCommand\CommandProcessor->process()
+#5 /home/u985217890/domains/nelkano.com/vendor/symfony/console/Command/Command.php(341): Consolidation\AnnotatedCommand\AnnotatedCommand->execute()
+#6 /home/u985217890/domains/nelkano.com/vendor/symfony/console/Application.php(1117): Symfony\Component\Console\Command\Command->run()
+#7 /home/u985217890/domains/nelkano.com/vendor/drush/drush/src/Application.php(201): Symfony\Component\Console\Application->doRunCommand()
+#8 /home/u985217890/domains/nelkano.com/vendor/symfony/console/Application.php(356): Drush\Application->doRunCommand()
+#9 /home/u985217890/domains/nelkano.com/vendor/symfony/console/Application.php(195): Symfony\Component\Console\Application->doRun()
+#10 /home/u985217890/domains/nelkano.com/vendor/drush/drush/src/Runtime/Runtime.php(113): Symfony\Component\Console\Application->run()
+#11 /home/u985217890/domains/nelkano.com/vendor/drush/drush/src/Runtime/Runtime.php(40): Drush\Runtime\Runtime->doRun()
+#12 /home/u985217890/domains/nelkano.com/vendor/drush/drush/drush.php(140): Drush\Runtime\Runtime->run()
+#13 /home/u985217890/domains/nelkano.com/vendor/bin/drush.php(119): include('/home/u98521789...')
+#14 {main}
+[05-Sep-2026 16:29:19 UTC] PDOException: SQLSTATE[HY000]: General error: 2006 MySQL server has gone away in /home/u985217890/domains/nelkano.com/public_html/core/lib/Drupal/Core/Database/Statement/PdoTrait.php:109
+Stack trace:
+#0 /home/u985217890/domains/nelkano.com/public_html/core/lib/Drupal/Core/Database/Statement/PdoTrait.php(109): PDOStatement->execute()
+#1 /home/u985217890/domains/nelkano.com/public_html/core/lib/Drupal/Core/Database/StatementWrapperIterator.php(89): Drupal\Core\Database\Statement\StatementBase->clientExecute()
+#2 /home/u985217890/domains/nelkano.com/public_html/core/lib/Drupal/Core/Database/Connection.php(666): Drupal\Core\Database\StatementWrapperIterator->execute()
+#3 /home/u985217890/domains/nelkano.com/public_html/core/lib/Drupal/Core/Database/Schema.php(204): Drupal\Core\Database\Connection->query()
+#4 /home/u985217890/domains/nelkano.com/public_html/core/lib/Drupal/Core/Lock/DatabaseLockBackend.php(214): Drupal\Core\Database\Schema->tableExists()
+#5 /home/u985217890/domains/nelkano.com/public_html/core/lib/Drupal/Core/Lock/DatabaseLockBackend.php(176): Drupal\Core\Lock\DatabaseLockBackend->catchException()
+#6 /home/u985217890/domains/nelkano.com/public_html/core/includes/bootstrap.inc(513): Drupal\Core\Lock\DatabaseLockBackend->releaseAll()
+#7 [internal function]: _drupal_shutdown_function()
+#8 {main}
+
+Next Drupal\Core\Database\DatabaseExceptionWrapper: SQLSTATE[HY000]: General error: 2006 MySQL server has gone away: SELECT 1 FROM information_schema.tables WHERE ("table_schema" = :db_condition_placeholder_3) AND ("table_name" = :db_condition_placeholder_4) AND ("table_type" = :db_condition_placeholder_5); Array
+(
+    [:db_condition_placeholder_3] => u985217890_nelkano
+    [:db_condition_placeholder_4] => semaphore
+    [:db_condition_placeholder_5] => BASE TABLE
+)
+ in /home/u985217890/domains/nelkano.com/public_html/core/modules/mysql/src/Driver/Database/mysql/ExceptionHandler.php:89
+Stack trace:
+#0 /home/u985217890/domains/nelkano.com/public_html/core/modules/mysql/src/Driver/Database/mysql/ExceptionHandler.php(26): Drupal\mysql\Driver\Database\mysql\ExceptionHandler->rethrowNormalizedException()
+#1 /home/u985217890/domains/nelkano.com/public_html/core/lib/Drupal/Core/Database/Connection.php(669): Drupal\mysql\Driver\Database\mysql\ExceptionHandler->handleExecutionException()
+#2 /home/u985217890/domains/nelkano.com/public_html/core/lib/Drupal/Core/Database/Schema.php(204): Drupal\Core\Database\Connection->query()
+#3 /home/u985217890/domains/nelkano.com/public_html/core/lib/Drupal/Core/Lock/DatabaseLockBackend.php(214): Drupal\Core\Database\Schema->tableExists()
+#4 /home/u985217890/domains/nelkano.com/public_html/core/lib/Drupal/Core/Lock/DatabaseLockBackend.php(176): Drupal\Core\Lock\DatabaseLockBackend->catchException()
+#5 /home/u985217890/domains/nelkano.com/public_html/core/includes/bootstrap.inc(513): Drupal\Core\Lock\DatabaseLockBackend->releaseAll()
+#6 [internal function]: _drupal_shutdown_function()
+#7 {main}
