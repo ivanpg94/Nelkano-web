@@ -205,6 +205,27 @@ petición, conservar el resultado y reintentar ese ID: no declararlo actualizado
 ni esperar a que termine el lote. Este repositorio proporciona el backend; el
 envío automático desde el PC debe adaptarse por separado.
 
+## Protección de intentos y reaperturas (cliente PC)
+
+El listado anuncia `capabilities.blocked_observations`, `conditional_status`
+y `receipt_revision` como true. El cliente automático debe comprobarlas con GET
+antes de descargar/confirmar nuevos reportes; HTTP 200 por sí solo no basta.
+Cada nueva recepción guarda `receipt.revision_id`, la revisión al pasar a En
+proceso. Permanece fija al publicar resultados; al reabrir y recibir otra vez
+se renueva. El manifiesto no cambia por estado u observaciones.
+
+PATCH admite `If-Match: "123"`, donde 123 es la revisión del recibo de ese
+intento. La comparación se hace bajo el bloqueo compartido con bulk; si el
+reporte cambió, devuelve 412 sin escribir. Es opcional para clientes manuales
+anteriores, pero obligatorio en el publicador automático. No quitarlo ni
+actualizar la revisión a ciegas para resolver conflictos. Tras una respuesta
+perdida, consultar GET y conciliar estado, observaciones e identidad del recibo.
+
+Esta ampliación del controlador requiere subir código y `vendor/bin/drush cr`.
+No añade otra migración; estados y observaciones necesitan la 11019 ya indicada.
+El envío del PC está implementado en el repositorio del emulador mediante
+`Run-Collector.ps1 -Action publish -Job <id>`; guarda reintentos por reporte.
+
 ## Cambio masivo desde la administración
 
 En `/admin/nelkano/error-reports`, los administradores disponen de casillas

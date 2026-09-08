@@ -19,6 +19,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\PreconditionFailedHttpException;
 
 /** Versioned PC API. Every action authenticates before loading any report. */
 final class ErrorReportApiController extends ControllerBase {
@@ -45,7 +46,8 @@ final class ErrorReportApiController extends ControllerBase {
           'detail_url' => Url::fromRoute('nelkano_home.report_api_detail', ['report' => $node->id()])->toString(),
         ];
       }
-      return new JsonResponse(['api_version' => 1, 'items' => $items, 'next_after_id' => $ids ? (int) end($ids) : $after, 'has_more' => $has_more]);
+      return new JsonResponse(['api_version' => 1, 'capabilities' => ['blocked_observations' => TRUE, 'conditional_status' => TRUE, 'receipt_revision' => TRUE],
+        'items' => $items, 'next_after_id' => $ids ? (int) end($ids) : $after, 'has_more' => $has_more]);
     });
   }
 
@@ -106,7 +108,7 @@ final class ErrorReportApiController extends ControllerBase {
         }
         if ($status === 'new') {
           $this->saveStatus($node, 'in_progress', $client);
-          $receipt = ['client' => $client, 'received_at' => time()] + $expected;
+          $receipt = ['client' => $client, 'received_at' => time(), 'revision_id' => (int) $node->getRevisionId()] + $expected;
           $store->set($key, $receipt);
         }
         return new JsonResponse(['api_version' => 1, 'id' => $report, 'status' => $node->get('field_report_status')->value, 'receipt' => $receipt]);
@@ -124,10 +126,17 @@ final class ErrorReportApiController extends ControllerBase {
       catch (\InvalidArgumentException $e) {
         throw new BadRequestHttpException($e->getMessage());
       }
-      return $this->withReportLock($report, function () use ($client, $status, $observations, $report): Response {
+      return $this->withReportLock($report, function () use ($client, $status, $observations, $report, $request): Response {
         $node = $this->loadReport($report);
+        // Optional for older clients; the automated publisher always supplies
+        // the receipt revision. Check under the same lock used by bulk updates.
+        $expected = $request->headers->get('If-Match');
+        if ($expected !== NULL && $expected !== '"' . $node->getRevisionId() . '"') {
+          throw new PreconditionFailedHttpException('Report changed since receipt; reconcile before updating.');
+        }
         $this->saveStatus($node, $status, $client, $observations);
         return new JsonResponse(['api_version' => 1, 'id' => $report, 'uuid' => $node->uuid(), 'status' => $status,
+          'revision_id' => (int) $node->getRevisionId(),
           'observations' => (string) $node->get('field_report_observations')->value]);
       });
     });

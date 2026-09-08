@@ -31,8 +31,8 @@ $check = static function (bool $ok, string $label) use (&$checks): void {
   echo 'PASS: ' . $label . "\n";
 };
 $http = \Drupal::httpClient();
-$call = static function (string $method, string $path, ?string $credential = NULL, ?array $json = NULL) use ($base, $http) {
-  $options = ['http_errors' => FALSE, 'allow_redirects' => FALSE, 'timeout' => 30];
+$call = static function (string $method, string $path, ?string $credential = NULL, ?array $json = NULL, array $headers = []) use ($base, $http) {
+  $options = ['http_errors' => FALSE, 'allow_redirects' => FALSE, 'timeout' => 30, 'headers' => $headers];
   if ($credential !== NULL) {
     $options['headers']['Authorization'] = 'Bearer ' . $credential;
   }
@@ -136,6 +136,14 @@ try {
   $check($decode($first) === $decode($call('POST', $path . '/receipt', $token, $receipt)), 'receipt idempotent');
   $check($decode($call('GET', $path, $token))['receipt'] !== NULL, 'receipt visible to its PC');
   $check($decode($call('GET', $path, $token))['metadata']['status'] === 'in_progress', 'complete receipt moves report to in progress');
+  $capabilities = $decode($call('GET', $api . '?limit=1', $token))['capabilities'];
+  $check($capabilities === ['blocked_observations' => TRUE, 'conditional_status' => TRUE, 'receipt_revision' => TRUE], 'safe publisher capabilities advertised');
+  $received_detail = $decode($call('GET', $path, $token));
+  $anchor = $received_detail['receipt']['revision_id'];
+  $check($anchor === $received_detail['revision_id'], 'receipt anchors this attempt to its revision');
+  $check($call('PATCH', $path . '/status', $token, ['status' => 'blocked', 'observations' => 'Stale attempt'], ['If-Match' => '"0"'])->getStatusCode() === 412, 'stale revision cannot overwrite report');
+  $check($decode($call('GET', $path, $token))['revision_id'] === $anchor, 'failed condition creates no revision');
+  $check($call('PATCH', $path . '/status', $token, ['status' => 'in_progress'], ['If-Match' => '"' . $anchor . '"'])->getStatusCode() === 200, 'matching revision accepted');
   $check($decode($call('GET', $api . '?after_id=' . ($node->id() - 1), $token))['items'] === [], 'processed report excluded from new queue');
   $other = ReportApiCredentials::issue($second_client, 1);
   $check($decode($call('GET', $path, $other))['receipt'] === NULL, 'receipt isolated by PC');
@@ -146,6 +154,8 @@ try {
   $blocked_detail = $decode($call('GET', $path, $token));
   $check($blocked_detail['metadata']['status'] === 'blocked' && $blocked_detail['metadata']['observations'] === $notes, 'blocked state and reason persisted');
   $check($blocked_detail['manifest_sha256'] === $manifest['manifest_sha256'] && $blocked_detail['receipt'] !== NULL, 'workflow notes preserve manifest and receipt');
+  $check($blocked_detail['receipt']['revision_id'] === $anchor, 'receipt revision stays immutable after result');
+  $check($call('PATCH', $path . '/status', $token, ['status' => 'resolved', 'observations' => 'Late result'], ['If-Match' => '"' . $anchor . '"'])->getStatusCode() === 412, 'late result cannot overwrite a newer workflow change');
   $revision = $blocked_detail['revision_id'];
   $check($call('PATCH', $path . '/status', $other, ['status' => 'blocked', 'observations' => $notes])->getStatusCode() === 200 && $decode($call('GET', $path, $token))['revision_id'] === $revision, 'state and notes retry is idempotent');
   $check($decode($call('POST', $path . '/receipt', $token, $receipt))['status'] === 'blocked', 'late receipt never reopens blocked report');
