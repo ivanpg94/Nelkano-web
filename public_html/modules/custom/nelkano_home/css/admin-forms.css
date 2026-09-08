@@ -188,7 +188,7 @@ body:has(.nk-admin-app) .content-header {
   font-weight: 800;
 }
 
-.nk-report-bulk-form .view-nelkano-error-reports td:last-child {
+.nk-report-bulk-form .views-field-field-report-observations {
   min-width: 180px;
   white-space: pre-wrap;
   overflow-wrap: anywhere;

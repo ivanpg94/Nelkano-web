@@ -1,0 +1,3 @@
+views.field.nelkano_report_bulk:
+  type: views_field
+  label: 'Selección y estado de reportes Nelkano'

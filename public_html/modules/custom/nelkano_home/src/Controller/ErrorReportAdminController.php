@@ -8,8 +8,6 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\nelkano_home\Form\AdminFormUiTrait;
-use Drupal\nelkano_home\Form\ErrorReportBulkForm;
-use Drupal\nelkano_home\Service\ReportBulkUpdater;
 use Drupal\node\NodeInterface;
 use Drupal\user\Entity\User;
 use Drupal\views\Views;
@@ -30,9 +28,7 @@ final class ErrorReportAdminController extends ControllerBase {
     return $this->adminPage(
       'Reportes de errores',
       'Consulta los reportes enviados desde la aplicación. Puedes seleccionar varios y cambiar su estado desde los controles bajo la tabla si tienes permiso de modificación.',
-      $this->currentUser()->hasPermission(ReportBulkUpdater::PERMISSION)
-        ? $this->formBuilder()->getForm(ErrorReportBulkForm::class)
-        : $view->render(),
+      $view->render(),
       '<a class="nk-admin-public-link" href="' . Url::fromUserInput('/admin/nelkano/error-reports/export.csv', ['query' => ['_format' => 'csv']])->toString() . '">Exportar CSV</a>',
     );
   }

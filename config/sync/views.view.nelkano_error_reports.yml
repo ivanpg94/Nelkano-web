@@ -8,6 +8,7 @@ dependencies:
     - field.storage.node.field_report_system
     - node.type.nelkano_error_report
   module:
+    - nelkano_home
     - node
     - options
     - user
@@ -26,6 +27,15 @@ display:
     position: 0
     display_options:
       fields:
+        nelkano_report_bulk:
+          id: nelkano_report_bulk
+          table: node_field_data
+          field: nelkano_report_bulk
+          plugin_id: nelkano_report_bulk
+          relationship: none
+          group_type: group
+          label: Seleccionar
+          exclude: false
         nid:
           id: nid
           table: node_field_data

@@ -6,17 +6,15 @@ namespace Drupal\nelkano_home\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Link;
-use Drupal\Core\Url;
 use Drupal\nelkano_home\Service\ReportBulkUpdater;
 use Drupal\nelkano_home\Service\ReportWorkflow;
 use Drupal\node\NodeInterface;
-use Drupal\views\Views;
+use Drupal\views\ViewExecutable;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-/** CSRF-protected bulk controls below the current page of report results. */
+/** Bulk controls embedded by the Views field; never renders a replacement table. */
 final class ErrorReportBulkForm extends FormBase {
 
   // Protected so FormBase's service serialization can restore cached forms.
@@ -30,48 +28,31 @@ final class ErrorReportBulkForm extends FormBase {
     return 'nelkano_error_report_bulk_form';
   }
 
-  public function buildForm(array $form, FormStateInterface $form_state): array {
+  public function buildForm(array $form, FormStateInterface $form_state, ?ViewExecutable $view = NULL): array {
     $this->requirePermission();
-    $view = Views::getView('nelkano_error_reports');
-    if (!$view || !$view->access('block_1') || !$view->execute('block_1')) {
+    if (!$view) {
       throw new NotFoundHttpException('La vista de reportes no está disponible.');
     }
-    $options = [];
-    $date_formatter = \Drupal::service('date.formatter');
-    foreach ($view->result as $row) {
+    $form['reports'] = ['#tree' => TRUE];
+    $count = 0;
+    foreach ($view->result as $index => $row) {
       $node = $row->_entity ?? NULL;
       if (!$node instanceof NodeInterface || $node->bundle() !== 'nelkano_error_report') {
         continue;
       }
-      $plain = static fn (string $value): array => ['data' => ['#plain_text' => $value]];
-      $status = (string) $node->get('field_report_status')->value;
-      $options[(int) $node->id()] = [
-        'id' => ['data' => Link::fromTextAndUrl('#' . $node->id(), Url::fromRoute('nelkano_home.admin_error_report_view', ['report' => $node->id()]))->toRenderable()],
-        'status' => $plain(ReportWorkflow::STATUSES[$status] ?? $status),
-        'system' => $plain((string) $node->get('field_report_system')->value),
-        'game' => $plain((string) $node->get('field_report_game')->value),
-        'title' => $plain((string) $node->label()),
-        'user' => $plain((string) ($node->getOwner()?->getDisplayName() ?? '')),
-        'created' => $plain($date_formatter->format($node->getCreatedTime(), 'short')),
-        'observations' => $plain((string) $node->get('field_report_observations')->value),
+      $form['reports'][$index] = [
+        '#type' => 'checkbox', '#return_value' => (int) $node->id(),
+        '#title' => $this->t('Seleccionar reporte @id', ['@id' => $node->id()]),
+        '#title_display' => 'invisible',
       ];
+      $count++;
     }
     $form['#cache']['max-age'] = 0;
     $form['#attributes']['class'][] = 'nk-report-bulk-form';
-    $form['table_wrapper'] = [
-      '#type' => 'container', '#attributes' => ['class' => ['view-nelkano-error-reports']],
-    ];
-    $form['table_wrapper']['reports'] = [
-      '#type' => 'tableselect', '#parents' => ['reports'],
-      '#header' => ['id' => 'ID', 'status' => 'Estado', 'system' => 'Sistema', 'game' => 'Juego',
-        'title' => 'Resumen', 'user' => 'Usuario', 'created' => 'Fecha', 'observations' => 'Observaciones'],
-      '#options' => $options, '#multiple' => TRUE, '#js_select' => TRUE,
-      '#empty' => $this->t('No hay reportes para mostrar.'),
-    ];
-    $form['pager'] = $view->pager->render($view->getExposedInput());
+    unset($form['actions']);
     $form['bulk'] = [
       '#type' => 'fieldset', '#title' => $this->t('Cambiar estado de los seleccionados'),
-      '#access' => !empty($options), '#attributes' => ['class' => ['nk-report-bulk-controls']],
+      '#weight' => 100, '#access' => $count > 0, '#attributes' => ['class' => ['nk-report-bulk-controls']],
     ];
     $form['bulk']['help'] = ['#markup' => '<p>' . $this->t('Selecciona reportes de esta página (máximo 50). La casilla de la cabecera selecciona sólo los visibles; no se conservan selecciones al cambiar de página.') . '</p>'];
     $form['bulk']['target_status'] = [
@@ -94,9 +75,17 @@ final class ErrorReportBulkForm extends FormBase {
 
   public function validateForm(array &$form, FormStateInterface $form_state): void {
     $this->requirePermission();
-    $selected = array_filter((array) $form_state->getValue('reports', []));
-    $allowed = $form['table_wrapper']['reports']['#options'];
-    if (!$selected || count($selected) > ReportBulkUpdater::MAX_REPORTS || array_diff_key($selected, $allowed)) {
+    // Checkbox processing substitutes #return_value; inspect submitted IDs too
+    // so a changed page cannot silently select a different report at that index.
+    $input = $form_state->getUserInput();
+    $selected = array_filter((array) ($input['reports'] ?? $form_state->getValue('reports', [])));
+    $valid = !empty($selected) && count($selected) <= ReportBulkUpdater::MAX_REPORTS;
+    foreach ($selected as $index => $id) {
+      if (!isset($form['reports'][$index]['#return_value']) || (string) $id !== (string) $form['reports'][$index]['#return_value']) {
+        $valid = FALSE;
+      }
+    }
+    if (!$valid) {
       $form_state->setErrorByName('reports', $this->t('Selecciona entre 1 y 50 reportes de esta página. Si la lista cambió, recarga y vuelve a seleccionarlos.'));
       return;
     }
@@ -106,7 +95,7 @@ final class ErrorReportBulkForm extends FormBase {
     }
     try {
       [$status, $observations] = ReportWorkflow::validateUpdate($body);
-      $form_state->set('bulk_update', [array_map('intval', array_keys($selected)), $status, $observations]);
+      $form_state->set('bulk_update', [array_values(array_unique(array_map('intval', $selected))), $status, $observations]);
     }
     catch (\InvalidArgumentException $e) {
       $form_state->setErrorByName('observations', $this->t('Selecciona un estado válido. Para Bloqueado, escribe un motivo de entre 1 y 4000 caracteres.'));

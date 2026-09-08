@@ -11,9 +11,11 @@ if (PHP_SAPI !== 'cli' || !class_exists('\Drupal')) {
 use Drupal\Core\Form\FormState;
 use Drupal\Core\Session\AnonymousUserSession;
 use Drupal\nelkano_home\Form\ErrorReportBulkForm;
+use Drupal\nelkano_home\Controller\ErrorReportAdminController;
 use Drupal\nelkano_home\Service\ReportBulkUpdater;
 use Drupal\node\Entity\Node;
 use Drupal\user\Entity\User;
+use Drupal\views\Views;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 // Require an explicit local origin; never use this as a production health check.
@@ -102,19 +104,86 @@ try {
   }
   $switcher->switchTo($admin);
   $switched = TRUE;
+  $make_view = static function () use ($ids) {
+    $view = Views::getView('nelkano_error_reports');
+    $view->setDisplay('block_1');
+    // Change only the in-memory executable: no administrator config is saved.
+    $fields = $view->display_handler->getOption('fields');
+    $view->display_handler->setOption('defaults', ['fields' => FALSE, 'filters' => FALSE, 'style' => FALSE]);
+    $fields['title']['label'] = 'Título cambiado desde Views';
+    $view->display_handler->setOption('fields', [
+      'nelkano_report_bulk' => $fields['nelkano_report_bulk'],
+      'title' => $fields['title'], 'nid' => $fields['nid'],
+    ]);
+    $view->display_handler->setOption('filters', [
+      'nid' => ['id' => 'nid', 'table' => 'node_field_data', 'field' => 'nid',
+        'plugin_id' => 'numeric', 'operator' => 'in', 'value' => $ids],
+      'title' => ['id' => 'title', 'table' => 'node_field_data', 'field' => 'title',
+        'plugin_id' => 'string', 'operator' => 'contains', 'value' => '',
+        'exposed' => TRUE, 'expose' => ['identifier' => 'report_title', 'label' => 'Buscar título']],
+    ]);
+    $view->display_handler->setOption('style', ['type' => 'table', 'options' => [
+      'columns' => ['nelkano_report_bulk' => 'nelkano_report_bulk', 'title' => 'title', 'nid' => 'nid'],
+    ]]);
+    return $view;
+  };
+  $view = $make_view();
+  $view->execute();
   $form_object = ErrorReportBulkForm::create(\Drupal::getContainer());
-  $form = $form_object->buildForm([], new FormState());
-  $check($form['table_wrapper']['reports']['#type'] === 'tableselect', 'table has multi-selection controls');
+  $form = $form_object->buildForm([], new FormState(), $view);
+  $check(isset($form['reports'][0]) && !isset($form['table_wrapper']), 'selection uses native Views rows, not a replacement table');
   $check(isset($form['bulk']['target_status']['#options']['blocked']), 'state selector includes blocked');
-  $check(array_search('table_wrapper', array_keys($form), TRUE) < array_search('bulk', array_keys($form), TRUE), 'bulk controls are below table');
+  $check($form['bulk']['#weight'] > 50, 'bulk controls are below native Views output');
   $state = new FormState();
   $state->setValues(['reports' => [$deleted_id => $deleted_id], 'target_status' => 'resolved']);
   $form_object->validateForm($form, $state);
   $check($state->hasAnyErrors(), 'forged or no-longer-visible selection rejected');
-  $build = \Drupal::formBuilder()->getForm(ErrorReportBulkForm::class);
+  $state->clearErrors();
+  $view = $make_view();
+  $build = $view->render();
   $html = (string) \Drupal::service('renderer')->renderRoot($build);
   $check(str_contains($html, 'name="form_token"'), 'authenticated form renders CSRF token');
   $check(str_contains($html, 'name="target_status"') && str_contains($html, 'Aplicar a los seleccionados'), 'state selector and submit render');
+  $check(str_contains($html, 'Título cambiado desde Views'), 'Views field label customization renders');
+  $check(!str_contains($html, 'views-field-field-report-game'), 'removed Views column is absent');
+  $check(strpos($html, 'views-field-title') < strpos($html, 'views-field-nid'), 'Views column order is respected');
+  $check(str_contains($html, 'name="reports[0]"'), 'Views substitutes native checkbox placeholders');
+  $check(!str_contains($html, '<!--form-item-reports--'), 'no unsubstituted checkbox placeholders');
+  $check(str_contains($html, 'name="report_title"'), 'Views exposed filter renders');
+  $check(strpos($html, 'views-field-title') < strpos($html, 'Cambiar estado de los seleccionados'), 'rendered bulk actions follow Views results');
+  $view = $make_view();
+  $view->setItemsPerPage(1);
+  $view->execute();
+  $check(count($view->result) === 1, 'Views pager bounds the selectable result page');
+  $form = $form_object->buildForm([], new FormState(), $view);
+  $check(count(array_filter(array_keys($form['reports']), 'is_int')) === 1, 'only current page gets checkboxes');
+  $visible_id = $form['reports'][0]['#return_value'];
+  $other_id = $visible_id === $ids[0] ? $ids[1] : $ids[0];
+  $state = new FormState();
+  $state->setValues(['reports' => [0 => $visible_id], 'target_status' => 'resolved']);
+  $state->setUserInput(['reports' => [0 => (string) $other_id]]);
+  $form_object->validateForm($form, $state);
+  $check($state->hasAnyErrors(), 'tampered raw ID rejected even after checkbox value substitution');
+  $state->clearErrors();
+  $state = new FormState();
+  $state->setValues(['reports' => [0 => $visible_id], 'target_status' => 'rejected']);
+  $state->setUserInput(['reports' => [0 => (string) $visible_id]]);
+  $view->field['nelkano_report_bulk']->viewsFormValidate($form, $state);
+  $check(!$state->hasAnyErrors(), 'native Views field validates legitimate selection');
+  $view->field['nelkano_report_bulk']->viewsFormSubmit($form, $state);
+  $check($read($visible_id)->get('field_report_status')->value === 'rejected', 'native Views submit updates selected synthetic report');
+  $check($read($other_id)->get('field_report_status')->value === 'blocked', 'native Views submit leaves off-page report unchanged');
+  $view = $make_view();
+  $view->setExposedInput(['report_title' => 'nonexistent-' . bin2hex(random_bytes(8))]);
+  $view->execute();
+  $check(count($view->result) === 0, 'exposed filter controls the real query');
+  $form = $form_object->buildForm([], new FormState(), $view);
+  $check(!$form['bulk']['#access'], 'empty results hide bulk controls');
+  $check(!$view->field['nelkano_report_bulk']->access(new AnonymousUserSession()), 'selection field denies users without bulk permissions');
+  $page = (new ErrorReportAdminController())->listing();
+  $page_html = (string) \Drupal::service('renderer')->renderRoot($page);
+  $check(str_contains($page_html, 'view-id-nelkano_error_reports'), 'admin controller embeds the native View');
+  $check(str_contains($page_html, 'nk-admin-panel'), 'admin controller preserves Nelkano styling wrapper');
   echo "SUCCESS: {$checks} bulk workflow checks.\n";
 }
 finally {

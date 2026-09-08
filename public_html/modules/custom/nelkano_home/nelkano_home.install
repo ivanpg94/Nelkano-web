@@ -302,6 +302,12 @@ function nelkano_home_update_11019(): void {
   nelkano_home_enable_report_workflow_columns();
 }
 
+/** Adds native Views selection without replacing administrator customizations. */
+function nelkano_home_update_11020(): void {
+  require_once __DIR__ . '/nelkano_home.error_reports.inc';
+  nelkano_home_enable_report_views_selection();
+}
+
 /**
  * Copies a packaged APK to public files and returns its URI.
  */

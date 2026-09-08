@@ -154,6 +154,46 @@ function nelkano_home_enable_report_workflow_columns(): void {
   $view->set('display', $displays)->save();
 }
 
+/** A selectable Views field, not a second hand-built results table. */
+function nelkano_home_report_selection_field(): array {
+  return [
+    'id' => 'nelkano_report_bulk', 'table' => 'node_field_data',
+    'field' => 'nelkano_report_bulk', 'plugin_id' => 'nelkano_report_bulk',
+    'relationship' => 'none', 'group_type' => 'group',
+    'label' => 'Seleccionar', 'exclude' => FALSE,
+  ];
+}
+
+/** One-time additive migration; never reapply a complete Views definition. */
+function nelkano_home_enable_report_views_selection(): void {
+  $view = View::load('nelkano_error_reports');
+  if (!$view) {
+    return;
+  }
+  $displays = $view->get('display');
+  $original_fields = $displays['default']['display_options']['fields'] ?? [];
+  foreach ($displays as &$display) {
+    $options = &$display['display_options'];
+    if ($display['display_plugin'] === 'data_export') {
+      // Keep exports free of form controls, even when fields were inherited.
+      if ($options['defaults']['fields'] ?? !isset($options['fields'])) {
+        $options['fields'] = $original_fields;
+        $options['defaults']['fields'] = FALSE;
+      }
+      unset($options['fields']['nelkano_report_bulk']);
+    }
+    elseif (isset($options['fields']) && !isset($options['fields']['nelkano_report_bulk'])) {
+      $options['fields'] = ['nelkano_report_bulk' => nelkano_home_report_selection_field()] + $options['fields'];
+      if (($options['style']['type'] ?? '') === 'table') {
+        $options['style']['options']['columns'] = ['nelkano_report_bulk' => 'nelkano_report_bulk'] + ($options['style']['options']['columns'] ?? []);
+      }
+    }
+    unset($options);
+  }
+  unset($display);
+  $view->set('display', $displays)->save();
+}
+
 /**
  * Exposes report fields without replacing unrelated display configuration.
  */
@@ -269,7 +309,7 @@ function nelkano_home_error_report_view_definition(): array {
           'pager' => ['type' => 'full', 'options' => ['items_per_page' => 50, 'offset' => 0]],
           'style' => ['type' => 'table', 'options' => ['columns' => array_combine(array_keys($list_fields), array_keys($list_fields)), 'default' => 'created', 'info' => []]],
           'row' => ['type' => 'fields'],
-          'fields' => $list_fields,
+          'fields' => ['nelkano_report_bulk' => nelkano_home_report_selection_field()] + $list_fields,
           'filters' => [
             'type' => [
               'id' => 'type', 'table' => 'node_field_data', 'field' => 'type',
