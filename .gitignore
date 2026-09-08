@@ -16,3 +16,4 @@
 *.sql.gz
 Thumbs.db
 .DS_Store
+/public_html/private:/
