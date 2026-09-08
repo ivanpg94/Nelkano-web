@@ -7,6 +7,7 @@ use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\node\Entity\Node;
 use Drupal\node\Entity\NodeType;
 use Drupal\views\Entity\View;
+use Drupal\nelkano_home\Service\ReportWorkflow;
 
 /**
  * Ensures that emulator reports are normal Drupal content and a View.
@@ -28,7 +29,7 @@ function nelkano_home_ensure_error_report_content(): void {
   }
 
   $fields = [
-    'field_report_status' => ['list_string', 'Estado', ['allowed_values' => ['new' => 'Nuevo', 'in_progress' => 'En proceso', 'resolved' => 'Resuelto', 'rejected' => 'Descartado']]],
+    'field_report_status' => ['list_string', 'Estado', ['allowed_values' => ReportWorkflow::STATUSES]],
     'field_report_category' => ['list_string', 'Categoria', ['allowed_values' => ['crash' => 'Cierre inesperado', 'freeze' => 'Bloqueo', 'graphics' => 'Graficos', 'audio' => 'Audio', 'controls' => 'Controles', 'performance' => 'Rendimiento', 'save_state' => 'Guardado', 'other' => 'Otro']]],
     'field_report_system' => ['string', 'Sistema', ['max_length' => 32]],
     'field_report_game' => ['string', 'Juego', ['max_length' => 180]],
@@ -80,6 +81,7 @@ function nelkano_home_ensure_error_report_content(): void {
     }
   }
 
+  nelkano_home_ensure_report_observations();
   nelkano_home_enable_error_report_displays();
 
   $view_definition = nelkano_home_error_report_view_definition();
@@ -94,6 +96,62 @@ function nelkano_home_ensure_error_report_content(): void {
     $view->setStatus(TRUE);
     $view->save();
   }
+}
+
+/** Adds workflow notes without replacing existing report data or UI settings. */
+function nelkano_home_ensure_report_observations(): void {
+  if (!FieldStorageConfig::loadByName('node', 'field_report_observations')) {
+    FieldStorageConfig::create([
+      'uuid' => 'e6a27bfe-780e-4241-bef2-c65a4248e3f7',
+      'field_name' => 'field_report_observations', 'entity_type' => 'node',
+      'type' => 'string_long', 'cardinality' => 1,
+    ])->save();
+  }
+  if (!FieldConfig::loadByName('node', 'nelkano_error_report', 'field_report_observations')) {
+    FieldConfig::create([
+      'uuid' => '34f6e0df-149d-42dd-bb24-4cc1a85fa753',
+      'field_name' => 'field_report_observations', 'entity_type' => 'node',
+      'bundle' => 'nelkano_error_report', 'label' => 'Observaciones',
+      'description' => 'Motivo del bloqueo o notas del resultado. Máximo 4000 caracteres; texto sin formato.',
+      'required' => FALSE,
+    ])->save();
+  }
+  $repository = \Drupal::service('entity_display.repository');
+  $form = $repository->getFormDisplay('node', 'nelkano_error_report');
+  if ($form->getComponent('field_report_observations') === NULL) {
+    $form->setComponent('field_report_observations', ['type' => 'string_textarea', 'weight' => 35, 'settings' => ['rows' => 5]])->save();
+  }
+  $display = $repository->getViewDisplay('node', 'nelkano_error_report');
+  if ($display->getComponent('field_report_observations') === NULL) {
+    $display->setComponent('field_report_observations', ['type' => 'basic_string', 'label' => 'above', 'weight' => 35])->save();
+  }
+}
+
+/** Updates only the two workflow columns in existing report Views displays. */
+function nelkano_home_enable_report_workflow_columns(): void {
+  $view = View::load('nelkano_error_reports');
+  if (!$view) {
+    return;
+  }
+  $displays = $view->get('display');
+  foreach ($displays as &$display) {
+    if (!isset($display['display_options']['fields'])) {
+      continue;
+    }
+    $options = &$display['display_options'];
+    if (isset($options['fields']['field_report_status'])) {
+      $options['fields']['field_report_status']['type'] = 'list_default';
+    }
+    if (!isset($options['fields']['field_report_observations'])) {
+      $options['fields']['field_report_observations'] = nelkano_home_error_report_view_field('node__field_report_observations', 'field_report_observations', 'Observaciones');
+    }
+    if (($options['style']['type'] ?? '') === 'table') {
+      $options['style']['options']['columns']['field_report_observations'] = 'field_report_observations';
+    }
+    unset($options);
+  }
+  unset($display);
+  $view->set('display', $displays)->save();
 }
 
 /**
@@ -140,10 +198,7 @@ function nelkano_home_update_error_report_statuses(): void {
   }
   $storage = FieldStorageConfig::loadByName('node', 'field_report_status');
   if ($storage) {
-    $storage->setSetting('allowed_values', [
-      'new' => 'Nuevo', 'in_progress' => 'En proceso',
-      'resolved' => 'Resuelto', 'rejected' => 'Descartado',
-    ])->save();
+    $storage->setSetting('allowed_values', ReportWorkflow::STATUSES)->save();
   }
   \Drupal::entityTypeManager()->getStorage('node')->resetCache();
   \Drupal::service('cache_tags.invalidator')->invalidateTags(['node_list']);
@@ -161,6 +216,7 @@ function nelkano_home_error_report_view_definition(): array {
     'title' => nelkano_home_error_report_view_field('node_field_data', 'title', 'Resumen', 'node', 'title'),
     'uid' => nelkano_home_error_report_view_field('node_field_data', 'uid', 'Usuario', 'node', 'uid'),
     'created' => nelkano_home_error_report_view_field('node_field_data', 'created', 'Fecha', 'node', 'created'),
+    'field_report_observations' => nelkano_home_error_report_view_field('node__field_report_observations', 'field_report_observations', 'Observaciones'),
   ];
   $export_fields = $list_fields;
   foreach ([
@@ -275,6 +331,12 @@ function nelkano_home_error_report_view_field(string $table, string $field, stri
   }
   if ($entity_field !== NULL) {
     $definition['entity_field'] = $entity_field;
+  }
+  if ($field === 'field_report_status') {
+    $definition['type'] = 'list_default';
+  }
+  elseif ($field === 'field_report_observations') {
+    $definition['type'] = 'basic_string';
   }
   return $definition;
 }

@@ -1,12 +1,18 @@
 # API de reportes para el PC (v1)
 
 Entrega contenido `nelkano_error_report` y sus adjuntos privados y permite cambiar
-su estado. No descarga ROMs, no ejecuta agentes y no implementa un cliente PC.
+su estado y observaciones. No descarga ROMs, no ejecuta agentes y no implementa un cliente PC.
 
-Estados: `new` (Nuevo), `in_progress` (En proceso), `resolved` (Resuelto) y
-`rejected` (Descartado). La API lista solo los nuevos. Tras guardar y verificar
+Estados: `new` (Nuevo), `in_progress` (En proceso), `resolved` (Terminado),
+`rejected` (Descartado) y `blocked` (Bloqueado). Se conserva la clave `resolved`
+para compatibilidad con los clientes y datos existentes; cambia su etiqueta.
+La API lista solo los nuevos. Tras guardar y verificar
 la descarga, el PC confirma la recepción y la web pasa el reporte a En proceso.
-La automatización lo marca posteriormente como Resuelto o Descartado.
+Al finalizar el examen de **cada reporte**, el cliente actualiza ese ID sin
+esperar a que terminen los demás: Terminado si corrigió y validó el error,
+Descartado si verificó que no era un error, o Bloqueado si no pudo reproducirlo
+o completar su resolución, con el motivo en Observaciones. La API ya admite
+estas transiciones individuales; este cambio no modifica ni ejecuta el cliente.
 
 ## Aplicar en una instalación existente
 
@@ -17,7 +23,23 @@ docker compose exec -T drupal vendor/bin/drush updatedb -y
 docker compose exec -T drupal vendor/bin/drush cr
 ```
 
-La actualización 11018 configura los cuatro estados y migra el antiguo
+La nueva actualización **11019** añade Bloqueado, cambia la etiqueta Resuelto a
+Terminado sin alterar su valor `resolved`, y crea el campo de texto plano
+`field_report_observations` (Observaciones). Lo expone en formulario, detalle,
+listado administrativo y la vista de exportación existente, sin generar archivos.
+El motivo es obligatorio para Bloqueado tanto en la API como en el formulario.
+La actualización modifica sólo los componentes del flujo, sin reemplazar las
+personalizaciones restantes de la vista ni los datos de los reportes.
+Los YAML correspondientes están incluidos en `config/sync`; no exportar toda
+la base local sobre la configuración de producción.
+
+Para subir manualmente: copiar el código del módulo y los YAML modificados;
+ejecutar `vendor/bin/drush updatedb -y`, la importación de configuración habitual
+si se utiliza (`vendor/bin/drush config:import -y`) y `vendor/bin/drush cr` desde
+la raíz del proyecto del servidor. No es necesario emitir otra credencial.
+No se ha realizado despliegue desde esta modificación.
+
+Histórico: la actualización 11018 configuraba cuatro estados y migraba el antiguo
 `reviewing` a `in_progress`, también en las revisiones existentes.
 La actualización 11017 activa los 25 campos en el formulario y la presentación
 predeterminados del contenido. Slot/captura se muestran como enlaces protegidos.
@@ -28,7 +50,7 @@ Los archivos siguen siendo archivos privados referenciados por URI, no entidades
 
 La API no acepta la contraseña del administrador, cookies de Drupal ni tokens
 de jugadores. Cada credencial permite leer **todos** los reportes y confirmar su
-recepción para ese PC y cambiar el estado; no permite editar otros campos ni
+recepción para ese PC y cambiar el estado y observaciones; no permite editar otros campos ni
 borrar reportes. El recolector y la automatización pueden tener claves diferentes.
 
 Crear una credencial (caduca en 90 días):
@@ -69,10 +91,10 @@ Respuestas y archivos llevan `Cache-Control: private, no-store`.
 | GET | `/api/nelkano/v1/error-reports/{id}/files/state` | Slot binario |
 | GET | `/api/nelkano/v1/error-reports/{id}/files/screenshot` | Captura, si existe |
 | POST | `/api/nelkano/v1/error-reports/{id}/receipt` | Confirma descarga completa y pasa a En proceso |
-| PATCH | `/api/nelkano/v1/error-reports/{id}/status` | Cambia únicamente el estado |
+| PATCH | `/api/nelkano/v1/error-reports/{id}/status` | Guarda estado y observaciones de ese reporte en una transacción |
 
 El listado devuelve `items`, `next_after_id` y `has_more`. Cada elemento incluye
-ID, UUID, título, creación, modificación, estado, sistema y `detail_url`.
+ID, UUID, título, creación, modificación, estado, `observations`, sistema y `detail_url`.
 Los enlaces son relativos al mismo servidor, sin claves ni rutas de disco.
 
 El detalle devuelve:
@@ -81,10 +103,11 @@ El detalle devuelve:
 - `metadata`: todos los campos `field_report_*` salvo las dos URIs privadas;
   se elimina el prefijo del nombre. Incluye `settings` como texto JSON original,
   logs, ROM, core, versión/build, dispositivo, resultados y slot.
+  `metadata.observations` contiene las observaciones de revisión, o `""` si no hay.
 - `attachments.state` y `attachments.screenshot`: nombre, tamaño en bytes,
   SHA-256 calculado sobre el archivo real y URL de descarga. Captura ausente: `null`.
 - `manifest_sha256`: identificador opaco de esta versión del manifiesto, a devolver
-  sin recalcularlo. Cambia cuando cambian los datos o los adjuntos; excluye estado,
+  sin recalcularlo. Cambia cuando cambian los datos o los adjuntos; excluye estado, observaciones,
   ID de revisión y fecha de modificación para permitir reintentos de recepción
   después de los cambios de estado automáticos.
 - `receipt`: recepción de esa versión por ese PC, o `null`.
@@ -114,7 +137,7 @@ no equivale necesariamente a un SHA-256 completo de la ROM.
 
 Enviar `Content-Type: application/json`. Si se pierde la respuesta se puede
 reintentar: para el mismo PC y manifiesto se devuelve la misma recepción y el
-estado actual. Un reintento nunca devuelve un Resuelto/Descartado a En proceso.
+estado actual. Un reintento nunca devuelve un Terminado/Descartado/Bloqueado a En proceso.
 La recepción guarda fecha, cliente y hashes en `nelkano_report_api_receipts`;
 cambia el estado del nodo a `in_progress`, sin borrar archivos. Ambos cambios
 se guardan en una transacción. Es una declaración del cliente, no una
@@ -135,25 +158,52 @@ Si dos PCs descargan el mismo Nuevo a la vez, solo la primera confirmación lo
 acepta; la otra recibe `409`. No hay reserva previa a la descarga ni garantía de
 evitar transferencias duplicadas entre PCs. Empezar con un único recolector.
 
-## Cambiar el estado desde la automatización
+## Finalizar cada reporte desde la automatización
 
 ```http
 PATCH /api/nelkano/v1/error-reports/3/status
 Authorization: Bearer <credencial de la automatización>
 Content-Type: application/json
 
-{"status":"resolved"}
+{"status":"resolved","observations":"Corrección validada con el caso reportado."}
 ```
 
-Para descartar: `{"status":"rejected"}`. También admite `new` para devolverlo
-a la cola y `in_progress` para ajustarlo manualmente. Rechaza otros estados y
-otros campos. Puede cambiarse asimismo desde el formulario de edición Drupal.
+Para descartar porque no es un error:
 
-Respuesta: `{"api_version":1,"id":3,"uuid":"…","status":"resolved"}`.
-Repetir el mismo estado no crea otra revisión. Cada cambio efectivo por API
+```json
+{"status":"rejected","observations":"El comportamiento coincide con el funcionamiento esperado del juego."}
+```
+
+Para bloquear, con el motivo obligatorio:
+
+```json
+{"status":"blocked","observations":"No se ha podido reproducir: falta la ROM exacta indicada en el reporte."}
+```
+
+`status` sigue siendo obligatorio. `observations` es texto plano de hasta
+4000 caracteres Unicode, permite saltos de línea y es obligatorio y no vacío
+para `blocked`. En los demás estados es opcional: omitirlo conserva el texto;
+enviar `""` lo borra. No se admiten `null`, listas, números ni campos adicionales.
+El endpoint admite cuerpos de hasta 65536 bytes para soportar JSON con escapes
+Unicode; `/receipt` mantiene su límite de 4096 bytes. El texto se muestra escapado
+en la web, nunca como HTML ejecutable.
+
+También admite `new` para devolverlo a la cola e `in_progress` para ajustarlo
+manualmente. Puede cambiarse asimismo desde el formulario de edición Drupal.
+
+Respuesta: `{"api_version":1,"id":3,"uuid":"…","status":"blocked","observations":"No se ha podido reproducir: falta la ROM exacta indicada en el reporte."}`.
+Guardar estado y observaciones es atómico y afecta sólo a ese ID. Repetir el
+mismo estado y texto no crea otra revisión. Cambiar únicamente el texto sí crea
+una revisión. Los recibos previos conservan su validez después de esos cambios.
+Cada cambio efectivo por API
 crea una revisión con cliente y estado en el mensaje. La API serializa los cambios
 con un bloqueo por reporte para evitar que dos confirmaciones lo acepten a la vez.
 No detecta si una corrección es correcta: eso corresponde a la automatización.
+Tras cada examen, el cliente debe enviar PATCH, comprobar HTTP 200 y los valores
+devueltos, y sólo entonces considerar sincronizado ese reporte. Si falla la
+petición, conservar el resultado y reintentar ese ID: no declararlo actualizado
+ni esperar a que termine el lote. Este repositorio proporciona el backend; el
+envío automático desde el PC debe adaptarse por separado.
 
 ## Errores y protección
 
@@ -182,4 +232,12 @@ Crea credenciales y un reporte sintético sin ROM; los elimina en `finally`.
 Comprueba widgets/formatters, auth, paginación, bytes y hashes, recepción,
 ediciones, cambios de estado, cola de nuevos, reintentos, aislamiento por cliente,
 rotación, revocación y rutas inseguras.
+Incluye Bloqueado con motivo, límites/tipos de observaciones, persistencia,
+actualización sólo del texto, atomicidad de los rechazos e idempotencia.
 No modifica los reportes reales ni deja un PC consumidor configurado.
+
+Prueba de contrato sin Drupal, red ni credenciales (PHP con mbstring):
+
+```sh
+php public_html/modules/custom/nelkano_home/tests/report-workflow-unit.php
+```

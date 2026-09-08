@@ -39,6 +39,7 @@ final class ErrorReportAdminController extends ControllerBase {
     $rows = [];
     foreach ([
       'field_report_status' => 'Estado', 'field_report_category' => 'Categoria',
+      'field_report_observations' => 'Observaciones',
       'title' => 'Resumen', 'body' => 'Pasos para reproducir',
       'field_report_expected' => 'Resultado esperado', 'field_report_actual' => 'Resultado actual',
       'field_report_system' => 'Sistema', 'field_report_game' => 'Juego',

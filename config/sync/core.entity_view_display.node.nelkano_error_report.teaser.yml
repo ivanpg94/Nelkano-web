@@ -19,6 +19,7 @@ dependencies:
     - field.field.node.nelkano_error_report.field_report_game
     - field.field.node.nelkano_error_report.field_report_gpu
     - field.field.node.nelkano_error_report.field_report_logs
+    - field.field.node.nelkano_error_report.field_report_observations
     - field.field.node.nelkano_error_report.field_report_rom_hash
     - field.field.node.nelkano_error_report.field_report_screenshot_uri
     - field.field.node.nelkano_error_report.field_report_settings
@@ -67,6 +68,7 @@ hidden:
   field_report_game: true
   field_report_gpu: true
   field_report_logs: true
+  field_report_observations: true
   field_report_rom_hash: true
   field_report_screenshot_uri: true
   field_report_settings: true

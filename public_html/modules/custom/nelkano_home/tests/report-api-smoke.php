@@ -56,8 +56,8 @@ try {
       $count++;
     }
   }
-  $check($count === 25, 'all 25 report fields configured');
-  $check($definitions['field_report_status']->getSetting('allowed_values') === ['new' => 'Nuevo', 'in_progress' => 'En proceso', 'resolved' => 'Resuelto', 'rejected' => 'Descartado'], 'exactly the four requested states');
+  $check($count === 26, 'all 26 report fields configured');
+  $check($definitions['field_report_status']->getSetting('allowed_values') === ['new' => 'Nuevo', 'in_progress' => 'En proceso', 'resolved' => 'Terminado', 'rejected' => 'Descartado', 'blocked' => 'Bloqueado'], 'exactly the five requested states');
 
   $check($call('GET', $api)->getStatusCode() === 401, 'anonymous list denied');
   $check($call('GET', $api, 'player-token')->getStatusCode() === 401, 'non-PC token denied');
@@ -96,6 +96,10 @@ try {
   $check($call('PATCH', $path . '/status', NULL, ['status' => 'resolved'])->getStatusCode() === 401, 'anonymous status change denied');
   $check($call('PATCH', $path . '/status', 'player-token', ['status' => 'resolved'])->getStatusCode() === 401, 'player status change denied');
   $check($call('PATCH', $path . '/status', $token, ['status' => 'reviewing'])->getStatusCode() === 400, 'legacy status rejected');
+  $check($call('PATCH', $path . '/status', $token, ['status' => 'blocked'])->getStatusCode() === 400, 'blocked requires observations');
+  foreach (['', '   ', NULL, 123, [], str_repeat('x', 4001)] as $invalid_notes) {
+    $check($call('PATCH', $path . '/status', $token, ['status' => 'blocked', 'observations' => $invalid_notes])->getStatusCode() === 400, 'invalid blocking reason rejected');
+  }
   $check($call('PATCH', $path . '/status', $token, ['status' => 'resolved', 'title' => 'overwrite'])->getStatusCode() === 400, 'status endpoint cannot edit other fields');
   $check($call('PATCH', $api . '/0/status', $token, ['status' => 'resolved'])->getStatusCode() === 404, 'status of missing report returns 404');
   $check($call('DELETE', $path, $token)->getStatusCode() === 405, 'report mutation not exposed');
@@ -103,7 +107,10 @@ try {
   $check($response->getStatusCode() === 200, 'unpublished report accessible with PC credential');
   $manifest = $decode($response);
   $check(str_contains($response->getHeaderLine('Cache-Control'), 'no-store'), 'private manifest not cached');
-  $check(count($manifest['metadata']) === 23 && $manifest['steps'] === 'Pasos de prueba', 'full metadata and reproduction steps returned');
+  $check(count($manifest['metadata']) === 24 && $manifest['steps'] === 'Pasos de prueba', 'full metadata and reproduction steps returned');
+  $legacy_payload = $manifest;
+  unset($legacy_payload['metadata']['status'], $legacy_payload['metadata']['observations'], $legacy_payload['revision_id'], $legacy_payload['changed'], $legacy_payload['manifest_sha256'], $legacy_payload['receipt']);
+  $check(hash('sha256', json_encode($legacy_payload, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)) === $manifest['manifest_sha256'], 'manifest remains compatible with pre-observations downloads');
   $check(!str_contains(json_encode($manifest), 'private://'), 'filesystem URIs not exposed');
   $check($manifest['receipt'] === NULL, 'not received initially');
   $check($call('GET', $path)->getStatusCode() === 401, 'authenticated response not leaked through cache');
@@ -133,14 +140,34 @@ try {
   $other = ReportApiCredentials::issue($second_client, 1);
   $check($decode($call('GET', $path, $other))['receipt'] === NULL, 'receipt isolated by PC');
   $check($call('POST', $path . '/receipt', $other, $receipt)->getStatusCode() === 409, 'second PC cannot claim processed report');
+  $notes = "No se ha podido reproducir: falta el dispositivo del reporte.\nReintentar con los mismos ajustes.";
+  $blocked = $call('PATCH', $path . '/status', $other, ['status' => 'blocked', 'observations' => $notes]);
+  $check($blocked->getStatusCode() === 200 && $decode($blocked)['observations'] === $notes, 'blocking saves and returns observations atomically');
+  $blocked_detail = $decode($call('GET', $path, $token));
+  $check($blocked_detail['metadata']['status'] === 'blocked' && $blocked_detail['metadata']['observations'] === $notes, 'blocked state and reason persisted');
+  $check($blocked_detail['manifest_sha256'] === $manifest['manifest_sha256'] && $blocked_detail['receipt'] !== NULL, 'workflow notes preserve manifest and receipt');
+  $revision = $blocked_detail['revision_id'];
+  $check($call('PATCH', $path . '/status', $other, ['status' => 'blocked', 'observations' => $notes])->getStatusCode() === 200 && $decode($call('GET', $path, $token))['revision_id'] === $revision, 'state and notes retry is idempotent');
+  $check($decode($call('POST', $path . '/receipt', $token, $receipt))['status'] === 'blocked', 'late receipt never reopens blocked report');
+  $check($decode($call('GET', $api . '?after_id=' . ($node->id() - 1), $token))['items'] === [], 'blocked report excluded from new queue');
+  $updated_notes = $notes . '\nDiagnóstico pendiente.';
+  $check($call('PATCH', $path . '/status', $other, ['status' => 'blocked', 'observations' => $updated_notes])->getStatusCode() === 200, 'can amend notes without changing state');
+  $amended = $decode($call('GET', $path, $token));
+  $check($amended['revision_id'] !== $revision && $amended['metadata']['observations'] === $updated_notes, 'notes-only change creates a revision');
+  $check($call('PATCH', $path . '/status', $other, ['status' => 'blocked', 'observations' => ''])->getStatusCode() === 400, 'cannot erase blocking reason');
+  $check($decode($call('GET', $path, $token))['revision_id'] === $amended['revision_id'], 'invalid update leaves stored result intact');
   $check($call('PATCH', $path . '/status', $other, ['status' => 'resolved'])->getStatusCode() === 200, 'separate automation credential can resolve');
   $check($decode($call('GET', $path, $token))['metadata']['status'] === 'resolved', 'resolved persisted');
+  $check($decode($call('GET', $path, $token))['metadata']['observations'] === $updated_notes, 'omitting observations preserves previous notes');
   $revision = $decode($call('GET', $path, $token))['revision_id'];
   $check($call('PATCH', $path . '/status', $other, ['status' => 'resolved'])->getStatusCode() === 200 && $decode($call('GET', $path, $token))['revision_id'] === $revision, 'status retry does not create duplicate revision');
   $check($decode($call('POST', $path . '/receipt', $token, $receipt))['status'] === 'resolved', 'late receipt never reopens resolved report');
   $check($call('PATCH', $path . '/status', $other, ['status' => 'rejected'])->getStatusCode() === 200, 'automation can discard');
   $check($decode($call('GET', $api . '?after_id=' . ($node->id() - 1), $token))['items'] === [], 'discarded report excluded');
   $check($decode($call('POST', $path . '/receipt', $token, $receipt))['status'] === 'rejected', 'late receipt never reopens discarded report');
+  $check($call('PATCH', $path . '/status', $token, ['status' => 'rejected', 'observations' => ''])->getStatusCode() === 200 && $decode($call('GET', $path, $token))['metadata']['observations'] === '', 'explicit empty text clears notes outside blocked');
+  $unicode_notes = str_repeat('🎮', 4000);
+  $check($call('PATCH', $path . '/status', $token, ['status' => 'rejected', 'observations' => $unicode_notes])->getStatusCode() === 200, '4000 Unicode characters accepted including JSON escaping');
   $check($call('PATCH', $path . '/status', $token, ['status' => 'in_progress'])->getStatusCode() === 200, 'in progress accepted by status endpoint');
   \Drupal::entityTypeManager()->getStorage('node')->resetCache([$node->id()]);
   $node = Node::load($node->id());
@@ -213,6 +240,7 @@ try {
     $build = \Drupal::service('entity.form_builder')->getForm($node);
     $html = (string) \Drupal::service('renderer')->renderRoot($build);
     $check(str_contains($html, 'field_report_system') && str_contains($html, 'field_report_logs'), 'node edit renders technical inputs');
+    $check(str_contains($html, 'field_report_observations') && str_contains($html, 'Bloqueado') && str_contains($html, 'Terminado'), 'form renders observations and final states');
     $build = \Drupal::entityTypeManager()->getViewBuilder('node')->view($node);
     $html = (string) \Drupal::service('renderer')->renderRoot($build);
     $check(str_contains($html, '/admin/nelkano/error-reports/' . $node->id() . '/state'), 'node display renders slot download link');

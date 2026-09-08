@@ -8,6 +8,7 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
 use Drupal\nelkano_home\Service\ReportApiCredentials;
 use Drupal\nelkano_home\Service\ReportAttachment;
+use Drupal\nelkano_home\Service\ReportWorkflow;
 use Drupal\node\NodeInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -39,6 +40,7 @@ final class ErrorReportApiController extends ControllerBase {
           'id' => (int) $node->id(), 'uuid' => $node->uuid(), 'title' => $node->label(),
           'created' => $node->getCreatedTime(), 'changed' => $node->getChangedTime(),
           'status' => $node->get('field_report_status')->value,
+          'observations' => (string) $node->get('field_report_observations')->value,
           'system' => $node->get('field_report_system')->value,
           'detail_url' => Url::fromRoute('nelkano_home.report_api_detail', ['report' => $node->id()])->toString(),
         ];
@@ -97,7 +99,7 @@ final class ErrorReportApiController extends ControllerBase {
         $receipt = $store->get($key);
         $status = (string) $node->get('field_report_status')->value;
         // A lost response may be retried even after automation finishes. Never
-        // regress a resolved/rejected report on a duplicate acknowledgement.
+        // regress a resolved/rejected/blocked report on a duplicate acknowledgement.
         $already_received = $receipt && hash_equals($manifest['manifest_sha256'], $receipt['manifest_sha256']);
         if ($status !== 'new' && !$already_received) {
           throw new ConflictHttpException('Report is no longer new.');
@@ -114,22 +116,30 @@ final class ErrorReportApiController extends ControllerBase {
 
   public function updateStatus(Request $request, int $report): Response {
     return $this->authorized($request, function (string $client) use ($request, $report): Response {
-      $body = $this->jsonBody($request);
-      $status = $body['status'] ?? NULL;
-      if (!is_string($status) || !in_array($status, ['new', 'in_progress', 'resolved', 'rejected'], TRUE) || array_diff(array_keys($body), ['status'])) {
-        throw new BadRequestHttpException('Expected only status: new, in_progress, resolved or rejected.');
+      // Accommodate 4000 Unicode characters even when JSON escapes each one.
+      $body = $this->jsonBody($request, 65536);
+      try {
+        [$status, $observations] = ReportWorkflow::validateUpdate($body);
       }
-      return $this->withReportLock($report, function () use ($client, $status, $report): Response {
+      catch (\InvalidArgumentException $e) {
+        throw new BadRequestHttpException($e->getMessage());
+      }
+      return $this->withReportLock($report, function () use ($client, $status, $observations, $report): Response {
         $node = $this->loadReport($report);
-        $this->saveStatus($node, $status, $client);
-        return new JsonResponse(['api_version' => 1, 'id' => $report, 'uuid' => $node->uuid(), 'status' => $status]);
+        $this->saveStatus($node, $status, $client, $observations);
+        return new JsonResponse(['api_version' => 1, 'id' => $report, 'uuid' => $node->uuid(), 'status' => $status,
+          'observations' => (string) $node->get('field_report_observations')->value]);
       });
     });
   }
 
-  private function saveStatus(NodeInterface $node, string $status, string $client): void {
-    if ($node->get('field_report_status')->value !== $status) {
+  private function saveStatus(NodeInterface $node, string $status, string $client, ?string $observations = NULL): void {
+    $observations_changed = $observations !== NULL && (string) $node->get('field_report_observations')->value !== $observations;
+    if ($node->get('field_report_status')->value !== $status || $observations_changed) {
       $node->set('field_report_status', $status);
+      if ($observations !== NULL) {
+        $node->set('field_report_observations', $observations);
+      }
       $node->setNewRevision(TRUE);
       $node->setRevisionLogMessage('Report API (' . $client . '): ' . $status);
       $node->setRevisionUserId(0);
@@ -162,8 +172,8 @@ final class ErrorReportApiController extends ControllerBase {
     }
   }
 
-  private function jsonBody(Request $request): array {
-    if (strlen($request->getContent()) > 4096) {
+  private function jsonBody(Request $request, int $max_bytes = 4096): array {
+    if (strlen($request->getContent()) > $max_bytes) {
       throw new BadRequestHttpException('Request body too large.');
     }
     try {
@@ -219,15 +229,19 @@ final class ErrorReportApiController extends ControllerBase {
     foreach ($node->getFieldDefinitions() as $name => $definition) {
       if (str_starts_with($name, 'field_report_') && !str_ends_with($name, '_uri')) {
         $value = $node->get($name)->value;
+        if ($name === 'field_report_observations') {
+          $value = (string) $value;
+        }
         $data['metadata'][substr($name, strlen('field_report_'))] = $value === NULL ? NULL : ($definition->getType() === 'integer' ? (int) $value : (string) $value);
       }
     }
     ksort($data['metadata']);
     $data['attachments'] = ['state' => $this->attachment($node, 'state'), 'screenshot' => $this->attachment($node, 'screenshot')];
     // Workflow updates do not change the downloaded report payload. Exclude
-    // status and revision timestamps so receipt retries remain valid.
+    // status, observations and revision timestamps so receipt retries remain
+    // valid, including manifests downloaded before observations existed.
     $payload = $data;
-    unset($payload['metadata']['status'], $payload['revision_id'], $payload['changed']);
+    unset($payload['metadata']['status'], $payload['metadata']['observations'], $payload['revision_id'], $payload['changed']);
     $data['manifest_sha256'] = hash('sha256', json_encode($payload, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
     return $data;
   }

@@ -294,6 +294,14 @@ function nelkano_home_update_11018(): void {
   nelkano_home_update_error_report_statuses();
 }
 
+/** Adds Bloqueado, renames Resuelto to Terminado, and exposes observations. */
+function nelkano_home_update_11019(): void {
+  require_once __DIR__ . '/nelkano_home.error_reports.inc';
+  nelkano_home_update_error_report_statuses();
+  nelkano_home_ensure_report_observations();
+  nelkano_home_enable_report_workflow_columns();
+}
+
 /**
  * Copies a packaged APK to public files and returns its URI.
  */

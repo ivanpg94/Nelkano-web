@@ -18,6 +18,7 @@ dependencies:
     - field.field.node.nelkano_error_report.field_report_game
     - field.field.node.nelkano_error_report.field_report_gpu
     - field.field.node.nelkano_error_report.field_report_logs
+    - field.field.node.nelkano_error_report.field_report_observations
     - field.field.node.nelkano_error_report.field_report_rom_hash
     - field.field.node.nelkano_error_report.field_report_screenshot_uri
     - field.field.node.nelkano_error_report.field_report_settings
@@ -155,6 +156,13 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 23
+    region: content
+  field_report_observations:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 35
     region: content
   field_report_rom_hash:
     type: string
