@@ -6,3 +6,8 @@ administer nelkano error reports:
   title: 'Administer Nelkano error reports'
   description: 'View emulator error reports and download their private attachments.'
   restrict access: true
+
+change nelkano error report status:
+  title: 'Cambiar estados de reportes de Nelkano'
+  description: 'Permite cambiar en masa el estado y el motivo de bloqueo de los reportes.'
+  restrict access: true

@@ -205,6 +205,50 @@ petición, conservar el resultado y reintentar ese ID: no declararlo actualizado
 ni esperar a que termine el lote. Este repositorio proporciona el backend; el
 envío automático desde el PC debe adaptarse por separado.
 
+## Cambio masivo desde la administración
+
+En `/admin/nelkano/error-reports`, los administradores disponen de casillas
+por fila y de un selector **Nuevo estado** bajo la tabla, seguido del botón
+**Aplicar a los seleccionados**. La casilla de cabecera marca la página visible;
+la selección no se conserva al cambiar de página. Se admiten hasta 50 reportes
+por operación y se mantienen los resultados/paginación de la View existente.
+
+Al elegir Bloqueado aparece **Motivo del bloqueo**, obligatorio. Su contenido
+se guarda en Observaciones de todos los seleccionados. Para los demás estados
+se conservan las observaciones que ya tenía cada reporte. Se muestra cuántos
+reportes se seleccionaron y cuántos cambiaron efectivamente.
+
+Se requiere el nuevo permiso **Cambiar estados de reportes de Nelkano**
+(`change nelkano error report status`) además del permiso de consulta. El usuario
+1 y los roles administradores lo tienen automáticamente; los roles de sólo
+consulta mantienen la tabla sin controles de modificación. Si se desea delegar
+esta operación, conceder expresamente ambos permisos.
+
+El formulario usa protección CSRF de Drupal y verifica los IDs contra la página
+mostrada. El servicio vuelve a comprobar permisos, cantidad y tipo de contenido,
+toma los mismos bloqueos por reporte que la API y guarda el lote en una
+transacción. Si un reporte está ocupado o falla el guardado, no se actualiza
+parcialmente la selección. Cada cambio real crea una revisión atribuida al
+administrador; repetir el mismo estado/texto no genera revisiones adicionales.
+No se cambian adjuntos, usuarios, descripciones originales ni recibos de descarga.
+
+Para activar este cambio, subir el código del módulo y ejecutar
+`vendor/bin/drush cr` (reconstruye servicios y permisos). No requiere otra
+migración de datos; la actualización 11019 de estados/observaciones debe estar
+aplicada previamente. No necesita instalar Views Bulk Operations.
+
+Prueba de integración sólo en Drupal local, con tres reportes sintéticos que
+se eliminan al finalizar, sin credenciales de API ni modificaciones a reportes
+reales:
+
+```sh
+vendor/bin/drush --uri=http://localhost php:script public_html/modules/custom/nelkano_home/tests/report-bulk-smoke.php
+```
+
+En Docker local, sustituir `public_html/` por `web/` y ejecutar mediante
+`docker compose exec -T drupal`. Comprueba selección, permisos, motivos,
+persistencia, revisiones, idempotencia, lote incompleto, formulario y token CSRF.
+
 ## Errores y protección
 
 - `401`: falta credencial PC, es inválida, ha caducado o fue revocada.

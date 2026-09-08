@@ -1,4 +1,7 @@
 services:
+  nelkano_home.report_bulk_updater:
+    class: Drupal\nelkano_home\Service\ReportBulkUpdater
+    arguments: ['@entity_type.manager', '@database', '@lock']
   nelkano_home.route_subscriber:
     class: Drupal\nelkano_home\Routing\RouteSubscriber
     tags:

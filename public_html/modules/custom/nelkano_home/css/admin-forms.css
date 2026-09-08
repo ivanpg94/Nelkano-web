@@ -177,6 +177,23 @@ body:has(.nk-admin-app) .content-header {
   padding: 22px;
 }
 
+.nk-report-bulk-controls {
+  border: 1px solid #e5ebf4;
+  border-radius: 12px;
+  margin: 20px 22px 28px;
+  padding: 18px 22px;
+}
+
+.nk-report-bulk-controls legend {
+  font-weight: 800;
+}
+
+.nk-report-bulk-form .view-nelkano-error-reports td:last-child {
+  min-width: 180px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
 .nk-admin-panel .view-nelkano-error-reports table,
 .nk-admin-panel .nk-report-details {
   border-collapse: separate;
