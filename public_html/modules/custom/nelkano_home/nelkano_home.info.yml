@@ -9,3 +9,4 @@ dependencies:
   - drupal:node
   - drupal:views
   - views_data_export:views_data_export
+  - drupal:taxonomy

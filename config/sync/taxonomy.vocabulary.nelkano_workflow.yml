@@ -1,0 +1,9 @@
+uuid: 4ce75d80-e69b-4da3-952a-de301167bba8
+langcode: en
+status: true
+dependencies: {  }
+name: 'Estados de Nelkano'
+vid: nelkano_workflow
+description: null
+weight: 0
+new_revision: false

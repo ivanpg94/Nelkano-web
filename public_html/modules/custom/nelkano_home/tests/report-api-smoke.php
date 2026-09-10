@@ -51,13 +51,15 @@ try {
   $definitions = \Drupal::service('entity_field.manager')->getFieldDefinitions('node', 'nelkano_error_report');
   $count = 0;
   foreach ($definitions as $name => $definition) {
-    if (str_starts_with($name, 'field_report_')) {
+    if (($name !== 'field_report_status' && str_starts_with($name, 'field_report_')) || $name === 'field_workflow_status') {
       $check($form->getComponent($name) !== NULL && $view->getComponent($name) !== NULL, 'visible field ' . $name);
       $count++;
     }
   }
   $check($count === 26, 'all 26 report fields configured');
-  $check($definitions['field_report_status']->getSetting('allowed_values') === ['new' => 'Nuevo', 'in_progress' => 'En proceso', 'resolved' => 'Terminado', 'rejected' => 'Descartado', 'blocked' => 'Bloqueado'], 'exactly the five requested states');
+  $check($form->getComponent('field_report_status') === NULL && $view->getComponent('field_report_status') === NULL, 'legacy status hidden; taxonomy is the visible source');
+  $check($definitions['field_workflow_status']->getType() === 'entity_reference' && $definitions['field_workflow_status']->getSetting('target_type') === 'taxonomy_term', 'status references taxonomy');
+  $check(\Drupal\nelkano_home\Service\WorkflowStatus::options() === ['new' => 'Nuevo', 'in_progress' => 'En proceso', 'resolved' => 'Terminado', 'rejected' => 'Descartado', 'blocked' => 'Bloqueado'], 'exactly the five requested states');
 
   $check($call('GET', $api)->getStatusCode() === 401, 'anonymous list denied');
   $check($call('GET', $api, 'player-token')->getStatusCode() === 401, 'non-PC token denied');
@@ -79,7 +81,7 @@ try {
   $node = Node::create([
     'type' => 'nelkano_error_report', 'title' => $client, 'uid' => 1, 'status' => 0,
     'body' => ['value' => 'Pasos de prueba', 'format' => 'plain_text'],
-    'field_report_status' => 'new', 'field_report_category' => 'other',
+    'field_workflow_status' => ['target_id' => \Drupal\nelkano_home\Service\WorkflowStatus::termId('new')], 'field_report_category' => 'other',
     'field_report_system' => 'TEST', 'field_report_rom_hash' => 'synthetic-no-rom',
     'field_report_slot' => 1, 'field_report_settings' => '{"test":true}',
     'field_report_state_uri' => $saved_paths[0], 'field_report_state_name' => 'slot-1.teststate',

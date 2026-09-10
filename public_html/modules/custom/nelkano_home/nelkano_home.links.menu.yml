@@ -46,3 +46,10 @@ nelkano_home.error_reports:
   route_name: nelkano_home.admin_error_reports
   parent: nelkano_home.admin
   weight: 5
+
+nelkano_home.backlog:
+  title: 'Backlog · HU'
+  description: 'Gestionar historias de usuario.'
+  route_name: nelkano_home.admin_backlog
+  parent: nelkano_home.admin
+  weight: 6

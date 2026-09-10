@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\nelkano_home\Service;
 
+use Drupal\nelkano_home\Service\WorkflowStatus;
+
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Lock\LockBackendInterface;
@@ -69,10 +71,10 @@ final class ReportBulkUpdater {
       foreach ($ids as $id) {
         $node = $nodes[$id];
         $notes_changed = $observations !== NULL && (string) $node->get('field_report_observations')->value !== $observations;
-        if ((string) $node->get('field_report_status')->value === $status && !$notes_changed) {
+        if ((string) WorkflowStatus::get($node) === $status && !$notes_changed) {
           continue;
         }
-        $node->set('field_report_status', $status);
+        WorkflowStatus::set($node, $status);
         if ($observations !== NULL) {
           $node->set('field_report_observations', $observations);
         }

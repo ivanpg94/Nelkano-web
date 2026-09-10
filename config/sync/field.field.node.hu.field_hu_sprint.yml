@@ -1,0 +1,23 @@
+uuid: 88def7c6-0e42-3893-a316-494fff670d3e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_hu_sprint
+    - node.type.hu
+id: node.hu.field_hu_sprint
+field_name: field_hu_sprint
+entity_type: node
+bundle: hu
+label: Sprint
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

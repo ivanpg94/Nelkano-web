@@ -13,7 +13,7 @@ entity_type: node
 bundle: nelkano_error_report
 label: Estado
 description: ''
-required: true
+required: false
 translatable: true
 default_value: {  }
 default_value_callback: ''

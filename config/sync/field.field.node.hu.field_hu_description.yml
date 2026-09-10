@@ -1,0 +1,19 @@
+uuid: b368f7bb-dfe4-4363-9002-8d456f679af3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_hu_description
+    - node.type.hu
+id: node.hu.field_hu_description
+field_name: field_hu_description
+entity_type: node
+bundle: hu
+label: Descripción
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

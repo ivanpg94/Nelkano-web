@@ -1,0 +1,56 @@
+uuid: 5b6cc410-eec1-4db8-8f0b-1139ca245a32
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.hu.field_hu_description
+    - field.field.node.hu.field_hu_number
+    - field.field.node.hu.field_hu_sprint
+    - field.field.node.hu.field_workflow_status
+    - node.type.hu
+  module:
+    - user
+id: node.hu.default
+targetEntityType: node
+bundle: hu
+mode: default
+content:
+  field_hu_description:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_hu_number:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_hu_sprint:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: false
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_workflow_status:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

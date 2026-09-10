@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Drupal\nelkano_home\Controller;
 
+use Drupal\nelkano_home\Service\WorkflowStatus;
+
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\nelkano_home\Form\AdminFormUiTrait;
 use Drupal\node\NodeInterface;
@@ -36,41 +37,72 @@ final class ErrorReportAdminController extends ControllerBase {
   public function view(int $report): array {
     $node = $this->loadReport($report);
     $reporter = User::load((int) $node->getOwnerId());
-    $rows = [];
-    foreach ([
-      'field_report_status' => 'Estado', 'field_report_category' => 'Categoria',
-      'field_report_observations' => 'Observaciones',
-      'title' => 'Resumen', 'body' => 'Pasos para reproducir',
-      'field_report_expected' => 'Resultado esperado', 'field_report_actual' => 'Resultado actual',
-      'field_report_system' => 'Sistema', 'field_report_game' => 'Juego',
-      'field_report_rom_hash' => 'Identidad de ROM', 'field_report_slot' => 'Slot',
-      'field_report_app_version' => 'Version de la aplicacion', 'field_report_app_build' => 'Build',
-      'field_report_core_version' => 'Version del core', 'field_report_state_format' => 'Formato del estado',
-      'field_report_device_id' => 'ID del dispositivo', 'field_report_device_model' => 'Modelo del dispositivo',
-      'field_report_android' => 'Version de Android', 'field_report_abis' => 'ABIs',
-      'field_report_gpu' => 'GPU', 'field_report_backend' => 'Backend',
-      'field_report_settings' => 'Configuracion del emulador', 'field_report_logs' => 'Registros de diagnostico',
-      'field_report_state_sha256' => 'SHA-256 del estado', 'field_report_state_size' => 'Tamano del estado (bytes)',
-    ] as $field => $label) {
-      $value = $field === 'title' ? $node->label() : (string) $node->get($field)->value;
-      if ($field === 'field_report_status') {
-        $value = $node->getFieldDefinition($field)->getSetting('allowed_values')[$value] ?? $value;
-      }
-      $rows[] = [$label, ['data' => ['#plain_text' => $value]]];
+    $value = static fn(string $name): string => (string) $node->get($name)->value;
+    $field = static fn(string $label, string $value, int $span = 1, bool $code = FALSE): array => compact('label', 'value', 'span', 'code');
+    $category = $value('field_report_category');
+    $category = $node->getFieldDefinition('field_report_category')->getSetting('allowed_values')[$category] ?? $category;
+    $status = WorkflowStatus::get($node);
+    $settings = $value('field_report_settings');
+    $decoded = json_decode($settings, TRUE);
+    if (is_array($decoded)) {
+      $settings = json_encode($decoded, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     }
-    $rows[] = ['Usuario', ['data' => ['#plain_text' => $reporter ? (string) $reporter->getEmail() : 'uid:' . $node->getOwnerId()]]];
-    $rows[] = ['Save-state', Link::fromTextAndUrl((string) $node->get('field_report_state_name')->value, Url::fromRoute('nelkano_home.admin_error_report_state', ['report' => $node->id()]))];
-    if ((string) $node->get('field_report_screenshot_uri')->value !== '') {
-      $rows[] = ['Captura', Link::fromTextAndUrl('Descargar captura', Url::fromRoute('nelkano_home.admin_error_report_screenshot', ['report' => $node->id()]))];
+    $bytes = $value('field_report_state_size');
+    $size = $bytes === '' ? '' : number_format((int) $bytes, 0, ',', '.') . ' bytes';
+    if ((int) $bytes >= 1048576) {
+      $size = number_format((int) $bytes / 1048576, 2, ',', '.') . ' MiB · ' . $size;
     }
-    return $this->adminPage(
-      '#' . $node->id() . ' · ' . $node->label(),
-      'Detalle completo del contenido recibido desde el emulador.',
-      [
-        'back' => Link::fromTextAndUrl('Volver a los reportes', Url::fromRoute('nelkano_home.admin_error_reports'))->toRenderable(),
-        'details' => ['#type' => 'table', '#rows' => $rows, '#attributes' => ['class' => ['nk-report-details']]],
+    $data = [
+      'id' => $node->id(), 'title' => $node->label(),
+      'status' => $status, 'status_label' => WorkflowStatus::options()[$status],
+      'created' => \Drupal::service('date.formatter')->format($node->getCreatedTime(), 'custom', 'd/m/Y · H:i'),
+      'reporter' => $reporter ? (string) $reporter->getEmail() : 'uid:' . $node->getOwnerId(),
+      'back_url' => Url::fromRoute('nelkano_home.admin_error_reports')->toString(),
+      'overview' => [
+        $field('Sistema', $value('field_report_system')),
+        $field('Categoría', $category),
+        $field('Slot', $value('field_report_slot')),
+        $field('Juego', $value('field_report_game'), 3),
       ],
-    );
+      'problem' => [
+        $field('Pasos para reproducir', $value('body'), 2),
+        $field('Resultado esperado', $value('field_report_expected')),
+        $field('Resultado actual', $value('field_report_actual')),
+      ],
+      'observations' => $value('field_report_observations'),
+      'environment' => [
+        $field('Versión de la aplicación', $value('field_report_app_version')),
+        $field('Build', $value('field_report_app_build')),
+        $field('Versión del core', $value('field_report_core_version')),
+        $field('Dispositivo', $value('field_report_device_model')),
+        $field('Android', $value('field_report_android')),
+        $field('ABIs', $value('field_report_abis')),
+        $field('GPU', $value('field_report_gpu'), 2),
+        $field('Backend', $value('field_report_backend')),
+      ],
+      'attachments' => [],
+      'file_metadata' => [
+        $field('Formato del estado', $value('field_report_state_format')),
+        $field('Tamaño del estado', $size, 2),
+        $field('SHA-256 del estado', $value('field_report_state_sha256'), 3, TRUE),
+      ],
+      'identifiers' => [
+        $field('Identidad de ROM', $value('field_report_rom_hash'), 1, TRUE),
+        $field('ID del dispositivo', $value('field_report_device_id'), 1, TRUE),
+      ],
+      'settings' => $settings, 'logs' => $value('field_report_logs'),
+    ];
+    if ($value('field_report_state_uri') !== '') {
+      $data['attachments'][] = ['label' => 'Descargar save-state', 'name' => $value('field_report_state_name'), 'url' => Url::fromRoute('nelkano_home.admin_error_report_state', ['report' => $node->id()])->toString()];
+    }
+    if ($value('field_report_screenshot_uri') !== '') {
+      $data['attachments'][] = ['label' => 'Descargar captura', 'name' => 'Imagen de la sesión', 'url' => Url::fromRoute('nelkano_home.admin_error_report_screenshot', ['report' => $node->id()])->toString()];
+    }
+    $page = $this->adminPage($node->label(), '', ['#theme' => 'nelkano_report_detail', '#report' => $data]);
+    unset($page['header']);
+    $page['#attached']['library'][] = 'nelkano_home/detail_ui';
+    $page['#cache'] = ['max-age' => 0];
+    return $page;
   }
 
   public function downloadState(int $report): BinaryFileResponse {

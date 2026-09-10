@@ -30,6 +30,7 @@ dependencies:
     - field.field.node.nelkano_error_report.field_report_state_uri
     - field.field.node.nelkano_error_report.field_report_status
     - field.field.node.nelkano_error_report.field_report_system
+    - field.field.node.nelkano_error_report.field_workflow_status
     - node.type.nelkano_error_report
   module:
     - nelkano_home
@@ -235,13 +236,6 @@ content:
     third_party_settings: {  }
     weight: 32
     region: content
-  field_report_status:
-    type: list_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 33
-    region: content
   field_report_system:
     type: string
     label: above
@@ -250,9 +244,18 @@ content:
     third_party_settings: {  }
     weight: 34
     region: content
+  field_workflow_status:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: 10
+    region: content
   links:
     settings: {  }
     third_party_settings: {  }
     weight: 100
     region: content
-hidden: {  }
+hidden:
+  field_report_status: true

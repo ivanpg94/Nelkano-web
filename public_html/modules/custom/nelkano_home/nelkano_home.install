@@ -9,7 +9,9 @@
  * Defines custom Nelkano account, activity and multiplayer storage.
  */
 function nelkano_home_schema(): array {
+  require_once __DIR__ . '/nelkano_home.backlog.inc';
   return [
+    'nelkano_hu_sequence' => nelkano_home_hu_sequence_schema(),
     'nelkano_profile' => nelkano_home_profile_schema(),
     'nelkano_friendship' => nelkano_home_friendship_schema(),
     'nelkano_device' => nelkano_home_device_schema(),
@@ -28,6 +30,9 @@ function nelkano_home_schema(): array {
 function nelkano_home_install(): void {
   require_once __DIR__ . '/nelkano_home.error_reports.inc';
   nelkano_home_ensure_error_report_content();
+  require_once __DIR__ . '/nelkano_home.backlog.inc';
+  nelkano_home_ensure_backlog();
+  nelkano_home_migrate_report_taxonomy();
 }
 
 /**
@@ -623,4 +628,24 @@ function nelkano_home_refresh_public_copy(): void {
   }
 
   $config->save(TRUE);
+}
+
+/** Add HU and migrate report workflow references, preserving revision IDs. */
+function nelkano_home_update_11021(): void {
+  \Drupal::service('module_installer')->install(['taxonomy']);
+  require_once __DIR__ . '/nelkano_home.backlog.inc';
+  nelkano_home_ensure_backlog();
+  nelkano_home_migrate_report_taxonomy();
+}
+
+/** Add the optional integer Sprint field to HU. */
+function nelkano_home_update_11022(): void {
+  require_once __DIR__ . '/nelkano_home.backlog.inc';
+  nelkano_home_ensure_hu_sprint();
+}
+
+/** Create missing workflow taxonomy terms on production deployments. */
+function nelkano_home_update_11023(): void {
+  require_once __DIR__ . '/nelkano_home.backlog.inc';
+  nelkano_home_ensure_workflow_terms();
 }

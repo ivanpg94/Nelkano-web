@@ -29,3 +29,21 @@ admin_forms:
     - core/drupal
     - core/once
     - nelkano_home/base
+
+detail_ui:
+  css:
+    theme:
+      css/detail-ui.css: {}
+  dependencies:
+    - nelkano_home/admin_forms
+
+backlog:
+  css:
+    theme:
+      css/backlog.css: {}
+  js:
+    js/backlog.js: {}
+  dependencies:
+    - core/drupal
+    - core/once
+    - core/drupalSettings

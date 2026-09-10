@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\nelkano_home\Form;
 
+use Drupal\nelkano_home\Service\WorkflowStatus;
+
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\nelkano_home\Service\ReportBulkUpdater;
@@ -57,7 +59,7 @@ final class ErrorReportBulkForm extends FormBase {
     $form['bulk']['help'] = ['#markup' => '<p>' . $this->t('Selecciona reportes de esta página (máximo 50). La casilla de la cabecera selecciona sólo los visibles; no se conservan selecciones al cambiar de página.') . '</p>'];
     $form['bulk']['target_status'] = [
       '#type' => 'select', '#title' => $this->t('Nuevo estado'), '#parents' => ['target_status'],
-      '#options' => ReportWorkflow::STATUSES, '#empty_option' => $this->t('- Selecciona un estado -'),
+      '#options' => WorkflowStatus::options(), '#empty_option' => $this->t('- Selecciona un estado -'),
       '#required' => TRUE,
     ];
     $form['bulk']['observations'] = [
@@ -115,7 +117,7 @@ final class ErrorReportBulkForm extends FormBase {
       return;
     }
     $this->messenger()->addStatus($this->t('Seleccionados: @selected. Actualizados: @changed. Estado: @status.', [
-      '@selected' => count($ids), '@changed' => $changed, '@status' => ReportWorkflow::STATUSES[$status],
+      '@selected' => count($ids), '@changed' => $changed, '@status' => WorkflowStatus::options()[$status],
     ]));
     $form_state->setRedirect('nelkano_home.admin_error_reports', [], ['query' => $this->getRequest()->query->all()]);
   }

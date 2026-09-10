@@ -306,3 +306,7 @@ Prueba de contrato sin Drupal, red ni credenciales (PHP con mbstring):
 ```sh
 php public_html/modules/custom/nelkano_home/tests/report-workflow-unit.php
 ```
+
+## Almacenamiento de estados por taxonomía (11021)
+
+Los estados ahora se resuelven desde una referencia a taxonomía. Se conservan los códigos JSON, revisiones, recibos, hashes, bloqueos e If-Match. Consulta [la migración y el backlog de HU](README.backlog.md) para el orden de activación y las pruebas de conservación.

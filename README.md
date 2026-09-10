@@ -13,9 +13,9 @@ No versionar `vendor/`, `public_html/core/`, modulos contrib, `settings.php`, fi
 
 ## Reportes del emulador
 
-La implementación activa del módulo está en `modules/custom/nelkano_home/`
+La implementación activa del módulo está en `public_html/modules/custom/nelkano_home/`
 (montada por Docker y utilizada por Composer como repositorio local).
-Consulta [API de reportes para PC](modules/custom/nelkano_home/README.report-api.md)
+Consulta [API de reportes para PC](public_html/modules/custom/nelkano_home/README.report-api.md)
 para activar campos, emitir/revocar credenciales y consultar/descargar reportes.
 
 ## Entorno local Docker — Drupal 11.4.6
@@ -42,3 +42,8 @@ las del lock versionado; cambian las rutas de instalación y el hash local del
 manifiesto. No copiar directamente el manifiesto de producción sobre el runtime
 Docker sin adaptar esas rutas. `symfony/runtime` está autorizado como plugin
 Composer requerido por esta versión de Drupal.
+
+## Backlog de HU
+
+El tablero está en /admin/nelkano/backlog, debajo de Reportes de errores.
+Consulta [Backlog, taxonomía y migración 11021](public_html/modules/custom/nelkano_home/README.backlog.md) para activación, permisos y pruebas.

@@ -41,7 +41,7 @@ try {
   for ($i = 0; $i < 3; $i++) {
     $node = Node::create([
       'type' => 'nelkano_error_report', 'title' => 'Bulk smoke ' . bin2hex(random_bytes(8)),
-      'uid' => 1, 'status' => 0, 'field_report_status' => 'in_progress',
+      'uid' => 1, 'status' => 0, 'field_workflow_status' => ['target_id' => \Drupal\nelkano_home\Service\WorkflowStatus::termId('in_progress')],
       'field_report_system' => 'TEST', 'field_report_observations' => 'Nota anterior',
     ]);
     $node->save();
@@ -75,22 +75,22 @@ try {
   catch (InvalidArgumentException $e) {
     $check(TRUE, 'blocked requires a reason');
   }
-  $check($read($ids[0])->get('field_report_status')->value === 'in_progress', 'invalid operations leave reports unchanged');
+  $check(\Drupal\nelkano_home\Service\WorkflowStatus::get($read($ids[0])) === 'in_progress', 'invalid operations leave reports unchanged');
   $check($updater->update($ids, 'resolved', NULL, $admin) === 2, 'both selected reports updated');
   foreach ($ids as $id) {
     $node = $read($id);
-    $check($node->get('field_report_status')->value === 'resolved', 'selected report has target state');
+    $check(\Drupal\nelkano_home\Service\WorkflowStatus::get($node) === 'resolved', 'selected report has target state');
     $check($node->get('field_report_observations')->value === 'Nota anterior', 'other transitions preserve observations');
     $check((int) $node->getRevisionUserId() === 1, 'revision identifies administrator');
   }
-  $check($read((int) $nodes[2]->id())->get('field_report_status')->value === 'in_progress', 'unselected report unchanged');
+  $check(\Drupal\nelkano_home\Service\WorkflowStatus::get($read((int) $nodes[2]->id())) === 'in_progress', 'unselected report unchanged');
   $revision = $read($ids[0])->getRevisionId();
   $check($updater->update($ids, 'resolved', NULL, $admin) === 0 && $read($ids[0])->getRevisionId() === $revision, 'repeated operation does not create revisions');
   $reason = "No reproducido.\nFalta el dispositivo original.";
   $check($updater->update($ids, 'blocked', $reason, $admin) === 2, 'both reports blocked');
   foreach ($ids as $id) {
     $node = $read($id);
-    $check($node->get('field_report_status')->value === 'blocked' && $node->get('field_report_observations')->value === $reason, 'common reason persisted with state');
+    $check(\Drupal\nelkano_home\Service\WorkflowStatus::get($node) === 'blocked' && $node->get('field_report_observations')->value === $reason, 'common reason persisted with state');
   }
   $deleted_id = (int) $nodes[2]->id();
   $nodes[2]->delete();
@@ -100,7 +100,7 @@ try {
     throw new LogicException('Deleted report accepted');
   }
   catch (RuntimeException $e) {
-    $check($read($ids[0])->get('field_report_status')->value === 'blocked', 'missing report prevents partial update');
+    $check(\Drupal\nelkano_home\Service\WorkflowStatus::get($read($ids[0])) === 'blocked', 'missing report prevents partial update');
   }
   $switcher->switchTo($admin);
   $switched = TRUE;
@@ -171,8 +171,8 @@ try {
   $view->field['nelkano_report_bulk']->viewsFormValidate($form, $state);
   $check(!$state->hasAnyErrors(), 'native Views field validates legitimate selection');
   $view->field['nelkano_report_bulk']->viewsFormSubmit($form, $state);
-  $check($read($visible_id)->get('field_report_status')->value === 'rejected', 'native Views submit updates selected synthetic report');
-  $check($read($other_id)->get('field_report_status')->value === 'blocked', 'native Views submit leaves off-page report unchanged');
+  $check(\Drupal\nelkano_home\Service\WorkflowStatus::get($read($visible_id)) === 'rejected', 'native Views submit updates selected synthetic report');
+  $check(\Drupal\nelkano_home\Service\WorkflowStatus::get($read($other_id)) === 'blocked', 'native Views submit leaves off-page report unchanged');
   $view = $make_view();
   $view->setExposedInput(['report_title' => 'nonexistent-' . bin2hex(random_bytes(8))]);
   $view->execute();

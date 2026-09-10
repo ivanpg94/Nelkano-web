@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\nelkano_home\Controller;
 
+use Drupal\nelkano_home\Service\WorkflowStatus;
+
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Url;
@@ -204,7 +206,7 @@ final class AppAuthController extends ControllerBase {
         'uid' => (int) $account->id(),
         'status' => 0,
         'body' => ['value' => $steps, 'format' => 'plain_text'],
-        'field_report_status' => 'new',
+        WorkflowStatus::FIELD => ['target_id' => WorkflowStatus::termId('new')],
         'field_report_category' => $category,
         'field_report_system' => $system,
         'field_report_game' => $this->cleanText((string) ($metadata['game_label'] ?? ''), 180),

@@ -1,0 +1,11 @@
+uuid: 10fe6c43-14fc-4df0-91d0-bfcd9fd8cc71
+langcode: en
+status: true
+dependencies: {  }
+name: HU
+type: hu
+description: 'Historias de usuario del backlog de Nelkano.'
+help: null
+new_revision: true
+preview_mode: 0
+display_submitted: false

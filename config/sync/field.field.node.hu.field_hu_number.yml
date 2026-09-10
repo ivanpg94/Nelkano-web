@@ -1,0 +1,23 @@
+uuid: d86fd0e9-3ae6-40ac-a965-292ec60f9395
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_hu_number
+    - node.type.hu
+id: node.hu.field_hu_number
+field_name: field_hu_number
+entity_type: node
+bundle: hu
+label: Número
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

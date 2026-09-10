@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\nelkano_home\Controller;
 
+use Drupal\nelkano_home\Service\WorkflowStatus;
+
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
 use Drupal\nelkano_home\Service\ReportApiCredentials;
@@ -31,7 +33,7 @@ final class ErrorReportApiController extends ControllerBase {
       // PC credentials explicitly authorize access to unpublished reports.
       $ids = $this->entityTypeManager()->getStorage('node')->getQuery()->accessCheck(FALSE)
         ->condition('type', 'nelkano_error_report')->condition('nid', $after, '>')
-        ->condition('field_report_status', 'new')
+        ->condition(WorkflowStatus::FIELD . '.target_id', WorkflowStatus::termId('new'))
         ->sort('nid', 'ASC')->range(0, $limit + 1)->execute();
       $has_more = count($ids) > $limit;
       $ids = array_slice(array_values($ids), 0, $limit);
@@ -40,7 +42,7 @@ final class ErrorReportApiController extends ControllerBase {
         $items[] = [
           'id' => (int) $node->id(), 'uuid' => $node->uuid(), 'title' => $node->label(),
           'created' => $node->getCreatedTime(), 'changed' => $node->getChangedTime(),
-          'status' => $node->get('field_report_status')->value,
+          'status' => WorkflowStatus::get($node),
           'observations' => (string) $node->get('field_report_observations')->value,
           'system' => $node->get('field_report_system')->value,
           'detail_url' => Url::fromRoute('nelkano_home.report_api_detail', ['report' => $node->id()])->toString(),
@@ -99,7 +101,7 @@ final class ErrorReportApiController extends ControllerBase {
         $store = \Drupal::keyValue('nelkano_report_api_receipts');
         $key = $client . ':' . $manifest['uuid'];
         $receipt = $store->get($key);
-        $status = (string) $node->get('field_report_status')->value;
+        $status = (string) WorkflowStatus::get($node);
         // A lost response may be retried even after automation finishes. Never
         // regress a resolved/rejected/blocked report on a duplicate acknowledgement.
         $already_received = $receipt && hash_equals($manifest['manifest_sha256'], $receipt['manifest_sha256']);
@@ -111,7 +113,7 @@ final class ErrorReportApiController extends ControllerBase {
           $receipt = ['client' => $client, 'received_at' => time(), 'revision_id' => (int) $node->getRevisionId()] + $expected;
           $store->set($key, $receipt);
         }
-        return new JsonResponse(['api_version' => 1, 'id' => $report, 'status' => $node->get('field_report_status')->value, 'receipt' => $receipt]);
+        return new JsonResponse(['api_version' => 1, 'id' => $report, 'status' => WorkflowStatus::get($node), 'receipt' => $receipt]);
       });
     });
   }
@@ -144,8 +146,8 @@ final class ErrorReportApiController extends ControllerBase {
 
   private function saveStatus(NodeInterface $node, string $status, string $client, ?string $observations = NULL): void {
     $observations_changed = $observations !== NULL && (string) $node->get('field_report_observations')->value !== $observations;
-    if ($node->get('field_report_status')->value !== $status || $observations_changed) {
-      $node->set('field_report_status', $status);
+    if (WorkflowStatus::get($node) !== $status || $observations_changed) {
+      WorkflowStatus::set($node, $status);
       if ($observations !== NULL) {
         $node->set('field_report_observations', $observations);
       }
@@ -233,10 +235,10 @@ final class ErrorReportApiController extends ControllerBase {
       'steps' => (string) $node->get('body')->value,
       'created' => $node->getCreatedTime(), 'changed' => $node->getChangedTime(),
       'reporter' => ['uid' => (int) $node->getOwnerId(), 'email' => $node->getOwner()?->getEmail()],
-      'metadata' => [],
+      'metadata' => ['status' => WorkflowStatus::get($node)],
     ];
     foreach ($node->getFieldDefinitions() as $name => $definition) {
-      if (str_starts_with($name, 'field_report_') && !str_ends_with($name, '_uri')) {
+      if ($name !== 'field_report_status' && str_starts_with($name, 'field_report_') && !str_ends_with($name, '_uri')) {
         $value = $node->get($name)->value;
         if ($name === 'field_report_observations') {
           $value = (string) $value;

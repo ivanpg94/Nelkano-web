@@ -1,0 +1,37 @@
+<div class="nk-admin-panel-head">
+  <div><h1>Backlog · HU</h1><p>{{ total }} historias de usuario. Arrastra una tarjeta para cambiar su estado.</p></div>
+  <a class="nk-admin-public-link nk-hu-create" href="{{ create_url }}">+ Nueva HU</a>
+</div>
+<form class="nk-sprint-filter" method="get" action="{{ filter_url }}">
+  <label for="nk-sprint-filter">Sprint</label>
+  <select id="nk-sprint-filter" name="sprint">
+    <option value=""{{ sprint == '' ? ' selected' : '' }}>Todos los sprints</option>
+    <option value="none"{{ sprint == 'none' ? ' selected' : '' }}>Sin sprint</option>
+    {% for number in sprints %}<option value="{{ number }}"{{ sprint is not same as('') and sprint is not same as('none') and sprint == number ? ' selected' : '' }}>Sprint {{ number }}</option>{% endfor %}
+  </select>
+  <button type="submit">Filtrar</button>
+  {% if sprint != '' %}<a href="{{ filter_url }}">Limpiar filtro</a>{% endif %}
+</form>
+<p class="nk-backlog-feedback" role="status" aria-live="polite" aria-atomic="true"></p>
+<div class="nk-backlog" data-nk-backlog>
+  {% for column in columns %}
+    <section class="nk-hu-column" data-status="{{ column.code }}" aria-labelledby="hu-heading-{{ column.code }}">
+      <h2 id="hu-heading-{{ column.code }}"><span>{{ column.label }}</span><span class="nk-hu-count">{{ column.cards|length }}</span></h2>
+      <div class="nk-hu-cards">
+        {% for card in column.cards %}
+          <article class="nk-hu-card" draggable="true" data-id="{{ card.id }}" data-number="{{ card.number }}" data-revision="{{ card.revision }}" data-move-url="{{ card.move_url }}">
+            <div class="nk-hu-card-top"><span>HU {{ card.number }}</span><span aria-hidden="true">⠿</span></div>
+            <span class="nk-hu-sprint">{{ card.sprint is null ? 'Sin sprint' : 'Sprint ' ~ card.sprint }}</span>
+            <h3><a href="{{ card.edit_url }}">{{ card.title }}</a></h3>
+            <p class="nk-hu-description">{{ card.description }}</p>
+            <label for="hu-state-{{ card.id }}">Mover a</label>
+            <select id="hu-state-{{ card.id }}" class="nk-hu-state" aria-label="Estado de HU {{ card.number }}">
+              {% for option in columns %}<option value="{{ option.code }}"{{ option.code == column.code ? ' selected' : '' }}>{{ option.label }}</option>{% endfor %}
+            </select>
+          </article>
+        {% endfor %}
+      </div>
+      <p class="nk-hu-empty"{{ column.cards ? ' hidden' : '' }}>Sin HU en este estado</p>
+    </section>
+  {% endfor %}
+</div>

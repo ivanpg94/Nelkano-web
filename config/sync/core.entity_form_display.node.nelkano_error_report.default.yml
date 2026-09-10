@@ -30,6 +30,7 @@ dependencies:
     - field.field.node.nelkano_error_report.field_report_state_uri
     - field.field.node.nelkano_error_report.field_report_status
     - field.field.node.nelkano_error_report.field_report_system
+    - field.field.node.nelkano_error_report.field_workflow_status
     - node.type.nelkano_error_report
   module:
     - path
@@ -242,12 +243,6 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_report_status:
-    type: options_select
-    weight: 33
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   field_report_system:
     type: string_textfield
     weight: 34
@@ -255,6 +250,12 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  field_workflow_status:
+    type: options_select
+    weight: 10
+    region: content
+    settings: {  }
     third_party_settings: {  }
   path:
     type: path
@@ -298,5 +299,6 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  field_report_status: true
   promote: true
   sticky: true

@@ -189,19 +189,19 @@ trait AdminFormUiTrait {
 
   private function nelkanoAdminSidebar(string $activeKey): string {
     $items = [
-      'home' => ['Home', 'Gestiona la pagina principal de Nelkano.', 'H', Url::fromRoute('nelkano_home.admin_home')->toString()],
-      'privacy_cookies' => ['Privacidad y cookies', 'Configura la politica de privacidad y cookies.', 'P', Url::fromRoute('nelkano_home.admin_privacy_cookies')->toString()],
-      'legal_notice' => ['Aviso legal', 'Edita los terminos y condiciones de uso.', 'A', Url::fromRoute('nelkano_home.admin_legal_notice')->toString()],
-      'releases' => ['Versiones', 'Administra las versiones publicadas de la web.', 'V', Url::fromRoute('nelkano_home.admin_releases')->toString()],
-      'security' => ['Seguridad y privacidad', 'Configura opciones de seguridad y datos.', 'S', Url::fromRoute('nelkano_home.admin_security_privacy')->toString()],
+      'home' => ['Home', 'H', Url::fromRoute('nelkano_home.admin_home')->toString()],
+      'privacy_cookies' => ['Privacidad y cookies', 'P', Url::fromRoute('nelkano_home.admin_privacy_cookies')->toString()],
+      'legal_notice' => ['Aviso legal', 'A', Url::fromRoute('nelkano_home.admin_legal_notice')->toString()],
+      'releases' => ['Versiones', 'V', Url::fromRoute('nelkano_home.admin_releases')->toString()],
+      'security' => ['Seguridad y privacidad', 'S', Url::fromRoute('nelkano_home.admin_security_privacy')->toString()],
     ];
 
     $html = '<aside class="nk-admin-sidebar"><h2>Paginas editables</h2><nav aria-label="Paginas editables de Nelkano">';
-    foreach ($items as $key => [$label, $description, $icon, $url]) {
+    foreach ($items as $key => [$label, $icon, $url]) {
       $active = $key === $activeKey ? ' is-active' : '';
       $html .= '<a class="nk-admin-nav-item' . $active . '" href="' . htmlspecialchars($url, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '">'
         . '<span class="nk-admin-nav-icon">' . htmlspecialchars($icon, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</span>'
-        . '<span><strong>' . htmlspecialchars($label, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</strong><small>' . htmlspecialchars($description, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</small></span>'
+        . '<span><strong>' . htmlspecialchars($label, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</strong></span>'
         . '</a>';
     }
     $report_url = Url::fromRoute('nelkano_home.admin_error_reports')->toString();
@@ -209,8 +209,13 @@ trait AdminFormUiTrait {
     $html .= '</nav><h2 class="nk-admin-sidebar-section">Datos del emulador</h2><nav aria-label="Datos del emulador">'
       . '<a class="nk-admin-nav-item' . $report_active . '" href="' . htmlspecialchars($report_url, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '">'
       . '<span class="nk-admin-nav-icon">R</span>'
-      . '<span><strong>Reportes de errores</strong><small>Consulta y exporta los fallos enviados desde la aplicacion.</small></span>'
+      . '<span><strong>Reportes de errores</strong></span>'
       . '</a>';
+    if (\Drupal::currentUser()->hasPermission('administer nelkano backlog')) {
+      $backlog_url = Url::fromRoute('nelkano_home.admin_backlog')->toString();
+      $active = $activeKey === 'backlog' ? ' is-active' : '';
+      $html .= '<a class="nk-admin-nav-item' . $active . '" href="' . htmlspecialchars($backlog_url, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '"><span class="nk-admin-nav-icon">HU</span><span><strong>Backlog · HU</strong></span></a>';
+    }
     return $html . '</nav></aside>';
   }
 

@@ -2,9 +2,17 @@
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\nelkano_home\Service\ReportWorkflow;
+use Drupal\nelkano_home\Service\WorkflowStatus;
 
 /** Implements hook_form_BASE_FORM_ID_alter() for report create/edit forms. */
 function nelkano_home_form_node_form_alter(array &$form, FormStateInterface $form_state): void {
+  if ($form_state->getFormObject()->getEntity()->bundle() === 'hu') {
+    $allowed = array_map([WorkflowStatus::class, 'termId'], WorkflowStatus::HU_CODES);
+    if (isset($form[WorkflowStatus::FIELD]['widget']['#options'])) {
+      $form[WorkflowStatus::FIELD]['widget']['#options'] = array_intersect_key($form[WorkflowStatus::FIELD]['widget']['#options'], array_flip($allowed));
+    }
+    return;
+  }
   if ($form_state->getFormObject()->getEntity()->bundle() !== 'nelkano_error_report') {
     return;
   }
@@ -19,7 +27,7 @@ function nelkano_home_form_node_form_alter(array &$form, FormStateInterface $for
 function nelkano_home_validate_report_workflow(array &$form, FormStateInterface $form_state): void {
   try {
     ReportWorkflow::validateUpdate([
-      'status' => $form_state->getValue(['field_report_status', 0, 'value']),
+      'status' => WorkflowStatus::codeForId((int) $form_state->getValue([WorkflowStatus::FIELD, 0, 'target_id'])),
       'observations' => $form_state->getValue(['field_report_observations', 0, 'value']) ?? '',
     ]);
   }
@@ -48,6 +56,8 @@ function nelkano_home_page_attachments_alter(array &$attachments): void {
  */
 function nelkano_home_theme(): array {
   return [
+    'nelkano_report_detail' => ['variables' => ['report' => []]],
+    'nelkano_backlog' => ['variables' => ['columns' => [], 'create_url' => '', 'total' => 0, 'sprint' => '', 'sprints' => [], 'filter_url' => '']],
     'nelkano_home' => [
       'variables' => [
         'content' => [],
@@ -146,4 +156,85 @@ function nelkano_home_email_template(string $title, string $lead, array $paragra
     . '<p style="border-top:1px solid #272727;margin:30px 0 0;padding-top:18px;color:#8b93a3;font-size:13px;line-height:1.5;">Nelkano es un proyecto de emulacion gratuito. No distribuimos juegos, ROMs ni BIOS. Usa solo archivos compatibles sobre los que tengas derechos.</p>'
     . '</td></tr></table>'
     . '</td></tr></table></body></html>';
+}
+
+/** Implements hook_node_presave(). Enforces numbers and workflow on all writes. */
+function nelkano_home_node_presave(\Drupal\node\NodeInterface $node): void {
+  if (!in_array($node->bundle(), ['hu', 'nelkano_error_report'], TRUE) || !$node->hasField(WorkflowStatus::FIELD)) {
+    return;
+  }
+  if ($node->get(WorkflowStatus::FIELD)->isEmpty()) {
+    WorkflowStatus::set($node, 'new');
+  }
+  $code = WorkflowStatus::get($node);
+  if ($node->bundle() === 'hu') {
+    if (!in_array($code, WorkflowStatus::HU_CODES, TRUE)) {
+      throw new \InvalidArgumentException('Estado no válido para una HU.');
+    }
+    $node->setUnpublished();
+    if ($node->isNew()) {
+      $serial = \Drupal::database()->insert('nelkano_hu_sequence')->useDefaults(['id'])->execute();
+      $node->set('field_hu_number', (int) $serial - 1);
+    }
+    else {
+      $node->set('field_hu_number', $node->getOriginal()->get('field_hu_number')->value);
+    }
+  }
+  else {
+    // Compatibility mirror; taxonomy is the sole source for current behavior.
+    $node->set('field_report_status', $code);
+  }
+}
+
+/** Implements hook_node_access(). HU remain private even if publication is edited. */
+function nelkano_home_node_access(\Drupal\node\NodeInterface $node, $op, \Drupal\Core\Session\AccountInterface $account): \Drupal\Core\Access\AccessResultInterface {
+  if ($node->bundle() === 'hu') {
+    return ($account->hasPermission('administer nelkano backlog') ? \Drupal\Core\Access\AccessResult::allowed() : \Drupal\Core\Access\AccessResult::forbidden())->cachePerPermissions()->addCacheableDependency($node);
+  }
+  return \Drupal\Core\Access\AccessResult::neutral();
+}
+
+/** Keep API codes stable while administrators may rename their taxonomy labels. */
+function nelkano_home_taxonomy_term_presave(\Drupal\taxonomy\TermInterface $term): void {
+  if ($term->bundle() !== WorkflowStatus::VOCABULARY) {
+    return;
+  }
+  $code = (string) $term->get('field_workflow_code')->value;
+  if (!isset(ReportWorkflow::STATUSES[$code]) || (!$term->isNew() && $term->getOriginal()->get('field_workflow_code')->value !== $code)) {
+    throw new \InvalidArgumentException('El código API de este estado es fijo. Puedes editar su nombre.');
+  }
+  $duplicates = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties(['vid' => WorkflowStatus::VOCABULARY, 'field_workflow_code' => $code]);
+  foreach ($duplicates as $duplicate) {
+    if ($duplicate->id() !== $term->id()) {
+      throw new \InvalidArgumentException('Este código de estado ya existe.');
+    }
+  }
+}
+
+/** Required workflow terms cannot be removed while the module is installed. */
+function nelkano_home_taxonomy_term_predelete(\Drupal\taxonomy\TermInterface $term): void {
+  if ($term->bundle() === WorkflowStatus::VOCABULARY) {
+    throw new \InvalidArgumentException('Este estado es necesario para las HU y la API de reportes. Puedes editar su nombre.');
+  }
+}
+
+/** Field defaults resolve by API code so configuration never embeds local tids. */
+function nelkano_home_default_workflow_status($entity, $definition): array {
+  return [['target_id' => WorkflowStatus::termId('new')]];
+}
+
+/** Avoid presenting deletion actions for terms required by existing API clients. */
+function nelkano_home_taxonomy_term_access(\Drupal\taxonomy\TermInterface $term, $op, \Drupal\Core\Session\AccountInterface $account): \Drupal\Core\Access\AccessResultInterface {
+  return $term->bundle() === WorkflowStatus::VOCABULARY && $op === 'delete'
+    ? \Drupal\Core\Access\AccessResult::forbidden()->addCacheableDependency($term)
+    : \Drupal\Core\Access\AccessResult::neutral();
+}
+
+/** Explain the immutable integration code in the native taxonomy form. */
+function nelkano_home_form_taxonomy_term_form_alter(array &$form, FormStateInterface $form_state): void {
+  $term = $form_state->getFormObject()->getEntity();
+  if ($term->bundle() === WorkflowStatus::VOCABULARY && !$term->isNew()) {
+    $form['field_workflow_code']['#disabled'] = TRUE;
+    $form['field_workflow_code']['#description'] = t('Código estable de la API. Puedes cambiar el nombre visible del estado.');
+  }
 }

@@ -1,0 +1,44 @@
+{% macro field(item) %}
+  <div class="nk-detail-field nk-span-{{ item.span }}">
+    <dt>{{ item.label }}</dt>
+    <dd class="{{ item.code ? 'nk-monospace' : '' }}{{ item.value is same as('') ? ' nk-value-empty' : '' }}">{{ item.value is same as('') ? 'No indicado' : item.value }}</dd>
+  </div>
+{% endmacro %}
+<article class="nk-report-record">
+  <header class="nk-record-head">
+    <a class="nk-record-back" href="{{ report.back_url }}">← Volver a los reportes</a>
+    <div class="nk-record-heading">
+      <div><span class="nk-record-eyebrow">Reporte #{{ report.id }}</span><h1>{{ report.title }}</h1></div>
+      <span class="nk-record-status" data-status="{{ report.status }}">{{ report.status_label }}</span>
+    </div>
+    <div class="nk-record-meta"><span>{{ report.created }}</span><span>{{ report.reporter }}</span></div>
+  </header>
+  <div class="nk-report-body">
+    <section class="nk-detail-section" aria-labelledby="nk-report-overview">
+      <h2 id="nk-report-overview">Información del reporte</h2>
+      <dl class="nk-detail-grid nk-grid-three nk-report-overview">{% for item in report.overview %}{{ _self.field(item) }}{% endfor %}</dl>
+    </section>
+    <section class="nk-detail-section" aria-labelledby="nk-report-problem">
+      <h2 id="nk-report-problem">Descripción del problema</h2>
+      <dl class="nk-detail-grid nk-grid-two nk-problem-fields">{% for item in report.problem %}{{ _self.field(item) }}{% endfor %}</dl>
+      <div class="nk-report-observations"><h3>Observaciones</h3><p class="{{ report.observations is same as('') ? 'nk-value-empty' : '' }}">{{ report.observations is same as('') ? 'Sin observaciones.' : report.observations }}</p></div>
+    </section>
+    <section class="nk-detail-section" aria-labelledby="nk-report-environment">
+      <h2 id="nk-report-environment">Entorno de ejecución</h2>
+      <dl class="nk-detail-grid nk-grid-three">{% for item in report.environment %}{{ _self.field(item) }}{% endfor %}</dl>
+    </section>
+    <section class="nk-detail-section" aria-labelledby="nk-report-files">
+      <h2 id="nk-report-files">Archivos adjuntos</h2>
+      <div class="nk-report-attachments">
+        {% for attachment in report.attachments %}<a class="nk-attachment" href="{{ attachment.url }}"><span class="nk-attachment-icon" aria-hidden="true">↓</span><span><strong>{{ attachment.label }}</strong><small>{{ attachment.name }}</small></span></a>{% else %}<p class="nk-value-empty">Sin archivos adjuntos.</p>{% endfor %}
+      </div>
+      <dl class="nk-detail-grid nk-grid-three">{% for item in report.file_metadata %}{{ _self.field(item) }}{% endfor %}</dl>
+    </section>
+    <section class="nk-detail-section nk-diagnostics" aria-labelledby="nk-report-diagnostics">
+      <h2 id="nk-report-diagnostics">Diagnóstico técnico</h2>
+      <details><summary>Configuración del emulador <span>{{ report.settings is same as('') ? 'Sin datos' : 'JSON / texto' }}</span></summary><pre>{{ report.settings is same as('') ? 'No se adjuntó configuración.' : report.settings }}</pre></details>
+      <details><summary>Registros de diagnóstico <span>{{ report.logs is same as('') ? 'Sin registros' : 'Ver registros' }}</span></summary><pre>{{ report.logs is same as('') ? 'No se adjuntaron registros.' : report.logs }}</pre></details>
+      <details><summary>Identificadores de ROM y dispositivo</summary><dl class="nk-detail-grid nk-grid-two">{% for item in report.identifiers %}{{ _self.field(item) }}{% endfor %}</dl></details>
+    </section>
+  </div>
+</article>

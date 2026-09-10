@@ -11,3 +11,8 @@ change nelkano error report status:
   title: 'Cambiar estados de reportes de Nelkano'
   description: 'Permite cambiar en masa el estado y el motivo de bloqueo de los reportes.'
   restrict access: true
+
+administer nelkano backlog:
+  title: 'Administrar backlog de HU'
+  description: 'Crear, editar y mover historias de usuario privadas de Nelkano.'
+  restrict access: true

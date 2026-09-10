@@ -614,3 +614,45 @@ nelkano_home.sitemap:
     _controller: '\Drupal\nelkano_home\Controller\HomeController::sitemap'
   requirements:
     _permission: 'access content'
+
+nelkano_home.admin_backlog:
+  path: '/admin/nelkano/backlog'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HuAdminController::board'
+    _title: 'Backlog · HU'
+  requirements:
+    _permission: 'administer nelkano backlog'
+  options:
+    _admin_route: TRUE
+
+nelkano_home.admin_hu_add:
+  path: '/admin/nelkano/backlog/add'
+  defaults:
+    _form: '\Drupal\nelkano_home\Form\HuForm'
+    _title: 'Nueva HU'
+  requirements:
+    _permission: 'administer nelkano backlog'
+  options:
+    _admin_route: TRUE
+
+nelkano_home.admin_hu_edit:
+  path: '/admin/nelkano/backlog/{hu}/edit'
+  defaults:
+    _form: '\Drupal\nelkano_home\Form\HuForm'
+    _title: 'Editar HU'
+  requirements:
+    _permission: 'administer nelkano backlog'
+    hu: '\d+'
+  options:
+    _admin_route: TRUE
+
+nelkano_home.admin_hu_move:
+  path: '/admin/nelkano/backlog/{hu}/status'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HuAdminController::move'
+  requirements:
+    _permission: 'administer nelkano backlog'
+    _user_is_logged_in: 'TRUE'
+    _csrf_request_header_token: 'TRUE'
+    hu: '\d+'

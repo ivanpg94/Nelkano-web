@@ -31,6 +31,7 @@ dependencies:
     - field.field.node.nelkano_error_report.field_report_state_uri
     - field.field.node.nelkano_error_report.field_report_status
     - field.field.node.nelkano_error_report.field_report_system
+    - field.field.node.nelkano_error_report.field_workflow_status
     - node.type.nelkano_error_report
   module:
     - text
@@ -80,3 +81,4 @@ hidden:
   field_report_state_uri: true
   field_report_status: true
   field_report_system: true
+  field_workflow_status: true
