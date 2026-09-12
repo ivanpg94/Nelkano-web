@@ -109,20 +109,19 @@ try {
     $view->setDisplay('block_1');
     // Change only the in-memory executable: no administrator config is saved.
     $fields = $view->display_handler->getOption('fields');
-    $view->display_handler->setOption('defaults', ['fields' => FALSE, 'filters' => FALSE, 'style' => FALSE]);
     $fields['title']['label'] = 'Título cambiado desde Views';
-    $view->display_handler->setOption('fields', [
+    $view->display_handler->overrideOption('fields', [
       'nelkano_report_bulk' => $fields['nelkano_report_bulk'],
       'title' => $fields['title'], 'nid' => $fields['nid'],
     ]);
-    $view->display_handler->setOption('filters', [
+    $view->display_handler->overrideOption('filters', [
       'nid' => ['id' => 'nid', 'table' => 'node_field_data', 'field' => 'nid',
-        'plugin_id' => 'numeric', 'operator' => 'in', 'value' => $ids],
+        'plugin_id' => 'numeric', 'operator' => 'between', 'value' => ['min' => min($ids), 'max' => max($ids)], 'group' => 1],
       'title' => ['id' => 'title', 'table' => 'node_field_data', 'field' => 'title',
-        'plugin_id' => 'string', 'operator' => 'contains', 'value' => '',
+        'plugin_id' => 'string', 'operator' => 'contains', 'value' => '', 'group' => 1,
         'exposed' => TRUE, 'expose' => ['identifier' => 'report_title', 'label' => 'Buscar título']],
     ]);
-    $view->display_handler->setOption('style', ['type' => 'table', 'options' => [
+    $view->display_handler->overrideOption('style', ['type' => 'table', 'options' => [
       'columns' => ['nelkano_report_bulk' => 'nelkano_report_bulk', 'title' => 'title', 'nid' => 'nid'],
     ]]);
     return $view;
@@ -150,7 +149,7 @@ try {
   $check(str_contains($html, 'name="reports[0]"'), 'Views substitutes native checkbox placeholders');
   $check(!str_contains($html, '<!--form-item-reports--'), 'no unsubstituted checkbox placeholders');
   $check(str_contains($html, 'name="report_title"'), 'Views exposed filter renders');
-  $check(strpos($html, 'views-field-title') < strpos($html, 'Cambiar estado de los seleccionados'), 'rendered bulk actions follow Views results');
+  $check(strpos($html, 'views-field-title') < strpos($html, 'Acciones'), 'rendered bulk actions follow Views results');
   $view = $make_view();
   $view->setItemsPerPage(1);
   $view->execute();

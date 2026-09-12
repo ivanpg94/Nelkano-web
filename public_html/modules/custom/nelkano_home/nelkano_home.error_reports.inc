@@ -317,7 +317,19 @@ function nelkano_home_error_report_view_definition(): array {
               'operator' => 'in', 'value' => ['nelkano_error_report' => 'nelkano_error_report'], 'group' => 1,
             ],
           ],
+          'exposed_form' => ['type' => 'basic', 'options' => [
+            'submit_button' => 'Aplicar', 'reset_button' => FALSE,
+            'exposed_sorts_label' => 'Ordenar por', 'expose_sort_order' => TRUE,
+            'sort_asc_label' => 'Ascendente (más antiguos primero)',
+            'sort_desc_label' => 'Descendente (más recientes primero)',
+          ]],
           'sorts' => [
+            'changed' => [
+              'id' => 'changed', 'table' => 'node_field_data', 'field' => 'changed',
+              'entity_type' => 'node', 'entity_field' => 'changed', 'plugin_id' => 'date',
+              'order' => 'DESC', 'granularity' => 'second', 'exposed' => TRUE,
+              'expose' => ['label' => 'Fecha de actualización', 'field_identifier' => 'changed'],
+            ],
             'nid' => [
               'id' => 'nid', 'table' => 'node_field_data', 'field' => 'nid', 'order' => 'DESC',
               'entity_type' => 'node', 'entity_field' => 'nid', 'plugin_id' => 'standard',

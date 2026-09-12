@@ -56,4 +56,46 @@ final class WorkflowStatus {
     }
     return $options;
   }
+
+  /** UI choices include ordinary terms; API choices above remain unchanged. */
+  public static function administrativeOptions(): array {
+    $options = self::options();
+    $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+    $ids = $storage->getQuery()->accessCheck(FALSE)->condition('vid', self::VOCABULARY)
+      ->sort('weight')->sort('name')->sort('tid')->execute();
+    foreach ($storage->loadMultiple($ids) as $term) {
+      $code = (string) $term->get('field_workflow_code')->value;
+      if (!isset(ReportWorkflow::STATUSES[$code])) {
+        $options['term:' . $term->id()] = (string) $term->label();
+      }
+    }
+    return $options;
+  }
+
+  public static function administrativeTermId(string $status): int {
+    if (isset(ReportWorkflow::STATUSES[$status])) {
+      return self::termId($status);
+    }
+    if (!preg_match('/^term:([1-9][0-9]*)$/D', $status, $matches)) {
+      throw new \InvalidArgumentException('Selecciona un estado válido.');
+    }
+    $term = Term::load((int) $matches[1]);
+    if (!$term || $term->bundle() !== self::VOCABULARY) {
+      throw new \InvalidArgumentException('El estado seleccionado ya no existe.');
+    }
+    return (int) $term->id();
+  }
+
+  public static function administrativeStatusForId(int $id): string {
+    $term = Term::load($id);
+    if (!$term || $term->bundle() !== self::VOCABULARY) {
+      throw new \InvalidArgumentException('Estado de taxonomía no válido.');
+    }
+    $code = (string) $term->get('field_workflow_code')->value;
+    return isset(ReportWorkflow::STATUSES[$code]) ? $code : 'term:' . $id;
+  }
+
+  public static function administrativeStatus(NodeInterface $node): string {
+    return self::administrativeStatusForId((int) $node->get(self::FIELD)->target_id);
+  }
 }

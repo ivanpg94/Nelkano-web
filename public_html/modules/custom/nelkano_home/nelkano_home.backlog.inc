@@ -50,6 +50,7 @@ function nelkano_home_ensure_workflow_terms(): void {
 /** Additive configuration; does not replace customized report Views. */
 function nelkano_home_ensure_backlog(): void {
   nelkano_home_ensure_workflow_terms();
+  nelkano_home_allow_plain_workflow_terms();
   if (!NodeType::load('hu')) {
     NodeType::create(['uuid' => nelkano_home_backlog_uuid('node.type.hu'), 'type' => 'hu', 'name' => 'HU', 'description' => 'Historias de usuario del backlog de Nelkano.', 'new_revision' => TRUE, 'preview_mode' => 0, 'display_submitted' => FALSE])->save();
   }
@@ -179,4 +180,18 @@ function nelkano_home_migrate_report_taxonomy(): void {
   }
   \Drupal::entityTypeManager()->getStorage('node')->resetCache();
   \Drupal::service('cache_tags.invalidator')->invalidateTags(['node_list']);
+}
+
+/** Keep taxonomy entry ordinary; only seeded terms carry internal API codes. */
+function nelkano_home_allow_plain_workflow_terms(): void {
+  FieldConfig::loadByName('taxonomy_term', WorkflowStatus::VOCABULARY, 'field_workflow_code')
+    ->setLabel('Código API')->setRequired(FALSE)->save();
+  // Remove the intermediate equivalence field, without deleting any terms.
+  FieldConfig::loadByName('taxonomy_term', WorkflowStatus::VOCABULARY, 'field_workflow_api_status')?->delete();
+  FieldStorageConfig::loadByName('taxonomy_term', 'field_workflow_api_status')?->delete();
+  $form = \Drupal::service('entity_display.repository')->getFormDisplay('taxonomy_term', WorkflowStatus::VOCABULARY);
+  if ($form->isNew()) {
+    $form->set('uuid', nelkano_home_backlog_uuid('core.entity_form_display.taxonomy_term.' . WorkflowStatus::VOCABULARY . '.default'));
+  }
+  $form->removeComponent('field_workflow_code')->removeComponent('field_workflow_api_status')->save();
 }

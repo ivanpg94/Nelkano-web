@@ -1,0 +1,52 @@
+uuid: 522797bd-c925-308d-ad89-5d5bbd1b68fb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.nelkano_workflow.field_workflow_code
+    - taxonomy.vocabulary.nelkano_workflow
+  module:
+    - path
+    - text
+id: taxonomy_term.nelkano_workflow.default
+targetEntityType: taxonomy_term
+bundle: nelkano_workflow
+mode: default
+content:
+  description:
+    type: text_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  simple_sitemap:
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 100
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+hidden:
+  field_workflow_api_status: true
+  field_workflow_code: true

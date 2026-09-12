@@ -18,9 +18,9 @@ final class ReportWorkflow {
   public const MAX_OBSERVATIONS_LENGTH = 4000;
 
   /** Null observations means omitted, not a request to erase stored text. */
-  public static function validateUpdate(array $body): array {
+  public static function validateUpdate(array $body, array $allowed_statuses = self::STATUSES): array {
     $status = $body['status'] ?? NULL;
-    if (!is_string($status) || !isset(self::STATUSES[$status]) || array_diff(array_keys($body), ['status', 'observations'])) {
+    if (!is_string($status) || !isset($allowed_statuses[$status]) || array_diff(array_keys($body), ['status', 'observations'])) {
       throw new \InvalidArgumentException('Expected status: new, in_progress, resolved, rejected or blocked; only observations may also be supplied.');
     }
     $observations = NULL;

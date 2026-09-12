@@ -297,6 +297,15 @@ display:
         options:
           offset: 0
           items_per_page: 50
+      exposed_form:
+        type: basic
+        options:
+          submit_button: Aplicar
+          reset_button: false
+          exposed_sorts_label: 'Ordenar por'
+          expose_sort_order: true
+          sort_asc_label: 'Ascendente (más antiguos primero)'
+          sort_desc_label: 'Descendente (más recientes primero)'
       access:
         type: perm
         options:
@@ -304,6 +313,21 @@ display:
       cache:
         type: tag
       sorts:
+        changed:
+          id: changed
+          table: node_field_data
+          field: changed
+          relationship: none
+          group_type: group
+          entity_type: node
+          entity_field: changed
+          plugin_id: date
+          order: DESC
+          expose:
+            label: 'Fecha de actualización'
+            field_identifier: changed
+          exposed: true
+          granularity: second
         nid:
           id: nid
           table: node_field_data

@@ -9,6 +9,7 @@ use Drupal\nelkano_home\Service\WorkflowStatus;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\nelkano_home\Service\ReportBulkUpdater;
+use Drupal\nelkano_home\Service\ReportDeletion;
 use Drupal\nelkano_home\Service\ReportWorkflow;
 use Drupal\node\NodeInterface;
 use Drupal\views\ViewExecutable;
@@ -53,14 +54,13 @@ final class ErrorReportBulkForm extends FormBase {
     $form['#attributes']['class'][] = 'nk-report-bulk-form';
     unset($form['actions']);
     $form['bulk'] = [
-      '#type' => 'fieldset', '#title' => $this->t('Cambiar estado de los seleccionados'),
+      '#type' => 'fieldset', '#title' => $this->t('Acciones'),
       '#weight' => 100, '#access' => $count > 0, '#attributes' => ['class' => ['nk-report-bulk-controls']],
     ];
-    $form['bulk']['help'] = ['#markup' => '<p>' . $this->t('Selecciona reportes de esta página (máximo 50). La casilla de la cabecera selecciona sólo los visibles; no se conservan selecciones al cambiar de página.') . '</p>'];
     $form['bulk']['target_status'] = [
       '#type' => 'select', '#title' => $this->t('Nuevo estado'), '#parents' => ['target_status'],
-      '#options' => WorkflowStatus::options(), '#empty_option' => $this->t('- Selecciona un estado -'),
-      '#required' => TRUE,
+      '#options' => WorkflowStatus::administrativeOptions(), '#empty_option' => $this->t('- Selecciona un estado -'),
+      '#required' => FALSE,
     ];
     $form['bulk']['observations'] = [
       '#type' => 'textarea', '#title' => $this->t('Motivo del bloqueo'), '#parents' => ['observations'],
@@ -68,10 +68,16 @@ final class ErrorReportBulkForm extends FormBase {
       '#description' => $this->t('Se guardará este motivo en Observaciones de todos los seleccionados. Para otros estados se conservan las observaciones existentes.'),
       '#states' => [
         'visible' => [':input[name="target_status"]' => ['value' => 'blocked']],
-        'required' => [':input[name="target_status"]' => ['value' => 'blocked']],
       ],
     ];
     $form['bulk']['apply'] = ['#type' => 'submit', '#value' => $this->t('Aplicar a los seleccionados'), '#button_type' => 'primary'];
+    $form['bulk']['delete'] = [
+      '#type' => 'submit', '#value' => $this->t('Eliminar seleccionados'),
+      '#name' => 'delete_selected', '#report_action' => 'delete',
+      '#access' => $this->currentUser()->hasPermission(ReportDeletion::PERMISSION),
+      '#attributes' => ['class' => ['nk-report-delete'], 'formnovalidate' => 'formnovalidate'],
+    ];
+
     return $form;
   }
 
@@ -91,12 +97,17 @@ final class ErrorReportBulkForm extends FormBase {
       $form_state->setErrorByName('reports', $this->t('Selecciona entre 1 y 50 reportes de esta página. Si la lista cambió, recarga y vuelve a seleccionarlos.'));
       return;
     }
+    if (($form_state->getTriggeringElement()['#report_action'] ?? '') === 'delete') {
+      ReportDeletion::requirePermission($this->currentUser());
+      $form_state->set('delete_reports', array_values(array_unique(array_map('intval', $selected))));
+      return;
+    }
     $body = ['status' => $form_state->getValue('target_status')];
     if ($body['status'] === 'blocked') {
       $body['observations'] = $form_state->getValue('observations', '');
     }
     try {
-      [$status, $observations] = ReportWorkflow::validateUpdate($body);
+      [$status, $observations] = ReportWorkflow::validateUpdate($body, WorkflowStatus::administrativeOptions());
       $form_state->set('bulk_update', [array_values(array_unique(array_map('intval', $selected))), $status, $observations]);
     }
     catch (\InvalidArgumentException $e) {
@@ -106,6 +117,12 @@ final class ErrorReportBulkForm extends FormBase {
 
   public function submitForm(array &$form, FormStateInterface $form_state): void {
     $this->requirePermission();
+    if (($form_state->getTriggeringElement()['#report_action'] ?? '') === 'delete') {
+      ReportDeletion::start($form_state->get('delete_reports') ?? []);
+      $form_state->setRedirect('nelkano_home.admin_error_reports', [], ['query' => $this->getRequest()->query->all()]);
+      return;
+    }
+
     [$ids, $status, $observations] = $form_state->get('bulk_update');
     try {
       $changed = $this->updater->update($ids, $status, $observations, $this->currentUser());
@@ -117,7 +134,7 @@ final class ErrorReportBulkForm extends FormBase {
       return;
     }
     $this->messenger()->addStatus($this->t('Seleccionados: @selected. Actualizados: @changed. Estado: @status.', [
-      '@selected' => count($ids), '@changed' => $changed, '@status' => WorkflowStatus::options()[$status],
+      '@selected' => count($ids), '@changed' => $changed, '@status' => WorkflowStatus::administrativeOptions()[$status],
     ]));
     $form_state->setRedirect('nelkano_home.admin_error_reports', [], ['query' => $this->getRequest()->query->all()]);
   }

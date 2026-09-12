@@ -225,6 +225,10 @@ final class ErrorReportApiController extends ControllerBase {
     if (!$node instanceof NodeInterface || $node->bundle() !== 'nelkano_error_report') {
       throw new NotFoundHttpException('Report not found.');
     }
+    // Ordinary taxonomy states are managed on the web, outside the API workflow.
+    if (!isset(ReportWorkflow::STATUSES[WorkflowStatus::administrativeStatus($node)])) {
+      throw new NotFoundHttpException('Report is outside the API workflow.');
+    }
     return $node;
   }
 

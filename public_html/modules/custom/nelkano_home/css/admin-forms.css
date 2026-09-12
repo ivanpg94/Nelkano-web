@@ -907,3 +907,64 @@ body:has(.nk-admin-app) .content-header {
     margin-right: 18px;
   }
 }
+
+/* Compact report actions, scoped so other administration forms retain their layout. */
+.nk-report-bulk-controls .fieldset-wrapper,
+.nk-report-bulk-controls .fieldset__wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+}
+.nk-report-bulk-controls .form-item-target-status,
+.nk-report-bulk-controls .form-item--target-status {
+  flex: 0 1 260px;
+  width: 260px;
+  max-width: 100%;
+  margin: 0;
+}
+.nk-admin-config-form .nk-report-bulk-controls select[name="target_status"] {
+  width: 260px;
+  max-width: 100%;
+  min-height: 40px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+}
+.nk-report-bulk-controls .form-item-observations,
+.nk-report-bulk-controls .form-item--observations {
+  flex-basis: 100%;
+  order: 2;
+}
+.nk-admin-config-form .nk-report-bulk-controls input[type="submit"],
+.nk-admin-config-form .nk-report-cleanup-form input[type="submit"] {
+  width: auto;
+  min-height: 40px;
+  margin: 0;
+  padding: 10px 16px;
+  font-size: 0.9rem;
+}
+.nk-report-cleanup-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.nk-admin-config-form input.nk-report-delete {
+  background: #fff;
+  border: 1px solid #dc3545;
+  color: #b42332;
+  box-shadow: none;
+}
+.nk-admin-config-form input.nk-report-delete:hover {
+  background: #fff1f2;
+}
+@media (max-width: 700px) {
+  .nk-report-bulk-controls .form-item-target-status,
+.nk-report-bulk-controls .form-item--target-status {
+    flex-basis: 100%;
+  }
+  .nk-admin-panel-head .nk-admin-head-actions {
+    flex-shrink: 1;
+  }
+}
+
+.nk-admin-report-page .nk-admin-panel-head { flex-wrap: wrap; }

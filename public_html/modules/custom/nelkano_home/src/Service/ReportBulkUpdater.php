@@ -44,7 +44,7 @@ final class ReportBulkUpdater {
     if ($observations !== NULL) {
       $body['observations'] = $observations;
     }
-    ReportWorkflow::validateUpdate($body);
+    ReportWorkflow::validateUpdate($body, WorkflowStatus::administrativeOptions());
     sort($ids, SORT_NUMERIC);
     $storage = $this->entityTypeManager->getStorage('node');
     $acquired = [];
@@ -71,10 +71,10 @@ final class ReportBulkUpdater {
       foreach ($ids as $id) {
         $node = $nodes[$id];
         $notes_changed = $observations !== NULL && (string) $node->get('field_report_observations')->value !== $observations;
-        if ((string) WorkflowStatus::get($node) === $status && !$notes_changed) {
+        if ((string) WorkflowStatus::administrativeStatus($node) === $status && !$notes_changed) {
           continue;
         }
-        WorkflowStatus::set($node, $status);
+        $node->set(WorkflowStatus::FIELD, WorkflowStatus::administrativeTermId($status));
         if ($observations !== NULL) {
           $node->set('field_report_observations', $observations);
         }

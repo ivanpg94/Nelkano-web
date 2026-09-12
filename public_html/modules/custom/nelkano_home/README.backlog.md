@@ -123,3 +123,62 @@ prueba de migración comprueba conservación de datos, revisiones y recibos,
 estado histórico, cobertura de todas las filas y repetición sin duplicados.
 La prueba del backlog cubre permisos reales por HTTP, CSRF, secuencia,
 inmutabilidad, estados, revisiones, conflictos y escape de títulos.
+
+## Términos adicionales y ordenación (2026-09-12)
+
+El formulario de `/admin/structure/taxonomy/manage/nelkano_workflow/add`
+permite crear términos normales, sin pedir códigos ni equivalencias API.
+El identificador interno de los cinco términos originales se conserva oculto
+y es opcional para los términos nuevos. Los términos adicionales no se añaden
+a los estados ni a la cola de la API; su contrato y sus cinco referencias
+originales siguen siendo los anteriores. Se pueden editar y borrar los términos
+adicionales; los originales conservan su protección.
+
+11024 configura el alta ordinaria. 11025 aplica la misma configuración en los
+entornos que llegaron a ejecutar la versión intermedia y elimina su campo de
+equivalencia, conservando los términos. Desplegar con `vendor/bin/drush deploy -y`.
+
+La vista de reportes permite ordenar por fecha de actualización ascendente o
+descendente. Por defecto usa `changed DESC` y desempata por `nid DESC`.
+
+## Acciones de reportes (2026-09-12)
+
+El selector administrativo incluye todos los términos de Estados de Nelkano,
+incluidos los creados sin código. Se guardan por su referencia de taxonomía;
+no se pide ni se genera una equivalencia API. Los cinco estados de la API
+conservan sus códigos y su cola. Un reporte en un término adicional queda
+fuera de ese flujo: no aparece en la cola y las rutas API por ID devuelven 404
+hasta devolverlo a un estado original. La administración puede mostrarlo y editarlo.
+
+La cabecera sustituye Exportar CSV por **Eliminar terminado** y
+**Eliminar descartado**. Son formularios POST con CSRF y requieren
+`delete nelkano error reports`, además del permiso de consulta.
+Seleccionan todos los reportes en el término original correspondiente,
+sin aplicar el paginador ni los filtros de la vista. Drupal procesa la lista
+en lotes de diez y vuelve a comprobar el estado bajo el bloqueo compartido
+con la API. Los reportes que cambian de estado antes de procesarse se omiten.
+
+El bloque inferior se llama **Acciones**, sin el texto explicativo anterior.
+Incluye el selector compacto, Aplicar a los seleccionados y
+**Eliminar seleccionados**. Este último usa únicamente las casillas válidas de
+la página actual y no requiere elegir un nuevo estado.
+
+El borrado elimina el nodo con sus revisiones y recibos API, y las carpetas
+privadas de sus adjuntos actuales e históricos, incluidos archivos sobrantes
+dentro de esas carpetas. Solo admite directorios UUID bajo
+`private://nelkano-error-reports`; rechaza rutas ajenas, enlaces simbólicos y
+directorios referenciados por otros reportes. Los errores de disco se registran
+y se notifican al terminar; no se presenta un borrado fallido como correcto.
+Los adjuntos se guardan como archivos privados sin entidades File.
+No se ha ejecutado ninguna limpieza sobre reportes reales durante el desarrollo.
+
+Pruebas locales:
+```sh
+docker compose exec -T -e NELKANO_LOCAL_REPORT_ACTIONS_TEST=1 drupal vendor/bin/drush --uri=http://localhost php:script web/modules/custom/nelkano_home/tests/report-actions-smoke.php
+docker compose exec -T -e NELKANO_LOCAL_REPORT_ACTIONS_TEST=1 drupal vendor/bin/drush --uri=http://localhost php:script web/modules/custom/nelkano_home/tests/report-actions-http-smoke.php
+```
+La primera revierte sus datos y prueba borrado físico, revisiones, recibos,
+rutas, permisos, estados nuevos y cobertura de más de 50 reportes. La segunda
+crea una cuenta y un reporte temporales para enviar el formulario HTTP real,
+comprobar CSRF y ejecutar el lote de eliminación. Ambas conservan los reportes
+preexistentes y limpian sus datos sintéticos.

@@ -28,9 +28,10 @@ final class ErrorReportAdminController extends ControllerBase {
     $view->setDisplay('block_1');
     return $this->adminPage(
       'Reportes de errores',
-      'Consulta los reportes enviados desde la aplicación. Puedes seleccionar varios y cambiar su estado desde los controles bajo la tabla si tienes permiso de modificación.',
+      'Consulta y gestiona los reportes enviados desde la aplicación.',
       $view->render(),
-      '<a class="nk-admin-public-link" href="' . Url::fromUserInput('/admin/nelkano/error-reports/export.csv', ['query' => ['_format' => 'csv']])->toString() . '">Exportar CSV</a>',
+      $this->currentUser()->hasPermission(\Drupal\nelkano_home\Service\ReportDeletion::PERMISSION)
+        ? $this->formBuilder()->getForm(\Drupal\nelkano_home\Form\ReportCleanupForm::class) : [],
     );
   }
 
@@ -41,7 +42,7 @@ final class ErrorReportAdminController extends ControllerBase {
     $field = static fn(string $label, string $value, int $span = 1, bool $code = FALSE): array => compact('label', 'value', 'span', 'code');
     $category = $value('field_report_category');
     $category = $node->getFieldDefinition('field_report_category')->getSetting('allowed_values')[$category] ?? $category;
-    $status = WorkflowStatus::get($node);
+    $status = WorkflowStatus::administrativeStatus($node);
     $settings = $value('field_report_settings');
     $decoded = json_decode($settings, TRUE);
     if (is_array($decoded)) {
@@ -54,7 +55,7 @@ final class ErrorReportAdminController extends ControllerBase {
     }
     $data = [
       'id' => $node->id(), 'title' => $node->label(),
-      'status' => $status, 'status_label' => WorkflowStatus::options()[$status],
+      'status' => $status, 'status_label' => WorkflowStatus::administrativeOptions()[$status],
       'created' => \Drupal::service('date.formatter')->format($node->getCreatedTime(), 'custom', 'd/m/Y · H:i'),
       'reporter' => $reporter ? (string) $reporter->getEmail() : 'uid:' . $node->getOwnerId(),
       'back_url' => Url::fromRoute('nelkano_home.admin_error_reports')->toString(),
@@ -115,17 +116,20 @@ final class ErrorReportAdminController extends ControllerBase {
     return $this->privateDownload((string) $node->get('field_report_screenshot_uri')->value, 'report-' . $node->id() . '.png');
   }
 
-  private function adminPage(string $title, string $description, array $content, string $actions = ''): array {
+  private function adminPage(string $title, string $description, array $content, array $actions = []): array {
     $module_path = \Drupal::service('extension.list.module')->getPath('nelkano_home');
     return [
       '#type' => 'container',
-      '#attributes' => ['class' => ['nk-admin-config-form']],
+      '#attributes' => ['class' => ['nk-admin-config-form', 'nk-admin-report-page']],
       '#attached' => ['library' => ['nelkano_home/admin_forms']],
       '#prefix' => $this->nelkanoAdminHeader($module_path) . '<div class="nk-admin-app"><div class="nk-admin-body">' . $this->nelkanoAdminSidebar('error_reports') . '<div class="nk-admin-workspace"><section class="nk-admin-panel">',
       '#suffix' => '</section></div></div></div>',
       'header' => [
         '#weight' => -1000,
-        '#markup' => '<div class="nk-admin-panel-head"><div><h1>' . htmlspecialchars($title, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</h1><p>' . htmlspecialchars($description, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</p></div><div class="nk-admin-head-actions">' . $actions . '</div></div>',
+        '#type' => 'container',
+        '#attributes' => ['class' => ['nk-admin-panel-head']],
+        'title' => ['#markup' => '<div><h1>' . htmlspecialchars($title, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</h1><p>' . htmlspecialchars($description, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</p></div>'],
+        'actions' => ['#type' => 'container', '#attributes' => ['class' => ['nk-admin-head-actions']], 'form' => $actions],
       ],
       'content' => $content,
     ];

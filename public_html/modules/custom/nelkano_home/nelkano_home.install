@@ -649,3 +649,15 @@ function nelkano_home_update_11023(): void {
   require_once __DIR__ . '/nelkano_home.backlog.inc';
   nelkano_home_ensure_workflow_terms();
 }
+
+/** Allow ordinary taxonomy terms without changing the API workflow. */
+function nelkano_home_update_11024(): void {
+  require_once __DIR__ . '/nelkano_home.backlog.inc';
+  nelkano_home_allow_plain_workflow_terms();
+}
+
+/** Remove the intermediate API-equivalence form and restore ordinary term entry. */
+function nelkano_home_update_11025(): void {
+  require_once __DIR__ . '/nelkano_home.backlog.inc';
+  nelkano_home_allow_plain_workflow_terms();
+}

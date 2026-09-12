@@ -27,9 +27,9 @@ function nelkano_home_form_node_form_alter(array &$form, FormStateInterface $for
 function nelkano_home_validate_report_workflow(array &$form, FormStateInterface $form_state): void {
   try {
     ReportWorkflow::validateUpdate([
-      'status' => WorkflowStatus::codeForId((int) $form_state->getValue([WorkflowStatus::FIELD, 0, 'target_id'])),
+      'status' => WorkflowStatus::administrativeStatusForId((int) $form_state->getValue([WorkflowStatus::FIELD, 0, 'target_id'])),
       'observations' => $form_state->getValue(['field_report_observations', 0, 'value']) ?? '',
-    ]);
+    ], WorkflowStatus::administrativeOptions());
   }
   catch (\InvalidArgumentException $e) {
     $form_state->setErrorByName('field_report_observations', $e->getMessage());
@@ -166,7 +166,7 @@ function nelkano_home_node_presave(\Drupal\node\NodeInterface $node): void {
   if ($node->get(WorkflowStatus::FIELD)->isEmpty()) {
     WorkflowStatus::set($node, 'new');
   }
-  $code = WorkflowStatus::get($node);
+  $code = $node->bundle() === 'hu' ? WorkflowStatus::get($node) : WorkflowStatus::administrativeStatus($node);
   if ($node->bundle() === 'hu') {
     if (!in_array($code, WorkflowStatus::HU_CODES, TRUE)) {
       throw new \InvalidArgumentException('Estado no válido para una HU.');
@@ -182,7 +182,7 @@ function nelkano_home_node_presave(\Drupal\node\NodeInterface $node): void {
   }
   else {
     // Compatibility mirror; taxonomy is the sole source for current behavior.
-    $node->set('field_report_status', $code);
+    $node->set('field_report_status', isset(ReportWorkflow::STATUSES[$code]) ? $code : NULL);
   }
 }
 
@@ -194,14 +194,24 @@ function nelkano_home_node_access(\Drupal\node\NodeInterface $node, $op, \Drupal
   return \Drupal\Core\Access\AccessResult::neutral();
 }
 
-/** Keep API codes stable while administrators may rename their taxonomy labels. */
+/** Allow ordinary terms while preserving the original API identifiers. */
 function nelkano_home_taxonomy_term_presave(\Drupal\taxonomy\TermInterface $term): void {
   if ($term->bundle() !== WorkflowStatus::VOCABULARY) {
     return;
   }
   $code = (string) $term->get('field_workflow_code')->value;
-  if (!isset(ReportWorkflow::STATUSES[$code]) || (!$term->isNew() && $term->getOriginal()->get('field_workflow_code')->value !== $code)) {
-    throw new \InvalidArgumentException('El código API de este estado es fijo. Puedes editar su nombre.');
+  if (!$term->isNew()) {
+    $original = $term->getOriginal() ?? \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadUnchanged($term->id());
+    if ((string) $original->get('field_workflow_code')->value !== $code) {
+      throw new \InvalidArgumentException('El código API de este estado es fijo. Puedes editar su nombre.');
+    }
+  }
+  // Additional taxonomy terms do not participate in the API workflow.
+  if ($code === '') {
+    return;
+  }
+  if (!isset(ReportWorkflow::STATUSES[$code])) {
+    throw new \InvalidArgumentException('Código API de estado no válido.');
   }
   $duplicates = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties(['vid' => WorkflowStatus::VOCABULARY, 'field_workflow_code' => $code]);
   foreach ($duplicates as $duplicate) {
@@ -213,7 +223,7 @@ function nelkano_home_taxonomy_term_presave(\Drupal\taxonomy\TermInterface $term
 
 /** Required workflow terms cannot be removed while the module is installed. */
 function nelkano_home_taxonomy_term_predelete(\Drupal\taxonomy\TermInterface $term): void {
-  if ($term->bundle() === WorkflowStatus::VOCABULARY) {
+  if ($term->bundle() === WorkflowStatus::VOCABULARY && isset(ReportWorkflow::STATUSES[(string) $term->get('field_workflow_code')->value])) {
     throw new \InvalidArgumentException('Este estado es necesario para las HU y la API de reportes. Puedes editar su nombre.');
   }
 }
@@ -225,16 +235,15 @@ function nelkano_home_default_workflow_status($entity, $definition): array {
 
 /** Avoid presenting deletion actions for terms required by existing API clients. */
 function nelkano_home_taxonomy_term_access(\Drupal\taxonomy\TermInterface $term, $op, \Drupal\Core\Session\AccountInterface $account): \Drupal\Core\Access\AccessResultInterface {
-  return $term->bundle() === WorkflowStatus::VOCABULARY && $op === 'delete'
+  return $term->bundle() === WorkflowStatus::VOCABULARY && $op === 'delete' && isset(ReportWorkflow::STATUSES[(string) $term->get('field_workflow_code')->value])
     ? \Drupal\Core\Access\AccessResult::forbidden()->addCacheableDependency($term)
     : \Drupal\Core\Access\AccessResult::neutral();
 }
 
-/** Explain the immutable integration code in the native taxonomy form. */
+/** API identifiers are internal; administrators create ordinary taxonomy terms. */
 function nelkano_home_form_taxonomy_term_form_alter(array &$form, FormStateInterface $form_state): void {
-  $term = $form_state->getFormObject()->getEntity();
-  if ($term->bundle() === WorkflowStatus::VOCABULARY && !$term->isNew()) {
-    $form['field_workflow_code']['#disabled'] = TRUE;
-    $form['field_workflow_code']['#description'] = t('Código estable de la API. Puedes cambiar el nombre visible del estado.');
+  if ($form_state->getFormObject()->getEntity()->bundle() === WorkflowStatus::VOCABULARY) {
+    $form['field_workflow_code']['#access'] = FALSE;
+    $form['field_workflow_api_status']['#access'] = FALSE;
   }
 }

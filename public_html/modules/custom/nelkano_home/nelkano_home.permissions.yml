@@ -16,3 +16,8 @@ administer nelkano backlog:
   title: 'Administrar backlog de HU'
   description: 'Crear, editar y mover historias de usuario privadas de Nelkano.'
   restrict access: true
+
+delete nelkano error reports:
+  title: 'Eliminar reportes de Nelkano y sus archivos'
+  description: 'Permite eliminar permanentemente reportes y sus adjuntos del servidor.'
+  restrict access: true
