@@ -4,8 +4,8 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_report_game
-    - field.storage.node.field_workflow_status
     - field.storage.node.field_report_system
+    - field.storage.node.field_workflow_status
     - node.type.nelkano_error_report
   module:
     - nelkano_home
@@ -30,9 +30,9 @@ display:
           id: nelkano_report_bulk
           table: node_field_data
           field: nelkano_report_bulk
-          plugin_id: nelkano_report_bulk
           relationship: none
           group_type: group
+          plugin_id: nelkano_report_bulk
           label: Seleccionar
           exclude: false
         nid:
@@ -347,7 +347,7 @@ display:
           distinct: false
       display_extenders: {  }
     cache_metadata:
-      max-age: -1
+      max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
@@ -356,8 +356,8 @@ display:
         - user.permissions
       tags:
         - 'config:field.storage.node.field_report_game'
-        - 'config:field.storage.node.field_workflow_status'
         - 'config:field.storage.node.field_report_system'
+        - 'config:field.storage.node.field_workflow_status'
   block_1:
     id: block_1
     display_title: 'Listado administrativo'
@@ -366,7 +366,7 @@ display:
     display_options:
       display_extenders: {  }
     cache_metadata:
-      max-age: -1
+      max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
@@ -375,5 +375,5 @@ display:
         - user.permissions
       tags:
         - 'config:field.storage.node.field_report_game'
-        - 'config:field.storage.node.field_workflow_status'
         - 'config:field.storage.node.field_report_system'
+        - 'config:field.storage.node.field_workflow_status'
