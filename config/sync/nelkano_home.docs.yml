@@ -52,26 +52,12 @@ es:
       date: 27/06/2026
       changes: "Primera beta publica para Android.\r\nBiblioteca local, guardados y save states.\r\nCuenta Nelkano, amigos, gba nelkano online y streaming web.\r\nSincronizacion opcional con Google Drive.\r\nCores disponibles: Chip8, Game boy, Game boy color, Game boy advance, Megadrive, NES"
     -
-      visible: false
+      visible: true
       version: 2.0.0-beta
-      apk_file: 'public://nelkano-releases/Nelkano 2.0.0-beta.apk'
+      apk_file: 'public://nelkano-releases/Nelkano 2.0.0-beta_1.apk'
       filename: 'Nelkano 2.0.0-beta.apk'
       date: 'Pendiente de publicacion'
-      changes: |-
-        Nuevo core de Master System.
-        Corrección del registro desde la app para solucionar la falta del correo de registro.
-        Biblioteca con favoritos, colecciones, búsqueda, filtros por sistema, ordenación y vistas compacta, grande y de lista. Selección de varios juegos con una pulsación larga.
-        Importación de juegos comprimidos en ZIP, RAR y 7z, incluidos paquetes con varios juegos. Importación de discos de PlayStation con sus archivos CUE y pistas, y de juegos de RPG Maker con todos sus recursos.
-        Opción Continuar para retomar un estado guardado. Si eliges la captura de un estado manual como imagen del juego, ese estado tiene prioridad al continuar.
-        Cinco espacios de guardado manual por juego y un espacio independiente para el autoguardado, que se realiza aproximadamente cada minuto. Gestión de estados con filtros y ordenación, según el soporte de cada sistema.
-        Personalización de la ficha del juego: cambiar el nombre y la portada o utilizar la captura de un estado manual.
-        Configuración de mandos físicos: comprobación de botones, asignación por sistema, guardado y carga de configuraciones y restauración de los valores predeterminados.
-        Editor de controles táctiles para mover y cambiar el tamaño de los botones, previsualizar el resultado y guardar una disposición para cada sistema y orientación.
-        Opciones durante la partida: pausa, reinicio, volumen, pantalla completa, ajuste de imagen e indicador de FPS. Botón AUTO para repetir A y botones RECORD y REPLAY para grabar y repetir una secuencia de pulsaciones.
-        Segunda pantalla para Nintendo DS y Nintendo 3DS: utiliza otro dispositivo Android conectado a la misma red local, intercambia las pantallas y controla la pantalla táctil desde el dispositivo receptor.
-        Aplicación de parches xdelta/VCDIFF a juegos de Nintendo DS. El juego modificado se añade por separado y conserva sus propios guardados, sin sustituir el original.
-        Sincronización de estados, tarjetas de memoria y datos asociados de PlayStation con Google Drive. Las imágenes de disco deben importarse por separado en el dispositivo de destino.
-        Temas Oscuro, Claro, Azul marino, Pizarra y Grafito, y selección de español o inglés para la interfaz.
+      changes: "Nuevo core de Master System.\r\nCorrección del registro desde la app para solucionar la falta del correo de registro.\r\nBiblioteca con favoritos, colecciones, búsqueda, filtros por sistema, ordenación y vistas compacta, grande y de lista. Selección de varios juegos con una pulsación larga.\r\nImportación de juegos comprimidos en ZIP, RAR y 7z, incluidos paquetes con varios juegos. Importación de discos de PlayStation con sus archivos CUE y pistas, y de juegos de RPG Maker con todos sus recursos.\r\nOpción Continuar para retomar un estado guardado. Si eliges la captura de un estado manual como imagen del juego, ese estado tiene prioridad al continuar.\r\nCinco espacios de guardado manual por juego y un espacio independiente para el autoguardado, que se realiza aproximadamente cada minuto. Gestión de estados con filtros y ordenación, según el soporte de cada sistema.\r\nPersonalización de la ficha del juego: cambiar el nombre y la portada o utilizar la captura de un estado manual.\r\nConfiguración de mandos físicos: comprobación de botones, asignación por sistema, guardado y carga de configuraciones y restauración de los valores predeterminados.\r\nEditor de controles táctiles para mover y cambiar el tamaño de los botones, previsualizar el resultado y guardar una disposición para cada sistema y orientación.\r\nOpciones durante la partida: pausa, reinicio, volumen, pantalla completa, ajuste de imagen e indicador de FPS. Botón AUTO para repetir A y botones RECORD y REPLAY para grabar y repetir una secuencia de pulsaciones.\r\nSegunda pantalla para Nintendo DS y Nintendo 3DS: utiliza otro dispositivo Android conectado a la misma red local, intercambia las pantallas y controla la pantalla táctil desde el dispositivo receptor.\r\nAplicación de parches xdelta/VCDIFF a juegos de Nintendo DS. El juego modificado se añade por separado y conserva sus propios guardados, sin sustituir el original.\r\nSincronización de estados, tarjetas de memoria y datos asociados de PlayStation con Google Drive. Las imágenes de disco deben importarse por separado en el dispositivo de destino.\r\nTemas Oscuro, Claro, Azul marino, Pizarra y Grafito, y selección de español o inglés para la interfaz."
   compatibility_seo_title: 'Compatibilidad de Nelkano'
   compatibility_seo_description: 'Estado real de compatibilidad de los sistemas soportados por Nelkano para Android.'
   compatibility_eyebrow: Compatibilidad
