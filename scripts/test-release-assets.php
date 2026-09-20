@@ -14,13 +14,13 @@ $modulePath = \Drupal::service('extension.list.module')->getPath('nelkano_home')
 foreach (['es', 'en'] as $lang) {
   $content = \Drupal::config('nelkano_home.docs')->get($lang);
   $latest = $latestMethod->invoke($controller, $lang, $modulePath);
-  releaseCheck(str_contains(rawurldecode($latest['url']), 'Nelkano 1.0.0-beta.apk'), $lang . ' home selects latest published APK, excluding draft');
+  releaseCheck(str_contains(rawurldecode($latest['url']), '/1.0.0-beta'), $lang . ' home selects latest published APK, excluding draft');
   foreach ($content['releases_items'] as &$row) {
     if ($row['version'] === '2.0.0-beta') $row['visible'] = TRUE;
   }
   unset($row);
   $rows = $rowsMethod->invoke($controller, $content, $modulePath);
-  releaseCheck($rows[0]['version'] === '2.0.0-beta' && str_contains(rawurldecode($rows[0]['url']), 'Nelkano 2.0.0-beta.apk'), $lang . ' publishing 2.0 selects its APK regardless of row order');
+  releaseCheck($rows[0]['version'] === '2.0.0-beta' && str_contains(rawurldecode($rows[0]['url']), '/2.0.0-beta'), $lang . ' publishing 2.0 selects its APK regardless of row order');
   $content['releases_items'][] = ['version' => '99.0.0', 'visible' => TRUE, 'apk_file' => 'public://nelkano-releases/missing-test.apk'];
   $rows = $rowsMethod->invoke($controller, $content, $modulePath);
   releaseCheck($rows[0]['url'] === '', $lang . ' missing file never exposes a broken download');

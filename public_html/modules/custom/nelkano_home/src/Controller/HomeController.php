@@ -935,15 +935,32 @@ final class HomeController extends ControllerBase {
     ];
   }
 
+  /** Serve the selected published artifact with a stable public filename. */
+  public function downloadRelease(string $language, string $version): \Symfony\Component\HttpFoundation\BinaryFileResponse {
+    $rows = $this->homeConfigFactory->get('nelkano_home.docs')->get($language . '.releases_items') ?? [];
+    foreach ($rows as $row) {
+      if (($row['version'] ?? '') !== $version || $this->releaseIsHidden($row)) continue;
+      $file = $this->releaseFile($row, '');
+      if ($file['path'] === '' || !is_file($file['path'])) break;
+      $response = new \Symfony\Component\HttpFoundation\BinaryFileResponse($file['path']);
+      $response->headers->set('Content-Type', 'application/vnd.android.package-archive');
+      $response->setContentDisposition('attachment', $file['filename']);
+      $response->headers->set('Cache-Control', 'no-store, private');
+      $response->headers->set('X-Content-Type-Options', 'nosniff');
+      return $response;
+    }
+    throw new NotFoundHttpException();
+  }
+
   private function releaseFile(array $row, string $modulePath): array {
     $uri = trim((string) ($row['apk_file'] ?? ''));
     if ($uri !== '') {
       $path = \Drupal::service('file_system')->realpath($uri);
-      $filename = basename($uri);
+      $filename = 'Nelkano ' . preg_replace('/[^A-Za-z0-9.+_-]/', '', (string) ($row['version'] ?? '')) . '.apk';
       return [
         'filename' => $filename,
         'path' => is_string($path) ? $path : '',
-        'url' => is_string($path) && is_file($path) ? \Drupal::service('file_url_generator')->generateString($uri) : '',
+        'url' => is_string($path) && is_file($path) ? \Drupal\Core\Url::fromRoute('nelkano_home.release_download', ['language' => str_starts_with(\Drupal::request()->getPathInfo(), '/en') ? 'en' : 'es', 'version' => (string) ($row['version'] ?? '')])->toString() : '',
       ];
     }
 
@@ -969,6 +986,7 @@ final class HomeController extends ControllerBase {
   }
 
   private function releaseIsHidden(array $row): bool {
+    if (isset($row['visible']) && is_bool($row['visible'])) return !$row['visible'];
     $visible = strtolower(trim((string) ($row['visible'] ?? '')));
     return in_array($visible, ['0', 'false', 'no', 'off'], TRUE);
   }
