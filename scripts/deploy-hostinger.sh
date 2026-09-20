@@ -24,4 +24,7 @@ cd -- "$APP_DIR"
 # the old nelkano/nelkano_home package on existing installations.
 composer install --no-dev --optimize-autoloader --no-interaction
 test -f public_html/modules/custom/nelkano_home/src/Controller/ErrorReportApiController.php
+# Verify all referenced APKs before importing their release records.
+NELKANO_RELEASE_ASSETS_CHECK_ONLY=1 ./vendor/bin/drush --root=public_html php:script scripts/install-release-assets.php
+./vendor/bin/drush --root=public_html php:script scripts/install-release-assets.php
 ./vendor/bin/drush --root=public_html deploy --yes

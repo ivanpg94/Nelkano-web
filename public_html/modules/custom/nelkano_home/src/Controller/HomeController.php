@@ -126,10 +126,13 @@ final class HomeController extends ControllerBase {
 
   public function sitemap(): Response {
     $base_url = \Drupal::request()->getSchemeAndHttpHost();
-    $now = gmdate('Y-m-d');
     $urls = [
       ['loc' => $base_url . '/', 'priority' => '1.0'],
       ['loc' => $base_url . '/en', 'priority' => '0.9'],
+      ['loc' => $base_url . '/sistemas', 'priority' => '0.8'],
+      ['loc' => $base_url . '/en/systems', 'priority' => '0.8'],
+      ['loc' => $base_url . '/guia', 'priority' => '0.7'],
+      ['loc' => $base_url . '/en/guide', 'priority' => '0.7'],
       ['loc' => $base_url . '/aviso-legal', 'priority' => '0.4'],
       ['loc' => $base_url . '/privacidad-cookies', 'priority' => '0.4'],
       ['loc' => $base_url . '/versiones', 'priority' => '0.6'],
@@ -153,7 +156,6 @@ final class HomeController extends ControllerBase {
     foreach ($urls as $url) {
       $xml[] = '  <url>';
       $xml[] = '    <loc>' . htmlspecialchars($url['loc'], ENT_XML1) . '</loc>';
-      $xml[] = '    <lastmod>' . $now . '</lastmod>';
       $xml[] = '    <changefreq>weekly</changefreq>';
       $xml[] = '    <priority>' . $url['priority'] . '</priority>';
       $xml[] = '  </url>';
@@ -941,7 +943,7 @@ final class HomeController extends ControllerBase {
       return [
         'filename' => $filename,
         'path' => is_string($path) ? $path : '',
-        'url' => \Drupal::service('file_url_generator')->generateString($uri),
+        'url' => is_string($path) && is_file($path) ? \Drupal::service('file_url_generator')->generateString($uri) : '',
       ];
     }
 

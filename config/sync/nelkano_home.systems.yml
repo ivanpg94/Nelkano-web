@@ -48,13 +48,13 @@ es:
       status: 'Muy estable'
       category: 'Para empezar'
       summary: 'La máquina virtual de los años 70. Alta compatibilidad, punto de entrada ideal para entender la emulación.'
-      tagline: 'El origen de todo. Una máquina virtual que empezó la historia.'
+      tagline: 'El origen de todo. Una máquina virtual que empezó la historia. Juegos sencillos, gráficos de píxeles y un teclado de 16 teclas. Descubre CHIP-8 en tu Android.'
       manufacturer: 'Joseph Weisbecker (RCA)'
       year: '1977'
       formats: ".ch8\r\n.c8\r\n.chip8"
-      overview: 'CHIP-8 no es una consola de verdad: es un lenguaje de interpretación virtual diseñado en 1977 por Joseph Weisbecker para facilitar el desarrollo de juegos en microcomputadoras como la COSMAC VIP. Sin hardware físico complejo que emular, Nelkano puede ejecutar CHIP-8 con gran precisión. Es el punto de entrada ideal para entender qué es la emulación.'
-      features: "Cargar archivos .ch8, .c8 y .chip8 desde tu dispositivo\r\nJugar clásicos de CHIP-8 en sus versiones originales\r\nUsar la pantalla táctil para mapear el teclado hexadecimal 4×4\r\nProbar tus propios programas CHIP-8"
-      limitations: "SUPER-CHIP (SCHIP) tiene soporte parcial; algunas extensiones pueden comportarse de forma distinta\r\nXO-CHIP no está garantizado y puede presentar errores en programas que usen sus instrucciones extendidas"
+      overview: "CHIP-8 es un lenguaje de programación creado por Joseph Weisbecker para facilitar el desarrollo de juegos en ordenadores como el COSMAC VIP. Sus juegos usan gráficos sencillos y un teclado de 16 teclas.\r\nCon Nelkano puedes abrir estos juegos en tu móvil y controlarlos desde la pantalla táctil. También puedes ejecutar programas que hayas creado tú."
+      features: "Abrir juegos y programas CHIP-8 guardados en tu dispositivo.\r\nImportar archivos sueltos o juegos dentro de un ZIP.\r\nJugar con un teclado de 16 teclas en pantalla.\r\nEscuchar los sonidos del juego.\r\nGuardar una partida y retomarla cargando su estado.\r\nProbar tus propios programas CHIP-8."
+      limitations: "Algunos juegos pueden presentar errores o no funcionar correctamente. Consulta las pruebas de cada título para saber qué se ha comprobado.\r\nLos programas pueden ocupar hasta 3584 bytes. Este límite se aplica al programa, no al ZIP que lo contiene."
       step_1_title: 'Revisa el alcance disponible'
       step_1_text: 'Consulta las limitaciones de esta ficha y comprueba que tu versión de Nelkano incluye este sistema.'
       step_2_title: 'Prepara tus archivos'
@@ -77,24 +77,27 @@ es:
         nes
       steps:
         -
-          title: 'Consigue un archivo CHIP-8 compatible'
-          description: 'Necesitas archivos .ch8 o .c8 que tengas derecho a utilizar: tus propios proyectos o software que sus autores hayan publicado con esa licencia.'
+          title: 'Guarda un juego en tu dispositivo'
+          description: 'Necesitas un archivo .ch8, .c8 o .chip8. Puedes usar un programa creado por ti o uno que su autor permita descargar y utilizar.'
         -
-          title: 'Abre Nelkano y añade el archivo'
-          description: 'Abre la app, toca el botón + y selecciona tu archivo desde la memoria del dispositivo.'
+          title: 'Añádelo a Nelkano'
+          description: 'Abre la biblioteca, pulsa + y selecciona el archivo. Nelkano lo añadirá a tu biblioteca y abrirá el juego.'
         -
           title: ¡Juega!
           description: 'El teclado virtual aparecerá en pantalla. Cada programa usa teclas distintas; consulta la documentación del programa si algo no responde como esperas.'
       faq:
         -
-          question: '¿Qué es exactamente CHIP-8? ¿Es una consola?'
-          answer: 'No exactamente. CHIP-8 es una especificación de máquina virtual, no un hardware físico. Eso permite que Nelkano lo interprete con gran fidelidad.'
+          question: '¿CHIP-8 es una consola?'
+          answer: 'No. Es un lenguaje pensado para crear juegos sencillos. Nelkano interpreta esos programas para que puedas ejecutarlos en Android.'
         -
-          question: '¿Funciona SUPER-CHIP?'
-          answer: 'El soporte de SUPER-CHIP es parcial. Algunos programas funcionan bien, pero los que usan instrucciones extendidas específicas pueden no comportarse como esperas.'
+          question: '¿Qué teclas tengo que usar?'
+          answer: 'Depende del juego. El teclado tiene 16 teclas, del 0 al 9 y de la A a la F, pero cada programa decide cuáles utiliza. Encontrarás los controles en las instrucciones del juego.'
         -
-          question: '¿Puedo cargar mis propios programas CHIP-8?'
-          answer: 'Sí. La especificación CHIP-8 es abierta y existen herramientas de desarrollo gratuitas. Una vez compilado el archivo, puedes cargarlo en Nelkano directamente.'
+          question: '¿Puedo abrir mis propios programas?'
+          answer: 'Sí. Una vez que hayas generado el archivo CHIP-8 de tu programa, añádelo desde el botón + de la biblioteca. Debe respetar el límite de 3584 bytes.'
+        -
+          question: '¿Puedo guardar la partida?'
+          answer: 'Sí. Puedes guardar el estado del juego y cargarlo después para continuar desde ese punto.'
     game-boy:
       enabled: true
       show_on_home: true
@@ -103,22 +106,14 @@ es:
       short_name: 'Game Boy / GBC'
       status: 'Muy estable'
       category: 'Para empezar'
-      summary: 'Dos consolas icónicas de Nintendo en un solo sistema. Compatibilidad robusta y experiencia fiel al original.'
-      tagline: 'El ladrillo que cambió los videojuegos portátiles para siempre.'
+      summary: 'Juega con controles táctiles o un mando y guarda la partida para continuar después.'
+      tagline: 'Disfruta de los juegos de Game Boy y Game Boy Color en tu Android.'
       manufacturer: Nintendo
       year: '1989 / 1998'
-      formats: |-
-        .gb
-        .gbc
-      overview: 'El Game Boy original llegó en 1989 y tardó casi una década en tener sucesor digno: el Game Boy Color (1998). Dos consolas con catálogos inmensos y una legión de fans. Nelkano los trata como un único sistema con compatibilidad entre ambas generaciones, igual que ocurría en el hardware original.'
-      features: |-
-        Cargar archivos .gb (Game Boy original) y .gbc (Game Boy Color)
-        Usar paletas de color personalizables para los juegos de Game Boy original en monocromo
-        Configurar controles táctiles en pantalla o conectar un mando Bluetooth
-        Usar save states para guardar el progreso en cualquier momento
-      limitations: |-
-        Algunos juegos con accesorios especiales (Cámara Game Boy, impresora) no tendrán soporte completo de periféricos
-        La conectividad multijugador por cable link no está disponible
+      formats: ".gb\r\n.gbc"
+      overview: 'Game Boy llegó en 1989 y Game Boy Color en 1998. Las dos portátiles de Nintendo reunieron juegos de aventura, plataformas, puzles y muchos otros géneros. Nelkano permite jugar a ambas y reconoce automáticamente qué sistema necesita cada juego.'
+      features: "Abrir juegos de Game Boy y Game Boy Color en archivos .gb y .gbc.\r\nJugar con los botones de la pantalla táctil o con un mando compatible con Android.\r\nMover, cambiar el tamaño y ocultar los botones de la pantalla.\r\nGuardar el estado de la partida y cargarlo después para continuar desde ese punto."
+      limitations: 'Algunos juegos pueden presentar errores. Consulta los resultados de las pruebas para conocer qué se ha comprobado en cada título.'
       step_1_title: 'Revisa el alcance disponible'
       step_1_text: 'Consulta las limitaciones de esta ficha y comprueba que tu versión de Nelkano incluye este sistema.'
       step_2_title: 'Prepara tus archivos'
@@ -137,28 +132,28 @@ es:
       status_note: ''
       image_uri: ''
       related_ids: |-
+        chip-8
         game-boy-advance
         nes
-        chip-8
       steps:
         -
-          title: 'Obtén archivos .gb o .gbc con derechos'
-          description: 'Puedes volcar tus propios cartuchos con hardware como el Epilogue GB Operator, o usar software homebrew que sus autores distribuyan libremente.'
+          title: 'Guarda un juego en tu dispositivo'
+          description: 'Necesitas un archivo .gb o .gbc.'
         -
-          title: 'Añade los archivos a Nelkano'
-          description: 'Abre la app, toca + y selecciona tus archivos desde la memoria interna o la tarjeta SD.'
+          title: 'Añade el juego a Nelkano'
+          description: 'Abre la biblioteca, pulsa + y selecciona el archivo. Nelkano lo añadirá a tu biblioteca y abrirá el juego. Tambien puedes importarlo comprimido en .zip o .rar'
         -
-          title: 'Personaliza los controles'
-          description: 'Ajusta la disposición táctil o conecta tu mando preferido en los ajustes de cada juego.'
+          title: 'Elige cómo jugar'
+          description: 'Usa los botones en pantalla o un mando compatible. Puedes ajustar la posición y el tamaño de los botones desde el editor de controles de Nelkano. Si usas un mando Bluetooth, emparéjalo primero desde los ajustes de Android.'
       faq:
         -
-          question: '¿Puedo usar archivos .gb en un perfil de Game Boy Color?'
-          answer: 'Sí. Nelkano gestiona la retrocompatibilidad igual que el hardware original: los juegos .gb funcionan en modo monocromo con paletas de color opcionales.'
+          question: '¿Tengo que elegir entre Game Boy y Game Boy Color?'
+          answer: 'No. Añade tu archivo .gb o .gbc y Nelkano detectará automáticamente qué sistema necesita el juego.'
         -
-          question: '¿Los save states funcionan con estos sistemas?'
-          answer: 'Sí, Game Boy y GBC tienen soporte de save states en Nelkano.'
+          question: '¿Puedo guardar la partida y continuar después?'
+          answer: 'Sí. Puedes guardar el estado de la partida y cargarlo después para volver al mismo punto. Esta opción también funciona en juegos que no tenían guardado en la consola original.'
     game-boy-color:
-      enabled: true
+      enabled: false
       show_on_home: false
       card_title: 'Game Boy Color'
       title: 'Game Boy Color'
@@ -219,21 +214,14 @@ es:
       short_name: GBA
       status: 'Jugable y en mejora'
       category: Avanzado
-      summary: 'Emulación con soporte opcional de BIOS propio. El catálogo 2D más rico de la historia portátil.'
+      summary: 'Juega con controles táctiles o un mando y guarda la partida para continuar después.'
       tagline: 'La bestia de 32 bits que cupo en tu bolsillo.'
       manufacturer: Nintendo
       year: '2001'
       formats: .gba
-      overview: 'El Game Boy Advance (2001) fue la última gran consola portátil de Nintendo antes de la era táctil. Su procesador ARM de 32 bits permitió juegos con gráficos cercanos a los de Super Nintendo, y su catálogo incluye algunos de los mejores RPG, plataformas y juegos de acción de la historia. Nelkano puede emularlo con buena compatibilidad, especialmente si proporcionas tu propio archivo BIOS obtenido legalmente.'
-      features: |-
-        Cargar archivos .gba desde tu biblioteca local
-        Usar save states para guardar el progreso en cualquier momento
-        Configurar controles táctiles o conectar un mando Bluetooth
-        Proporcionar tu propio archivo BIOS de GBA para máxima compatibilidad
-      limitations: |-
-        Sin BIOS propio, algunos juegos pueden presentar incompatibilidades o pantallas de inicio distintas
-        El BIOS de GBA debe obtenerse de forma legal (volcando tu propia consola)
-        La emulación del link cable para multijugador no está disponible
+      overview: 'Game Boy Advance es la portátil de 32 bits que Nintendo lanzó en 2001. Su catálogo reúne aventuras, juegos de plataformas, carreras y RPG. Con Nelkano puedes jugar en Android, adaptar los controles a tu gusto y guardar el estado de tus partidas.'
+      features: "Abrir juegos de Game Boy Advance en archivos .gba.\r\nJugar con los botones de la pantalla táctil o con un mando compatible con Android.\r\nMover, cambiar el tamaño y ocultar los botones de la pantalla.\r\nGuardar el estado de la partida y cargarlo después para continuar desde ese punto."
+      limitations: "Algunos juegos pueden presentar errores de imagen, sonido o funcionamiento.\r\nLa velocidad puede variar según el juego y el dispositivo. Consulta los resultados de las pruebas de cada título."
       step_1_title: 'Revisa el alcance disponible'
       step_1_text: 'Consulta las limitaciones de esta ficha y comprueba que tu versión de Nelkano incluye este sistema.'
       step_2_title: 'Prepara tus archivos'
@@ -256,24 +244,24 @@ es:
         nintendo-ds
       steps:
         -
-          title: 'Obtén tu archivo BIOS de GBA (opcional pero recomendado)'
-          description: 'Si tienes una GBA física, puedes volcar el BIOS con herramientas específicas. Nelkano funciona sin él, pero algunas demos de introducción y juegos específicos lo requieren.'
+          title: 'Guarda un juego en tu dispositivo'
+          description: 'Necesitas un archivo .gba que tengas permiso para utilizar. Puedes empezar con un juego gratuito que su autor haya publicado para Game Boy Advance.'
         -
-          title: 'Consigue archivos .gba con derechos'
-          description: 'Vuelca tus propios cartuchos con hardware como el Epilogue GB Operator o el GBxCart RW, o usa juegos homebrew que sus autores distribuyan libremente.'
+          title: 'Añade el juego a Nelkano'
+          description: 'Abre la biblioteca, pulsa + y selecciona el archivo .gba. Nelkano lo añadirá a tu biblioteca y abrirá el juego.'
         -
-          title: 'Configura Nelkano'
-          description: 'Si tienes el BIOS, indícale a Nelkano dónde está en los ajustes. Luego añade tus archivos .gba a la biblioteca.'
+          title: 'Elige cómo jugar'
+          description: 'Usa los botones en pantalla o un mando compatible. Puedes ajustar la posición y el tamaño de los botones desde el editor de controles de Nelkano. Si utilizas un mando Bluetooth, emparéjalo primero desde los ajustes de Android.'
       faq:
         -
-          question: '¿Es obligatorio tener el BIOS de GBA?'
-          answer: 'No es obligatorio, pero mejora la compatibilidad. Nelkano incluye un BIOS abierto de repuesto para los casos en que no lo tengas.'
+          question: '¿Qué archivos puedo abrir?'
+          answer: 'Puedes abrir juegos de Game Boy Advance en formato .gba. Añádelos desde el botón + de la biblioteca.'
         -
-          question: '¿Cómo obtengo el BIOS de forma legal?'
-          answer: 'La única forma legal es volcarlo de tu propia consola Game Boy Advance con hardware especializado.'
+          question: '¿Puedo jugar con un mando Bluetooth?'
+          answer: 'Sí. Emparéjalo con tu dispositivo Android y configura sus botones desde los ajustes de Nelkano.'
         -
-          question: '¿Los save states están disponibles en GBA?'
-          answer: 'Sí, los save states están disponibles para GBA en Nelkano.'
+          question: '¿Puedo guardar la partida y continuar después?'
+          answer: 'Sí. Puedes guardar el estado del juego y cargarlo después para volver al mismo punto, sin depender de los puntos de guardado del propio juego.'
     nes:
       enabled: true
       show_on_home: false
@@ -282,23 +270,14 @@ es:
       short_name: 'NES / Famicom'
       status: 'Jugable y muy avanzado'
       category: Avanzado
-      summary: 'La consola que resucitó la industria del videojuego. Muchos juegos arrancan y se pueden jugar, aunque puede haber problemas puntuales.'
-      tagline: 'Donde todo empezó. Los píxeles cuadrados que definieron una era.'
+      summary: 'Juega a NES, Famicom y Famicom Disk System con controles táctiles o un mando y guarda tus partidas.'
+      tagline: 'Vuelve a los clásicos de Nintendo y descubre sus juegos en cartucho y disco.'
       manufacturer: Nintendo
       year: '1983 – 1986'
-      formats: |-
-        .nes
-        .fds
-      overview: 'La NES (Nintendo Entertainment System) llegó a América en 1985, pero en Japón ya existía desde 1983 como Famicom. Junto con el Famicom Disk System (FDS, 1986), formaron el ecosistema que lanzó franquicias como Super Mario Bros, The Legend of Zelda y Mega Man. Nelkano soporta los tres, con amplia compatibilidad de mappers.'
-      features: |-
-        Cargar archivos .nes y .fds desde tu biblioteca
-        Jugar con la mayoría de mappers del catálogo oficial y homebrew
-        Usar controles táctiles o mando Bluetooth
-        Usar save states
-      limitations: |-
-        Algunos mappers poco comunes o no documentados pueden no funcionar correctamente
-        El Famicom Disk System requiere el archivo BIOS del FDS, que el usuario debe obtener legalmente
-        Los accesorios especiales como el Zapper tienen soporte limitado en pantallas táctiles modernas
+      formats: ".nes\r\n.fds"
+      overview: 'Famicom llegó a Japón en 1983 y NES se estrenó en Norteamérica en 1985. En 1986, Famicom Disk System añadió juegos en disco a la consola japonesa. En estas plataformas nacieron clásicos como Super Mario Bros., The Legend of Zelda y Metroid. Con Nelkano puedes jugar en Android, ajustar los controles y guardar el estado de tus partidas.'
+      features: "Abrir juegos de NES y Famicom en archivos .nes.\r\nAbrir juegos de Famicom Disk System en archivos .fds.\r\nJugar con los botones de la pantalla táctil o con un mando compatible con Android.\r\nMover y cambiar el tamaño de los botones de la pantalla.\r\nGuardar el estado de la partida y cargarlo después para continuar desde ese punto."
+      limitations: "Algunos juegos pueden no arrancar o presentar errores de imagen o funcionamiento.\r\nEn algunos juegos pueden faltar voces o efectos de sonido.\r\nLa velocidad puede variar según el juego y el dispositivo. Consulta los resultados de las pruebas de cada título."
       step_1_title: 'Revisa el alcance disponible'
       step_1_text: 'Consulta las limitaciones de esta ficha y comprueba que tu versión de Nelkano incluye este sistema.'
       step_2_title: 'Prepara tus archivos'
@@ -314,31 +293,31 @@ es:
       seo_title: 'Emulador NES y Famicom Android — Nelkano'
       seo_description: 'Juega a clásicos de NES y Famicom en Android con Nelkano. Soporte de la mayoría de mappers.'
       tier: experimental
-      status_note: 'Muchos juegos arrancan y son jugables, pero puede haber cierres inesperados, problemas gráficos o de audio en algunos títulos.'
+      status_note: 'Puedes jugar a títulos de NES, Famicom y Famicom Disk System, aunque algunos presentan errores de imagen, sonido o funcionamiento.'
       image_uri: ''
       related_ids: |-
         chip-8
-        master-system
         game-boy
+        master-system
       steps:
         -
-          title: 'Obtén tus archivos .nes con derechos'
-          description: 'Vuelca tus propios cartuchos o usa juegos homebrew que sus autores distribuyan libremente.'
+          title: 'Guarda un juego en tu dispositivo'
+          description: 'Necesitas un archivo .nes para juegos en cartucho o .fds para juegos de Famicom Disk System. Utiliza archivos que tengas permiso para usar, como juegos gratuitos publicados por sus autores.'
         -
-          title: 'Para el FDS, consigue el BIOS legalmente'
-          description: 'Si quieres jugar a juegos del Famicom Disk System, necesitas el archivo BIOS del FDS volcado de tu propio hardware.'
+          title: 'Añade el juego a Nelkano'
+          description: 'Abre la biblioteca, pulsa + y selecciona un archivo. Nelkano lo añadirá a tu biblioteca y abrirá el juego. Añade los juegos de uno en uno.'
         -
-          title: 'Añade a tu biblioteca y juega'
-          description: 'Abre Nelkano, toca + y añade tus archivos. La interfaz táctil reproduce los botones del mando original.'
+          title: 'Elige cómo jugar'
+          description: 'Usa los botones en pantalla o un mando compatible. Puedes ajustar la posición y el tamaño de los botones desde el editor de controles de Nelkano. Si utilizas un mando Bluetooth, emparéjalo desde los ajustes de Android y activa la pantalla completa para jugar.'
       faq:
         -
-          question: '¿Qué diferencia hay entre NES, Famicom y FDS?'
-          answer: 'NES y Famicom son esencialmente el mismo hardware con diseño distinto para mercados diferentes. El Famicom Disk System es un periférico que permitía jugar en discos magnéticos.'
+          question: '¿Qué diferencia hay entre NES, Famicom y Famicom Disk System?'
+          answer: 'Famicom es la consola que Nintendo lanzó en Japón. NES es su adaptación para otros mercados, con un diseño diferente. Famicom Disk System es un accesorio de la consola japonesa que permite utilizar juegos en disco en lugar de cartuchos.'
         -
-          question: '¿Necesito el BIOS del FDS para los juegos de NES?'
-          answer: 'No. El BIOS del FDS solo es necesario para los archivos .fds. Los juegos .nes normales no lo requieren.'
+          question: '¿Puedo guardar la partida y continuar después?'
+          answer: 'Sí. Puedes guardar el estado del juego y cargarlo después para volver al mismo punto. Esta opción también funciona en juegos que no tenían guardado en la consola original.'
     rpg-maker-mv-mz:
-      enabled: true
+      enabled: false
       show_on_home: false
       card_title: 'RPG Maker MV/MZ'
       title: 'RPG Maker MV/MZ'
@@ -392,7 +371,7 @@ es:
           question: '¿Puedo comunicar un problema?'
           answer: 'Sí. Indica la versión de Nelkano, el dispositivo, el sistema y los pasos para reproducirlo.'
     rpg-maker-2000-2003:
-      enabled: true
+      enabled: false
       show_on_home: false
       card_title: 'RPG Maker 2000/2003'
       title: 'RPG Maker 2000/2003'
@@ -453,20 +432,14 @@ es:
       short_name: NDS
       status: 'Experimental activo'
       category: 'En progreso'
-      summary: 'El core arranca y algunos juegos pueden llegar al menú o mostrar gráficos, pero el gameplay todavía no es funcional de forma general.'
-      tagline: 'Doble pantalla, un millón de historias. Core en desarrollo activo.'
+      summary: 'Juega a títulos compatibles de Nintendo DS con doble pantalla, controles táctiles y soporte para mandos. Compatibilidad experimental.'
+      tagline: 'Dos pantallas y una forma distinta de jugar.'
       manufacturer: Nintendo
       year: '2004'
       formats: .nds
-      overview: 'La Nintendo DS (2004) introdujo la doble pantalla y el control táctil en el mundo de las portátiles. Emularla en Android es un desafío técnico significativo: el sistema tiene dos CPUs, hardware específico para la doble pantalla y una pantalla táctil que hay que mapear a un dispositivo moderno. Nelkano está trabajando en ello de forma progresiva.'
-      features: |-
-        Cargar archivos .nds y ejecutar algunos títulos que llegan al menú o muestran gráficos
-        Probar el sistema y seguir su evolución con cada actualización
-      limitations: |-
-        El gameplay no es funcional de forma general en esta etapa
-        Muchos juegos tienen errores graves, problemas gráficos severos o no arrancan
-        Requiere hardware relativamente potente
-        Este sistema está en desarrollo activo; la compatibilidad mejora con cada actualización
+      overview: 'Nintendo DS es la portátil de Nintendo que combina dos pantallas, una de ellas táctil. Nelkano permite abrir juegos en formato .nds, mostrar ambas pantallas o elegir una de ellas y tocar la pantalla inferior para interactuar con el juego. Algunos títulos ya son jugables, aunque el funcionamiento y la fluidez varían según el juego y el dispositivo.'
+      features: "Añadir archivos .nds a tu biblioteca y abrir juegos compatibles.\r\nMostrar ambas pantallas o elegir solo la superior o la inferior.\r\nInteractuar con la pantalla táctil del juego desde tu dispositivo.\r\nUtilizar los botones en pantalla o un mando compatible con Android.\r\nGuardar y cargar estados de la partida desde Nelkano."
+      limitations: "Algunos juegos pueden bloquearse, mostrar errores gráficos o no iniciar correctamente.\r\nLa velocidad puede bajar en determinadas escenas, especialmente en algunas cinemáticas, y provocar cortes de sonido.\r\nLa respuesta táctil puede presentar problemas en algunos juegos.\r\nLa carga de partidas y estados guardados todavía puede fallar en determinados títulos o escenas."
       step_1_title: 'Revisa el alcance disponible'
       step_1_text: 'Consulta las limitaciones de esta ficha y comprueba que tu versión de Nelkano incluye este sistema.'
       step_2_title: 'Prepara tus archivos'
@@ -489,18 +462,27 @@ es:
         nintendo-3ds
       steps:
         -
-          title: 'Ten expectativas realistas'
-          description: 'El soporte NDS en Nelkano está en fase básica. Algunos juegos llegarán al menú; el gameplay general no está garantizado.'
+          title: 'Prepara tu juego'
+          description: 'Necesitas un archivo .nds que tengas permiso para utilizar, como un juego casero distribuido por su autor.'
         -
-          title: 'Obtén archivos .nds legalmente'
-          description: 'Vuelca tus propios cartuchos de NDS con hardware compatible.'
+          title: 'Añádelo a tu biblioteca'
+          description: 'Abre Nelkano, toca el botón + y selecciona el archivo .nds desde tu dispositivo. Cuando termine la importación, podrás abrirlo desde la biblioteca.'
+        -
+          title: 'Elige cómo ver las pantallas'
+          description: 'Durante la partida puedes seleccionar Ambas, Superior o Inferior. Con ambas visibles, las pantallas se colocan una encima de otra en vertical y una junto a otra en horizontal. Toca la pantalla inferior del juego para utilizar sus controles táctiles.'
       faq:
         -
-          question: '¿Cuándo tendrá soporte completo la NDS?'
-          answer: 'No podemos dar una fecha. La emulación de NDS es compleja y el equipo trabaja en ello de forma progresiva.'
+          question: '¿Funcionan todos los juegos de Nintendo DS?'
+          answer: 'No. Algunos títulos ya permiten jugar, mientras que otros presentan errores o no arrancan. La compatibilidad también puede variar entre distintas partes de un mismo juego.'
         -
-          question: '¿Necesito firmware de la NDS?'
-          answer: 'Dependiendo de la configuración, puede ser necesario el firmware de la NDS obtenido legalmente de tu propia consola.'
+          question: '¿Cómo utilizo la pantalla táctil?'
+          answer: 'Toca directamente la pantalla inferior del juego. Debes tener seleccionado el modo Ambas o Inferior para verla y utilizarla.'
+        -
+          question: '¿Puedo guardar la partida?'
+          answer: 'Sí. Nelkano permite conservar los guardados del propio juego y crear estados para retomarlos después. Todavía hay problemas de guardado o recuperación en determinados títulos, por lo que su funcionamiento no es igual en todos los juegos.'
+        -
+          question: '¿Por qué algunas escenas van más lentas?'
+          answer: 'El rendimiento depende del juego, de la escena y del dispositivo. Algunas cinemáticas pueden ir más lentas aunque otras partes del juego funcionen con fluidez.'
     master-system:
       enabled: true
       show_on_home: false
@@ -509,22 +491,14 @@ es:
       short_name: 'Master System / GG'
       status: 'Jugable y en mejora'
       category: Avanzado
-      summary: 'Dos plataformas de Sega que conviven en Nelkano. Muchos juegos son jugables aunque puede haber problemas puntuales.'
+      summary: 'Juega a títulos compatibles de Master System y Game Gear con controles táctiles o un mando, y guarda la partida para continuar después.'
       tagline: 'La respuesta de Sega a Nintendo. Potente y con personalidad.'
       manufacturer: Sega
       year: '1986 / 1990'
-      formats: |-
-        .sms
-        .gg
+      formats: ".sms\r\n.gg"
       overview: 'La Sega Master System (1986) fue la respuesta de Sega a la NES, con hardware algo más potente y un enorme éxito en Europa y Brasil. La Game Gear (1990) fue su versión portátil, con pantalla a color cuando el Game Boy todavía era monocromo. Nelkano los trata como un sistema unificado.'
-      features: |-
-        Cargar archivos .sms (Master System) y .gg (Game Gear)
-        Usar controles táctiles o mando Bluetooth
-        Usar save states
-        Disfrutar del catálogo europeo y brasileño de Master System
-      limitations: |-
-        Algunos juegos que usan la expansión de sonido FM de la versión japonesa pueden sonar diferente
-        Juegos con accesorios especiales como el Paddle Control tienen soporte limitado
+      features: "Cargar juegos de Master System en formato .sms y de Game Gear en formato .gg.\r\nJugar con controles táctiles o con un mando compatible con Android.\r\nGuardar y cargar estados para retomar la partida.\r\nConservar las partidas de los juegos que incluyen guardado."
+      limitations: 'La compatibilidad no abarca todo el catálogo: algunos títulos pueden presentar fallos gráficos, problemas de sonido o bloqueos.'
       step_1_title: 'Revisa el alcance disponible'
       step_1_text: 'Consulta las limitaciones de esta ficha y comprueba que tu versión de Nelkano incluye este sistema.'
       step_2_title: 'Prepara tus archivos'
@@ -540,26 +514,32 @@ es:
       seo_title: 'Emulador Master System y Game Gear Android — Nelkano'
       seo_description: 'Emula Master System y Game Gear en Android con Nelkano. Archivos .sms y .gg, controles táctiles y save states.'
       tier: experimental
-      status_note: 'Muchos juegos arrancan y se pueden jugar, pero puede haber cierres inesperados o problemas gráficos en algunos títulos.'
+      status_note: 'Ambos sistemas permiten jugar a títulos compatibles. Algunos juegos pueden presentar errores gráficos, de sonido o de funcionamiento.'
       image_uri: ''
       related_ids: |-
-        mega-drive
-        nes
         game-boy
+        nes
+        mega-drive
       steps:
         -
-          title: 'Obtén archivos .sms o .gg con derechos'
-          description: 'Vuelca tus propios cartuchos con hardware compatible o usa homebrew que sus autores distribuyan libremente.'
+          title: 'Prepara tu juego'
+          description: 'Necesitas un archivo .sms de Master System o .gg de Game Gear que tengas permiso para utilizar, como un juego casero distribuido por su autor.'
         -
-          title: 'Añádelos a Nelkano'
-          description: 'Toca + en la app y selecciona el archivo. Nelkano detecta automáticamente si es Master System o Game Gear.'
+          title: 'Añádelo a Nelkano'
+          description: 'Abre la biblioteca, toca el botón + y selecciona el archivo del juego. Nelkano identifica el sistema y lo añade a tu biblioteca.'
+        -
+          title: 'Abre el juego y empieza a jugar'
+          description: 'Selecciona el juego en tu biblioteca. Puedes utilizar los botones en pantalla o un mando compatible con Android. Los controles incluyen los botones 1 y 2, además de Pause en Master System o Start en Game Gear.'
       faq:
         -
-          question: '¿Hay diferencia entre los juegos europeos y japoneses de Master System?'
-          answer: 'Algunos juegos japoneses usaban la expansión FM para música mejorada. Nelkano puede reproducir el sonido FM en esos casos.'
+          question: '¿Qué archivo corresponde a cada consola?'
+          answer: 'Los archivos .sms corresponden a Master System y los archivos .gg a Game Gear. Nelkano los identifica al importarlos y mantiene separados los controles y guardados de cada sistema.'
         -
-          question: '¿Los save states funcionan?'
-          answer: 'Sí, ambos sistemas tienen soporte de save states en Nelkano.'
+          question: '¿Puedo guardar la partida aunque el juego original no lo permita?'
+          answer: 'Sí. Los estados guardados de Nelkano permiten guardar y recuperar la partida en ambos sistemas, aunque el juego original no tenga una opción de guardado.'
+        -
+          question: '¿Funcionan todos los juegos?'
+          answer: 'No. Hay juegos compatibles y otros que todavía presentan problemas. Que un título arranque no garantiza que funcione correctamente durante toda la partida.'
     mega-drive:
       enabled: true
       show_on_home: true
@@ -568,24 +548,14 @@ es:
       short_name: 'Mega Drive'
       status: 'Jugable y en mejora'
       category: Avanzado
-      summary: 'La consola de los 16 bits de Sega. Soporte robusto del catálogo principal con el sonido YM2612 inconfundible.'
-      tagline: '16 bits de potencia. Sonic, Streets of Rage, Mortal Kombat.'
+      summary: 'Juega a títulos compatibles de Mega Drive con controles táctiles o un mando. Guarda la partida desde Nelkano y continúa después.'
+      tagline: 'La consola de 16 bits de Sega, en tu Android.'
       manufacturer: Sega
       year: '1988'
-      formats: |-
-        .md
-        .bin
-        .gen
-      overview: 'La Mega Drive (lanzada en 1988 en Japón, conocida como Sega Genesis en América) fue la gran rival de Super Nintendo en la guerra de los 16 bits. Con un procesador Motorola 68000 y el chip de sonido YM2612 de sonido inconfundible, albergó algunas de las mejores sagas de acción, plataformas y lucha de los años 90.'
-      features: |-
-        Cargar archivos .md, .bin y .gen
-        Jugar a la mayoría del catálogo oficial con buena compatibilidad
-        Usar mando de 3 o 6 botones (compatible con mandos Bluetooth modernos)
-        Usar save states
-      limitations: |-
-        El add-on 32X tiene soporte muy limitado
-        El Sega CD puede estar con soporte parcial; consulta las notas de la versión actual
-        Algunos juegos con chips de sonido especiales (como el SVP en Virtua Racing) pueden no funcionar correctamente
+      formats: ".md\r\n.bin\r\n.gen"
+      overview: 'Mega Drive, conocida como Genesis en Norteamérica, es la consola de 16 bits de Sega. Nelkano permite cargar sus juegos de cartucho y utilizar los controles del mando de tres botones: A, B, C y Start. Incluye sonido y estados guardados, aunque algunos títulos todavía presentan problemas.'
+      features: "Cargar juegos de Mega Drive en formato .md, .bin y .gen.\r\nJugar con controles táctiles o con un mando compatible con Android.\r\nUtilizar los controles de tres botones: A, B, C y Start.\r\nGuardar y cargar estados para retomar la partida.\r\nConservar las partidas de los juegos que incluyen guardado compatible."
+      limitations: "Algunos juegos pueden presentar errores gráficos o problemas de funcionamiento.\r\nLa música y los efectos de sonido todavía pueden diferir de la consola original."
       step_1_title: 'Revisa el alcance disponible'
       step_1_text: 'Consulta las limitaciones de esta ficha y comprueba que tu versión de Nelkano incluye este sistema.'
       step_2_title: 'Prepara tus archivos'
@@ -604,28 +574,34 @@ es:
       status_note: ''
       image_uri: ''
       related_ids: |-
-        master-system
         nes
+        master-system
         neo-geo-pocket
       steps:
         -
-          title: 'Obtén tus archivos de Mega Drive con derechos'
-          description: 'Vuelca tus propios cartuchos o usa homebrew que sus autores distribuyan libremente. Los archivos .md, .bin o .gen son los formatos más comunes.'
+          title: 'Prepara tu juego'
+          description: 'Necesitas un archivo .md, .bin o .gen de Mega Drive que tengas permiso para utilizar, como un juego casero distribuido por su autor.'
         -
-          title: 'Añádelos a la biblioteca de Nelkano'
-          description: 'Toca + y selecciona los archivos. Nelkano los reconoce por su encabezado interno, no solo por la extensión.'
+          title: 'Añádelo a Nelkano'
+          description: 'Abre la biblioteca, toca el botón + y selecciona el archivo del juego. Cuando termine la importación, podrás abrirlo desde la biblioteca.'
         -
-          title: 'Configura el mando'
-          description: 'La Mega Drive usa mandos de 3 y 6 botones. Para una experiencia más auténtica, conecta un mando Bluetooth.'
+          title: 'Elige cómo jugar'
+          description: 'Utiliza la cruceta y los botones A, B, C y Start de la pantalla, o conecta un mando compatible con Android.'
       faq:
         -
-          question: '¿Mega Drive y Sega Genesis son lo mismo?'
-          answer: 'Esencialmente sí. Sega Genesis fue el nombre comercial en América del Norte. Los archivos son compatibles entre sí.'
+          question: '¿Mega Drive y Genesis son la misma consola?'
+          answer: 'Sí. Genesis es el nombre con el que se comercializó Mega Drive en Norteamérica. Los juegos de ambas se reúnen en este sistema dentro de Nelkano.'
         -
-          question: '¿Los save states están disponibles?'
-          answer: 'Sí, Mega Drive tiene soporte de save states en Nelkano.'
+          question: '¿Puedo guardar aunque el juego original no lo permita?'
+          answer: 'Sí. Los estados guardados de Nelkano permiten guardar y recuperar la partida aunque el juego original no tenga una opción de guardado.'
+        -
+          question: '¿Qué controles están disponibles?'
+          answer: 'La cruceta y los botones A, B, C y Start del mando de tres botones. Puedes utilizarlos desde la pantalla o mediante un mando compatible con Android.'
+        -
+          question: '¿Funcionan todos los juegos?'
+          answer: 'No. Hay títulos que todavía presentan problemas gráficos, de sonido o de funcionamiento. La compatibilidad depende de cada juego.'
     snes:
-      enabled: true
+      enabled: false
       show_on_home: false
       card_title: 'Super Nintendo / Super Famicom'
       title: 'Super Nintendo / Super Famicom'
@@ -686,22 +662,14 @@ es:
       short_name: NGPC
       status: 'Jugable y en mejora'
       category: Avanzado
-      summary: 'La portátil de SNK con su icónico stick y catálogo de lucha. Muchos títulos son jugables, con problemas puntuales.'
-      tagline: 'El joystick clicker que nunca envejeció. La portátil de culto de SNK.'
+      summary: 'Juega a títulos compatibles de Neo Geo Pocket y Neo Geo Pocket Color con controles táctiles o un mando, y guarda la partida para continuar después.'
+      tagline: 'Las portátiles de SNK, en tu Android.'
       manufacturer: SNK
       year: '1998 / 1999'
-      formats: |-
-        .ngp
-        .ngc
+      formats: ".ngp\r\n.ngc"
       overview: 'La Neo Geo Pocket Color (1999) fue la respuesta portátil de SNK a la Game Boy Color. Aunque tuvo una vida comercial corta, se ganó el amor de la comunidad retro gracias a su micro joystick táctil (el clicker), su catálogo de juegos de lucha y acción, y una calidad de construcción excepcional.'
-      features: |-
-        Cargar archivos .ngp (Neo Geo Pocket original) y .ngc (Neo Geo Pocket Color)
-        Disfrutar del catálogo de lucha con buena compatibilidad
-        Mapear el joystick a la pantalla táctil o usar un mando Bluetooth
-        Usar save states
-      limitations: |-
-        La sensación del "clicker" original no se puede reproducir en pantalla táctil, pero el control digital funciona bien
-        El catálogo total es reducido (~82 juegos); la cobertura es casi completa
+      features: "Cargar archivos .ngp de Neo Geo Pocket y .ngc de Neo Geo Pocket Color.\r\nJugar con controles táctiles o con un mando compatible con Android.\r\nUtilizar la cruceta y los botones A, B y Option.\r\nGuardar y cargar estados en ambos modelos.\r\nConservar las partidas de los juegos que incluyen guardado compatible."
+      limitations: "Algunos juegos pueden arrancar y reproducir sonido, pero mostrar gráficos incorrectos.\r\nLa compatibilidad no está comprobada para todo el catálogo ni para todas las partes de cada juego."
       step_1_title: 'Revisa el alcance disponible'
       step_1_text: 'Consulta las limitaciones de esta ficha y comprueba que tu versión de Nelkano incluye este sistema.'
       step_2_title: 'Prepara tus archivos'
@@ -716,8 +684,8 @@ es:
       faq_3_answer: 'Sí. Indica la versión de Nelkano, el dispositivo, el sistema y los pasos para reproducirlo.'
       seo_title: 'Emulador Neo Geo Pocket Color Android — Nelkano'
       seo_description: 'Emula Neo Geo Pocket y Neo Geo Pocket Color en Android con Nelkano. Catálogo de lucha y acción de SNK.'
-      tier: experimental
-      status_note: 'Muchos juegos arrancan y se pueden jugar, pero puede haber cierres inesperados o problemas en algunos títulos.'
+      tier: jugable
+      status_note: 'Ambos modelos permiten jugar a títulos compatibles. Algunos juegos todavía presentan errores gráficos o problemas de funcionamiento.'
       image_uri: ''
       related_ids: |-
         game-boy
@@ -725,18 +693,24 @@ es:
         mega-drive
       steps:
         -
-          title: 'Obtén tus archivos .ngp o .ngc con derechos'
-          description: 'Vuelca tus propios cartuchos de Neo Geo Pocket o usa homebrew que sus autores distribuyan libremente.'
+          title: 'Prepara tu juego'
+          description: 'Necesitas un archivo .ngp o .ngc que tengas permiso para utilizar. Conserva su extensión original: Nelkano utiliza .ngp para el modelo monocromo y .ngc para el modelo en color.'
         -
-          title: 'Carga en Nelkano'
-          description: 'Añade los archivos a tu biblioteca. Nelkano detecta automáticamente si es NGP original o NGPC en color.'
+          title: 'Añádelo a Nelkano'
+          description: 'Abre la biblioteca, toca el botón + y selecciona el archivo del juego. Cuando termine la importación, podrás abrirlo desde la biblioteca.'
+        -
+          title: 'Empieza a jugar'
+          description: 'Selecciona el juego y utiliza la cruceta y los botones A, B y Option de la pantalla. También puedes utilizar un mando compatible con Android.'
       faq:
         -
-          question: '¿Es muy diferente el NGP original del NGPC?'
-          answer: 'El hardware es casi idéntico; la principal diferencia es la pantalla a color del NGPC. Los juegos NGP funcionan en NGPC en escala de grises.'
+          question: '¿Qué diferencia hay entre los dos modelos?'
+          answer: 'Los archivos .ngp se abren en modo monocromo y los archivos .ngc en modo color. Ambos utilizan los mismos controles.'
         -
-          question: '¿Los save states están disponibles?'
-          answer: 'Sí, NGPC tiene soporte de save states en Nelkano.'
+          question: '¿Puedo guardar la partida en ambos modelos?'
+          answer: 'Sí. Nelkano permite guardar y cargar estados tanto en Neo Geo Pocket como en Neo Geo Pocket Color. Cada estado corresponde al juego y al modelo con el que se creó.'
+        -
+          question: '¿Funcionan todos los juegos?'
+          answer: 'No. Algunos títulos todavía presentan errores, especialmente gráficos. Que un juego arranque o tenga sonido no garantiza que funcione correctamente durante toda la partida.'
     playstation:
       enabled: true
       show_on_home: true
@@ -745,23 +719,14 @@ es:
       short_name: PS1
       status: Experimental
       category: 'En progreso'
-      summary: 'Muchos juegos arrancan y se pueden jugar, pero puede haber cierres inesperados, problemas gráficos o de audio en algunos títulos.'
-      tagline: 'La revolución de los polígonos. La consola que cambió la industria.'
+      summary: 'Abre juegos compatibles de PlayStation con controles táctiles o un mando. Incluye tarjetas de memoria virtuales y estados guardados.'
+      tagline: 'La primera PlayStation, en tu Android.'
       manufacturer: Sony
       year: '1994'
-      formats: |-
-        .bin/.cue
-        .iso
-        .pbp
+      formats: '.cue + .bin'
       overview: 'La PlayStation original (1994) introdujo los polígonos 3D al público masivo y catapultó a Sony al liderazgo del mercado. Emularla requiere un hardware moderadamente potente debido a su arquitectura de CPU MIPS R3000A y los co-procesadores GTE y MDEC para gráficos y vídeo.'
-      features: |-
-        Cargar imágenes de disco .bin/.cue o .iso de juegos que tengas derecho a usar
-        Usar controles táctiles o un mando Bluetooth
-        Usar save states
-      limitations: |-
-        Requiere hardware Android moderadamente potente para un rendimiento adecuado
-        Algunos juegos pueden presentar problemas gráficos, de audio o cierres inesperados
-        Los juegos multidisco pueden requerir pasos adicionales para el cambio de disco
+      features: "Importar un disco mediante su archivo CUE y todas las pistas que lo acompañan.\r\nImportar discos completos desde archivos ZIP, RAR o 7z que contengan el CUE y sus pistas.\r\nJugar con controles táctiles o con un mando compatible con Android.\r\nGuardar desde el propio juego mediante tarjetas de memoria virtuales.\r\nCrear y cargar estados para retomar la partida."
+      limitations: "Algunos juegos pueden presentar errores gráficos, problemas de sonido o bloqueos.\r\nLa velocidad depende del juego y del dispositivo; no todos los títulos mantienen una ejecución fluida.\r\nEn móviles y tabletas, el sistema requiere una versión de Android de 64 bits para procesadores ARM."
       step_1_title: 'Revisa el alcance disponible'
       step_1_text: 'Consulta las limitaciones de esta ficha y comprueba que tu versión de Nelkano incluye este sistema.'
       step_2_title: 'Prepara tus archivos'
@@ -776,52 +741,51 @@ es:
       faq_3_answer: 'Sí. Indica la versión de Nelkano, el dispositivo, el sistema y los pasos para reproducirlo.'
       seo_title: 'Emulador PlayStation (PS1) Android — Nelkano'
       seo_description: 'Emula PlayStation en Android con Nelkano. Archivos .bin/.cue e .iso. Soporte experimental en desarrollo activo.'
-      tier: experimental
-      status_note: 'Muchos juegos arrancan y son jugables, pero puede haber cierres inesperados, problemas gráficos o de audio en algunos títulos.'
+      tier: basico
+      status_note: 'Algunos juegos ya permiten jugar, pero la compatibilidad sigue en desarrollo. Puede haber errores gráficos, problemas de sonido, ralentizaciones o bloqueos según el título.'
       image_uri: ''
       related_ids: |-
-        nintendo-ds
         game-boy-advance
+        nintendo-ds
       steps:
         -
-          title: 'Obtén imágenes de disco legalmente'
-          description: 'Vuelca tus propios discos de PS1 con herramientas como ImgBurn o similares. Solo son válidos los discos que sean de tu propiedad.'
+          title: 'Prepara el disco completo'
+          description: 'Necesitas una imagen de un juego que tengas permiso para utilizar. Conserva el archivo CUE junto con todos los archivos BIN que menciona, sin cambiar sus nombres.'
         -
           title: 'Añade a Nelkano'
-          description: 'Importa el archivo .bin/.cue o .iso. Para juegos multidisco, importa todos los archivos del mismo juego.'
+          description: 'Abre la biblioteca, toca el botón + y selecciona a la vez un archivo CUE y todas sus pistas. También puedes seleccionar un ZIP, RAR o 7z que contenga el disco completo.'
+        -
+          title: 'Abre el juego'
+          description: 'Cuando termine la importación, abre el juego desde la biblioteca. Puedes utilizar los botones en pantalla o un mando compatible con Android.'
       faq:
         -
-          question: '¿Necesito el BIOS de PS1?'
-          answer: 'Dependiendo de la configuración, puede ser necesario el BIOS de PS1 obtenido legalmente de tu propia consola para algunos juegos.'
+          question: '¿Qué archivos tengo que seleccionar?'
+          answer: 'Un archivo CUE y todas las pistas que indica, normalmente archivos BIN. El CUE describe cómo está organizado el disco y debe acompañar a sus pistas.'
         -
-          question: '¿Los save states están disponibles?'
-          answer: 'Sí, PS1 tiene soporte de save states en Nelkano.'
+          question: '¿Puedo importar el juego comprimido?'
+          answer: 'Sí. Puedes añadir un ZIP, RAR o 7z que contenga el CUE y todas sus pistas. Nelkano extrae los archivos durante la importación.'
+        -
+          question: '¿Cómo guardo la partida?'
+          answer: 'Puedes utilizar la opción de guardar del propio juego, que escribe en una tarjeta de memoria virtual, o crear un estado desde Nelkano. Son dos formas de guardado diferentes.'
+        -
+          question: '¿Funcionan todos los juegos de PlayStation?'
+          answer: 'No. Algunos títulos ya permiten jugar, mientras que otros todavía presentan errores. Que un juego muestre la introducción o el menú no garantiza que toda la partida funcione correctamente.'
     rpg-maker:
       enabled: true
       show_on_home: false
-      card_title: 'RPG Maker (RGSS)'
-      title: 'RPG Maker (RGSS)'
+      card_title: 'RPG Maker'
+      title: 'RPG Maker'
       short_name: 'RPG Maker'
       status: Experimental
       category: 'En progreso'
-      summary: 'Nelkano ejecuta juegos de RPG Maker XP, VX y VX Ace mediante su propio motor nativo basado en CRuby y RGSS. Muchos proyectos son jugables, con variaciones por título.'
-      tagline: 'El motor indie de miles de historias. Soporte nativo con CRuby y RGSS.'
-      manufacturer: 'Enterbrain / Kadokawa'
-      year: '2004 – 2012'
-      formats: |-
-        .rxdata
-        .rvdata
-        .rvdata2
-        carpeta de proyecto
-      overview: 'Nelkano incluye un motor propio construido sobre CRuby y RGSS (Ruby Game Scripting System) para ejecutar proyectos de RPG Maker nativos en Android. RGSS es el sistema de scripting utilizado en RPG Maker XP (RGSS1), RPG Maker VX (RGSS2) y RPG Maker VX Ace (RGSS3). A diferencia de otros sistemas de Nelkano, aquí no se emula hardware: se ejecuta el propio motor del juego sobre una implementación nativa de RGSS en Android.'
-      features: |-
-        Ejecutar proyectos creados con RPG Maker XP, VX y VX Ace
-        Disfrutar de juegos indie hechos con estas versiones si tienes sus archivos
-        Usar controles táctiles adaptados para menús RPG o conectar un mando
-      limitations: |-
-        Solo RPG Maker XP, VX y VX Ace (versiones RGSS): RPG Maker MV, MZ y otros NO están soportados
-        Algunos proyectos con scripts RGSS muy modificados o no estándar pueden no ser compatibles
-        La compatibilidad varía proyecto a proyecto
+      summary: 'Abre juegos compatibles de RPG Maker XP, MV y MZ, añádelos a tu biblioteca y juega con controles táctiles o con un mando.'
+      tagline: 'Tus juegos de RPG Maker, también en Android.'
+      manufacturer: 'Enterbrain / KADOKAWA / Gotcha Gotcha Games'
+      year: '2004 / 2015 / 2020'
+      formats: ".zip\r\n.rar\r\n.7z"
+      overview: 'RPG Maker es una familia de herramientas para crear juegos, especialmente aventuras y juegos de rol. Nelkano permite abrir juegos compatibles creados con XP, MV y MZ desde sus archivos completos. La compatibilidad sigue en desarrollo y puede variar entre juegos, incluso si utilizan la misma versión de RPG Maker.'
+      features: "Importar juegos completos desde archivos ZIP, RAR o 7z.\r\nAbrir juegos compatibles de RPG Maker XP, MV y MZ desde tu biblioteca.\r\nUsar controles táctiles o un mando compatible con Android.\r\nProbar tus propios juegos exportados con estas versiones.\r\nGuardar y cargar estados en juegos compatibles de RPG Maker XP."
+      limitations: "Algunos juegos pueden fallar al iniciar o durante la partida por los scripts o complementos que utilizan.\r\nEl juego debe incluir sus archivos de datos, imágenes, sonidos y demás recursos necesarios.\r\nLos estados guardados de Nelkano tienen limitaciones según el juego y no ofrecen la misma compatibilidad en XP, MV y MZ."
       step_1_title: 'Revisa el alcance disponible'
       step_1_text: 'Consulta las limitaciones de esta ficha y comprueba que tu versión de Nelkano incluye este sistema.'
       step_2_title: 'Prepara tus archivos'
@@ -837,31 +801,34 @@ es:
       seo_title: 'RPG Maker XP/VX/VX Ace en Nelkano — motor RGSS propio'
       seo_description: 'Nelkano ejecuta proyectos de RPG Maker XP, VX y VX Ace mediante su propio motor en CRuby y RGSS.'
       tier: experimental
-      status_note: 'Muchos proyectos arrancan y son jugables, pero puede haber cierres inesperados o problemas en proyectos con scripts muy modificados.'
+      status_note: 'Compatibilidad experimental con juegos de RPG Maker XP, MV y MZ. El funcionamiento depende de cada juego y de los complementos que utilice.'
       image_uri: ''
       related_ids: |-
         chip-8
         nes
       steps:
         -
-          title: 'Verifica la versión de RPG Maker'
-          description: 'El proyecto debe estar hecho con RPG Maker XP, VX o VX Ace. Las versiones MV y MZ usan un motor JavaScript completamente distinto y no están soportadas.'
+          title: 'Prepara el juego completo'
+          description: 'Necesitas un juego de RPG Maker XP, MV o MZ que tengas permiso para utilizar. Conserva todas sus carpetas y archivos dentro de un ZIP, RAR o 7z. No basta con añadir el ejecutable o un archivo de datos suelto.'
         -
-          title: 'Ten los archivos del proyecto completo'
-          description: 'Necesitas la carpeta completa del proyecto con todos sus archivos de datos.'
+          title: 'Añádelo a Nelkano'
+          description: 'Abre la biblioteca, toca el botón + y selecciona el archivo comprimido del juego. Espera a que termine la importación.'
         -
-          title: 'Carga en Nelkano'
-          description: 'Añade la carpeta del proyecto a tu biblioteca y Nelkano intentará ejecutarlo con su motor RGSS nativo.'
+          title: 'Abre el juego'
+          description: 'Selecciona el juego en tu biblioteca. Puedes utilizar los controles táctiles o un mando compatible con Android. Los botones y las acciones disponibles dependen del juego.'
       faq:
         -
-          question: '¿Funciona con RPG Maker MV o MZ?'
-          answer: 'No. RPG Maker MV y MZ usan un motor basado en JavaScript completamente diferente al RGSS de las versiones anteriores.'
+          question: '¿Qué versiones de RPG Maker puedo utilizar?'
+          answer: 'Nelkano cuenta con compatibilidad experimental para juegos de RPG Maker XP, MV y MZ. Que un juego esté creado con una de estas versiones no garantiza que todas sus funciones estén disponibles.'
         -
-          question: '¿Qué es RGSS?'
-          answer: 'RGSS (Ruby Game Scripting System) es el sistema de scripting en Ruby integrado en RPG Maker XP, VX y VX Ace. Nelkano implementa este sistema de forma nativa usando CRuby.'
+          question: '¿Qué archivos tengo que añadir?'
+          answer: 'Un ZIP, RAR o 7z que contenga el juego completo, con sus carpetas y recursos. Para MV y MZ también debe incluir el archivo index.html que acompaña al juego.'
         -
-          question: '¿Puedo probar mis propios proyectos de RPG Maker XP/VX/VXAce?'
-          answer: 'Sí, si los hiciste con alguna de esas versiones y tienes los archivos completos del proyecto.'
+          question: '¿Puedo guardar la partida desde Nelkano?'
+          answer: 'Los juegos compatibles de RPG Maker XP permiten guardar y cargar estados, aunque puede haber momentos en los que el guardado no esté disponible. En MV y MZ, esta función todavía tiene limitaciones.'
+        -
+          question: '¿Puedo probar un juego que he creado?'
+          answer: 'Sí. Exporta el juego con XP, MV o MZ, incluye todos los recursos necesarios y añade el archivo comprimido a Nelkano.'
     nintendo-3ds:
       enabled: true
       show_on_home: true
@@ -870,23 +837,14 @@ es:
       short_name: 3DS
       status: Experimental
       category: 'En progreso'
-      summary: 'El core arranca y algunos juegos pueden mostrar gráficos, pero el gameplay todavía no es funcional de forma general.'
-      tagline: '3D sin gafas y un catálogo enorme. Core en las primeras fases.'
+      summary: 'Compatibilidad experimental con Nintendo 3DS, doble pantalla, controles táctiles y estados guardados. El funcionamiento y la velocidad dependen de cada juego y dispositivo.'
+      tagline: 'Explora el catálogo de Nintendo 3DS en Android.'
       manufacturer: Nintendo
       year: '2011'
-      formats: |-
-        .3ds
-        .cia
-        .cci
+      formats: ".3ds\r\n.cci\r\n.cia\r\n.3dz\r\n.cxi\r\n.ncch\r\n.3dsx"
       overview: 'La Nintendo 3DS (2011) es la sucesora de la NDS con pantalla 3D sin gafas, cámara y un catálogo extensísimo. Emularla en Android es uno de los retos más complejos que afronta Nelkano: su arquitectura ARM11 a doble núcleo, los múltiples coprocesadores y el hardware gráfico específico hacen que el desarrollo sea largo. El core está en sus primeras fases.'
-      features: |-
-        Cargar archivos .3ds o .cia y ver hasta dónde llega la ejecución
-        Seguir el desarrollo del core con cada actualización de Nelkano
-      limitations: |-
-        El gameplay no es funcional de forma general en esta etapa
-        La mayoría de juegos tienen errores graves o no pasan de la pantalla de inicio
-        Requiere hardware potente
-        Este sistema está en desarrollo muy activo
+      features: "Importar juegos y aplicaciones de 3DS en los formatos admitidos.\r\nMostrar ambas pantallas o elegir solo la superior o la inferior.\r\nUtilizar los controles en pantalla o un mando compatible con Android.\r\nInteractuar con la pantalla táctil inferior.\r\nGuardar y cargar estados en las situaciones compatibles."
+      limitations: "Algunos títulos no arrancan, se quedan en negro o se bloquean durante la ejecución.\r\nPueden aparecer errores gráficos y problemas de sonido.\r\nLa velocidad puede ser insuficiente para jugar con fluidez, incluso en dispositivos potentes.\r\nLos estados guardados todavía tienen limitaciones según el juego y la situación.\r\nLa ejecución gráfica requiere compatibilidad con Vulkan."
       step_1_title: 'Revisa el alcance disponible'
       step_1_text: 'Consulta las limitaciones de esta ficha y comprueba que tu versión de Nelkano incluye este sistema.'
       step_2_title: 'Prepara tus archivos'
@@ -902,22 +860,34 @@ es:
       seo_title: 'Emulador Nintendo 3DS Android (básico) — Nelkano'
       seo_description: 'Nelkano incluye soporte básico para Nintendo 3DS. El core está en las primeras fases de desarrollo.'
       tier: basico
-      status_note: 'El core arranca y algunos juegos pueden llegar al menú o mostrar gráficos, pero el gameplay todavía no es funcional o existen errores graves.'
+      status_note: 'Algunos títulos permiten avanzar por menús y escenas interactivas. La compatibilidad sigue en desarrollo y puede haber pantallas negras, errores gráficos, bloqueos y ralentizaciones importantes.'
       image_uri: ''
       related_ids: |-
-        nintendo-ds
         game-boy-advance
+        nintendo-ds
       steps:
         -
-          title: 'Ten expectativas muy realistas'
-          description: 'El soporte 3DS está en fase básica inicial. No esperes poder jugar títulos completos todavía.'
+          title: 'Añade los archivos de sistema'
+          description: 'En Configuración → BIOS, pulsa Añadir archivos de sistema 3DS e importa boot9.bin, boot11.bin y aes_keys.txt. Necesitas disponer de estos archivos y tener permiso para utilizarlos. La app los exige antes de abrir un juego.'
         -
-          title: 'Obtén archivos legalmente'
-          description: 'Vuelca tus propios cartuchos o juegos instalados de tu consola 3DS con herramientas específicas.'
+          title: 'Añade tu juego'
+          description: 'Prepara un juego o una aplicación que tengas permiso para utilizar. Abre la biblioteca, toca el botón + y selecciona su archivo. Espera a que termine la importación.'
+        -
+          title: 'Abre el juego y elige las pantallas'
+          description: 'Selecciona el juego en la biblioteca. Puedes mostrar ambas pantallas o elegir una de ellas. Para utilizar la pantalla táctil, mantén visible la inferior y toca directamente sobre ella.'
       faq:
         -
-          question: '¿Cuándo será jugable la 3DS?'
-          answer: 'La emulación de 3DS es extremadamente compleja. No podemos dar fechas; el equipo trabaja en ello de forma constante.'
+          question: '¿Qué necesito para empezar?'
+          answer: 'Un juego compatible y los archivos boot9.bin, boot11.bin y aes_keys.txt añadidos desde Configuración → BIOS. Algunos títulos pueden necesitar otros archivos de apoyo; los ajustes también permiten importar seeddb.bin, shared_font.bin y dspfirm.cdc.'
+        -
+          question: '¿Funcionan todos los juegos de Nintendo 3DS?'
+          answer: 'No. La compatibilidad es experimental. Un juego puede mostrar el menú o una cinemática y fallar después, y otros todavía no llegan a mostrar imagen.'
+        -
+          question: '¿Puedo guardar y continuar después?'
+          answer: 'Nelkano permite crear y cargar estados, aunque esta función todavía tiene limitaciones. No todas las situaciones permiten guardar y la recuperación puede presentar problemas según el título.'
+        -
+          question: '¿Un móvil potente garantiza que los juegos funcionen bien?'
+          answer: 'No. La velocidad depende del dispositivo, pero también del juego y de las funciones que necesita. Un dispositivo más potente no resuelve los errores de compatibilidad.'
     nintendo-switch:
       enabled: true
       show_on_home: false
@@ -982,14 +952,14 @@ en:
     limitations: 'Known limitations'
     steps: 'Getting started with {system}'
     faq: 'Frequently asked questions about {system}'
-    facts: 'System facts'
+    facts: 'System details'
     related: 'Related systems'
-    manufacturer: 'Manufacturer / author'
+    manufacturer: Manufacturer
     year: Year
     category: Category
     formats: Files
     status: 'Current status'
-    more: 'More information'
+    more: 'View guide'
     skip: 'Skip to content'
     download: 'View downloads'
     index_eyebrow: Compatibility
@@ -998,19 +968,19 @@ en:
     all_systems: 'View all'
     all: All
     filter: 'Filter by category'
-    empty: 'No systems in this category.'
+    empty: 'There are no systems in this category.'
     compatibility: 'Game compatibility'
-    compatibility_description: 'Check the status of tested games.'
+    compatibility_description: 'Results from real tests on individual devices'
     tier_basico: Basic
-    tier_basico_description: 'Early implementation. Limited support.'
+    tier_basico_description: 'The core starts, and some games may reach menus or display graphics, but gameplay is not yet functional.'
     tier_experimental: Experimental
-    tier_experimental_description: 'In development. Errors and limitations are expected.'
+    tier_experimental_description: 'Many games start and can be played, but crashes, graphical or audio issues, or poor performance may occur.'
     tier_jugable: Playable
-    tier_jugable_description: 'Playable titles with some limitations.'
+    tier_jugable_description: 'Many games reach gameplay with adequate performance. Occasional crashes or minor issues may occur.'
     tier_estable: Stable
-    tier_estable_description: 'Stable operation in tested games.'
+    tier_estable_description: 'The vast majority of games work correctly, with good performance and few known issues.'
     tier_verificado: Verified
-    tier_verificado_description: 'Verified with documented tests.'
+    tier_verificado_description: 'The core is mature and extensively tested. Compatibility, performance, audio, graphics and stability meet the expected standard.'
   pages:
     chip-8:
       enabled: true
@@ -1020,30 +990,38 @@ en:
       short_name: CHIP-8
       status: 'Very stable'
       category: 'Getting started'
-      summary: 'Lightweight mature emulation for CHIP-8 programs, with a stable base for input, video and saving.'
-      tagline: 'A lightweight starting point for discovering emulation.'
-      manufacturer: 'Joseph Weisbecker'
+      summary: 'The virtual machine from the 1970s. High compatibility and an accessible starting point for understanding emulation.'
+      tagline: 'Where it all began. A virtual machine that helped start the story. Simple games, pixel graphics and a 16-key keypad. Discover CHIP-8 on Android.'
+      manufacturer: 'Joseph Weisbecker (RCA)'
       year: '1977'
-      formats: .ch8
-      overview: 'A system of small programs, a monochrome display and a 16-key keypad. Nelkano includes a lightweight core integrated into Android.'
+      formats: ".ch8\r\n.c8\r\n.chip8"
+      overview: |-
+        CHIP-8 is a programming language created by Joseph Weisbecker to make it easier to develop games for computers such as the COSMAC VIP. Its games use simple graphics and a 16-key keypad.
+        With Nelkano, you can open these games on your phone and use on-screen touch controls. You can also run programs you have written yourself.
       features: |-
-        Open compatible CHIP-8 programs.
-        Use the core's input, video and saving features.
-      limitations: 'CHIP-8 extensions and variants may behave differently.'
-      step_1_title: 'Check the supported scope'
-      step_1_text: "Read this page's limitations and check that your Nelkano version includes this system."
-      step_2_title: 'Prepare your files'
-      step_2_text: 'Use compatible files you have the right to use. Keep any required companion files together.'
-      step_3_title: 'Open the supported content'
-      step_3_text: 'If the system is available in your build, import the content into the library and check its controls before playing.'
-      faq_1_question: 'Are games included?'
-      faq_1_answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
-      faq_2_question: 'Does the status apply to every game?'
-      faq_2_answer: 'CHIP-8 extensions and variants may behave differently.'
-      faq_3_question: 'Can I report an issue?'
-      faq_3_answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
-      seo_title: 'CHIP-8 — Nelkano'
-      seo_description: 'A lightweight starting point for discovering emulation.'
+        Open CHIP-8 games and programs stored on your device.
+        Import individual files or games inside a ZIP archive.
+        Play with an on-screen 16-key keypad.
+        Hear the game's sounds.
+        Save a game session and resume it by loading its state.
+        Try your own CHIP-8 programs.
+      limitations: |-
+        Some games may have issues or fail to work correctly. Check each title's test results to see what has been verified.
+        Programs can be up to 3,584 bytes. This limit applies to the program, not the ZIP archive containing it.
+      step_1_title: 'Save a game on your device'
+      step_1_text: 'You need a .ch8, .c8 or .chip8 file. You can use a program you created or one its author allows you to download and use.'
+      step_2_title: 'Add it to Nelkano'
+      step_2_text: 'Open the library, tap + and select the file. Nelkano will add it to your library and open the game.'
+      step_3_title: 'Start playing'
+      step_3_text: 'The virtual keypad will appear on screen. Each program uses different keys; check its instructions if something does not respond as expected.'
+      faq_1_question: 'Is CHIP-8 a console?'
+      faq_1_answer: 'No. It is a language designed for making simple games. Nelkano interprets those programs so you can run them on Android.'
+      faq_2_question: 'Which keys should I use?'
+      faq_2_answer: "It depends on the game. The keypad has 16 keys, from 0 to 9 and A to F, but each program chooses which ones to use. Check the game's instructions for its controls."
+      faq_3_question: 'Can I open my own programs?'
+      faq_3_answer: "Yes. Once you have generated your program's CHIP-8 file, add it using the + button in the library. It must stay within the 3,584-byte limit."
+      seo_title: 'CHIP-8 emulator for Android | Nelkano'
+      seo_description: 'Explore CHIP-8 support in Nelkano for Android. Find out how to open compatible games and programs, use the controls and check the current limitations.'
       tier: jugable
       status_note: ''
       image_uri: ''
@@ -1052,150 +1030,145 @@ en:
         nes
       steps:
         -
-          title: 'Check the supported scope'
-          description: "Read this page's limitations and check that your Nelkano version includes this system."
+          title: 'Save a game on your device'
+          description: 'You need a .ch8, .c8 or .chip8 file. You can use a program you created or one its author allows you to download and use.'
         -
-          title: 'Prepare your files'
-          description: 'Use compatible files you have the right to use. Keep any required companion files together.'
+          title: 'Add it to Nelkano'
+          description: 'Open the library, tap + and select the file. Nelkano will add it to your library and open the game.'
         -
-          title: 'Open the supported content'
-          description: 'If the system is available in your build, import the content into the library and check its controls before playing.'
+          title: 'Start playing'
+          description: 'The virtual keypad will appear on screen. Each program uses different keys; check its instructions if something does not respond as expected.'
       faq:
         -
-          question: 'Are games included?'
-          answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
+          question: 'Is CHIP-8 a console?'
+          answer: 'No. It is a language designed for making simple games. Nelkano interprets those programs so you can run them on Android.'
         -
-          question: 'Does the status apply to every game?'
-          answer: 'CHIP-8 extensions and variants may behave differently.'
+          question: 'Which keys should I use?'
+          answer: "It depends on the game. The keypad has 16 keys, from 0 to 9 and A to F, but each program chooses which ones to use. Check the game's instructions for its controls."
         -
-          question: 'Can I report an issue?'
-          answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
+          question: 'Can I open my own programs?'
+          answer: "Yes. Once you have generated your program's CHIP-8 file, add it using the + button in the library. It must stay within the 3,584-byte limit."
+        -
+          question: 'Can I save my game?'
+          answer: "Yes. You can save the game's state and load it later to continue from that point."
     game-boy:
       enabled: true
       show_on_home: true
-      card_title: 'Game Boy'
-      title: 'Game Boy'
-      short_name: GB
+      card_title: 'Game Boy & Game Boy Color'
+      title: 'Game Boy & Game Boy Color'
+      short_name: 'Game Boy / GBC'
       status: 'Very stable'
       category: 'Getting started'
-      summary: 'Solid DMG emulator for opening compatible files, saving and loading, with tests focused on real compatibility.'
-      tagline: 'The original handheld experience on your Android.'
+      summary: 'Play with touch controls or a controller, and save your game to continue later.'
+      tagline: 'Enjoy Game Boy and Game Boy Color games on your Android device.'
       manufacturer: Nintendo
-      year: '1989'
-      formats: .gb
-      overview: "Game Boy is Nintendo's monochrome handheld. It shares a core with Game Boy Color in Nelkano while preserving each system's behaviour."
+      year: '1989 / 1998'
+      formats: ".gb\r\n.gbc"
+      overview: "Game Boy arrived in 1989 and Game Boy Color in 1998. Nintendo's two handhelds brought together adventures, platformers, puzzles and many other genres. Nelkano lets you play games for both and automatically detects which system each game needs."
       features: |-
-        Open compatible .gb files.
-        Play with controls and audio.
-        Save, restore progress and reopen your games.
-      limitations: |-
-        Practical validation covers the tested scope, not complete playthroughs of every game.
-        Special accessories and utilities have limited support.
-      step_1_title: 'Check the supported scope'
-      step_1_text: "Read this page's limitations and check that your Nelkano version includes this system."
-      step_2_title: 'Prepare your files'
-      step_2_text: 'Use compatible files you have the right to use. Keep any required companion files together.'
-      step_3_title: 'Open the supported content'
-      step_3_text: 'If the system is available in your build, import the content into the library and check its controls before playing.'
-      faq_1_question: 'Are games included?'
-      faq_1_answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
-      faq_2_question: 'Does the status apply to every game?'
-      faq_2_answer: |-
-        Practical validation covers the tested scope, not complete playthroughs of every game.
-        Special accessories and utilities have limited support.
-      faq_3_question: 'Can I report an issue?'
-      faq_3_answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
-      seo_title: 'Game Boy — Nelkano'
-      seo_description: 'The original handheld experience on your Android.'
+        Open Game Boy and Game Boy Color games in .gb and .gbc files.
+        Play with on-screen buttons or an Android-compatible controller.
+        Move, resize and hide the on-screen buttons.
+        Save the game state and load it later to continue from that point.
+      limitations: 'Some games may have issues. Check the test results to see what has been verified for each title.'
+      step_1_title: 'Save a game on your device'
+      step_1_text: 'You need a .gb or .gbc file.'
+      step_2_title: 'Add the game to Nelkano'
+      step_2_text: 'Open the library, tap + and select the file. Nelkano will add it to your library and open the game. You can also import it in a .zip or .rar archive.'
+      step_3_title: 'Choose how to play'
+      step_3_text: "Use the on-screen buttons or a compatible controller. You can adjust button positions and sizes in Nelkano's control editor. If you use a Bluetooth controller, pair it in Android settings first."
+      faq_1_question: 'Do I need to choose between Game Boy and Game Boy Color?'
+      faq_1_answer: 'No. Add your .gb or .gbc file and Nelkano will automatically detect which system the game needs.'
+      faq_2_question: 'Can I save my game and continue later?'
+      faq_2_answer: 'Yes. You can save the game state and load it later to return to the same point. This also works in games that had no save feature on the original console.'
+      faq_3_question: ''
+      faq_3_answer: ''
+      seo_title: 'Game Boy and Game Boy Color emulator for Android | Nelkano'
+      seo_description: 'Play Game Boy and Game Boy Color games on Android with Nelkano. Open .gb and .gbc files, customize touch controls or use a controller, and save game states.'
       tier: jugable
       status_note: ''
       image_uri: ''
       related_ids: |-
+        chip-8
         game-boy-advance
         nes
-        chip-8
       steps:
         -
-          title: 'Check the supported scope'
-          description: "Read this page's limitations and check that your Nelkano version includes this system."
+          title: 'Save a game on your device'
+          description: 'You need a .gb or .gbc file.'
         -
-          title: 'Prepare your files'
-          description: 'Use compatible files you have the right to use. Keep any required companion files together.'
+          title: 'Add the game to Nelkano'
+          description: 'Open the library, tap + and select the file. Nelkano will add it to your library and open the game. You can also import it in a .zip or .rar archive.'
         -
-          title: 'Open the supported content'
-          description: 'If the system is available in your build, import the content into the library and check its controls before playing.'
+          title: 'Choose how to play'
+          description: "Use the on-screen buttons or a compatible controller. You can adjust button positions and sizes in Nelkano's control editor. If you use a Bluetooth controller, pair it in Android settings first."
       faq:
         -
-          question: 'Are games included?'
-          answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
+          question: 'Do I need to choose between Game Boy and Game Boy Color?'
+          answer: 'No. Add your .gb or .gbc file and Nelkano will automatically detect which system the game needs.'
         -
-          question: 'Does the status apply to every game?'
-          answer: |-
-            Practical validation covers the tested scope, not complete playthroughs of every game.
-            Special accessories and utilities have limited support.
-        -
-          question: 'Can I report an issue?'
-          answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
+          question: 'Can I save my game and continue later?'
+          answer: 'Yes. You can save the game state and load it later to return to the same point. This also works in games that had no save feature on the original console.'
     game-boy-color:
-      enabled: true
+      enabled: false
       show_on_home: false
       card_title: 'Game Boy Color'
       title: 'Game Boy Color'
       short_name: GBC
       status: Advanced
       category: 'Getting started'
-      summary: 'CGB compatibility with color, memory banks, palettes, HDMA and key behavior; still being refined for accuracy.'
-      tagline: "The classic handheld's evolution in colour."
+      summary: 'CGB support includes color, memory banks, palettes, HDMA and key improvements; accuracy is still being refined.'
+      tagline: "The classic handheld's evolution in color."
       manufacturer: Nintendo
       year: '1998'
       formats: .gbc
-      overview: 'Game Boy Color adds colour and new capabilities to the handheld platform. Nelkano shares its emulation foundation with Game Boy and handles CGB modes separately.'
+      overview: 'Game Boy Color expands the handheld platform with color and new capabilities. Nelkano shares its emulation base with Game Boy and handles CGB modes separately.'
       features: |-
         Open compatible .gbc files.
-        Play in colour with controls and audio.
+        Play in color with controls and audio.
         Save and restore progress.
       limitations: |-
-        An automated image check is not a complete playthrough.
-        Link features and special peripherals are not certified by this validation.
-      step_1_title: 'Check the supported scope'
-      step_1_text: "Read this page's limitations and check that your Nelkano version includes this system."
+        An automated image test is not equivalent to a full playthrough.
+        This validation does not certify link support or special peripherals.
+      step_1_title: 'Check the available support'
+      step_1_text: "Read this page's limitations and check that your version of Nelkano includes this system."
       step_2_title: 'Prepare your files'
       step_2_text: 'Use compatible files you have the right to use. Keep any required companion files together.'
       step_3_title: 'Open the supported content'
-      step_3_text: 'If the system is available in your build, import the content into the library and check its controls before playing.'
+      step_3_text: 'If the system is available in your version, import the content into the library and check the controls before playing.'
       faq_1_question: 'Are games included?'
-      faq_1_answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
-      faq_2_question: 'Does the status apply to every game?'
+      faq_1_answer: 'No. Nelkano does not include commercial games. Use compatible content you have the necessary rights to use.'
+      faq_2_question: 'Does this status apply to every game?'
       faq_2_answer: |-
-        An automated image check is not a complete playthrough.
-        Link features and special peripherals are not certified by this validation.
+        An automated image test is not equivalent to a full playthrough.
+        This validation does not certify link support or special peripherals.
       faq_3_question: 'Can I report an issue?'
       faq_3_answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
-      seo_title: 'Game Boy Color — Nelkano'
-      seo_description: "The classic handheld's evolution in colour."
+      seo_title: 'Game Boy Color in Nelkano: see the Game Boy guide'
+      seo_description: 'Game Boy Color information is grouped with Game Boy in Nelkano. Visit the main Game Boy guide for supported formats, controls and compatibility details.'
       tier: basico
       status_note: ''
       image_uri: ''
       related_ids: ''
       steps:
         -
-          title: 'Check the supported scope'
-          description: "Read this page's limitations and check that your Nelkano version includes this system."
+          title: 'Check the available support'
+          description: "Read this page's limitations and check that your version of Nelkano includes this system."
         -
           title: 'Prepare your files'
           description: 'Use compatible files you have the right to use. Keep any required companion files together.'
         -
           title: 'Open the supported content'
-          description: 'If the system is available in your build, import the content into the library and check its controls before playing.'
+          description: 'If the system is available in your version, import the content into the library and check the controls before playing.'
       faq:
         -
           question: 'Are games included?'
-          answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
+          answer: 'No. Nelkano does not include commercial games. Use compatible content you have the necessary rights to use.'
         -
-          question: 'Does the status apply to every game?'
+          question: 'Does this status apply to every game?'
           answer: |-
-            An automated image check is not a complete playthrough.
-            Link features and special peripherals are not certified by this validation.
+            An automated image test is not equivalent to a full playthrough.
+            This validation does not certify link support or special peripherals.
         -
           question: 'Can I report an issue?'
           answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
@@ -1207,34 +1180,34 @@ en:
       short_name: GBA
       status: 'Playable and improving'
       category: Advanced
-      summary: 'Runs a growing part of the compatible library and is measured with real tests to expand compatibility.'
-      tagline: 'A new generation of handheld games.'
+      summary: 'Play with touch controls or a controller, and save your game to continue later.'
+      tagline: 'The 32-bit powerhouse that fit in your pocket.'
       manufacturer: Nintendo
       year: '2001'
       formats: .gba
-      overview: "Game Boy Advance is Nintendo's 32-bit handheld platform. Its core is integrated into Android and continues to improve video, sound and save compatibility."
+      overview: 'Game Boy Advance is the 32-bit handheld Nintendo released in 2001. Its library includes adventures, platformers, racing games and RPGs. With Nelkano, you can play on Android, customize the controls and save your game states.'
       features: |-
-        Open titles supported by the GBA core.
-        Use the available video, audio and saving features.
+        Open Game Boy Advance games in .gba files.
+        Play with on-screen buttons or an Android-compatible controller.
+        Move, resize and hide the on-screen buttons.
+        Save the game state and load it later to continue from that point.
       limitations: |-
-        Compatibility depends on the title and version.
-        Link cable support is experimental.
-      step_1_title: 'Check the supported scope'
-      step_1_text: "Read this page's limitations and check that your Nelkano version includes this system."
-      step_2_title: 'Prepare your files'
-      step_2_text: 'Use compatible files you have the right to use. Keep any required companion files together.'
-      step_3_title: 'Open the supported content'
-      step_3_text: 'If the system is available in your build, import the content into the library and check its controls before playing.'
-      faq_1_question: 'Are games included?'
-      faq_1_answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
-      faq_2_question: 'Does the status apply to every game?'
-      faq_2_answer: |-
-        Compatibility depends on the title and version.
-        Link cable support is experimental.
-      faq_3_question: 'Can I report an issue?'
-      faq_3_answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
-      seo_title: 'Game Boy Advance — Nelkano'
-      seo_description: 'A new generation of handheld games.'
+        Some games may have graphical, audio or gameplay issues.
+        Performance varies by game and device. Check each title's test results.
+      step_1_title: 'Save a game on your device'
+      step_1_text: 'You need a .gba file you have permission to use. You can start with a free Game Boy Advance game released by its author.'
+      step_2_title: 'Add the game to Nelkano'
+      step_2_text: 'Open the library, tap + and select the .gba file. Nelkano will add it to your library and open the game.'
+      step_3_title: 'Choose how to play'
+      step_3_text: "Use the on-screen buttons or a compatible controller. You can adjust button positions and sizes in Nelkano's control editor. If you use a Bluetooth controller, pair it in Android settings first."
+      faq_1_question: 'Which files can I open?'
+      faq_1_answer: 'You can open Game Boy Advance games in .gba format. Add them using the + button in the library.'
+      faq_2_question: 'Can I play with a Bluetooth controller?'
+      faq_2_answer: 'Yes. Pair it with your Android device and configure its buttons in Nelkano settings.'
+      faq_3_question: 'Can I save my game and continue later?'
+      faq_3_answer: "Yes. You can save the game's state and load it later to return to the same point, without relying on the game's own save points."
+      seo_title: 'GBA emulator for Android: Game Boy Advance | Nelkano'
+      seo_description: 'Explore Game Boy Advance support in Nelkano for Android. Check .gba file support, controls, save features and compatibility before importing your games.'
       tier: jugable
       status_note: ''
       image_uri: ''
@@ -1243,208 +1216,203 @@ en:
         nintendo-ds
       steps:
         -
-          title: 'Check the supported scope'
-          description: "Read this page's limitations and check that your Nelkano version includes this system."
+          title: 'Save a game on your device'
+          description: 'You need a .gba file you have permission to use. You can start with a free Game Boy Advance game released by its author.'
         -
-          title: 'Prepare your files'
-          description: 'Use compatible files you have the right to use. Keep any required companion files together.'
+          title: 'Add the game to Nelkano'
+          description: 'Open the library, tap + and select the .gba file. Nelkano will add it to your library and open the game.'
         -
-          title: 'Open the supported content'
-          description: 'If the system is available in your build, import the content into the library and check its controls before playing.'
+          title: 'Choose how to play'
+          description: "Use the on-screen buttons or a compatible controller. You can adjust button positions and sizes in Nelkano's control editor. If you use a Bluetooth controller, pair it in Android settings first."
       faq:
         -
-          question: 'Are games included?'
-          answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
+          question: 'Which files can I open?'
+          answer: 'You can open Game Boy Advance games in .gba format. Add them using the + button in the library.'
         -
-          question: 'Does the status apply to every game?'
-          answer: |-
-            Compatibility depends on the title and version.
-            Link cable support is experimental.
+          question: 'Can I play with a Bluetooth controller?'
+          answer: 'Yes. Pair it with your Android device and configure its buttons in Nelkano settings.'
         -
-          question: 'Can I report an issue?'
-          answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
+          question: 'Can I save my game and continue later?'
+          answer: "Yes. You can save the game's state and load it later to return to the same point, without relying on the game's own save points."
     nes:
       enabled: true
       show_on_home: false
-      card_title: NES
-      title: 'NES / Famicom'
-      short_name: NES
+      card_title: 'NES, Famicom and Famicom Disk System'
+      title: 'NES, Famicom and Famicom Disk System'
+      short_name: 'NES / Famicom'
       status: 'Playable and very advanced'
       category: Advanced
-      summary: 'NES emulation with video, audio, controllers and many important mappers; the test and compatibility suite already provides a very solid base.'
-      tagline: 'The 8-bit console that shaped a generation.'
+      summary: 'Play NES, Famicom and Famicom Disk System games with touch controls or a controller, and save your progress.'
+      tagline: 'Return to Nintendo classics and discover its cartridge and disk games.'
       manufacturer: Nintendo
-      year: '1983 / 1985'
-      formats: .nes
-      overview: 'NES and Famicom share an 8-bit architecture with a wide variety of cartridges. Nelkano integrates video, audio, input and support for different cartridge controllers.'
+      year: '1983 – 1986'
+      formats: ".nes\r\n.fds"
+      overview: 'Famicom arrived in Japan in 1983, and NES launched in North America in 1985. In 1986, Famicom Disk System brought disk games to the Japanese console. Classics such as Super Mario Bros., The Legend of Zelda and Metroid began on these platforms. With Nelkano, you can play on Android, adjust the controls and save game states.'
       features: |-
-        Open compatible NES files.
-        Play using the core's video, audio and controls.
+        Open NES and Famicom games in .nes files.
+        Open Famicom Disk System games in .fds files.
+        Play with on-screen buttons or an Android-compatible controller.
+        Move and resize the on-screen buttons.
+        Save the game state and load it later to continue from that point.
       limitations: |-
-        Compatibility varies with each cartridge's controller.
-        Special accessories require specific checks.
-      step_1_title: 'Check the supported scope'
-      step_1_text: "Read this page's limitations and check that your Nelkano version includes this system."
-      step_2_title: 'Prepare your files'
-      step_2_text: 'Use compatible files you have the right to use. Keep any required companion files together.'
-      step_3_title: 'Open the supported content'
-      step_3_text: 'If the system is available in your build, import the content into the library and check its controls before playing.'
-      faq_1_question: 'Are games included?'
-      faq_1_answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
-      faq_2_question: 'Does the status apply to every game?'
-      faq_2_answer: |-
-        Compatibility varies with each cartridge's controller.
-        Special accessories require specific checks.
-      faq_3_question: 'Can I report an issue?'
-      faq_3_answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
-      seo_title: 'NES / Famicom — Nelkano'
-      seo_description: 'The 8-bit console that shaped a generation.'
+        Some games may fail to start or have graphical or gameplay issues.
+        Some games may be missing voices or sound effects.
+        Performance varies by game and device. Check each title's test results.
+      step_1_title: 'Save a game on your device'
+      step_1_text: 'You need a .nes file for cartridge games or an .fds file for Famicom Disk System games. Use files you have permission to use, such as free games released by their authors.'
+      step_2_title: 'Add the game to Nelkano'
+      step_2_text: 'Open the library, tap + and select a file. Nelkano will add it to your library and open the game. Add games one at a time.'
+      step_3_title: 'Choose how to play'
+      step_3_text: "Use the on-screen buttons or a compatible controller. You can adjust button positions and sizes in Nelkano's control editor. If you use a Bluetooth controller, pair it in Android settings and enable full-screen mode to play."
+      faq_1_question: 'What is the difference between NES, Famicom and Famicom Disk System?'
+      faq_1_answer: 'Famicom is the console Nintendo released in Japan. NES is its redesigned version for other markets. Famicom Disk System is an accessory for the Japanese console that runs games from disks rather than cartridges.'
+      faq_2_question: 'Can I save my game and continue later?'
+      faq_2_answer: "Yes. You can save the game's state and load it later to return to the same point. This also works in games that had no save feature on the original console."
+      faq_3_question: ''
+      faq_3_answer: ''
+      seo_title: 'NES and Famicom emulator for Android | Nelkano'
+      seo_description: 'Explore NES and Famicom support in Nelkano for Android. Check supported formats, controls and current compatibility limits, and learn how to get started.'
       tier: experimental
-      status_note: 'Muchos juegos arrancan y son jugables, pero puede haber cierres inesperados, problemas gráficos o de audio en algunos títulos.'
+      status_note: 'You can play NES, Famicom and Famicom Disk System titles, although some have graphical, audio or gameplay issues.'
       image_uri: ''
       related_ids: |-
         chip-8
-        master-system
         game-boy
+        master-system
       steps:
         -
-          title: 'Check the supported scope'
-          description: "Read this page's limitations and check that your Nelkano version includes this system."
+          title: 'Save a game on your device'
+          description: 'You need a .nes file for cartridge games or an .fds file for Famicom Disk System games. Use files you have permission to use, such as free games released by their authors.'
         -
-          title: 'Prepare your files'
-          description: 'Use compatible files you have the right to use. Keep any required companion files together.'
+          title: 'Add the game to Nelkano'
+          description: 'Open the library, tap + and select a file. Nelkano will add it to your library and open the game. Add games one at a time.'
         -
-          title: 'Open the supported content'
-          description: 'If the system is available in your build, import the content into the library and check its controls before playing.'
+          title: 'Choose how to play'
+          description: "Use the on-screen buttons or a compatible controller. You can adjust button positions and sizes in Nelkano's control editor. If you use a Bluetooth controller, pair it in Android settings and enable full-screen mode to play."
       faq:
         -
-          question: 'Are games included?'
-          answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
+          question: 'What is the difference between NES, Famicom and Famicom Disk System?'
+          answer: 'Famicom is the console Nintendo released in Japan. NES is its redesigned version for other markets. Famicom Disk System is an accessory for the Japanese console that runs games from disks rather than cartridges.'
         -
-          question: 'Does the status apply to every game?'
-          answer: |-
-            Compatibility varies with each cartridge's controller.
-            Special accessories require specific checks.
-        -
-          question: 'Can I report an issue?'
-          answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
+          question: 'Can I save my game and continue later?'
+          answer: "Yes. You can save the game's state and load it later to return to the same point. This also works in games that had no save feature on the original console."
     rpg-maker-mv-mz:
-      enabled: true
+      enabled: false
       show_on_home: false
       card_title: 'RPG Maker MV/MZ'
       title: 'RPG Maker MV/MZ'
       short_name: MV/MZ
-      status: 'Functional experimental'
+      status: 'Experimental, functional'
       category: 'In progress'
-      summary: 'WebView/NW.js runtime for games exported by RPG Maker itself, with import, input, audio and saves still evolving.'
-      tagline: 'A family of engines separate from RPG Maker RGSS.'
+      summary: 'A WebView/NW.js runtime for games exported by RPG Maker itself, with importing, input, audio and saving still being developed.'
+      tagline: 'An engine family separate from RPG Maker RGSS.'
       manufacturer: 'RPG Maker'
       year: '2015 / 2020'
       formats: ''
-      overview: "MV and MZ use JavaScript. Their compatibility must be evaluated separately from Nelkano's own RGSS core; XP, VX or VX Ace results do not establish MV/MZ support."
-      features: 'Review the documented scope for this engine family.'
+      overview: "MV and MZ use JavaScript. Their compatibility must be assessed separately from Nelkano's own RGSS core; results for XP, VX or VX Ace do not demonstrate MV/MZ support."
+      features: 'Check the documented scope for this engine family.'
       limitations: |-
-        General MV/MZ compatibility with the RGSS core is not established.
-        Each export may depend on additional plugins and assets.
-      step_1_title: 'Check the supported scope'
-      step_1_text: "Read this page's limitations and check that your Nelkano version includes this system."
+        General MV/MZ compatibility is not established by the RGSS core.
+        Each exported game may depend on plugins and additional resources.
+      step_1_title: 'Check the available support'
+      step_1_text: "Read this page's limitations and check that your version of Nelkano includes this system."
       step_2_title: 'Prepare your files'
       step_2_text: 'Use compatible files you have the right to use. Keep any required companion files together.'
       step_3_title: 'Open the supported content'
-      step_3_text: 'If the system is available in your build, import the content into the library and check its controls before playing.'
+      step_3_text: 'If the system is available in your version, import the content into the library and check the controls before playing.'
       faq_1_question: 'Are games included?'
-      faq_1_answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
-      faq_2_question: 'Does the status apply to every game?'
+      faq_1_answer: 'No. Nelkano does not include commercial games. Use compatible content you have the necessary rights to use.'
+      faq_2_question: 'Does this status apply to every game?'
       faq_2_answer: |-
-        General MV/MZ compatibility with the RGSS core is not established.
-        Each export may depend on additional plugins and assets.
+        General MV/MZ compatibility is not established by the RGSS core.
+        Each exported game may depend on plugins and additional resources.
       faq_3_question: 'Can I report an issue?'
       faq_3_answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
-      seo_title: 'RPG Maker MV/MZ — Nelkano'
-      seo_description: 'A family of engines separate from RPG Maker RGSS.'
+      seo_title: 'RPG Maker MV and MZ in Nelkano: combined guide'
+      seo_description: 'Visit the combined RPG Maker guide to check the available support in Nelkano for Android, the required game files and compatibility limitations.'
       tier: basico
       status_note: ''
       image_uri: ''
       related_ids: ''
       steps:
         -
-          title: 'Check the supported scope'
-          description: "Read this page's limitations and check that your Nelkano version includes this system."
+          title: 'Check the available support'
+          description: "Read this page's limitations and check that your version of Nelkano includes this system."
         -
           title: 'Prepare your files'
           description: 'Use compatible files you have the right to use. Keep any required companion files together.'
         -
           title: 'Open the supported content'
-          description: 'If the system is available in your build, import the content into the library and check its controls before playing.'
+          description: 'If the system is available in your version, import the content into the library and check the controls before playing.'
       faq:
         -
           question: 'Are games included?'
-          answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
+          answer: 'No. Nelkano does not include commercial games. Use compatible content you have the necessary rights to use.'
         -
-          question: 'Does the status apply to every game?'
+          question: 'Does this status apply to every game?'
           answer: |-
-            General MV/MZ compatibility with the RGSS core is not established.
-            Each export may depend on additional plugins and assets.
+            General MV/MZ compatibility is not established by the RGSS core.
+            Each exported game may depend on plugins and additional resources.
         -
           question: 'Can I report an issue?'
           answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
     rpg-maker-2000-2003:
-      enabled: true
+      enabled: false
       show_on_home: false
       card_title: 'RPG Maker 2000/2003'
       title: 'RPG Maker 2000/2003'
       short_name: 2000/2003
       status: 'Preparing own core'
       category: 'In progress'
-      summary: 'Support will use Nelkano own core so it can be integrated into Android without relying on external runtimes.'
-      tagline: 'Classic RPGs have their own format and requirements.'
+      summary: "Support will use Nelkano's own core so it can be integrated into Android without relying on external runtimes."
+      tagline: 'Classic RPGs have their own formats and requirements.'
       manufacturer: 'RPG Maker'
       year: '2000 / 2002'
       formats: ''
-      overview: "RPG Maker 2000 and 2003 form a separate family. This page distinguishes their scope from Nelkano's work on later RGSS engines."
-      features: 'Review the support status of this family.'
+      overview: "RPG Maker 2000 and 2003 form a separate family. This page distinguishes their support from Nelkano's work on later RGSS engines."
+      features: 'Check the support status of this engine family.'
       limitations: |-
-        This is not presented as completed general support.
-        RGSS progress does not imply compatibility with these formats.
-      step_1_title: 'Check the supported scope'
-      step_1_text: "Read this page's limitations and check that your Nelkano version includes this system."
+        This is not presented as finished general support.
+        Progress on RGSS does not imply compatibility with these formats.
+      step_1_title: 'Check the available support'
+      step_1_text: "Read this page's limitations and check that your version of Nelkano includes this system."
       step_2_title: 'Prepare your files'
       step_2_text: 'Use compatible files you have the right to use. Keep any required companion files together.'
       step_3_title: 'Open the supported content'
-      step_3_text: 'If the system is available in your build, import the content into the library and check its controls before playing.'
+      step_3_text: 'If the system is available in your version, import the content into the library and check the controls before playing.'
       faq_1_question: 'Are games included?'
-      faq_1_answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
-      faq_2_question: 'Does the status apply to every game?'
+      faq_1_answer: 'No. Nelkano does not include commercial games. Use compatible content you have the necessary rights to use.'
+      faq_2_question: 'Does this status apply to every game?'
       faq_2_answer: |-
-        This is not presented as completed general support.
-        RGSS progress does not imply compatibility with these formats.
+        This is not presented as finished general support.
+        Progress on RGSS does not imply compatibility with these formats.
       faq_3_question: 'Can I report an issue?'
       faq_3_answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
-      seo_title: 'RPG Maker 2000/2003 — Nelkano'
-      seo_description: 'Classic RPGs have their own format and requirements.'
+      seo_title: 'RPG Maker 2000 and 2003: Nelkano information'
+      seo_description: 'Visit the combined RPG Maker guide to check which versions are available in Nelkano for Android and review their requirements and compatibility limits.'
       tier: basico
       status_note: ''
       image_uri: ''
       related_ids: ''
       steps:
         -
-          title: 'Check the supported scope'
-          description: "Read this page's limitations and check that your Nelkano version includes this system."
+          title: 'Check the available support'
+          description: "Read this page's limitations and check that your version of Nelkano includes this system."
         -
           title: 'Prepare your files'
           description: 'Use compatible files you have the right to use. Keep any required companion files together.'
         -
           title: 'Open the supported content'
-          description: 'If the system is available in your build, import the content into the library and check its controls before playing.'
+          description: 'If the system is available in your version, import the content into the library and check the controls before playing.'
       faq:
         -
           question: 'Are games included?'
-          answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
+          answer: 'No. Nelkano does not include commercial games. Use compatible content you have the necessary rights to use.'
         -
-          question: 'Does the status apply to every game?'
+          question: 'Does this status apply to every game?'
           answer: |-
-            This is not presented as completed general support.
-            RGSS progress does not imply compatibility with these formats.
+            This is not presented as finished general support.
+            Progress on RGSS does not imply compatibility with these formats.
         -
           question: 'Can I report an issue?'
           answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
@@ -1454,260 +1422,255 @@ en:
       card_title: 'Nintendo DS'
       title: 'Nintendo DS'
       short_name: NDS
-      status: 'Active experimental'
+      status: 'Actively developed, experimental'
       category: 'In progress'
-      summary: 'Current technical focus: ARM9/ARM7, internal scheduling, processor communication, partial 2D/3D video, timings, saves and increasingly demanding boot tests.'
+      summary: 'Play compatible Nintendo DS titles with two screens, touch controls and controller support. Compatibility is experimental.'
       tagline: 'Two screens and a different way to play.'
       manufacturer: Nintendo
       year: '2004'
       formats: .nds
-      overview: 'Nintendo DS combines two screens and touch input. Nelkano has an experimental core integrated into Android, with direct boot and active compatibility and performance work.'
+      overview: "Nintendo DS is Nintendo's handheld with two screens, one of them a touchscreen. Nelkano lets you open .nds games, display both screens or select one, and touch the lower screen to interact with the game. Some titles are already playable, although functionality and performance vary by game and device."
       features: |-
-        Try titles supported by the installed version.
-        Use the core's direct boot.
+        Add .nds files to your library and open compatible games.
+        Show both screens or select only the upper or lower screen.
+        Use the game's touchscreen from your device.
+        Use on-screen buttons or an Android-compatible controller.
+        Save and load game states from Nelkano.
       limitations: |-
-        Performance, audio and compatibility vary between games and devices.
-        This core has not completed validation.
-      step_1_title: 'Check the supported scope'
-      step_1_text: "Read this page's limitations and check that your Nelkano version includes this system."
-      step_2_title: 'Prepare your files'
-      step_2_text: 'Use compatible files you have the right to use. Keep any required companion files together.'
-      step_3_title: 'Open the supported content'
-      step_3_text: 'If the system is available in your build, import the content into the library and check its controls before playing.'
-      faq_1_question: 'Are games included?'
-      faq_1_answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
-      faq_2_question: 'Does the status apply to every game?'
-      faq_2_answer: |-
-        Performance, audio and compatibility vary between games and devices.
-        This core has not completed validation.
-      faq_3_question: 'Can I report an issue?'
-      faq_3_answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
-      seo_title: 'Nintendo DS — Nelkano'
-      seo_description: 'Two screens and a different way to play.'
+        Some games may freeze, show graphical errors or fail to start correctly.
+        Performance may drop in certain scenes, particularly some cutscenes, causing audio interruptions.
+        Touch input may have issues in some games.
+        Loading in-game saves and save states may still fail in certain titles or scenes.
+      step_1_title: 'Prepare your game'
+      step_1_text: 'You need an .nds file you have permission to use, such as a homebrew game distributed by its author.'
+      step_2_title: 'Add it to your library'
+      step_2_text: 'Open Nelkano, tap the + button and select the .nds file from your device. Once the import is complete, you can open it from the library.'
+      step_3_title: 'Choose how to display the screens'
+      step_3_text: "During gameplay, you can select Both, Upper or Lower. When both are visible, the screens are stacked in portrait orientation and side by side in landscape. Touch the game's lower screen to use its touch controls."
+      faq_1_question: 'Do all Nintendo DS games work?'
+      faq_1_answer: 'No. Some titles are already playable, while others have issues or fail to start. Compatibility may also vary between different parts of the same game.'
+      faq_2_question: 'How do I use the touchscreen?'
+      faq_2_answer: "Touch the game's lower screen directly. Select Both or Lower to display it and use touch input."
+      faq_3_question: 'Can I save my game?'
+      faq_3_answer: 'Yes. Nelkano can preserve in-game saves and create save states to resume later. Saving or restoring progress still has issues in certain titles, so it does not work equally well in every game.'
+      seo_title: 'Nintendo DS emulator for Android: compatibility | Nelkano'
+      seo_description: 'Explore Nintendo DS support in Nelkano for Android. Check .nds files, dual-screen features and current limitations. Compatibility varies between games.'
       tier: basico
-      status_note: 'El core arranca y algunos juegos pueden llegar al menú o mostrar gráficos, pero el gameplay todavía no es funcional o existen errores graves.'
+      status_note: 'The core starts, and some games may reach menus or display graphics, but gameplay is not yet functional or serious issues remain.'
       image_uri: ''
       related_ids: |-
         game-boy-advance
         nintendo-3ds
       steps:
         -
-          title: 'Check the supported scope'
-          description: "Read this page's limitations and check that your Nelkano version includes this system."
+          title: 'Prepare your game'
+          description: 'You need an .nds file you have permission to use, such as a homebrew game distributed by its author.'
         -
-          title: 'Prepare your files'
-          description: 'Use compatible files you have the right to use. Keep any required companion files together.'
+          title: 'Add it to your library'
+          description: 'Open Nelkano, tap the + button and select the .nds file from your device. Once the import is complete, you can open it from the library.'
         -
-          title: 'Open the supported content'
-          description: 'If the system is available in your build, import the content into the library and check its controls before playing.'
+          title: 'Choose how to display the screens'
+          description: "During gameplay, you can select Both, Upper or Lower. When both are visible, the screens are stacked in portrait orientation and side by side in landscape. Touch the game's lower screen to use its touch controls."
       faq:
         -
-          question: 'Are games included?'
-          answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
+          question: 'Do all Nintendo DS games work?'
+          answer: 'No. Some titles are already playable, while others have issues or fail to start. Compatibility may also vary between different parts of the same game.'
         -
-          question: 'Does the status apply to every game?'
-          answer: |-
-            Performance, audio and compatibility vary between games and devices.
-            This core has not completed validation.
+          question: 'How do I use the touchscreen?'
+          answer: "Touch the game's lower screen directly. Select Both or Lower to display it and use touch input."
         -
-          question: 'Can I report an issue?'
-          answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
+          question: 'Can I save my game?'
+          answer: 'Yes. Nelkano can preserve in-game saves and create save states to resume later. Saving or restoring progress still has issues in certain titles, so it does not work equally well in every game.'
+        -
+          question: 'Why do some scenes run more slowly?'
+          answer: 'Performance depends on the game, the scene and the device. Some cutscenes may run slowly even when other parts of the game run smoothly.'
     master-system:
       enabled: true
       show_on_home: false
-      card_title: 'Master System / Game Gear'
-      title: 'Master System / Game Gear'
-      short_name: 'SMS / GG'
+      card_title: 'Master System and Game Gear'
+      title: 'Master System and Game Gear'
+      short_name: 'Master System / GG'
       status: 'Playable and improving'
       category: Advanced
-      summary: "Master System and Game Gear share much of their architecture. Nelkano integrates their emulation into Android and handles each platform's video differences."
-      tagline: "SEGA's 8-bit family, at home and on the go."
-      manufacturer: SEGA
-      year: '1985 / 1990'
-      formats: |-
-        .sms
-        .gg
-      overview: "Master System and Game Gear share much of their architecture. Nelkano integrates their emulation into Android and handles each platform's video differences."
+      summary: 'Play compatible Master System and Game Gear titles with touch controls or a controller, and save your game to continue later.'
+      tagline: "Sega's answer to Nintendo. Powerful and full of character."
+      manufacturer: Sega
+      year: '1986 / 1990'
+      formats: ".sms\r\n.gg"
+      overview: "Sega Master System (1986) was Sega's answer to the NES, with somewhat more powerful hardware and huge success in Europe and Brazil. Game Gear (1990) was its portable counterpart, with a color screen while Game Boy was still monochrome. Nelkano groups both under one system page."
       features: |-
-        Open compatible Master System and Game Gear files.
-        Play with the core's video, input and audio.
-      limitations: |-
-        Results depend on the cartridge and version.
-        Existing tests do not cover all accessories.
-      step_1_title: 'Check the supported scope'
-      step_1_text: "Read this page's limitations and check that your Nelkano version includes this system."
-      step_2_title: 'Prepare your files'
-      step_2_text: 'Use compatible files you have the right to use. Keep any required companion files together.'
-      step_3_title: 'Open the supported content'
-      step_3_text: 'If the system is available in your build, import the content into the library and check its controls before playing.'
-      faq_1_question: 'Are games included?'
-      faq_1_answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
-      faq_2_question: 'Does the status apply to every game?'
-      faq_2_answer: |-
-        Results depend on the cartridge and version.
-        Existing tests do not cover all accessories.
-      faq_3_question: 'Can I report an issue?'
-      faq_3_answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
-      seo_title: 'Master System / Game Gear — Nelkano'
-      seo_description: "SEGA's 8-bit family, at home and on the go."
+        Load Master System games in .sms format and Game Gear games in .gg format.
+        Play with touch controls or an Android-compatible controller.
+        Save and load states to resume your game.
+        Keep the progress of games that include a save feature.
+      limitations: 'Compatibility does not cover the entire library: some titles may have graphical errors, audio issues or crashes.'
+      step_1_title: 'Prepare your game'
+      step_1_text: 'You need a Master System .sms file or a Game Gear .gg file you have permission to use, such as a homebrew game distributed by its author.'
+      step_2_title: 'Add it to Nelkano'
+      step_2_text: 'Open the library, tap the + button and select the game file. Nelkano identifies the system and adds it to your library.'
+      step_3_title: 'Open the game and start playing'
+      step_3_text: 'Select the game in your library. You can use the on-screen buttons or an Android-compatible controller. Controls include buttons 1 and 2, plus Pause on Master System or Start on Game Gear.'
+      faq_1_question: 'Which file type belongs to each console?'
+      faq_1_answer: "The .sms extension is used for Master System and .gg for Game Gear. Nelkano identifies them during import and keeps each system's controls and saves separate."
+      faq_2_question: 'Can I save even if the original game does not support it?'
+      faq_2_answer: 'Yes. Nelkano save states let you save and restore your session on both systems, even if the original game has no save option.'
+      faq_3_question: 'Do all games work?'
+      faq_3_answer: 'No. Some games are compatible, while others still have issues. A title starting successfully does not guarantee that it will work correctly throughout the game.'
+      seo_title: 'Master System and Game Gear emulator for Android | Nelkano'
+      seo_description: 'Explore Master System and Game Gear support in Nelkano for Android. Find .sms and .gg file information, setup instructions and compatibility limitations.'
       tier: experimental
-      status_note: 'Muchos juegos arrancan y se pueden jugar, pero puede haber cierres inesperados o problemas gráficos en algunos títulos.'
+      status_note: 'Both systems can run compatible titles. Some games may have graphical, audio or gameplay issues.'
       image_uri: ''
       related_ids: |-
-        mega-drive
-        nes
         game-boy
+        nes
+        mega-drive
       steps:
         -
-          title: 'Check the supported scope'
-          description: "Read this page's limitations and check that your Nelkano version includes this system."
+          title: 'Prepare your game'
+          description: 'You need a Master System .sms file or a Game Gear .gg file you have permission to use, such as a homebrew game distributed by its author.'
         -
-          title: 'Prepare your files'
-          description: 'Use compatible files you have the right to use. Keep any required companion files together.'
+          title: 'Add it to Nelkano'
+          description: 'Open the library, tap the + button and select the game file. Nelkano identifies the system and adds it to your library.'
         -
-          title: 'Open the supported content'
-          description: 'If the system is available in your build, import the content into the library and check its controls before playing.'
+          title: 'Open the game and start playing'
+          description: 'Select the game in your library. You can use the on-screen buttons or an Android-compatible controller. Controls include buttons 1 and 2, plus Pause on Master System or Start on Game Gear.'
       faq:
         -
-          question: 'Are games included?'
-          answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
+          question: 'Which file type belongs to each console?'
+          answer: "The .sms extension is used for Master System and .gg for Game Gear. Nelkano identifies them during import and keeps each system's controls and saves separate."
         -
-          question: 'Does the status apply to every game?'
-          answer: |-
-            Results depend on the cartridge and version.
-            Existing tests do not cover all accessories.
+          question: 'Can I save even if the original game does not support it?'
+          answer: 'Yes. Nelkano save states let you save and restore your session on both systems, even if the original game has no save option.'
         -
-          question: 'Can I report an issue?'
-          answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
+          question: 'Do all games work?'
+          answer: 'No. Some games are compatible, while others still have issues. A title starting successfully does not guarantee that it will work correctly throughout the game.'
     mega-drive:
       enabled: true
       show_on_home: true
-      card_title: 'Mega Drive / Genesis'
-      title: 'Mega Drive / Genesis'
-      short_name: MD
+      card_title: 'Mega Drive'
+      title: 'Mega Drive'
+      short_name: 'Mega Drive'
       status: 'Playable and improving'
       category: Advanced
-      summary: "Mega Drive, known as Genesis in other markets, is SEGA's 16-bit console. Nelkano's core is integrated into Android and continues to improve graphics and sound compatibility."
-      tagline: "SEGA's 16-bit platform in the Nelkano project."
-      manufacturer: SEGA
+      summary: 'Play compatible Mega Drive titles with touch controls or a controller. Save your game from Nelkano and continue later.'
+      tagline: "Sega's 16-bit console on your Android device."
+      manufacturer: Sega
       year: '1988'
-      formats: |-
-        .md
-        .gen
-        .bin
-      overview: "Mega Drive, known as Genesis in other markets, is SEGA's 16-bit console. Nelkano's core is integrated into Android and continues to improve graphics and sound compatibility."
+      formats: ".md\r\n.bin\r\n.gen"
+      overview: "Mega Drive, known as Genesis in North America, is Sega's 16-bit console. Nelkano lets you load its cartridge games and use the three-button controller's inputs: A, B, C and Start. Audio and save states are included, although some titles still have issues."
       features: |-
-        Open cartridges supported by the core.
-        Use the platform's video, audio and controls.
+        Load Mega Drive games in .md, .bin and .gen formats.
+        Play with touch controls or an Android-compatible controller.
+        Use the three-button controls: A, B, C and Start.
+        Save and load states to resume your game.
+        Keep the progress of games with a supported save feature.
       limitations: |-
-        Some titles still have specific issues.
-        Mega Drive support does not establish support for its add-ons.
-      step_1_title: 'Check the supported scope'
-      step_1_text: "Read this page's limitations and check that your Nelkano version includes this system."
-      step_2_title: 'Prepare your files'
-      step_2_text: 'Use compatible files you have the right to use. Keep any required companion files together.'
-      step_3_title: 'Open the supported content'
-      step_3_text: 'If the system is available in your build, import the content into the library and check its controls before playing.'
-      faq_1_question: 'Are games included?'
-      faq_1_answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
-      faq_2_question: 'Does the status apply to every game?'
-      faq_2_answer: |-
-        Some titles still have specific issues.
-        Mega Drive support does not establish support for its add-ons.
-      faq_3_question: 'Can I report an issue?'
-      faq_3_answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
-      seo_title: 'Mega Drive / Genesis — Nelkano'
-      seo_description: "SEGA's 16-bit platform in the Nelkano project."
+        Some games may have graphical or gameplay issues.
+        Music and sound effects may still differ from the original console.
+      step_1_title: 'Prepare your game'
+      step_1_text: 'You need a Mega Drive .md, .bin or .gen file you have permission to use, such as a homebrew game distributed by its author.'
+      step_2_title: 'Add it to Nelkano'
+      step_2_text: 'Open the library, tap the + button and select the game file. Once the import is complete, you can open it from the library.'
+      step_3_title: 'Choose how to play'
+      step_3_text: 'Use the on-screen D-pad and A, B, C and Start buttons, or connect an Android-compatible controller.'
+      faq_1_question: 'Are Mega Drive and Genesis the same console?'
+      faq_1_answer: 'Yes. Genesis is the name under which Mega Drive was sold in North America. Games for both are grouped under this system in Nelkano.'
+      faq_2_question: 'Can I save even if the original game does not support it?'
+      faq_2_answer: 'Yes. Nelkano save states let you save and restore your session even if the original game has no save option.'
+      faq_3_question: 'Which controls are available?'
+      faq_3_answer: 'The D-pad and the A, B, C and Start buttons of the three-button controller. You can use them on screen or with an Android-compatible controller.'
+      seo_title: 'Sega Genesis and Mega Drive emulator for Android | Nelkano'
+      seo_description: 'Explore Sega Genesis and Mega Drive support in Nelkano for Android. Check supported cartridge formats, controls and current compatibility limitations.'
       tier: jugable
       status_note: ''
       image_uri: ''
       related_ids: |-
-        master-system
         nes
+        master-system
         neo-geo-pocket
       steps:
         -
-          title: 'Check the supported scope'
-          description: "Read this page's limitations and check that your Nelkano version includes this system."
+          title: 'Prepare your game'
+          description: 'You need a Mega Drive .md, .bin or .gen file you have permission to use, such as a homebrew game distributed by its author.'
         -
-          title: 'Prepare your files'
-          description: 'Use compatible files you have the right to use. Keep any required companion files together.'
+          title: 'Add it to Nelkano'
+          description: 'Open the library, tap the + button and select the game file. Once the import is complete, you can open it from the library.'
         -
-          title: 'Open the supported content'
-          description: 'If the system is available in your build, import the content into the library and check its controls before playing.'
+          title: 'Choose how to play'
+          description: 'Use the on-screen D-pad and A, B, C and Start buttons, or connect an Android-compatible controller.'
       faq:
         -
-          question: 'Are games included?'
-          answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
+          question: 'Are Mega Drive and Genesis the same console?'
+          answer: 'Yes. Genesis is the name under which Mega Drive was sold in North America. Games for both are grouped under this system in Nelkano.'
         -
-          question: 'Does the status apply to every game?'
-          answer: |-
-            Some titles still have specific issues.
-            Mega Drive support does not establish support for its add-ons.
+          question: 'Can I save even if the original game does not support it?'
+          answer: 'Yes. Nelkano save states let you save and restore your session even if the original game has no save option.'
         -
-          question: 'Can I report an issue?'
-          answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
+          question: 'Which controls are available?'
+          answer: 'The D-pad and the A, B, C and Start buttons of the three-button controller. You can use them on screen or with an Android-compatible controller.'
+        -
+          question: 'Do all games work?'
+          answer: 'No. Some titles still have graphical, audio or gameplay issues. Compatibility depends on each game.'
     snes:
-      enabled: true
+      enabled: false
       show_on_home: false
       card_title: 'Super Nintendo / Super Famicom'
       title: 'Super Nintendo / Super Famicom'
       short_name: SNES
       status: Experimental
       category: 'In progress'
-      summary: "Nelkano's Super Nintendo core is in development. Technical and video tests help expand support for the console and the additional chips in some cartridges."
+      summary: "Nelkano's Super Nintendo core is under development. Technical and video tests help expand support for the console and the additional chips used by some cartridges."
       tagline: 'A 16-bit platform with widely differing cartridges.'
       manufacturer: Nintendo
       year: '1990'
-      formats: |-
-        .sfc
-        .smc
-      overview: "Nelkano's Super Nintendo core is in development. Technical and video tests help expand support for the console and the additional chips in some cartridges."
-      features: "Review the core's current scope and limitations."
+      formats: ".sfc\r\n.smc"
+      overview: "Nelkano's Super Nintendo core is under development. Technical and video tests help expand support for the console and the additional chips used by some cartridges."
+      features: "Check the core's current capabilities and limitations."
       limitations: |-
-        Some cartridges with coprocessors are unsupported.
-        Video and audio differences remain.
+        Some cartridges with coprocessors are not supported.
+        Video and audio differences remain to be resolved.
         PC tests do not guarantee availability in every APK.
-      step_1_title: 'Check the supported scope'
-      step_1_text: "Read this page's limitations and check that your Nelkano version includes this system."
+      step_1_title: 'Check the available support'
+      step_1_text: "Read this page's limitations and check that your version of Nelkano includes this system."
       step_2_title: 'Prepare your files'
       step_2_text: 'Use compatible files you have the right to use. Keep any required companion files together.'
       step_3_title: 'Open the supported content'
-      step_3_text: 'If the system is available in your build, import the content into the library and check its controls before playing.'
+      step_3_text: 'If the system is available in your version, import the content into the library and check the controls before playing.'
       faq_1_question: 'Are games included?'
-      faq_1_answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
-      faq_2_question: 'Does the status apply to every game?'
+      faq_1_answer: 'No. Nelkano does not include commercial games. Use compatible content you have the necessary rights to use.'
+      faq_2_question: 'Does this status apply to every game?'
       faq_2_answer: |-
-        Some cartridges with coprocessors are unsupported.
-        Video and audio differences remain.
+        Some cartridges with coprocessors are not supported.
+        Video and audio differences remain to be resolved.
         PC tests do not guarantee availability in every APK.
       faq_3_question: 'Can I report an issue?'
       faq_3_answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
-      seo_title: 'Super Nintendo / Super Famicom — Nelkano'
-      seo_description: 'A 16-bit platform with widely differing cartridges.'
+      seo_title: 'Super Nintendo in Nelkano: compatibility status'
+      seo_description: 'Check the status of Super Nintendo and Super Famicom support in Nelkano. Review platform availability and compatibility before importing your games.'
       tier: basico
       status_note: ''
       image_uri: ''
       related_ids: ''
       steps:
         -
-          title: 'Check the supported scope'
-          description: "Read this page's limitations and check that your Nelkano version includes this system."
+          title: 'Check the available support'
+          description: "Read this page's limitations and check that your version of Nelkano includes this system."
         -
           title: 'Prepare your files'
           description: 'Use compatible files you have the right to use. Keep any required companion files together.'
         -
           title: 'Open the supported content'
-          description: 'If the system is available in your build, import the content into the library and check its controls before playing.'
+          description: 'If the system is available in your version, import the content into the library and check the controls before playing.'
       faq:
         -
           question: 'Are games included?'
-          answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
+          answer: 'No. Nelkano does not include commercial games. Use compatible content you have the necessary rights to use.'
         -
-          question: 'Does the status apply to every game?'
+          question: 'Does this status apply to every game?'
           answer: |-
-            Some cartridges with coprocessors are unsupported.
-            Video and audio differences remain.
+            Some cartridges with coprocessors are not supported.
+            Video and audio differences remain to be resolved.
             PC tests do not guarantee availability in every APK.
         -
           question: 'Can I report an issue?'
@@ -1715,43 +1678,42 @@ en:
     neo-geo-pocket:
       enabled: true
       show_on_home: false
-      card_title: 'Neo Geo Pocket / Color'
-      title: 'Neo Geo Pocket / Color'
-      short_name: 'NGP / NGPC'
+      card_title: 'Neo Geo Pocket and Neo Geo Pocket Color'
+      title: 'Neo Geo Pocket and Neo Geo Pocket Color'
+      short_name: NGPC
       status: 'Playable and improving'
       category: Advanced
-      summary: "Neo Geo Pocket and its Color version share SNK's handheld platform. Nelkano integrates their core into Android with partial support and execution, audio and video tests."
-      tagline: "SNK's handheld platform across two generations."
+      summary: 'Play compatible Neo Geo Pocket and Neo Geo Pocket Color titles with touch controls or a controller, and save your game to continue later.'
+      tagline: "SNK's handhelds on your Android device."
       manufacturer: SNK
       year: '1998 / 1999'
-      formats: |-
-        .ngp
-        .ngc
-      overview: "Neo Geo Pocket and its Color version share SNK's handheld platform. Nelkano integrates their core into Android with partial support and execution, audio and video tests."
+      formats: ".ngp\r\n.ngc"
+      overview: "Neo Geo Pocket Color (1999) was SNK's handheld answer to Game Boy Color. Although it had a short commercial life, it became a favorite among retro gaming fans thanks to its tactile, clicky mini joystick, its fighting and action games, and its exceptional build quality."
       features: |-
-        Try compatible files from both variants.
-        Use the available input, video and audio features.
+        Load .ngp files for Neo Geo Pocket and .ngc files for Neo Geo Pocket Color.
+        Play with touch controls or an Android-compatible controller.
+        Use the D-pad and A, B and Option buttons.
+        Save and load states on both models.
+        Keep the progress of games with a supported save feature.
       limitations: |-
-        Some graphics cases still need improvement.
-        Full catalogue compatibility is not established.
-      step_1_title: 'Check the supported scope'
-      step_1_text: "Read this page's limitations and check that your Nelkano version includes this system."
-      step_2_title: 'Prepare your files'
-      step_2_text: 'Use compatible files you have the right to use. Keep any required companion files together.'
-      step_3_title: 'Open the supported content'
-      step_3_text: 'If the system is available in your build, import the content into the library and check its controls before playing.'
-      faq_1_question: 'Are games included?'
-      faq_1_answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
-      faq_2_question: 'Does the status apply to every game?'
-      faq_2_answer: |-
-        Some graphics cases still need improvement.
-        Full catalogue compatibility is not established.
-      faq_3_question: 'Can I report an issue?'
-      faq_3_answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
-      seo_title: 'Neo Geo Pocket / Color — Nelkano'
-      seo_description: "SNK's handheld platform across two generations."
-      tier: experimental
-      status_note: 'Muchos juegos arrancan y se pueden jugar, pero puede haber cierres inesperados o problemas en algunos títulos.'
+        Some games may start and play sound but display incorrect graphics.
+        Compatibility has not been verified for the entire library or every part of each game.
+      step_1_title: 'Prepare your game'
+      step_1_text: 'You need an .ngp or .ngc file you have permission to use. Keep its original extension: Nelkano uses .ngp for the monochrome model and .ngc for the color model.'
+      step_2_title: 'Add it to Nelkano'
+      step_2_text: 'Open the library, tap the + button and select the game file. Once the import is complete, you can open it from the library.'
+      step_3_title: 'Start playing'
+      step_3_text: 'Select the game and use the on-screen D-pad and A, B and Option buttons. You can also use an Android-compatible controller.'
+      faq_1_question: 'What is the difference between the two models?'
+      faq_1_answer: 'Files ending in .ngp open in monochrome mode, while .ngc files open in color mode. Both use the same controls.'
+      faq_2_question: 'Can I save my game on both models?'
+      faq_2_answer: 'Yes. Nelkano supports saving and loading states for both Neo Geo Pocket and Neo Geo Pocket Color. Each state belongs to the game and model it was created with.'
+      faq_3_question: 'Do all games work?'
+      faq_3_answer: 'No. Some titles still have issues, particularly with graphics. A game starting or playing sound does not guarantee that it will work correctly throughout the session.'
+      seo_title: 'Neo Geo Pocket and Color emulator for Android | Nelkano'
+      seo_description: 'Explore Neo Geo Pocket and Pocket Color support in Nelkano for Android. Check supported files, controls and current compatibility before importing games.'
+      tier: jugable
+      status_note: 'Both models can run compatible titles. Some games still have graphical or gameplay issues.'
       image_uri: ''
       related_ids: |-
         game-boy
@@ -1759,26 +1721,24 @@ en:
         mega-drive
       steps:
         -
-          title: 'Check the supported scope'
-          description: "Read this page's limitations and check that your Nelkano version includes this system."
+          title: 'Prepare your game'
+          description: 'You need an .ngp or .ngc file you have permission to use. Keep its original extension: Nelkano uses .ngp for the monochrome model and .ngc for the color model.'
         -
-          title: 'Prepare your files'
-          description: 'Use compatible files you have the right to use. Keep any required companion files together.'
+          title: 'Add it to Nelkano'
+          description: 'Open the library, tap the + button and select the game file. Once the import is complete, you can open it from the library.'
         -
-          title: 'Open the supported content'
-          description: 'If the system is available in your build, import the content into the library and check its controls before playing.'
+          title: 'Start playing'
+          description: 'Select the game and use the on-screen D-pad and A, B and Option buttons. You can also use an Android-compatible controller.'
       faq:
         -
-          question: 'Are games included?'
-          answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
+          question: 'What is the difference between the two models?'
+          answer: 'Files ending in .ngp open in monochrome mode, while .ngc files open in color mode. Both use the same controls.'
         -
-          question: 'Does the status apply to every game?'
-          answer: |-
-            Some graphics cases still need improvement.
-            Full catalogue compatibility is not established.
+          question: 'Can I save my game on both models?'
+          answer: 'Yes. Nelkano supports saving and loading states for both Neo Geo Pocket and Neo Geo Pocket Color. Each state belongs to the game and model it was created with.'
         -
-          question: 'Can I report an issue?'
-          answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
+          question: 'Do all games work?'
+          answer: 'No. Some titles still have issues, particularly with graphics. A game starting or playing sound does not guarantee that it will work correctly throughout the session.'
     playstation:
       enabled: true
       show_on_home: true
@@ -1787,128 +1747,132 @@ en:
       short_name: PS1
       status: Experimental
       category: 'In progress'
-      summary: "Nelkano's PlayStation core has Android integration and direct boot. It remains experimental, with validation limited to the tested titles and devices."
-      tagline: 'The move to CD games and 3D graphics.'
+      summary: 'Open compatible PlayStation games with touch controls or a controller. Virtual memory cards and save states are included.'
+      tagline: 'The original PlayStation on your Android device.'
       manufacturer: Sony
       year: '1994'
-      formats: |-
-        .cue
-        .bin
-      overview: "Nelkano's PlayStation core has Android integration and direct boot. It remains experimental, with validation limited to the tested titles and devices."
+      formats: '.cue + .bin'
+      overview: 'The original PlayStation (1994) brought 3D polygon graphics to a mass audience and propelled Sony to market leadership. Emulating it requires moderately powerful hardware because of its MIPS R3000A CPU architecture and its GTE and MDEC coprocessors for graphics and video.'
       features: |-
-        Try supported titles through direct boot.
-        Use controls and graphics output in supported cases.
+        Import a disc using its CUE file and all the tracks it references.
+        Import complete discs from ZIP, RAR or 7z archives containing the CUE and its tracks.
+        Play with touch controls or an Android-compatible controller.
+        Save within the game using virtual memory cards.
+        Create and load save states to resume your game.
       limitations: |-
-        Compatibility and mobile performance remain under evaluation.
-        Disc images must retain their tracks and associated files.
-      step_1_title: 'Check the supported scope'
-      step_1_text: "Read this page's limitations and check that your Nelkano version includes this system."
-      step_2_title: 'Prepare your files'
-      step_2_text: 'Use compatible files you have the right to use. Keep any required companion files together.'
-      step_3_title: 'Open the supported content'
-      step_3_text: 'If the system is available in your build, import the content into the library and check its controls before playing.'
-      faq_1_question: 'Are games included?'
-      faq_1_answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
-      faq_2_question: 'Does the status apply to every game?'
-      faq_2_answer: |-
-        Compatibility and mobile performance remain under evaluation.
-        Disc images must retain their tracks and associated files.
-      faq_3_question: 'Can I report an issue?'
-      faq_3_answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
-      seo_title: 'PlayStation — Nelkano'
-      seo_description: 'The move to CD games and 3D graphics.'
-      tier: experimental
-      status_note: 'Muchos juegos arrancan y son jugables, pero puede haber cierres inesperados, problemas gráficos o de audio en algunos títulos.'
+        Some games may have graphical errors, audio issues or crashes.
+        Performance depends on the game and device; not every title runs smoothly.
+        On phones and tablets, the system requires a 64-bit version of Android for ARM processors.
+      step_1_title: 'Prepare the complete disc'
+      step_1_text: 'You need a game disc image you have permission to use. Keep the CUE file together with every BIN file it references, without changing their names.'
+      step_2_title: 'Add it to Nelkano'
+      step_2_text: 'Open the library, tap the + button and select a CUE file and all its tracks together. You can also select a ZIP, RAR or 7z archive containing the complete disc.'
+      step_3_title: 'Open the game'
+      step_3_text: 'Once the import is complete, open the game from the library. You can use the on-screen buttons or an Android-compatible controller.'
+      faq_1_question: 'Which files should I select?'
+      faq_1_answer: 'A CUE file and all the tracks it references, usually BIN files. The CUE describes how the disc is organized and must accompany its tracks.'
+      faq_2_question: 'Can I import a compressed game?'
+      faq_2_answer: 'Yes. You can add a ZIP, RAR or 7z archive containing the CUE and all its tracks. Nelkano extracts the files during import.'
+      faq_3_question: 'How do I save my game?'
+      faq_3_answer: "You can use the game's own save option, which writes to a virtual memory card, or create a save state from Nelkano. These are two different ways of saving."
+      seo_title: 'PS1 emulator for Android: compatibility | Nelkano'
+      seo_description: 'Explore PlayStation support in Nelkano for Android. Read about disc imports, controls and current compatibility limits before adding your PS1 games.'
+      tier: basico
+      status_note: 'Some games are already playable, but compatibility is still being developed. Graphical errors, audio issues, slowdowns or crashes may occur depending on the title.'
       image_uri: ''
       related_ids: |-
-        nintendo-ds
         game-boy-advance
+        nintendo-ds
       steps:
         -
-          title: 'Check the supported scope'
-          description: "Read this page's limitations and check that your Nelkano version includes this system."
+          title: 'Prepare the complete disc'
+          description: 'You need a game disc image you have permission to use. Keep the CUE file together with every BIN file it references, without changing their names.'
         -
-          title: 'Prepare your files'
-          description: 'Use compatible files you have the right to use. Keep any required companion files together.'
+          title: 'Add it to Nelkano'
+          description: 'Open the library, tap the + button and select a CUE file and all its tracks together. You can also select a ZIP, RAR or 7z archive containing the complete disc.'
         -
-          title: 'Open the supported content'
-          description: 'If the system is available in your build, import the content into the library and check its controls before playing.'
+          title: 'Open the game'
+          description: 'Once the import is complete, open the game from the library. You can use the on-screen buttons or an Android-compatible controller.'
       faq:
         -
-          question: 'Are games included?'
-          answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
+          question: 'Which files should I select?'
+          answer: 'A CUE file and all the tracks it references, usually BIN files. The CUE describes how the disc is organized and must accompany its tracks.'
         -
-          question: 'Does the status apply to every game?'
-          answer: |-
-            Compatibility and mobile performance remain under evaluation.
-            Disc images must retain their tracks and associated files.
+          question: 'Can I import a compressed game?'
+          answer: 'Yes. You can add a ZIP, RAR or 7z archive containing the CUE and all its tracks. Nelkano extracts the files during import.'
         -
-          question: 'Can I report an issue?'
-          answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
+          question: 'How do I save my game?'
+          answer: "You can use the game's own save option, which writes to a virtual memory card, or create a save state from Nelkano. These are two different ways of saving."
+        -
+          question: 'Do all PlayStation games work?'
+          answer: 'No. Some titles are already playable, while others still have issues. A game showing its intro or menu does not guarantee that the whole game will work correctly.'
     rpg-maker:
       enabled: true
       show_on_home: false
-      card_title: 'RPG Maker XP / VX / VX Ace'
-      title: 'RPG Maker XP / VX / VX Ace'
-      short_name: RGSS
+      card_title: 'RPG Maker'
+      title: 'RPG Maker'
+      short_name: 'RPG Maker'
       status: Experimental
       category: 'In progress'
-      summary: "Nelkano develops its own Ruby and RGSS-based engine. Support is partial and depends on each game's scripts and assets; it does not imply general compatibility with every RPG Maker version."
-      tagline: 'An in-house engine for exploring the RGSS family.'
-      manufacturer: 'RPG Maker'
-      year: '2004 / 2007 / 2011'
-      formats: ''
-      overview: "Nelkano develops its own Ruby and RGSS-based engine. Support is partial and depends on each game's scripts and assets; it does not imply general compatibility with every RPG Maker version."
+      summary: 'Open compatible RPG Maker XP, MV and MZ games, add them to your library and play with touch controls or a controller.'
+      tagline: 'Your RPG Maker games, now on Android too.'
+      manufacturer: 'Enterbrain / KADOKAWA / Gotcha Gotcha Games'
+      year: '2004 / 2015 / 2020'
+      formats: ".zip\r\n.rar\r\n.7z"
+      overview: 'RPG Maker is a family of tools for creating games, especially adventures and RPGs. Nelkano can open compatible games made with XP, MV and MZ using their complete game files. Compatibility is still being developed and may vary between games, even when they use the same RPG Maker version.'
       features: |-
-        Try projects compatible with the implemented RGSS scope.
-        Keep the project's script and asset structure intact.
+        Import complete games from ZIP, RAR or 7z archives.
+        Open compatible RPG Maker XP, MV and MZ games from your library.
+        Use touch controls or an Android-compatible controller.
+        Try your own games exported with these versions.
+        Save and load states in compatible RPG Maker XP games.
       limitations: |-
-        Custom scripts may need features that are not yet implemented.
-        MV/MZ and 2000/2003 are separate families.
-      step_1_title: 'Check the supported scope'
-      step_1_text: "Read this page's limitations and check that your Nelkano version includes this system."
-      step_2_title: 'Prepare your files'
-      step_2_text: 'Use compatible files you have the right to use. Keep any required companion files together.'
-      step_3_title: 'Open the supported content'
-      step_3_text: 'If the system is available in your build, import the content into the library and check its controls before playing.'
-      faq_1_question: 'Are games included?'
-      faq_1_answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
-      faq_2_question: 'Does the status apply to every game?'
-      faq_2_answer: |-
-        Custom scripts may need features that are not yet implemented.
-        MV/MZ and 2000/2003 are separate families.
-      faq_3_question: 'Can I report an issue?'
-      faq_3_answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
-      seo_title: 'RPG Maker XP / VX / VX Ace — Nelkano'
-      seo_description: 'An in-house engine for exploring the RGSS family.'
+        Some games may fail at startup or during gameplay because of the scripts or plugins they use.
+        The game must include its data files, images, sounds and any other required resources.
+        Nelkano save states have limitations depending on the game, and support differs between XP, MV and MZ.
+      step_1_title: 'Prepare the complete game'
+      step_1_text: 'You need an RPG Maker XP, MV or MZ game you have permission to use. Keep all its folders and files inside a ZIP, RAR or 7z archive. Adding only the executable or a single data file is not enough.'
+      step_2_title: 'Add it to Nelkano'
+      step_2_text: 'Open the library, tap the + button and select the game archive. Wait for the import to finish.'
+      step_3_title: 'Open the game'
+      step_3_text: 'Select the game in your library. You can use touch controls or an Android-compatible controller. The available buttons and actions depend on the game.'
+      faq_1_question: 'Which RPG Maker versions can I use?'
+      faq_1_answer: 'Nelkano has experimental compatibility with RPG Maker XP, MV and MZ games. A game being made with one of these versions does not guarantee that all its features will work.'
+      faq_2_question: 'Which files should I add?'
+      faq_2_answer: 'A ZIP, RAR or 7z archive containing the complete game, including its folders and resources. For MV and MZ, it must also include the index.html file supplied with the game.'
+      faq_3_question: 'Can I save my game from Nelkano?'
+      faq_3_answer: 'Compatible RPG Maker XP games support saving and loading states, although saving may be unavailable at certain points. This feature still has limitations in MV and MZ.'
+      seo_title: 'Play RPG Maker XP, MV and MZ on Android | Nelkano'
+      seo_description: 'Open compatible RPG Maker XP, MV and MZ games on Android with Nelkano. Learn how to import the complete game and check the limitations of each version.'
       tier: experimental
-      status_note: 'Muchos proyectos arrancan y son jugables, pero puede haber cierres inesperados o problemas en proyectos con scripts muy modificados.'
+      status_note: 'Experimental compatibility with RPG Maker XP, MV and MZ games. Results depend on each game and the plugins it uses.'
       image_uri: ''
       related_ids: |-
         chip-8
         nes
       steps:
         -
-          title: 'Check the supported scope'
-          description: "Read this page's limitations and check that your Nelkano version includes this system."
+          title: 'Prepare the complete game'
+          description: 'You need an RPG Maker XP, MV or MZ game you have permission to use. Keep all its folders and files inside a ZIP, RAR or 7z archive. Adding only the executable or a single data file is not enough.'
         -
-          title: 'Prepare your files'
-          description: 'Use compatible files you have the right to use. Keep any required companion files together.'
+          title: 'Add it to Nelkano'
+          description: 'Open the library, tap the + button and select the game archive. Wait for the import to finish.'
         -
-          title: 'Open the supported content'
-          description: 'If the system is available in your build, import the content into the library and check its controls before playing.'
+          title: 'Open the game'
+          description: 'Select the game in your library. You can use touch controls or an Android-compatible controller. The available buttons and actions depend on the game.'
       faq:
         -
-          question: 'Are games included?'
-          answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
+          question: 'Which RPG Maker versions can I use?'
+          answer: 'Nelkano has experimental compatibility with RPG Maker XP, MV and MZ games. A game being made with one of these versions does not guarantee that all its features will work.'
         -
-          question: 'Does the status apply to every game?'
-          answer: |-
-            Custom scripts may need features that are not yet implemented.
-            MV/MZ and 2000/2003 are separate families.
+          question: 'Which files should I add?'
+          answer: 'A ZIP, RAR or 7z archive containing the complete game, including its folders and resources. For MV and MZ, it must also include the index.html file supplied with the game.'
         -
-          question: 'Can I report an issue?'
-          answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
+          question: 'Can I save my game from Nelkano?'
+          answer: 'Compatible RPG Maker XP games support saving and loading states, although saving may be unavailable at certain points. This feature still has limitations in MV and MZ.'
+        -
+          question: 'Can I try a game I created?'
+          answer: 'Yes. Export the game with XP, MV or MZ, include all required resources and add the archive to Nelkano.'
     nintendo-3ds:
       enabled: true
       show_on_home: true
@@ -1917,60 +1881,67 @@ en:
       short_name: 3DS
       status: Experimental
       category: 'In progress'
-      summary: "Nintendo 3DS is one of Nelkano's experimental cores. Android integration and rendering work continue to evolve, with tests tied to specific versions."
-      tagline: 'A 3D handheld platform still in development.'
+      summary: 'Experimental Nintendo 3DS compatibility with dual screens, touch controls and save states. Functionality and speed depend on each game and device.'
+      tagline: 'Explore Nintendo 3DS games on Android.'
       manufacturer: Nintendo
       year: '2011'
-      formats: ''
-      overview: "Nintendo 3DS is one of Nelkano's experimental cores. Android integration and rendering work continue to evolve, with tests tied to specific versions."
-      features: "Review the experimental core's status and limitations."
+      formats: ".3ds\r\n.cci\r\n.cia\r\n.3dz\r\n.cxi\r\n.ncch\r\n.3dsx"
+      overview: "Nintendo 3DS (2011) succeeded the Nintendo DS with a glasses-free 3D screen, a camera and an extensive game library. Emulating it on Android is one of Nelkano's most complex challenges: its dual-core ARM11 architecture, multiple coprocessors and specialized graphics hardware make development a lengthy process. The core is still in its early stages."
+      features: |-
+        Import 3DS games and applications in supported formats.
+        Show both screens or select only the upper or lower screen.
+        Use on-screen controls or an Android-compatible controller.
+        Interact with the lower touchscreen.
+        Save and load states in supported situations.
       limitations: |-
-        General compatibility and uniform performance are not guaranteed.
-        Results from one version do not certify all later versions.
-      step_1_title: 'Check the supported scope'
-      step_1_text: "Read this page's limitations and check that your Nelkano version includes this system."
-      step_2_title: 'Prepare your files'
-      step_2_text: 'Use compatible files you have the right to use. Keep any required companion files together.'
-      step_3_title: 'Open the supported content'
-      step_3_text: 'If the system is available in your build, import the content into the library and check its controls before playing.'
-      faq_1_question: 'Are games included?'
-      faq_1_answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
-      faq_2_question: 'Does the status apply to every game?'
-      faq_2_answer: |-
-        General compatibility and uniform performance are not guaranteed.
-        Results from one version do not certify all later versions.
-      faq_3_question: 'Can I report an issue?'
-      faq_3_answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
-      seo_title: 'Nintendo 3DS — Nelkano'
-      seo_description: 'A 3D handheld platform still in development.'
+        Some titles fail to start, display a black screen or freeze during execution.
+        Graphical errors and audio issues may occur.
+        Performance may be too slow for smooth gameplay, even on powerful devices.
+        Save states still have limitations depending on the game and situation.
+        Graphics rendering requires Vulkan support.
+      step_1_title: 'Add the system files'
+      step_1_text: 'In Settings → BIOS, tap Add 3DS system files and import boot9.bin, boot11.bin and aes_keys.txt. You must have these files and permission to use them. The app requires them before opening a game.'
+      step_2_title: 'Add your game'
+      step_2_text: 'Prepare a game or application you have permission to use. Open the library, tap the + button and select its file. Wait for the import to finish.'
+      step_3_title: 'Open the game and choose the screens'
+      step_3_text: 'Select the game in the library. You can display both screens or choose one. To use touch input, keep the lower screen visible and touch it directly.'
+      faq_1_question: 'What do I need to get started?'
+      faq_1_answer: 'A compatible game and the boot9.bin, boot11.bin and aes_keys.txt files added through Settings → BIOS. Some titles may need additional support files; the settings also let you import seeddb.bin, shared_font.bin and dspfirm.cdc.'
+      faq_2_question: 'Do all Nintendo 3DS games work?'
+      faq_2_answer: 'No. Compatibility is experimental. A game may display its menu or a cutscene and then fail, while others still do not display an image.'
+      faq_3_question: 'Can I save and continue later?'
+      faq_3_answer: 'Nelkano can create and load save states, but this feature still has limitations. Saving is not available in every situation, and restoring a state may have issues depending on the title.'
+      seo_title: 'Nintendo 3DS on Android: experimental support | Nelkano'
+      seo_description: 'Explore experimental Nintendo 3DS support in Nelkano for Android. Check requirements, supported files and current limitations before trying your games.'
       tier: basico
-      status_note: 'El core arranca y algunos juegos pueden llegar al menú o mostrar gráficos, pero el gameplay todavía no es funcional o existen errores graves.'
+      status_note: 'Some titles let you navigate menus and interactive scenes. Compatibility is still being developed, and black screens, graphical errors, crashes and significant slowdowns may occur.'
       image_uri: ''
       related_ids: |-
-        nintendo-ds
         game-boy-advance
+        nintendo-ds
       steps:
         -
-          title: 'Check the supported scope'
-          description: "Read this page's limitations and check that your Nelkano version includes this system."
+          title: 'Add the system files'
+          description: 'In Settings → BIOS, tap Add 3DS system files and import boot9.bin, boot11.bin and aes_keys.txt. You must have these files and permission to use them. The app requires them before opening a game.'
         -
-          title: 'Prepare your files'
-          description: 'Use compatible files you have the right to use. Keep any required companion files together.'
+          title: 'Add your game'
+          description: 'Prepare a game or application you have permission to use. Open the library, tap the + button and select its file. Wait for the import to finish.'
         -
-          title: 'Open the supported content'
-          description: 'If the system is available in your build, import the content into the library and check its controls before playing.'
+          title: 'Open the game and choose the screens'
+          description: 'Select the game in the library. You can display both screens or choose one. To use touch input, keep the lower screen visible and touch it directly.'
       faq:
         -
-          question: 'Are games included?'
-          answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
+          question: 'What do I need to get started?'
+          answer: 'A compatible game and the boot9.bin, boot11.bin and aes_keys.txt files added through Settings → BIOS. Some titles may need additional support files; the settings also let you import seeddb.bin, shared_font.bin and dspfirm.cdc.'
         -
-          question: 'Does the status apply to every game?'
-          answer: |-
-            General compatibility and uniform performance are not guaranteed.
-            Results from one version do not certify all later versions.
+          question: 'Do all Nintendo 3DS games work?'
+          answer: 'No. Compatibility is experimental. A game may display its menu or a cutscene and then fail, while others still do not display an image.'
         -
-          question: 'Can I report an issue?'
-          answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
+          question: 'Can I save and continue later?'
+          answer: 'Nelkano can create and load save states, but this feature still has limitations. Saving is not available in every situation, and restoring a state may have issues depending on the title.'
+        -
+          question: 'Does a powerful phone guarantee that games will work well?'
+          answer: 'No. Performance depends on the device, but also on the game and the features it needs. A more powerful device does not fix compatibility errors.'
     nintendo-switch:
       enabled: true
       show_on_home: false
@@ -1979,54 +1950,54 @@ en:
       short_name: Switch
       status: Research
       category: 'In progress'
-      summary: "Nelkano's Nintendo Switch core is in an early research phase. Execution and first-image milestones do not represent a general Android gaming experience."
+      summary: "Nelkano's Nintendo Switch core is in an early research phase. Technical milestones such as execution and a first image do not represent a general gameplay experience on Android."
       tagline: 'A long-term research effort.'
       manufacturer: Nintendo
       year: '2017'
       formats: ''
-      overview: "Nelkano's Nintendo Switch core is in an early research phase. Execution and first-image milestones do not represent a general Android gaming experience."
-      features: "Review the core's research progress and scope."
+      overview: "Nelkano's Nintendo Switch core is in an early research phase. Technical milestones such as execution and a first image do not represent a general gameplay experience on Android."
+      features: "Check the core's progress and research scope."
       limitations: |-
-        It has not been validated as a general playable product.
+        It has not been validated as a generally playable product.
         Availability or performance in the current APK is not promised.
-      step_1_title: 'Check the supported scope'
-      step_1_text: "Read this page's limitations and check that your Nelkano version includes this system."
+      step_1_title: 'Check the available support'
+      step_1_text: "Read this page's limitations and check that your version of Nelkano includes this system."
       step_2_title: 'Prepare your files'
       step_2_text: 'Use compatible files you have the right to use. Keep any required companion files together.'
       step_3_title: 'Open the supported content'
-      step_3_text: 'If the system is available in your build, import the content into the library and check its controls before playing.'
+      step_3_text: 'If the system is available in your version, import the content into the library and check the controls before playing.'
       faq_1_question: 'Are games included?'
-      faq_1_answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
-      faq_2_question: 'Does the status apply to every game?'
+      faq_1_answer: 'No. Nelkano does not include commercial games. Use compatible content you have the necessary rights to use.'
+      faq_2_question: 'Does this status apply to every game?'
       faq_2_answer: |-
-        It has not been validated as a general playable product.
+        It has not been validated as a generally playable product.
         Availability or performance in the current APK is not promised.
       faq_3_question: 'Can I report an issue?'
       faq_3_answer: 'Yes. Include the Nelkano version, device, system and steps to reproduce the issue.'
-      seo_title: 'Nintendo Switch — Nelkano'
-      seo_description: 'A long-term research effort.'
+      seo_title: 'Nintendo Switch in Nelkano: development status'
+      seo_description: 'Follow Nintendo Switch development in Nelkano. This early research effort does not yet offer general gameplay on Android. Check the current status.'
       tier: basico
       status_note: ''
       image_uri: ''
       related_ids: ''
       steps:
         -
-          title: 'Check the supported scope'
-          description: "Read this page's limitations and check that your Nelkano version includes this system."
+          title: 'Check the available support'
+          description: "Read this page's limitations and check that your version of Nelkano includes this system."
         -
           title: 'Prepare your files'
           description: 'Use compatible files you have the right to use. Keep any required companion files together.'
         -
           title: 'Open the supported content'
-          description: 'If the system is available in your build, import the content into the library and check its controls before playing.'
+          description: 'If the system is available in your version, import the content into the library and check the controls before playing.'
       faq:
         -
           question: 'Are games included?'
-          answer: 'No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.'
+          answer: 'No. Nelkano does not include commercial games. Use compatible content you have the necessary rights to use.'
         -
-          question: 'Does the status apply to every game?'
+          question: 'Does this status apply to every game?'
           answer: |-
-            It has not been validated as a general playable product.
+            It has not been validated as a generally playable product.
             Availability or performance in the current APK is not promised.
         -
           question: 'Can I report an issue?'

@@ -75,8 +75,8 @@ un exportado de la configuración **del servidor**, fuera de `public_html`.
 Revisa los cambios editoriales de producción que aún no estén en Git: `cim`
 publica el contenido de `config/sync` y sustituye la configuración correspondiente.
 El UUID del sitio, las credenciales de BD y sus rutas deben seguir siendo los del
-servidor. El APK ya referenciado por Versiones permanece en los archivos del
-servidor; Git no transporta ese archivo ni otros uploads.
+servidor. Los APK de Versiones se transportan en `release-artifacts/`, con su manifiesto
+SHA-256. Los demás uploads permanecen en el servidor.
 
 Las actualizaciones nuevas son `11026–11033`, todas en `nelkano_home.install`:
 catálogo de sistemas, compatibilidad CSV, contenido inicial del rediseño, guía,
@@ -102,3 +102,44 @@ los dos YAML anteriores (`nelkano_home.settings` y `nelkano_home.docs`) en
 `deploy`, y finalmente `verify-sync`. La fase `prepare` modifica únicamente la
 configuración de la copia y su versión de esquema para reproducir la migración.
 Nunca ejecutar esta preparación sobre la BD local de trabajo o producción.
+
+## APK y publicación de versiones
+
+Incluye `release-artifacts/` completo y `config/sync/nelkano_home.docs.yml` en el
+paquete de despliegue. No basta con copiar el módulo o exportar la configuración.
+`deploy-hostinger.sh` verifica los APK referenciados, los copia a
+`public://nelkano-releases`, los registra como archivos permanentes y después
+importa la configuración. Un archivo ausente, corrupto o distinto de otro ya
+existente con el mismo nombre detiene el proceso antes de importar la versión.
+No sustituye APK publicados con otros binarios ni cambia la visibilidad o fecha.
+
+La 2.0.0-beta está preparada como borrador en ES y EN, con el archivo
+`Nelkano 2.0.0-beta.apk`. El binario es ARM64, aunque el nombre sigue la convención
+pública. Antes del despliegue definitivo, tras aprobar la revisión en el teléfono,
+marca la versión visible y fija la fecha real en ambos idiomas; exporta esa
+configuración a `config/sync`. Hasta entonces, la home conserva la 1.0.0-beta.
+La home ordena las versiones visibles por número y elige la última con APK
+existente. No requiere cambiar manualmente el enlace de descarga.
+
+Comprobaciones locales: `NELKANO_RELEASE_ASSETS_TEST=1 drush php:script scripts/test-release-assets.php`
+(selección ES/EN, borrador, publicación simulada sin guardar, archivo ausente y
+rechazo de SHA-256 incorrecto) y dos ejecuciones consecutivas del instalador.
+No ejecutar este test en producción: altera temporalmente el manifiesto de prueba.
+## SEO: dominio y sitemap
+
+La regla `scripts/scaffold/canonical-host.htaccess`, incorporada a `.htaccess`
+mediante Composer Scaffold, redirige `www.nelkano.com` con HTTP 301 a
+`https://nelkano.com`, conservando ruta y parámetros. No redirige localhost.
+El `.htaccess` utiliza la plantilla completa de Drupal 11.4.6; la copia local anterior
+estaba truncada. No copiar el `.htaccess` antiguo después de Composer.
+
+El sitemap incluye `/sistemas`, `/en/systems`, `/guia` y `/en/guide`, además de
+las fichas visibles y páginas existentes. No emite `lastmod` hasta disponer de
+fechas reales de actualización. Comprobación local: 39 URLs únicas, las cuatro
+páginas responden 200, redirección www 301 sin bucle y sintaxis Apache/PHP válida.
+
+Pendiente después del despliegue aprobado: verificar por HTTPS el 301 de www,
+las URLs canónicas y `https://nelkano.com/sitemap.xml` en el servidor; enviar ese
+sitemap desde Search Console (Indexación → Sitemaps) usando la propiedad de
+nelkano.com y comprobar que Google lo procesa correctamente. El envío no se ha
+realizado desde local y no garantiza indexación ni posiciones.

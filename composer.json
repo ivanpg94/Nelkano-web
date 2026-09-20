@@ -44,6 +44,11 @@
     "drupal-scaffold": {
       "locations": {
         "web-root": "public_html/"
+      },
+      "file-mapping": {
+        "[web-root]/.htaccess": {
+          "prepend": "scripts/scaffold/canonical-host.htaccess"
+        }
       }
     },
     "installer-paths": {

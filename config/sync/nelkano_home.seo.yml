@@ -2,19 +2,724 @@ langcode: es
 es:
   pages:
     contact:
-      title: 'Contacto - Nelkano'
-      description: 'Contacta con Nelkano para soporte, propuestas o incidencias tecnicas.'
+      title: 'Contacto y soporte de Nelkano'
+      description: 'Contacta con Nelkano para resolver dudas, comunicar problemas técnicos o enviar sugerencias sobre el emulador para Android. Consulta las vías de contacto.'
       keywords: ''
       robots: 'index, follow, max-image-preview:large'
       canonical: ''
-      og_title: ''
-      og_description: ''
+      og_title: 'Contacto y soporte de Nelkano'
+      og_description: 'Contacta con Nelkano para resolver dudas, comunicar problemas técnicos o enviar sugerencias sobre el emulador para Android. Consulta las vías de contacto.'
       image: ''
       image_alt: Nelkano
-      twitter_title: ''
-      twitter_description: ''
+      twitter_title: 'Contacto y soporte de Nelkano'
+      twitter_description: 'Contacta con Nelkano para resolver dudas, comunicar problemas técnicos o enviar sugerencias sobre el emulador para Android. Consulta las vías de contacto.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    home:
+      title: 'Emulador multisistema para Android gratis | Nelkano'
+      description: 'Descarga Nelkano gratis para Android. Organiza tus juegos, configura los controles y consulta los sistemas compatibles y la guía de uso. No incluye juegos.'
+      keywords: 'emulador android, emulador gratis, game boy, gba, gbc, nes, mega drive, nintendo ds, chip-8, rpg maker, nelkano'
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Emulador multisistema para Android gratis | Nelkano'
+      og_description: 'Descarga Nelkano gratis para Android. Organiza tus juegos, configura los controles y consulta los sistemas compatibles y la guía de uso. No incluye juegos.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Emulador multisistema para Android gratis | Nelkano'
+      twitter_description: 'Descarga Nelkano gratis para Android. Organiza tus juegos, configura los controles y consulta los sistemas compatibles y la guía de uso. No incluye juegos.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    systems:
+      title: 'Sistemas compatibles con Nelkano para Android'
+      description: 'Consulta los sistemas disponibles en Nelkano para Android. Cada ficha explica los formatos admitidos, las funciones, las limitaciones y cómo empezar.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Sistemas compatibles con Nelkano para Android'
+      og_description: 'Consulta los sistemas disponibles en Nelkano para Android. Cada ficha explica los formatos admitidos, las funciones, las limitaciones y cómo empezar.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Sistemas compatibles con Nelkano para Android'
+      twitter_description: 'Consulta los sistemas disponibles en Nelkano para Android. Cada ficha explica los formatos admitidos, las funciones, las limitaciones y cómo empezar.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    guide:
+      title: 'Cómo usar Nelkano: juegos, mandos y guardados'
+      description: 'Aprende a añadir juegos a Nelkano, configurar mandos y controles táctiles, guardar partidas y sincronizar con Google Drive. Guía paso a paso para Android.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Cómo usar Nelkano: juegos, mandos y guardados'
+      og_description: 'Aprende a añadir juegos a Nelkano, configurar mandos y controles táctiles, guardar partidas y sincronizar con Google Drive. Guía paso a paso para Android.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Cómo usar Nelkano: juegos, mandos y guardados'
+      twitter_description: 'Aprende a añadir juegos a Nelkano, configurar mandos y controles táctiles, guardar partidas y sincronizar con Google Drive. Guía paso a paso para Android.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    legal_notice:
+      title: 'Aviso legal y condiciones de uso | Nelkano'
+      description: 'Consulta el aviso legal de Nelkano: titularidad del sitio, condiciones de uso, propiedad intelectual e información sobre las descargas y responsabilidades.'
+      keywords: ''
+      robots: 'index, follow'
+      canonical: ''
+      og_title: 'Aviso legal y condiciones de uso | Nelkano'
+      og_description: 'Consulta el aviso legal de Nelkano: titularidad del sitio, condiciones de uso, propiedad intelectual e información sobre las descargas y responsabilidades.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Aviso legal y condiciones de uso | Nelkano'
+      twitter_description: 'Consulta el aviso legal de Nelkano: titularidad del sitio, condiciones de uso, propiedad intelectual e información sobre las descargas y responsabilidades.'
+      twitter_card: summary_large_image
+      og_type: article
+      site_name: Nelkano
+    privacy_cookies:
+      title: 'Política de privacidad y cookies | Nelkano'
+      description: 'Consulta qué datos trata Nelkano, para qué se utilizan, qué cookies emplea la web y cómo ejercer tus derechos sobre tus datos personales.'
+      keywords: ''
+      robots: 'index, follow'
+      canonical: ''
+      og_title: 'Política de privacidad y cookies | Nelkano'
+      og_description: 'Consulta qué datos trata Nelkano, para qué se utilizan, qué cookies emplea la web y cómo ejercer tus derechos sobre tus datos personales.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Política de privacidad y cookies | Nelkano'
+      twitter_description: 'Consulta qué datos trata Nelkano, para qué se utilizan, qué cookies emplea la web y cómo ejercer tus derechos sobre tus datos personales.'
+      twitter_card: summary_large_image
+      og_type: article
+      site_name: Nelkano
+    releases:
+      title: 'Nelkano para Android: versiones y descarga del APK'
+      description: 'Consulta las versiones de Nelkano para Android, sus novedades y requisitos. Revisa la información de cada APK y cómo comprobar la descarga.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Nelkano para Android: versiones y descarga del APK'
+      og_description: 'Consulta las versiones de Nelkano para Android, sus novedades y requisitos. Revisa la información de cada APK y cómo comprobar la descarga.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Nelkano para Android: versiones y descarga del APK'
+      twitter_description: 'Consulta las versiones de Nelkano para Android, sus novedades y requisitos. Revisa la información de cada APK y cómo comprobar la descarga.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    security:
+      title: 'Seguridad, permisos y datos de Nelkano para Android'
+      description: 'Conoce los permisos de Nelkano para Android, cómo gestiona los datos locales y la cuenta de usuario, y cómo funciona la conexión opcional con Google Drive.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Seguridad, permisos y datos de Nelkano para Android'
+      og_description: 'Conoce los permisos de Nelkano para Android, cómo gestiona los datos locales y la cuenta de usuario, y cómo funciona la conexión opcional con Google Drive.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Seguridad, permisos y datos de Nelkano para Android'
+      twitter_description: 'Conoce los permisos de Nelkano para Android, cómo gestiona los datos locales y la cuenta de usuario, y cómo funciona la conexión opcional con Google Drive.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__chip-8:
+      title: 'Emulador CHIP-8 para Android | Nelkano'
+      description: 'Ejecuta juegos y programas CHIP-8 en Android con Nelkano. Usa el teclado táctil de 16 teclas, guarda estados y consulta los formatos y límites del sistema.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Emulador CHIP-8 para Android | Nelkano'
+      og_description: 'Ejecuta juegos y programas CHIP-8 en Android con Nelkano. Usa el teclado táctil de 16 teclas, guarda estados y consulta los formatos y límites del sistema.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Emulador CHIP-8 para Android | Nelkano'
+      twitter_description: 'Ejecuta juegos y programas CHIP-8 en Android con Nelkano. Usa el teclado táctil de 16 teclas, guarda estados y consulta los formatos y límites del sistema.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__game-boy:
+      title: 'Emulador Game Boy y Game Boy Color para Android | Nelkano'
+      description: 'Juega a Game Boy y Game Boy Color en Android con Nelkano. Abre archivos .gb y .gbc, adapta los controles táctiles o usa un mando y guarda estados de partida.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Emulador Game Boy y Game Boy Color para Android | Nelkano'
+      og_description: 'Juega a Game Boy y Game Boy Color en Android con Nelkano. Abre archivos .gb y .gbc, adapta los controles táctiles o usa un mando y guarda estados de partida.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Emulador Game Boy y Game Boy Color para Android | Nelkano'
+      twitter_description: 'Juega a Game Boy y Game Boy Color en Android con Nelkano. Abre archivos .gb y .gbc, adapta los controles táctiles o usa un mando y guarda estados de partida.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__game-boy-color:
+      title: 'Game Boy Color en Nelkano: consulta la ficha de Game Boy'
+      description: 'La información de Game Boy Color está reunida en la ficha de Game Boy de Nelkano. Consulta allí los formatos, controles y limitaciones para Android.'
+      keywords: ''
+      robots: 'noindex, follow'
+      canonical: ''
+      og_title: 'Game Boy Color en Nelkano: consulta la ficha de Game Boy'
+      og_description: 'La información de Game Boy Color está reunida en la ficha de Game Boy de Nelkano. Consulta allí los formatos, controles y limitaciones para Android.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Game Boy Color en Nelkano: consulta la ficha de Game Boy'
+      twitter_description: 'La información de Game Boy Color está reunida en la ficha de Game Boy de Nelkano. Consulta allí los formatos, controles y limitaciones para Android.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__game-boy-advance:
+      title: 'Emulador GBA para Android: Game Boy Advance | Nelkano'
+      description: 'Juega a Game Boy Advance en Android con Nelkano. Importa archivos .gba, configura los controles o utiliza un mando y guarda estados para continuar después.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Emulador GBA para Android: Game Boy Advance | Nelkano'
+      og_description: 'Juega a Game Boy Advance en Android con Nelkano. Importa archivos .gba, configura los controles o utiliza un mando y guarda estados para continuar después.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Emulador GBA para Android: Game Boy Advance | Nelkano'
+      twitter_description: 'Juega a Game Boy Advance en Android con Nelkano. Importa archivos .gba, configura los controles o utiliza un mando y guarda estados para continuar después.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__nes:
+      title: 'Emulador NES y Famicom para Android | Nelkano'
+      description: 'Abre juegos de NES, Famicom y Famicom Disk System en Android con Nelkano. Consulta cómo importar archivos .nes y .fds y las limitaciones de compatibilidad.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Emulador NES y Famicom para Android | Nelkano'
+      og_description: 'Abre juegos de NES, Famicom y Famicom Disk System en Android con Nelkano. Consulta cómo importar archivos .nes y .fds y las limitaciones de compatibilidad.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Emulador NES y Famicom para Android | Nelkano'
+      twitter_description: 'Abre juegos de NES, Famicom y Famicom Disk System en Android con Nelkano. Consulta cómo importar archivos .nes y .fds y las limitaciones de compatibilidad.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__rpg-maker-mv-mz:
+      title: 'RPG Maker MV y MZ en Nelkano: ficha unificada'
+      description: 'Consulta la ficha de RPG Maker en Nelkano para conocer la compatibilidad de MV y MZ en Android, los archivos necesarios y los pasos de importación.'
+      keywords: ''
+      robots: 'noindex, follow'
+      canonical: ''
+      og_title: 'RPG Maker MV y MZ en Nelkano: ficha unificada'
+      og_description: 'Consulta la ficha de RPG Maker en Nelkano para conocer la compatibilidad de MV y MZ en Android, los archivos necesarios y los pasos de importación.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'RPG Maker MV y MZ en Nelkano: ficha unificada'
+      twitter_description: 'Consulta la ficha de RPG Maker en Nelkano para conocer la compatibilidad de MV y MZ en Android, los archivos necesarios y los pasos de importación.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__rpg-maker-2000-2003:
+      title: 'RPG Maker 2000 y 2003: información de Nelkano'
+      description: 'Consulta la ficha unificada de RPG Maker para conocer las versiones disponibles en Nelkano, cómo importar juegos y las limitaciones de compatibilidad.'
+      keywords: ''
+      robots: 'noindex, follow'
+      canonical: ''
+      og_title: 'RPG Maker 2000 y 2003: información de Nelkano'
+      og_description: 'Consulta la ficha unificada de RPG Maker para conocer las versiones disponibles en Nelkano, cómo importar juegos y las limitaciones de compatibilidad.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'RPG Maker 2000 y 2003: información de Nelkano'
+      twitter_description: 'Consulta la ficha unificada de RPG Maker para conocer las versiones disponibles en Nelkano, cómo importar juegos y las limitaciones de compatibilidad.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__nintendo-ds:
+      title: 'Emulador Nintendo DS para Android: compatibilidad | Nelkano'
+      description: 'Consulta el soporte de Nintendo DS en Nelkano para Android: archivos .nds, doble pantalla, controles y guardados. La compatibilidad varía según el juego.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Emulador Nintendo DS para Android: compatibilidad | Nelkano'
+      og_description: 'Consulta el soporte de Nintendo DS en Nelkano para Android: archivos .nds, doble pantalla, controles y guardados. La compatibilidad varía según el juego.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Emulador Nintendo DS para Android: compatibilidad | Nelkano'
+      twitter_description: 'Consulta el soporte de Nintendo DS en Nelkano para Android: archivos .nds, doble pantalla, controles y guardados. La compatibilidad varía según el juego.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__master-system:
+      title: 'Emulador Master System y Game Gear para Android | Nelkano'
+      description: 'Abre juegos de Master System y Game Gear en Android con Nelkano. Consulta los formatos .sms y .gg, los controles y guardados, y las limitaciones actuales.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Emulador Master System y Game Gear para Android | Nelkano'
+      og_description: 'Abre juegos de Master System y Game Gear en Android con Nelkano. Consulta los formatos .sms y .gg, los controles y guardados, y las limitaciones actuales.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Emulador Master System y Game Gear para Android | Nelkano'
+      twitter_description: 'Abre juegos de Master System y Game Gear en Android con Nelkano. Consulta los formatos .sms y .gg, los controles y guardados, y las limitaciones actuales.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__mega-drive:
+      title: 'Emulador Mega Drive y Genesis para Android | Nelkano'
+      description: 'Juega a títulos compatibles de Mega Drive y Sega Genesis en Android con Nelkano. Importa archivos .md, .bin o .gen y utiliza controles de tres botones.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Emulador Mega Drive y Genesis para Android | Nelkano'
+      og_description: 'Juega a títulos compatibles de Mega Drive y Sega Genesis en Android con Nelkano. Importa archivos .md, .bin o .gen y utiliza controles de tres botones.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Emulador Mega Drive y Genesis para Android | Nelkano'
+      twitter_description: 'Juega a títulos compatibles de Mega Drive y Sega Genesis en Android con Nelkano. Importa archivos .md, .bin o .gen y utiliza controles de tres botones.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__snes:
+      title: 'Super Nintendo en Nelkano: estado de compatibilidad'
+      description: 'Consulta el estado del soporte de Super Nintendo y Super Famicom en Nelkano. Revisa la disponibilidad de esta plataforma antes de importar tus juegos.'
+      keywords: ''
+      robots: 'noindex, follow'
+      canonical: ''
+      og_title: 'Super Nintendo en Nelkano: estado de compatibilidad'
+      og_description: 'Consulta el estado del soporte de Super Nintendo y Super Famicom en Nelkano. Revisa la disponibilidad de esta plataforma antes de importar tus juegos.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Super Nintendo en Nelkano: estado de compatibilidad'
+      twitter_description: 'Consulta el estado del soporte de Super Nintendo y Super Famicom en Nelkano. Revisa la disponibilidad de esta plataforma antes de importar tus juegos.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__neo-geo-pocket:
+      title: 'Emulador Neo Geo Pocket y Color para Android | Nelkano'
+      description: 'Juega a títulos compatibles de Neo Geo Pocket y Pocket Color en Android con Nelkano. Abre archivos .ngp y .ngc, utiliza controles táctiles y guarda estados.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Emulador Neo Geo Pocket y Color para Android | Nelkano'
+      og_description: 'Juega a títulos compatibles de Neo Geo Pocket y Pocket Color en Android con Nelkano. Abre archivos .ngp y .ngc, utiliza controles táctiles y guarda estados.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Emulador Neo Geo Pocket y Color para Android | Nelkano'
+      twitter_description: 'Juega a títulos compatibles de Neo Geo Pocket y Pocket Color en Android con Nelkano. Abre archivos .ngp y .ngc, utiliza controles táctiles y guarda estados.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__playstation:
+      title: 'Emulador PS1 para Android: compatibilidad | Nelkano'
+      description: 'Consulta el soporte de PlayStation en Nelkano para Android: importación de discos CUE y BIN, controles, tarjetas de memoria y limitaciones de compatibilidad.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Emulador PS1 para Android: compatibilidad | Nelkano'
+      og_description: 'Consulta el soporte de PlayStation en Nelkano para Android: importación de discos CUE y BIN, controles, tarjetas de memoria y limitaciones de compatibilidad.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Emulador PS1 para Android: compatibilidad | Nelkano'
+      twitter_description: 'Consulta el soporte de PlayStation en Nelkano para Android: importación de discos CUE y BIN, controles, tarjetas de memoria y limitaciones de compatibilidad.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__rpg-maker:
+      title: 'Jugar a RPG Maker en Android: XP, MV y MZ | Nelkano'
+      description: 'Abre juegos compatibles de RPG Maker XP, MV y MZ en Android con Nelkano. Aprende a importar el juego completo y consulta las limitaciones de cada versión.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Jugar a RPG Maker en Android: XP, MV y MZ | Nelkano'
+      og_description: 'Abre juegos compatibles de RPG Maker XP, MV y MZ en Android con Nelkano. Aprende a importar el juego completo y consulta las limitaciones de cada versión.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Jugar a RPG Maker en Android: XP, MV y MZ | Nelkano'
+      twitter_description: 'Abre juegos compatibles de RPG Maker XP, MV y MZ en Android con Nelkano. Aprende a importar el juego completo y consulta las limitaciones de cada versión.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__nintendo-3ds:
+      title: 'Nintendo 3DS en Android: soporte experimental | Nelkano'
+      description: 'Consulta el soporte experimental de Nintendo 3DS en Nelkano para Android: requisitos, formatos y doble pantalla. Puede haber bloqueos y ralentizaciones.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Nintendo 3DS en Android: soporte experimental | Nelkano'
+      og_description: 'Consulta el soporte experimental de Nintendo 3DS en Nelkano para Android: requisitos, formatos y doble pantalla. Puede haber bloqueos y ralentizaciones.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Nintendo 3DS en Android: soporte experimental | Nelkano'
+      twitter_description: 'Consulta el soporte experimental de Nintendo 3DS en Nelkano para Android: requisitos, formatos y doble pantalla. Puede haber bloqueos y ralentizaciones.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__nintendo-switch:
+      title: 'Nintendo Switch en Nelkano: estado del desarrollo'
+      description: 'Consulta el estado del desarrollo de Nintendo Switch en Nelkano. El soporte está en investigación y todavía no ofrece una experiencia de juego general en Android.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Nintendo Switch en Nelkano: estado del desarrollo'
+      og_description: 'Consulta el estado del desarrollo de Nintendo Switch en Nelkano. El soporte está en investigación y todavía no ofrece una experiencia de juego general en Android.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Nintendo Switch en Nelkano: estado del desarrollo'
+      twitter_description: 'Consulta el estado del desarrollo de Nintendo Switch en Nelkano. El soporte está en investigación y todavía no ofrece una experiencia de juego general en Android.'
       twitter_card: summary_large_image
       og_type: website
       site_name: Nelkano
 en:
-  pages: {  }
+  pages:
+    home:
+      title: 'Free multisystem emulator for Android | Nelkano'
+      description: 'Download Nelkano, a free multisystem emulator for Android. Organize your games, customize controls and explore supported systems. Games are not included.'
+      keywords: 'android emulator, free emulator, game boy, gba, gbc, nes, mega drive, nintendo ds, chip-8, rpg maker, nelkano'
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Free multisystem emulator for Android | Nelkano'
+      og_description: 'Download Nelkano, a free multisystem emulator for Android. Organize your games, customize controls and explore supported systems. Games are not included.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Free multisystem emulator for Android | Nelkano'
+      twitter_description: 'Download Nelkano, a free multisystem emulator for Android. Organize your games, customize controls and explore supported systems. Games are not included.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    systems:
+      title: 'Supported systems and compatibility | Nelkano for Android'
+      description: 'Explore the systems available in Nelkano for Android. Find supported file formats, features, compatibility limits and instructions for getting started.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Supported systems and compatibility | Nelkano for Android'
+      og_description: 'Explore the systems available in Nelkano for Android. Find supported file formats, features, compatibility limits and instructions for getting started.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Supported systems and compatibility | Nelkano for Android'
+      twitter_description: 'Explore the systems available in Nelkano for Android. Find supported file formats, features, compatibility limits and instructions for getting started.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    guide:
+      title: 'How to use Nelkano: games, controllers and saves'
+      description: 'Learn to add games to Nelkano, set up controllers and touch controls, manage saves and sync with Google Drive. A step-by-step guide for Android.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'How to use Nelkano: games, controllers and saves'
+      og_description: 'Learn to add games to Nelkano, set up controllers and touch controls, manage saves and sync with Google Drive. A step-by-step guide for Android.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'How to use Nelkano: games, controllers and saves'
+      twitter_description: 'Learn to add games to Nelkano, set up controllers and touch controls, manage saves and sync with Google Drive. A step-by-step guide for Android.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    legal_notice:
+      title: 'Legal notice and terms of use | Nelkano'
+      description: 'Read the Nelkano legal notice for information about website ownership, terms of use, intellectual property, downloads and responsibilities.'
+      keywords: ''
+      robots: 'index, follow'
+      canonical: ''
+      og_title: 'Legal notice and terms of use | Nelkano'
+      og_description: 'Read the Nelkano legal notice for information about website ownership, terms of use, intellectual property, downloads and responsibilities.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Legal notice and terms of use | Nelkano'
+      twitter_description: 'Read the Nelkano legal notice for information about website ownership, terms of use, intellectual property, downloads and responsibilities.'
+      twitter_card: summary_large_image
+      og_type: article
+      site_name: Nelkano
+    privacy_cookies:
+      title: 'Privacy and cookie policy | Nelkano'
+      description: 'Read how Nelkano processes personal data, why it is collected, which cookies the website uses and how to exercise your privacy rights.'
+      keywords: ''
+      robots: 'index, follow'
+      canonical: ''
+      og_title: 'Privacy and cookie policy | Nelkano'
+      og_description: 'Read how Nelkano processes personal data, why it is collected, which cookies the website uses and how to exercise your privacy rights.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Privacy and cookie policy | Nelkano'
+      twitter_description: 'Read how Nelkano processes personal data, why it is collected, which cookies the website uses and how to exercise your privacy rights.'
+      twitter_card: summary_large_image
+      og_type: article
+      site_name: Nelkano
+    releases:
+      title: 'Nelkano for Android: releases and APK download'
+      description: 'Browse Nelkano releases for Android, including changes, requirements and APK download information. Find out how to verify your download.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Nelkano for Android: releases and APK download'
+      og_description: 'Browse Nelkano releases for Android, including changes, requirements and APK download information. Find out how to verify your download.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Nelkano for Android: releases and APK download'
+      twitter_description: 'Browse Nelkano releases for Android, including changes, requirements and APK download information. Find out how to verify your download.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    security:
+      title: 'Nelkano for Android: security, permissions and privacy'
+      description: 'Learn about Nelkano permissions, local data, user accounts and the optional Google Drive connection. Review privacy information before using the Android app.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Nelkano for Android: security, permissions and privacy'
+      og_description: 'Learn about Nelkano permissions, local data, user accounts and the optional Google Drive connection. Review privacy information before using the Android app.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Nelkano for Android: security, permissions and privacy'
+      twitter_description: 'Learn about Nelkano permissions, local data, user accounts and the optional Google Drive connection. Review privacy information before using the Android app.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    contact:
+      title: 'Contact and support | Nelkano'
+      description: 'Contact Nelkano for help with the Android emulator, technical issues or suggestions. Find the contact details and information needed to report a problem.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Contact and support | Nelkano'
+      og_description: 'Contact Nelkano for help with the Android emulator, technical issues or suggestions. Find the contact details and information needed to report a problem.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Contact and support | Nelkano'
+      twitter_description: 'Contact Nelkano for help with the Android emulator, technical issues or suggestions. Find the contact details and information needed to report a problem.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__chip-8:
+      title: 'CHIP-8 emulator for Android | Nelkano'
+      description: 'Explore CHIP-8 support in Nelkano for Android. Find out how to open compatible games and programs, use the controls and check the current limitations.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'CHIP-8 emulator for Android | Nelkano'
+      og_description: 'Explore CHIP-8 support in Nelkano for Android. Find out how to open compatible games and programs, use the controls and check the current limitations.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'CHIP-8 emulator for Android | Nelkano'
+      twitter_description: 'Explore CHIP-8 support in Nelkano for Android. Find out how to open compatible games and programs, use the controls and check the current limitations.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__game-boy:
+      title: 'Game Boy and Game Boy Color emulator for Android | Nelkano'
+      description: 'Play Game Boy and Game Boy Color games on Android with Nelkano. Open .gb and .gbc files, customize touch controls or use a controller, and save game states.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Game Boy and Game Boy Color emulator for Android | Nelkano'
+      og_description: 'Play Game Boy and Game Boy Color games on Android with Nelkano. Open .gb and .gbc files, customize touch controls or use a controller, and save game states.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Game Boy and Game Boy Color emulator for Android | Nelkano'
+      twitter_description: 'Play Game Boy and Game Boy Color games on Android with Nelkano. Open .gb and .gbc files, customize touch controls or use a controller, and save game states.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__game-boy-color:
+      title: 'Game Boy Color in Nelkano: see the Game Boy guide'
+      description: 'Game Boy Color information is grouped with Game Boy in Nelkano. Visit the main Game Boy guide for supported formats, controls and compatibility details.'
+      keywords: ''
+      robots: 'noindex, follow'
+      canonical: ''
+      og_title: 'Game Boy Color in Nelkano: see the Game Boy guide'
+      og_description: 'Game Boy Color information is grouped with Game Boy in Nelkano. Visit the main Game Boy guide for supported formats, controls and compatibility details.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Game Boy Color in Nelkano: see the Game Boy guide'
+      twitter_description: 'Game Boy Color information is grouped with Game Boy in Nelkano. Visit the main Game Boy guide for supported formats, controls and compatibility details.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__game-boy-advance:
+      title: 'GBA emulator for Android: Game Boy Advance | Nelkano'
+      description: 'Explore Game Boy Advance support in Nelkano for Android. Check .gba file support, controls, save features and compatibility before importing your games.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'GBA emulator for Android: Game Boy Advance | Nelkano'
+      og_description: 'Explore Game Boy Advance support in Nelkano for Android. Check .gba file support, controls, save features and compatibility before importing your games.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'GBA emulator for Android: Game Boy Advance | Nelkano'
+      twitter_description: 'Explore Game Boy Advance support in Nelkano for Android. Check .gba file support, controls, save features and compatibility before importing your games.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__nes:
+      title: 'NES and Famicom emulator for Android | Nelkano'
+      description: 'Explore NES and Famicom support in Nelkano for Android. Check supported formats, controls and current compatibility limits, and learn how to get started.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'NES and Famicom emulator for Android | Nelkano'
+      og_description: 'Explore NES and Famicom support in Nelkano for Android. Check supported formats, controls and current compatibility limits, and learn how to get started.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'NES and Famicom emulator for Android | Nelkano'
+      twitter_description: 'Explore NES and Famicom support in Nelkano for Android. Check supported formats, controls and current compatibility limits, and learn how to get started.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__rpg-maker-mv-mz:
+      title: 'RPG Maker MV and MZ in Nelkano: combined guide'
+      description: 'Visit the combined RPG Maker guide to check the available support in Nelkano for Android, the required game files and compatibility limitations.'
+      keywords: ''
+      robots: 'noindex, follow'
+      canonical: ''
+      og_title: 'RPG Maker MV and MZ in Nelkano: combined guide'
+      og_description: 'Visit the combined RPG Maker guide to check the available support in Nelkano for Android, the required game files and compatibility limitations.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'RPG Maker MV and MZ in Nelkano: combined guide'
+      twitter_description: 'Visit the combined RPG Maker guide to check the available support in Nelkano for Android, the required game files and compatibility limitations.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__rpg-maker-2000-2003:
+      title: 'RPG Maker 2000 and 2003: Nelkano information'
+      description: 'Visit the combined RPG Maker guide to check which versions are available in Nelkano for Android and review their requirements and compatibility limits.'
+      keywords: ''
+      robots: 'noindex, follow'
+      canonical: ''
+      og_title: 'RPG Maker 2000 and 2003: Nelkano information'
+      og_description: 'Visit the combined RPG Maker guide to check which versions are available in Nelkano for Android and review their requirements and compatibility limits.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'RPG Maker 2000 and 2003: Nelkano information'
+      twitter_description: 'Visit the combined RPG Maker guide to check which versions are available in Nelkano for Android and review their requirements and compatibility limits.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__nintendo-ds:
+      title: 'Nintendo DS emulator for Android: compatibility | Nelkano'
+      description: 'Explore Nintendo DS support in Nelkano for Android. Check .nds files, dual-screen features and current limitations. Compatibility varies between games.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Nintendo DS emulator for Android: compatibility | Nelkano'
+      og_description: 'Explore Nintendo DS support in Nelkano for Android. Check .nds files, dual-screen features and current limitations. Compatibility varies between games.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Nintendo DS emulator for Android: compatibility | Nelkano'
+      twitter_description: 'Explore Nintendo DS support in Nelkano for Android. Check .nds files, dual-screen features and current limitations. Compatibility varies between games.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__master-system:
+      title: 'Master System and Game Gear emulator for Android | Nelkano'
+      description: 'Explore Master System and Game Gear support in Nelkano for Android. Find .sms and .gg file information, setup instructions and compatibility limitations.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Master System and Game Gear emulator for Android | Nelkano'
+      og_description: 'Explore Master System and Game Gear support in Nelkano for Android. Find .sms and .gg file information, setup instructions and compatibility limitations.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Master System and Game Gear emulator for Android | Nelkano'
+      twitter_description: 'Explore Master System and Game Gear support in Nelkano for Android. Find .sms and .gg file information, setup instructions and compatibility limitations.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__mega-drive:
+      title: 'Sega Genesis and Mega Drive emulator for Android | Nelkano'
+      description: 'Explore Sega Genesis and Mega Drive support in Nelkano for Android. Check supported cartridge formats, controls and current compatibility limitations.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Sega Genesis and Mega Drive emulator for Android | Nelkano'
+      og_description: 'Explore Sega Genesis and Mega Drive support in Nelkano for Android. Check supported cartridge formats, controls and current compatibility limitations.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Sega Genesis and Mega Drive emulator for Android | Nelkano'
+      twitter_description: 'Explore Sega Genesis and Mega Drive support in Nelkano for Android. Check supported cartridge formats, controls and current compatibility limitations.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__snes:
+      title: 'Super Nintendo in Nelkano: compatibility status'
+      description: 'Check the status of Super Nintendo and Super Famicom support in Nelkano. Review platform availability and compatibility before importing your games.'
+      keywords: ''
+      robots: 'noindex, follow'
+      canonical: ''
+      og_title: 'Super Nintendo in Nelkano: compatibility status'
+      og_description: 'Check the status of Super Nintendo and Super Famicom support in Nelkano. Review platform availability and compatibility before importing your games.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Super Nintendo in Nelkano: compatibility status'
+      twitter_description: 'Check the status of Super Nintendo and Super Famicom support in Nelkano. Review platform availability and compatibility before importing your games.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__neo-geo-pocket:
+      title: 'Neo Geo Pocket and Color emulator for Android | Nelkano'
+      description: 'Explore Neo Geo Pocket and Pocket Color support in Nelkano for Android. Check supported files, controls and current compatibility before importing games.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Neo Geo Pocket and Color emulator for Android | Nelkano'
+      og_description: 'Explore Neo Geo Pocket and Pocket Color support in Nelkano for Android. Check supported files, controls and current compatibility before importing games.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Neo Geo Pocket and Color emulator for Android | Nelkano'
+      twitter_description: 'Explore Neo Geo Pocket and Pocket Color support in Nelkano for Android. Check supported files, controls and current compatibility before importing games.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__playstation:
+      title: 'PS1 emulator for Android: compatibility | Nelkano'
+      description: 'Explore PlayStation support in Nelkano for Android. Read about disc imports, controls and current compatibility limits before adding your PS1 games.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'PS1 emulator for Android: compatibility | Nelkano'
+      og_description: 'Explore PlayStation support in Nelkano for Android. Read about disc imports, controls and current compatibility limits before adding your PS1 games.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'PS1 emulator for Android: compatibility | Nelkano'
+      twitter_description: 'Explore PlayStation support in Nelkano for Android. Read about disc imports, controls and current compatibility limits before adding your PS1 games.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__rpg-maker:
+      title: 'Play RPG Maker XP, MV and MZ on Android | Nelkano'
+      description: 'Open compatible RPG Maker XP, MV and MZ games on Android with Nelkano. Learn how to import the complete game and check the limitations of each version.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Play RPG Maker XP, MV and MZ on Android | Nelkano'
+      og_description: 'Open compatible RPG Maker XP, MV and MZ games on Android with Nelkano. Learn how to import the complete game and check the limitations of each version.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Play RPG Maker XP, MV and MZ on Android | Nelkano'
+      twitter_description: 'Open compatible RPG Maker XP, MV and MZ games on Android with Nelkano. Learn how to import the complete game and check the limitations of each version.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__nintendo-3ds:
+      title: 'Nintendo 3DS on Android: experimental support | Nelkano'
+      description: 'Explore experimental Nintendo 3DS support in Nelkano for Android. Check requirements, supported files and current limitations before trying your games.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Nintendo 3DS on Android: experimental support | Nelkano'
+      og_description: 'Explore experimental Nintendo 3DS support in Nelkano for Android. Check requirements, supported files and current limitations before trying your games.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Nintendo 3DS on Android: experimental support | Nelkano'
+      twitter_description: 'Explore experimental Nintendo 3DS support in Nelkano for Android. Check requirements, supported files and current limitations before trying your games.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+    system__nintendo-switch:
+      title: 'Nintendo Switch in Nelkano: development status'
+      description: 'Follow Nintendo Switch development in Nelkano. This early research effort does not yet offer general gameplay on Android. Check the current status.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: 'Nintendo Switch in Nelkano: development status'
+      og_description: 'Follow Nintendo Switch development in Nelkano. This early research effort does not yet offer general gameplay on Android. Check the current status.'
+      image: ''
+      image_alt: Nelkano
+      twitter_title: 'Nintendo Switch in Nelkano: development status'
+      twitter_description: 'Follow Nintendo Switch development in Nelkano. This early research effort does not yet offer general gameplay on Android. Check the current status.'
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
