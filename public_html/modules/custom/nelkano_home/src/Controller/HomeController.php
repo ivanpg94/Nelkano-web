@@ -884,7 +884,7 @@ final class HomeController extends ControllerBase {
     return array_values(array_filter(array_map('trim', preg_split('/\R/', trim((string) $value)) ?: [])));
   }
 
-  private function releaseRows(array $content, string $modulePath): array {
+  private function releaseRows(array $content, string $modulePath, bool $includeMetadata = TRUE): array {
     $release_items = $content['releases_items'] ?? '';
     $rows = is_array($release_items)
       ? $this->parseRows($release_items, ['visible', 'version', 'apk_file', 'filename', 'date', 'changes'])
@@ -911,7 +911,7 @@ final class HomeController extends ControllerBase {
         'date' => trim((string) ($row['date'] ?? '')),
         'changes' => $this->parseLines($row['changes'] ?? '', 'text'),
         'url' => $file['url'],
-        'meta' => is_file($file['path']) ? $this->downloadMeta($file['path'], trim((string) ($row['version'] ?? ''))) : [],
+        'meta' => $includeMetadata && is_file($file['path']) ? $this->downloadMeta($file['path'], trim((string) ($row['version'] ?? ''))) : [],
       ];
     }
 
@@ -921,7 +921,7 @@ final class HomeController extends ControllerBase {
 
   private function latestReleaseDownload(string $language, string $modulePath): array {
     $content = $this->homeConfigFactory->get('nelkano_home.docs')->get($language) ?? [];
-    $releases = $this->releaseRows(is_array($content) ? $content : [], $modulePath);
+    $releases = $this->releaseRows(is_array($content) ? $content : [], $modulePath, FALSE);
     $release = [];
     foreach ($releases as $candidate) {
       if (!empty($candidate['url'])) {
@@ -1060,7 +1060,7 @@ final class HomeController extends ControllerBase {
 
   private function publicVersion(): string {
     $content = $this->homeConfigFactory->get('nelkano_home.docs')->get('es') ?? [];
-    $releases = $this->releaseRows(is_array($content) ? $content : [], $this->moduleExtensionList->getPath('nelkano_home'));
+    $releases = $this->releaseRows(is_array($content) ? $content : [], $this->moduleExtensionList->getPath('nelkano_home'), FALSE);
     $version = trim((string) ($releases[0]['version'] ?? $content['releases_version'] ?? ''));
     return $version !== '' ? $version : '1.0.0-beta';
   }
