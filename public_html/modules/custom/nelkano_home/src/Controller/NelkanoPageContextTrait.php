@@ -9,7 +9,7 @@ trait NelkanoPageContextTrait {
     $profile = $this->headerProfile();
     $name = $profile['name'];
     $logoVersion = '';
-    $logoPath = DRUPAL_ROOT . '/' . $modulePath . '/assets/logo.png';
+    $logoPath = DRUPAL_ROOT . '/' . $modulePath . '/assets/logo-nav.webp';
     if (is_file($logoPath)) {
       $logoVersion = '?v=' . filemtime($logoPath);
     }
@@ -19,7 +19,8 @@ trait NelkanoPageContextTrait {
       $messagesVersion = '?v=' . filemtime($messagesPath);
     }
 
-    $nav_links = [];
+    $nav_links = [['label' => $language === 'en' ? 'Systems' : 'Sistemas', 'url' => $language === 'en' ? '/en/systems' : '/sistemas']];
+    $nav_links[] = ['label' => $language === 'en' ? 'Guide' : 'Guía de uso', 'url' => $language === 'en' ? '/en/guide' : '/guia'];
     if ($authenticated && $this->currentUser()->hasPermission('administer nelkano editable pages')) {
       $nav_links[] = ['label' => 'Admin', 'url' => '/admin/nelkano'];
     }
@@ -29,10 +30,11 @@ trait NelkanoPageContextTrait {
 
     return [
       'language' => $language,
+      'seo_metadata' => \Drupal\nelkano_home\Service\SeoMetadata::forRequest($language),
       'analytics' => ['ga_id' => 'G-2VCPFJW0PT'],
-      'logo_url' => '/' . $modulePath . '/assets/logo.png' . $logoVersion,
+      'logo_url' => '/' . $modulePath . '/assets/logo-nav.webp' . $logoVersion,
       'header_css_url' => '/' . $modulePath . '/css/header.css',
-      'footer_css_url' => '/' . $modulePath . '/css/footer.css',
+      'footer_css_url' => '/' . $modulePath . '/css/footer.css?v=' . filemtime(DRUPAL_ROOT . '/' . $modulePath . '/css/footer.css'),
       'base_js_url' => '/' . $modulePath . '/js/messages.js' . $messagesVersion,
       'theme_js_url' => '/' . $modulePath . '/js/theme-toggle.js',
       'nav_home_url' => $language === 'en' ? '/en' : '/',
@@ -135,7 +137,7 @@ trait NelkanoPageContextTrait {
       }
       $avatar_uri = trim((string) ($row['avatar_file_uri'] ?? ''));
       if ($avatar_uri !== '') {
-        $profile['avatar_url'] = \Drupal::service('file_url_generator')->generateString($avatar_uri);
+        $profile['avatar_url'] = \Drupal\nelkano_home\Service\HeaderImages::avatarUrl($avatar_uri);
       }
     }
     catch (\Throwable) {

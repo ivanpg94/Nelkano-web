@@ -1,0 +1,72 @@
+/* Shared Nelkano tokens keep the system pages in sync with both site themes. */
+.nk-system-wrap { max-width: var(--nk-layout-max); margin: 0 auto; padding: var(--nk-page-top-gap) var(--nk-layout-gutter) var(--nk-page-padding-block); }
+.nk-system-breadcrumb { display: flex; flex-wrap: wrap; gap: 10px; font-size: var(--nk-text-sm); color: var(--nk-text-muted); margin-bottom: 32px; }
+.nk-system-breadcrumb a:hover, .nk-system-back:hover { color: var(--nk-info); text-decoration: underline; }
+.nk-system-hero { display: grid; grid-template-columns: minmax(0, 1fr) 200px; gap: 48px; align-items: center; padding: 16px 0 48px; border-bottom: 1px solid var(--nk-border); }
+.nk-system-badges { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; font-size: var(--nk-text-sm); color: var(--nk-text-muted); margin-bottom: 22px; }
+.nk-system-badges .nk-badge { margin: 0; color: var(--nk-info-soft); }
+.nk-system-hero h1 { font-size: var(--nk-title-page); line-height: 1.12; letter-spacing: -0.035em; }
+.nk-system-hero .nk-system-lead { color: var(--nk-text-copy); margin-top: 20px; font-size: var(--nk-text-xl); line-height: 1.7; max-width: 56ch; }
+.nk-system-formats { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 24px; color: var(--nk-text-muted); font-size: var(--nk-text-sm); }
+.nk-system-formats code { padding: 5px 10px; border: 1px solid var(--nk-border); border-radius: 7px; background: var(--nk-surface-soft); color: var(--nk-text-copy); font-family: var(--nk-font-mono); }
+.nk-system-mark { aspect-ratio: 1; border: 1px solid var(--nk-border-info); border-radius: 28px; background: var(--nk-gradient-panel); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; color: var(--nk-info-soft); }
+.nk-system-mark > span { font-size: clamp(1.5rem, 3vw, 2.6rem); font-weight: 800; text-align: center; padding: 0 12px; }
+.nk-system-mark-rule { width: 36px; height: 3px; background: var(--nk-info); border-radius: 2px; }
+.nk-system-mark small { letter-spacing: 0.18em; font-size: var(--nk-text-xs); color: var(--nk-text-muted); }
+.nk-system-layout { display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: 64px; padding-top: 48px; align-items: start; }
+.nk-system-body { min-width: 0; }
+.nk-system-section { margin-bottom: 44px; }
+.nk-system-section h2 { font-size: var(--nk-title-md); line-height: 1.35; margin-bottom: 20px; }
+.nk-system-section p, .nk-system-section li { color: var(--nk-text-copy); font-size: var(--nk-text-base); line-height: 1.8; }
+.nk-system-prose { white-space: pre-line; }
+.nk-system-list { display: grid; gap: 12px; padding-left: 22px; }
+.nk-system-list li::marker { color: var(--nk-info); }
+.nk-system-limitations { border: 1px solid var(--nk-border-info); background: var(--nk-info-surface); border-radius: 20px; padding: var(--nk-panel-padding); }
+.nk-system-steps { list-style: none; counter-reset: steps; padding: 0; display: grid; gap: 24px; }
+.nk-system-steps li { counter-increment: steps; position: relative; padding-left: 54px; }
+.nk-system-steps li::before { content: counter(steps, decimal-leading-zero); position: absolute; left: 0; top: 0; border-radius: 10px; width: 36px; height: 36px; display: grid; place-items: center; background: var(--nk-info-surface); color: var(--nk-info-soft); font-size: var(--nk-text-sm); font-weight: 700; }
+.nk-system-steps h3 { color: var(--nk-text); font-size: var(--nk-text-lg); margin-bottom: 6px; }
+.nk-system-faq { border: 1px solid var(--nk-border); border-radius: 18px; overflow: hidden; }
+.nk-system-faq details + details { border-top: 1px solid var(--nk-border); }
+.nk-system-faq summary { padding: 20px 24px; cursor: pointer; font-weight: 600; line-height: 1.5; }
+.nk-system-faq summary::marker { color: var(--nk-info); }
+.nk-system-faq details[open] { background: var(--nk-surface-soft); }
+.nk-system-faq details p { padding: 0 24px 24px; }
+.nk-system-sidebar { display: grid; gap: 24px; }
+.nk-system-panel { border: 1px solid var(--nk-border); background: var(--nk-surface-soft); border-radius: 22px; padding: 24px; }
+.nk-system-panel h2 { font-size: var(--nk-text-xs); text-transform: uppercase; letter-spacing: 0.12em; color: var(--nk-text-muted); margin-bottom: 22px; }
+.nk-system-status { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid var(--nk-border); font-size: var(--nk-text-sm); }
+.nk-system-status > span { color: var(--nk-text-muted); }
+.nk-system-status .nk-status-pill { white-space: normal; }
+.nk-system-panel dl { margin: 0; display: grid; gap: 18px; }
+.nk-system-panel dl > div { display: grid; grid-template-columns: 1fr 1.2fr; gap: 12px; font-size: var(--nk-text-sm); }
+.nk-system-panel dt { color: var(--nk-text-muted); }
+.nk-system-panel dd { margin: 0; text-align: right; overflow-wrap: anywhere; }
+.nk-system-panel .nk-button { display: flex; margin-top: 26px; }
+.nk-system-related { list-style: none; display: grid; gap: 18px; padding: 0; }
+.nk-system-related a { display: flex; justify-content: space-between; gap: 12px; font-size: var(--nk-text-sm); line-height: 1.5; }
+.nk-system-related a:hover { color: var(--nk-info); }
+.nk-system-back { font-size: var(--nk-text-sm); color: var(--nk-text-muted) !important; }
+.nk-system-page a:focus-visible, .nk-system-page summary:focus-visible { outline: 3px solid var(--nk-info); outline-offset: 4px; border-radius: 4px; }
+@media (max-width: 900px) { .nk-system-layout { grid-template-columns: minmax(0, 1fr) 260px; gap: 32px; } .nk-system-hero { grid-template-columns: minmax(0, 1fr) 150px; gap: 24px; } }
+@media (max-width: 680px) { .nk-system-hero { grid-template-columns: 1fr; padding-bottom: 32px; } .nk-system-mark { display: none; } .nk-system-hero h1 { font-size: var(--nk-title-section); } .nk-system-layout { grid-template-columns: 1fr; gap: 0; padding-top: 32px; } .nk-system-sidebar { grid-row: 1; margin-bottom: 36px; } .nk-system-sidebar .nk-system-panel + .nk-system-panel { display: none; } .nk-system-section { margin-bottom: 32px; } .nk-system-faq summary { padding: 18px; } .nk-system-faq details p { padding: 0 18px 18px; } }
+/* Per-system compatibility catalog, using the existing light/dark tokens. */
+.nk-compat-cta { margin-top: 28px; }
+.nk-compat-heading h1 { font-size: var(--nk-title-page); letter-spacing: -.035em; line-height: 1.15; }
+.nk-compat-heading > p:last-child { max-width: 70ch; margin-top: 20px; color: var(--nk-text-copy); line-height: 1.8; }
+.nk-compat-filters { display: flex; flex-wrap: wrap; align-items: end; gap: 20px; margin: 36px 0 24px; padding: 24px; border: 1px solid var(--nk-border); border-radius: 20px; background: var(--nk-surface-soft); }
+.nk-compat-filters label { display: grid; gap: 10px; flex: 1 1 220px; font-weight: 600; }
+.nk-compat-filters input, .nk-compat-filters select { min-width: 0; width: 100%; font: inherit; font-weight: 400; padding: 12px; border: 1px solid var(--nk-border); border-radius: 10px; background: var(--nk-surface); color: var(--nk-text); }
+.nk-compat-count { color: var(--nk-text-muted); margin-bottom: 20px; }
+.nk-compat-scroll { overflow-x: auto; border: 1px solid var(--nk-border); border-radius: 18px; }
+.nk-compat-table { border-collapse: collapse; width: 100%; text-align: left; }
+.nk-compat-table caption { text-align: left; padding: 18px 24px; color: var(--nk-text-muted); }
+.nk-compat-table th, .nk-compat-table td { padding: 22px 24px; vertical-align: top; border-top: 1px solid var(--nk-border); }
+.nk-compat-table thead { background: var(--nk-surface-soft); }
+.nk-compat-table tbody th { min-width: 240px; width: 34%; font-weight: 400; }
+.nk-compat-table td { min-width: 125px; }
+.nk-compat-status { display: inline-block; padding: 6px 12px; border: 1px solid var(--nk-border-info); border-radius: 16px; background: var(--nk-info-surface); color: var(--nk-text); font-size: var(--nk-text-sm); }
+.nk-compat-empty { padding: 32px; }
+.nk-compat-empty p { margin-top: 12px; color: var(--nk-text-copy); }
+.nk-compat-pagination { display: flex; justify-content: center; gap: 24px; margin-top: 24px; }
+@media (max-width: 680px) { .nk-compat-filters { padding: 18px; } .nk-compat-filters label, .nk-compat-filters button { flex-basis: 100%; } }

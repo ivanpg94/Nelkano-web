@@ -1,0 +1,124 @@
+{
+  "labels": {
+    "es": {
+      "index_eyebrow": "Compatibilidad",
+      "index_title": "Sistemas soportados",
+      "index_description": "Cada sistema tiene su propia guía con información honesta sobre qué funciona, qué no y cómo empezar.",
+      "all_systems": "Ver todos",
+      "all": "Todos",
+      "filter": "Filtrar por categoría",
+      "empty": "No hay sistemas en esta categoría.",
+      "compatibility": "Compatibilidad por juegos",
+      "compatibility_description": "Resultados de pruebas reales por dispositivo",
+      "tier_basico": "Básico",
+      "tier_basico_description": "El core arranca y algunos juegos pueden llegar al menú o mostrar gráficos, pero el gameplay todavía no es funcional.",
+      "tier_experimental": "Experimental",
+      "tier_experimental_description": "Muchos juegos arrancan y se pueden jugar, pero puede haber cierres inesperados, problemas gráficos, de audio o rendimiento insuficiente.",
+      "tier_jugable": "Jugable",
+      "tier_jugable_description": "Muchos juegos alcanzan el gameplay y el rendimiento es adecuado. Puede haber algún cierre puntual o errores menores.",
+      "tier_estable": "Estable",
+      "tier_estable_description": "La gran mayoría de juegos funcionan correctamente, con buen rendimiento y pocos problemas conocidos.",
+      "tier_verificado": "Verificado",
+      "tier_verificado_description": "El core está muy maduro y ampliamente probado. Compatibilidad, rendimiento, audio, gráficos y estabilidad al nivel esperado.",
+      "facts": "Ficha",
+      "related": "Relacionados",
+      "more": "Ver guía",
+      "manufacturer": "Fabricante",
+      "about": "¿Qué es {system}?",
+      "steps": "Cómo empezar con {system}",
+      "faq": "Preguntas frecuentes sobre {system}"
+    },
+    "en": {
+      "index_eyebrow": "Compatibility",
+      "index_title": "Supported systems",
+      "index_description": "Each system has its own guide with clear information on what works, known limitations and how to get started.",
+      "all_systems": "View all",
+      "all": "All",
+      "filter": "Filter by category",
+      "empty": "No systems in this category.",
+      "compatibility": "Game compatibility",
+      "compatibility_description": "Check the status of tested games.",
+      "tier_basico": "Basic",
+      "tier_basico_description": "Early implementation. Limited support.",
+      "tier_experimental": "Experimental",
+      "tier_experimental_description": "In development. Errors and limitations are expected.",
+      "tier_jugable": "Playable",
+      "tier_jugable_description": "Playable titles with some limitations.",
+      "tier_estable": "Stable",
+      "tier_estable_description": "Stable operation in tested games.",
+      "tier_verificado": "Verified",
+      "tier_verificado_description": "Verified with documented tests.",
+      "about": "What is {system}?",
+      "steps": "Getting started with {system}",
+      "faq": "Frequently asked questions about {system}"
+    }
+  },
+  "pages": {
+    "chip-8": {
+      "tier": "jugable",
+      "status_note": "",
+      "image_uri": "",
+      "related_ids": "game-boy\nnes"
+    },
+    "game-boy": {
+      "tier": "jugable",
+      "status_note": "",
+      "image_uri": "",
+      "related_ids": "game-boy-advance\nnes\nchip-8"
+    },
+    "game-boy-advance": {
+      "tier": "jugable",
+      "status_note": "",
+      "image_uri": "",
+      "related_ids": "game-boy\nnintendo-ds"
+    },
+    "mega-drive": {
+      "tier": "jugable",
+      "status_note": "",
+      "image_uri": "",
+      "related_ids": "master-system\nnes\nneo-geo-pocket"
+    },
+    "nes": {
+      "tier": "experimental",
+      "status_note": "Muchos juegos arrancan y son jugables, pero puede haber cierres inesperados, problemas gráficos o de audio en algunos títulos.",
+      "image_uri": "",
+      "related_ids": "chip-8\nmaster-system\ngame-boy"
+    },
+    "master-system": {
+      "tier": "experimental",
+      "status_note": "Muchos juegos arrancan y se pueden jugar, pero puede haber cierres inesperados o problemas gráficos en algunos títulos.",
+      "image_uri": "",
+      "related_ids": "mega-drive\nnes\ngame-boy"
+    },
+    "neo-geo-pocket": {
+      "tier": "experimental",
+      "status_note": "Muchos juegos arrancan y se pueden jugar, pero puede haber cierres inesperados o problemas en algunos títulos.",
+      "image_uri": "",
+      "related_ids": "game-boy\nmaster-system\nmega-drive"
+    },
+    "playstation": {
+      "tier": "experimental",
+      "status_note": "Muchos juegos arrancan y son jugables, pero puede haber cierres inesperados, problemas gráficos o de audio en algunos títulos.",
+      "image_uri": "",
+      "related_ids": "nintendo-ds\ngame-boy-advance"
+    },
+    "nintendo-ds": {
+      "tier": "basico",
+      "status_note": "El core arranca y algunos juegos pueden llegar al menú o mostrar gráficos, pero el gameplay todavía no es funcional o existen errores graves.",
+      "image_uri": "",
+      "related_ids": "game-boy-advance\nnintendo-3ds"
+    },
+    "nintendo-3ds": {
+      "tier": "basico",
+      "status_note": "El core arranca y algunos juegos pueden llegar al menú o mostrar gráficos, pero el gameplay todavía no es funcional o existen errores graves.",
+      "image_uri": "",
+      "related_ids": "nintendo-ds\ngame-boy-advance"
+    },
+    "rpg-maker": {
+      "tier": "experimental",
+      "status_note": "Muchos proyectos arrancan y son jugables, pero puede haber cierres inesperados o problemas en proyectos con scripts muy modificados.",
+      "image_uri": "",
+      "related_ids": "chip-8\nnes"
+    }
+  }
+}

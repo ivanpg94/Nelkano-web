@@ -12,6 +12,11 @@ trait AdminFormUiTrait {
     $form['#attributes']['class'][] = 'nk-admin-config-form';
     $form['#prefix'] = $this->nelkanoAdminHeader($module_path) . '<div class="nk-admin-app"><div class="nk-admin-body">' . $this->nelkanoAdminSidebar($activeKey) . '<div class="nk-admin-workspace"><section class="nk-admin-panel">';
     $form['#suffix'] = '</section></div></div></div>';
+    if (in_array($activeKey, ['home','systems','privacy_cookies','legal_notice','releases','security','all','guide','seo'], TRUE)) {
+      $title = ($activeLanguage === 'es' ? 'Editar: ' : 'Edit: ') . $title;
+      $form['#attached']['library'][] = 'nelkano_home/redesign_admin';
+      $form['#prefix'] = str_replace('class="nk-admin-app"', 'class="nk-admin-app nk-redesign-admin"', $form['#prefix']);
+    }
 
     $form['admin_header'] = [
       '#weight' => -1000,
@@ -25,6 +30,21 @@ trait AdminFormUiTrait {
 
   }
 
+  /** Presentation groups retain the original input names and saved values. */
+  private function groupAdminFields(array &$section, array $groups, array $parents): void {
+    foreach ($groups as $key => $group) {
+      $container = ['#type'=>'container','#attributes'=>['class'=>['r-field-grid','r-form-group',$group['class']??'']]];
+      $container['heading'] = ['#type'=>'html_tag','#tag'=>'h3','#value'=>$group['title'],'#attributes'=>['class'=>['r-form-group-title']]];
+      foreach ($group['fields'] as $field) {
+        if (!isset($section[$field])) {continue;}
+        $container[$field] = $section[$field];
+        $container[$field]['#parents'] = array_merge($parents, [$field]);
+        unset($section[$field]);
+      }
+      $section['layout_'.$key] = $container;
+    }
+  }
+
   private function nelkanoAdminHeader(string $modulePath): string {
     $account = \Drupal::currentUser();
     $name = trim((string) $account->getDisplayName());
@@ -33,7 +53,7 @@ trait AdminFormUiTrait {
 
     return \Drupal::service('twig')->createTemplate($template)->render([
       'language' => 'es',
-      'logo_url' => '/' . $modulePath . '/assets/logo.png',
+      'logo_url' => '/' . $modulePath . '/assets/logo-nav.webp',
       'nav_home_url' => '/',
       'nav_subtitle' => 'Emulador para Android',
       'nav_aria_label' => 'Navegacion principal',
@@ -61,7 +81,9 @@ trait AdminFormUiTrait {
     $links = '';
     foreach (['es' => 'ES', 'en' => 'EN'] as $langcode => $label) {
       $active = $activeLanguage === $langcode ? ' is-active' : '';
-      $url = Url::fromRoute($route_name, $route_params, ['query' => ['admin_lang' => $langcode]])->toString();
+      $query = ['admin_lang' => $langcode];
+      if ($route_name === 'nelkano_home.admin_systems' && ($system = \Drupal::request()->query->getString('system')) !== '') {$query['system'] = $system;}
+      $url = Url::fromRoute($route_name, $route_params, ['query' => $query])->toString();
       $links .= '<a class="nk-admin-lang-link' . $active . '" href="' . htmlspecialchars($url, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '">' . $label . '</a>';
     }
     return '<div class="nk-admin-language-switch" aria-label="Idioma del formulario">' . $links . '</div>';
@@ -190,17 +212,22 @@ trait AdminFormUiTrait {
   private function nelkanoAdminSidebar(string $activeKey): string {
     $items = [
       'home' => ['Home', 'H', Url::fromRoute('nelkano_home.admin_home')->toString()],
+      'systems' => ['Sistemas', 'C', Url::fromRoute('nelkano_home.admin_systems')->toString()],
       'privacy_cookies' => ['Privacidad y cookies', 'P', Url::fromRoute('nelkano_home.admin_privacy_cookies')->toString()],
       'legal_notice' => ['Aviso legal', 'A', Url::fromRoute('nelkano_home.admin_legal_notice')->toString()],
       'releases' => ['Versiones', 'V', Url::fromRoute('nelkano_home.admin_releases')->toString()],
       'security' => ['Seguridad y privacidad', 'S', Url::fromRoute('nelkano_home.admin_security_privacy')->toString()],
     ];
 
+    $redesigned = in_array($activeKey, ['home','systems','privacy_cookies','legal_notice','releases','security','all','guide','seo'], TRUE);
+    if ($redesigned) {$items['guide']=['Guía de uso','G',Url::fromRoute('nelkano_home.admin_guide')->toString()];}
+    if ($redesigned) {$items['seo']=['SEO','SEO',Url::fromRoute('nelkano_home.admin_seo')->toString()];}
+    $icons=['home'=>'IcoHome','systems'=>'IcoGrid','privacy_cookies'=>'IcoCookie','legal_notice'=>'IcoScales','releases'=>'IcoTag','security'=>'IcoShield','guide'=>'IcoBook','seo'=>'IcoTag'];
     $html = '<aside class="nk-admin-sidebar"><h2>Paginas editables</h2><nav aria-label="Paginas editables de Nelkano">';
     foreach ($items as $key => [$label, $icon, $url]) {
       $active = $key === $activeKey ? ' is-active' : '';
       $html .= '<a class="nk-admin-nav-item' . $active . '" href="' . htmlspecialchars($url, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '">'
-        . '<span class="nk-admin-nav-icon">' . htmlspecialchars($icon, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</span>'
+        . '<span class="nk-admin-nav-icon">' . ($redesigned ? '<img src="' . \Drupal\nelkano_home\Service\RedesignContent::asset($icons[$key]) . '" width="16" height="16" alt="">' : htmlspecialchars($icon, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')) . '</span>'
         . '<span><strong>' . htmlspecialchars($label, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</strong></span>'
         . '</a>';
     }

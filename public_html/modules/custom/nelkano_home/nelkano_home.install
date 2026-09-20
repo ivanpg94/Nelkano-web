@@ -28,6 +28,7 @@ function nelkano_home_schema(): array {
  * Creates the report content type and its exportable View on fresh installs.
  */
 function nelkano_home_install(): void {
+  \Drupal\nelkano_home\Service\RedesignContent::install();
   require_once __DIR__ . '/nelkano_home.error_reports.inc';
   nelkano_home_ensure_error_report_content();
   require_once __DIR__ . '/nelkano_home.backlog.inc';
@@ -660,4 +661,73 @@ function nelkano_home_update_11024(): void {
 function nelkano_home_update_11025(): void {
   require_once __DIR__ . '/nelkano_home.backlog.inc';
   nelkano_home_allow_plain_workflow_terms();
+}
+
+/** Add editable core information pages and retain existing home card copy. */
+function nelkano_home_update_11026(): void {
+  \Drupal\nelkano_home\Service\SystemPages::install();
+}
+
+/** Reduce published compatibility catalogs to the five public CSV fields. */
+function nelkano_home_update_11027(): void {
+  \Drupal\nelkano_home\Service\CompatibilityCatalog::migrateStored();
+}
+
+/** Apply the Figma public/editorial redesign without modifying API configuration. */
+function nelkano_home_update_11028(): void {
+  \Drupal\nelkano_home\Service\RedesignContent::install();
+}
+
+/** Seed the new editable guide; do not change any existing page content. */
+function nelkano_home_update_11029(): void {
+  $config=\Drupal::configFactory()->getEditable('nelkano_home.guide');
+  if ($config->isNew()) {
+    $config->setData(\Drupal\Component\Serialization\Yaml::decode(file_get_contents(__DIR__.'/config/install/nelkano_home.guide.yml')))->save();
+  }
+}
+
+/** Import the system copy authored in Figma into matching Spanish pages. */
+function nelkano_home_update_11030(): void {
+  foreach (['nelkano_home.settings','nelkano_home.docs'] as $name) {
+    $editable=\Drupal::configFactory()->getEditable($name);
+    if ($editable->get('langcode')===NULL) { $editable->set('langcode','es')->save(); }
+  }
+  $seed=json_decode(file_get_contents(__DIR__.'/config/figma-system-copy.json'),TRUE);
+  $config=\Drupal::configFactory()->getEditable('nelkano_home.systems');
+  foreach ($seed as $id=>$fields) {
+    $page=$config->get('es.pages.'.$id);
+    if (is_array($page)) { $config->set('es.pages.'.$id,array_replace($page,$fields)); }
+  }
+  $labels=json_decode(file_get_contents(__DIR__.'/config/figma-redesign.json'),TRUE)['labels'];
+  foreach ($labels as $language=>$values) {
+    foreach ($values as $key=>$label) {$config->set($language.'.labels.'.$key,$label);}
+  }
+  $config->save();
+}
+
+/** Add centralized SEO configuration without overwriting existing metadata. */
+function nelkano_home_update_11031(): void {
+  $config=\Drupal::configFactory()->getEditable('nelkano_home.seo');
+  if ($config->isNew()) {$config->setData(['langcode'=>'es','es'=>['pages'=>[]],'en'=>['pages'=>[]]])->save();}
+}
+
+/** Unify system publication across languages, retaining any existing hidden state. */
+function nelkano_home_update_11032(): void {
+  $config=\Drupal::configFactory()->getEditable('nelkano_home.systems');
+  foreach ($config->get('es.pages')??[] as $id=>$page) {
+    $other=$config->get('en.pages.'.$id);
+    if (!is_array($other)) {continue;}
+    $visible=!empty($page['enabled']) && !empty($other['enabled']);
+    $config->set('es.pages.'.$id.'.enabled',$visible)->set('en.pages.'.$id.'.enabled',$visible);
+  }
+  $config->save();
+}
+
+/** Add optimized header avatars, keeping uploaded originals and APIs unchanged. */
+function nelkano_home_update_11033(): void {
+  \Drupal::service('module_installer')->install(['image']);
+  if (!\Drupal\image\Entity\ImageStyle::load('nelkano_header_avatar')) {
+    $data = \Drupal\Component\Serialization\Yaml::decode(file_get_contents(__DIR__ . '/config/install/image.style.nelkano_header_avatar.yml'));
+    \Drupal\image\Entity\ImageStyle::create($data)->save();
+  }
 }

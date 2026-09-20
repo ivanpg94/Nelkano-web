@@ -17,16 +17,16 @@ final class NelkanoDocsSettingsForm extends ConfigFormBase {
 
   private const FIELDS = [
     'Privacy cookies' => [
-      'privacy_cookies_seo_title' => ['type' => 'textfield', 'title' => 'Titulo SEO'],
-      'privacy_cookies_seo_description' => ['type' => 'textarea', 'title' => 'Descripcion SEO'],
       'privacy_cookies_eyebrow' => ['type' => 'textfield', 'title' => 'Etiqueta'],
       'privacy_cookies_title' => ['type' => 'textfield', 'title' => 'Titulo visible'],
       'privacy_cookies_intro' => ['type' => 'textarea', 'title' => 'Introduccion'],
       'privacy_cookies_sections' => [
         'type' => 'config_rows',
+        'layout' => 'cards',
         'title' => 'Contenido estructurado',
         'description' => 'Add one row per section. Put each paragraph on its own line.',
         'columns' => [
+          'visible' => ['title' => 'Visible', 'type' => 'checkbox'],
           'title' => ['title' => 'Title'],
           'paragraphs' => ['title' => 'Paragraphs', 'type' => 'textarea'],
         ],
@@ -34,16 +34,16 @@ final class NelkanoDocsSettingsForm extends ConfigFormBase {
       ],
     ],
     'Legal notice' => [
-      'legal_notice_seo_title' => ['type' => 'textfield', 'title' => 'Titulo SEO'],
-      'legal_notice_seo_description' => ['type' => 'textarea', 'title' => 'Descripcion SEO'],
       'legal_notice_eyebrow' => ['type' => 'textfield', 'title' => 'Etiqueta'],
       'legal_notice_title' => ['type' => 'textfield', 'title' => 'Titulo visible'],
       'legal_notice_intro' => ['type' => 'textarea', 'title' => 'Introduccion'],
       'legal_notice_sections' => [
         'type' => 'config_rows',
+        'layout' => 'cards',
         'title' => 'Contenido estructurado',
         'description' => 'Add one row per section. Put each paragraph on its own line.',
         'columns' => [
+          'visible' => ['title' => 'Visible', 'type' => 'checkbox'],
           'title' => ['title' => 'Title'],
           'paragraphs' => ['title' => 'Paragraphs', 'type' => 'textarea'],
         ],
@@ -51,8 +51,6 @@ final class NelkanoDocsSettingsForm extends ConfigFormBase {
       ],
     ],
     'Releases' => [
-      'releases_seo_title' => ['type' => 'textfield', 'title' => 'SEO title'],
-      'releases_seo_description' => ['type' => 'textarea', 'title' => 'SEO description'],
       'releases_eyebrow' => ['type' => 'textfield', 'title' => 'Eyebrow'],
       'releases_title' => ['type' => 'textfield', 'title' => 'Title'],
       'releases_intro' => ['type' => 'textarea', 'title' => 'Intro'],
@@ -78,13 +76,12 @@ final class NelkanoDocsSettingsForm extends ConfigFormBase {
       ],
     ],
     'Compatibility' => [
-      'compatibility_seo_title' => ['type' => 'textfield', 'title' => 'SEO title'],
-      'compatibility_seo_description' => ['type' => 'textarea', 'title' => 'SEO description'],
       'compatibility_eyebrow' => ['type' => 'textfield', 'title' => 'Eyebrow'],
       'compatibility_title' => ['type' => 'textfield', 'title' => 'Title'],
       'compatibility_intro' => ['type' => 'textarea', 'title' => 'Intro'],
       'compatibility_items' => [
         'type' => 'config_rows',
+        'layout' => 'cards',
         'title' => 'Compatibility rows',
         'description' => 'Add one row per system.',
         'columns' => [
@@ -97,16 +94,17 @@ final class NelkanoDocsSettingsForm extends ConfigFormBase {
       ],
     ],
     'Security' => [
-      'security_seo_title' => ['type' => 'textfield', 'title' => 'SEO title'],
-      'security_seo_description' => ['type' => 'textarea', 'title' => 'SEO description'],
       'security_eyebrow' => ['type' => 'textfield', 'title' => 'Eyebrow'],
       'security_title' => ['type' => 'textfield', 'title' => 'Title'],
       'security_intro' => ['type' => 'textarea', 'title' => 'Intro'],
       'security_sections' => [
         'type' => 'config_rows',
+        'layout' => 'cards',
         'title' => 'Security sections',
+        'legacy_keys' => ['title', 'description'],
         'description' => 'Add one row per section.',
         'columns' => [
+          'visible' => ['title' => 'Visible', 'type' => 'checkbox'],
           'title' => ['title' => 'Title'],
           'description' => ['title' => 'Description', 'type' => 'textarea'],
         ],
@@ -168,6 +166,7 @@ final class NelkanoDocsSettingsForm extends ConfigFormBase {
           '#open' => FALSE,
         ];
 
+        $form[$langcode][$section_key]['save_section'] = ['#type'=>'submit','#value'=>$active_language==='es'?'Guardar sección':'Save section','#name'=>'save_'.$section_key,'#r_section'=>$section_key,'#attributes'=>['class'=>['r-save-section']]];
         foreach ($fields as $key => $definition) {
           if ($definition['type'] === 'config_rows') {
             $stored_value = $config->get("$langcode.$key") ?? '';
@@ -192,6 +191,18 @@ final class NelkanoDocsSettingsForm extends ConfigFormBase {
             ];
           }
         }
+        $row_keys=array_keys(array_filter($fields,static fn($d)=>$d['type']==='config_rows'));
+        $header_keys=array_values(array_diff(array_keys($fields),$row_keys));
+        $form[$langcode][$section_key]['#title']=$active_language==='es'?'Cabecera':'Header';
+        $form[$langcode][$section_key]['save_section']['#r_keys']=$header_keys;
+        foreach($row_keys as $row_key){
+          $card=$section_key.'_content';
+          $form[$langcode][$card]=['#type'=>'details','#title'=>$active_language==='es'?'Contenido':'Content','#open'=>FALSE];
+          $form[$langcode][$card][$row_key]=$form[$langcode][$section_key][$row_key];
+          $form[$langcode][$card][$row_key]['#parents']=[$langcode,$section_key,$row_key];
+          unset($form[$langcode][$section_key][$row_key]);
+          $form[$langcode][$card]['save_section']=['#type'=>'submit','#value'=>$active_language==='es'?'Guardar sección':'Save section','#name'=>'save_'.$card,'#r_section'=>$section_key,'#r_keys'=>[$row_key],'#attributes'=>['class'=>['r-save-section']]];
+        }
       }
     }
 
@@ -213,10 +224,14 @@ final class NelkanoDocsSettingsForm extends ConfigFormBase {
       $language_values = $config->get($langcode) ?? [];
       foreach (self::FIELDS as $section_label => $fields) {
         $section_key = strtolower(str_replace(' ', '_', $section_label));
+        $only_section=$form_state->getTriggeringElement()['#r_section']??NULL;
+        if ($only_section!==NULL && $only_section!==$section_key) {continue;}
         if ($section_filter !== NULL && $section_key !== $section_filter) {
           continue;
         }
         foreach (array_keys($fields) as $key) {
+          $only_keys=$form_state->getTriggeringElement()['#r_keys']??NULL;
+          if ($only_keys!==NULL && !in_array($key,$only_keys,TRUE)) {continue;}
           $value = $form_state->getValue([$langcode, $section_key, $key]);
           $language_values[$key] = ($fields[$key]['type'] ?? '') === 'config_rows'
             ? $this->normalizeConfigRowsValue($value, $fields[$key])

@@ -1,0 +1,101 @@
+{
+  "langcode": "es",
+  "es": {
+    "title": "Guía de uso",
+    "eyebrow": "Documentación",
+    "intro": "Todo lo que necesitas saber para empezar a jugar con Nelkano: biblioteca, importación, guardados, controles y más.",
+    "toc_label": "Índice",
+    "empty_label": "La guía de uso está siendo preparada. Vuelve pronto.",
+    "zoom_label": "Ampliar imagen",
+    "close_label": "Cerrar imagen",
+    "sections": [
+      {
+        "title": "Biblioteca y colecciones",
+        "description": "Nelkano organiza tus juegos en una biblioteca local. Puedes filtrar por sistema, buscar por nombre, ordenar y agrupar según tus preferencias.",
+        "bullets": "Importa juegos desde el explorador de archivos; Nelkano los añade automáticamente a la biblioteca.\nBusca por nombre o filtra por sistema para encontrar tus juegos rápidamente.\nOrdena y agrupa la biblioteca según el criterio que prefieras.\nCrea colecciones personalizadas para organizar tus juegos por temática, saga o cualquier criterio.\nUn mismo juego puede pertenecer a varias colecciones a la vez.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Importación de juegos",
+        "description": "Nelkano acepta archivos de juego individuales y archivos comprimidos. Algunos sistemas tienen requisitos específicos que debes tener en cuenta.",
+        "bullets": "Formatos soportados: archivos de juego individuales, ZIP, RAR y 7z.\nSe admiten hasta 3 niveles de compresión contando el archivo exterior; las carpetas no cuentan como nivel.\nPS1 requiere el archivo CUE y todas sus pistas de audio y datos asociadas en la misma carpeta.\nRPG Maker necesita el proyecto completo, no solo el ejecutable.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Guardados y estados",
+        "description": "Nelkano distingue entre los guardados propios del juego y los estados de guardado (save states) creados por el emulador. Son dos cosas distintas.",
+        "bullets": "El guardado nativo ocurre dentro del juego, igual que en el hardware original.\nLos estados S1–S5 capturan el estado exacto del emulador en cualquier momento.\nEl autoguardado, activable en Ajustes, sobrescribe el slot 0 aproximadamente cada minuto mientras juegas.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Jugar y continuar",
+        "description": "Hay dos formas de iniciar una sesión de juego desde la biblioteca. Cada una prioriza los guardados de forma diferente.",
+        "bullets": "Jugar arranca el juego desde el principio y permite cargar una partida nativa desde dentro del juego.\nContinuar prioriza el último slot manual seleccionado.\nSi no hay slot manual, Continuar usa el slot 0 (autoguardado).\nSi tampoco existe slot 0, carga el siguiente slot manual disponible.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Google Drive",
+        "description": "Nelkano puede sincronizar juegos y guardados con Google Drive. La sincronización es opcional y siempre manual.",
+        "bullets": "Inicia sesión en tu cuenta Nelkano y conecta Google Drive desde Ajustes.\nSube o descarga juegos y guardados individualmente o todos a la vez.\nAl descargar, los datos locales pueden ser reemplazados; revisa lo que vas a sobrescribir antes de confirmar.\nPuedes borrar datos localmente, borrar los guardados de Drive o eliminar toda la copia remota de forma independiente.\nPS1 no transfiere archivos de disco.\nNo se garantiza respaldo completo de guardados nativos de 3DS ni subida automática de cada autoguardado.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Segunda pantalla NDS y 3DS",
+        "description": "Puedes usar un segundo dispositivo Android como pantalla secundaria para NDS y 3DS, siempre que ambos estén en la misma red Wi-Fi.",
+        "bullets": "En el segundo dispositivo, activa el modo receptor desde la aplicación.\nDesde el dispositivo principal, busca receptores disponibles y selecciona el segundo dispositivo.\nAcepta la conexión en el receptor para establecer la segunda pantalla.\nUna vez conectado, puedes intercambiar qué pantalla aparece en cada dispositivo.\nSi recibes la pantalla inferior, el táctil del segundo dispositivo funciona como la pantalla táctil de la NDS o 3DS.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Mando Bluetooth",
+        "description": "Nelkano es compatible con mandos Bluetooth. El emparejamiento se realiza desde Android y la configuración desde la propia aplicación.",
+        "bullets": "Empareja el mando desde los Ajustes Bluetooth de Android como cualquier otro dispositivo.\nComprueba que Nelkano detecta el mando en Ajustes → Mandos.\nReasigna los botones según tus preferencias desde el mismo menú.\nGuarda y carga configuraciones de mando para distintos juegos o sistemas.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Editor de controles táctiles",
+        "description": "El editor táctil permite personalizar la posición y el tamaño de los controles en pantalla para cada sistema y orientación.",
+        "bullets": "Selecciona el sistema y la orientación (vertical u horizontal) que quieres editar.\nMueve y escala los controles arrastrándolos directamente sobre la pantalla.\nActiva la cuadrícula para alinear los controles con mayor precisión.\nMuestra u oculta botones individuales con el botón Sys.\nUsa la vista previa para comprobar el resultado antes de guardar.\nPulsa Guardar cuando estés satisfecho con la disposición.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Botones en partida",
+        "description": "Durante el juego hay controles adicionales accesibles en pantalla para gestionar la emulación.",
+        "bullets": "Pausa: pausa y reanuda la emulación.\nAuto repite A: mantiene pulsado el botón A de forma automática y continua.\nGrabar / Reproducir: registra y reproduce una secuencia de entradas de mando; no graba vídeo.\nFull / Estirar: cambia el modo de escala de la imagen en pantalla.\nGuardar / Cargar: crea y restaura estados de guardado desde los slots disponibles.\nFPS: indicador informativo de rendimiento; no tiene efecto sobre la emulación.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Editar juego",
+        "description": "Puedes personalizar cómo aparece cada juego en la biblioteca: su nombre y su carátula.",
+        "bullets": "Toca el título del juego en la biblioteca para renombrarlo.\nElige una captura de los slots S1–S5 para usarla como carátula del juego.\nEl slot cuya captura uses como carátula pasará a tener prioridad en la función Continuar.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Personalización",
+        "description": "Nelkano ofrece varias opciones de apariencia e idioma para la interfaz de la aplicación.",
+        "bullets": "Temas disponibles: Oscuro, Claro, Azul marino, Pizarra y Grafito.\nEl idioma de la interfaz puede ser español o inglés.\nCambiar el idioma de la interfaz no traduce los juegos.",
+        "visible": "1",
+        "image_uri": ""
+      }
+    ]
+  },
+  "en": {
+    "title": "User guide",
+    "eyebrow": "Documentation",
+    "intro": "Learn how to use Nelkano: your library, imports, saves and controls.",
+    "toc_label": "Contents",
+    "empty_label": "The English guide is being prepared.",
+    "zoom_label": "Enlarge image",
+    "close_label": "Close image",
+    "sections": []
+  }
+}

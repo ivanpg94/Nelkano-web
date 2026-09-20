@@ -13,6 +13,8 @@ trait ConfigRowsFormTrait {
     $input_exists = FALSE;
     $input_value = NestedArray::getValue($input, $parents, $input_exists);
     $rows_source = $input_exists ? ($input_value['rows'] ?? $input_value) : $storedValue;
+    // Preserve submitted row IDs across Ajax rebuilds; Drupal binds values by ID.
+    if (is_array($rows_source)) { ksort($rows_source); }
     $rows = $this->storedConfigRows($rows_source, array_keys($columns), $definition);
     $count_key = implode(':', $parents);
     $counts = $this->getFormRowsCounts($form_state);
@@ -45,6 +47,7 @@ trait ConfigRowsFormTrait {
         $element['rows'][$index] = [
           '#type' => 'details',
           '#title' => $this->configRowCardTitle($row, $index, $language),
+          '#weight' => (int) ($rows_source[$index]['top']['_weight'] ?? $index),
           '#open' => FALSE,
           '#attributes' => ['class' => ['nk-config-row-card']],
         ];
@@ -52,9 +55,11 @@ trait ConfigRowsFormTrait {
           '#type' => 'container',
           '#attributes' => ['class' => ['nk-config-row-card-top']],
         ];
+        $element['rows'][$index]['top']['_weight'] = ['#type'=>'hidden','#default_value'=>(int) ($rows_source[$index]['top']['_weight'] ?? $index),'#attributes'=>['data-r-row-weight'=>'true']];
         $element['rows'][$index]['top']['_delete'] = [
           '#type' => 'checkbox',
           '#title' => $this->adminLabel('Delete', $language),
+          '#default_value' => $row['_delete'] ?? 0,
           '#wrapper_attributes' => ['class' => ['nk-config-row-field', 'nk-config-row-field-delete']],
         ];
         foreach (['visible', 'filename', 'date'] as $top_key) {
@@ -165,6 +170,17 @@ trait ConfigRowsFormTrait {
     $trigger = $form_state->getTriggeringElement();
     $parents = $trigger['#nk_config_rows_parents'] ?? [];
     $element = NestedArray::getValue($form, $parents);
+    if (!is_array($element)) {
+      $find = function (array $branch) use (&$find, $parents): ?array {
+        if (($branch['#parents'] ?? NULL) === $parents && isset($branch['rows'])) { return $branch; }
+        foreach ($branch as $key => $child) {
+          if (is_string($key) && str_starts_with($key, '#')) { continue; }
+          if (is_array($child) && ($found = $find($child)) !== NULL) { return $found; }
+        }
+        return NULL;
+      };
+      $element = $find($form);
+    }
     return is_array($element) ? $element : $form;
   }
 
@@ -174,6 +190,7 @@ trait ConfigRowsFormTrait {
     $rows = $value['rows'] ?? $value ?? [];
     $normalized = [];
 
+    if (is_array($rows)) { uasort($rows, static fn($a,$b) => ((int)($a['top']['_weight']??0)) <=> ((int)($b['top']['_weight']??0))); }
     foreach (is_array($rows) ? $rows : [] as $row) {
       $row = $this->unpackConfigRowCard($row);
       if (!empty($row['_delete'])) {
@@ -183,7 +200,7 @@ trait ConfigRowsFormTrait {
       $has_value = FALSE;
       foreach ($keys as $key) {
         $item[$key] = $this->normalizeConfigRowsColumnValue($row[$key] ?? '', $columns[$key] ?? []);
-        $has_value = $has_value || $item[$key] !== '';
+        $has_value = $has_value || (!in_array($key, ['visible','icon','weight'], TRUE) && $item[$key] !== '');
       }
       if ($has_value) {
         $normalized[] = $item;
@@ -205,8 +222,9 @@ trait ConfigRowsFormTrait {
         }
         $item = [];
         foreach ($keys as $key) {
-          $item[$key] = $this->storedConfigRowsString($row[$key] ?? '', $definition['columns'][$key] ?? []);
+          $item[$key] = $this->storedConfigRowsString($row[$key] ?? ($key === 'visible' ? '1' : ''), $definition['columns'][$key] ?? []);
         }
+        $item['_delete'] = $row['_delete'] ?? 0;
         $rows[] = $item;
       }
       return $rows;
@@ -252,6 +270,13 @@ trait ConfigRowsFormTrait {
       $field['#description'] = $this->adminDescription($column['description'] ?? NULL, $language);
     }
 
+    if (isset($column['options'])) { $field['#options'] = $column['options']; }
+    if ($key === 'visible' && !array_key_exists($key, $row)) { $field['#default_value'] = '1'; }
+    if ($key === 'image_uri' && (isset($row['icon']) || !empty($row[$key]))) {
+      $url = \Drupal\nelkano_home\Service\RedesignContent::image((string) ($row[$key] ?? ''), in_array($row['icon'] ?? '', ['IcoCloud','IcoGamepad','IcoPencilTouch','IcoCollections','IcoZip'], TRUE) ? $row['icon'] : 'IcoCloud');
+      $field['#prefix'] = '<div class="r-image-editor"><img class="r-admin-preview" src="' . htmlspecialchars($url, ENT_QUOTES) . '" alt="" width="64" height="64">';
+      $field['#suffix'] = '</div>';
+    }
     return $field;
   }
 
@@ -266,8 +291,9 @@ trait ConfigRowsFormTrait {
   }
 
   private function configRowCardTitle(array $row, int $index, string $language): string {
+    if (!empty($row['title']) || !empty($row['question'])) { return (string) ($row['title'] ?? $row['question']); }
     $version = trim((string) ($row['version'] ?? ''));
-    $prefix = $this->adminLabel('Version', $language) . ' ' . ($index + 1);
+    $prefix = (array_key_exists('version', $row) ? $this->adminLabel('Version', $language) : ($language==='es'?'Elemento':'Item')) . ' ' . ($index + 1);
     return $version !== '' ? $prefix . ' - ' . $version : $prefix;
   }
 

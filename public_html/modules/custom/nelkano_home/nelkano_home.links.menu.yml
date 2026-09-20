@@ -17,6 +17,13 @@ nelkano_home.privacy_cookies_settings:
   description: 'Edit privacy and cookies page.'
   route_name: nelkano_home.admin_privacy_cookies
   parent: nelkano_home.admin
+  weight: 2
+
+nelkano_home.systems_settings:
+  title: 'Sistemas'
+  description: 'Edit system pages and current-status cards.'
+  route_name: nelkano_home.admin_systems
+  parent: nelkano_home.admin
   weight: 1
 
 nelkano_home.legal_notice_settings:
@@ -24,32 +31,39 @@ nelkano_home.legal_notice_settings:
   description: 'Edit legal notice page.'
   route_name: nelkano_home.admin_legal_notice
   parent: nelkano_home.admin
-  weight: 2
+  weight: 3
 
 nelkano_home.releases_settings:
   title: 'Versiones'
   description: 'Edit releases page.'
   route_name: nelkano_home.admin_releases
   parent: nelkano_home.admin
-  weight: 3
+  weight: 4
 
 nelkano_home.security_privacy_settings:
   title: 'Seguridad y privacidad'
   description: 'Edit security and privacy page.'
   route_name: nelkano_home.admin_security_privacy
   parent: nelkano_home.admin
-  weight: 4
+  weight: 5
 
 nelkano_home.error_reports:
   title: 'Reportes de errores'
   description: 'Revisar reportes enviados desde el emulador.'
   route_name: nelkano_home.admin_error_reports
   parent: nelkano_home.admin
-  weight: 5
+  weight: 6
 
 nelkano_home.backlog:
   title: 'Backlog · HU'
   description: 'Gestionar historias de usuario.'
   route_name: nelkano_home.admin_backlog
+  parent: nelkano_home.admin
+  weight: 7
+
+nelkano_home.seo_settings:
+  title: 'SEO'
+  description: 'Metadatos de las páginas públicas y de cada sistema.'
+  route_name: nelkano_home.admin_seo
   parent: nelkano_home.admin
   weight: 6

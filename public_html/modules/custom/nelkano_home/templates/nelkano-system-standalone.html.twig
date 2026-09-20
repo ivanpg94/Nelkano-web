@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="{{ language }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page.seo_title ?: page.title ~ ' — Nelkano' }}</title>
+    <meta name="description" content="{{ page.seo_description ?: page.tagline }}">
+    <link rel="canonical" href="{{ page.canonical }}">
+    <link rel="alternate" hreflang="{{ language }}" href="{{ page.canonical }}">
+    {% if page.alternate %}<link rel="alternate" hreflang="{{ page.alternate_lang }}" href="{{ page.alternate }}">{% endif %}
+    <link rel="alternate" hreflang="x-default" href="{{ page.default_url }}">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Nelkano">
+    <meta property="og:title" content="{{ page.seo_title ?: page.title }}">
+    <meta property="og:description" content="{{ page.seo_description ?: page.tagline }}">
+    <meta property="og:url" content="{{ page.canonical }}">
+    <meta property="og:image" content="{{ social_image_url }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ page.seo_title ?: page.title }}">
+    <meta name="twitter:description" content="{{ page.seo_description ?: page.tagline }}">
+    <meta name="twitter:image" content="{{ social_image_url }}">
+    <link rel="icon" href="{{ logo_url }}" type="image/png">
+    {% include '@nelkano_home/nelkano-theme-init.html.twig' %}
+    <style>{{ css_inline|raw }}</style>
+    {% include '@nelkano_home/nelkano-analytics.html.twig' %}
+  </head>
+  <body>
+    <a class="nk-skip-link" href="#system-content">{{ labels.skip }}</a>
+    {% include '@nelkano_home/nelkano-header.html.twig' %}
+    <main id="system-content" class="nk-page nk-system-page">
+      <div class="nk-system-wrap">
+        {% if compatibility %}
+          {% include '@nelkano_home/nelkano-compatibility.html.twig' %}
+        {% else %}
+        <nav class="nk-system-breadcrumb" aria-label="{{ labels.systems }}">
+          <a href="{{ nav_home_url }}">{{ labels.home }}</a><span aria-hidden="true">/</span>
+          <a href="{{ nav_home_url }}#project-status">{{ labels.systems }}</a><span aria-hidden="true">/</span>
+          <span aria-current="page">{{ page.card_title }}</span>
+        </nav>
+        <header class="nk-system-hero">
+          <div>
+            <div class="nk-system-badges">
+              {% if page.category %}<span class="nk-badge">{{ page.category }}</span>{% endif %}
+              {% if page.manufacturer %}<span>{{ page.manufacturer }}</span>{% endif %}
+              {% if page.year %}<span>{{ page.year }}</span>{% endif %}
+            </div>
+            <h1>{{ page.title }}</h1>
+            {% if page.tagline %}<p class="nk-system-lead">{{ page.tagline }}</p>{% endif %}
+            {% if page.formats %}<div class="nk-system-formats"><span>{{ labels.formats }}</span>{% for format in page.formats %}<code>{{ format }}</code>{% endfor %}</div>{% endif %}
+            <p class="nk-compat-cta"><a class="nk-button nk-button-primary" href="{{ page.compatibility_url }}">{{ language == 'es' ? 'Compatibilidad por juegos' : 'Game compatibility' }} <span aria-hidden="true">→</span></a></p>
+          </div>
+          {% if page.short_name %}<div class="nk-system-mark" aria-hidden="true"><span>{{ page.short_name }}</span><div class="nk-system-mark-rule"></div><small>NELKANO</small></div>{% endif %}
+        </header>
+        <div class="nk-system-layout">
+          <div class="nk-system-body">
+            {% if page.overview %}<section class="nk-system-section" aria-labelledby="system-about"><h2 id="system-about">{{ labels.about }}</h2><p class="nk-system-prose">{{ page.overview }}</p></section>{% endif %}
+            {% if page.features %}<section class="nk-system-section" aria-labelledby="system-features"><h2 id="system-features">{{ labels.features }}</h2><ul class="nk-system-list">{% for feature in page.features %}<li>{{ feature }}</li>{% endfor %}</ul></section>{% endif %}
+            {% if page.limitations %}<section class="nk-system-section nk-system-limitations" aria-labelledby="system-limits"><h2 id="system-limits">{{ labels.limitations }}</h2><ul class="nk-system-list">{% for limitation in page.limitations %}<li>{{ limitation }}</li>{% endfor %}</ul></section>{% endif %}
+            {% if page.step_1_title or page.step_2_title or page.step_3_title %}
+              <section class="nk-system-section" aria-labelledby="system-steps"><h2 id="system-steps">{{ labels.steps }}</h2><ol class="nk-system-steps">
+                {% for number in 1..3 %}{% set title = attribute(page, 'step_' ~ number ~ '_title') %}{% set text = attribute(page, 'step_' ~ number ~ '_text') %}{% if title %}<li><h3>{{ title }}</h3>{% if text %}<p>{{ text }}</p>{% endif %}</li>{% endif %}{% endfor %}
+              </ol></section>
+            {% endif %}
+            {% if page.faq_1_question or page.faq_2_question or page.faq_3_question %}
+              <section class="nk-system-section" aria-labelledby="system-faq"><h2 id="system-faq">{{ labels.faq }}</h2><div class="nk-system-faq">
+                {% for number in 1..3 %}{% set question = attribute(page, 'faq_' ~ number ~ '_question') %}{% set answer = attribute(page, 'faq_' ~ number ~ '_answer') %}{% if question and answer %}<details><summary>{{ question }}</summary><p class="nk-system-prose">{{ answer }}</p></details>{% endif %}{% endfor %}
+              </div></section>
+            {% endif %}
+          </div>
+          <aside class="nk-system-sidebar" aria-label="{{ labels.facts }}">
+            <div class="nk-system-panel">
+              <h2>{{ labels.facts }}</h2>
+              {% if page.status %}<div class="nk-system-status"><span>{{ labels.status }}</span><strong class="nk-status-pill">{{ page.status }}</strong></div>{% endif %}
+              <dl>
+                {% for key in ['manufacturer', 'year', 'category'] %}{% if attribute(page, key) %}<div><dt>{{ attribute(labels, key) }}</dt><dd>{{ attribute(page, key) }}</dd></div>{% endif %}{% endfor %}
+                {% if page.formats %}<div><dt>{{ labels.formats }}</dt><dd>{{ page.formats|join(', ') }}</dd></div>{% endif %}
+              </dl>
+              <a class="nk-button nk-button-primary" href="{{ nav_home_url }}#downloads">{{ labels.download }}</a>
+            </div>
+            {% if related %}<div class="nk-system-panel"><h2>{{ labels.related }}</h2><ul class="nk-system-related">{% for item in related %}<li><a href="{{ item.url }}">{{ item.title }} <span aria-hidden="true">→</span></a></li>{% endfor %}</ul></div>{% endif %}
+            <a class="nk-system-back" href="{{ nav_home_url }}#project-status"><span aria-hidden="true">←</span> {{ labels.back }}</a>
+          </aside>
+        </div>
+        {% endif %}
+      </div>
+      {% include '@nelkano_home/nelkano-footer.html.twig' %}
+      {% include '@nelkano_home/nelkano-consent-banner.html.twig' %}
+    </main>
+    <script defer src="{{ base_js_url }}"></script>
+  </body>
+</html>

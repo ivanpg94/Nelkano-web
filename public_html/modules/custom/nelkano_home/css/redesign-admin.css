@@ -1,0 +1,83 @@
+/* Scoped: backlog and reports never load this library or receive this class. */
+.nk-admin-app.nk-redesign-admin{background:#f8fafc;color:#0f172a;border:0;border-radius:0;box-shadow:none;max-width:none;margin:0;overflow:visible;font-family:Inter,ui-sans-serif,system-ui,sans-serif;color-scheme:light}
+.nk-redesign-admin .nk-admin-body{max-width:1280px;grid-template-columns:224px minmax(0,1fr);gap:32px;margin:auto;padding:32px 24px;align-items:start}
+.nk-redesign-admin .nk-admin-sidebar{padding:16px 12px;background:white;border:1px solid rgba(0,0,0,.08);box-shadow:0 1px 3px rgba(0,0,0,.04);border-radius:16px;position:sticky;top:84px}
+.nk-redesign-admin .nk-admin-sidebar h2{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:#64748b;font-weight:600;margin:4px 12px 12px}.nk-redesign-admin .nk-admin-sidebar .nk-admin-sidebar-section{margin-top:20px;padding-top:20px}
+.nk-redesign-admin .nk-admin-nav-item{padding:10px 12px;border:0;border-radius:8px;gap:10px;background:transparent;box-shadow:none;color:#64748b;font-size:13px;margin-bottom:4px;min-height:0}.nk-redesign-admin .nk-admin-nav-item strong{font-size:13px;font-weight:500}.nk-redesign-admin .nk-admin-nav-item.is-active{background:rgba(124,58,237,.08);color:#7c3aed}.nk-redesign-admin .nk-admin-nav-icon{width:20px;height:20px;min-width:20px;font-size:10px;color:inherit;background:none;border:none;border-radius:0}.nk-redesign-admin .nk-admin-nav-item small{display:none}
+.nk-redesign-admin .nk-admin-workspace{min-width:0}.nk-redesign-admin .nk-admin-panel{background:transparent;border:none;box-shadow:none;border-radius:0;overflow:visible}.nk-redesign-admin .nk-admin-config-form{margin:0;padding:0;color:#0f172a}.nk-redesign-admin .nk-admin-panel-head{background:transparent;border:0;padding:0 0 24px;gap:16px}.nk-redesign-admin .nk-admin-panel-head h1{font-size:24px;font-weight:700;letter-spacing:-.02em;margin:0 0 4px}.nk-redesign-admin .nk-admin-panel-head p{font-size:12px;color:#64748b;line-height:1.5}.nk-redesign-admin .nk-admin-public-link{font-size:12px;border-radius:999px;padding:7px 14px;background:white;border:1px solid #cbd5e1;color:#64748b}.nk-redesign-admin .nk-admin-language-fields{padding:0!important;display:grid;gap:20px}
+.nk-redesign-admin .nk-admin-config-form details{background:white;border:1px solid rgba(0,0,0,.08);border-radius:16px;box-shadow:0 1px 4px rgba(0,0,0,.05);margin:0 0 20px;padding:0;overflow:hidden}.nk-redesign-admin .nk-admin-config-form details>summary{padding:16px 24px;background:white;color:#0f172a;font-weight:700;font-size:14px;border:0;min-height:52px;display:flex;gap:12px;align-items:center;list-style:none}.nk-redesign-admin .nk-admin-config-form details[open]>summary{border-bottom:1px solid rgba(0,0,0,.08)}.nk-redesign-admin .nk-admin-config-form details>.details-wrapper{padding:20px 24px;display:block}.nk-redesign-admin .nk-admin-config-form .form-item{margin:0 0 16px}.nk-redesign-admin .nk-admin-config-form label{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#64748b;line-height:1.5;margin-bottom:6px;display:block}.nk-redesign-admin .nk-admin-config-form input:not([type=checkbox]):not([type=radio]):not([type=submit]):not([type=hidden]),.nk-redesign-admin .nk-admin-config-form textarea,.nk-redesign-admin .nk-admin-config-form select{width:100%;max-width:100%;border:1px solid #cbd5e1;background:#f8fafc;box-shadow:none;border-radius:12px;color:#334155;padding:10px 12px;font-family:inherit;font-size:14px;font-weight:400;min-height:42px;line-height:1.5}.nk-redesign-admin .nk-admin-config-form textarea{min-height:86px;resize:vertical}.nk-redesign-admin .nk-admin-config-form input:focus,.nk-redesign-admin .nk-admin-config-form textarea:focus,.nk-redesign-admin .nk-admin-config-form select:focus{outline:2px solid rgba(124,58,237,.35);outline-offset:1px;border-color:#7c3aed}.nk-redesign-admin .nk-admin-config-form input[type=checkbox]{accent-color:#7c3aed;width:16px;height:16px}.nk-redesign-admin .nk-admin-config-form .form-type-checkbox{display:flex;align-items:center;gap:8px}.nk-redesign-admin .nk-admin-config-form .form-type-checkbox label{margin:0;text-transform:none;letter-spacing:0;font-size:12px}.nk-redesign-admin .nk-admin-config-form .description{color:#64748b;font-size:12px;line-height:1.5;margin-top:5px}
+.nk-redesign-admin .nk-admin-config-form .button,.nk-redesign-admin button.r-admin-button{border:1px solid transparent;border-radius:999px;background:#7c3aed;color:#fff;font:600 12px/1.5 Inter,system-ui,sans-serif;padding:7px 16px;min-height:0;margin:0;box-shadow:none;text-shadow:none;cursor:pointer;width:auto}.nk-redesign-admin .nk-admin-config-form .button:hover,.nk-redesign-admin button.r-admin-button:hover{background:#6d28d9}.nk-redesign-admin .nk-admin-config-form .form-actions{padding:12px 0;display:flex;flex-wrap:wrap;gap:12px;background:transparent;border:0}.nk-redesign-admin .nk-config-row-card-top{background:#f8fafc;border-radius:8px;padding:12px;display:flex;gap:20px;flex-wrap:wrap;margin-bottom:16px}.nk-redesign-admin .nk-config-row-card-fields{display:block}.nk-redesign-admin .nk-config-rows-title{font-size:14px;font-weight:600;margin:0 0 16px}.nk-redesign-admin .nk-config-row-card{box-shadow:none!important}.nk-redesign-admin .r-admin-preview{object-fit:contain;padding:8px;border:1px solid rgba(124,58,237,.15);background:#f0ecff;border-radius:12px;margin:0 0 16px}.nk-redesign-admin .r-image-editor{border:2px dashed #cbd5e1;border-radius:12px;padding:20px;margin:16px 0}.nk-redesign-admin .r-system-picker{display:flex;flex-wrap:wrap;gap:8px;padding:16px;margin-bottom:20px;border:1px solid rgba(0,0,0,.08);border-radius:16px;background:white}.nk-redesign-admin .r-system-picker button{font:600 12px/1.5 Inter,system-ui,sans-serif;padding:6px 12px;border:1.5px solid rgba(0,0,0,.08);border-radius:8px;color:#334155;background:#f1f5f9;cursor:pointer}.nk-redesign-admin .r-system-picker button[aria-pressed=true]{background:#7c3aed;color:white;border-color:#7c3aed}.nk-redesign-admin .r-admin-tabs{display:flex;gap:4px;flex-wrap:wrap;background:#f1f5f9;border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:4px;margin-bottom:20px;width:fit-content}.nk-redesign-admin .r-admin-tabs button{border:0;background:transparent;color:#64748b;padding:6px 16px;border-radius:8px;font:600 12px/1.5 Inter,system-ui,sans-serif;cursor:pointer}.nk-redesign-admin .r-admin-tabs button[aria-pressed=true]{color:#7c3aed;background:white;box-shadow:0 1px 3px rgba(0,0,0,.08)}.nk-redesign-admin [data-r-system].r-system-enhanced{background:none;border:0;box-shadow:none;overflow:visible}.nk-redesign-admin [data-r-system].r-system-enhanced>summary{display:none}.nk-redesign-admin [data-r-system].r-system-enhanced>.details-wrapper{padding:0}.nk-redesign-admin [hidden]{display:none!important}.nk-redesign-admin .r-save-section{margin-left:auto!important;flex-shrink:0}.nk-redesign-admin .nk-section-toggle label{font-size:12px!important}.nk-redesign-admin .nk-section-toggle-slot{margin-left:auto}.nk-redesign-admin .nk-section-toggle-slot+.r-save-section{margin-left:0!important}
+@media(max-width:800px){.nk-redesign-admin .nk-admin-body{display:block;padding:24px 16px}.nk-redesign-admin .nk-admin-sidebar{position:static;margin-bottom:24px}.nk-redesign-admin .nk-admin-sidebar nav{display:flex;flex-wrap:wrap;gap:4px}.nk-redesign-admin .nk-admin-panel-head{flex-wrap:wrap}.nk-redesign-admin .nk-admin-config-form details>summary{padding:16px}.nk-redesign-admin .nk-admin-config-form details>.details-wrapper{padding:16px}}
+
+.nk-redesign-admin .r-system-picker a{font:600 12px/1.5 Inter,system-ui,sans-serif;padding:6px 12px;border:1.5px solid rgba(0,0,0,.08);border-radius:8px;color:#334155;background:#f1f5f9;text-decoration:none}.nk-redesign-admin .r-system-picker a[aria-current=true]{background:#7c3aed;color:white;border-color:#7c3aed}.nk-redesign-admin .nk-admin-config-form input.r-save-section{width:auto;max-width:unset;padding:6px 16px;font-size:12px}.nk-redesign-admin .nk-admin-config-form .r-panel-label{font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:#0284c7}
+
+.nk-redesign-admin .r-row-order{display:flex;gap:6px;margin-left:auto}.nk-redesign-admin .r-row-order button{background:#f1f5f9;border:1px solid #cbd5e1;border-radius:6px;color:#64748b;padding:4px 9px;cursor:pointer}.nk-redesign-admin .nk-admin-nav-item .nk-admin-nav-icon{background:transparent!important}.nk-redesign-admin .nk-admin-nav-icon img{width:16px;height:16px}
+
+/* Editing sections start folded, with an explicit disclosure indicator. */
+.nk-redesign-admin .nk-admin-config-form details > summary { cursor: pointer; }
+.nk-redesign-admin .nk-admin-config-form details > summary::before {
+  content: '' !important; display: block !important; width: 7px; height: 7px; flex: 0 0 7px;
+  border-right: 2px solid #64748b; border-bottom: 2px solid #64748b;
+  transform: rotate(-45deg); transition: transform .15s;
+}
+.nk-redesign-admin .nk-admin-config-form details[open] > summary::before { transform: rotate(45deg); }
+.nk-redesign-admin .nk-admin-config-form details:not([open]) > .details-wrapper { display: none !important; }
+
+/* Compact editorial forms: related short fields share a row. */
+.nk-redesign-admin .nk-admin-config-form details[open]:not([data-r-system]):not(.nk-config-row-card) > .details-wrapper,
+.nk-redesign-admin .nk-admin-config-form .r-field-grid,
+.nk-redesign-admin .nk-admin-config-form .nk-config-row-card-fields {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 24px;
+  align-items: start;
+}
+.nk-redesign-admin .nk-admin-config-form .details-wrapper > *,
+.nk-redesign-admin .nk-admin-config-form .r-field-grid > *,
+.nk-redesign-admin .nk-admin-config-form .nk-config-row-card-fields > * {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+.nk-redesign-admin .nk-admin-config-form .details-wrapper > .form-item,
+.nk-redesign-admin .nk-admin-config-form .r-field-grid > .form-item,
+.nk-redesign-admin .nk-admin-config-form .nk-config-row-card-fields > .form-item {
+  grid-column: auto;
+  margin: 0;
+}
+.nk-redesign-admin .nk-admin-config-form .details-wrapper > .form-item:has(textarea),
+.nk-redesign-admin .nk-admin-config-form .r-field-grid > .form-item:has(textarea),
+.nk-redesign-admin .nk-admin-config-form .nk-config-row-card-fields > .form-item:has(textarea),
+.nk-redesign-admin .nk-admin-config-form .form-item:has(.form-managed-file) {
+  grid-column: 1 / -1;
+}
+.nk-redesign-admin .nk-admin-config-form .r-form-group {padding: 0 0 24px;border-bottom: 1px solid #e2e8f0;}
+.nk-redesign-admin .nk-admin-config-form .r-form-group:last-child {padding-bottom: 0;border-bottom: 0;}
+.nk-redesign-admin .nk-admin-config-form .r-form-group-title {margin: 0;color: #334155;font-size: 13px;font-weight: 700;line-height: 1.5;}
+.nk-redesign-admin .nk-admin-config-form .r-paired-grid {grid-template-columns: minmax(0,1fr) minmax(0,2fr);}
+.nk-redesign-admin .nk-admin-config-form .r-paired-grid > .form-item:has(textarea),
+.nk-redesign-admin .nk-admin-config-form [data-r-group="identity"] > .details-wrapper > .form-item:has([name$="[formats]"], [name$="[related_ids]"]) {grid-column: auto;}
+.nk-redesign-admin [data-r-group="identity"] select[multiple] {min-height: 112px;}
+.nk-redesign-admin .nk-admin-config-form .form-type-checkbox {align-items: center;min-height: 24px;}
+.nk-redesign-admin .nk-admin-config-form .form-type-checkbox label {margin: 0;}
+.nk-redesign-admin .nk-admin-config-form .r-field-grid > .form-item:has(input[name$="[image]"]) {grid-column: 1 / -1;}
+.nk-redesign-admin .nk-admin-config-form .nk-config-row-card-fields {padding: 16px;}
+@media (max-width: 700px) {
+  .nk-redesign-admin .nk-admin-config-form details[open]:not([data-r-system]):not(.nk-config-row-card) > .details-wrapper,
+  .nk-redesign-admin .nk-admin-config-form .r-field-grid,
+  .nk-redesign-admin .nk-admin-config-form .nk-config-row-card-fields {grid-template-columns: minmax(0,1fr);gap: 16px;}
+  .nk-redesign-admin .nk-admin-config-form .r-field-grid > *,
+  .nk-redesign-admin .nk-admin-config-form .details-wrapper > *,
+  .nk-redesign-admin .nk-admin-config-form .nk-config-row-card-fields > * {grid-column: 1 / -1 !important;}
+}
+
+.nk-redesign-admin .r-catalog-actions {display:flex;justify-content:flex-end;margin-bottom:20px;}
+.nk-redesign-admin .r-publication-bar {display:flex;align-items:center;flex-wrap:wrap;gap:12px 20px;padding:18px 20px;margin-bottom:20px;background:white;border:1px solid #e2e8f0;border-radius:16px;}
+.nk-redesign-admin .r-publication-bar strong {font-size:14px;color:#334155;}
+.nk-redesign-admin .r-publication-bar .button {margin-left:auto;}
+.nk-redesign-admin .r-publication-bar small {flex-basis:100%;font-size:12px;color:#64748b;line-height:1.5;}
+.nk-redesign-admin .r-system-create {background:white;border:1px solid #e2e8f0;border-radius:16px;padding:24px;}
+@media(max-width:700px){.nk-redesign-admin .r-publication-bar .button{margin-left:0;}}
+
+.nk-redesign-admin .r-publication-bar .form-item {margin:0;width:100%;}
+.nk-redesign-admin .r-publication-bar .form-item .description {flex-basis:100%;margin-left:24px;}
+.nk-redesign-admin .r-publication-bar .form-type-checkbox {flex-wrap:wrap;}

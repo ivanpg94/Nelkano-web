@@ -3,6 +3,11 @@
   font-family: var(--nk-font-display);
 }
 
+.nk-status-grid .nk-card { display: flex; flex-direction: column; align-items: flex-start; }
+.nk-status-grid .nk-card > p { flex: 1; }
+.nk-status-grid .nk-system-more { gap: 12px; margin-top: 24px; }
+.nk-status-grid .nk-system-more:focus-visible { outline: 3px solid var(--nk-info); outline-offset: 4px; }
+
 .nk-page :where(h1, h2, h3, h4, p, a, span, strong, small, li, summary) {
   color: inherit;
   letter-spacing: 0;

@@ -1,0 +1,104 @@
+nelkano_home.seo:
+  type: config_object
+  label: 'Public page SEO'
+  mapping:
+    es:
+      type: mapping
+      mapping:
+        pages:
+          type: sequence
+          sequence:
+            type: mapping
+            mapping:
+              title:
+                type: string
+                label: "title"
+              description:
+                type: string
+                label: "description"
+              keywords:
+                type: string
+                label: "keywords"
+              robots:
+                type: string
+                label: "robots"
+              canonical:
+                type: string
+                label: "canonical"
+              og_title:
+                type: string
+                label: "og_title"
+              og_description:
+                type: string
+                label: "og_description"
+              image:
+                type: string
+                label: "image"
+              image_alt:
+                type: string
+                label: "image_alt"
+              twitter_title:
+                type: string
+                label: "twitter_title"
+              twitter_description:
+                type: string
+                label: "twitter_description"
+              twitter_card:
+                type: string
+                label: "twitter_card"
+              og_type:
+                type: string
+                label: "og_type"
+              site_name:
+                type: string
+                label: "site_name"
+    en:
+      type: mapping
+      mapping:
+        pages:
+          type: sequence
+          sequence:
+            type: mapping
+            mapping:
+              title:
+                type: string
+                label: "title"
+              description:
+                type: string
+                label: "description"
+              keywords:
+                type: string
+                label: "keywords"
+              robots:
+                type: string
+                label: "robots"
+              canonical:
+                type: string
+                label: "canonical"
+              og_title:
+                type: string
+                label: "og_title"
+              og_description:
+                type: string
+                label: "og_description"
+              image:
+                type: string
+                label: "image"
+              image_alt:
+                type: string
+                label: "image_alt"
+              twitter_title:
+                type: string
+                label: "twitter_title"
+              twitter_description:
+                type: string
+                label: "twitter_description"
+              twitter_card:
+                type: string
+                label: "twitter_card"
+              og_type:
+                type: string
+                label: "og_type"
+              site_name:
+                type: string
+                label: "site_name"

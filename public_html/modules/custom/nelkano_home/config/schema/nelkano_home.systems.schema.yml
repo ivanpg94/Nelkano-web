@@ -1,0 +1,106 @@
+nelkano_home.systems:
+  type: config_object
+  label: 'Nelkano system pages'
+  mapping:
+    es:
+      type: nelkano_home.system_language
+    en:
+      type: nelkano_home.system_language
+nelkano_home.system_language:
+  type: mapping
+  mapping:
+    labels:
+      type: sequence
+      sequence:
+        type: label
+    pages:
+      type: sequence
+      sequence:
+        type: nelkano_home.system_page
+nelkano_home.system_page:
+  type: mapping
+  mapping:
+    enabled:
+      type: boolean
+    show_on_home:
+      type: boolean
+    card_title:
+      type: text
+    title:
+      type: text
+    short_name:
+      type: text
+    status:
+      type: text
+    category:
+      type: text
+    summary:
+      type: text
+    tagline:
+      type: text
+    manufacturer:
+      type: text
+    year:
+      type: text
+    formats:
+      type: text
+    overview:
+      type: text
+    features:
+      type: text
+    limitations:
+      type: text
+    step_1_title:
+      type: text
+    step_1_text:
+      type: text
+    step_2_title:
+      type: text
+    step_2_text:
+      type: text
+    step_3_title:
+      type: text
+    step_3_text:
+      type: text
+    faq_1_question:
+      type: text
+    faq_1_answer:
+      type: text
+    faq_2_question:
+      type: text
+    faq_2_answer:
+      type: text
+    faq_3_question:
+      type: text
+    faq_3_answer:
+      type: text
+    seo_title:
+      type: text
+    seo_description:
+      type: text
+    tier:
+      type: string
+    status_note:
+      type: text
+    image_uri:
+      type: string
+    related_ids:
+      type: string
+    steps:
+      type: sequence
+      sequence:
+        type: mapping
+        mapping:
+          title:
+            type: text
+          description:
+            type: text
+    faq:
+      type: sequence
+      sequence:
+        type: mapping
+        mapping:
+          question:
+            type: text
+          answer:
+            type: text

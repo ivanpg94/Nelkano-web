@@ -1,0 +1,36 @@
+{% set es = language == 'es' %}
+<nav class="nk-system-breadcrumb" aria-label="{{ labels.systems }}">
+  <a href="{{ nav_home_url }}">{{ labels.home }}</a><span aria-hidden="true">/</span>
+  <a href="{{ page.system_url }}">{{ page.card_title }}</a><span aria-hidden="true">/</span>
+  <span aria-current="page">{{ es ? 'Compatibilidad' : 'Compatibility' }}</span>
+</nav>
+<header class="nk-compat-heading">
+  <p class="nk-badge">{{ page.card_title }}</p>
+  <h1>{{ es ? 'Compatibilidad por juegos' : 'Game compatibility' }}</h1>
+  <p>{{ es ? 'Resultados de las pruebas realizadas en cada dispositivo.' : 'Results of tests performed on each device.' }}</p>
+</header>
+<form class="nk-compat-filters" method="get" action="{{ page.compatibility_url }}">
+  <label>{{ es ? 'Buscar juego' : 'Find a game' }}<input type="search" name="q" value="{{ results.search }}" maxlength="100" placeholder="{{ es ? 'Nombre del juego' : 'Game name' }}"></label>
+  <label>{{ es ? 'Estado' : 'Status' }}<select name="estado"><option value="">{{ es ? 'Todos los estados' : 'All statuses' }}</option>{% for key, label in results.statuses %}<option value="{{ key }}"{{ results.status == key ? ' selected' : '' }}>{{ label }}</option>{% endfor %}</select></label>
+  <button class="nk-button nk-button-primary" type="submit">{{ es ? 'Filtrar' : 'Filter' }}</button>
+  {% if results.search or results.status %}<a href="{{ page.compatibility_url }}">{{ es ? 'Limpiar filtros' : 'Clear filters' }}</a>{% endif %}
+</form>
+<p class="nk-compat-count">{{ results.matched }} {{ es ? (results.matched == 1 ? 'resultado de' : 'resultados de') : (results.matched == 1 ? 'result of' : 'results of') }} {{ results.total }} · {{ es ? 'FPS vacíos: no medidos.' : 'Empty FPS: not measured.' }}</p>
+{% if results.rows %}
+<div class="nk-compat-scroll" role="region" aria-label="{{ es ? 'Resultados de compatibilidad' : 'Compatibility results' }}" tabindex="0">
+<table class="nk-compat-table">
+  <caption>{{ page.card_title }} · {{ es ? 'Resultados por juego' : 'Results by game' }}</caption>
+  <thead><tr><th scope="col">{{ es ? 'Nombre' : 'Name' }}</th><th scope="col">{{ es ? 'Estado' : 'Status' }}</th><th scope="col">FPS</th><th scope="col">{{ es ? 'Dispositivo' : 'Device' }}</th><th scope="col">{{ es ? 'Fecha prueba' : 'Test date' }}</th></tr></thead>
+  <tbody>{% for row in results.rows %}<tr>
+    <th scope="row" id="compat-game-{{ loop.index }}"><strong>{{ row.nombre }}</strong></th>
+    <td><span class="nk-compat-status" data-status="{{ row.estado }}">{{ attribute(results.statuses, row.estado) }}</span></td>
+    <td>{{ row.fps is null ? (es ? 'No medido' : 'Not measured') : row.fps }}</td>
+    <td>{{ row.dispositivo }}</td>
+    <td>{{ attribute(row, 'fecha prueba') }}</td>
+  </tr>{% endfor %}</tbody>
+</table></div>
+{% else %}
+<div class="nk-system-panel nk-compat-empty"><h2>{{ results.total ? (es ? 'No hay juegos con estos filtros' : 'No games match these filters') : (es ? 'Todavía no hay pruebas publicadas' : 'No tests published yet') }}</h2><p>{{ results.total ? (es ? 'Prueba otro nombre o selecciona todos los estados.' : 'Try another name or select all statuses.') : (es ? 'Los resultados aparecerán aquí cuando se publique el catálogo de este sistema.' : 'Results will appear here when this system’s catalog is published.') }}</p></div>
+{% endif %}
+{% if results.pages > 1 %}<nav class="nk-compat-pagination" aria-label="{{ es ? 'Paginación' : 'Pagination' }}">{% if results.previous %}<a href="{{ results.previous }}">← {{ es ? 'Anterior' : 'Previous' }}</a>{% endif %}<span>{{ results.number }} / {{ results.pages }}</span>{% if results.next %}<a href="{{ results.next }}">{{ es ? 'Siguiente' : 'Next' }} →</a>{% endif %}</nav>{% endif %}
+<p class="nk-compat-cta"><a class="nk-system-back" href="{{ page.system_url }}">← {{ page.card_title }}</a></p>

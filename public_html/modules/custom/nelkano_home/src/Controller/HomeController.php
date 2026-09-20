@@ -5,6 +5,9 @@ namespace Drupal\nelkano_home\Controller;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Extension\ModuleExtensionList;
+use Drupal\nelkano_home\Service\SystemPages;
+use Drupal\nelkano_home\Service\RedesignContent;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -138,6 +141,13 @@ final class HomeController extends ControllerBase {
       ['loc' => $base_url . '/en/security-privacy', 'priority' => '0.4'],
     ];
 
+    foreach (['es', 'en'] as $language) {
+      foreach (SystemPages::content($language)['pages'] as $id => $page) {
+        if ($page['enabled']) {
+          $urls[] = ['loc' => $base_url . SystemPages::path($id, $language), 'priority' => '0.6'];
+        }
+      }
+    }
     $xml = ['<?xml version="1.0" encoding="UTF-8"?>'];
     $xml[] = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
     foreach ($urls as $url) {
@@ -156,11 +166,19 @@ final class HomeController extends ControllerBase {
   private function build(string $language): Response {
     $config = $this->homeConfigFactory->get('nelkano_home.settings');
     $content = $config->get($language) ?? [];
-    $content['status_items'] = $this->parseRows($content['status_items'] ?? '', ['system', 'status', 'description']);
+    $systems = SystemPages::content($language);
+    $content['status_more_label'] = $systems['labels']['more'];
+    $content['status_items'] = [];
+    foreach ($systems['pages'] as $id => $page) {
+      if ($page['enabled'] && $page['show_on_home']) {
+        $content['status_items'][] = RedesignContent::decorate($id, $page, $language);
+      }
+    }
+    $content['feature_items'] = RedesignContent::featureRows($content['feature_items'] ?? []);
     $content['platform_items'] = $this->parseRows($content['platform_items'] ?? '', ['title', 'description']);
-    $content['differentiator_items'] = $this->parseRows($content['differentiator_items'] ?? '', ['title', 'description']);
+    $content['differentiator_items'] = RedesignContent::featureRows($this->parseRows($content['differentiator_items'] ?? '', ['title', 'description', 'visible']));
     $content['vision_items'] = $this->parseLines($content['vision_items'] ?? '', 'text');
-    $content['faq_items'] = $this->parseRows($content['faq_items'] ?? '', ['question', 'answer']);
+    $content['faq_items'] = [];
     $content['trust_items'] = $this->parseRows($content['trust_items'] ?? '', ['title', 'description', 'url']);
     $module_path = $this->moduleExtensionList->getPath('nelkano_home');
     $android_download = $this->latestReleaseDownload($language, $module_path);
@@ -170,7 +188,9 @@ final class HomeController extends ControllerBase {
     $template = file_get_contents(DRUPAL_ROOT . '/' . $module_path . '/templates/nelkano-home-standalone.html.twig');
     $html = \Drupal::service('twig')->createTemplate($template)->render([
       'content' => $content,
-      'css_inline' => $this->loadInlineCss($module_path),
+      'labels' => $systems['labels'],
+      'systems_url' => $language === 'en' ? '/en/systems' : '/sistemas',
+      'css_inline' => $this->loadInlineCss($module_path) . file_get_contents(DRUPAL_ROOT . '/' . $module_path . '/css/redesign.css'),
       'seo' => $seo,
       'analytics' => $this->analyticsSettings(),
     ] + $this->chromeContext(
@@ -182,10 +202,131 @@ final class HomeController extends ControllerBase {
 
     return new Response($html, 200, [
       'Content-Type' => 'text/html; charset=UTF-8',
-      'Cache-Control' => $this->currentUser()->isAuthenticated() ? 'no-store, private' : 'public, max-age=3600',
+      'Cache-Control' => 'no-store, private',
       'X-Content-Type-Options' => 'nosniff',
       'Referrer-Policy' => 'strict-origin-when-cross-origin',
     ]);
+  }
+
+  public function systemPage(string $system, string $language = 'es', bool $compatibility = FALSE): Response {
+    $language = $language === 'en' ? 'en' : 'es';
+    $data = SystemPages::content($language);
+    $page = $data['pages'][$system] ?? NULL;
+    if (!$page || !$page['enabled']) {
+      throw new NotFoundHttpException();
+    }
+    $module_path = $this->moduleExtensionList->getPath('nelkano_home');
+    $base_url = \Drupal::request()->getSchemeAndHttpHost();
+    $alternate_language = $language === 'es' ? 'en' : 'es';
+    $alternate = SystemPages::content($alternate_language)['pages'][$system] ?? [];
+    $page['canonical'] = $base_url . SystemPages::path($system, $language);
+    $page['alternate_lang'] = $alternate_language;
+    $alternate_path = !empty($alternate['enabled']) ? SystemPages::path($system, $alternate_language) : ($alternate_language === 'en' ? '/en' : '/');
+    $page['alternate'] = !empty($alternate['enabled']) ? $base_url . $alternate_path : '';
+    $page['default_url'] = $language === 'es' ? $page['canonical'] : ($page['alternate'] ?: $page['canonical']);
+    $catalog = \Drupal\nelkano_home\Service\CompatibilityCatalog::class;
+    $page['system_url'] = SystemPages::path($system, $language);
+    $page['compatibility_url'] = $catalog::path($system, $language);
+    $results = [];
+    if ($compatibility) {
+      $page['canonical'] = $base_url . $page['compatibility_url'];
+      if ($page['alternate']) {
+        $alternate_path = $catalog::path($system, $alternate_language);
+        $page['alternate'] = $base_url . $alternate_path;
+      }
+      $page['default_url'] = $language === 'es' ? $page['canonical'] : ($page['alternate'] ?: $page['canonical']);
+      $page['seo_title'] = ($language === 'es' ? 'Compatibilidad · ' : 'Compatibility · ') . $page['title'] . ' — Nelkano';
+      $page['seo_description'] = $language === 'es' ? 'Resultados por juego: estado, FPS, dispositivo y fecha de prueba.' : 'Game test results: status, FPS, device and test date.';
+      $query = \Drupal::request()->query;
+      $search = mb_substr(trim($query->getString('q')), 0, 100);
+      $status = $query->getString('estado');
+      $all = $catalog::rows($system);
+      $statuses = $catalog::statuses($language);
+      if (!isset($statuses[$status])) { $status = ''; }
+      $filtered = array_values(array_filter($all, static fn($row) => ($search === '' || mb_stripos($row['nombre'], $search) !== FALSE) && ($status === '' || $row['estado'] === $status)));
+      usort($filtered, static fn($a, $b) => strnatcasecmp($a['nombre'], $b['nombre']) ?: strcmp($a['dispositivo'], $b['dispositivo']) ?: strcmp($a['fecha prueba'], $b['fecha prueba']));
+      $pages = max(1, (int) ceil(count($filtered) / 50));
+      $number = min($pages, max(1, $query->getInt('pagina', 1)));
+      $url = static fn($n) => $page['compatibility_url'] . '?' . http_build_query(['q' => $search, 'estado' => $status, 'pagina' => $n]);
+      $results = ['rows' => array_slice($filtered, ($number - 1) * 50, 50), 'total' => count($all), 'matched' => count($filtered), 'statuses' => $statuses, 'search' => $search, 'status' => $status, 'number' => $number, 'pages' => $pages, 'previous' => $number > 1 ? $url($number - 1) : '', 'next' => $number < $pages ? $url($number + 1) : ''];
+    }
+    foreach (['features', 'limitations', 'formats'] as $field) {
+      $page[$field] = SystemPages::lines($page[$field]);
+    }
+    $related = [];
+    $related_ids = SystemPages::lines($page['related_ids'] ?? '');
+    foreach ($data['pages'] as $id => $candidate) {
+      if ($id !== $system && $candidate['enabled'] && ($related_ids ? in_array($id, $related_ids, TRUE) : $candidate['category'] === $page['category'])) {
+        $related[] = ['title' => $candidate['short_name'] ?: $candidate['card_title'], 'url' => SystemPages::path($id, $language), 'image_url' => RedesignContent::image($candidate['image_uri'] ?? '', RedesignContent::illustration($id))];
+      }
+    }
+    $home = $this->homeConfigFactory->get('nelkano_home.settings')->get($language) ?? [];
+    $page = RedesignContent::decorate($system, $page, $language);
+    $template = file_get_contents(DRUPAL_ROOT . '/' . $module_path . '/templates/' . ($compatibility ? 'nelkano-system-standalone.html.twig' : 'nelkano-systems-redesign.html.twig'));
+    $html = \Drupal::service('twig')->createTemplate($template)->render([
+      'page' => $page,
+      'labels' => $data['labels'],
+      'compatibility' => $compatibility,
+      'systems_url' => $language === 'en' ? '/en/systems' : '/sistemas',
+      'results' => $results,
+      'related' => array_slice($related, 0, 4),
+      'footer_primary' => $home['footer_primary'] ?? '',
+      'social_image_url' => $this->socialImageUrl($module_path),
+      'css_inline' => $this->loadInlineCss($module_path) . file_get_contents(DRUPAL_ROOT . '/' . $module_path . ($compatibility ? '/css/systems.css' : '/css/redesign.css')),
+      'analytics' => $this->analyticsSettings(),
+    ] + $this->chromeContext($module_path, $language, $alternate_path, $language === 'es' ? 'English' : 'Español'));
+    return new Response($html, 200, [
+      'Content-Type' => 'text/html; charset=UTF-8',
+      'Cache-Control' => 'no-store, private',
+      'X-Content-Type-Options' => 'nosniff',
+      'Referrer-Policy' => 'strict-origin-when-cross-origin',
+    ]);
+  }
+
+  public function guidePage(string $language='es'): Response {
+    $language=$language==='en'?'en':'es';$guide=\Drupal::config('nelkano_home.guide')->get($language)??[];
+    $guide['sections']=array_values(array_filter($guide['sections']??[],static fn($r)=>($r['visible']??'1')!=='0' && !empty($r['title'])));
+    foreach($guide['sections'] as &$section){
+      $section['bullets']=SystemPages::lines($section['bullets']??'');
+      $section['image_url']=str_starts_with($section['image_uri']??'','public://') ? \Drupal::service('file_url_generator')->generateString($section['image_uri']) : '';
+    }unset($section);
+    $module_path=$this->moduleExtensionList->getPath('nelkano_home');$url=$language==='es'?'/guia':'/en/guide';$alternate=$language==='es'?'/en/guide':'/guia';$base=\Drupal::request()->getSchemeAndHttpHost();
+    $page=['title'=>$guide['title']??'Nelkano','seo_title'=>($guide['title']??'Nelkano').' — Nelkano','seo_description'=>$guide['intro']??'','canonical'=>$base.$url,'alternate'=>$base.$alternate,'alternate_lang'=>$language==='es'?'en':'es','default_url'=>$base.'/guia'];
+    $html=\Drupal::service('twig')->createTemplate(file_get_contents(DRUPAL_ROOT.'/'.$module_path.'/templates/nelkano-systems-redesign.html.twig'))->render([
+      'page'=>$page,'guide'=>$guide,'labels'=>SystemPages::content($language)['labels'],'guide_js'=>'/'.$module_path.'/js/guide.js',
+      'footer_primary'=>$this->homeConfigFactory->get('nelkano_home.settings')->get($language.'.footer_primary'),
+      'social_image_url'=>$this->socialImageUrl($module_path),'analytics'=>$this->analyticsSettings(),
+      'css_inline'=>$this->loadInlineCss($module_path).file_get_contents(DRUPAL_ROOT.'/'.$module_path.'/css/redesign.css'),
+    ]+$this->chromeContext($module_path,$language,$alternate,$language==='es'?'English':'Español'));
+    return new Response($html,200,['Content-Type'=>'text/html; charset=UTF-8','Cache-Control'=>'no-store, private','X-Content-Type-Options'=>'nosniff']);
+  }
+
+  public function systemsIndex(string $language = 'es'): Response {
+    $language=$language==='en' ? 'en' : 'es';
+    $data=SystemPages::content($language);
+    $categories=RedesignContent::categories($language);
+    $filter=\Drupal::request()->query->getString('nivel');
+    if (!isset($categories[$filter])) { $filter=''; }
+    $items=[]; $total=0;
+    foreach ($data['pages'] as $id=>$candidate) {
+      if (empty($candidate['enabled'])) { continue; }
+      $candidate=RedesignContent::decorate($id,$candidate,$language);
+      $categories[$candidate['tier']]['count']++; $total++;
+      if ($filter==='' || $filter===$candidate['tier']) { $items[]=$candidate; }
+    }
+    $module_path=$this->moduleExtensionList->getPath('nelkano_home');
+    $url=$language==='en' ? '/en/systems' : '/sistemas';
+    $alternate=$language==='en' ? '/sistemas' : '/en/systems';
+    $base=\Drupal::request()->getSchemeAndHttpHost();
+    $page=['title'=>$data['labels']['index_title'], 'seo_title'=>$data['labels']['index_title'].' — Nelkano', 'seo_description'=>$data['labels']['index_description'], 'canonical'=>$base.$url, 'alternate'=>$base.$alternate, 'alternate_lang'=>$language==='en'?'es':'en', 'default_url'=>$base.'/sistemas'];
+    $template=file_get_contents(DRUPAL_ROOT.'/'.$module_path.'/templates/nelkano-systems-redesign.html.twig');
+    $html=\Drupal::service('twig')->createTemplate($template)->render([
+      'page'=>$page,'index_page'=>TRUE,'labels'=>$data['labels'],'categories'=>$categories,'items'=>$items,'filter'=>$filter,'total'=>$total,'systems_url'=>$url,
+      'footer_primary'=>$this->homeConfigFactory->get('nelkano_home.settings')->get($language.'.footer_primary'),
+      'social_image_url'=>$this->socialImageUrl($module_path),'analytics'=>$this->analyticsSettings(),
+      'css_inline'=>$this->loadInlineCss($module_path).file_get_contents(DRUPAL_ROOT.'/'.$module_path.'/css/redesign.css'),
+    ]+$this->chromeContext($module_path,$language,$alternate,$language==='en'?'Español':'English'));
+    return new Response($html,200,['Content-Type'=>'text/html; charset=UTF-8','Cache-Control'=>'no-store, private','X-Content-Type-Options'=>'nosniff']);
   }
 
   private function buildLegal(string $language, string $pageKey): Response {
@@ -634,7 +775,7 @@ final class HomeController extends ControllerBase {
     if ($intro !== '') {
       $page['intro'] = $intro;
     }
-    if ($sections !== []) {
+    if (is_array($content[$pageKey . '_sections'] ?? NULL) || $sections !== []) {
       $page['sections'] = $sections;
     }
 
@@ -645,7 +786,7 @@ final class HomeController extends ControllerBase {
     $sections = [];
     if (is_array($value)) {
       foreach ($value as $item) {
-        if (!is_array($item)) {
+        if (!is_array($item) || in_array($item['visible'] ?? '1', ['0',0,FALSE], TRUE)) {
           continue;
         }
         $title = trim((string) ($item['title'] ?? ''));
@@ -710,7 +851,7 @@ final class HomeController extends ControllerBase {
       $page['release'] = $page['releases'][0] ?? [];
     }
     else {
-      $page['sections'] = $this->parseRows($content['security_sections'] ?? '', ['title', 'description']);
+      $page['sections'] = array_values(array_filter($this->parseRows($content['security_sections'] ?? '', ['title', 'description', 'visible']), static fn($row)=>($row['visible'] ?? '') !== '0'));
     }
 
     $page['canonical'] = $base_url . $page['path'];
@@ -788,7 +929,7 @@ final class HomeController extends ControllerBase {
     }
     return [
       'url' => (string) ($release['url'] ?? ''),
-      'meta' => (array) ($release['meta'] ?? []),
+      'meta' => (array) ($release['meta'] ?? []) + ['version' => (string) ($release['version'] ?? '')],
     ];
   }
 
@@ -977,6 +1118,12 @@ final class HomeController extends ControllerBase {
     $keywords = trim($content['seo_keywords'] ?? '');
     $locale = $language === 'es' ? 'es_ES' : 'en_US';
     $alternate_locale = $language === 'es' ? 'en_US' : 'es_ES';
+    $metadata = \Drupal\nelkano_home\Service\SeoMetadata::resolved('home', $language);
+    $title = $metadata['title'];
+    $description = $metadata['description'];
+    $keywords = $metadata['keywords'];
+    $canonical = $metadata['canonical'];
+    $social_image = $metadata['image'];
     $app_category = $language === 'es' ? 'Emulador de videojuegos' : 'Video game emulator';
 
     $faq_entities = [];

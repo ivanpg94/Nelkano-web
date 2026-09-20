@@ -1,0 +1,419 @@
+{
+  "chip-8": {
+    "card_title": "CHIP-8",
+    "title": "CHIP-8",
+    "short_name": "CHIP-8",
+    "tagline": "El origen de todo. Una máquina virtual que empezó la historia.",
+    "summary": "La máquina virtual de los años 70. Alta compatibilidad, punto de entrada ideal para entender la emulación.",
+    "manufacturer": "Joseph Weisbecker (RCA)",
+    "year": "1977",
+    "formats": ".ch8\n.c8\n.chip8",
+    "overview": "CHIP-8 no es una consola de verdad: es un lenguaje de interpretación virtual diseñado en 1977 por Joseph Weisbecker para facilitar el desarrollo de juegos en microcomputadoras como la COSMAC VIP. Sin hardware físico complejo que emular, Nelkano puede ejecutar CHIP-8 con gran precisión. Es el punto de entrada ideal para entender qué es la emulación.",
+    "features": "Cargar archivos .ch8, .c8 y .chip8 desde tu dispositivo\nJugar clásicos de CHIP-8 en sus versiones originales\nUsar la pantalla táctil para mapear el teclado hexadecimal 4×4\nProbar tus propios programas CHIP-8",
+    "limitations": "SUPER-CHIP (SCHIP) tiene soporte parcial; algunas extensiones pueden comportarse de forma distinta\nXO-CHIP no está garantizado y puede presentar errores en programas que usen sus instrucciones extendidas",
+    "steps": [
+      {
+        "title": "Consigue un archivo CHIP-8 compatible",
+        "description": "Necesitas archivos .ch8 o .c8 que tengas derecho a utilizar: tus propios proyectos o software que sus autores hayan publicado con esa licencia."
+      },
+      {
+        "title": "Abre Nelkano y añade el archivo",
+        "description": "Abre la app, toca el botón + y selecciona tu archivo desde la memoria del dispositivo."
+      },
+      {
+        "title": "¡Juega!",
+        "description": "El teclado virtual aparecerá en pantalla. Cada programa usa teclas distintas; consulta la documentación del programa si algo no responde como esperas."
+      }
+    ],
+    "faq": [
+      {
+        "question": "¿Qué es exactamente CHIP-8? ¿Es una consola?",
+        "answer": "No exactamente. CHIP-8 es una especificación de máquina virtual, no un hardware físico. Eso permite que Nelkano lo interprete con gran fidelidad."
+      },
+      {
+        "question": "¿Funciona SUPER-CHIP?",
+        "answer": "El soporte de SUPER-CHIP es parcial. Algunos programas funcionan bien, pero los que usan instrucciones extendidas específicas pueden no comportarse como esperas."
+      },
+      {
+        "question": "¿Puedo cargar mis propios programas CHIP-8?",
+        "answer": "Sí. La especificación CHIP-8 es abierta y existen herramientas de desarrollo gratuitas. Una vez compilado el archivo, puedes cargarlo en Nelkano directamente."
+      }
+    ],
+    "seo_title": "CHIP-8 en Nelkano — Emulador de máquina virtual retro en Android",
+    "seo_description": "Ejecuta programas CHIP-8 en Android con Nelkano. Compatible con archivos .ch8 y .c8. Emulador gratuito, sin publicidad."
+  },
+  "game-boy": {
+    "card_title": "Game Boy & Game Boy Color",
+    "title": "Game Boy & Game Boy Color",
+    "short_name": "Game Boy / GBC",
+    "tagline": "El ladrillo que cambió los videojuegos portátiles para siempre.",
+    "summary": "Dos consolas icónicas de Nintendo en un solo sistema. Compatibilidad robusta y experiencia fiel al original.",
+    "manufacturer": "Nintendo",
+    "year": "1989 / 1998",
+    "formats": ".gb\n.gbc",
+    "overview": "El Game Boy original llegó en 1989 y tardó casi una década en tener sucesor digno: el Game Boy Color (1998). Dos consolas con catálogos inmensos y una legión de fans. Nelkano los trata como un único sistema con compatibilidad entre ambas generaciones, igual que ocurría en el hardware original.",
+    "features": "Cargar archivos .gb (Game Boy original) y .gbc (Game Boy Color)\nUsar paletas de color personalizables para los juegos de Game Boy original en monocromo\nConfigurar controles táctiles en pantalla o conectar un mando Bluetooth\nUsar save states para guardar el progreso en cualquier momento",
+    "limitations": "Algunos juegos con accesorios especiales (Cámara Game Boy, impresora) no tendrán soporte completo de periféricos\nLa conectividad multijugador por cable link no está disponible",
+    "steps": [
+      {
+        "title": "Obtén archivos .gb o .gbc con derechos",
+        "description": "Puedes volcar tus propios cartuchos con hardware como el Epilogue GB Operator, o usar software homebrew que sus autores distribuyan libremente."
+      },
+      {
+        "title": "Añade los archivos a Nelkano",
+        "description": "Abre la app, toca + y selecciona tus archivos desde la memoria interna o la tarjeta SD."
+      },
+      {
+        "title": "Personaliza los controles",
+        "description": "Ajusta la disposición táctil o conecta tu mando preferido en los ajustes de cada juego."
+      }
+    ],
+    "faq": [
+      {
+        "question": "¿Puedo usar archivos .gb en un perfil de Game Boy Color?",
+        "answer": "Sí. Nelkano gestiona la retrocompatibilidad igual que el hardware original: los juegos .gb funcionan en modo monocromo con paletas de color opcionales."
+      },
+      {
+        "question": "¿Los save states funcionan con estos sistemas?",
+        "answer": "Sí, Game Boy y GBC tienen soporte de save states en Nelkano."
+      }
+    ],
+    "seo_title": "Emulador Game Boy y Game Boy Color Android — Nelkano",
+    "seo_description": "Juega a tus títulos de Game Boy y Game Boy Color en Android con Nelkano. Archivos .gb y .gbc. Emulador retro Android gratuito."
+  },
+  "game-boy-advance": {
+    "card_title": "Game Boy Advance",
+    "title": "Game Boy Advance",
+    "short_name": "GBA",
+    "tagline": "La bestia de 32 bits que cupo en tu bolsillo.",
+    "summary": "Emulación con soporte opcional de BIOS propio. El catálogo 2D más rico de la historia portátil.",
+    "manufacturer": "Nintendo",
+    "year": "2001",
+    "formats": ".gba",
+    "overview": "El Game Boy Advance (2001) fue la última gran consola portátil de Nintendo antes de la era táctil. Su procesador ARM de 32 bits permitió juegos con gráficos cercanos a los de Super Nintendo, y su catálogo incluye algunos de los mejores RPG, plataformas y juegos de acción de la historia. Nelkano puede emularlo con buena compatibilidad, especialmente si proporcionas tu propio archivo BIOS obtenido legalmente.",
+    "features": "Cargar archivos .gba desde tu biblioteca local\nUsar save states para guardar el progreso en cualquier momento\nConfigurar controles táctiles o conectar un mando Bluetooth\nProporcionar tu propio archivo BIOS de GBA para máxima compatibilidad",
+    "limitations": "Sin BIOS propio, algunos juegos pueden presentar incompatibilidades o pantallas de inicio distintas\nEl BIOS de GBA debe obtenerse de forma legal (volcando tu propia consola)\nLa emulación del link cable para multijugador no está disponible",
+    "steps": [
+      {
+        "title": "Obtén tu archivo BIOS de GBA (opcional pero recomendado)",
+        "description": "Si tienes una GBA física, puedes volcar el BIOS con herramientas específicas. Nelkano funciona sin él, pero algunas demos de introducción y juegos específicos lo requieren."
+      },
+      {
+        "title": "Consigue archivos .gba con derechos",
+        "description": "Vuelca tus propios cartuchos con hardware como el Epilogue GB Operator o el GBxCart RW, o usa juegos homebrew que sus autores distribuyan libremente."
+      },
+      {
+        "title": "Configura Nelkano",
+        "description": "Si tienes el BIOS, indícale a Nelkano dónde está en los ajustes. Luego añade tus archivos .gba a la biblioteca."
+      }
+    ],
+    "faq": [
+      {
+        "question": "¿Es obligatorio tener el BIOS de GBA?",
+        "answer": "No es obligatorio, pero mejora la compatibilidad. Nelkano incluye un BIOS abierto de repuesto para los casos en que no lo tengas."
+      },
+      {
+        "question": "¿Cómo obtengo el BIOS de forma legal?",
+        "answer": "La única forma legal es volcarlo de tu propia consola Game Boy Advance con hardware especializado."
+      },
+      {
+        "question": "¿Los save states están disponibles en GBA?",
+        "answer": "Sí, los save states están disponibles para GBA en Nelkano."
+      }
+    ],
+    "seo_title": "Emulador GBA Android — Game Boy Advance en Nelkano",
+    "seo_description": "Emula Game Boy Advance en Android con Nelkano. Archivos .gba, save states y controles táctiles."
+  },
+  "mega-drive": {
+    "card_title": "Mega Drive",
+    "title": "Mega Drive",
+    "short_name": "Mega Drive",
+    "tagline": "16 bits de potencia. Sonic, Streets of Rage, Mortal Kombat.",
+    "summary": "La consola de los 16 bits de Sega. Soporte robusto del catálogo principal con el sonido YM2612 inconfundible.",
+    "manufacturer": "Sega",
+    "year": "1988",
+    "formats": ".md\n.bin\n.gen",
+    "overview": "La Mega Drive (lanzada en 1988 en Japón, conocida como Sega Genesis en América) fue la gran rival de Super Nintendo en la guerra de los 16 bits. Con un procesador Motorola 68000 y el chip de sonido YM2612 de sonido inconfundible, albergó algunas de las mejores sagas de acción, plataformas y lucha de los años 90.",
+    "features": "Cargar archivos .md, .bin y .gen\nJugar a la mayoría del catálogo oficial con buena compatibilidad\nUsar mando de 3 o 6 botones (compatible con mandos Bluetooth modernos)\nUsar save states",
+    "limitations": "El add-on 32X tiene soporte muy limitado\nEl Sega CD puede estar con soporte parcial; consulta las notas de la versión actual\nAlgunos juegos con chips de sonido especiales (como el SVP en Virtua Racing) pueden no funcionar correctamente",
+    "steps": [
+      {
+        "title": "Obtén tus archivos de Mega Drive con derechos",
+        "description": "Vuelca tus propios cartuchos o usa homebrew que sus autores distribuyan libremente. Los archivos .md, .bin o .gen son los formatos más comunes."
+      },
+      {
+        "title": "Añádelos a la biblioteca de Nelkano",
+        "description": "Toca + y selecciona los archivos. Nelkano los reconoce por su encabezado interno, no solo por la extensión."
+      },
+      {
+        "title": "Configura el mando",
+        "description": "La Mega Drive usa mandos de 3 y 6 botones. Para una experiencia más auténtica, conecta un mando Bluetooth."
+      }
+    ],
+    "faq": [
+      {
+        "question": "¿Mega Drive y Sega Genesis son lo mismo?",
+        "answer": "Esencialmente sí. Sega Genesis fue el nombre comercial en América del Norte. Los archivos son compatibles entre sí."
+      },
+      {
+        "question": "¿Los save states están disponibles?",
+        "answer": "Sí, Mega Drive tiene soporte de save states en Nelkano."
+      }
+    ],
+    "seo_title": "Emulador Mega Drive Android (Sega Genesis) — Nelkano",
+    "seo_description": "Juega a clásicos de Mega Drive / Sega Genesis en Android con Nelkano. Archivos .md, .bin y .gen."
+  },
+  "nes": {
+    "card_title": "NES, Famicom y Famicom Disk System",
+    "title": "NES, Famicom y Famicom Disk System",
+    "short_name": "NES / Famicom",
+    "tagline": "Donde todo empezó. Los píxeles cuadrados que definieron una era.",
+    "summary": "La consola que resucitó la industria del videojuego. Muchos juegos arrancan y se pueden jugar, aunque puede haber problemas puntuales.",
+    "manufacturer": "Nintendo",
+    "year": "1983 – 1986",
+    "formats": ".nes\n.fds",
+    "overview": "La NES (Nintendo Entertainment System) llegó a América en 1985, pero en Japón ya existía desde 1983 como Famicom. Junto con el Famicom Disk System (FDS, 1986), formaron el ecosistema que lanzó franquicias como Super Mario Bros, The Legend of Zelda y Mega Man. Nelkano soporta los tres, con amplia compatibilidad de mappers.",
+    "features": "Cargar archivos .nes y .fds desde tu biblioteca\nJugar con la mayoría de mappers del catálogo oficial y homebrew\nUsar controles táctiles o mando Bluetooth\nUsar save states",
+    "limitations": "Algunos mappers poco comunes o no documentados pueden no funcionar correctamente\nEl Famicom Disk System requiere el archivo BIOS del FDS, que el usuario debe obtener legalmente\nLos accesorios especiales como el Zapper tienen soporte limitado en pantallas táctiles modernas",
+    "steps": [
+      {
+        "title": "Obtén tus archivos .nes con derechos",
+        "description": "Vuelca tus propios cartuchos o usa juegos homebrew que sus autores distribuyan libremente."
+      },
+      {
+        "title": "Para el FDS, consigue el BIOS legalmente",
+        "description": "Si quieres jugar a juegos del Famicom Disk System, necesitas el archivo BIOS del FDS volcado de tu propio hardware."
+      },
+      {
+        "title": "Añade a tu biblioteca y juega",
+        "description": "Abre Nelkano, toca + y añade tus archivos. La interfaz táctil reproduce los botones del mando original."
+      }
+    ],
+    "faq": [
+      {
+        "question": "¿Qué diferencia hay entre NES, Famicom y FDS?",
+        "answer": "NES y Famicom son esencialmente el mismo hardware con diseño distinto para mercados diferentes. El Famicom Disk System es un periférico que permitía jugar en discos magnéticos."
+      },
+      {
+        "question": "¿Necesito el BIOS del FDS para los juegos de NES?",
+        "answer": "No. El BIOS del FDS solo es necesario para los archivos .fds. Los juegos .nes normales no lo requieren."
+      }
+    ],
+    "seo_title": "Emulador NES y Famicom Android — Nelkano",
+    "seo_description": "Juega a clásicos de NES y Famicom en Android con Nelkano. Soporte de la mayoría de mappers."
+  },
+  "master-system": {
+    "card_title": "Master System y Game Gear",
+    "title": "Master System y Game Gear",
+    "short_name": "Master System / GG",
+    "tagline": "La respuesta de Sega a Nintendo. Potente y con personalidad.",
+    "summary": "Dos plataformas de Sega que conviven en Nelkano. Muchos juegos son jugables aunque puede haber problemas puntuales.",
+    "manufacturer": "Sega",
+    "year": "1986 / 1990",
+    "formats": ".sms\n.gg",
+    "overview": "La Sega Master System (1986) fue la respuesta de Sega a la NES, con hardware algo más potente y un enorme éxito en Europa y Brasil. La Game Gear (1990) fue su versión portátil, con pantalla a color cuando el Game Boy todavía era monocromo. Nelkano los trata como un sistema unificado.",
+    "features": "Cargar archivos .sms (Master System) y .gg (Game Gear)\nUsar controles táctiles o mando Bluetooth\nUsar save states\nDisfrutar del catálogo europeo y brasileño de Master System",
+    "limitations": "Algunos juegos que usan la expansión de sonido FM de la versión japonesa pueden sonar diferente\nJuegos con accesorios especiales como el Paddle Control tienen soporte limitado",
+    "steps": [
+      {
+        "title": "Obtén archivos .sms o .gg con derechos",
+        "description": "Vuelca tus propios cartuchos con hardware compatible o usa homebrew que sus autores distribuyan libremente."
+      },
+      {
+        "title": "Añádelos a Nelkano",
+        "description": "Toca + en la app y selecciona el archivo. Nelkano detecta automáticamente si es Master System o Game Gear."
+      }
+    ],
+    "faq": [
+      {
+        "question": "¿Hay diferencia entre los juegos europeos y japoneses de Master System?",
+        "answer": "Algunos juegos japoneses usaban la expansión FM para música mejorada. Nelkano puede reproducir el sonido FM en esos casos."
+      },
+      {
+        "question": "¿Los save states funcionan?",
+        "answer": "Sí, ambos sistemas tienen soporte de save states en Nelkano."
+      }
+    ],
+    "seo_title": "Emulador Master System y Game Gear Android — Nelkano",
+    "seo_description": "Emula Master System y Game Gear en Android con Nelkano. Archivos .sms y .gg, controles táctiles y save states."
+  },
+  "neo-geo-pocket": {
+    "card_title": "Neo Geo Pocket y Neo Geo Pocket Color",
+    "title": "Neo Geo Pocket y Neo Geo Pocket Color",
+    "short_name": "NGPC",
+    "tagline": "El joystick clicker que nunca envejeció. La portátil de culto de SNK.",
+    "summary": "La portátil de SNK con su icónico stick y catálogo de lucha. Muchos títulos son jugables, con problemas puntuales.",
+    "manufacturer": "SNK",
+    "year": "1998 / 1999",
+    "formats": ".ngp\n.ngc",
+    "overview": "La Neo Geo Pocket Color (1999) fue la respuesta portátil de SNK a la Game Boy Color. Aunque tuvo una vida comercial corta, se ganó el amor de la comunidad retro gracias a su micro joystick táctil (el clicker), su catálogo de juegos de lucha y acción, y una calidad de construcción excepcional.",
+    "features": "Cargar archivos .ngp (Neo Geo Pocket original) y .ngc (Neo Geo Pocket Color)\nDisfrutar del catálogo de lucha con buena compatibilidad\nMapear el joystick a la pantalla táctil o usar un mando Bluetooth\nUsar save states",
+    "limitations": "La sensación del \"clicker\" original no se puede reproducir en pantalla táctil, pero el control digital funciona bien\nEl catálogo total es reducido (~82 juegos); la cobertura es casi completa",
+    "steps": [
+      {
+        "title": "Obtén tus archivos .ngp o .ngc con derechos",
+        "description": "Vuelca tus propios cartuchos de Neo Geo Pocket o usa homebrew que sus autores distribuyan libremente."
+      },
+      {
+        "title": "Carga en Nelkano",
+        "description": "Añade los archivos a tu biblioteca. Nelkano detecta automáticamente si es NGP original o NGPC en color."
+      }
+    ],
+    "faq": [
+      {
+        "question": "¿Es muy diferente el NGP original del NGPC?",
+        "answer": "El hardware es casi idéntico; la principal diferencia es la pantalla a color del NGPC. Los juegos NGP funcionan en NGPC en escala de grises."
+      },
+      {
+        "question": "¿Los save states están disponibles?",
+        "answer": "Sí, NGPC tiene soporte de save states en Nelkano."
+      }
+    ],
+    "seo_title": "Emulador Neo Geo Pocket Color Android — Nelkano",
+    "seo_description": "Emula Neo Geo Pocket y Neo Geo Pocket Color en Android con Nelkano. Catálogo de lucha y acción de SNK."
+  },
+  "playstation": {
+    "card_title": "PlayStation",
+    "title": "PlayStation",
+    "short_name": "PS1",
+    "tagline": "La revolución de los polígonos. La consola que cambió la industria.",
+    "summary": "Muchos juegos arrancan y se pueden jugar, pero puede haber cierres inesperados, problemas gráficos o de audio en algunos títulos.",
+    "manufacturer": "Sony",
+    "year": "1994",
+    "formats": ".bin/.cue\n.iso\n.pbp",
+    "overview": "La PlayStation original (1994) introdujo los polígonos 3D al público masivo y catapultó a Sony al liderazgo del mercado. Emularla requiere un hardware moderadamente potente debido a su arquitectura de CPU MIPS R3000A y los co-procesadores GTE y MDEC para gráficos y vídeo.",
+    "features": "Cargar imágenes de disco .bin/.cue o .iso de juegos que tengas derecho a usar\nUsar controles táctiles o un mando Bluetooth\nUsar save states",
+    "limitations": "Requiere hardware Android moderadamente potente para un rendimiento adecuado\nAlgunos juegos pueden presentar problemas gráficos, de audio o cierres inesperados\nLos juegos multidisco pueden requerir pasos adicionales para el cambio de disco",
+    "steps": [
+      {
+        "title": "Obtén imágenes de disco legalmente",
+        "description": "Vuelca tus propios discos de PS1 con herramientas como ImgBurn o similares. Solo son válidos los discos que sean de tu propiedad."
+      },
+      {
+        "title": "Añade a Nelkano",
+        "description": "Importa el archivo .bin/.cue o .iso. Para juegos multidisco, importa todos los archivos del mismo juego."
+      }
+    ],
+    "faq": [
+      {
+        "question": "¿Necesito el BIOS de PS1?",
+        "answer": "Dependiendo de la configuración, puede ser necesario el BIOS de PS1 obtenido legalmente de tu propia consola para algunos juegos."
+      },
+      {
+        "question": "¿Los save states están disponibles?",
+        "answer": "Sí, PS1 tiene soporte de save states en Nelkano."
+      }
+    ],
+    "seo_title": "Emulador PlayStation (PS1) Android — Nelkano",
+    "seo_description": "Emula PlayStation en Android con Nelkano. Archivos .bin/.cue e .iso. Soporte experimental en desarrollo activo."
+  },
+  "nintendo-ds": {
+    "card_title": "Nintendo DS",
+    "title": "Nintendo DS",
+    "short_name": "NDS",
+    "tagline": "Doble pantalla, un millón de historias. Core en desarrollo activo.",
+    "summary": "El core arranca y algunos juegos pueden llegar al menú o mostrar gráficos, pero el gameplay todavía no es funcional de forma general.",
+    "manufacturer": "Nintendo",
+    "year": "2004",
+    "formats": ".nds",
+    "overview": "La Nintendo DS (2004) introdujo la doble pantalla y el control táctil en el mundo de las portátiles. Emularla en Android es un desafío técnico significativo: el sistema tiene dos CPUs, hardware específico para la doble pantalla y una pantalla táctil que hay que mapear a un dispositivo moderno. Nelkano está trabajando en ello de forma progresiva.",
+    "features": "Cargar archivos .nds y ejecutar algunos títulos que llegan al menú o muestran gráficos\nProbar el sistema y seguir su evolución con cada actualización",
+    "limitations": "El gameplay no es funcional de forma general en esta etapa\nMuchos juegos tienen errores graves, problemas gráficos severos o no arrancan\nRequiere hardware relativamente potente\nEste sistema está en desarrollo activo; la compatibilidad mejora con cada actualización",
+    "steps": [
+      {
+        "title": "Ten expectativas realistas",
+        "description": "El soporte NDS en Nelkano está en fase básica. Algunos juegos llegarán al menú; el gameplay general no está garantizado."
+      },
+      {
+        "title": "Obtén archivos .nds legalmente",
+        "description": "Vuelca tus propios cartuchos de NDS con hardware compatible."
+      }
+    ],
+    "faq": [
+      {
+        "question": "¿Cuándo tendrá soporte completo la NDS?",
+        "answer": "No podemos dar una fecha. La emulación de NDS es compleja y el equipo trabaja en ello de forma progresiva."
+      },
+      {
+        "question": "¿Necesito firmware de la NDS?",
+        "answer": "Dependiendo de la configuración, puede ser necesario el firmware de la NDS obtenido legalmente de tu propia consola."
+      }
+    ],
+    "seo_title": "Emulador Nintendo DS Android (básico) — Nelkano",
+    "seo_description": "Nelkano incluye soporte básico para Nintendo DS (.nds). El core está en desarrollo activo. Compatibilidad muy limitada."
+  },
+  "nintendo-3ds": {
+    "card_title": "Nintendo 3DS",
+    "title": "Nintendo 3DS",
+    "short_name": "3DS",
+    "tagline": "3D sin gafas y un catálogo enorme. Core en las primeras fases.",
+    "summary": "El core arranca y algunos juegos pueden mostrar gráficos, pero el gameplay todavía no es funcional de forma general.",
+    "manufacturer": "Nintendo",
+    "year": "2011",
+    "formats": ".3ds\n.cia\n.cci",
+    "overview": "La Nintendo 3DS (2011) es la sucesora de la NDS con pantalla 3D sin gafas, cámara y un catálogo extensísimo. Emularla en Android es uno de los retos más complejos que afronta Nelkano: su arquitectura ARM11 a doble núcleo, los múltiples coprocesadores y el hardware gráfico específico hacen que el desarrollo sea largo. El core está en sus primeras fases.",
+    "features": "Cargar archivos .3ds o .cia y ver hasta dónde llega la ejecución\nSeguir el desarrollo del core con cada actualización de Nelkano",
+    "limitations": "El gameplay no es funcional de forma general en esta etapa\nLa mayoría de juegos tienen errores graves o no pasan de la pantalla de inicio\nRequiere hardware potente\nEste sistema está en desarrollo muy activo",
+    "steps": [
+      {
+        "title": "Ten expectativas muy realistas",
+        "description": "El soporte 3DS está en fase básica inicial. No esperes poder jugar títulos completos todavía."
+      },
+      {
+        "title": "Obtén archivos legalmente",
+        "description": "Vuelca tus propios cartuchos o juegos instalados de tu consola 3DS con herramientas específicas."
+      }
+    ],
+    "faq": [
+      {
+        "question": "¿Cuándo será jugable la 3DS?",
+        "answer": "La emulación de 3DS es extremadamente compleja. No podemos dar fechas; el equipo trabaja en ello de forma constante."
+      }
+    ],
+    "seo_title": "Emulador Nintendo 3DS Android (básico) — Nelkano",
+    "seo_description": "Nelkano incluye soporte básico para Nintendo 3DS. El core está en las primeras fases de desarrollo."
+  },
+  "rpg-maker": {
+    "card_title": "RPG Maker (RGSS)",
+    "title": "RPG Maker (RGSS)",
+    "short_name": "RPG Maker",
+    "tagline": "El motor indie de miles de historias. Soporte nativo con CRuby y RGSS.",
+    "summary": "Nelkano ejecuta juegos de RPG Maker XP, VX y VX Ace mediante su propio motor nativo basado en CRuby y RGSS. Muchos proyectos son jugables, con variaciones por título.",
+    "manufacturer": "Enterbrain / Kadokawa",
+    "year": "2004 – 2012",
+    "formats": ".rxdata\n.rvdata\n.rvdata2\ncarpeta de proyecto",
+    "overview": "Nelkano incluye un motor propio construido sobre CRuby y RGSS (Ruby Game Scripting System) para ejecutar proyectos de RPG Maker nativos en Android. RGSS es el sistema de scripting utilizado en RPG Maker XP (RGSS1), RPG Maker VX (RGSS2) y RPG Maker VX Ace (RGSS3). A diferencia de otros sistemas de Nelkano, aquí no se emula hardware: se ejecuta el propio motor del juego sobre una implementación nativa de RGSS en Android.",
+    "features": "Ejecutar proyectos creados con RPG Maker XP, VX y VX Ace\nDisfrutar de juegos indie hechos con estas versiones si tienes sus archivos\nUsar controles táctiles adaptados para menús RPG o conectar un mando",
+    "limitations": "Solo RPG Maker XP, VX y VX Ace (versiones RGSS): RPG Maker MV, MZ y otros NO están soportados\nAlgunos proyectos con scripts RGSS muy modificados o no estándar pueden no ser compatibles\nLa compatibilidad varía proyecto a proyecto",
+    "steps": [
+      {
+        "title": "Verifica la versión de RPG Maker",
+        "description": "El proyecto debe estar hecho con RPG Maker XP, VX o VX Ace. Las versiones MV y MZ usan un motor JavaScript completamente distinto y no están soportadas."
+      },
+      {
+        "title": "Ten los archivos del proyecto completo",
+        "description": "Necesitas la carpeta completa del proyecto con todos sus archivos de datos."
+      },
+      {
+        "title": "Carga en Nelkano",
+        "description": "Añade la carpeta del proyecto a tu biblioteca y Nelkano intentará ejecutarlo con su motor RGSS nativo."
+      }
+    ],
+    "faq": [
+      {
+        "question": "¿Funciona con RPG Maker MV o MZ?",
+        "answer": "No. RPG Maker MV y MZ usan un motor basado en JavaScript completamente diferente al RGSS de las versiones anteriores."
+      },
+      {
+        "question": "¿Qué es RGSS?",
+        "answer": "RGSS (Ruby Game Scripting System) es el sistema de scripting en Ruby integrado en RPG Maker XP, VX y VX Ace. Nelkano implementa este sistema de forma nativa usando CRuby."
+      },
+      {
+        "question": "¿Puedo probar mis propios proyectos de RPG Maker XP/VX/VXAce?",
+        "answer": "Sí, si los hiciste con alguna de esas versiones y tienes los archivos completos del proyecto."
+      }
+    ],
+    "seo_title": "RPG Maker XP/VX/VX Ace en Nelkano — motor RGSS propio",
+    "seo_description": "Nelkano ejecuta proyectos de RPG Maker XP, VX y VX Ace mediante su propio motor en CRuby y RGSS."
+  }
+}

@@ -55,6 +55,28 @@ nelkano_home.report_api_status:
   options:
     no_cache: TRUE
 
+nelkano_home.system_es:
+  path: '/sistemas/{system}'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::systemPage'
+    language: 'es'
+  requirements:
+    _permission: 'access content'
+    system: '[a-z0-9-]+'
+  options:
+    no_cache: TRUE
+
+nelkano_home.system_en:
+  path: '/en/systems/{system}'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::systemPage'
+    language: 'en'
+  requirements:
+    _permission: 'access content'
+    system: '[a-z0-9-]+'
+  options:
+    no_cache: TRUE
+
 nelkano_home.front:
   path: '/home'
   defaults:
@@ -465,6 +487,14 @@ nelkano_home.admin_home:
   requirements:
     _permission: 'administer nelkano editable pages'
 
+nelkano_home.admin_systems:
+  path: '/admin/nelkano/sistemas'
+  defaults:
+    _form: '\Drupal\nelkano_home\Form\SystemSettingsForm'
+    _title: 'Sistemas'
+  requirements:
+    _permission: 'administer nelkano editable pages'
+
 nelkano_home.admin_privacy_cookies:
   path: '/admin/nelkano/privacidad-cookies'
   defaults:
@@ -656,3 +686,119 @@ nelkano_home.admin_hu_move:
     _user_is_logged_in: 'TRUE'
     _csrf_request_header_token: 'TRUE'
     hu: '\d+'
+nelkano_home.admin_compatibility:
+  path: '/admin/nelkano/sistemas/{system}/compatibilidad'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\CompatibilityUploadController::legacyPage'
+  requirements:
+    _permission: 'administer nelkano editable pages'
+    system: '[a-z0-9-]+'
+  options:
+    _admin_route: TRUE
+
+nelkano_home.upload_compatibility:
+  path: '/admin/nelkano/sistemas/{system}/csv'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\CompatibilityUploadController::upload'
+  requirements:
+    _permission: 'administer nelkano editable pages'
+    _user_is_logged_in: 'TRUE'
+    _csrf_request_header_token: 'TRUE'
+    system: '[a-z0-9-]+'
+  options:
+    no_cache: TRUE
+
+nelkano_home.compatibility_es:
+  path: '/sistemas/{system}/compatibilidad'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::systemPage'
+    language: 'es'
+    compatibility: TRUE
+  requirements:
+    _permission: 'access content'
+    system: '[a-z0-9-]+'
+  options:
+    no_cache: TRUE
+
+nelkano_home.compatibility_en:
+  path: '/en/systems/{system}/compatibility'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::systemPage'
+    language: 'en'
+    compatibility: TRUE
+  requirements:
+    _permission: 'access content'
+    system: '[a-z0-9-]+'
+  options:
+    no_cache: TRUE
+
+nelkano_home.systems_index_es:
+  path: '/sistemas'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::systemsIndex'
+    language: 'es'
+  requirements:
+    _permission: 'access content'
+  options:
+    no_cache: TRUE
+
+nelkano_home.systems_index_en:
+  path: '/en/systems'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::systemsIndex'
+    language: 'en'
+  requirements:
+    _permission: 'access content'
+  options:
+    no_cache: TRUE
+
+nelkano_home.guide_es:
+  path: '/guia'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::guidePage'
+    language: 'es'
+  requirements:
+    _permission: 'access content'
+  options:
+    no_cache: TRUE
+
+nelkano_home.guide_en:
+  path: '/en/guide'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::guidePage'
+    language: 'en'
+  requirements:
+    _permission: 'access content'
+  options:
+    no_cache: TRUE
+
+nelkano_home.admin_guide:
+  path: '/admin/nelkano/guia'
+  defaults:
+    _form: '\Drupal\nelkano_home\Form\GuideSettingsForm'
+    _title: 'Guía de uso'
+  requirements:
+    _permission: 'administer nelkano editable pages'
+  options:
+    _admin_route: TRUE
+
+nelkano_home.admin_seo:
+  path: '/admin/nelkano/seo'
+  defaults:
+    _form: '\Drupal\nelkano_home\Form\SeoSettingsForm'
+    _title: 'SEO'
+  requirements:
+    _permission: 'administer nelkano editable pages'
+  options:
+    _admin_route: TRUE
+
+nelkano_home.admin_add_system:
+  path: '/admin/nelkano/sistemas/nuevo'
+  defaults:
+    _form: '\Drupal\nelkano_home\Form\AddSystemForm'
+    _title: 'Añadir sistema'
+  requirements:
+    _permission: 'administer nelkano editable pages'
+  options:
+    _admin_route: TRUE

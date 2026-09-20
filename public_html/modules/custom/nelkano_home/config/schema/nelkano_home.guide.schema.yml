@@ -1,0 +1,39 @@
+nelkano_home.guide:
+  type: config_object
+  mapping:
+    es:
+      type: nelkano_home.guide_language
+    en:
+      type: nelkano_home.guide_language
+nelkano_home.guide_language:
+  type: mapping
+  mapping:
+    title:
+      type: text
+    eyebrow:
+      type: text
+    intro:
+      type: text
+    toc_label:
+      type: label
+    empty_label:
+      type: label
+    zoom_label:
+      type: label
+    close_label:
+      type: label
+    sections:
+      type: sequence
+      sequence:
+        type: mapping
+        mapping:
+          title:
+            type: text
+          description:
+            type: text
+          bullets:
+            type: text
+          visible:
+            type: string
+          image_uri:
+            type: string

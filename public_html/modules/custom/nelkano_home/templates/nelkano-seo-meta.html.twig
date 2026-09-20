@@ -1,0 +1,22 @@
+<title>{{ seo_metadata.title }}</title>
+<meta name="description" content="{{ seo_metadata.description }}">
+{% if seo_metadata.keywords %}<meta name="keywords" content="{{ seo_metadata.keywords }}">{% endif %}
+<meta name="robots" content="{{ seo_metadata.robots }}">
+<link rel="canonical" href="{{ seo_metadata.canonical }}">
+<link rel="alternate" hreflang="{{ language }}" href="{{ seo_metadata.current_url }}">
+{% if seo_metadata.alternate %}<link rel="alternate" hreflang="{{ seo_metadata.alternate_lang }}" href="{{ seo_metadata.alternate }}">{% endif %}
+<link rel="alternate" hreflang="x-default" href="{{ seo_metadata.default_url }}">
+<meta property="og:type" content="{{ seo_metadata.og_type }}">
+<meta property="og:site_name" content="{{ seo_metadata.site_name }}">
+<meta property="og:title" content="{{ seo_metadata.og_title }}">
+<meta property="og:description" content="{{ seo_metadata.og_description }}">
+<meta property="og:url" content="{{ seo_metadata.canonical }}">
+<meta property="og:image" content="{{ seo_metadata.image }}">
+<meta property="og:image:alt" content="{{ seo_metadata.image_alt }}">
+<meta property="og:locale" content="{{ seo_metadata.locale }}">
+<meta property="og:locale:alternate" content="{{ seo_metadata.alternate_locale }}">
+<meta name="twitter:card" content="{{ seo_metadata.twitter_card }}">
+<meta name="twitter:title" content="{{ seo_metadata.twitter_title }}">
+<meta name="twitter:description" content="{{ seo_metadata.twitter_description }}">
+<meta name="twitter:image" content="{{ seo_metadata.image }}">
+<meta name="twitter:image:alt" content="{{ seo_metadata.image_alt }}">

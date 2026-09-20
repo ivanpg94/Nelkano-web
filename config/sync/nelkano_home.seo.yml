@@ -1,0 +1,20 @@
+langcode: es
+es:
+  pages:
+    contact:
+      title: 'Contacto - Nelkano'
+      description: 'Contacta con Nelkano para soporte, propuestas o incidencias tecnicas.'
+      keywords: ''
+      robots: 'index, follow, max-image-preview:large'
+      canonical: ''
+      og_title: ''
+      og_description: ''
+      image: ''
+      image_alt: Nelkano
+      twitter_title: ''
+      twitter_description: ''
+      twitter_card: summary_large_image
+      og_type: website
+      site_name: Nelkano
+en:
+  pages: {  }

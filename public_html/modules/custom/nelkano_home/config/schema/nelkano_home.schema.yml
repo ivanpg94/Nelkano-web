@@ -8,6 +8,21 @@ nelkano_home.settings:
       mapping: &home_language_fields
         nav_language:
           type: string
+        feature_items:
+          type: sequence
+          sequence:
+            type: mapping
+            mapping:
+              title:
+                type: text
+              description:
+                type: text
+              visible:
+                type: string
+              icon:
+                type: string
+              image_uri:
+                type: string
         hero_enabled:
           type: boolean
         seo_title:
@@ -107,6 +122,8 @@ nelkano_home.settings:
           sequence:
             type: mapping
             mapping:
+              visible:
+                type: string
               title:
                 type: string
               description:
@@ -192,6 +209,8 @@ nelkano_home.docs:
           sequence:
             type: mapping
             mapping:
+              visible:
+                type: string
               title:
                 type: string
               paragraphs:
@@ -211,6 +230,8 @@ nelkano_home.docs:
           sequence:
             type: mapping
             mapping:
+              visible:
+                type: string
               title:
                 type: string
               paragraphs:
@@ -303,6 +324,8 @@ nelkano_home.docs:
           sequence:
             type: mapping
             mapping:
+              visible:
+                type: string
               title:
                 type: string
               description:

@@ -1,0 +1,24 @@
+uuid: 25344c52-c2af-4431-acc6-ce071778cf41
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - nelkano_home
+name: nelkano_header_avatar
+label: 'Nelkano header avatar (128px WebP)'
+effects:
+  6148946a-1d07-4a8d-8f3c-929867e3cb14:
+    uuid: 6148946a-1d07-4a8d-8f3c-929867e3cb14
+    id: image_scale
+    weight: 0
+    data:
+      width: 128
+      height: 128
+      upscale: false
+  8bdd5200-dc95-4d77-a6c0-c957e49f4af8:
+    uuid: 8bdd5200-dc95-4d77-a6c0-c957e49f4af8
+    id: image_convert
+    weight: 1
+    data:
+      extension: webp

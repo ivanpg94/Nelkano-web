@@ -17,124 +17,44 @@ final class HomeSettingsForm extends ConfigFormBase {
 
   private const FIELDS = [
     'Hero' => [
-      'hero_enabled' => ['type' => 'checkbox', 'title' => 'Show section', 'default' => TRUE],
-      'seo_title' => ['type' => 'textfield', 'title' => 'SEO title'],
-      'seo_description' => ['type' => 'textarea', 'title' => 'SEO description'],
-      'seo_keywords' => ['type' => 'textfield', 'title' => 'SEO keywords'],
-      'hero_badge' => ['type' => 'textfield', 'title' => 'Badge'],
-      'hero_title' => ['type' => 'textfield', 'title' => 'Title'],
-      'hero_description' => ['type' => 'textarea', 'title' => 'Description'],
-      'primary_cta' => ['type' => 'textfield', 'title' => 'Primary CTA label'],
-      'primary_url' => ['type' => 'textfield', 'title' => 'Primary CTA URL'],
-      'secondary_cta' => ['type' => 'textfield', 'title' => 'Secondary CTA label'],
-      'secondary_url' => ['type' => 'textfield', 'title' => 'Secondary CTA URL'],
-    ],
-    'Downloads' => [
-      'downloads_enabled' => ['type' => 'checkbox', 'title' => 'Show section', 'default' => TRUE],
-      'downloads_title' => ['type' => 'textfield', 'title' => 'Section title'],
-      'android_title' => ['type' => 'textfield', 'title' => 'Android title'],
-      'android_description' => ['type' => 'textarea', 'title' => 'Android description'],
+      'hero_enabled' => ['type'=>'checkbox','title'=>'Show section','default'=>TRUE],
+      'hero_badge' => ['type'=>'textfield','title'=>'Badge'],
+      'hero_title' => ['type'=>'textfield','title'=>'Title'],
+      'hero_description' => ['type'=>'textarea','title'=>'Description'],
+      'primary_cta' => ['type'=>'textfield','title'=>'Primary CTA label'],
+      'primary_url' => ['type'=>'textfield','title'=>'Primary CTA URL'],
+      'secondary_cta' => ['type'=>'textfield','title'=>'Texto de descarga (versión y APK desde Versiones)'],
     ],
     'About' => [
-      'about_enabled' => ['type' => 'checkbox', 'title' => 'Show section', 'default' => TRUE],
-      'about_eyebrow' => ['type' => 'textfield', 'title' => 'Eyebrow'],
-      'about_title' => ['type' => 'textfield', 'title' => 'Title'],
-      'about_description' => ['type' => 'textarea', 'title' => 'Description'],
+      'about_enabled' => ['type'=>'checkbox','title'=>'Show section','default'=>TRUE],
+      'about_eyebrow' => ['type'=>'textfield','title'=>'Eyebrow'],
+      'about_title' => ['type'=>'textfield','title'=>'Title'],
+      'about_description' => ['type'=>'textarea','title'=>'Description'],
+      'feature_items' => ['type'=>'config_rows','layout'=>'cards','title'=>'Funciones destacadas','columns'=>[
+        'visible'=>['type'=>'checkbox','title'=>'Visible'],
+        'title'=>['title'=>'Title'],
+        'description'=>['type'=>'textarea','title'=>'Description'],
+        'icon'=>['type'=>'select','title'=>'Icono de Figma','options'=>['IcoCloud'=>'Google Drive','IcoGamepad'=>'Mando','IcoPencilTouch'=>'Editor de controles','IcoCollections'=>'Colecciones','IcoZip'=>'Archivo comprimido']],
+        'image_uri'=>['type'=>'managed_file','title'=>'Imagen personalizada','upload_location'=>'public://nelkano-images','upload_validators'=>['FileExtension'=>['extensions'=>'png jpg jpeg webp gif'],'FileIsImage'=>[]]],
+      ]],
     ],
     'Status' => [
-      'status_enabled' => ['type' => 'checkbox', 'title' => 'Show section', 'default' => TRUE],
-      'status_eyebrow' => ['type' => 'textfield', 'title' => 'Eyebrow'],
-      'status_title' => ['type' => 'textfield', 'title' => 'Title'],
-      'status_description' => ['type' => 'textarea', 'title' => 'Description'],
-      'status_items' => [
-        'type' => 'config_rows',
-        'title' => 'Status cards',
-        'description' => 'Add one row per system.',
-        'columns' => [
-          'system' => ['title' => 'System'],
-          'status' => ['title' => 'Status'],
-          'description' => ['title' => 'Description', 'type' => 'textarea'],
-        ],
-      ],
+      'status_enabled'=>['type'=>'checkbox','title'=>'Show section','default'=>TRUE],
+      'status_eyebrow'=>['type'=>'textfield','title'=>'Eyebrow'],
+      'status_title'=>['type'=>'textfield','title'=>'Title'],
     ],
-    'Platforms' => [
-      'platforms_enabled' => ['type' => 'checkbox', 'title' => 'Show section', 'default' => TRUE],
-      'platforms_eyebrow' => ['type' => 'textfield', 'title' => 'Eyebrow'],
-      'platforms_title' => ['type' => 'textfield', 'title' => 'Title'],
-      'platforms_description' => ['type' => 'textarea', 'title' => 'Description'],
-      'platform_items' => [
-        'type' => 'config_rows',
-        'title' => 'Platform cards',
-        'description' => 'Add one row per card.',
-        'columns' => [
-          'title' => ['title' => 'Title'],
-          'description' => ['title' => 'Description', 'type' => 'textarea'],
-        ],
-      ],
-    ],
-    'Differentiators' => [
-      'differentiators_enabled' => ['type' => 'checkbox', 'title' => 'Show section', 'default' => TRUE],
-      'differentiators_eyebrow' => ['type' => 'textfield', 'title' => 'Eyebrow'],
-      'differentiators_title' => ['type' => 'textfield', 'title' => 'Title'],
-      'differentiators_description' => ['type' => 'textarea', 'title' => 'Description'],
-      'differentiator_items' => [
-        'type' => 'config_rows',
-        'title' => 'Differentiator cards',
-        'description' => 'Add one row per card.',
-        'columns' => [
-          'title' => ['title' => 'Title'],
-          'description' => ['title' => 'Description', 'type' => 'textarea'],
-        ],
-      ],
-    ],
-    'Vision' => [
-      'vision_enabled' => ['type' => 'checkbox', 'title' => 'Show section', 'default' => TRUE],
-      'vision_eyebrow' => ['type' => 'textfield', 'title' => 'Eyebrow'],
-      'vision_title' => ['type' => 'textfield', 'title' => 'Title'],
-      'vision_description' => ['type' => 'textarea', 'title' => 'Description'],
-      'vision_items' => [
-        'type' => 'config_rows',
-        'title' => 'Vision bullets',
-        'description' => 'Add one row per bullet.',
-        'columns' => [
-          'text' => ['title' => 'Text', 'type' => 'textarea'],
-        ],
-        'legacy_keys' => ['text'],
-      ],
-    ],
-    'FAQ' => [
-      'faq_enabled' => ['type' => 'checkbox', 'title' => 'Show section', 'default' => TRUE],
-      'faq_eyebrow' => ['type' => 'textfield', 'title' => 'Eyebrow'],
-      'faq_title' => ['type' => 'textfield', 'title' => 'Title'],
-      'faq_items' => [
-        'type' => 'config_rows',
-        'title' => 'FAQ items',
-        'description' => 'Add one row per question.',
-        'columns' => [
-          'question' => ['title' => 'Question'],
-          'answer' => ['title' => 'Answer', 'type' => 'textarea'],
-        ],
-      ],
-    ],
-    'Trust' => [
-      'trust_enabled' => ['type' => 'checkbox', 'title' => 'Show section', 'default' => TRUE],
-      'trust_eyebrow' => ['type' => 'textfield', 'title' => 'Eyebrow'],
-      'trust_title' => ['type' => 'textfield', 'title' => 'Title'],
-      'trust_description' => ['type' => 'textarea', 'title' => 'Description'],
-      'trust_items' => [
-        'type' => 'config_rows',
-        'title' => 'Trust links',
-        'description' => 'Add one row per link.',
-        'columns' => [
-          'title' => ['title' => 'Title'],
-          'description' => ['title' => 'Description', 'type' => 'textarea'],
-          'url' => ['title' => 'URL'],
-        ],
-      ],
+    'Experiencia' => [
+      'differentiators_enabled'=>['type'=>'checkbox','title'=>'Show section','default'=>TRUE],
+      'differentiators_eyebrow'=>['type'=>'textfield','title'=>'Eyebrow'],
+      'differentiators_title'=>['type'=>'textfield','title'=>'Title'],
+      'differentiator_items'=>['type'=>'config_rows','layout'=>'cards','title'=>'Experiencia','legacy_keys'=>['title','description'],'columns'=>[
+        'visible'=>['type'=>'checkbox','title'=>'Visible'],
+        'title'=>['title'=>'Title'],
+        'description'=>['type'=>'textarea','title'=>'Description'],
+      ]],
     ],
     'Footer' => [
-      'footer_primary' => ['type' => 'textarea', 'title' => 'Primary text'],
-      'footer_secondary' => ['type' => 'textarea', 'title' => 'Secondary text'],
+      'footer_primary'=>['type'=>'textarea','title'=>'Primary text'],
     ],
   ];
 
@@ -182,6 +102,7 @@ final class HomeSettingsForm extends ConfigFormBase {
           '#attributes' => ['class' => ['nk-admin-section']],
         ];
 
+        $form[$langcode][$section_key]['save_section'] = ['#type'=>'submit','#value'=>$active_language==='es'?'Guardar sección':'Save section','#name'=>'save_'.$section_key,'#r_section'=>$section_key,'#attributes'=>['class'=>['r-save-section']]];
         foreach ($fields as $key => $definition) {
           if ($definition['type'] === 'config_rows') {
             $form[$langcode][$section_key][$key] = $this->buildConfigRowsElement(
@@ -228,6 +149,8 @@ final class HomeSettingsForm extends ConfigFormBase {
       $language_values = $config->get($langcode) ?? [];
       foreach (self::FIELDS as $section_label => $fields) {
         $section_key = strtolower(str_replace(' ', '_', $section_label));
+        $only_section=$form_state->getTriggeringElement()['#r_section']??NULL;
+        if ($only_section!==NULL && $only_section!==$section_key) {continue;}
         foreach (array_keys($fields) as $key) {
           $value = $form_state->getValue([$langcode, $section_key, $key]);
           $language_values[$key] = ($fields[$key]['type'] ?? '') === 'config_rows'

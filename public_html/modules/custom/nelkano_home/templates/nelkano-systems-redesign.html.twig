@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="{{ language }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% if seo_metadata %}
+      {% include '@nelkano_home/nelkano-seo-meta.html.twig' %}
+    {% else %}
+    <title>{{ page.seo_title ?: page.title ~ ' — Nelkano' }}</title>
+    <meta name="description" content="{{ page.seo_description ?: page.tagline }}">
+    <link rel="canonical" href="{{ page.canonical }}">
+    <link rel="alternate" hreflang="{{ language }}" href="{{ page.canonical }}">
+    {% if page.alternate %}<link rel="alternate" hreflang="{{ page.alternate_lang }}" href="{{ page.alternate }}">{% endif %}
+    <link rel="alternate" hreflang="x-default" href="{{ page.default_url }}">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Nelkano">
+    <meta property="og:title" content="{{ page.seo_title ?: page.title }}">
+    <meta property="og:description" content="{{ page.seo_description ?: page.tagline }}">
+    <meta property="og:url" content="{{ page.canonical }}">
+    <meta property="og:image" content="{{ social_image_url }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ page.seo_title ?: page.title }}">
+    <meta name="twitter:description" content="{{ page.seo_description ?: page.tagline }}">
+    <meta name="twitter:image" content="{{ social_image_url }}">
+    {% endif %}
+    <link rel="icon" href="{{ logo_url }}" type="image/png">
+    {% include '@nelkano_home/nelkano-theme-init.html.twig' %}
+    <style>{{ css_inline|raw }}</style>
+    {% include '@nelkano_home/nelkano-analytics.html.twig' %}
+  </head>
+  <body>
+    <a class="nk-skip-link" href="#system-content">{{ labels.skip }}</a>
+    {% include '@nelkano_home/nelkano-header.html.twig' %}
+    <main id="system-content" class="nkr">{% if guide %}{% include '@nelkano_home/nelkano-guide.html.twig' %}{% elseif index_page %}{% include '@nelkano_home/nelkano-systems-index.html.twig' %}{% else %}{% include '@nelkano_home/nelkano-system-detail.html.twig' %}{% endif %}</main>
+    <div class="nk-page r-footer-shell">{% include '@nelkano_home/nelkano-footer.html.twig' %}{% include '@nelkano_home/nelkano-consent-banner.html.twig' %}</div>
+    <script defer src="{{ base_js_url }}"></script>
+  </body>
+</html>

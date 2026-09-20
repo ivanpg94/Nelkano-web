@@ -1,0 +1,126 @@
+{
+  "es": {
+    "hero_badge": "Próximamente en Play Store",
+    "hero_title": "Nelkano para Android",
+    "hero_description": "Emulador multisistema gratuito para Android con biblioteca local, controles táctiles, soporte de mandos y sincronización con Google Drive.",
+    "primary_cta": "Ver sistemas compatibles",
+    "primary_url": "/sistemas",
+    "secondary_cta": "Descargar",
+    "about_eyebrow": "Qué es Nelkano",
+    "about_title": "Un emulador multisistema con una base cada vez más sólida",
+    "about_description": "Nelkano es una app nativa para Android. Sin servidores, sin cuentas obligatorias, sin publicidad. Cada sistema cuenta con información honesta sobre su estado real.",
+    "feature_items": [
+      {
+        "title": "Sincronización con Google Drive",
+        "description": "Guarda tus partidas en la nube y accede a ellas desde cualquier dispositivo.",
+        "visible": "1",
+        "icon": "IcoCloud",
+        "image_uri": ""
+      },
+      {
+        "title": "Mando Bluetooth",
+        "description": "Conecta cualquier mando Bluetooth compatible y juega como en el original.",
+        "visible": "1",
+        "icon": "IcoGamepad",
+        "image_uri": ""
+      },
+      {
+        "title": "Editor de controles táctiles",
+        "description": "Personaliza la posición y el tamaño de cada botón en pantalla para cada sistema.",
+        "visible": "1",
+        "icon": "IcoPencilTouch",
+        "image_uri": ""
+      },
+      {
+        "title": "Colecciones",
+        "description": "Organiza tu biblioteca con colecciones personalizadas para clasificar tus juegos.",
+        "visible": "1",
+        "icon": "IcoCollections",
+        "image_uri": ""
+      },
+      {
+        "title": "Importación en ZIP y RAR",
+        "description": "Importa juegos en sus formatos originales o comprimidos en ZIP y RAR, incluyendo packs completos.",
+        "visible": "1",
+        "icon": "IcoZip",
+        "image_uri": ""
+      }
+    ],
+    "differentiators_eyebrow": "Experiencia",
+    "differentiators_title": "Hecho para jugar, probar y seguir mejorando",
+    "differentiator_items": [
+      {
+        "title": "Biblioteca local",
+        "description": "Agrega tus archivos propios. Sin servidores externos ni conexión para jugar.",
+        "visible": "1"
+      },
+      {
+        "title": "Save states",
+        "description": "Guarda y carga el estado de tus partidas en cualquier momento, en los sistemas que lo soportan.",
+        "visible": "1"
+      },
+      {
+        "title": "Mandos y controles",
+        "description": "Soporte de controles táctiles y mandos Bluetooth, con mapeo personalizable por sistema.",
+        "visible": "1"
+      },
+      {
+        "title": "Compatibilidad transparente",
+        "description": "Cada sistema indica su nivel de compatibilidad real. Sin promesas vacías.",
+        "visible": "1"
+      },
+      {
+        "title": "Sin publicidad",
+        "description": "Gratis de verdad. Sin anuncios que interrumpan tus partidas.",
+        "visible": "1"
+      },
+      {
+        "title": "En desarrollo activo",
+        "description": "La compatibilidad mejora con cada versión. Los sistemas experimentales evolucionan constantemente.",
+        "visible": "1"
+      }
+    ]
+  },
+  "en": {
+    "primary_cta": "View compatible systems",
+    "primary_url": "/en/systems",
+    "secondary_cta": "Download",
+    "feature_items": [
+      {
+        "title": "Google Drive sync",
+        "description": "Keep your saves in the cloud and access them from another device.",
+        "visible": "1",
+        "icon": "IcoCloud",
+        "image_uri": ""
+      },
+      {
+        "title": "Bluetooth controllers",
+        "description": "Connect a compatible Bluetooth controller and play with physical buttons.",
+        "visible": "1",
+        "icon": "IcoGamepad",
+        "image_uri": ""
+      },
+      {
+        "title": "Touch control editor",
+        "description": "Customize the position and size of each on-screen control for each system.",
+        "visible": "1",
+        "icon": "IcoPencilTouch",
+        "image_uri": ""
+      },
+      {
+        "title": "Collections",
+        "description": "Organize your library with custom game collections.",
+        "visible": "1",
+        "icon": "IcoCollections",
+        "image_uri": ""
+      },
+      {
+        "title": "ZIP and RAR import",
+        "description": "Import individual game files or ZIP and RAR archives, including complete packs.",
+        "visible": "1",
+        "icon": "IcoZip",
+        "image_uri": ""
+      }
+    ]
+  }
+}

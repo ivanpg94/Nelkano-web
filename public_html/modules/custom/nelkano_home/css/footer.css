@@ -18,7 +18,7 @@
   appearance: none;
   background: var(--nk-text-transparent);
   border: 0;
-  color: var(--nk-text-muted);
+  color: var(--nk-text-muted-strong);
   cursor: pointer;
   font: inherit;
   font-size: var(--nk-text-sm);
