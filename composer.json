@@ -23,7 +23,8 @@
     "drupal/redirect": "^1.11",
     "drupal/simple_sitemap": "^4.2",
     "drupal/views_data_export": "^1.10",
-    "drush/drush": "^13.0"
+    "drush/drush": "^13.0",
+    "paragonie/sodium_compat": "^2.1"
   },
   "scripts": {
     "pre-install-cmd": "@php scripts/legacy-module-guard.php backup",

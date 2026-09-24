@@ -51,6 +51,10 @@ si `device_id` no es el suyo o si `sub` no coincide. En cualquiera de esos casos
 
 ## Clave de firma
 
+La firma usa las funciones `sodium_*`. El PHP de Hostinger no trae la extensión `sodium`,
+así que `composer.json` incluye `paragonie/sodium_compat`, que la sustituye en PHP puro con
+el mismo resultado (si la extensión está disponible, se usa la extensión).
+
 Orden de lectura de la semilla (32 bytes en base64):
 
 1. `$settings['nelkano_app_signing_seed']` en `settings.php` (recomendado en Hostinger).
