@@ -830,7 +830,7 @@ es:
           question: '¿Puedo probar un juego que he creado?'
           answer: 'Sí. Exporta el juego con XP, MV o MZ, incluye todos los recursos necesarios y añade el archivo comprimido a Nelkano.'
     nintendo-3ds:
-      enabled: true
+      enabled: false
       show_on_home: true
       card_title: 'Nintendo 3DS'
       title: 'Nintendo 3DS'
@@ -889,7 +889,7 @@ es:
           question: '¿Un móvil potente garantiza que los juegos funcionen bien?'
           answer: 'No. La velocidad depende del dispositivo, pero también del juego y de las funciones que necesita. Un dispositivo más potente no resuelve los errores de compatibilidad.'
     nintendo-switch:
-      enabled: true
+      enabled: false
       show_on_home: false
       card_title: 'Nintendo Switch'
       title: 'Nintendo Switch'
@@ -1874,7 +1874,7 @@ en:
           question: 'Can I try a game I created?'
           answer: 'Yes. Export the game with XP, MV or MZ, include all required resources and add the archive to Nelkano.'
     nintendo-3ds:
-      enabled: true
+      enabled: false
       show_on_home: true
       card_title: 'Nintendo 3DS'
       title: 'Nintendo 3DS'
@@ -1943,7 +1943,7 @@ en:
           question: 'Does a powerful phone guarantee that games will work well?'
           answer: 'No. Performance depends on the device, but also on the game and the features it needs. A more powerful device does not fix compatibility errors.'
     nintendo-switch:
-      enabled: true
+      enabled: false
       show_on_home: false
       card_title: 'Nintendo Switch'
       title: 'Nintendo Switch'

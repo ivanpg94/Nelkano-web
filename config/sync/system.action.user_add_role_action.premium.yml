@@ -1,0 +1,14 @@
+uuid: b7dcb78e-417d-4dd5-b8b4-4ef9ed5edaa4
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.premium
+  module:
+    - user
+id: user_add_role_action.premium
+label: 'Add the Premium role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: premium

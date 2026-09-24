@@ -1,0 +1,14 @@
+uuid: e571aaad-5b6c-4f73-9e0d-73d2d05b5d9f
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.premium
+  module:
+    - user
+id: user_remove_role_action.premium
+label: 'Remove the Premium role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: premium
