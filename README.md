@@ -43,6 +43,13 @@ manifiesto. No copiar directamente el manifiesto de producción sobre el runtime
 Docker sin adaptar esas rutas. `symfony/runtime` está autorizado como plugin
 Composer requerido por esta versión de Drupal.
 
+## Sesiones y roles de la app
+
+La app usa la API de sesiones v2 (access token corto, refresh con rotación, permisos
+comprobados en el servidor y capabilities firmadas con Ed25519). Consulta
+[Sesiones y roles de la app](public_html/modules/custom/nelkano_home/README.app-auth.md)
+para los endpoints, los permisos por rol y la gestión de la clave de firma.
+
 ## Fichas de sistemas
 
 Las fichas públicas de cada core se editan en **Páginas editables → Sistemas**

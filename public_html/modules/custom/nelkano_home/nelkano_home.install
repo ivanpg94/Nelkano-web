@@ -21,6 +21,7 @@ function nelkano_home_schema(): array {
     'nelkano_stream_signal_event' => nelkano_home_stream_signal_event_schema(),
     'nelkano_game_session' => nelkano_home_game_session_schema(),
     'nelkano_game_signal_event' => nelkano_home_game_signal_event_schema(),
+    'nelkano_app_session' => nelkano_home_app_session_schema(),
   ];
 }
 
@@ -730,4 +731,86 @@ function nelkano_home_update_11033(): void {
     $data = \Drupal\Component\Serialization\Yaml::decode(file_get_contents(__DIR__ . '/config/install/image.style.nelkano_header_avatar.yml'));
     \Drupal\image\Entity\ImageStyle::create($data)->save();
   }
+}
+
+/** Add rotating app sessions (API v2); legacy 30-day tokens keep working. */
+function nelkano_home_update_11034(): void {
+  $schema = \Drupal::database()->schema();
+  if (!$schema->tableExists('nelkano_app_session')) {
+    $schema->createTable('nelkano_app_session', nelkano_home_app_session_schema());
+  }
+}
+
+/**
+ * App session table schema: one row per access/refresh token generation.
+ */
+function nelkano_home_app_session_schema(): array {
+  return [
+    'description' => 'Nelkano app sessions. Stores only SHA-256 hashes of access and refresh tokens.',
+    'fields' => [
+      'id' => ['type' => 'serial', 'not null' => TRUE],
+      'family_id' => ['type' => 'varchar', 'length' => 64, 'not null' => TRUE],
+      'uid' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE],
+      'device_id' => ['type' => 'varchar', 'length' => 128, 'not null' => TRUE, 'default' => ''],
+      'platform' => ['type' => 'varchar', 'length' => 32, 'not null' => TRUE, 'default' => ''],
+      'device_name' => ['type' => 'varchar', 'length' => 120, 'not null' => TRUE, 'default' => ''],
+      'access_hash' => ['type' => 'varchar', 'length' => 64, 'not null' => TRUE],
+      'access_expires' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'refresh_hash' => ['type' => 'varchar', 'length' => 64, 'not null' => TRUE],
+      'refresh_expires' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'created' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'last_used' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'rotated' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      'revoked' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+    ],
+    'primary key' => ['id'],
+    'unique keys' => [
+      'access_hash' => ['access_hash'],
+      'refresh_hash' => ['refresh_hash'],
+    ],
+    'indexes' => [
+      'family' => ['family_id'],
+      'uid_revoked' => ['uid', 'revoked'],
+      'refresh_expires' => ['refresh_expires'],
+    ],
+    'foreign keys' => [
+      'app_session_user' => [
+        'table' => 'users',
+        'columns' => ['uid' => 'uid'],
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_requirements().
+ *
+ * Shows where the app signing key comes from and the public key the app pins.
+ */
+function nelkano_home_requirements(string $phase): array {
+  if ($phase !== 'runtime') {
+    return [];
+  }
+  if (!function_exists('sodium_crypto_sign_detached')) {
+    return [
+      'nelkano_app_signing' => [
+        'title' => 'Nelkano: firma de la app',
+        'value' => 'Falta la extension PHP sodium',
+        'severity' => REQUIREMENT_ERROR,
+      ],
+    ];
+  }
+  $source = \Drupal\nelkano_home\Service\AppEntitlements::keySource();
+  $public = \Drupal\nelkano_home\Service\AppEntitlements::publicKeyBase64();
+  $kid = \Drupal\nelkano_home\Service\AppEntitlements::keyId();
+  return [
+    'nelkano_app_signing' => [
+      'title' => 'Nelkano: firma de la app',
+      'value' => 'Clave publica (kid ' . $kid . '): ' . $public,
+      'description' => $source === 'state'
+        ? 'La semilla se genero automaticamente y esta en la base de datos (state). Recomendado: moverla a settings.php como $settings[\'nelkano_app_signing_seed\'] con scripts/app-signing-key.php.'
+        : 'Semilla leida de ' . ($source === 'settings' ? 'settings.php' : 'la variable NELKANO_APP_SIGNING_SEED') . '.',
+      'severity' => $source === 'state' ? REQUIREMENT_WARNING : REQUIREMENT_OK,
+    ],
+  ];
 }

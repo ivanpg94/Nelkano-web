@@ -1,9 +1,13 @@
 uuid: bbfc7f51-c993-4784-aeeb-728f4db2fbe6
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - nelkano_home
 id: tester
 label: Tester
 weight: 6
 is_admin: false
-permissions: {  }
+permissions:
+  - 'send nelkano error reports'
+  - 'use nelkano debug tools'

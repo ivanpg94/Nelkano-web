@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\nelkano_home\Controller;
 
+use Drupal\nelkano_home\Service\AppLoginGuard;
+use Drupal\nelkano_home\Service\AppSessions;
 use Drupal\nelkano_home\Service\WorkflowStatus;
 
 use Drupal\Core\Controller\ControllerBase;
@@ -30,15 +32,14 @@ final class AppAuthController extends ControllerBase {
       return $this->error('Indica email y contrasena.', 400);
     }
 
-    $account = $this->loadAccountForLogin($login);
-    if (!$account instanceof User || !$account->isActive()) {
-      return $this->error('Cuenta no encontrada o pendiente de verificar.', 403);
+    $result = AppLoginGuard::authenticate($request, $login, $password);
+    if ($result['status'] === AppLoginGuard::LIMITED) {
+      return $this->error('Demasiados intentos. Prueba de nuevo mas tarde.', 429);
     }
-
-    $uid = \Drupal::service('user.auth')->authenticate($account->getAccountName(), $password);
-    if (!$uid) {
-      return $this->error('Credenciales incorrectas.', 403);
+    if ($result['status'] !== AppLoginGuard::OK) {
+      return $this->error('Credenciales incorrectas o cuenta sin verificar.', 403, 'invalid_credentials');
     }
+    $account = $result['account'];
 
     $secret = bin2hex(random_bytes(32));
     $expires = \Drupal::time()->getRequestTime() + self::TOKEN_TTL;
@@ -133,6 +134,9 @@ final class AppAuthController extends ControllerBase {
     $account = $this->accountFromBearer($request);
     if (!$account instanceof User) {
       return $this->error('Token no valido o caducado.', 401);
+    }
+    if ($denied = $this->denyWithout($account, 'send nelkano error reports')) {
+      return $denied;
     }
 
     $metadata = json_decode((string) $request->request->get('metadata', ''), TRUE);
@@ -255,6 +259,9 @@ final class AppAuthController extends ControllerBase {
     if (!$account instanceof User) {
       return $this->error('Token no valido o caducado.', 401);
     }
+    if ($denied = $this->denyWithout($account, 'use nelkano app features')) {
+      return $denied;
+    }
 
     return new JsonResponse([
       'ok' => TRUE,
@@ -266,6 +273,9 @@ final class AppAuthController extends ControllerBase {
     $account = $this->accountFromBearer($request);
     if (!$account instanceof User) {
       return $this->error('Token no valido o caducado.', 401);
+    }
+    if ($denied = $this->denyWithout($account, 'use nelkano app features')) {
+      return $denied;
     }
 
     $payload = json_decode((string) $request->getContent(), TRUE);
@@ -401,6 +411,9 @@ final class AppAuthController extends ControllerBase {
     if (!$account instanceof User) {
       return $this->error('Token no valido o caducado.', 401);
     }
+    if ($denied = $this->denyWithout($account, 'use nelkano app features')) {
+      return $denied;
+    }
     if (!\Drupal::database()->schema()->tableExists('nelkano_friendship')) {
       return $this->error('El almacenamiento de amigos no esta instalado.', 503);
     }
@@ -506,6 +519,9 @@ final class AppAuthController extends ControllerBase {
     if (!$account instanceof User) {
       return $this->error('Token no valido o caducado.', 401);
     }
+    if ($denied = $this->denyWithout($account, 'use nelkano app features')) {
+      return $denied;
+    }
     $q = trim((string) $request->query->get('q', ''));
     if (mb_strlen($q) < 2) {
       return $this->error('Busca al menos 2 caracteres.', 400);
@@ -535,6 +551,9 @@ final class AppAuthController extends ControllerBase {
     $account = $this->accountFromBearer($request);
     if (!$account instanceof User) {
       return $this->error('Token no valido o caducado.', 401);
+    }
+    if ($denied = $this->denyWithout($account, 'use nelkano app features')) {
+      return $denied;
     }
     $payload = json_decode((string) $request->getContent(), TRUE);
     $friend_uid = (int) (($payload['uid'] ?? 0) ?: ($payload['id'] ?? 0));
@@ -584,6 +603,9 @@ final class AppAuthController extends ControllerBase {
     $account = $this->accountFromBearer($request);
     if (!$account instanceof User) {
       return $this->error('Token no valido o caducado.', 401);
+    }
+    if ($denied = $this->denyWithout($account, 'use nelkano app features')) {
+      return $denied;
     }
     $database = \Drupal::database();
     $schema = $database->schema();
@@ -686,6 +708,9 @@ final class AppAuthController extends ControllerBase {
     if (!$account instanceof User) {
       return $this->error('Token no valido o caducado.', 401);
     }
+    if ($denied = $this->denyWithout($account, 'use nelkano app features')) {
+      return $denied;
+    }
     $payload = json_decode((string) $request->getContent(), TRUE);
     $session_id = $this->cleanId((string) ($payload['sessionId'] ?? ''));
     if ($session_id !== '' && \Drupal::database()->schema()->tableExists('nelkano_game_session')) {
@@ -703,6 +728,9 @@ final class AppAuthController extends ControllerBase {
     $account = $this->accountFromBearer($request);
     if (!$account instanceof User) {
       return $this->error('Token no valido o caducado.', 401);
+    }
+    if ($denied = $this->denyWithout($account, 'use nelkano app features')) {
+      return $denied;
     }
     $payload = json_decode((string) $request->getContent(), TRUE);
     if (!is_array($payload)) {
@@ -733,6 +761,9 @@ final class AppAuthController extends ControllerBase {
     $account = $this->accountFromBearer($request);
     if (!$account instanceof User) {
       return $this->error('Token no valido o caducado.', 401);
+    }
+    if ($denied = $this->denyWithout($account, 'use nelkano app features')) {
+      return $denied;
     }
     $session_id = $this->cleanId((string) $request->query->get('sessionId', ''));
     $target = $this->cleanText((string) $request->query->get('target', ''), 16);
@@ -773,6 +804,9 @@ final class AppAuthController extends ControllerBase {
     if (!$account instanceof User) {
       return $this->error('Inicia sesion para ver tu streaming.', 401);
     }
+    if ($denied = $this->denyWithout($account, 'use nelkano app features')) {
+      return $denied;
+    }
 
     $database = \Drupal::database();
     if (!$database->schema()->tableExists('nelkano_stream_session')) {
@@ -810,6 +844,9 @@ final class AppAuthController extends ControllerBase {
     $account = $this->accountFromBearer($request);
     if (!$account instanceof User) {
       return $this->error('Token no valido o caducado.', 401);
+    }
+    if ($denied = $this->denyWithout($account, 'use nelkano app features')) {
+      return $denied;
     }
 
     $payload = json_decode((string) $request->getContent(), TRUE);
@@ -874,6 +911,9 @@ final class AppAuthController extends ControllerBase {
     if (!$account instanceof User) {
       return $this->error('Token no valido o caducado.', 401);
     }
+    if ($denied = $this->denyWithout($account, 'use nelkano app features')) {
+      return $denied;
+    }
 
     $payload = json_decode((string) $request->getContent(), TRUE);
     $payload = is_array($payload) ? $payload : [];
@@ -908,6 +948,9 @@ final class AppAuthController extends ControllerBase {
     $account = $this->accountFromBearer($request);
     if (!$account instanceof User) {
       return $this->error('Token no valido o caducado.', 401);
+    }
+    if ($denied = $this->denyWithout($account, 'use nelkano app features')) {
+      return $denied;
     }
     $payload = json_decode((string) $request->getContent(), TRUE);
     if (!is_array($payload)) {
@@ -986,6 +1029,9 @@ final class AppAuthController extends ControllerBase {
     if (!$account instanceof User) {
       return $this->error('Inicia sesion para usar el streaming.', 401);
     }
+    if ($denied = $this->denyWithout($account, 'use nelkano app features')) {
+      return $denied;
+    }
     $payload = json_decode((string) $request->getContent(), TRUE);
     if (!is_array($payload)) {
       return $this->error('Peticion no valida.', 400);
@@ -1033,6 +1079,9 @@ final class AppAuthController extends ControllerBase {
     $account = $this->accountFromRequest($request);
     if (!$account instanceof User) {
       return $this->error('Inicia sesion para usar el streaming.', 401);
+    }
+    if ($denied = $this->denyWithout($account, 'use nelkano app features')) {
+      return $denied;
     }
     $database = \Drupal::database();
     $schema = $database->schema();
@@ -1086,6 +1135,9 @@ final class AppAuthController extends ControllerBase {
     if (!$account instanceof User) {
       return $this->error('Token no valido o caducado.', 401);
     }
+    if ($denied = $this->denyWithout($account, 'use nelkano app features')) {
+      return $denied;
+    }
     $payload = json_decode((string) $request->getContent(), TRUE);
     if (!is_array($payload)) {
       return $this->error('Peticion no valida.', 400);
@@ -1127,6 +1179,9 @@ final class AppAuthController extends ControllerBase {
     $account = $this->accountFromRequest($request);
     if (!$account instanceof User) {
       return $this->error('Inicia sesion para usar el streaming.', 401);
+    }
+    if ($denied = $this->denyWithout($account, 'use nelkano app features')) {
+      return $denied;
     }
     $session_id = $this->cleanId((string) $request->query->get('sessionId', ''));
     if ($session_id === '' || !$this->activeStreamSessionRow((int) $account->id(), $session_id)) {
@@ -1182,6 +1237,9 @@ final class AppAuthController extends ControllerBase {
     if (!$account instanceof User) {
       return $this->error('Token no valido o caducado.', 401);
     }
+    if ($denied = $this->denyWithout($account, 'use nelkano app features')) {
+      return $denied;
+    }
     $payload = json_decode((string) $request->getContent(), TRUE);
     if (!is_array($payload)) {
       return $this->error('Peticion no valida.', 400);
@@ -1225,6 +1283,9 @@ final class AppAuthController extends ControllerBase {
     $account = $this->accountFromRequest($request);
     if (!$account instanceof User) {
       return $this->error('Inicia sesion para usar el streaming.', 401);
+    }
+    if ($denied = $this->denyWithout($account, 'use nelkano app features')) {
+      return $denied;
     }
     $session_id = $this->cleanId((string) $request->query->get('sessionId', ''));
     if ($session_id === '' || !$this->activeStreamSessionRow((int) $account->id(), $session_id)) {
@@ -1373,6 +1434,9 @@ final class AppAuthController extends ControllerBase {
     if (!$account instanceof User) {
       return $this->error('Token no valido o caducado.', 401);
     }
+    if ($denied = $this->denyWithout($account, 'use nelkano app features')) {
+      return $denied;
+    }
     $payload = json_decode((string) $request->getContent(), TRUE);
     $id = (int) (($payload['friendshipId'] ?? 0) ?: ($payload['id'] ?? 0));
     if ($id <= 0 || !\Drupal::database()->schema()->tableExists('nelkano_friendship')) {
@@ -1443,24 +1507,6 @@ final class AppAuthController extends ControllerBase {
     }
     $loaded = User::load((int) $current->id());
     return $loaded instanceof User && $loaded->isActive() ? $loaded : NULL;
-  }
-
-  private function loadAccountForLogin(string $login): ?User {
-    $storage = $this->entityTypeManager()->getStorage('user');
-    $ids = $storage->getQuery()
-      ->accessCheck(FALSE)
-      ->condition('mail', $login)
-      ->range(0, 1)
-      ->execute();
-    if (!$ids) {
-      $ids = $storage->getQuery()
-        ->accessCheck(FALSE)
-        ->condition('name', $login)
-        ->range(0, 1)
-        ->execute();
-    }
-    $uid = $ids ? (int) reset($ids) : 0;
-    return $uid > 0 ? $storage->load($uid) : NULL;
   }
 
   private function createInitialProfile(int $uid, string $display_name): void {
@@ -1542,6 +1588,11 @@ final class AppAuthController extends ControllerBase {
 
   private function accountFromBearer(Request $request): ?User {
     $header = trim((string) $request->headers->get('Authorization', ''));
+    if (preg_match('/^Bearer\s+(nkat_[a-f0-9]{64})$/D', $header, $matches)) {
+      return AppSessions::accountFromAccessToken($matches[1]);
+    }
+
+    // Legacy 30-day token from app versions before API v2.
     if (!preg_match('/^Bearer\s+(\d+)\.([a-f0-9]{64})$/i', $header, $matches)) {
       return NULL;
     }
@@ -1570,10 +1621,14 @@ final class AppAuthController extends ControllerBase {
       return NULL;
     }
 
-    $tokens = array_filter($tokens, static fn($token_expires) => (int) $token_expires >= $now);
-    $tokens[$hash] = $now + self::TOKEN_TTL;
-    $user_data->set('nelkano_home', $uid, 'app_tokens', $tokens);
-    $user_data->set('nelkano_home', $uid, 'app_token_last_used', \Drupal::time()->getRequestTime());
+    // Slide the expiry at most hourly instead of writing on every request
+    // (streaming posts several frames per second).
+    if ((int) $tokens[$hash] < $now + self::TOKEN_TTL - 3600) {
+      $tokens = array_filter($tokens, static fn($token_expires) => (int) $token_expires >= $now);
+      $tokens[$hash] = $now + self::TOKEN_TTL;
+      $user_data->set('nelkano_home', $uid, 'app_tokens', $tokens);
+      $user_data->set('nelkano_home', $uid, 'app_token_last_used', $now);
+    }
     return $account;
   }
 
@@ -1903,9 +1958,33 @@ final class AppAuthController extends ControllerBase {
     return $millis > 0 ? (int) floor($millis / 1000) : 0;
   }
 
-  private function error(string $message, int $status): JsonResponse {
+  /**
+   * 403 unless the account's roles grant the permission, NULL otherwise.
+   *
+   * The app hides these features by capability, but a patched client could
+   * still call the API, so the server always decides.
+   */
+  private function denyWithout(User $account, string $permission): ?JsonResponse {
+    return $account->hasPermission($permission)
+      ? NULL
+      : $this->error('Tu cuenta no tiene acceso a esta funcion.', 403, 'forbidden');
+  }
+
+  private function error(string $message, int $status, ?string $code = NULL): JsonResponse {
+    $code ??= match ($status) {
+      400 => 'bad_request',
+      401 => 'invalid_token',
+      403 => 'forbidden',
+      404 => 'not_found',
+      409 => 'conflict',
+      413 => 'too_large',
+      429 => 'rate_limited',
+      503 => 'unavailable',
+      default => 'error',
+    };
     return new JsonResponse([
       'ok' => FALSE,
+      'code' => $code,
       'message' => $message,
     ], $status);
   }

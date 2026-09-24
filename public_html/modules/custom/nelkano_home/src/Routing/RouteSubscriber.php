@@ -8,6 +8,15 @@ use Symfony\Component\Routing\RouteCollection;
 final class RouteSubscriber extends RouteSubscriberBase {
 
   protected function alterRoutes(RouteCollection $collection): void {
+    // App requests authenticate with a Bearer header, so Drupal sees them as
+    // anonymous: without this the page cache could serve one user's JSON to
+    // another.
+    foreach ($collection as $route) {
+      if (str_starts_with($route->getPath(), '/api/nelkano/')) {
+        $route->setOption('no_cache', TRUE);
+      }
+    }
+
     if ($route = $collection->get('user.login')) {
       $route->setDefault('_controller', '\Drupal\nelkano_home\Controller\AuthController::login');
       $route->setDefault('_title', 'Iniciar sesion');

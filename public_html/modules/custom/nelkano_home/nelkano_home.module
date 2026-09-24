@@ -247,3 +247,33 @@ function nelkano_home_form_taxonomy_term_form_alter(array &$form, FormStateInter
     $form['field_workflow_api_status']['#access'] = FALSE;
   }
 }
+
+/**
+ * Implements hook_user_update().
+ *
+ * A password change or a blocked account signs the user out of every app.
+ */
+function nelkano_home_user_update(\Drupal\user\UserInterface $account): void {
+  $original = method_exists($account, 'getOriginal') ? $account->getOriginal() : ($account->original ?? NULL);
+  if (!$original instanceof \Drupal\user\UserInterface) {
+    return;
+  }
+  $blocked = $original->isActive() && !$account->isActive();
+  if ($blocked || $original->getPassword() !== $account->getPassword()) {
+    \Drupal\nelkano_home\Service\AppSessions::revokeAllForUser((int) $account->id());
+  }
+}
+
+/**
+ * Implements hook_user_delete().
+ */
+function nelkano_home_user_delete(\Drupal\user\UserInterface $account): void {
+  \Drupal\nelkano_home\Service\AppSessions::revokeAllForUser((int) $account->id());
+}
+
+/**
+ * Implements hook_cron().
+ */
+function nelkano_home_cron(): void {
+  \Drupal\nelkano_home\Service\AppSessions::cleanup();
+}

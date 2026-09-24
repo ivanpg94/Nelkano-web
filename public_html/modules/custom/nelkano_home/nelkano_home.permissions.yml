@@ -21,3 +21,19 @@ delete nelkano error reports:
   title: 'Eliminar reportes de Nelkano y sus archivos'
   description: 'Permite eliminar permanentemente reportes y sus adjuntos del servidor.'
   restrict access: true
+
+use nelkano app features:
+  title: 'Usar las funciones de cuenta de la app Nelkano'
+  description: 'Colecciones, amigos, Drive, controles, streaming, multijugador y sincronizacion de actividad. La API lo comprueba en cada peticion.'
+
+send nelkano error reports:
+  title: 'Enviar reportes de error desde la app Nelkano'
+  description: 'Permite subir reportes con slot de guardado desde el emulador.'
+
+use nelkano debug tools:
+  title: 'Herramientas de depuracion de la app Nelkano'
+  description: 'Contador de FPS activado por defecto y otras ayudas para testers.'
+
+nelkano premium:
+  title: 'Funciones Premium de la app Nelkano'
+  description: 'Reservado para las ventajas Premium. Todavia no desbloquea nada.'

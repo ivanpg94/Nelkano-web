@@ -245,6 +245,46 @@ nelkano_home.api_auth_status:
   requirements:
     _permission: 'access content'
 
+nelkano_home.api_v2_auth_login:
+  path: '/api/nelkano/v2/auth/login'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppSessionController::login'
+  methods: [POST]
+  requirements:
+    _access: 'TRUE'
+  options:
+    no_cache: TRUE
+
+nelkano_home.api_v2_auth_refresh:
+  path: '/api/nelkano/v2/auth/refresh'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppSessionController::refresh'
+  methods: [POST]
+  requirements:
+    _access: 'TRUE'
+  options:
+    no_cache: TRUE
+
+nelkano_home.api_v2_auth_logout:
+  path: '/api/nelkano/v2/auth/logout'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppSessionController::logout'
+  methods: [POST]
+  requirements:
+    _access: 'TRUE'
+  options:
+    no_cache: TRUE
+
+nelkano_home.api_v2_auth_me:
+  path: '/api/nelkano/v2/auth/me'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppSessionController::me'
+  methods: [GET]
+  requirements:
+    _access: 'TRUE'
+  options:
+    no_cache: TRUE
+
 nelkano_home.api_error_report_create:
   path: '/api/nelkano/error-reports'
   defaults:

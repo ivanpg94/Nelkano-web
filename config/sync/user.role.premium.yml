@@ -1,9 +1,12 @@
 uuid: fa752ed3-bbf5-4742-924c-a4c82c2f33fc
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - nelkano_home
 id: premium
 label: Premium
 weight: 5
 is_admin: false
-permissions: {  }
+permissions:
+  - 'nelkano premium'

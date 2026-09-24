@@ -8,6 +8,7 @@ dependencies:
     - comment
     - file
     - filter
+    - nelkano_home
     - search
     - shortcut
     - system
@@ -25,4 +26,5 @@ permissions:
   - 'post comments'
   - 'search content'
   - 'skip comment approval'
+  - 'use nelkano app features'
   - 'use text format basic_html'
