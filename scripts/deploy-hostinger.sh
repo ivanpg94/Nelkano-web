@@ -9,7 +9,9 @@ APP_DIR="${APP_DIR:-$REPO_DIR}"
 test -f "$REPO_DIR/public_html/modules/custom/nelkano_home/src/Controller/ErrorReportApiController.php"
 test -f "$APP_DIR/public_html/sites/default/settings.php"
 
-if [[ "$(cd -- "$REPO_DIR" && pwd)" != "$(cd -- "$APP_DIR" && pwd)" ]]; then
+if [[ "$(cd -- "$REPO_DIR" && pwd)" != "$(cd -- "$APP_DIR"
+php scripts/verify-release-bundle.php
+NELKANO_RELEASE_ASSETS_CHECK_ONLY=1 ./vendor/bin/drush --root=public_html php:script scripts/install-release-assets.php && pwd)" ]]; then
   rsync -a \
     --exclude='/.git/' --exclude='/vendor/' --exclude='/.env' \
     --exclude='/public_html/core/' --exclude='/public_html/modules/contrib/' \
@@ -20,6 +22,8 @@ if [[ "$(cd -- "$REPO_DIR" && pwd)" != "$(cd -- "$APP_DIR" && pwd)" ]]; then
 fi
 
 cd -- "$APP_DIR"
+php scripts/verify-release-bundle.php
+NELKANO_RELEASE_ASSETS_CHECK_ONLY=1 ./vendor/bin/drush --root=public_html php:script scripts/install-release-assets.php
 # Keep scripts enabled: they protect deployed code while Composer removes
 # the old nelkano/nelkano_home package on existing installations.
 composer install --no-dev --optimize-autoloader --no-interaction

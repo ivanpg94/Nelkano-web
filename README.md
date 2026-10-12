@@ -248,10 +248,13 @@ Solo Android queda publicado; Windows, SteamOS y SDK Studio permanecen ocultos.
 La portada del libro SDK permanece despublicada y sin enlace en el menú.
 
 Los dos archivos de Windows y SteamOS se versionan con Git LFS. Antes de ejecutar
-el despliegue hay que materializar sus binarios con `git lfs pull`. Si Hostinger
+el despliegue de esas plataformas hay que materializar sus binarios con `git lfs pull`. Si Hostinger
 no dispone de Git LFS, sube por SFTP los archivos reales de `release-artifacts/`
 o extrae el paquete local `outputs/deploy/release-artifacts.zip` en la raíz de
 la aplicación. Los punteros de LFS no son instaladores; el preflight los rechaza.
+Las plataformas despublicadas sin binarios verificados se omiten y no bloquean
+la entrega Android. Los tres APK publicados se transportan como archivos normales
+en Git; no necesitan Git LFS ni descomprimir un paquete.
 La carpeta `release-artifacts/` debe quedar fuera del docroot `public_html/`.
 
 1. En el PC, publicar el commit preparado: `git push origin main`.
@@ -277,7 +280,8 @@ La carpeta `release-artifacts/` debe quedar fuera del docroot `public_html/`.
    ./vendor/bin/drush --root=public_html state:set system.maintenance_mode 1
    ./vendor/bin/drush --root=public_html cache:rebuild
    git pull --ff-only origin main
-   git lfs pull
+   # Opcional: solo para preparar también las plataformas con Git LFS.
+   # git lfs pull
    ```
 
    Si usas un checkout separado del sitio, sigue el mismo proceso allí y pasa
@@ -290,7 +294,8 @@ La carpeta `release-artifacts/` debe quedar fuera del docroot `public_html/`.
    bash scripts/deploy-hostinger.sh
    ```
 
-   Hace composer install desde el lock, comprueba todos los hashes, registra
+   Comprueba primero los archivos publicados y el directorio privado, hace
+   composer install desde el lock, verifica los hashes y registra
    los archivos, ejecuta drush deploy e importa el SDK por UUID con simulación
    previa. No ejecutar install-platform-catalog.php ni seeds/demo/tests en el
    servidor. No restaurar una base Docker ni cambiar el UUID del sitio. Si el
@@ -316,3 +321,58 @@ Validación local de la entrega: firma APK correcta y no debuggable; seis archiv
 verificados por el instalador; descarga HTTP del APK con hash idéntico al original;
 87 checks de plataformas; config:status sin diferencias; importación simulada del
 SDK con 23 unchanged. No se ha desplegado ni hecho push a producción.
+## Hotfix: completar la descarga Android después de drush deploy
+
+`drush deploy` aplica updates y configuración, pero no copia ni registra los
+artefactos ni importa el libro SDK. Puede dejar la beta 3 en Versiones y el API
+con latest=null si falta el APK en private://nelkano-releases.
+
+El hotfix se entrega únicamente como código y documentación. No hace falta ZIP
+para Android: release-artifacts/Nelkano 3.0.0-beta.apk ya es un archivo normal
+versionado. Los punteros/archivos ausentes de las plataformas despublicadas se
+omiten con un aviso; cuando se publiquen se exige su binario y checksum correctos.
+Scaffold conserva .gitattributes y el lock mantiene las mismas dependencias.
+
+En el servidor, después de publicar y obtener este commit:
+
+1. Si private:// no está configurado, crea `private` en la raíz del proyecto y
+   añade en el PHP de `public_html/sites/default/settings.php` (antes de cualquier
+   cierre de PHP y sin sustituir el resto del archivo):
+
+   ```php
+   $settings['file_private_path'] = dirname(DRUPAL_ROOT) . '/private';
+   ```
+
+   Si ya hay un directorio privado configurado, conservarlo. Debe estar fuera de
+   public_html y ser escribible por PHP. La línea usa la ruta del servidor.
+2. Desde `~/domains/nelkano.com`:
+
+   ```bash
+   mkdir -p private
+   ./vendor/bin/drush --root=public_html cache:rebuild
+   bash scripts/deploy-hostinger.sh
+   ```
+
+   El script instala los APK publicados e importa el SDK por UUID conservando
+   su portada despublicada. Solo modifica artefactos con checksums verificados;
+   nunca sobrescribe una descarga existente con contenido distinto.
+3. Comprobar:
+
+   ```bash
+   ./vendor/bin/drush --root=public_html updatedb:status
+   ./vendor/bin/drush --root=public_html config:status
+   curl -fsS https://nelkano.com/api/nelkano/v1/app/releases/android-arm64
+   ```
+
+   latest debe contener3.0.0-beta, código10,55.341.057 bytes y SHA-256
+   f2d0a6200d9e7dd074d6b9a880cb858584c1a4b96e66c383ca4080b4cbcd2284.
+   Las notas ES/EN deben conservar los siete puntos elegidos por Ivan. El SDK
+   sigue oculto. Si se activó mantenimiento para esta operación, retirarlo solo
+   tras completar el script y reconstruir la caché.
+
+Verificación local del hotfix: Composer JSON/lock consistentes, sintaxis Bash,
+instalador completo de seis archivos, preflight con solo tres APK y plataformas
+ocultas ausentes/puntero LFS, y rechazo de un APK publicado corrupto. Consulta
+pública de producción durante la revisión: Versiones y Módulos200, SDK404,
+actualizador200 con latest=null. Esto verifica el problema de disponibilidad,
+no certifica una emisión real, formularios autenticados ni pruebas de la app.
