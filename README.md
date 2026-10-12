@@ -381,8 +381,8 @@ no certifica una emisión real, formularios autenticados ni pruebas de la app.
 Entrega preparada localmente: **3.0.1-beta, código 11**, paquete
 `com.ivanp.nelkano.modular`, Release ARM64 no depurable. Se recompilaron todos
 los sistemas Android desde fuentes: nueve bibliotecas JNI y los cores Java;
-solo se empaquetan los cinco módulos obligatorios. Tamaño: **55.341.066 bytes**.
-SHA-256: `5f1c47479bc0a33d1eccc41237fb83ea6f72270efa14caf6e5af39032f3ad6df`.
+solo se empaquetan los cinco módulos obligatorios. Tamaño: **55.347.969 bytes**.
+SHA-256: `87ecfd6279acae87db49abf0c290984813a729adfc87131e5ae628c17e4e22cd`.
 Certificado de producción SHA-256:
 `57780bcd54cdddceeb9ab5445f9b256ec64ad05ec153ef249b78941a8ec4adc5`.
 El manifiesto y hashes de bibliotecas están en `release-artifacts/android-3.0.1-beta.json`.
@@ -408,11 +408,11 @@ curl --fail --silent --show-error https://nelkano.com/api/nelkano/v1/app/release
 curl --fail --location --output /tmp/Nelkano-3.0.1-beta.apk \
   https://nelkano.com/api/nelkano/v1/app/releases/android-arm64/11/download
 printf '%s  %s\n' \
-  5f1c47479bc0a33d1eccc41237fb83ea6f72270efa14caf6e5af39032f3ad6df \
+  87ecfd6279acae87db49abf0c290984813a729adfc87131e5ae628c17e4e22cd \
   /tmp/Nelkano-3.0.1-beta.apk | sha256sum --check
 ```
 
-El catálogo debe indicar 3.0.1-beta, version_code 11, 55341066 bytes y el hash
+El catálogo debe indicar 3.0.1-beta, version_code 11, 55347969 bytes y el hash
 anterior. Revisar `/versiones` y `/en/releases`: 3.0.1-beta debe ser la última
 Android, manteniendo el historial. Los otros tres canales deben dar latest=null.
 En administración → Versiones, la fila Android nueva permite editar notas y
@@ -431,7 +431,7 @@ Una nueva comprobación debe indicar que ya está actualizada.
 producción; no desinstalar ni borrar datos para forzar el ensayo.
 
 Verificado localmente: 10 tests JVM del actualizador, 40 checks de pestañas,
-8 checks de descargas, QA de los cuatro canales, catálogo real build 11,
+5 pruebas de visibilidad de controles, 8 checks de descargas, QA de los cuatro canales, catálogo real build 11,
 canales ocultos, preflight de siete artefactos y descarga HTTP con SHA-256
 idéntico. La aparición e instalación del aviso en el Moto queda para después
 del despliegue HTTPS; no se afirma realizada en esta preparación.

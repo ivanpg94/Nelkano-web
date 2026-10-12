@@ -64,14 +64,16 @@ es:
       apk_file: 'private://nelkano-releases/Nelkano 3.0.0-beta.apk'
       filename: 'Nelkano 3.0.0-beta.apk'
       date: 12/10/2026
-      changes: |-
-        Organización por módulos: Apariencia, Nelkano Básicos, Editor de controles, Amigos y Parches vienen incluidos y activos.
-        Instalación de módulos adicionales en formato .nelkmod, con revisión de autor y permisos y opciones para activarlos, desactivarlos o desinstalarlos.
-        Actualizador integrado: consulta las nuevas versiones, verifica la descarga y permite iniciar su instalación con la confirmación de Android.
-        Seis espacios de guardado manual por juego, frente a cinco en la beta 2, con miniaturas en el selector rápido y autoguardado separado. La disponibilidad depende del sistema.
-        Mejoras en la distribución de los controles táctiles y los botones de sistema al cambiar de orientación.
-        Importación con indicador de progreso y nombre del archivo. Los paquetes ZIP, RAR y 7z pueden contener varios juegos.
-        Google Drive y Nelkano online no están disponibles en esta beta se añadirán mas adelante mediante módulos descargables.
+      changes: "Organización por módulos: Apariencia, Nelkano Básicos, Editor de controles, Amigos y Parches vienen incluidos y activos.\r\nInstalación de módulos adicionales en formato .nelkmod, con revisión de autor y permisos y opciones para activarlos, desactivarlos o desinstalarlos.\r\nActualizador integrado: consulta las nuevas versiones, verifica la descarga y permite iniciar su instalación con la confirmación de Android.\r\nSeis espacios de guardado manual por juego, frente a cinco en la beta 2, con miniaturas en el selector rápido y autoguardado separado. La disponibilidad depende del sistema.\r\nMejoras en la distribución de los controles táctiles y los botones de sistema al cambiar de orientación.\r\nImportación con indicador de progreso y nombre del archivo. Los paquetes ZIP, RAR y 7z pueden contener varios juegos.\r\nGoogle Drive y Nelkano online no están disponibles en esta beta se añadirán mas adelante mediante módulos descargables."
+    -
+      visible: true
+      version: 3.0.1-beta
+      platform: android
+      version_code: '11'
+      apk_file: 'private://nelkano-releases/Nelkano 3.0.1-beta.apk'
+      filename: 'Nelkano 3.0.1-beta.apk'
+      date: 12/10/2026
+      changes: "Corrección del resaltado de Home al navegar por pantalla táctil sin mando conectado.\r\nEl teclado virtual de Android ya no se detecta como mando.\nLos controles táctiles se ocultan al usar el mando y reaparecen al tocar la pantalla."
     -
       visible: false
       version: 1.0.0-beta
@@ -99,19 +101,6 @@ es:
       filename: 'Nelkano SDK Studio 1.0.0-beta-windows.zip'
       date: 12/10/2026
       changes: 'Primera beta de Nelkano SDK Studio para Windows.'
-    -
-      visible: true
-      version: 3.0.1-beta
-      platform: android
-      version_code: '11'
-      apk_file: 'private://nelkano-releases/Nelkano 3.0.1-beta.apk'
-      filename: 'Nelkano 3.0.1-beta.apk'
-      date: 12/10/2026
-      changes: |-
-        Corrección del resaltado de Home al navegar por pantalla táctil sin mando conectado.
-        El teclado virtual de Android ya no se detecta como mando.
-        Todos los sistemas Android recompilados para producción.
-        Incluye únicamente los cinco módulos obligatorios.
   compatibility_seo_title: 'Compatibilidad de Nelkano'
   compatibility_seo_description: 'Estado real de compatibilidad de los sistemas soportados por Nelkano para Android.'
   compatibility_eyebrow: Compatibilidad
@@ -186,35 +175,16 @@ en:
       apk_file: 'public://nelkano-releases/Nelkano 1.0.0-beta.apk'
       filename: 'Nelkano 1.0.0-beta.apk'
       date: 27/06/2026
-      changes: |-
-        First public beta for Android.
-        Local library, in-game saves and save states.
-        Nelkano account, friends, GBA Nelkano Online and web streaming.
-        Optional Google Drive synchronization.
-        Available cores: CHIP-8, Game Boy, Game Boy Color, Game Boy Advance, Mega Drive and NES.
+      changes: "First public beta for Android.\r\nLocal library, in-game saves and save states.\r\nNelkano account, friends, GBA Nelkano Online and web streaming.\r\nOptional Google Drive synchronization.\r\nAvailable cores: CHIP-8, Game Boy, Game Boy Color, Game Boy Advance, Mega Drive and NES."
     -
-      visible: false
+      visible: true
       version: 2.0.0-beta
       platform: android
       version_code: ''
       apk_file: 'public://nelkano-releases/Nelkano 2.0.0-beta.apk'
       filename: 'Nelkano 2.0.0-beta.apk'
-      date: 'Pending publication'
-      changes: |-
-        New Master System core.
-        Fixed registration from the app to address missing registration emails.
-        Library favorites, collections, search, system filters, sorting, and compact, large and list views. Long-press to select multiple games.
-        Import games from ZIP, RAR and 7z archives, including archives containing multiple games. Import PlayStation discs with their CUE files and tracks, and RPG Maker games with all their resources.
-        Continue from a saved state. If you choose a manual save state's screenshot as the game's image, that state takes priority when continuing.
-        Five manual save slots per game and a separate autosave slot, updated approximately every minute. Filter and sort save states, depending on each system's support.
-        Customize game details: change the name and cover, or use a manual save state's screenshot.
-        Physical controller settings: test buttons, assign controls per system, save and load configurations, and restore defaults.
-        Touch control editor: move and resize buttons, preview the result, and save a layout for each system and screen orientation.
-        In-game options: pause, restart, volume, full screen, image sizing and an FPS display. AUTO repeats the A button, while RECORD and REPLAY record and repeat a sequence of button presses.
-        Second screen for Nintendo DS and Nintendo 3DS: use another Android device on the same local network, swap screens and operate the touch screen from the receiving device.
-        Apply xdelta/VCDIFF patches to Nintendo DS games. Patched games are added separately with their own saves, without replacing the original.
-        Sync PlayStation save states, memory cards and associated data with Google Drive. Disc images must be imported separately on the destination device.
-        Dark, Light, Navy, Slate and Graphite themes, and Spanish or English interface language selection.
+      date: 'Pendiente de publicacion'
+      changes: "New Master System core.\r\nFixed registration from the app to address missing registration emails.\r\nLibrary favorites, collections, search, system filters, sorting, and compact, large and list views. Long-press to select multiple games.\r\nImport games from ZIP, RAR and 7z archives, including archives containing multiple games. Import PlayStation discs with their CUE files and tracks, and RPG Maker games with all their resources.\r\nContinue from a saved state. If you choose a manual save state's screenshot as the game's image, that state takes priority when continuing.\r\nFive manual save slots per game and a separate autosave slot, updated approximately every minute. Filter and sort save states, depending on each system's support.\r\nCustomize game details: change the name and cover, or use a manual save state's screenshot.\r\nPhysical controller settings: test buttons, assign controls per system, save and load configurations, and restore defaults.\r\nTouch control editor: move and resize buttons, preview the result, and save a layout for each system and screen orientation.\r\nIn-game options: pause, restart, volume, full screen, image sizing and an FPS display. AUTO repeats the A button, while RECORD and REPLAY record and repeat a sequence of button presses.\r\nSecond screen for Nintendo DS and Nintendo 3DS: use another Android device on the same local network, swap screens and operate the touch screen from the receiving device.\r\nApply xdelta/VCDIFF patches to Nintendo DS games. Patched games are added separately with their own saves, without replacing the original.\r\nSync PlayStation save states, memory cards and associated data with Google Drive. Disc images must be imported separately on the destination device.\r\nDark, Light, Navy, Slate and Graphite themes, and Spanish or English interface language selection."
     -
       visible: true
       version: 3.0.0-beta
@@ -223,14 +193,16 @@ en:
       apk_file: 'private://nelkano-releases/Nelkano 3.0.0-beta.apk'
       filename: 'Nelkano 3.0.0-beta.apk'
       date: 12/10/2026
-      changes: |-
-        Module-based organization: Appearance, Nelkano Basics, Control Editor, Friends and Patches are included and active.
-        Install additional .nelkmod modules, review their author and permissions, and enable, disable or uninstall them.
-        Built-in updater: checks for new releases, verifies the download and lets you start installation with Android confirmation.
-        Six manual save-state slots per game, up from five in beta 2, with thumbnails in the quick selector and a separate autosave. Availability depends on the system.
-        Improved touch-control and system-button layouts when changing orientation.
-        Import progress with the file name. ZIP, RAR and 7z archives can contain multiple games.
-        Google Drive and Nelkano Online are not available in this beta. They will be added later through downloadable modules.
+      changes: "Module-based organization: Appearance, Nelkano Basics, Control Editor, Friends and Patches are included and active.\r\nInstall additional .nelkmod modules, review their author and permissions, and enable, disable or uninstall them.\r\nBuilt-in updater: checks for new releases, verifies the download and lets you start installation with Android confirmation.\r\nSix manual save-state slots per game, up from five in beta 2, with thumbnails in the quick selector and a separate autosave. Availability depends on the system.\r\nImproved touch-control and system-button layouts when changing orientation.\r\nImport progress with the file name. ZIP, RAR and 7z archives can contain multiple games.\r\nGoogle Drive and Nelkano Online are not available in this beta. They will be added later through downloadable modules."
+    -
+      visible: true
+      version: 3.0.1-beta
+      platform: android
+      version_code: '11'
+      apk_file: 'private://nelkano-releases/Nelkano 3.0.1-beta.apk'
+      filename: 'Nelkano 3.0.1-beta.apk'
+      date: 12/10/2026
+      changes: "Fixed Home remaining highlighted during touch navigation without a connected controller.\r\nThe Android virtual keyboard is no longer detected as a controller.\nTouch controls hide when using the controller and reappear when touching the screen."
     -
       visible: false
       version: 1.0.0-beta
@@ -258,19 +230,6 @@ en:
       filename: 'Nelkano SDK Studio 1.0.0-beta-windows.zip'
       date: 12/10/2026
       changes: 'First beta of Nelkano SDK Studio for Windows.'
-    -
-      visible: true
-      version: 3.0.1-beta
-      platform: android
-      version_code: '11'
-      apk_file: 'private://nelkano-releases/Nelkano 3.0.1-beta.apk'
-      filename: 'Nelkano 3.0.1-beta.apk'
-      date: 12/10/2026
-      changes: |-
-        Fixed Home remaining highlighted during touch navigation without a connected controller.
-        The Android virtual keyboard is no longer detected as a controller.
-        All Android systems rebuilt for production.
-        Includes only the five mandatory modules.
   compatibility_seo_title: 'Nelkano compatibility'
   compatibility_seo_description: 'Real compatibility status for the systems supported by Nelkano on Android.'
   compatibility_eyebrow: Compatibility

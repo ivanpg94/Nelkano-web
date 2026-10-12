@@ -2,8 +2,8 @@
   "version": "3.0.1-beta",
   "versionCode": 11,
   "appId": "com.ivanp.nelkano.modular",
-  "bytes": 55341066,
-  "sha256": "5f1c47479bc0a33d1eccc41237fb83ea6f72270efa14caf6e5af39032f3ad6df",
+  "bytes": 55347969,
+  "sha256": "87ecfd6279acae87db49abf0c290984813a729adfc87131e5ae628c17e4e22cd",
   "productionCertificateSha256": "57780bcd54cdddceeb9ab5445f9b256ec64ad05ec153ef249b78941a8ec4adc5",
   "systems": 17,
   "nativeLibraries": {
@@ -20,7 +20,7 @@
     "lib/arm64-v8a/libps1_android.so": "e75e3e9bfc909294bee91d6645f73aaaa1bea34b26d004225ec3335e96a9e30a",
     "lib/arm64-v8a/librgss_cruby_android.so": "097eb391380dae4aa2ce5d0c38c40aac5a54c0b76629995d59402048d5d4c5fe",
     "lib/arm64-v8a/libsnes_android.so": "170b6057688bd2200611b1d232ad5444f43ed9f12d54e175e3040cb69e19a1af",
-    "lib/arm64-v8a/libswitch_android.so": "5ce7a121137203e7f66f21e794fcb77443eacf21f2b843f5586eb160524bcc69"
+    "lib/arm64-v8a/libswitch_android.so": "41324b49dadb1e481caa8a0fa2f433a2ce47004c544093ba05b7e4bd07c5f762"
   },
   "modules": [
     "nelkano.appearance",
@@ -52,7 +52,12 @@
   "publishedToProduction": false,
   "installedOnDevices": false,
   "notes": {
-    "es": "Corrección del resaltado de Home al navegar por pantalla táctil sin mando conectado.\nEl teclado virtual de Android ya no se detecta como mando.\nTodos los sistemas Android recompilados para producción.\nIncluye únicamente los cinco módulos obligatorios.",
-    "en": "Fixed Home remaining highlighted during touch navigation without a connected controller.\nThe Android virtual keyboard is no longer detected as a controller.\nAll Android systems rebuilt for production.\nIncludes only the five mandatory modules."
+    "es": "Corrección del resaltado de Home al navegar por pantalla táctil sin mando conectado.\r\nEl teclado virtual de Android ya no se detecta como mando.\nLos controles táctiles se ocultan al usar el mando y reaparecen al tocar la pantalla.",
+    "en": "Fixed Home remaining highlighted during touch navigation without a connected controller.\r\nThe Android virtual keyboard is no longer detected as a controller.\nTouch controls hide when using the controller and reappear when touching the screen."
+  },
+  "controllerUiTests": {
+    "tests": 5,
+    "failures": 0,
+    "errors": 0
   }
 }
