@@ -35,6 +35,8 @@ function nelkano_home_install(): void {
   require_once __DIR__ . '/nelkano_home.backlog.inc';
   nelkano_home_ensure_backlog();
   nelkano_home_migrate_report_taxonomy();
+  require_once __DIR__ . '/nelkano_home.backlog_search.inc';
+  nelkano_home_ensure_backlog_search();
 }
 
 /**
@@ -813,4 +815,159 @@ function nelkano_home_requirements(string $phase): array {
       'severity' => $source === 'state' ? REQUIREMENT_WARNING : REQUIREMENT_OK,
     ],
   ];
+}
+
+/**
+ * Add Search API's database backend and private HU index, preserving all content.
+ */
+function nelkano_home_update_11035(array &$sandbox): void {
+  if (empty($sandbox['initialized'])) {
+    require_once __DIR__ . '/nelkano_home.backlog_search.inc';
+    nelkano_home_ensure_backlog_search();
+    $sandbox['initialized'] = TRUE;
+  }
+  $index = \Drupal\search_api\Entity\Index::load('nelkano_backlog');
+  $tasks = \Drupal::service('search_api.index_task_manager');
+  if (!$tasks->isTrackingComplete($index)) {
+    $tasks->addItemsOnce($index);
+    $sandbox['#finished'] = 0.1;
+    return;
+  }
+  // Populate the index before exposing the new search UI.
+  $tracker = $index->getTrackerInstance();
+  $remaining = $tracker->getRemainingItemsCount();
+  $sandbox['total'] = max($sandbox['total'] ?? 0, $remaining);
+  if ($remaining && !$index->indexItems(50)) {
+    throw new \Drupal\Core\Utility\UpdateException('No se pudo indexar el backlog. Revisa Search API y vuelve a ejecutar updatedb.');
+  }
+  $remaining = $tracker->getRemainingItemsCount();
+  $sandbox['#finished'] = $remaining ? max(0.1, 1 - $remaining / max(1, $sandbox['total'])) : 1;
+}
+
+/** Enable the external module catalog; additive setup, no existing content writes. */
+function nelkano_home_update_11036(): void {
+  \Drupal::service('module_installer')->install(['nelkano_modules']);
+  // Hourly checks; a hosting cron job is needed when the site has no traffic.
+  if (\Drupal::moduleHandler()->moduleExists('automated_cron')) {
+    $config = \Drupal::configFactory()->getEditable('automated_cron.settings');
+    if ((int) $config->get('interval') !== 3600) { $config->set('interval', 3600)->save(); }
+  }
+}
+
+/** Add optional module images and display styles, preserving all existing nodes. */
+function nelkano_home_update_11037(): void {
+  \Drupal::service('module_installer')->install(['image']);
+  if (\Drupal::moduleHandler()->moduleExists('nelkano_modules')) {
+    require_once \Drupal::service('extension.list.module')->getPath('nelkano_modules') . '/nelkano_modules.setup.inc';
+    nelkano_modules_setup_images();
+  }
+}
+/** Add module systems and populate Search API without rewriting any nodes. */
+function nelkano_home_update_11038(array &$sandbox): void {
+  if (!\Drupal::moduleHandler()->moduleExists('nelkano_modules')) { return; }
+  if (empty($sandbox['initialized'])) {
+    \Drupal::service('module_installer')->install(['options']);
+    require_once \Drupal::service('extension.list.module')->getPath('nelkano_modules') . '/nelkano_modules.setup.inc';
+    nelkano_modules_setup_systems();
+    $sandbox['initialized'] = TRUE;
+  }
+  $index = \Drupal\search_api\Entity\Index::load('nelkano_modules');
+  if (!$index || !$index->status()) { return; }
+  $tasks = \Drupal::service('search_api.index_task_manager');
+  if (!$tasks->isTrackingComplete($index)) {
+    $tasks->addItemsOnce($index);
+    $sandbox['#finished'] = 0.1;
+    return;
+  }
+  $tracker = $index->getTrackerInstance();
+  $remaining = $tracker->getRemainingItemsCount();
+  $sandbox['total'] = max($sandbox['total'] ?? 0, $remaining);
+  if ($remaining && !$index->indexItems(50)) {
+    throw new \Drupal\Core\Utility\UpdateException('No se pudo indexar el catálogo de módulos. Revisa Search API y vuelve a ejecutar updatedb.');
+  }
+  $remaining = $tracker->getRemainingItemsCount();
+  $sandbox['#finished'] = $remaining ? max(0.1, 1 - $remaining / max(1, $sandbox['total'])) : 1;
+}
+
+/** Apply the requested catalogue visibility and remove redundant system guides. */
+function nelkano_home_update_11041(): void {
+  $systems = \Drupal::configFactory()->getEditable('nelkano_home.systems');
+  $seo = \Drupal::configFactory()->getEditable('nelkano_home.seo');
+  foreach (['es', 'en'] as $language) {
+    foreach (['nintendo-3ds', 'nintendo-switch', 'snes', 'playstation-portable', 'nintendo-gamecube'] as $id) {
+      $key = $language . '.pages.' . $id;
+      if ($systems->get($key) !== NULL) {
+        $systems->set($key . '.enabled', FALSE);
+        $systems->set($key . '.show_on_home', FALSE);
+      }
+    }
+    foreach (['game-boy-color', 'rpg-maker-mv-mz', 'rpg-maker-2000-2003'] as $id) {
+      $systems->clear($language . '.pages.' . $id);
+      $seo->clear($language . '.pages.system__' . $id);
+    }
+  }
+  $systems->save();
+  $seo->save();
+}
+
+/** Add hidden PSP and GameCube guides without changing existing editorial data. */
+function nelkano_home_update_11040(): void {
+  $defaults = \Drupal\nelkano_home\Service\SystemPages::defaults();
+  $config = \Drupal::configFactory()->getEditable(\Drupal\nelkano_home\Service\SystemPages::CONFIG);
+  foreach (['es', 'en'] as $language) {
+    foreach (['playstation-portable', 'nintendo-gamecube'] as $id) {
+      $key = $language . '.pages.' . $id;
+      if ($config->get($key) === NULL) {
+        $page = $defaults[$language]['pages'][$id];
+        $page['enabled'] = FALSE;
+        $page['show_on_home'] = FALSE;
+        $config->set($key, $page);
+      }
+    }
+  }
+  $config->save();
+}
+
+/** Align public product copy with current capabilities; keep release history. */
+function nelkano_home_update_11039(): void {
+  $path = __DIR__ . '/config/new-app-copy.json';
+  $patches = json_decode(file_get_contents($path), TRUE, 512, JSON_THROW_ON_ERROR);
+  $aliases = [
+    'Módulos y SDK' => ['Sincronización con Google Drive'],
+    'Modules and SDK' => ['Google Drive sync'],
+    'Datos locales y conexiones' => ['Google Drive'],
+    'Local data and connections' => ['Google Drive'],
+    'Aplicar parches a juegos GBA y NDS' => ['Aplicar parches a juegos de Nintendo DS'],
+    'Apply patches to GBA and DS games' => ['Applying patches to Nintendo DS games'],
+  ];
+  foreach ($patches as $name => $fields) {
+    $config = \Drupal::configFactory()->getEditable($name);
+    foreach ($fields as $key => $value) {
+      // Retain uploaded illustrations and additional editorial rows. The Drive
+      // feature illustration is deliberately replaced with the module icon.
+      if (is_array($value) && (str_ends_with($key, '.sections') || str_ends_with($key, '.feature_items'))) {
+        $existing = $config->get($key) ?? [];
+        $used = [];
+        foreach ($value as &$row) {
+          $title = $row['title'] ?? '';
+          $titles = array_merge([$title], $aliases[$title] ?? []);
+          foreach ($existing as $index => $old) {
+            if (in_array($old['title'] ?? '', $titles, TRUE)) {
+              $used[$index] = TRUE;
+              if (!str_ends_with($key, '.feature_items') || !in_array($title, ['Módulos y SDK', 'Modules and SDK'], TRUE)) {
+                $row['image_uri'] = $old['image_uri'] ?? ($row['image_uri'] ?? '');
+              }
+              break;
+            }
+          }
+        }
+        unset($row);
+        foreach ($existing as $index => $row) {
+          if (!isset($used[$index])) { $value[] = $row; }
+        }
+      }
+      $config->set($key, $value);
+    }
+    $config->save();
+  }
 }

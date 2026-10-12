@@ -1,0 +1,44 @@
+<section class="r-gradient r-index-hero">
+  <div class="r-wrap">
+    <nav class="r-crumb" aria-label="{{ page.heading }}"><a href="{{ nav_home_url }}">{{ language == 'es' ? 'Inicio' : 'Home' }}</a><span>/</span><span>{{ page.eyebrow }}</span></nav>
+    <p class="r-label">{{ page.eyebrow }}</p>
+    <h1>{{ page.heading }}</h1>
+    <p class="r-copy">{{ page.intro }}</p>
+  </div>
+</section>
+<div class="r-wrap r-index-body r-releases">
+  {% if page.platform_tabs %}
+    <nav class="r-filters r-release-tabs" aria-label="{{ language == 'es' ? 'Versiones por plataforma' : 'Releases by platform' }}">
+      {% for key, label in page.platform_tabs %}<a class="r-filter" href="{{ page.path }}?plataforma={{ key }}" aria-current="{{ page.selected_platform == key ? 'true' : 'false' }}">{{ label }}</a>{% endfor %}
+    </nav>
+  {% endif %}
+  <div class="r-release-list">
+    {% for release in page.releases %}
+      <article class="r-card r-release-card">
+        <div class="r-card-top">
+          <div>
+            <p class="r-label">{{ release.is_current ? (language == 'es' ? 'Versión actual' : 'Current version') : (language == 'es' ? 'Versión anterior' : 'Previous version') }}</p>
+            <h2>{{ release.platform == 'sdk' ? 'Nelkano SDK Studio' : 'Nelkano' }} {{ release.version }} · {{ release.platform_label }}</h2>
+          </div>
+          {% if release.date %}<span class="r-pill">{{ release.date }}</span>{% endif %}
+        </div>
+        {% if release.filename or release.meta.size|default('') or release.meta.sha256|default('') %}
+          <dl class="r-release-meta">
+            {% if release.filename %}<div><dt>{{ language == 'es' ? 'Archivo' : 'File' }}</dt><dd>{{ release.filename }}</dd></div>{% endif %}
+            {% if release.meta.size|default('') %}<div><dt>{{ language == 'es' ? 'Tamaño' : 'Size' }}</dt><dd>{{ release.meta.size }}</dd></div>{% endif %}
+            {% if release.meta.sha256|default('') %}<div><dt>SHA-256</dt><dd class="r-release-hash">{{ release.meta.sha256 }}</dd></div>{% endif %}
+          </dl>
+        {% endif %}
+        {% if release.changes %}
+          <div class="r-release-changes">
+            <h3>{{ language == 'es' ? 'Cambios principales' : 'Main changes' }}</h3>
+            <ul>{% for item in release.changes %}<li>{{ item }}</li>{% endfor %}</ul>
+          </div>
+        {% endif %}
+        {% if release.url %}<a class="r-btn" href="{{ release.url }}">{{ language == 'es' ? 'Descargar' : 'Download' }} {{ release.platform_label }}</a>{% endif %}
+      </article>
+    {% else %}
+      <p class="r-empty">{{ language == 'es' ? 'Todavia no hay versiones publicadas.' : 'No releases have been published yet.' }}</p>
+    {% endfor %}
+  </div>
+</div>

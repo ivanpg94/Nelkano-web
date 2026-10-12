@@ -1,0 +1,19 @@
+uuid: b1930595-80de-34f9-a6a0-b5c76b2cb56c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_release_error
+    - node.type.nelkano_module_release
+id: node.nelkano_module_release.field_release_error
+field_name: field_release_error
+entity_type: node
+bundle: nelkano_module_release
+label: 'Última comprobación'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

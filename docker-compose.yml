@@ -22,6 +22,7 @@ services:
       - drupal_app:/opt/drupal
       - ./public_html/modules/custom:/opt/drupal/web/modules/custom
       - ./scripts:/opt/drupal/scripts
+      - ./content:/opt/drupal/content
       - ./config/sync:/opt/drupal/config/sync
       - ./docker/php/nelkano.ini:/usr/local/etc/php/conf.d/nelkano.ini:ro
       - drupal_files:/opt/drupal/web/sites/default/files

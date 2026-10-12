@@ -1,0 +1,18 @@
+uuid: 16cefe7b-4d1f-4905-aaed-938af91b8b53
+langcode: en
+status: true
+dependencies:
+  module:
+    - search_api_db
+id: nelkano_modules
+name: 'Catálogo de módulos'
+description: 'Metadatos de módulos con descargas externas disponibles.'
+backend: search_api_db
+backend_config:
+  database: 'default:default'
+  min_chars: 1
+  matching: partial
+  phrase: bigram
+  autocomplete:
+    suggest_suffix: true
+    suggest_words: true

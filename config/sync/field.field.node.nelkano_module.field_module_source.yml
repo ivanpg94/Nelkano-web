@@ -1,0 +1,19 @@
+uuid: 111beddc-e39b-31a2-a1c7-2aee988c8fa8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_module_source
+    - node.type.nelkano_module
+id: node.nelkano_module.field_module_source
+field_name: field_module_source
+entity_type: node
+bundle: nelkano_module
+label: 'Código fuente'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

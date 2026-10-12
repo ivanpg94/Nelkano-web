@@ -1,0 +1,4 @@
+services:
+  book_import_export.transfer:
+    class: Drupal\book_import_export\BookTransfer
+    arguments: ['@entity_type.manager', '@database', '@book.manager', '@language_manager', '@lock']

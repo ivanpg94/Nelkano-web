@@ -12,7 +12,7 @@ trait AdminFormUiTrait {
     $form['#attributes']['class'][] = 'nk-admin-config-form';
     $form['#prefix'] = $this->nelkanoAdminHeader($module_path) . '<div class="nk-admin-app"><div class="nk-admin-body">' . $this->nelkanoAdminSidebar($activeKey) . '<div class="nk-admin-workspace"><section class="nk-admin-panel">';
     $form['#suffix'] = '</section></div></div></div>';
-    if (in_array($activeKey, ['home','systems','privacy_cookies','legal_notice','releases','security','all','guide','seo'], TRUE)) {
+    if (in_array($activeKey, ['home','systems','privacy_cookies','legal_notice','releases','security','all','guide','seo','sdk'], TRUE)) {
       $title = ($activeLanguage === 'es' ? 'Editar: ' : 'Edit: ') . $title;
       $form['#attached']['library'][] = 'nelkano_home/redesign_admin';
       $form['#prefix'] = str_replace('class="nk-admin-app"', 'class="nk-admin-app nk-redesign-admin"', $form['#prefix']);
@@ -83,6 +83,11 @@ trait AdminFormUiTrait {
       $active = $activeLanguage === $langcode ? ' is-active' : '';
       $query = ['admin_lang' => $langcode];
       if ($route_name === 'nelkano_home.admin_systems' && ($system = \Drupal::request()->query->getString('system')) !== '') {$query['system'] = $system;}
+      if ($route_name === 'nelkano_home.admin_sdk') {
+        foreach (['page', 'new', 'parent'] as $key) {
+          if (\Drupal::request()->query->has($key)) { $query[$key] = \Drupal::request()->query->getString($key); }
+        }
+      }
       $url = Url::fromRoute($route_name, $route_params, ['query' => $query])->toString();
       $links .= '<a class="nk-admin-lang-link' . $active . '" href="' . htmlspecialchars($url, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '">' . $label . '</a>';
     }
@@ -219,10 +224,14 @@ trait AdminFormUiTrait {
       'security' => ['Seguridad y privacidad', 'S', Url::fromRoute('nelkano_home.admin_security_privacy')->toString()],
     ];
 
-    $redesigned = in_array($activeKey, ['home','systems','privacy_cookies','legal_notice','releases','security','all','guide','seo'], TRUE);
+    $redesigned = in_array($activeKey, ['home','systems','privacy_cookies','legal_notice','releases','security','all','guide','seo','sdk'], TRUE)
+      || in_array(\Drupal::routeMatch()->getRouteName(), ['nelkano_home.admin_error_reports', 'nelkano_home.admin_backlog'], TRUE);
     if ($redesigned) {$items['guide']=['Guía de uso','G',Url::fromRoute('nelkano_home.admin_guide')->toString()];}
     if ($redesigned) {$items['seo']=['SEO','SEO',Url::fromRoute('nelkano_home.admin_seo')->toString()];}
-    $icons=['home'=>'IcoHome','systems'=>'IcoGrid','privacy_cookies'=>'IcoCookie','legal_notice'=>'IcoScales','releases'=>'IcoTag','security'=>'IcoShield','guide'=>'IcoBook','seo'=>'IcoTag'];
+    if (\Drupal::moduleHandler()->moduleExists('book_import_export') && \Drupal::currentUser()->hasPermission('administer nelkano sdk')) {
+      $items['sdk'] = ['SDK', 'SDK', Url::fromRoute('nelkano_home.admin_sdk')->toString()];
+    }
+    $icons=['sdk'=>'IcoBook','home'=>'IcoHome','systems'=>'IcoGrid','privacy_cookies'=>'IcoCookie','legal_notice'=>'IcoScales','releases'=>'IcoTag','security'=>'IcoShield','guide'=>'IcoBook','seo'=>'IcoTag'];
     $html = '<aside class="nk-admin-sidebar"><h2>Paginas editables</h2><nav aria-label="Paginas editables de Nelkano">';
     foreach ($items as $key => [$label, $icon, $url]) {
       $active = $key === $activeKey ? ' is-active' : '';

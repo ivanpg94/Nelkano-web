@@ -1,0 +1,19 @@
+uuid: dfcfc838-4f33-310c-a72b-70ba50692618
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_module_platforms
+    - node.type.nelkano_module
+id: node.nelkano_module.field_module_platforms
+field_name: field_module_platforms
+entity_type: node
+bundle: nelkano_module
+label: Plataformas
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

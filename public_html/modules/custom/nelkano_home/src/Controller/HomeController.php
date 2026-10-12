@@ -186,10 +186,17 @@ final class HomeController extends ControllerBase {
     $android_download = $this->latestReleaseDownload($language, $module_path);
     $content['android_download_url'] = $android_download['url'];
     $content['android_download_meta'] = $android_download['meta'];
+    $content['downloads'] = [];
+    foreach (['android' => 'Android', 'windows' => 'Windows', 'steamos' => 'SteamOS'] as $platform => $label) {
+      $download = $this->latestReleaseDownload($language, $module_path, $platform);
+      if ($download['url'] !== '') $content['downloads'][] = $download + ['platform' => $platform, 'label' => $label];
+    }
+
     $seo = $this->buildSeo($language, $content);
     $template = file_get_contents(DRUPAL_ROOT . '/' . $module_path . '/templates/nelkano-home-standalone.html.twig');
     $html = \Drupal::service('twig')->createTemplate($template)->render([
       'content' => $content,
+      'install_js_url' => '/' . $module_path . '/js/install-picker.js?v=' . filemtime(DRUPAL_ROOT . '/' . $module_path . '/js/install-picker.js'),
       'labels' => $systems['labels'],
       'systems_url' => $language === 'en' ? '/en/systems' : '/sistemas',
       'css_inline' => $this->loadInlineCss($module_path) . file_get_contents(DRUPAL_ROOT . '/' . $module_path . '/css/redesign.css'),
@@ -303,6 +310,82 @@ final class HomeController extends ControllerBase {
     return new Response($html,200,['Content-Type'=>'text/html; charset=UTF-8','Cache-Control'=>'no-store, private','X-Content-Type-Options'=>'nosniff']);
   }
 
+  /** Render SDK chapters with the same public shell as the usage guide. */
+  public function sdkBookPage(\Drupal\node\NodeInterface $node): Response {
+    $repository = \Drupal::service('entity.repository');
+    $node = $repository->getTranslationFromContext($node);
+    $langcode = $node->language()->getId();
+    $language = $langcode === 'en' ? 'en' : 'es';
+    $storage = $this->entityTypeManager()->getStorage('node');
+    $root = $storage->load($node->getBook()['bid']);
+    if ($root) { $root = $repository->getTranslationFromContext($root, $langcode); }
+    if (!$root || !$root->access('view', $this->currentUser())) {
+      throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException();
+    }
+    $rows = \Drupal::database()->select('book', 'b')->fields('b', ['nid', 'pid', 'weight'])
+      ->condition('bid', $root->id())->execute()->fetchAll();
+    $nodes = $storage->loadMultiple(array_map(static fn($row) => $row->nid, $rows));
+    $children = [];
+    foreach ($rows as $row) {
+      $chapter = $nodes[$row->nid] ?? NULL;
+      if (!$chapter) { continue; }
+      $chapter = $repository->getTranslationFromContext($chapter, $langcode);
+      // Do not expose unpublished chapters or descendants of inaccessible parents.
+      if (!$chapter->access('view', $this->currentUser())) { continue; }
+      $children[(int) $row->pid][] = ['node' => $chapter, 'weight' => (int) $row->weight];
+    }
+    foreach ($children as &$siblings) {
+      usort($siblings, static fn($a, $b) => ($a['weight'] <=> $b['weight'])
+        ?: strnatcasecmp($a['node']->label(), $b['node']->label())
+        ?: ((int) $a['node']->id() <=> (int) $b['node']->id()));
+    }
+    unset($siblings);
+    $chapters = [];
+    $walk = function (int $parent, int $depth) use (&$walk, &$chapters, $children, $node): void {
+      foreach ($children[$parent] ?? [] as $entry) {
+        $chapter = $entry['node'];
+        $chapters[] = ['title' => $chapter->label(), 'url' => $chapter->toUrl()->toString(),
+          'depth' => $depth, 'current' => $chapter->id() === $node->id()];
+        $walk((int) $chapter->id(), $depth + 1);
+      }
+    };
+    $walk(0, 0);
+    $current = array_search(TRUE, array_column($chapters, 'current'), TRUE);
+    $body = $node->get('body')->first();
+    $render = ['#type' => 'processed_text', '#text' => $body?->value ?? '',
+      '#format' => $body?->format ?? 'basic_html', '#langcode' => $langcode];
+    $content = \Drupal::service('renderer')->renderInIsolation($render);
+    $module_path = $this->moduleExtensionList->getPath('nelkano_home');
+    $canonical = $node->toUrl('canonical', ['absolute' => TRUE])->toString();
+    $other = $language === 'es' ? 'en' : 'es';
+    $alternate = $node->hasTranslation($other) && $node->getTranslation($other)->access('view', $this->currentUser())
+      ? $node->getTranslation($other)->toUrl()->toString() : '';
+    $description = trim(strip_tags($body?->summary ?: ($body?->value ?? '')));
+    $description = mb_substr(preg_replace('/\s+/u', ' ', $description), 0, 180);
+    $html = \Drupal::service('twig')->createTemplate(file_get_contents(DRUPAL_ROOT . '/' . $module_path . '/templates/nelkano-systems-redesign.html.twig'))->render([
+      'page' => ['title' => $node->label(), 'seo_title' => $node->label() . ' — Nelkano',
+        'seo_description' => $description, 'canonical' => $canonical,
+        'alternate' => $alternate ? \Drupal::request()->getSchemeAndHttpHost() . $alternate : '',
+        'alternate_lang' => $other, 'default_url' => $canonical],
+      'seo_metadata' => NULL,
+      'book' => ['title' => $root->label(), 'root_url' => $root->toUrl()->toString(),
+        'is_root' => $root->id() === $node->id(), 'chapters' => $chapters, 'body' => $content,
+        'previous' => $current !== FALSE ? ($chapters[$current - 1] ?? NULL) : NULL,
+        'next' => $current !== FALSE ? ($chapters[$current + 1] ?? NULL) : NULL,
+        'index_label' => $language === 'en' ? 'Chapters' : 'Capítulos',
+        'previous_label' => $language === 'en' ? 'Previous' : 'Anterior',
+        'next_label' => $language === 'en' ? 'Next' : 'Siguiente'],
+      'labels' => SystemPages::content($language)['labels'],
+      'footer_primary' => $this->homeConfigFactory->get('nelkano_home.settings')->get($language . '.footer_primary'),
+      'social_image_url' => $this->socialImageUrl($module_path), 'analytics' => $this->analyticsSettings(),
+      'css_inline' => $this->loadInlineCss($module_path)
+        . file_get_contents(DRUPAL_ROOT . '/' . $module_path . '/css/redesign.css')
+        . file_get_contents(DRUPAL_ROOT . '/' . $module_path . '/css/sdk-book.css'),
+    ] + $this->chromeContext($module_path, $language, $alternate, $other === 'en' ? 'English' : 'Español'));
+    return new Response($html, 200, ['Content-Type' => 'text/html; charset=UTF-8',
+      'Cache-Control' => 'no-store, private', 'X-Content-Type-Options' => 'nosniff']);
+  }
+
   public function systemsIndex(string $language = 'es'): Response {
     $language=$language==='en' ? 'en' : 'es';
     $data=SystemPages::content($language);
@@ -362,7 +445,7 @@ final class HomeController extends ControllerBase {
     $html = \Drupal::service('twig')->createTemplate($template)->render([
       'page' => $page,
       'social_image_url' => $this->socialImageUrl($module_path),
-      'css_inline' => $this->loadInlineCss($module_path),
+      'css_inline' => $this->loadInlineCss($module_path) . file_get_contents(DRUPAL_ROOT . '/' . $module_path . '/css/redesign.css'),
       'analytics' => $this->analyticsSettings(),
     ] + $this->chromeContext(
       $module_path,
@@ -501,7 +584,7 @@ final class HomeController extends ControllerBase {
             [
               'title' => 'Objeto del sitio',
               'paragraphs' => [
-                'Nelkano es una web informativa y de descarga de una aplicacion de emulacion para Android. La web no ejecuta juegos en el navegador y no incluye ROMs, BIOS, firmware, saves, claves ni contenido protegido de terceros.',
+                'Nelkano es una web informativa y de descarga de una aplicación de emulación para Android y escritorio. La web no ejecuta juegos en el navegador y no incluye ROMs, BIOS, firmware, saves, claves ni contenido protegido de terceros.',
                 'El objetivo es ofrecer informacion clara sobre el estado del proyecto, publicar builds disponibles y facilitar el acceso a documentacion o avisos relevantes.',
               ],
             ],
@@ -570,9 +653,9 @@ final class HomeController extends ControllerBase {
                 'La web puede tratar datos tecnicos de navegacion, como direccion IP, fecha y hora, identificadores de solicitud, agente de usuario y registros de seguridad, con la finalidad de servir la pagina, prevenir abusos, diagnosticar errores y mantener la disponibilidad.',
                 'Si el usuario contacta por correo u otro canal indicado, se trataran los datos incluidos en esa comunicacion para responder la consulta, gestionar incidencias o atender solicitudes relacionadas con el proyecto.',
                 'Las descargas publicas de la landing no requieren crear cuenta ni introducir datos personales. La aplicacion puede guardar en el dispositivo biblioteca local, rutas o nombres de archivos elegidos por el usuario, sistema asociado, configuracion, guardados, save states y datos tecnicos necesarios para abrir archivos compatibles.',
-                'La sincronizacion con Google Drive es opcional y se vincula desde los ajustes de la aplicacion mediante la pantalla de autorizacion de Google. Al vincularla, Nelkano usa el permiso limitado drive.file para crear o acceder a los archivos del proyecto en Drive, no para leer todo el contenido de la cuenta.',
-                'Cuando el usuario sube datos a Drive, la aplicacion crea o usa una carpeta de sincronizacion del proyecto, normalmente llamada Nelkano Sync, y guarda alli el manifiesto de biblioteca, archivos compatibles seleccionados por el usuario, guardados y save states. Esos datos se almacenan en la cuenta de Google del usuario; Nelkano no los recibe ni los almacena en servidores propios.',
-                'La vinculacion puede deshacerse cerrando sesion en la aplicacion o revocando el acceso desde la cuenta de Google. La opcion Eliminar datos en la nube borra la carpeta de sincronizacion de Nelkano en Drive y conserva los datos locales del dispositivo.',
+                'Nelkano no ofrece sincronización integrada con Google Drive. Biblioteca, juegos, guardados y datos de módulos se almacenan localmente.',
+                'Cuenta, amigos y streaming se conectan con nelkano.com. Un módulo puede conectarse a otros servidores con tu autorización; revisa sus permisos y qué datos envía.',
+                'Las notas de versiones anteriores pueden describir funciones distintas. Si almacenaste archivos en Drive con una de esas versiones, puedes gestionarlos o revocar el acceso desde tu cuenta de Google.',
               ],
             ],
             [
@@ -593,7 +676,7 @@ final class HomeController extends ControllerBase {
               'title' => 'Derechos de las personas',
               'paragraphs' => [
                 'Las personas pueden solicitar acceso, rectificacion, supresion, oposicion, limitacion, portabilidad cuando proceda y retirada del consentimiento cuando el tratamiento dependa de el escribiendo a contacto@nelkano.com.',
-                'Tambien pueden presentar una reclamacion ante la Agencia Espanola de Proteccion de Datos si consideran que el tratamiento no se ajusta a la normativa. Para borrar datos locales, el usuario puede eliminar la biblioteca/guardados desde la aplicacion cuando exista esa opcion, borrar los datos de la app o desinstalarla; para Google Drive, puede usar Eliminar datos en la nube, borrar la carpeta de sincronizacion o revocar el acceso desde su cuenta de Google.',
+                'Tambien pueden presentar una reclamacion ante la Agencia Espanola de Proteccion de Datos si consideran que el tratamiento no se ajusta a la normativa. Para borrar datos locales, el usuario puede eliminar la biblioteca/guardados desde la aplicacion cuando exista esa opcion, borrar los datos de la app o desinstalarla.',
               ],
             ],
             [
@@ -635,7 +718,7 @@ final class HomeController extends ControllerBase {
             [
               'title' => 'Purpose of the website',
               'paragraphs' => [
-                'Nelkano is an informational and download website for an emulation app for Android. The website does not run games in the browser and does not include ROMs, BIOS files, firmware, saves, keys or protected third-party content.',
+                'Nelkano is an informational and download website for an emulation app for Android and desktop. The website does not run games in the browser and does not include ROMs, BIOS files, firmware, saves, keys or protected third-party content.',
                 'Its purpose is to provide clear project status information, publish available builds and make relevant documentation or notices accessible.',
               ],
             ],
@@ -698,9 +781,9 @@ final class HomeController extends ControllerBase {
                 'The website may process technical browsing data such as IP address, date and time, request identifiers, user agent and security logs to serve the page, prevent abuse, diagnose errors and maintain availability.',
                 'If users contact the project by email or another stated channel, the data included in that communication will be processed to answer the request, manage issues or handle project-related queries.',
                 'Public downloads on this landing page do not require an account or personal data. The app may store on the device the local library, paths or names of files chosen by the user, associated system, settings, saves, save states and technical data needed to open compatible files.',
-                'Google Drive synchronization is optional and is linked from the app settings through the Google authorization screen. When linked, Nelkano uses the limited drive.file permission to create or access project files in Drive, not to read the full contents of the account.',
-                'When users upload data to Drive, the app creates or uses a project sync folder, usually named Nelkano Sync, and stores the library manifest, compatible files selected by the user, saves and save states there. Those files are stored in the user Google account; Nelkano does not receive or store them on its own servers.',
-                'Linking can be undone by signing out in the app or revoking access from the Google account. The Delete cloud data option removes the Nelkano sync folder from Drive and keeps local device data intact.',
+                'Nelkano does not offer integrated Google Drive synchronization. The library, games, saves and module data are stored locally.',
+                'Account, friends and streaming features connect to nelkano.com. A module can connect to other servers with your authorization; review its permissions and the data it sends.',
+                'Older release notes may describe different features. If you stored files in Drive using one of those versions, manage them or revoke access through your Google account.',
               ],
             ],
             [
@@ -721,7 +804,7 @@ final class HomeController extends ControllerBase {
               'title' => 'Data subject rights',
               'paragraphs' => [
                 'Individuals may request access, rectification, erasure, objection, restriction, portability where applicable and withdrawal of consent when processing depends on it by writing to contacto@nelkano.com.',
-                'They may also lodge a complaint with the Spanish Data Protection Agency if they consider that processing does not comply with the law. To delete local data, users can remove the library/saves from the app when available, clear app data or uninstall it; for Google Drive, they can use Delete cloud data, delete the sync folder or revoke access from their Google account.',
+                'They may also lodge a complaint with the Spanish Data Protection Agency if they consider that processing does not comply with the law. To delete local data, users can remove the library/saves from the app when available, clear app data or uninstall it.',
               ],
             ],
             [
@@ -849,7 +932,13 @@ final class HomeController extends ControllerBase {
     ];
 
     if ($pageKey === 'releases') {
-      $page['releases'] = $this->releaseRows($content, $this->moduleExtensionList->getPath('nelkano_home'));
+      $selected = (string) \Drupal::request()->query->get('plataforma', 'android');
+      $platforms = ['android' => 'Android', 'windows' => 'Windows', 'steamos' => 'SteamOS', 'sdk' => 'SDK'];
+      $published = $this->releaseRows($content, $this->moduleExtensionList->getPath('nelkano_home'), FALSE);
+      $available = array_column(array_filter($published, static fn(array $release): bool => $release['version'] !== ''), 'platform');
+      $page['platform_tabs'] = array_intersect_key($platforms, array_flip($available));
+      $page['selected_platform'] = isset($page['platform_tabs'][$selected]) ? $selected : (array_key_first($page['platform_tabs']) ?? 'android');
+      $page['releases'] = $page['platform_tabs'] ? $this->releaseRows($content, $this->moduleExtensionList->getPath('nelkano_home'), TRUE, $page['selected_platform']) : [];
       $page['release'] = $page['releases'][0] ?? [];
     }
     else {
@@ -884,10 +973,10 @@ final class HomeController extends ControllerBase {
     return array_values(array_filter(array_map('trim', preg_split('/\R/', trim((string) $value)) ?: [])));
   }
 
-  private function releaseRows(array $content, string $modulePath, bool $includeMetadata = TRUE): array {
+  private function releaseRows(array $content, string $modulePath, bool $includeMetadata = TRUE, ?string $platformFilter = NULL): array {
     $release_items = $content['releases_items'] ?? '';
     $rows = is_array($release_items)
-      ? $this->parseRows($release_items, ['visible', 'version', 'apk_file', 'filename', 'date', 'changes'])
+      ? $this->parseRows($release_items, ['visible', 'platform', 'version_code', 'version', 'apk_file', 'filename', 'date', 'changes'])
       : $this->parseRows($release_items, ['version', 'filename', 'date', 'requirements', 'changes', 'notice']);
     if ($rows === []) {
       $rows = [[
@@ -901,11 +990,13 @@ final class HomeController extends ControllerBase {
 
     $releases = [];
     foreach ($rows as $row) {
-      if ($this->releaseIsHidden($row)) {
+      if ($this->releaseIsHidden($row) || ($platformFilter !== NULL && \Drupal\nelkano_home\Service\ReleaseArtifact::platform($row) !== $platformFilter)) {
         continue;
       }
       $file = $this->releaseFile($row, $modulePath);
       $releases[] = [
+        'platform' => \Drupal\nelkano_home\Service\ReleaseArtifact::platform($row),
+        'platform_label' => \Drupal\nelkano_home\Service\ReleaseArtifact::PLATFORMS[\Drupal\nelkano_home\Service\ReleaseArtifact::platform($row)][0] ?? '',
         'version' => trim((string) ($row['version'] ?? '')),
         'filename' => $file['filename'],
         'date' => trim((string) ($row['date'] ?? '')),
@@ -916,15 +1007,18 @@ final class HomeController extends ControllerBase {
     }
 
     usort($releases, fn(array $left, array $right): int => $this->compareReleaseRows($right, $left));
+    $seen = [];
+    foreach ($releases as &$release) { $release['is_current'] = !isset($seen[$release['platform']]); $seen[$release['platform']] = TRUE; }
+    unset($release);
     return $releases;
   }
 
-  private function latestReleaseDownload(string $language, string $modulePath): array {
+  private function latestReleaseDownload(string $language, string $modulePath, string $platform = 'android'): array {
     $content = $this->homeConfigFactory->get('nelkano_home.docs')->get($language) ?? [];
     $releases = $this->releaseRows(is_array($content) ? $content : [], $modulePath, FALSE);
     $release = [];
     foreach ($releases as $candidate) {
-      if (!empty($candidate['url'])) {
+      if (($candidate['platform'] ?? 'android') === $platform && !empty($candidate['url'])) {
         $release = $candidate;
         break;
       }
@@ -936,14 +1030,14 @@ final class HomeController extends ControllerBase {
   }
 
   /** Serve the selected published artifact with a stable public filename. */
-  public function downloadRelease(string $language, string $version): \Symfony\Component\HttpFoundation\BinaryFileResponse {
+  public function downloadRelease(string $language, string $version, string $platform = 'android'): \Symfony\Component\HttpFoundation\BinaryFileResponse {
     $rows = $this->homeConfigFactory->get('nelkano_home.docs')->get($language . '.releases_items') ?? [];
     foreach ($rows as $row) {
-      if (($row['version'] ?? '') !== $version || $this->releaseIsHidden($row)) continue;
+      if (($row['version'] ?? '') !== $version || \Drupal\nelkano_home\Service\ReleaseArtifact::platform($row) !== $platform || $this->releaseIsHidden($row)) continue;
       $file = $this->releaseFile($row, '');
       if ($file['path'] === '' || !is_file($file['path'])) break;
       $response = new \Symfony\Component\HttpFoundation\BinaryFileResponse($file['path']);
-      $response->headers->set('Content-Type', 'application/vnd.android.package-archive');
+      $response->headers->set('Content-Type', $platform === 'android' ? 'application/vnd.android.package-archive' : 'application/octet-stream');
       $response->setContentDisposition('attachment', $file['filename']);
       $response->headers->set('Cache-Control', 'no-store, private');
       $response->headers->set('X-Content-Type-Options', 'nosniff');
@@ -953,23 +1047,7 @@ final class HomeController extends ControllerBase {
   }
 
   private function releaseFile(array $row, string $modulePath): array {
-    $uri = trim((string) ($row['apk_file'] ?? ''));
-    if ($uri !== '') {
-      $path = \Drupal::service('file_system')->realpath($uri);
-      $filename = 'Nelkano ' . preg_replace('/[^A-Za-z0-9.+_-]/', '', (string) ($row['version'] ?? '')) . '.apk';
-      return [
-        'filename' => $filename,
-        'path' => is_string($path) ? $path : '',
-        'url' => is_string($path) && is_file($path) ? \Drupal\Core\Url::fromRoute('nelkano_home.release_download', ['language' => str_starts_with(\Drupal::request()->getPathInfo(), '/en') ? 'en' : 'es', 'version' => (string) ($row['version'] ?? '')])->toString() : '',
-      ];
-    }
-
-    $filename = trim((string) ($row['filename'] ?? ''));
-    return [
-      'filename' => $filename,
-      'path' => '',
-      'url' => '',
-    ];
+    return \Drupal\nelkano_home\Service\ReleaseArtifact::file($row);
   }
 
   private function compareReleaseRows(array $left, array $right): int {
@@ -1061,7 +1139,8 @@ final class HomeController extends ControllerBase {
   private function publicVersion(): string {
     $content = $this->homeConfigFactory->get('nelkano_home.docs')->get('es') ?? [];
     $releases = $this->releaseRows(is_array($content) ? $content : [], $this->moduleExtensionList->getPath('nelkano_home'), FALSE);
-    $version = trim((string) ($releases[0]['version'] ?? $content['releases_version'] ?? ''));
+    $android = array_values(array_filter($releases, static fn($row) => $row['platform'] === 'android'));
+    $version = trim((string) ($android[0]['version'] ?? $content['releases_version'] ?? ''));
     return $version !== '' ? $version : '1.0.0-beta';
   }
 

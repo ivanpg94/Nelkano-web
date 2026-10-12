@@ -4,7 +4,7 @@
 
 En el menú lateral **Páginas editables**, abre **Sistemas**
 (`/admin/nelkano/sistemas`), junto a Home. El selector ES/EN mantiene los textos de cada idioma independientes.
-El único checkbox **Visible** publica u oculta el sistema en ambos idiomas. Hay 16 fichas iniciales, incluidas las familias que ya
+El único checkbox **Visible** publica u oculta el sistema en ambos idiomas. Hay 15 fichas iniciales, incluidas las familias que ya
 figuraban en la home. Cada ficha tiene una ruta fija y un enlace de vista previa.
 
 - **Nombre en la home, estado y descripción de la tarjeta** alimentan Estado actual.
@@ -24,6 +24,22 @@ despublicadas. **Añadir sistema** crea una ficha vacía para ambos idiomas, ocu
 hasta publicarla. Ocultar conserva los textos, imágenes y catálogos CSV.
 
 ## Implementación y activación
+
+El 2026-10-12 se añadieron **PlayStation Portable** (`playstation-portable`) y
+**Nintendo GameCube** (`nintendo-gamecube`), con textos completos ES/EN, pasos,
+FAQ, requisitos de formato y limitaciones contrastadas con los adaptadores.
+Ambas tienen `enabled: false` y `show_on_home: false` en los dos idiomas. Las 16
+fichas existentes, incluidas las ocultas, conservan sus valores.
+La actualización **11040** añade únicamente las traducciones que falten y no
+sobrescribe fichas existentes ni su visibilidad. Utilizan las rutas y el editor
+habituales; la ilustración genérica se puede sustituir desde la pestaña Imagen.
+Actualizaciones 11040 y 11041 aplicadas y exportadas en Drupal local el
+2026-10-12. Por indicación posterior de Ivan, 3DS, Switch, SNES, PSP y GameCube
+quedan ocultos; se retiran las fichas separadas GBC, MV/MZ y 2000/2003. Las
+demás fichas conservan sus valores exactos. 11041 conserva los textos de las
+fichas ocultadas; las fichas retiradas no se recrean al migrar tarjetas antiguas.
+Quedan 15 fichas ES/EN, cinco ocultas. Las fichas ocultas/retiradas devuelven 404;
+115 checks de páginas correctos. Sin despliegue en producción.
 
 `nelkano_home.systems` es la única fuente de las tarjetas y fichas. Se edita
 mediante su propio formulario Sistemas, con los mismos permisos y protección CSRF

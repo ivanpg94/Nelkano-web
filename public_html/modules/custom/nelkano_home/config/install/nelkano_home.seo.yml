@@ -1,5 +1,65 @@
 langcode: es
 es:
-  pages: {}
+  pages:
+    home:
+      description: Emulador gratuito con biblioteca local, controles personalizables y módulos. Consulta las funciones, los sistemas y las descargas disponibles para cada plataforma.
+      og_description: Emulador gratuito con biblioteca local, controles personalizables y módulos. Consulta las funciones, los sistemas y las descargas disponibles para cada plataforma.
+      twitter_description: Emulador gratuito con biblioteca local, controles personalizables y módulos. Consulta las funciones, los sistemas y las descargas disponibles para cada plataforma.
+      title: Nelkano — Emulador multisistema gratuito
+      og_title: Nelkano — Emulador multisistema gratuito
+      twitter_title: Nelkano — Emulador multisistema gratuito
+    security:
+      description: Cómo se almacenan los datos locales y qué permisos utilizan la cuenta y los módulos de Nelkano.
+      og_description: Cómo se almacenan los datos locales y qué permisos utilizan la cuenta y los módulos de Nelkano.
+      twitter_description: Cómo se almacenan los datos locales y qué permisos utilizan la cuenta y los módulos de Nelkano.
+    releases:
+      description: Descargas publicadas de Nelkano, con notas, requisitos y verificación por versión.
+      og_description: Descargas publicadas de Nelkano, con notas, requisitos y verificación por versión.
+      twitter_description: Descargas publicadas de Nelkano, con notas, requisitos y verificación por versión.
+    guide:
+      description: 'Guía de Nelkano: biblioteca, guardados, controles y módulos. Algunas funciones y sistemas dependen de la plataforma y de la versión.'
+      og_description: 'Guía de Nelkano: biblioteca, guardados, controles y módulos. Algunas funciones y sistemas dependen de la plataforma y de la versión.'
+      twitter_description: 'Guía de Nelkano: biblioteca, guardados, controles y módulos. Algunas funciones y sistemas dependen de la plataforma y de la versión.'
+    systems:
+      description: Consulta las fichas de sistemas, sus formatos y limitaciones. Las pruebas y las funciones dependen del juego, del dispositivo y de la versión.
+      og_description: Consulta las fichas de sistemas, sus formatos y limitaciones. Las pruebas y las funciones dependen del juego, del dispositivo y de la versión.
+      twitter_description: Consulta las fichas de sistemas, sus formatos y limitaciones. Las pruebas y las funciones dependen del juego, del dispositivo y de la versión.
+      title: Sistemas compatibles con Nelkano
+      og_title: Sistemas compatibles con Nelkano
+      twitter_title: Sistemas compatibles con Nelkano
+    contact:
+      description: Contacta con Nelkano para resolver dudas o enviar sugerencias sobre la aplicación y sus módulos.
+      og_description: Contacta con Nelkano para resolver dudas o enviar sugerencias sobre la aplicación y sus módulos.
+      twitter_description: Contacta con Nelkano para resolver dudas o enviar sugerencias sobre la aplicación y sus módulos.
 en:
-  pages: {}
+  pages:
+    home:
+      description: Free emulator with a local library, customizable controls and modules. Check the features, systems and downloads available for each platform.
+      og_description: Free emulator with a local library, customizable controls and modules. Check the features, systems and downloads available for each platform.
+      twitter_description: Free emulator with a local library, customizable controls and modules. Check the features, systems and downloads available for each platform.
+      title: Nelkano — Free multisystem emulator
+      og_title: Nelkano — Free multisystem emulator
+      twitter_title: Nelkano — Free multisystem emulator
+    security:
+      description: How local data is stored and which permissions Nelkano accounts and modules use.
+      og_description: How local data is stored and which permissions Nelkano accounts and modules use.
+      twitter_description: How local data is stored and which permissions Nelkano accounts and modules use.
+    releases:
+      description: Published Nelkano downloads, with release notes, requirements and verification for each version.
+      og_description: Published Nelkano downloads, with release notes, requirements and verification for each version.
+      twitter_description: Published Nelkano downloads, with release notes, requirements and verification for each version.
+    guide:
+      description: 'Nelkano guide: library, saves, controls and modules. Some features and systems depend on the platform and version.'
+      og_description: 'Nelkano guide: library, saves, controls and modules. Some features and systems depend on the platform and version.'
+      twitter_description: 'Nelkano guide: library, saves, controls and modules. Some features and systems depend on the platform and version.'
+    systems:
+      description: Check system guides, formats and limitations. Tests and features depend on the game, device and version.
+      og_description: Check system guides, formats and limitations. Tests and features depend on the game, device and version.
+      twitter_description: Check system guides, formats and limitations. Tests and features depend on the game, device and version.
+      title: Systems supported by Nelkano
+      og_title: Systems supported by Nelkano
+      twitter_title: Systems supported by Nelkano
+    contact:
+      description: Contact Nelkano with questions or suggestions about the app and its modules.
+      og_description: Contact Nelkano with questions or suggestions about the app and its modules.
+      twitter_description: Contact Nelkano with questions or suggestions about the app and its modules.

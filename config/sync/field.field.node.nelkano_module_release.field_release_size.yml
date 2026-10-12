@@ -1,0 +1,23 @@
+uuid: 26d07e9a-c8d6-33d2-ab2f-ab1bd88fa4c8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_release_size
+    - node.type.nelkano_module_release
+id: node.nelkano_module_release.field_release_size
+field_name: field_release_size
+entity_type: node
+bundle: nelkano_module_release
+label: Tamaño
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

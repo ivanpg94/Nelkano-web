@@ -1,25 +1,25 @@
 {
   "es": {
-    "hero_badge": "Próximamente en Play Store",
-    "hero_title": "Nelkano para Android",
-    "hero_description": "Emulador multisistema gratuito para Android con biblioteca local, controles táctiles, soporte de mandos y sincronización con Google Drive.",
+    "hero_badge": "Emulador gratuito en desarrollo",
+    "hero_title": "Nelkano",
+    "hero_description": "Tus juegos, tu biblioteca y tus controles. Un emulador multisistema gratuito para Android, Windows y Linux, ampliable con módulos.",
     "primary_cta": "Ver sistemas compatibles",
     "primary_url": "/sistemas",
-    "secondary_cta": "Descargar",
+    "secondary_cta": "Descargar APK",
     "about_eyebrow": "Qué es Nelkano",
     "about_title": "Un emulador multisistema con una base cada vez más sólida",
-    "about_description": "Nelkano es una app nativa para Android. Sin servidores, sin cuentas obligatorias, sin publicidad. Cada sistema cuenta con información honesta sobre su estado real.",
+    "about_description": "Nelkano reúne emulación, biblioteca local y módulos para ampliar sus funciones. Puedes jugar sin una cuenta; Amigos y Streaming requieren iniciar sesión y conexión. No incluye publicidad.",
     "feature_items": [
       {
-        "title": "Sincronización con Google Drive",
-        "description": "Guarda tus partidas en la nube y accede a ellas desde cualquier dispositivo.",
+        "title": "Módulos y SDK",
+        "description": "Añade funciones con módulos JavaScript o TypeScript y los recursos del SDK.",
         "visible": "1",
-        "icon": "IcoCloud",
+        "icon": "IcoPencilTouch",
         "image_uri": ""
       },
       {
         "title": "Mando Bluetooth",
-        "description": "Conecta cualquier mando Bluetooth compatible y juega como en el original.",
+        "description": "Usa un mando reconocido por tu dispositivo y configura sus botones por sistema. La compatibilidad depende del mando y de la plataforma.",
         "visible": "1",
         "icon": "IcoGamepad",
         "image_uri": ""
@@ -39,8 +39,8 @@
         "image_uri": ""
       },
       {
-        "title": "Importación en ZIP y RAR",
-        "description": "Importa juegos en sus formatos originales o comprimidos en ZIP y RAR, incluyendo packs completos.",
+        "title": "Importar juegos",
+        "description": "En Android, importa archivos compatibles, ZIP, RAR y 7z. Las opciones de escritorio pueden diferir.",
         "visible": "1",
         "icon": "IcoZip",
         "image_uri": ""
@@ -84,18 +84,18 @@
   "en": {
     "primary_cta": "View compatible systems",
     "primary_url": "/en/systems",
-    "secondary_cta": "Download",
+    "secondary_cta": "Download APK",
     "feature_items": [
       {
-        "title": "Google Drive sync",
-        "description": "Keep your saves in the cloud and access them from another device.",
+        "title": "Modules and SDK",
+        "description": "Add features through JavaScript or TypeScript modules and SDK capabilities.",
         "visible": "1",
-        "icon": "IcoCloud",
+        "icon": "IcoPencilTouch",
         "image_uri": ""
       },
       {
         "title": "Bluetooth controllers",
-        "description": "Connect a compatible Bluetooth controller and play with physical buttons.",
+        "description": "Use a controller recognized by your device and configure its buttons per system. Support depends on the controller and platform.",
         "visible": "1",
         "icon": "IcoGamepad",
         "image_uri": ""
@@ -115,8 +115,8 @@
         "image_uri": ""
       },
       {
-        "title": "ZIP and RAR import",
-        "description": "Import individual game files or ZIP and RAR archives, including complete packs.",
+        "title": "Import games",
+        "description": "On Android, import supported files, ZIP, RAR and 7z archives. Desktop import options may differ.",
         "visible": "1",
         "icon": "IcoZip",
         "image_uri": ""

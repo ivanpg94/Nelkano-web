@@ -1,0 +1,23 @@
+uuid: 6f3b8c33-067b-3c7c-ad6d-6c67b9405ecd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_release_queued
+    - node.type.nelkano_module_release
+id: node.nelkano_module_release.field_release_queued
+field_name: field_release_queued
+entity_type: node
+bundle: nelkano_module_release
+label: 'En cola'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

@@ -1,0 +1,23 @@
+uuid: 685590f2-65f4-30f9-a365-0dfbcc6df200
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_release_checked
+    - node.type.nelkano_module_release
+id: node.nelkano_module_release.field_release_checked
+field_name: field_release_checked
+entity_type: node
+bundle: nelkano_module_release
+label: Comprobado
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

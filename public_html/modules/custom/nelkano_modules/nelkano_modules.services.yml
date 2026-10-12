@@ -1,0 +1,22 @@
+services:
+  nelkano_modules.packages:
+    class: Drupal\nelkano_modules\Service\PackageVerifier
+  nelkano_modules.downloader:
+    class: Drupal\nelkano_modules\Service\SecureDownloadClient
+  nelkano_modules.registry:
+    class: Drupal\nelkano_modules\Service\ModuleRegistry
+    arguments: ['@nelkano_modules.downloader', '@nelkano_modules.packages']
+  nelkano_modules.page_context:
+    class: Drupal\nelkano_modules\Controller\ModulePageContext
+  nelkano_modules.node_page:
+    class: Drupal\nelkano_modules\EventSubscriber\ModuleNodePageSubscriber
+    arguments: ['@class_resolver']
+    tags:
+      - { name: event_subscriber }
+  nelkano_modules.api_catalog:
+    class: Drupal\nelkano_modules\Service\ModuleApiCatalog
+    arguments: ['@nelkano_modules.registry']
+  nelkano_modules.api_exception:
+    class: Drupal\nelkano_modules\EventSubscriber\ModuleApiExceptionSubscriber
+    tags:
+      - { name: event_subscriber }

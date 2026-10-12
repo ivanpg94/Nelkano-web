@@ -1,0 +1,7 @@
+create nelkano modules:
+  title: 'Crear y mantener módulos propios'
+  description: 'Registrar módulos y versiones externas firmadas; editar solo los propios.'
+administer nelkano modules:
+  title: 'Administrar módulos de Nelkano'
+  description: 'Editar y retirar módulos de cualquier propietario.'
+  restrict access: true

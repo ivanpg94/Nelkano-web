@@ -6,3 +6,8 @@ services:
     class: Drupal\nelkano_home\Routing\RouteSubscriber
     tags:
       - { name: event_subscriber }
+  nelkano_home.sdk_book_controller:
+    class: Drupal\nelkano_home\EventSubscriber\SdkBookControllerSubscriber
+    arguments: ['@class_resolver']
+    tags:
+      - { name: event_subscriber }

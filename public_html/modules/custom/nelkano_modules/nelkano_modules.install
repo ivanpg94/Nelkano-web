@@ -1,0 +1,16 @@
+<?php
+
+/** Install only new types/fields/index configuration, preserving site content. */
+function nelkano_modules_install(): void {
+  require_once __DIR__ . '/nelkano_modules.setup.inc';
+  nelkano_modules_setup();
+}
+/** Required by the SDK signature and bounded HTTPS transport. */
+function nelkano_modules_requirements(string $phase): array {
+  $available = function_exists('curl_init') && function_exists('sodium_crypto_sign_verify_detached') && function_exists('gzinflate');
+  return ['nelkano_modules_transport' => [
+    'title' => 'Nelkano: paquetes de módulos',
+    'value' => $available ? 'cURL, Ed25519 y ZIP disponibles' : 'Faltan cURL, sodium o zlib',
+    'severity' => $available ? REQUIREMENT_OK : REQUIREMENT_ERROR,
+  ]];
+}

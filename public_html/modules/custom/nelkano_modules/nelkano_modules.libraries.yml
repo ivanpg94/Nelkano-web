@@ -1,0 +1,14 @@
+catalog:
+  css:
+    theme:
+      ../nelkano_home/css/base.css: {}
+      ../nelkano_home/css/header.css: {}
+      ../nelkano_home/css/footer.css: {}
+      css/catalog.css: {}
+  js:
+    js/catalog.js: {}
+  dependencies:
+    - nelkano_home/base
+    - core/drupal
+    - core/once
+    - core/drupal.ajax

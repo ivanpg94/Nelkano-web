@@ -1,0 +1,86 @@
+uuid: a07f46af-85b3-321b-a6f4-ae73d20a2e2b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.nelkano_module.field_module_author
+    - field.field.node.nelkano_module.field_module_available
+    - field.field.node.nelkano_module.field_module_description
+    - field.field.node.nelkano_module.field_module_id
+    - field.field.node.nelkano_module.field_module_image
+    - field.field.node.nelkano_module.field_module_platforms
+    - field.field.node.nelkano_module.field_module_source
+    - field.field.node.nelkano_module.field_module_systems
+    - node.type.nelkano_module
+  module:
+    - path
+id: node.nelkano_module.default
+targetEntityType: node
+bundle: nelkano_module
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  simple_sitemap:
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 120
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 126
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 5
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  url_redirects:
+    weight: 50
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_module_author: true
+  field_module_available: true
+  field_module_description: true
+  field_module_id: true
+  field_module_image: true
+  field_module_platforms: true
+  field_module_source: true
+  field_module_systems: true
+  promote: true
+  sticky: true

@@ -11,17 +11,27 @@
     <link rel="stylesheet" href="{{ header_css_url }}">
     <link rel="stylesheet" href="{{ footer_css_url }}">
     <link rel="stylesheet" href="{{ stream_css_url }}">
+    <link rel="stylesheet" href="{{ redesign_css_url }}">
+    <link rel="stylesheet" href="{{ site_pages_css_url }}">
     {# Future color-mode toggle script. <script defer src="{{ theme_js_url }}"></script> #}
     {% include '@nelkano_home/nelkano-analytics.html.twig' %}
     <script defer src="{{ stream_js_url }}"></script>
   </head>
   <body>
     {% include '@nelkano_home/nelkano-header.html.twig' %}
-    <main class="nk-stream" data-stream-ws-url="{{ stream_ws_url }}" data-stream-active-url="{{ stream_active_url }}" data-stream-frame-url="/api/nelkano/stream/frame" data-stream-audio-url="/api/nelkano/stream/audio" data-stream-ice-config-url="{{ stream_ice_config_url }}" data-stream-ice-servers="{{ stream_ice_servers }}" data-stream-ice-policy="{{ stream_ice_policy }}">
-      <section class="nk-stream-layout">
+    <main class="nkr nk-stream" data-stream-ws-url="{{ stream_ws_url }}" data-stream-active-url="{{ stream_active_url }}" data-stream-frame-url="/api/nelkano/stream/frame" data-stream-audio-url="/api/nelkano/stream/audio" data-stream-ice-config-url="{{ stream_ice_config_url }}" data-stream-ice-servers="{{ stream_ice_servers }}" data-stream-ice-policy="{{ stream_ice_policy }}">
+      <section class="r-gradient r-index-hero">
+        <div class="r-wrap">
+          <nav class="r-crumb" aria-label="Streaming"><a href="{{ nav_home_url }}">{{ language == 'en' ? 'Home' : 'Inicio' }}</a><span>/</span><span>Streaming</span></nav>
+          <p class="r-label">{{ language == 'en' ? 'Your game on another screen' : 'Tu partida en otra pantalla' }}</p>
+          <h1>Streaming</h1>
+          <p class="r-copy">{{ language == 'en' ? 'Watch your active Nelkano broadcast from the browser.' : 'Ve tu emisión activa de Nelkano desde el navegador.' }}</p>
+        </div>
+      </section>
+      <section class="r-wrap nk-stream-layout">
         <div class="nk-viewer">
           <video id="stream-video" autoplay muted playsinline></video>
-          <img id="stream-fallback-frame" alt="Emision de Android por HTTP" hidden>
+          <img id="stream-fallback-frame" alt="Emisión de la partida por HTTP" hidden>
           <div class="nk-video-empty" data-video-empty>
             <span>Esperando video</span>
           </div>
@@ -49,8 +59,8 @@
 
         <aside class="nk-panel" aria-labelledby="stream-title">
           <p class="nk-eyebrow">Receptor HTTP</p>
-          <h1 id="stream-title">Ver una emision de Android</h1>
-          <p class="nk-copy" data-stream-copy>Abre Nelkano en Android con tu cuenta, entra en el juego y pulsa Streaming. Esta pagina conectara automaticamente cuando detecte tu emision activa.</p>
+          <h2 id="stream-title">{{ language == 'en' ? 'Watch a Nelkano broadcast' : 'Ver una emisión de Nelkano' }}</h2>
+          <p class="nk-copy" data-stream-copy>Inicia sesión en Nelkano con una cuenta que tenga permiso de emisión, abre una partida compatible y pulsa Streaming. El visor conectará cuando detecte tu emisión activa.</p>
 
           <button class="nk-button nk-stream-disconnect" type="button" data-stream-disconnect>Desconectar</button>
 
@@ -70,8 +80,8 @@
         </aside>
       </section>
     </main>
-    {% include '@nelkano_home/nelkano-footer.html.twig' %}
-    {% include '@nelkano_home/nelkano-consent-banner.html.twig' %}
+    <div class="nk-page r-footer-shell">{% include '@nelkano_home/nelkano-footer.html.twig' %}
+    {% include '@nelkano_home/nelkano-consent-banner.html.twig' %}</div>
     <script defer src="{{ base_js_url }}"></script>
   </body>
 </html>

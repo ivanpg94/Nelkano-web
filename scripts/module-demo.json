@@ -1,0 +1,452 @@
+[
+  {
+    "slug": "colecciones",
+    "name": "Colecciones",
+    "description": "Organiza tus juegos por sagas, géneros o favoritos. Crea listas personales y encuentra rápidamente qué jugar.",
+    "platforms": [
+      "android",
+      "jvm-desktop"
+    ],
+    "versions": [
+      "1.0.0",
+      "1.2.0",
+      "2.0.0"
+    ],
+    "icon": "IcoBook",
+    "accent": "#7731d8",
+    "background": "#f0e9ff",
+    "systems": [
+      "chip8",
+      "gb",
+      "gbc",
+      "gba",
+      "nes",
+      "snes",
+      "sms",
+      "gg",
+      "md",
+      "ngp",
+      "nds",
+      "3ds",
+      "ps1",
+      "psp",
+      "gamecube",
+      "switch",
+      "rpgmaker"
+    ]
+  },
+  {
+    "slug": "apariencia-nocturna",
+    "name": "Apariencia nocturna",
+    "description": "Personaliza el tema oscuro del emulador con colores suaves, fondos y controles pensados para jugar por la noche.",
+    "platforms": [
+      "android",
+      "jvm-desktop"
+    ],
+    "versions": [
+      "1.0.0",
+      "1.1.0"
+    ],
+    "icon": "IcoShield",
+    "accent": "#4f46e5",
+    "background": "#eef2ff",
+    "systems": [
+      "chip8",
+      "gb",
+      "gbc",
+      "gba",
+      "nes",
+      "snes",
+      "sms",
+      "gg",
+      "md",
+      "ngp",
+      "nds",
+      "3ds",
+      "ps1",
+      "psp",
+      "gamecube",
+      "switch",
+      "rpgmaker"
+    ]
+  },
+  {
+    "slug": "editor-de-mandos",
+    "name": "Editor de mandos",
+    "description": "Diseña la distribución de los controles táctiles. Guarda un perfil por sistema y adapta los botones a tu forma de jugar.",
+    "platforms": [
+      "android"
+    ],
+    "versions": [
+      "1.0.0",
+      "2.0.0"
+    ],
+    "retired": "1.0.0",
+    "icon": "IcoGamepad",
+    "accent": "#0f766e",
+    "background": "#e6fffa",
+    "systems": [
+      "gb",
+      "gbc",
+      "gba",
+      "nes",
+      "snes"
+    ]
+  },
+  {
+    "slug": "guardados-en-nube",
+    "name": "Guardados en la nube",
+    "description": "Ficha de ejemplo para sincronización de partidas y copias de seguridad. Explora cómo se presenta una herramienta para tus guardados.",
+    "platforms": [
+      "android"
+    ],
+    "versions": [
+      "1.0.0",
+      "1.3.0"
+    ],
+    "icon": "IcoCloud",
+    "accent": "#2563eb",
+    "background": "#eff6ff",
+    "systems": [
+      "gb",
+      "gbc",
+      "gba"
+    ]
+  },
+  {
+    "slug": "segunda-pantalla",
+    "name": "Segunda pantalla",
+    "description": "Ejemplo de módulo para distribuir las pantallas y controles entre dispositivos. Ideal para revisar la ficha de una extensión Android.",
+    "platforms": [
+      "android"
+    ],
+    "versions": [
+      "1.0.0"
+    ],
+    "icon": "IcoGrid",
+    "accent": "#be185d",
+    "background": "#fff1f5",
+    "systems": [
+      "nds",
+      "3ds"
+    ]
+  },
+  {
+    "slug": "capturas",
+    "name": "Capturas de juego",
+    "description": "Organiza los mejores momentos de tus sesiones. Agrupa imágenes por juego y mantén una galería de recuerdos.",
+    "platforms": [
+      "android",
+      "jvm-desktop"
+    ],
+    "versions": [
+      "1.0.0"
+    ],
+    "icon": "IcoGrid",
+    "accent": "#b45309",
+    "background": "#fff7ed",
+    "systems": [
+      "chip8",
+      "gb",
+      "gbc",
+      "gba",
+      "nes",
+      "snes",
+      "sms",
+      "gg",
+      "md",
+      "ngp",
+      "nds",
+      "3ds",
+      "ps1",
+      "psp",
+      "gamecube",
+      "switch",
+      "rpgmaker"
+    ]
+  },
+  {
+    "slug": "perfiles-de-juego",
+    "name": "Perfiles de juego",
+    "description": "Guarda preferencias por título: aspecto, controles y organización. Una ficha de prueba para módulos con configuración personalizada.",
+    "platforms": [
+      "android",
+      "jvm-desktop"
+    ],
+    "versions": [
+      "1.0.0",
+      "1.4.0"
+    ],
+    "icon": "IcoGamepad",
+    "accent": "#7731d8",
+    "background": "#f0e9ff",
+    "systems": [
+      "gba",
+      "nds",
+      "ps1"
+    ]
+  },
+  {
+    "slug": "amigos",
+    "name": "Amigos",
+    "description": "Ejemplo de ficha social para consultar perfiles y compartir actividad. Prueba la búsqueda de módulos relacionados con comunidad y amistades.",
+    "platforms": [
+      "android"
+    ],
+    "versions": [
+      "1.0.0"
+    ],
+    "icon": "IcoKanban",
+    "accent": "#0f766e",
+    "background": "#e6fffa",
+    "systems": [
+      "chip8",
+      "gb",
+      "gbc",
+      "gba",
+      "nes",
+      "snes",
+      "sms",
+      "gg",
+      "md",
+      "ngp",
+      "nds",
+      "3ds",
+      "ps1",
+      "psp",
+      "gamecube",
+      "switch",
+      "rpgmaker"
+    ]
+  },
+  {
+    "slug": "biblioteca-ordenada",
+    "name": "Biblioteca ordenada",
+    "description": "Clasifica tu colección con etiquetas y filtros. Agrupa ROMs por consola y encuentra tus favoritos sin recorrer toda la biblioteca.",
+    "platforms": [
+      "android",
+      "jvm-desktop"
+    ],
+    "versions": [
+      "1.0.0"
+    ],
+    "icon": "IcoBook",
+    "accent": "#2563eb",
+    "background": "#eff6ff",
+    "systems": [
+      "chip8",
+      "gb",
+      "gbc",
+      "gba",
+      "nes",
+      "snes",
+      "sms",
+      "gg",
+      "md",
+      "ngp",
+      "nds",
+      "3ds",
+      "ps1",
+      "psp",
+      "gamecube",
+      "switch",
+      "rpgmaker"
+    ]
+  },
+  {
+    "slug": "accesos-rapidos",
+    "name": "Accesos rápidos",
+    "description": "Reúne los juegos y herramientas que usas con más frecuencia en un panel. Un ejemplo pensado para la aplicación de escritorio.",
+    "platforms": [
+      "jvm-desktop"
+    ],
+    "versions": [
+      "1.0.0"
+    ],
+    "icon": "IcoTag",
+    "accent": "#b45309",
+    "background": "#fff7ed",
+    "systems": [
+      "chip8",
+      "gb",
+      "gbc",
+      "gba",
+      "nes",
+      "snes",
+      "sms",
+      "gg",
+      "md",
+      "ngp",
+      "nds",
+      "3ds",
+      "ps1",
+      "psp",
+      "gamecube",
+      "switch",
+      "rpgmaker"
+    ]
+  },
+  {
+    "slug": "estadisticas",
+    "name": "Estadísticas de sesiones",
+    "description": "Explora un resumen de tiempo de juego y sesiones recientes. Comprueba las búsquedas sin tildes usando estadisticas o sesiones.",
+    "platforms": [
+      "jvm-desktop"
+    ],
+    "versions": [
+      "1.0.0"
+    ],
+    "icon": "IcoKanban",
+    "accent": "#4f46e5",
+    "background": "#eef2ff",
+    "systems": [
+      "gba",
+      "nds",
+      "snes"
+    ]
+  },
+  {
+    "slug": "notas-de-juegos",
+    "name": "Notas de juegos",
+    "description": "Anota objetivos pendientes, pistas y recordatorios por juego. Este ejemplo no tiene imagen para mostrar la presentación alternativa.",
+    "platforms": [
+      "android",
+      "jvm-desktop"
+    ],
+    "versions": [
+      "1.0.0"
+    ],
+    "image": false,
+    "icon": "IcoBook",
+    "accent": "#7731d8",
+    "background": "#f0e9ff",
+    "systems": [
+      "chip8",
+      "gb",
+      "gbc",
+      "gba",
+      "nes",
+      "snes",
+      "sms",
+      "gg",
+      "md",
+      "ngp",
+      "nds",
+      "3ds",
+      "ps1",
+      "psp",
+      "gamecube",
+      "switch",
+      "rpgmaker"
+    ]
+  },
+  {
+    "slug": "modo-concentracion",
+    "name": "Modo concentración",
+    "description": "Ficha de ejemplo para una experiencia de juego con menos distracciones. Revisa el aspecto de los módulos exclusivos de Windows y Linux.",
+    "platforms": [
+      "jvm-desktop"
+    ],
+    "versions": [
+      "1.0.0"
+    ],
+    "icon": "IcoShield",
+    "accent": "#be185d",
+    "background": "#fff1f5",
+    "systems": [
+      "chip8",
+      "gb",
+      "gbc",
+      "gba",
+      "nes",
+      "snes",
+      "sms",
+      "gg",
+      "md",
+      "ngp",
+      "nds",
+      "3ds",
+      "ps1",
+      "psp",
+      "gamecube",
+      "switch",
+      "rpgmaker"
+    ]
+  },
+  {
+    "slug": "organizador-de-roms",
+    "name": "Organizador de ROMs",
+    "description": "Ejemplo de herramientas para ordenar carpetas y colecciones grandes. Busca roms, biblioteca u organizador para comprobar coincidencias.",
+    "platforms": [
+      "jvm-desktop"
+    ],
+    "versions": [
+      "1.0.0"
+    ],
+    "icon": "IcoZip",
+    "accent": "#0f766e",
+    "background": "#e6fffa",
+    "systems": [
+      "gb",
+      "gbc",
+      "gba",
+      "nds",
+      "nes",
+      "snes"
+    ]
+  },
+  {
+    "slug": "temas-retro",
+    "name": "Temas retro",
+    "description": "Colores y estilos inspirados en consolas clásicas. Un ejemplo visual para probar la imagen de portada y la descripción del módulo.",
+    "platforms": [
+      "android"
+    ],
+    "versions": [
+      "1.0.0"
+    ],
+    "icon": "IcoGamepad",
+    "accent": "#b45309",
+    "background": "#fff7ed",
+    "systems": [
+      "gb",
+      "gbc",
+      "nes",
+      "sms"
+    ]
+  },
+  {
+    "slug": "atajos-de-teclado",
+    "name": "Atajos de teclado",
+    "description": "Ficha de ejemplo para controlar la aplicación de escritorio desde el teclado. Sin imagen, para comparar la tarjeta con inicial.",
+    "platforms": [
+      "jvm-desktop"
+    ],
+    "versions": [
+      "1.0.0"
+    ],
+    "image": false,
+    "icon": "IcoGrid",
+    "accent": "#2563eb",
+    "background": "#eff6ff",
+    "systems": [
+      "chip8",
+      "gb",
+      "gbc",
+      "gba",
+      "nes",
+      "snes",
+      "sms",
+      "gg",
+      "md",
+      "ngp",
+      "nds",
+      "3ds",
+      "ps1",
+      "psp",
+      "gamecube",
+      "switch",
+      "rpgmaker"
+    ]
+  }
+]

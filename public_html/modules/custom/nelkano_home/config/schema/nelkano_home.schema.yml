@@ -272,6 +272,10 @@ nelkano_home.docs:
                 type: boolean
               version:
                 type: string
+              platform:
+                type: string
+              version_code:
+                type: string
               apk_file:
                 type: string
               filename:

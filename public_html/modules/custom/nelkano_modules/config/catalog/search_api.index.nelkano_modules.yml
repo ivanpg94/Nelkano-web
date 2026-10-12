@@ -1,0 +1,99 @@
+uuid: 6cbb3295-c97b-4aac-81f0-35180b751ff7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_module_description
+    - field.storage.node.field_module_id
+    - field.storage.node.field_module_available
+    - field.storage.node.field_module_platforms
+    - field.storage.node.field_module_systems
+    - search_api.server.nelkano_modules
+  module:
+    - node
+id: nelkano_modules
+name: 'Módulos disponibles'
+description: 'Solo fichas publicadas con alguna versión verificada disponible.'
+read_only: false
+field_settings:
+  title:
+    label: Nombre
+    datasource_id: 'entity:node'
+    property_path: title
+    type: text
+    boost: 2.0
+  description:
+    label: Descripción
+    datasource_id: 'entity:node'
+    property_path: field_module_description
+    type: text
+  module_id:
+    label: ID
+    datasource_id: 'entity:node'
+    property_path: field_module_id
+    type: text
+  available:
+    label: Disponible
+    datasource_id: 'entity:node'
+    property_path: field_module_available
+    type: boolean
+  published:
+    label: Publicado
+    datasource_id: 'entity:node'
+    property_path: status
+    type: boolean
+  platforms:
+    label: Plataformas
+    datasource_id: 'entity:node'
+    property_path: field_module_platforms
+    type: string
+  systems:
+    label: 'Sistemas compatibles'
+    datasource_id: 'entity:node'
+    property_path: field_module_systems
+    type: string
+  changed:
+    label: Actualizado
+    datasource_id: 'entity:node'
+    property_path: changed
+    type: date
+datasource_settings:
+  'entity:node':
+    bundles:
+      default: false
+      selected:
+        - nelkano_module
+    languages:
+      default: true
+      selected: []
+processor_settings:
+  ignorecase:
+    all_fields: true
+    fields: []
+    weights:
+      preprocess_index: -10
+      preprocess_query: -10
+  transliteration:
+    all_fields: true
+    fields: []
+    weights:
+      preprocess_index: -20
+      preprocess_query: -20
+  tokenizer:
+    all_fields: true
+    fields: []
+    ignored: ''
+    spaces: ''
+    overlap_cjk: true
+    minimum_word_size: 1
+    weights:
+      preprocess_index: -6
+      preprocess_query: -6
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  cron_limit: 50
+  index_directly: true
+  track_changes_in_references: true
+server: nelkano_modules

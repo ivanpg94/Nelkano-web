@@ -1,0 +1,21 @@
+uuid: c2f15fba-e777-3d0b-a573-bc0fc8a2bc63
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_release_capabilities
+field_name: field_release_capabilities
+entity_type: node
+type: string
+settings:
+  max_length: 64
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 64
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

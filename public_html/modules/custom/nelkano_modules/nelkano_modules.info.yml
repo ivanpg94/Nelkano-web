@@ -1,0 +1,12 @@
+name: Nelkano Modules
+type: module
+description: User-owned module catalog with external signed releases.
+package: Nelkano
+core_version_requirement: ^11
+dependencies:
+  - nelkano_home:nelkano_home
+  - drupal:node
+  - drupal:image
+  - drupal:options
+  - search_api:search_api
+  - search_api:search_api_db

@@ -1,0 +1,20 @@
+<div id="nm-results">
+  <p class="nm-result-count" role="status" aria-live="polite">{{ total }} {{ total == 1 ? 'módulo' : 'módulos' }}{{ mine ? '' : ' disponibles' }}</p>
+  {% if items %}
+  <div class="nm-grid">
+    {% for item in items %}<article class="nm-card">
+      {% if item.image %}<a class="nm-card-image" href="{{ item.url }}" tabindex="-1" aria-hidden="true">{{ item.image }}</a>{% endif %}
+      <div class="nm-card-top">{% if not item.image %}<span class="nm-module-icon" aria-hidden="true">{{ item.initial }}</span>{% endif %}<span class="nm-version">{{ item.version ? 'v' ~ item.version : 'Sin descarga' }}</span></div>
+      <h2><a href="{{ item.url }}">{{ item.title }}</a></h2><p class="nm-author">Por {{ item.author }}</p>
+      <p class="nm-card-description">{{ item.description }}</p>
+      <div class="nm-tags">{% for platform in item.platforms %}<span>{{ platform }}</span>{% endfor %}{% for system in item.systems|slice(0, 3) %}<span class="nm-system-tag">{{ system }}</span>{% endfor %}{% if item.systems|length > 3 %}<span class="nm-system-tag" title="{{ item.systems|join(', ') }}">+{{ item.systems|length - 3 }} sistemas</span>{% endif %}{% if mine and not item.published %}<span>Borrador</span>{% endif %}{% if mine and not item.available %}<span>Sin versiones disponibles</span>{% endif %}</div>
+      <a class="nm-card-link" href="{{ item.url }}">Ver módulo <span aria-hidden="true">→</span></a>
+    </article>{% endfor %}
+  </div>
+  {% else %}
+  <div class="nm-empty"><span class="nm-empty-icon" aria-hidden="true">◇</span><h2>{{ mine ? 'Todavía no has publicado módulos' : 'No hay módulos para esta búsqueda' }}</h2>
+    <p>{{ mine ? 'Comparte un archivo .nelkmod firmado para crear tu primera ficha.' : 'Prueba con otro nombre, plataforma o sistema. Aquí aparecerán los módulos con alguna versión disponible.' }}</p>
+  </div>
+  {% endif %}
+  {% if pager %}<nav class="nm-pager" aria-label="Páginas del catálogo">{% if pager.previous %}<a class="nm-button nm-button-secondary" href="{{ pager.previous }}" data-nm-page>← Anterior</a>{% endif %}{% if pager.next %}<a class="nm-button nm-button-secondary" href="{{ pager.next }}" data-nm-page>Siguiente →</a>{% endif %}</nav>{% endif %}
+</div>

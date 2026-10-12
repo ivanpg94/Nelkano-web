@@ -21,6 +21,18 @@ trait NelkanoPageContextTrait {
 
     $nav_links = [['label' => $language === 'en' ? 'Systems' : 'Sistemas', 'url' => $language === 'en' ? '/en/systems' : '/sistemas']];
     $nav_links[] = ['label' => $language === 'en' ? 'Guide' : 'Guía de uso', 'url' => $language === 'en' ? '/en/guide' : '/guia'];
+    $sdk_books = $this->entityTypeManager()->getStorage('node')->loadByProperties([
+      'uuid' => 'de520020-2026-4000-8000-000000000001',
+      'type' => 'sdk_page',
+    ]);
+    if ($sdk_book = reset($sdk_books)) {
+      $sdk_book = $sdk_book->hasTranslation($language)
+        ? $sdk_book->getTranslation($language)
+        : \Drupal::service('entity.repository')->getTranslationFromContext($sdk_book, $language);
+      if ($sdk_book->isPublished() && $sdk_book->access('view', $this->currentUser())) {
+        $nav_links[] = ['label' => 'SDK', 'url' => $sdk_book->toUrl()->toString()];
+      }
+    }
     if ($authenticated && $this->currentUser()->hasPermission('administer nelkano editable pages')) {
       $nav_links[] = ['label' => 'Admin', 'url' => '/admin/nelkano'];
     }
@@ -33,12 +45,14 @@ trait NelkanoPageContextTrait {
       'seo_metadata' => \Drupal\nelkano_home\Service\SeoMetadata::forRequest($language),
       'analytics' => ['ga_id' => 'G-2VCPFJW0PT'],
       'logo_url' => '/' . $modulePath . '/assets/logo-nav.webp' . $logoVersion,
+      'redesign_css_url' => '/' . $modulePath . '/css/redesign.css?v=' . filemtime(DRUPAL_ROOT . '/' . $modulePath . '/css/redesign.css'),
+      'site_pages_css_url' => '/' . $modulePath . '/css/site-pages.css?v=' . filemtime(DRUPAL_ROOT . '/' . $modulePath . '/css/site-pages.css'),
       'header_css_url' => '/' . $modulePath . '/css/header.css',
       'footer_css_url' => '/' . $modulePath . '/css/footer.css?v=' . filemtime(DRUPAL_ROOT . '/' . $modulePath . '/css/footer.css'),
       'base_js_url' => '/' . $modulePath . '/js/messages.js' . $messagesVersion,
       'theme_js_url' => '/' . $modulePath . '/js/theme-toggle.js',
       'nav_home_url' => $language === 'en' ? '/en' : '/',
-      'nav_subtitle' => $language === 'en' ? 'Emulator for Android' : 'Emulador para Android',
+      'nav_subtitle' => $language === 'en' ? 'Multisystem emulator' : 'Emulador multisistema',
       'nav_aria_label' => $language === 'en' ? 'Main navigation' : 'Navegacion principal',
       'nav_alternate_url' => $alternateUrl,
       'nav_alternate_label' => $alternateLabel,

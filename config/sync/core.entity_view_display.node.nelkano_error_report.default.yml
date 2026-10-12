@@ -259,3 +259,4 @@ content:
     region: content
 hidden:
   field_report_status: true
+  langcode: true

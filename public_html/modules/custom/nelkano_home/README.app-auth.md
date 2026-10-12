@@ -33,6 +33,7 @@ La tabla `nelkano_app_session` guarda solo hashes SHA-256. El cron borra las gen
 | `use nelkano app features` | authenticated | `settings_full`, `collections`, `friends`, `drive`, `controls_config`, `streaming`, `multiplayer`, `activity_sync` |
 | `send nelkano error reports` | tester (y administrator) | `error_reports` |
 | `use nelkano debug tools` | tester (y administrator) | `fps_overlay_default` |
+| `use nelkano translation` | tester (y administrator) | `translation` (solo interfaz: la traduccion se hace en el dispositivo) |
 | `nelkano premium` | premium | `premium` (todavía no desbloquea nada) |
 
 `administrator` es `is_admin`, así que tiene todos los permisos. Para cambiar lo que da un rol,

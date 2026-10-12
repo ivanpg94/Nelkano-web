@@ -1,0 +1,19 @@
+uuid: 92672c8a-ca02-3cf8-a369-2a85c777fcfa
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_release_platforms
+    - node.type.nelkano_module_release
+id: node.nelkano_module_release.field_release_platforms
+field_name: field_release_platforms
+entity_type: node
+bundle: nelkano_module_release
+label: Plataformas
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

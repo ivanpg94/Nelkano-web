@@ -22,6 +22,8 @@ final class HuForm extends FormBase {
 
   public function buildForm(array $form, FormStateInterface $form_state, ?int $hu = NULL): array {
     $sprint_filter = HuAdminController::sprintFilter($this->getRequest());
+    $search_filter = HuAdminController::searchFilter($this->getRequest());
+    $filter_query = array_filter(['sprint' => $sprint_filter, 'q' => $search_filter], static fn(string $value): bool => $value !== '');
     $node = $hu !== NULL ? Node::load($hu) : NULL;
     if ($hu !== NULL && (!$node || $node->bundle() !== 'hu')) {
       throw new NotFoundHttpException();
@@ -31,13 +33,14 @@ final class HuForm extends FormBase {
       $form_state->set('hu_id', $hu ?? 0);
       $form_state->set('hu_revision', $node ? (int) $node->getRevisionId() : NULL);
       $form_state->set('sprint_filter', $sprint_filter);
+      $form_state->set('filter_query', $filter_query);
     }
     $module_path = \Drupal::service('extension.list.module')->getPath('nelkano_home');
     $form['#attached']['library'] = ['nelkano_home/admin_forms', 'nelkano_home/detail_ui'];
     $form['#attributes']['class'][] = 'nk-admin-config-form';
     $form['#prefix'] = $this->nelkanoAdminHeader($module_path) . '<div class="nk-admin-app"><div class="nk-admin-body">' . $this->nelkanoAdminSidebar('backlog') . '<div class="nk-admin-workspace"><section class="nk-admin-panel nk-hu-form">';
     $form['#suffix'] = '</section></div></div></div>';
-    $back_url = Url::fromRoute('nelkano_home.admin_backlog', [], ['query' => $sprint_filter === '' ? [] : ['sprint' => $sprint_filter]])->toString();
+    $back_url = Url::fromRoute('nelkano_home.admin_backlog', [], ['query' => $filter_query])->toString();
     $form['heading'] = ['#markup' => '<header class="nk-record-head"><a class="nk-record-back" href="' . htmlspecialchars($back_url, ENT_QUOTES, 'UTF-8') . '">← Volver al backlog</a><div class="nk-record-heading"><div><span class="nk-record-eyebrow">Historia de usuario</span><h1>' . ($node ? 'HU ' . HuWorkflow::number($node) : 'Nueva HU') . '</h1><p>' . ($node ? 'Define el trabajo y organiza su seguimiento.' : 'El número se asignará automáticamente al guardar.') . '</p></div></div></header>'];
     $form['title'] = ['#type' => 'textfield', '#title' => $this->t('Título'), '#required' => TRUE, '#maxlength' => 255, '#default_value' => $node?->label() ?? ''];
     $form['description'] = ['#type' => 'textarea', '#title' => $this->t('Descripción'), '#required' => TRUE, '#rows' => 9, '#maxlength' => 20000, '#default_value' => $node?->get('field_hu_description')->value ?? ''];
@@ -50,7 +53,7 @@ final class HuForm extends FormBase {
     $form['sprint']['#suffix'] = '</div></aside></div>';
     $form['actions'] = ['#type' => 'actions', '#attributes' => ['class' => ['nk-hu-actions']]];
     $form['actions']['submit'] = ['#type' => 'submit', '#value' => $this->t('Guardar HU'), '#attributes' => ['class' => ['nk-record-primary']]];
-    $form['actions']['cancel'] = ['#type' => 'link', '#title' => $this->t('Cancelar'), '#attributes' => ['class' => ['nk-record-secondary']], '#url' => Url::fromRoute('nelkano_home.admin_backlog', [], ['query' => $sprint_filter === '' ? [] : ['sprint' => $sprint_filter]])];
+    $form['actions']['cancel'] = ['#type' => 'link', '#title' => $this->t('Cancelar'), '#attributes' => ['class' => ['nk-record-secondary']], '#url' => Url::fromRoute('nelkano_home.admin_backlog', [], ['query' => $filter_query])];
     return $form;
   }
 
@@ -72,8 +75,7 @@ final class HuForm extends FormBase {
       $sprint = $form_state->getValue('sprint');
       $node = HuWorkflow::save($form_state->get('hu_id') ?: NULL, $form_state->get('hu_revision'), $form_state->getValue('status'), $form_state->getValue('title'), $form_state->getValue('description'), ['sprint' => $sprint === '' || $sprint === NULL ? NULL : (int) $sprint]);
       $this->messenger()->addStatus($this->t('HU @number guardada.', ['@number' => HuWorkflow::number($node)]));
-      $filter = $form_state->get('sprint_filter');
-      $form_state->setRedirect('nelkano_home.admin_backlog', [], ['query' => $filter === '' ? [] : ['sprint' => $filter]]);
+      $form_state->setRedirect('nelkano_home.admin_backlog', [], ['query' => $form_state->get('filter_query')]);
     }
     catch (\Symfony\Component\HttpKernel\Exception\ConflictHttpException $e) {
       $this->messenger()->addError($e->getMessage());

@@ -1,0 +1,21 @@
+uuid: 37d46b7b-dcb2-32c1-a4a5-4be6083b4f26
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_module_systems
+    - node.type.nelkano_module
+  module:
+    - options
+id: node.nelkano_module.field_module_systems
+field_name: field_module_systems
+entity_type: node
+bundle: nelkano_module
+label: 'Sistemas compatibles'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

@@ -1,0 +1,54 @@
+[
+  {
+    "platform": "android",
+    "version": "3.0.0-beta",
+    "version_code": "10",
+    "visible": true,
+    "apk_file": "private://nelkano-releases/Nelkano 3.0.0-beta.apk",
+    "filename": "Nelkano 3.0.0-beta.apk",
+    "date": "12/10/2026",
+    "changes": {
+      "es": "Nueva aplicación Nelkano con módulos y actualizador.",
+      "en": "New Nelkano application with modules and updater."
+    }
+  },
+  {
+    "platform": "windows",
+    "version": "1.0.0-beta",
+    "version_code": "10",
+    "visible": false,
+    "apk_file": "private://nelkano-releases/Nelkano 1.0.0-beta-windows.msi",
+    "filename": "Nelkano 1.0.0-beta-windows.msi",
+    "date": "12/10/2026",
+    "changes": {
+      "es": "Primera beta de Nelkano para windows.",
+      "en": "First beta of Nelkano for windows."
+    }
+  },
+  {
+    "platform": "steamos",
+    "version": "1.0.0-beta",
+    "version_code": "10",
+    "visible": false,
+    "apk_file": "private://nelkano-releases/Nelkano 1.0.0-beta-steamos.zip",
+    "filename": "Nelkano 1.0.0-beta-steamos.zip",
+    "date": "12/10/2026",
+    "changes": {
+      "es": "Primera beta de Nelkano para steamos.",
+      "en": "First beta of Nelkano for steamos."
+    }
+  },
+  {
+    "platform": "sdk",
+    "version": "1.0.0-beta",
+    "version_code": "2",
+    "visible": false,
+    "apk_file": "private://nelkano-releases/Nelkano SDK Studio 1.0.0-beta-windows.zip",
+    "filename": "Nelkano SDK Studio 1.0.0-beta-windows.zip",
+    "date": "12/10/2026",
+    "changes": {
+      "es": "Primera beta de Nelkano SDK Studio para Windows.",
+      "en": "First beta of Nelkano SDK Studio for Windows."
+    }
+  }
+]

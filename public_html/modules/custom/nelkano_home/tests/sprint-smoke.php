@@ -21,6 +21,7 @@ $switcher->switchTo(User::load(1));
 $transaction = \Drupal::database()->startTransaction();
 $stack = \Drupal::service('request_stack');
 $board = static function (string $sprint) use ($stack) {
+  \Drupal\search_api\Entity\Index::load('nelkano_backlog')->indexItems();
   $stack->push(Request::create('/admin/nelkano/backlog', 'GET', ['sprint' => $sprint]));
   try { return (new HuAdminController())->board(); }
   finally { $stack->pop(); }
@@ -67,6 +68,7 @@ try {
     throw new RuntimeException('Decimal accepted');
   }
   catch (InvalidArgumentException) { $check(TRUE, 'service rejects non-integers'); }
+  \Drupal\search_api\Entity\Index::load('nelkano_backlog')->indexItems();
   $stack->push(Request::create('/admin/nelkano/backlog/add', 'GET', ['sprint' => '0']));
   try {
     $form = (new HuForm())->buildForm([], new FormState());

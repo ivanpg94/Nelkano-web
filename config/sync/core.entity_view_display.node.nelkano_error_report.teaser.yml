@@ -82,3 +82,4 @@ hidden:
   field_report_status: true
   field_report_system: true
   field_workflow_status: true
+  langcode: true

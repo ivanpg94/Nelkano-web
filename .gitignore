@@ -17,3 +17,19 @@
 Thumbs.db
 .DS_Store
 /public_html/private:/
+
+/outputs/backlog-search-desktop.png
+/outputs/backlog-search-mobile.png
+
+/outputs/modules-catalog-desktop.png
+/outputs/modules-catalog-mobile.png
+/outputs/module-detail-desktop.png
+/outputs/module-create-form.png
+/outputs/module-detail-mobile.png
+
+/outputs/admin-style-*.png
+
+/outputs/module-demo/
+
+# Local QA evidence and temporary deployment bundles.
+/outputs/

@@ -1,0 +1,15 @@
+uuid: 13f08f76-e122-3b3f-a63f-b07f1175170e
+langcode: en
+status: true
+dependencies: {  }
+name: nelkano_module_card
+label: 'Módulos: tarjeta'
+effects:
+  417ab032-e15a-3df5-a37a-11c65645a681:
+    uuid: 417ab032-e15a-3df5-a37a-11c65645a681
+    id: image_scale_and_crop
+    weight: 0
+    data:
+      width: 640
+      height: 360
+      anchor: center-center

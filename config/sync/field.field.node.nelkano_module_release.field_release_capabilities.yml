@@ -1,0 +1,19 @@
+uuid: 2c4f9b2c-d664-34d6-a00d-d931ec7aa1ca
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_release_capabilities
+    - node.type.nelkano_module_release
+id: node.nelkano_module_release.field_release_capabilities
+field_name: field_release_capabilities
+entity_type: node
+bundle: nelkano_module_release
+label: Permisos
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

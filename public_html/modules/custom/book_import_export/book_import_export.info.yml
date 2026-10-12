@@ -1,0 +1,11 @@
+name: Book Import Export
+type: module
+description: 'Portable, revisioned YAML content for Book; not configuration export.'
+core_version_requirement: ^11.2
+dependencies:
+  - book:book
+  - drupal:node
+  - drupal:text
+  - drupal:path
+  - drupal:language
+  - drupal:content_translation

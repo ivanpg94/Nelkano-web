@@ -1,0 +1,19 @@
+uuid: 87ff3cb3-eb43-3bb9-a15a-6d57eb72ecfc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_release_modified
+    - node.type.nelkano_module_release
+id: node.nelkano_module_release.field_release_modified
+field_name: field_release_modified
+entity_type: node
+bundle: nelkano_module_release
+label: Last-Modified
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -34,6 +34,7 @@ final class AppEntitlements {
     ],
     'send nelkano error reports' => ['error_reports'],
     'use nelkano debug tools' => ['fps_overlay_default'],
+    'use nelkano translation' => ['translation'],
     'nelkano premium' => ['premium'],
   ];
 

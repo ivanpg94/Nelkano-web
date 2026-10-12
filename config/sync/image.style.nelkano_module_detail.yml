@@ -1,0 +1,15 @@
+uuid: 7ea33aa9-f2d3-344e-af4c-8f15baf9b7e6
+langcode: en
+status: true
+dependencies: {  }
+name: nelkano_module_detail
+label: 'Módulos: ficha'
+effects:
+  86e6ff2c-90be-36ce-a6ef-256c0e0a1d19:
+    uuid: 86e6ff2c-90be-36ce-a6ef-256c0e0a1d19
+    id: image_scale
+    weight: 0
+    data:
+      width: 1200
+      height: null
+      upscale: false

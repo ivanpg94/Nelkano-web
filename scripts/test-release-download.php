@@ -4,12 +4,14 @@ use Drupal\Core\Config\StorageInterface;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\nelkano_home\Controller\HomeController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-$fixture = 'temporary://release-hotfix-' . bin2hex(random_bytes(8)) . '_1.apk';
+$qa_directory = 'private://nelkano-releases';
+\Drupal::service('file_system')->prepareDirectory($qa_directory, \Drupal\Core\File\FileSystemInterface::CREATE_DIRECTORY);
+$fixture = $qa_directory . '/release-hotfix-' . bin2hex(random_bytes(8)) . '_1.apk';
 file_put_contents($fixture, 'replacement-apk-test');
 $override = new class($fixture) implements ConfigFactoryOverrideInterface {
   public array $row;
   public function __construct($uri) { $this->row = ['version'=>'2.0.0-beta','visible'=>TRUE,'apk_file'=>$uri]; }
-  public function loadOverrides($names) { return ['nelkano_home.docs'=>['es'=>['releases_items'=>[$this->row]],'en'=>['releases_items'=>[$this->row]]]]; }
+  public function loadOverrides($names) { $rows = array_fill(0, 100, ['visible' => FALSE]); $rows[0] = $this->row; return ['nelkano_home.docs'=>['es'=>['releases_items'=>$rows],'en'=>['releases_items'=>$rows]]]; }
   public function getCacheSuffix() { return 'release-download-hotfix-test'; }
   public function createConfigObject($name, $collection = StorageInterface::DEFAULT_COLLECTION) { return NULL; }
   public function getCacheableMetadata($name) { return (new CacheableMetadata())->setCacheMaxAge(0); }

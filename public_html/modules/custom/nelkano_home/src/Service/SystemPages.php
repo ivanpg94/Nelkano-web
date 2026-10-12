@@ -104,6 +104,10 @@ final class SystemPages {
         }
         $index = array_search(mb_strtolower($name), $names, TRUE);
         $id = $index !== FALSE ? $aliases[$index] : 'system-' . substr(hash('sha256', $name), 0, 12);
+        // Do not recreate retired default guides from legacy home cards.
+        if ($index !== FALSE && !isset($data['pages'][$id])) {
+          continue;
+        }
         $page = $data['pages'][$id] ?? $data['pages']['chip-8'];
         if (!isset($data['pages'][$id])) {
           foreach ($page as $key => $value) {

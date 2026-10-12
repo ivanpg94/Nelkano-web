@@ -33,36 +33,25 @@
     <link rel="icon" href="{{ logo_url }}" type="image/png">
     {% include '@nelkano_home/nelkano-theme-init.html.twig' %}
     <style>{{ css_inline|raw }}</style>
+    <link rel="stylesheet" href="{{ redesign_css_url }}">
+    <link rel="stylesheet" href="{{ site_pages_css_url }}">
     {# Future color-mode toggle script. <script defer src="{{ theme_js_url }}"></script> #}
     {% include '@nelkano_home/nelkano-analytics.html.twig' %}
   </head>
   <body>
-    <main class="nk-page nk-legal-page nk-lang-{{ language }}">
-      <a class="nk-skip-link" href="#legal-content">{{ language == 'es' ? 'Saltar al contenido legal' : 'Skip to legal content' }}</a>
-      {% include '@nelkano_home/nelkano-header.html.twig' %}
-
-      <section class="nk-legal-hero">
-        <div class="nk-section-narrow">
-          <p class="nk-eyebrow">{{ page.eyebrow }}</p>
-          <h1>{{ page.heading }}</h1>
-          <p class="nk-lead">{{ page.intro }}</p>
-        </div>
-      </section>
-
-      <section id="legal-content" class="nk-legal-content">
-        {% for section in page.sections %}
-          <article class="nk-legal-section">
-            <h2>{{ section.title }}</h2>
-            {% for paragraph in section.paragraphs %}
-              <p>{{ paragraph }}</p>
-            {% endfor %}
-          </article>
-        {% endfor %}
-      </section>
-
+    <a class="nk-skip-link" href="#main-content">{{ language == 'en' ? 'Skip to content' : 'Saltar al contenido' }}</a>
+    {% include '@nelkano_home/nelkano-header.html.twig' %}
+    <main class="nkr" id="main-content">
+      {% if page.type|default('') == 'releases' %}
+        {% include '@nelkano_home/nelkano-releases.html.twig' %}
+      {% else %}
+        {% include '@nelkano_home/nelkano-editorial-content.html.twig' %}
+      {% endif %}
+    </main>
+    <div class="nk-page r-footer-shell">
       {% include '@nelkano_home/nelkano-footer.html.twig' %}
       {% include '@nelkano_home/nelkano-consent-banner.html.twig' %}
-    </main>
+    </div>
     <script defer src="{{ base_js_url }}"></script>
   </body>
 </html>

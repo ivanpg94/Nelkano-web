@@ -1,0 +1,19 @@
+uuid: 4e6bd309-6873-363d-aedc-57e70cdfc195
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_release_version
+    - node.type.nelkano_module_release
+id: node.nelkano_module_release.field_release_version
+field_name: field_release_version
+entity_type: node
+bundle: nelkano_module_release
+label: Versión
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -30,74 +30,25 @@
     <link rel="icon" href="{{ logo_url }}" type="image/png">
     {% include '@nelkano_home/nelkano-theme-init.html.twig' %}
     <style>{{ css_inline|raw }}</style>
+    <link rel="stylesheet" href="{{ redesign_css_url }}">
+    <link rel="stylesheet" href="{{ site_pages_css_url }}">
     {# Future color-mode toggle script. <script defer src="{{ theme_js_url }}"></script> #}
     {% include '@nelkano_home/nelkano-analytics.html.twig' %}
   </head>
   <body>
+    <a class="nk-skip-link" href="#main-content">{{ language == 'en' ? 'Skip to content' : 'Saltar al contenido' }}</a>
     {% include '@nelkano_home/nelkano-header.html.twig' %}
-    <main class="nk-page nk-doc-page nk-lang-{{ language }}">
-      <section class="nk-legal-hero nk-doc-hero">
-        <p class="nk-eyebrow">{{ page.eyebrow }}</p>
-        <h1>{{ page.heading }}</h1>
-        <p>{{ page.intro }}</p>
-      </section>
-
-      <section class="nk-legal-content nk-doc-content">
-        {% if page.type == 'releases' %}
-          {% for release in page.releases %}
-            <article class="nk-doc-panel">
-              <div class="nk-doc-release-head">
-                <div>
-                  <p class="nk-eyebrow">{{ loop.first ? (language == 'es' ? 'Version actual' : 'Current version') : (language == 'es' ? 'Version anterior' : 'Previous version') }}</p>
-                  <h2>Nelkano {{ release.version }}</h2>
-                </div>
-                {% if release.date %}
-                  <span class="nk-status-pill">{{ release.date }}</span>
-                {% endif %}
-              </div>
-              <dl class="nk-doc-meta">
-                {% if release.filename %}
-                  <div><dt>{{ language == 'es' ? 'Archivo' : 'File' }}</dt><dd>{{ release.filename }}</dd></div>
-                {% endif %}
-                {% if release.meta.size|default('') %}
-                  <div><dt>{{ language == 'es' ? 'Tamano' : 'Size' }}</dt><dd>{{ release.meta.size }}</dd></div>
-                {% endif %}
-                {% if release.meta.sha256|default('') %}
-                  <div class="nk-hash-row"><dt>SHA-256</dt><dd class="nk-hash">{{ release.meta.sha256 }}</dd></div>
-                {% endif %}
-              </dl>
-              {% if release.changes %}
-                <div class="nk-doc-release-changes">
-                  <h3>{{ language == 'es' ? 'Cambios principales' : 'Main changes' }}</h3>
-                  <ul class="nk-doc-list">
-                    {% for item in release.changes %}
-                      <li>{{ item }}</li>
-                    {% endfor %}
-                  </ul>
-                </div>
-              {% endif %}
-              {% if release.url %}
-                <a class="nk-button nk-button-primary" href="{{ release.url }}">{{ language == 'es' ? 'Descargar APK' : 'Download APK' }}</a>
-              {% endif %}
-            </article>
-          {% else %}
-            <article class="nk-doc-panel">
-              <p>{{ language == 'es' ? 'Todavia no hay versiones publicadas.' : 'No releases have been published yet.' }}</p>
-            </article>
-          {% endfor %}
-        {% else %}
-          {% for section in page.sections %}
-            <article class="nk-legal-section">
-              <h2>{{ section.title }}</h2>
-              <p>{{ section.description }}</p>
-            </article>
-          {% endfor %}
-        {% endif %}
-      </section>
-
+    <main class="nkr" id="main-content">
+      {% if page.type|default('') == 'releases' %}
+        {% include '@nelkano_home/nelkano-releases.html.twig' %}
+      {% else %}
+        {% include '@nelkano_home/nelkano-editorial-content.html.twig' %}
+      {% endif %}
+    </main>
+    <div class="nk-page r-footer-shell">
       {% include '@nelkano_home/nelkano-footer.html.twig' %}
       {% include '@nelkano_home/nelkano-consent-banner.html.twig' %}
-    </main>
+    </div>
     <script defer src="{{ base_js_url }}"></script>
   </body>
 </html>

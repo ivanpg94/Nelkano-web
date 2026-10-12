@@ -1,0 +1,129 @@
+nelkano_modules.catalog:
+  path: '/modulos'
+  defaults:
+    _controller: '\Drupal\nelkano_modules\Controller\ModuleController::catalog'
+    _title: 'Módulos'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+  options:
+    no_cache: TRUE
+nelkano_modules.mine:
+  path: '/modulos/mis-modulos'
+  defaults:
+    _controller: '\Drupal\nelkano_modules\Controller\ModuleController::mine'
+    _title: 'Mis módulos'
+  requirements:
+    _user_is_logged_in: 'TRUE'
+    _permission: 'create nelkano modules'
+  options:
+    no_cache: TRUE
+nelkano_modules.add:
+  path: '/modulos/crear'
+  defaults:
+    _form: '\Drupal\nelkano_modules\Form\ModuleForm'
+    _title: 'Publicar un módulo'
+  requirements:
+    _user_is_logged_in: 'TRUE'
+    _permission: 'create nelkano modules'
+  options:
+    no_cache: TRUE
+nelkano_modules.detail:
+  path: '/modulos/{module}'
+  defaults:
+    _controller: '\Drupal\nelkano_modules\Controller\ModuleController::detail'
+    _title_callback: '\Drupal\nelkano_modules\Controller\ModuleController::title'
+  requirements:
+    _custom_access: '\Drupal\nelkano_modules\Access\ModuleAccess::view'
+    module: '\d+'
+  options:
+    parameters:
+      module:
+        type: entity:node
+    no_cache: TRUE
+nelkano_modules.edit:
+  path: '/modulos/{module}/editar'
+  defaults:
+    _form: '\Drupal\nelkano_modules\Form\ModuleForm'
+    _title: 'Editar módulo'
+  requirements:
+    _custom_access: '\Drupal\nelkano_modules\Access\ModuleAccess::edit'
+    module: '\d+'
+  options:
+    parameters:
+      module:
+        type: entity:node
+    no_cache: TRUE
+nelkano_modules.release_add:
+  path: '/modulos/{module}/versiones/nueva'
+  defaults:
+    _form: '\Drupal\nelkano_modules\Form\ReleaseForm'
+    _title: 'Añadir versión'
+  requirements:
+    _custom_access: '\Drupal\nelkano_modules\Access\ModuleAccess::edit'
+    module: '\d+'
+  options:
+    parameters:
+      module:
+        type: entity:node
+    no_cache: TRUE
+nelkano_modules.release_edit:
+  path: '/modulos/{module}/versiones/{release}/editar'
+  defaults:
+    _form: '\Drupal\nelkano_modules\Form\ReleaseForm'
+    _title: 'Editar versión'
+  requirements:
+    _custom_access: '\Drupal\nelkano_modules\Access\ModuleAccess::release'
+    module: '\d+'
+    release: '\d+'
+  options:
+    parameters:
+      module:
+        type: entity:node
+      release:
+        type: entity:node
+    no_cache: TRUE
+nelkano_modules.api_catalog:
+  path: '/api/nelkano/v1/modules'
+  defaults:
+    _controller: '\Drupal\nelkano_modules\Controller\ModuleApiController::catalog'
+    _format: json
+  methods: [GET, HEAD]
+  requirements:
+    _access: 'TRUE'
+  options:
+    no_cache: TRUE
+nelkano_modules.api_detail:
+  path: '/api/nelkano/v1/modules/{module_id}'
+  defaults:
+    _controller: '\Drupal\nelkano_modules\Controller\ModuleApiController::detail'
+    _format: json
+  methods: [GET, HEAD]
+  requirements:
+    _access: 'TRUE'
+    module_id: '[a-z][a-z0-9]*(\.[a-z][a-z0-9-]*)+'
+  options:
+    no_cache: TRUE
+nelkano_modules.api_versions:
+  path: '/api/nelkano/v1/modules/{module_id}/versions'
+  defaults:
+    _controller: '\Drupal\nelkano_modules\Controller\ModuleApiController::versions'
+    _format: json
+  methods: [GET, HEAD]
+  requirements:
+    _access: 'TRUE'
+    module_id: '[a-z][a-z0-9]*(\.[a-z][a-z0-9-]*)+'
+  options:
+    no_cache: TRUE
+nelkano_modules.api_version:
+  path: '/api/nelkano/v1/modules/{module_id}/versions/{version}'
+  defaults:
+    _controller: '\Drupal\nelkano_modules\Controller\ModuleApiController::version'
+    _format: json
+  methods: [GET, HEAD]
+  requirements:
+    _access: 'TRUE'
+    module_id: '[a-z][a-z0-9]*(\.[a-z][a-z0-9-]*)+'
+    version: '[0-9]+\.[0-9]+\.[0-9]+'
+  options:
+    no_cache: TRUE

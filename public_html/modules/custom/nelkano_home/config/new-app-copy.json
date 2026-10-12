@@ -1,0 +1,538 @@
+{
+  "nelkano_home.settings": {
+    "es.seo_title": "Nelkano — Emulador multisistema gratuito",
+    "es.seo_description": "Emulador gratuito con biblioteca local, controles personalizables y módulos. Consulta las funciones, los sistemas y las descargas disponibles para cada plataforma.",
+    "es.hero_badge": "Emulador gratuito en desarrollo",
+    "es.hero_title": "Nelkano",
+    "es.hero_description": "Tus juegos, tu biblioteca y tus controles. Un emulador multisistema gratuito para Android, Windows y Linux, ampliable con módulos.",
+    "es.secondary_cta": "Descargar APK",
+    "es.android_description": "Consulta las notas de cada APK para conocer sus funciones y requisitos. No incluye juegos, ROMs ni BIOS.",
+    "es.about_description": "Nelkano reúne emulación, biblioteca local y módulos para ampliar sus funciones. Puedes jugar sin una cuenta; Amigos y Streaming requieren iniciar sesión y conexión. No incluye publicidad.",
+    "es.platforms_title": "Android y escritorio",
+    "es.platforms_description": "Nelkano ejecuta los juegos en tu dispositivo. Las funciones y los sistemas disponibles dependen de la plataforma y de la versión; consulta las notas de cada descarga.",
+    "es.platform_items": [
+      {
+        "title": "Android",
+        "description": "Biblioteca local, controles táctiles y mandos compatibles. La importación admite archivos individuales, ZIP, RAR y 7z."
+      },
+      {
+        "title": "Windows y Linux",
+        "description": "Aplicación de escritorio con teclado y mandos compatibles. SteamOS no está certificado en una Steam Deck física; los sistemas y funciones pueden diferir de Android."
+      },
+      {
+        "title": "Módulos y SDK",
+        "description": "Amplía Nelkano con módulos JavaScript o TypeScript: páginas, botones, servicios y funciones para juegos. Las modificaciones de memoria y ROM temporal del SDK están disponibles en GBA."
+      },
+      {
+        "title": "Cuenta Nelkano",
+        "description": "Perfil y amigos, con conexión a nelkano.com. Tu biblioteca y tus partidas se almacenan localmente; no se sincronizan con Google Drive."
+      },
+      {
+        "title": "Streaming web",
+        "description": "Comparte imagen y audio de una partida compatible con el visor web. Requiere cuenta, permiso de emisión y conexión; la disponibilidad depende del core."
+      }
+    ],
+    "es.vision_description": "Mejorar la compatibilidad, la estabilidad y la experiencia en Android y escritorio, manteniendo un SDK documentado para ampliar Nelkano.",
+    "es.vision_items": [
+      {
+        "text": "Mejorar los cores y explicar sus limitaciones"
+      },
+      {
+        "text": "Mantener claras las descargas y los requisitos de cada plataforma"
+      },
+      {
+        "text": "Ampliar las posibilidades de los módulos y la modificación de juegos"
+      },
+      {
+        "text": "Mejorar biblioteca, guardados, controles y funciones conectadas"
+      }
+    ],
+    "es.trust_title": "Consulta antes de instalar",
+    "es.trust_description": "Revisa las notas de la versión, sus requisitos y las limitaciones conocidas. El soporte de un sistema no garantiza que funcionen todos sus juegos.",
+    "es.trust_items": [
+      {
+        "title": "Versiones",
+        "description": "Descargas publicadas, notas y requisitos por versión.",
+        "url": "/versiones"
+      },
+      {
+        "title": "Seguridad y privacidad",
+        "description": "Datos locales, cuenta y permisos de los módulos.",
+        "url": "/seguridad-privacidad"
+      }
+    ],
+    "es.footer_primary": "Emulador multisistema gratuito, ampliable con módulos.",
+    "en.seo_title": "Nelkano — Free multisystem emulator",
+    "en.seo_description": "Free emulator with a local library, customizable controls and modules. Check the features, systems and downloads available for each platform.",
+    "en.hero_badge": "Free emulator in active development",
+    "en.hero_title": "Nelkano",
+    "en.hero_description": "Your games, your library and your controls. A free multisystem emulator for Android, Windows and Linux, extensible through modules.",
+    "en.secondary_cta": "Download APK",
+    "en.android_description": "Check each APK’s release notes for its features and requirements. Games, ROMs and BIOS files are not included.",
+    "en.about_description": "Nelkano brings together emulation, a local library and modules that extend its features. You can play without an account; Friends and Streaming require sign-in and a connection. No ads are included.",
+    "en.platforms_title": "Android and desktop",
+    "en.platforms_description": "Nelkano runs games on your device. Available features and systems depend on the platform and version; check each download’s release notes.",
+    "en.platform_items": [
+      {
+        "title": "Android",
+        "description": "Local library, touch controls and compatible controllers. Import individual files, ZIP, RAR and 7z archives."
+      },
+      {
+        "title": "Windows and Linux",
+        "description": "Desktop app with keyboard and compatible controllers. SteamOS has not been certified on a physical Steam Deck; systems and features may differ from Android."
+      },
+      {
+        "title": "Modules and SDK",
+        "description": "Extend Nelkano through JavaScript or TypeScript modules: pages, buttons, services and game features. SDK memory and temporary ROM modifications are available for GBA."
+      },
+      {
+        "title": "Nelkano account",
+        "description": "Profile and friends through nelkano.com. Your library and saves stay local; Google Drive synchronization is not available."
+      },
+      {
+        "title": "Web streaming",
+        "description": "Share video and audio from a compatible game with the web viewer. Requires an account, streaming permission and a connection; availability depends on the core."
+      }
+    ],
+    "en.vision_description": "Improve compatibility, stability and the Android and desktop experience, while maintaining a documented SDK for extending Nelkano.",
+    "en.vision_items": [
+      {
+        "text": "Improve cores and explain their limitations"
+      },
+      {
+        "text": "Keep downloads and platform requirements clear"
+      },
+      {
+        "text": "Expand modules and game modification capabilities"
+      },
+      {
+        "text": "Improve the library, saves, controls and connected features"
+      }
+    ],
+    "en.trust_title": "Check before installing",
+    "en.trust_description": "Review the release notes, requirements and known limitations. Supporting a system does not guarantee that every game will work.",
+    "en.trust_items": [
+      {
+        "title": "Releases",
+        "description": "Published downloads, release notes and requirements.",
+        "url": "/en/releases"
+      },
+      {
+        "title": "Security and privacy",
+        "description": "Local data, accounts and module permissions.",
+        "url": "/en/security-privacy"
+      }
+    ],
+    "en.footer_primary": "Free multisystem emulator, extensible through modules.",
+    "es.feature_items": [
+      {
+        "title": "Módulos y SDK",
+        "description": "Añade funciones con módulos JavaScript o TypeScript y los recursos del SDK.",
+        "visible": "1",
+        "icon": "IcoPencilTouch",
+        "image_uri": ""
+      },
+      {
+        "title": "Mando Bluetooth",
+        "description": "Usa un mando reconocido por tu dispositivo y configura sus botones por sistema. La compatibilidad depende del mando y de la plataforma.",
+        "visible": "1",
+        "icon": "IcoGamepad",
+        "image_uri": ""
+      },
+      {
+        "title": "Editor de controles táctiles",
+        "description": "Personaliza la posición y el tamaño de cada botón en pantalla para cada sistema.",
+        "visible": "1",
+        "icon": "IcoPencilTouch",
+        "image_uri": ""
+      },
+      {
+        "title": "Colecciones",
+        "description": "Organiza tu biblioteca con colecciones personalizadas para clasificar tus juegos.",
+        "visible": "1",
+        "icon": "IcoCollections",
+        "image_uri": ""
+      },
+      {
+        "title": "Importar juegos",
+        "description": "En Android, importa archivos compatibles, ZIP, RAR y 7z. Las opciones de escritorio pueden diferir.",
+        "visible": "1",
+        "icon": "IcoZip",
+        "image_uri": ""
+      }
+    ],
+    "en.feature_items": [
+      {
+        "title": "Modules and SDK",
+        "description": "Add features through JavaScript or TypeScript modules and SDK capabilities.",
+        "visible": "1",
+        "icon": "IcoPencilTouch",
+        "image_uri": ""
+      },
+      {
+        "title": "Bluetooth controllers",
+        "description": "Use a controller recognized by your device and configure its buttons per system. Support depends on the controller and platform.",
+        "visible": "1",
+        "icon": "IcoGamepad",
+        "image_uri": ""
+      },
+      {
+        "title": "Touch control editor",
+        "description": "Customize the position and size of each on-screen control for each system.",
+        "visible": "1",
+        "icon": "IcoPencilTouch",
+        "image_uri": ""
+      },
+      {
+        "title": "Collections",
+        "description": "Organize your library with custom game collections.",
+        "visible": "1",
+        "icon": "IcoCollections",
+        "image_uri": ""
+      },
+      {
+        "title": "Import games",
+        "description": "On Android, import supported files, ZIP, RAR and 7z archives. Desktop import options may differ.",
+        "visible": "1",
+        "icon": "IcoZip",
+        "image_uri": ""
+      }
+    ]
+  },
+  "nelkano_home.docs": {
+    "es.releases_title": "Versiones y descargas",
+    "es.releases_intro": "Cada descarga conserva las funciones de su versión. Las notas de versiones anteriores son un historial y pueden describir funciones que no están disponibles en otras versiones, como Google Drive. Consulta los requisitos y las notas del archivo que vayas a instalar.",
+    "es.releases_seo_description": "Descargas publicadas de Nelkano, con notas, requisitos y verificación por versión.",
+    "es.security_seo_description": "Cómo se almacenan los datos locales y qué permisos utilizan la cuenta y los módulos de Nelkano.",
+    "es.security_intro": "Tus juegos y partidas se guardan en tu dispositivo. Las funciones conectadas y los módulos usan los permisos que corresponden a cada función.",
+    "es.security_sections": "Descargas oficiales|Consulta las notas, el nombre del archivo y la verificación de cada versión antes de instalarla.\nDatos locales|Biblioteca, guardados, ajustes y entidades de módulos se almacenan dentro de la aplicación. No hay sincronización integrada con Google Drive.\nCuenta Nelkano|La cuenta permite usar perfil, amigos y funciones conectadas con nelkano.com; no es necesaria para jugar localmente.\nMódulos y conexiones externas|Revisa el autor y los permisos de cada módulo. Un módulo puede conectarse a otros servidores cuando autorices sus conexiones; consulta qué datos envía.\nContenido del juego|Nelkano no incluye juegos, ROMs, BIOS, firmware ni claves. Las funciones disponibles dependen del core.\nPartidas y módulos|Un módulo puede alterar el guardado habitual y exigir su presencia o una partida nueva. Conserva copias antes de usar modificaciones.\nStreaming|La emisión comparte imagen y audio de la partida compatible, con cuenta y permiso. No captura el micrófono ni todo el escritorio.",
+    "es.releases_changes": "Consulta las notas de cada descarga publicada; las funciones pueden variar entre versiones y plataformas.",
+    "en.releases_title": "Releases and downloads",
+    "en.releases_intro": "Each download retains the features of its version. Older release notes are historical and may describe features unavailable in other versions, such as Google Drive. Check the requirements and notes for the file you intend to install.",
+    "en.releases_seo_description": "Published Nelkano downloads, with release notes, requirements and verification for each version.",
+    "en.security_seo_description": "How local data is stored and which permissions Nelkano accounts and modules use.",
+    "en.security_intro": "Your games and saves are stored on your device. Connected features and modules use the permissions required for each feature.",
+    "en.security_sections": "Official downloads|Check release notes, filename and verification for each version before installation.\nLocal data|The library, saves, settings and module entities are stored inside the app. Integrated Google Drive synchronization is not available.\nNelkano account|An account enables profiles, friends and connected features through nelkano.com; local play does not require one.\nModules and external connections|Review each module’s author and permissions. Modules can connect to other servers when you authorize their connections; check which data they send.\nGame content|Nelkano does not include games, ROMs, BIOS files, firmware or keys. Available features depend on the core.\nSaves and modules|A module can change your normal save and require its presence or a fresh game. Keep backups before using modifications.\nStreaming|Streaming shares video and audio from a compatible game with an account and permission. It does not capture your microphone or the entire desktop.",
+    "en.releases_changes": "Check the notes for each published download; features may vary between versions and platforms.",
+    "es.privacy_cookies_sections": "Responsable del tratamiento|Nelkano es una landing informativa y gratuita. No se venden productos o servicios desde esta web y no se procesan pagos.||Contacto de privacidad: contacto@nelkano.com. El tratamiento de datos personales se limita principalmente a la navegacion tecnica, seguridad del servidor, descargas, registro de cuenta, verificacion por correo y comunicaciones que el usuario envie mediante la pagina de contacto o canales externos. Si se activan pagos o funciones comerciales, esta informacion debera actualizarse antes de su uso publico.\nDatos tratados y finalidades|La web puede tratar datos tecnicos de navegacion, como direccion IP, fecha y hora, identificadores de solicitud, agente de usuario y registros de seguridad, con la finalidad de servir la pagina, prevenir abusos, diagnosticar errores y mantener la disponibilidad.||Si el usuario contacta por correo u otro canal indicado, se trataran los datos incluidos en esa comunicacion para responder la consulta, gestionar incidencias o atender solicitudes relacionadas con el proyecto.||Las descargas publicas de la landing no requieren crear cuenta ni introducir datos personales. La aplicacion puede guardar en el dispositivo biblioteca local, rutas o nombres de archivos elegidos por el usuario, sistema asociado, configuracion, guardados, save states y datos tecnicos necesarios para abrir archivos compatibles.||Nelkano no ofrece sincronización integrada con Google Drive. Biblioteca, juegos, guardados y datos de módulos se almacenan localmente.||Cuenta, amigos y streaming se conectan con nelkano.com. Un módulo puede conectarse a otros servidores con tu autorización; revisa sus permisos y qué datos envía.||Las notas de versiones anteriores pueden describir funciones distintas. Si almacenaste archivos en Drive con una de esas versiones, puedes gestionarlos o revocar el acceso desde tu cuenta de Google.||Las comunicaciones iniciadas por el usuario se tratan para atender su solicitud. El registro se usa para crear la cuenta, verificar el correo y permitir acceso a funciones de usuario. Las cookies o tecnologias no necesarias, como analitica o marketing, solo deben activarse cuando exista una base valida y, cuando sea exigible, consentimiento previo.\nConservacion y destinatarios|Los registros tecnicos deben conservarse durante el tiempo necesario para seguridad, diagnostico y cumplimiento legal. Las comunicaciones y datos de verificacion de cuenta se conservaran mientras sean necesarios para responder, operar la cuenta de usuario y durante los plazos exigibles por responsabilidades legales. Los datos locales de la aplicacion permanecen en el dispositivo hasta que el usuario los borra, desinstala la aplicacion o usa las opciones de limpieza disponibles.||Los datos pueden ser tratados por proveedores tecnicos de alojamiento, infraestructura, seguridad o mantenimiento, y por autoridades publicas cuando exista obligacion legal.\nDerechos de las personas|Las personas pueden solicitar acceso, rectificacion, supresion, oposicion, limitacion, portabilidad cuando proceda y retirada del consentimiento cuando el tratamiento dependa de el escribiendo a contacto@nelkano.com.||Tambien pueden presentar una reclamacion ante la Agencia Espanola de Proteccion de Datos si consideran que el tratamiento no se ajusta a la normativa. Para borrar datos locales, el usuario puede eliminar la biblioteca/guardados desde la aplicacion cuando exista esa opcion, borrar los datos de la app o desinstalarla.\nCookies|En la landing publica se usan cookies tecnicas o necesarias para funcionamiento, seguridad o administracion de Drupal, especialmente sesiones de administracion. Estas cookies no requieren consentimiento cuando son estrictamente necesarias.||La analitica de Google Analytics 4 solo se carga si el usuario acepta la medicion en el aviso de cookies. Si se rechaza, la web no carga Google Analytics para esa sesion de navegador.||Cuando se acepta la analitica, se pueden medir visitas de pagina y eventos agregados como clics en descargas de Android. Estos datos ayudan a entender el uso de la web y mejorar el proyecto; no se usan para vender datos personales.||La decision puede cambiarse desde el enlace Configurar cookies disponible en el pie de pagina.||El usuario puede borrar o bloquear cookies desde la configuracion de su navegador. Al hacerlo, algunas funciones tecnicas de administracion o sesion podrian dejar de funcionar correctamente.\nCambios de la politica|Esta politica puede actualizarse para reflejar cambios tecnicos, legales o de producto. La version publicada debe corresponder siempre con el funcionamiento real de la web.",
+    "es.legal_notice_sections": "Datos del titular|Nelkano es una pagina informativa y de descarga de un proyecto de software gratuito. Actualmente no se venden productos o servicios desde la web, no se contratan planes y no se procesan pagos.||Contacto legal y de privacidad: contacto@nelkano.com. Si el proyecto incorpora venta, contratacion, publicidad, formularios comerciales u otra actividad economica, esta seccion debera ampliarse con los datos identificativos que correspondan.\nObjeto del sitio|Nelkano es una web informativa y de descarga de una aplicación de emulación para Android y escritorio. La web no ejecuta juegos en el navegador y no incluye ROMs, BIOS, firmware, saves, claves ni contenido protegido de terceros.||El objetivo es ofrecer informacion clara sobre el estado del proyecto, publicar builds disponibles y facilitar el acceso a documentacion o avisos relevantes.\nCondiciones de uso|El usuario debe usar la web y las aplicaciones descargadas de forma licita, responsable y respetando la normativa aplicable, los derechos de propiedad intelectual e industrial y los derechos de terceros.||Nelkano no autoriza ni promueve la descarga, distribucion o uso de copias no autorizadas de videojuegos, BIOS, firmware, marcas, imagenes o cualquier otro contenido protegido. El usuario es responsable de disponer de derechos suficientes sobre el software, copias de seguridad o archivos que cargue en la aplicacion.\nDescargas y compatibilidad|Las descargas publicadas pueden encontrarse en fase beta o desarrollo activo. Aunque se trabaja para mejorar estabilidad, compatibilidad y rendimiento, no se garantiza que todos los juegos, dispositivos, mandos o sistemas funcionen correctamente.||La informacion sobre sistemas compatibles y compatibilidad debe entenderse como una descripcion del estado del proyecto en cada momento, no como una garantia permanente de funcionamiento.\nRPG Maker 2000/2003|El soporte para RPG Maker 2000/2003 se plantea como un core propio de Nelkano, en desarrollo progresivo, para integrarlo dentro de las aplicaciones nativas sin incluir runtimes externos.||Nelkano no incluye juegos, RTP, assets comerciales ni contenido protegido de RPG Maker. El usuario debe usar solo proyectos y archivos sobre los que tenga derechos suficientes.\nPropiedad intelectual|El codigo, textos, diseno, logotipos, estructura y elementos propios de Nelkano pertenecen a sus titulares o se usan con la autorizacion correspondiente. Las marcas de consolas, sistemas y videojuegos citadas pertenecen a sus respectivos propietarios.||Las menciones a sistemas clasicos se realizan con finalidad descriptiva de compatibilidad tecnica. Nelkano no esta afiliado, patrocinado, autorizado ni aprobado por Nintendo ni por otros titulares de marcas o derechos salvo que se indique expresamente.\nResponsabilidad|El titular no se responsabiliza del uso indebido de la web, de las aplicaciones o de archivos aportados por el usuario. Tampoco se responsabiliza de danos derivados de instalaciones fuera de las fuentes oficiales, modificaciones no autorizadas o uso en dispositivos no compatibles.||Los enlaces externos, si existen, se facilitan como referencia. El titular no controla de forma permanente sus contenidos y retirara o corregira enlaces cuando tenga conocimiento efectivo de que pueden ser ilicitos o inadecuados.\nLey aplicable|Esta pagina se ha redactado tomando como referencia la normativa espanola y europea aplicable a servicios de la sociedad de la informacion, proteccion de datos y cookies. Debe mantenerse actualizada si cambia el responsable, el modelo de servicio, las descargas, la publicidad, la analitica o las funciones de la aplicacion.",
+    "en.privacy_cookies_sections": "Controller|Nelkano is a free informational landing page. The website does not sell products or services or process payments.||Privacy contact: contacto@nelkano.com. Personal data processing is mainly limited to technical browsing, server security, downloads, account registration, email verification and communications sent by users through the contact page or external channels. If payments or commercial features are enabled, this information must be updated before public use.\nData processed and purposes|The website may process technical browsing data such as IP address, date and time, request identifiers, user agent and security logs to serve the page, prevent abuse, diagnose errors and maintain availability.||If users contact the project by email or another stated channel, the data included in that communication will be processed to answer the request, manage issues or handle project-related queries.||Public downloads on this landing page do not require an account or personal data. The app may store on the device the local library, paths or names of files chosen by the user, associated system, settings, saves, save states and technical data needed to open compatible files.||Nelkano does not offer integrated Google Drive synchronization. The library, games, saves and module data are stored locally.||Account, friends and streaming features connect to nelkano.com. A module can connect to other servers with your authorization; review its permissions and the data it sends.||Older release notes may describe different features. If you stored files in Drive using one of those versions, manage them or revoke access through your Google account.||User-initiated communications are processed to answer the request. Registration is used to create the account, verify email and allow access to user features. Non-essential cookies or technologies, such as analytics or marketing, should only be enabled with a valid legal basis and, when required, prior consent.\nRetention and recipients|Technical logs should be retained only as long as necessary for security, diagnostics and legal compliance. Communications and account verification data will be kept while needed to respond, operate the user account and for legally required liability periods. Local app data remains on the device until the user deletes it, uninstalls the app or uses available cleanup options.||Data may be processed by hosting, infrastructure, security or maintenance providers, and by public authorities where legally required.\nData subject rights|Individuals may request access, rectification, erasure, objection, restriction, portability where applicable and withdrawal of consent when processing depends on it by writing to contacto@nelkano.com.||They may also lodge a complaint with the Spanish Data Protection Agency if they consider that processing does not comply with the law. To delete local data, users can remove the library/saves from the app when available, clear app data or uninstall it.\nCookies|The public landing page uses technical or strictly necessary cookies for Drupal operation, security or administration, especially administration sessions. Strictly necessary cookies do not require consent.||Google Analytics 4 only loads if the user accepts measurement in the cookie notice. If rejected, the website does not load Google Analytics for that browser session.||When analytics are accepted, page views and aggregated events such as Android download clicks may be measured. This helps understand website usage and improve the project; it is not used to sell personal data.||The decision can be changed from the Cookie settings link available in the footer.||Users can delete or block cookies in their browser settings. Doing so may affect technical administration or session features.\nPolicy changes|This policy may be updated to reflect technical, legal or product changes. The published version should always match the website's actual behavior.",
+    "en.legal_notice_sections": "Website owner|Nelkano is an informational and download page for a free software project. The website currently does not sell products or services, offer paid plans or process payments.||Legal and privacy contact: contacto@nelkano.com. If the project adds sales, subscriptions, advertising, commercial forms or any other economic activity, this section must be expanded with the required identifying information.\nPurpose of the website|Nelkano is an informational and download website for an emulation app for Android and desktop. The website does not run games in the browser and does not include ROMs, BIOS files, firmware, saves, keys or protected third-party content.||Its purpose is to provide clear project status information, publish available builds and make relevant documentation or notices accessible.\nTerms of use|Users must use the website and downloaded applications lawfully, responsibly and in compliance with applicable rules, intellectual property rights and third-party rights.||Nelkano does not authorize or promote downloading, distributing or using unauthorized copies of games, BIOS files, firmware, trademarks, images or any other protected content. Users are responsible for having sufficient rights over any software, backups or files they load into the app.\nDownloads and compatibility|Published downloads may be beta or actively developed builds. Although stability, compatibility and performance are continuously improved, not every game, device, controller or system is guaranteed to work correctly.||Compatible system and compatibility information should be understood as a description of the project status at a given time, not as a permanent operating guarantee.\nRPG Maker 2000/2003|RPG Maker 2000/2003 support is planned as Nelkano's own core, developed progressively, so it can be integrated into the native applications without bundling external runtimes.||Nelkano does not include games, RTP, commercial RPG Maker assets or protected content. Users must only use projects and files they have sufficient rights to use.\nIntellectual property|Nelkano code, text, design, logos, structure and original materials belong to their respective owners or are used with permission. Console, system and game trademarks belong to their respective owners.||References to classic systems are descriptive of technical compatibility. Nelkano is not affiliated with, sponsored, authorized or approved by Nintendo or any other trademark or rights holder unless expressly stated.\nLiability|The owner is not responsible for misuse of the website, applications or files provided by users. The owner is also not responsible for damage caused by installations from unofficial sources, unauthorized modifications or unsupported devices.||External links, if any, are provided for reference. Their content is not permanently controlled and links will be removed or corrected when there is actual knowledge that they may be unlawful or inappropriate.\nApplicable law|This page was drafted with reference to Spanish and European legislation governing information society services, data protection and cookies. It must be kept up to date if the responsible party, service model, downloads, advertising, analytics or app features change."
+  },
+  "nelkano_home.guide": {
+    "es.intro": "Guía de Nelkano: biblioteca, guardados, controles y módulos. Algunas funciones y sistemas dependen de la plataforma y de la versión.",
+    "en.intro": "Nelkano guide: library, saves, controls and modules. Some features and systems depend on the platform and version.",
+    "es.sections": [
+      {
+        "title": "Biblioteca y colecciones",
+        "description": "Nelkano organiza tus juegos en una biblioteca local. Puedes filtrar por sistema, buscar por nombre, ordenar y agrupar según tus preferencias.",
+        "bullets": "Busca un juego por su nombre o filtra la biblioteca por sistema.\r\nOrdena los juegos alfabéticamente o por fecha de incorporación.\r\nCambia entre las vistas compacta, grande y de lista.\r\nMarca tus juegos favoritos y crea colecciones para agruparlos.\r\nMantén pulsado un juego para seleccionar varios y añadirlos o quitarlos de una colección.\r\nQuitar un juego de una colección lo conserva en la biblioteca.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Importar juegos",
+        "description": "En Android, utiliza el selector de documentos para añadir tus archivos compatibles; escritorio tiene su propio selector.",
+        "bullets": "En Android, pulsa + en Biblioteca y selecciona un archivo o un paquete ZIP, RAR o 7z.\nUn comprimido puede contener varios juegos reconocidos. No se admite la petición de contraseña para comprimidos cifrados.\nPara PlayStation, aporta el CUE y todas sus pistas, juntos o en un paquete completo.\nPara RPG Maker, aporta la carpeta completa del juego y sus recursos; los proyectos MV/MZ se ejecutan en Android, no en escritorio.\nEn escritorio, importa ROMs individuales, discos CUE con sus pistas y proyectos RPG Maker XP en ZIP. El importador ZIP de escritorio está limitado a esos proyectos XP; no admite paquetes generales de ROMs.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Jugar y continuar",
+        "description": "Abre la ficha de un juego para iniciarlo o recuperar un estado guardado.",
+        "bullets": "Jugar inicia el juego; los guardados internos se recuperan desde los menús del propio juego.\nContinuar aparece en la ficha cuando hay un estado disponible: prioriza el autoguardado y, si no existe, otro estado.\nLa captura elegida como carátula no cambia el estado que usa Continuar.\nDesde Guardados puedes elegir un estado concreto.\nLa sección Continuar jugando de Inicio muestra los juegos abiertos recientemente; no garantiza que tengan estados.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Guardados y estados",
+        "description": "Puedes guardar desde el propio juego o utilizar los estados de Nelkano cuando el sistema lo permita.",
+        "bullets": "El guardado del juego se recupera desde sus propios menús.\r\nUn estado conserva la situación de la partida para retomarla desde ese punto.\r\nNelkano dispone de cinco espacios de guardado manual por juego.\r\nPulsa Guardar durante la partida y elige un espacio. Si ya contiene un estado, se sustituirá.\r\nActiva Autoguardados en Configuración para actualizar un espacio independiente aproximadamente cada minuto.\r\nDesde Guardados puedes consultar los estados, filtrarlos por juego y ordenarlos.\r\nLa disponibilidad de los estados depende del sistema y del juego.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Personalizar la ficha de un juego",
+        "description": "Cambia cómo aparece cada juego en tu biblioteca.",
+        "bullets": "Utiliza Seleccionar carátula en la ficha para elegir una captura de un estado disponible o restablecer la imagen.\nAñade el juego a favoritos o colecciones.\nLa carátula no determina qué partida se carga al continuar.\nEliminar un juego pide confirmación y elimina la copia importada y sus datos asociados. Conserva antes lo que quieras guardar.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Mandos físicos",
+        "description": "Utiliza un mando reconocido por Android y adapta sus botones a cada sistema.",
+        "bullets": "Empareja el mando desde los ajustes de Bluetooth de Android.\r\nEn Configuración → Controles → Mando puedes comprobar qué pulsaciones detecta Nelkano.\r\nAbre Asignación de botones, selecciona un sistema y pulsa el control que quieras configurar.\r\nPresiona el botón del mando que quieras asignarle.\r\nPuedes guardar y cargar configuraciones de mando o restaurar los valores predeterminados.\r\nDurante la partida, utiliza la pantalla completa para controlar el juego con el mando.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Editor de controles táctiles",
+        "description": "Ajusta la distribución de los controles para jugar cómodamente en tu pantalla.",
+        "bullets": "Abre Configuración → Controles → Editor de controles.\r\nSelecciona el sistema y la orientación vertical u horizontal.\r\nMueve los controles y ajusta su tamaño.\r\nEn el selector de botones del sistema puedes mostrar u ocultar acciones como Guardar, Cargar o el indicador de velocidad.\r\nComprueba el resultado con la vista previa y pulsa Guardar.\r\nCada sistema conserva una distribución independiente para cada orientación.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Botones durante la partida",
+        "description": "Los botones del emulador permiten controlar la partida y ajustar su presentación.",
+        "bullets": "Pausa permite detener y reanudar la emulación.\nGuardar y Cargar aparecen cuando el core admite estados.\nPantalla completa amplía la zona de juego; Estirar puede cambiar las proporciones de la imagen.\nNDS y 3DS permiten elegir Ambas, Superior o Inferior desde Pantallas.\nEl indicador de velocidad muestra el porcentaje de avance respecto a la velocidad normal, cuando el core aporta esa información; no es un contador de FPS.\nLos controles disponibles dependen del core y de los módulos. AUTO, RECORD y REPLAY no son funciones disponibles de los controles actuales.\nReiniciar solo está disponible en los cores que lo admiten.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Datos locales y conexiones",
+        "description": "La biblioteca y las partidas se almacenan en tu dispositivo.",
+        "bullets": "Nelkano no ofrece sincronización integrada con Google Drive.\nLa cuenta Nelkano se utiliza para perfil, amigos y funciones conectadas; no sincroniza tu biblioteca.\nUn módulo puede conectarse a otros servidores con tu autorización. Revisa sus permisos y qué datos envía.\nConserva copias de tus archivos y partidas antes de borrar datos o usar modificaciones.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Segunda pantalla para Nintendo DS y Nintendo 3DS",
+        "description": "Utiliza otro dispositivo Android para mostrar una de las dos pantallas del juego.",
+        "bullets": "Abre Nelkano en ambos dispositivos y conéctalos a la misma red local.\r\nEn el dispositivo receptor, entra en Configuración → Segunda pantalla y activa Usar como segunda pantalla.\r\nEn el dispositivo donde vas a jugar, pulsa Buscar pantallas y selecciona el receptor.\r\nAcepta la conexión en el dispositivo receptor.\r\nAl ejecutar un juego de DS o 3DS, cada dispositivo mostrará una pantalla.\r\nUtiliza Intercambiar pantallas para cambiar cuál aparece en cada dispositivo.\r\nSi la pantalla inferior está en el receptor, puedes tocarla desde ese dispositivo.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Apariencia e idioma",
+        "description": "Adapta la interfaz de Nelkano a tus preferencias.",
+        "bullets": "Abre Idioma y tema en Ajustes para elegir español o inglés y una de las cinco paletas: oscuro, claro, navy, slate o graphite.\nGuarda la elección para aplicarla.\nEl idioma de la interfaz no traduce los juegos.\nLa posición y el tamaño de los controles se ajustan en el editor de controles.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Aplicar parches a juegos GBA y NDS",
+        "description": "Aplica un parche compatible y añade el resultado como un juego independiente.",
+        "bullets": "Importa el juego GBA o NDS original.\nAbre Parches en Ajustes o Aplicar parche en la ficha del juego.\nSelecciona un archivo IPS o xdelta/VCDIFF y el juego exacto que requiere el parche.\nIPS no permite verificar por sí mismo que has elegido la ROM correcta.\nSe añade una copia modificada a la biblioteca y se conserva el original.\nLa copia utiliza sus propios guardados; no hereda los del original. No se admiten BPS, UPS ni PPF.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Traducir juegos de Nintendo DS",
+        "description": "La traducción automática integrada de juegos no está disponible.",
+        "bullets": "Puedes aplicar un parche de traducción compatible mediante Parches.\nCambiar el idioma de Nelkano solo cambia la interfaz.",
+        "visible": "0",
+        "image_uri": ""
+      },
+      {
+        "title": "Cuenta Nelkano y amigos",
+        "description": "Gestiona tu perfil y tus contactos desde la aplicación.",
+        "bullets": "Inicia sesión desde Cuenta en Ajustes. Abre Amigos desde la biblioteca para gestionar tus contactos.\nBusca usuarios y envía solicitudes; puedes aceptar o rechazar las recibidas, cancelar las enviadas y eliminar amigos.\nDesde el módulo puedes editar tu perfil.\nNo necesitas una cuenta para jugar localmente.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Funciones online experimentales",
+        "description": "El online se ofrece mediante módulos opcionales y juegos concretos.",
+        "bullets": "Requiere instalar un módulo online compatible y autorizar sus permisos.\nLos módulos GBA Online y Pokémon Online tienen funciones y requisitos propios; no son multijugador universal ni se incluyen entre los módulos esenciales.\nConsulta la documentación del módulo y las versiones de juego admitidas.\nLa disponibilidad depende también de la cuenta, los permisos y la conexión.",
+        "visible": "0",
+        "image_uri": ""
+      },
+      {
+        "title": "Emitir la partida en la web",
+        "description": "Utiliza Streaming para enviar la imagen y el audio de tu partida a la web de Nelkano.",
+        "bullets": "Inicia sesión con una cuenta que tenga permiso de emisión.\nAbre una partida y utiliza Streaming para iniciar la emisión, aceptando la autorización que solicite la plataforma.\nAbre el visor Streaming de nelkano.com con la misma cuenta.\nDetén la emisión desde la aplicación cuando termines.\nSe comparte imagen y audio de la partida cuando el core lo permite. No se captura el micrófono ni todo el escritorio.\nLa conexión y la captura del core condicionan el resultado; no se garantiza emisión de todos los sistemas.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Reportar un error",
+        "description": "Los reportes desde la app están reservados a testers autorizados.",
+        "bullets": "En Android requiere el módulo oficial de reportes y una cuenta con permiso de Tester.\nNo es una función disponible para todas las cuentas ni un servicio público del SDK.\nLos demás usuarios pueden utilizar las vías de contacto de la web.",
+        "visible": "0",
+        "image_uri": ""
+      },
+      {
+        "title": "Módulos y SDK",
+        "description": "Amplía las funciones de Nelkano con paquetes .nelkmod.",
+        "bullets": "Abre Módulos en Ajustes para importar un paquete, revisar su autor y permisos y gestionar los módulos opcionales.\nBásicos, Apariencia, Editor de controles, Amigos y Parches son esenciales y permanecen activos.\nEl SDK permite programar páginas, botones, servicios, eventos y datos locales con JavaScript o TypeScript.\nLas modificaciones de memoria y ROM temporal del SDK funcionan en GBA; otros cores no ofrecen esas operaciones.\nLas modificaciones actúan mientras el módulo está activo, pero sus efectos pueden quedar en el guardado. Algunos módulos exigen una partida nueva o su presencia para cargarla.\nSDK Studio usa juegos y datos simulados. El editor visual para generar código de módulos todavía no está disponible.",
+        "visible": "1",
+        "image_uri": ""
+      }
+    ],
+    "en.sections": [
+      {
+        "title": "Library and collections",
+        "description": "Nelkano organizes your games in a local library. You can filter by system, search by name, sort and group games to suit your preferences.",
+        "bullets": "Search for a game by name or filter the library by system.\nSort games alphabetically or by the date they were added.\nSwitch between compact, large and list views.\nMark games as favorites and create collections to group them.\nPress and hold a game to select several games and add them to or remove them from a collection.\nRemoving a game from a collection keeps it in your library.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Importing games",
+        "description": "On Android, use the document picker to add supported files; desktop has its own picker.",
+        "bullets": "On Android, tap + in Library and select a file or a ZIP, RAR or 7z archive.\nAn archive can contain several recognized games. Password prompts for encrypted archives are not supported.\nFor PlayStation, provide the CUE and all tracks together or as a complete package.\nFor RPG Maker, provide the full game folder and resources; MV/MZ projects run on Android, not desktop.\nOn desktop, import individual ROMs, CUE discs with their tracks and RPG Maker XP projects in ZIP files. Desktop ZIP import is limited to those XP projects; general ROM archives are not supported.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Play and Continue",
+        "description": "Open a game's details to start it or restore a save state.",
+        "bullets": "Play starts the game; in-game saves are loaded through the game’s own menus.\nContinue appears on the details page when a state exists: it prioritizes the autosave, then another available state.\nChoosing a screenshot as cover art does not change the state used by Continue.\nChoose a specific state from Saves.\nContinue playing on Home lists recently opened games; it does not guarantee they have save states.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Saves and save states",
+        "description": "You can save within the game or use Nelkano save states when the system supports them.",
+        "bullets": "An in-game save is loaded through the game's own menus.\nA save state captures the current game session so you can resume from that point.\nNelkano provides five manual save slots per game.\nTap Save during gameplay and choose a slot. If it already contains a state, that state will be replaced.\nEnable Autosaves in Settings to update a separate slot approximately once a minute.\nIn Saves, you can browse states, filter them by game and sort them.\nSave state support depends on the system and the game.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Customizing a game's details",
+        "description": "Change how each game appears in your library.",
+        "bullets": "Use Select cover on the details page to choose a screenshot from an available state or restore the image.\nAdd the game to favorites or collections.\nCover art does not determine which state Continue loads.\nDeleting a game asks for confirmation and removes its imported copy and associated data. Keep anything you need beforehand.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Physical controllers",
+        "description": "Use a controller recognized by Android and map its buttons for each system.",
+        "bullets": "Pair the controller in Android's Bluetooth settings.\nIn Settings → Controls → Controller, you can check which button presses Nelkano detects.\nOpen Button mapping, select a system and tap the control you want to configure.\nPress the controller button you want to assign.\nYou can save and load controller configurations or restore the defaults.\nDuring gameplay, use full-screen mode to play with the controller.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Touch control editor",
+        "description": "Adjust the control layout to play comfortably on your screen.",
+        "bullets": "Open Settings → Controls → Control editor.\nSelect the system and portrait or landscape orientation.\nMove the controls and adjust their size.\nUse the system's button selector to show or hide actions such as Save, Load or the speed indicator.\nCheck the preview and tap Save.\nEach system stores a separate layout for each orientation.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Buttons during gameplay",
+        "description": "The emulator buttons let you control the session and adjust the display.",
+        "bullets": "Pause stops and resumes emulation.\nSave and Load appear when the core supports save states.\nFull screen expands the game area; Stretch can change the image’s proportions.\nDS and 3DS offer Both, Upper or Lower through Screens.\nThe speed indicator shows progress as a percentage of normal speed when the core supplies this information; it is not an FPS counter.\nAvailable controls depend on the core and modules. AUTO, RECORD and REPLAY are not available in the current controls.\nRestart is available only when supported by the core.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Local data and connections",
+        "description": "Your library and saves are stored on your device.",
+        "bullets": "Nelkano does not offer integrated Google Drive synchronization.\nYour Nelkano account is used for profiles, friends and connected features; it does not sync your library.\nA module can connect to other servers with your authorization. Review its permissions and the data it sends.\nKeep copies of your files and saves before deleting data or using modifications.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Second screen for Nintendo DS and Nintendo 3DS",
+        "description": "Use another Android device to display one of the game's two screens.",
+        "bullets": "Open Nelkano on both devices and connect them to the same local network.\nOn the receiving device, open Settings → Second screen and enable Use as second screen.\nOn the device you will play on, tap Find screens and select the receiving device.\nAccept the connection on the receiving device.\nWhen you run a DS or 3DS game, each device will display one screen.\nUse Swap screens to change which screen appears on each device.\nIf the lower screen is on the receiving device, you can use its touch input there.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Appearance and language",
+        "description": "Adjust the Nelkano interface to suit your preferences.",
+        "bullets": "Open Language and theme in Settings to choose Spanish or English and one of five palettes: dark, light, navy, slate or graphite.\nSave your choice to apply it.\nChanging the interface language does not translate games.\nControl positions and sizes are adjusted in the control editor.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Apply patches to GBA and DS games",
+        "description": "Apply a compatible patch and add the result as a separate game.",
+        "bullets": "Import the original GBA or DS game.\nOpen Patches in Settings or Apply patch on the game’s details page.\nSelect an IPS or xdelta/VCDIFF file and the exact game version required by the patch.\nIPS cannot verify by itself that you selected the right ROM.\nA modified copy is added to the library and the original is kept.\nThe copy uses its own saves; it does not inherit the original’s saves. BPS, UPS and PPF are not supported.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Translating Nintendo DS games",
+        "description": "Integrated automatic game translation is not available.",
+        "bullets": "You can apply a compatible translation patch through Patches.\nChanging Nelkano’s language changes only its interface.",
+        "visible": "0",
+        "image_uri": ""
+      },
+      {
+        "title": "Nelkano account and friends",
+        "description": "Manage your profile and contacts from the app.",
+        "bullets": "Sign in through Account in Settings. Open Friends from the library to manage contacts.\nFind users and send requests; accept or reject incoming requests, cancel sent requests and remove friends.\nYou can edit your profile through the module.\nLocal play does not require an account.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Experimental online features",
+        "description": "Online functionality is provided by optional modules for specific games.",
+        "bullets": "Install a compatible online module and grant its permissions.\nGBA Online and Pokémon Online have their own capabilities and requirements; they do not provide universal multiplayer and are not essential bundled modules.\nCheck the module documentation and supported game versions.\nAvailability also depends on your account, permissions and connection.",
+        "visible": "0",
+        "image_uri": ""
+      },
+      {
+        "title": "Streaming gameplay to the web",
+        "description": "Use Streaming to send your game's video and audio to the Nelkano website.",
+        "bullets": "Sign in with an account that has streaming permission.\nOpen a game and use Streaming to start broadcasting, accepting any platform authorization requested.\nOpen the nelkano.com Streaming viewer with the same account.\nStop broadcasting from the app when finished.\nGame video and audio are shared when supported by the core. The microphone and entire desktop are not captured.\nConnection and core capture support affect the result; streaming is not guaranteed for every system.",
+        "visible": "1",
+        "image_uri": ""
+      },
+      {
+        "title": "Reporting an error",
+        "description": "In-app reports are reserved for authorized testers.",
+        "bullets": "On Android this requires the official reports module and an account with Tester permission.\nIt is not available to every account or as a public SDK service.\nOther users can use the website’s contact channels.",
+        "visible": "0",
+        "image_uri": ""
+      },
+      {
+        "title": "Modules and SDK",
+        "description": "Extend Nelkano through .nelkmod packages.",
+        "bullets": "Open Modules in Settings to import a package, review its author and permissions, and manage optional modules.\nBasics, Appearance, Control editor, Friends and Patches are essential and remain active.\nThe SDK supports pages, buttons, services, events and local data through JavaScript or TypeScript.\nSDK memory and temporary ROM modifications work on GBA; other cores do not expose these operations.\nModifications act while the module is active, but effects can remain in saves. Some modules require a fresh game or their presence to load it.\nSDK Studio uses simulated games and data. A visual editor generating module code is not yet available.",
+        "visible": "1",
+        "image_uri": ""
+      }
+    ]
+  },
+  "nelkano_home.seo": {
+    "es.pages.home.description": "Emulador gratuito con biblioteca local, controles personalizables y módulos. Consulta las funciones, los sistemas y las descargas disponibles para cada plataforma.",
+    "es.pages.home.og_description": "Emulador gratuito con biblioteca local, controles personalizables y módulos. Consulta las funciones, los sistemas y las descargas disponibles para cada plataforma.",
+    "es.pages.home.twitter_description": "Emulador gratuito con biblioteca local, controles personalizables y módulos. Consulta las funciones, los sistemas y las descargas disponibles para cada plataforma.",
+    "es.pages.home.title": "Nelkano — Emulador multisistema gratuito",
+    "es.pages.home.og_title": "Nelkano — Emulador multisistema gratuito",
+    "es.pages.home.twitter_title": "Nelkano — Emulador multisistema gratuito",
+    "es.pages.security.description": "Cómo se almacenan los datos locales y qué permisos utilizan la cuenta y los módulos de Nelkano.",
+    "es.pages.security.og_description": "Cómo se almacenan los datos locales y qué permisos utilizan la cuenta y los módulos de Nelkano.",
+    "es.pages.security.twitter_description": "Cómo se almacenan los datos locales y qué permisos utilizan la cuenta y los módulos de Nelkano.",
+    "es.pages.releases.description": "Descargas publicadas de Nelkano, con notas, requisitos y verificación por versión.",
+    "es.pages.releases.og_description": "Descargas publicadas de Nelkano, con notas, requisitos y verificación por versión.",
+    "es.pages.releases.twitter_description": "Descargas publicadas de Nelkano, con notas, requisitos y verificación por versión.",
+    "es.pages.guide.description": "Guía de Nelkano: biblioteca, guardados, controles y módulos. Algunas funciones y sistemas dependen de la plataforma y de la versión.",
+    "es.pages.guide.og_description": "Guía de Nelkano: biblioteca, guardados, controles y módulos. Algunas funciones y sistemas dependen de la plataforma y de la versión.",
+    "es.pages.guide.twitter_description": "Guía de Nelkano: biblioteca, guardados, controles y módulos. Algunas funciones y sistemas dependen de la plataforma y de la versión.",
+    "es.pages.systems.description": "Consulta las fichas de sistemas, sus formatos y limitaciones. Las pruebas y las funciones dependen del juego, del dispositivo y de la versión.",
+    "es.pages.systems.og_description": "Consulta las fichas de sistemas, sus formatos y limitaciones. Las pruebas y las funciones dependen del juego, del dispositivo y de la versión.",
+    "es.pages.systems.twitter_description": "Consulta las fichas de sistemas, sus formatos y limitaciones. Las pruebas y las funciones dependen del juego, del dispositivo y de la versión.",
+    "es.pages.systems.title": "Sistemas compatibles con Nelkano",
+    "es.pages.systems.og_title": "Sistemas compatibles con Nelkano",
+    "es.pages.systems.twitter_title": "Sistemas compatibles con Nelkano",
+    "es.pages.contact.description": "Contacta con Nelkano para resolver dudas o enviar sugerencias sobre la aplicación y sus módulos.",
+    "es.pages.contact.og_description": "Contacta con Nelkano para resolver dudas o enviar sugerencias sobre la aplicación y sus módulos.",
+    "es.pages.contact.twitter_description": "Contacta con Nelkano para resolver dudas o enviar sugerencias sobre la aplicación y sus módulos.",
+    "en.pages.home.description": "Free emulator with a local library, customizable controls and modules. Check the features, systems and downloads available for each platform.",
+    "en.pages.home.og_description": "Free emulator with a local library, customizable controls and modules. Check the features, systems and downloads available for each platform.",
+    "en.pages.home.twitter_description": "Free emulator with a local library, customizable controls and modules. Check the features, systems and downloads available for each platform.",
+    "en.pages.home.title": "Nelkano — Free multisystem emulator",
+    "en.pages.home.og_title": "Nelkano — Free multisystem emulator",
+    "en.pages.home.twitter_title": "Nelkano — Free multisystem emulator",
+    "en.pages.security.description": "How local data is stored and which permissions Nelkano accounts and modules use.",
+    "en.pages.security.og_description": "How local data is stored and which permissions Nelkano accounts and modules use.",
+    "en.pages.security.twitter_description": "How local data is stored and which permissions Nelkano accounts and modules use.",
+    "en.pages.releases.description": "Published Nelkano downloads, with release notes, requirements and verification for each version.",
+    "en.pages.releases.og_description": "Published Nelkano downloads, with release notes, requirements and verification for each version.",
+    "en.pages.releases.twitter_description": "Published Nelkano downloads, with release notes, requirements and verification for each version.",
+    "en.pages.guide.description": "Nelkano guide: library, saves, controls and modules. Some features and systems depend on the platform and version.",
+    "en.pages.guide.og_description": "Nelkano guide: library, saves, controls and modules. Some features and systems depend on the platform and version.",
+    "en.pages.guide.twitter_description": "Nelkano guide: library, saves, controls and modules. Some features and systems depend on the platform and version.",
+    "en.pages.systems.description": "Check system guides, formats and limitations. Tests and features depend on the game, device and version.",
+    "en.pages.systems.og_description": "Check system guides, formats and limitations. Tests and features depend on the game, device and version.",
+    "en.pages.systems.twitter_description": "Check system guides, formats and limitations. Tests and features depend on the game, device and version.",
+    "en.pages.systems.title": "Systems supported by Nelkano",
+    "en.pages.systems.og_title": "Systems supported by Nelkano",
+    "en.pages.systems.twitter_title": "Systems supported by Nelkano",
+    "en.pages.contact.description": "Contact Nelkano with questions or suggestions about the app and its modules.",
+    "en.pages.contact.og_description": "Contact Nelkano with questions or suggestions about the app and its modules.",
+    "en.pages.contact.twitter_description": "Contact Nelkano with questions or suggestions about the app and its modules."
+  },
+  "nelkano_home.systems": {
+    "es.labels.index_description": "Las fichas describen la integración Android y las pruebas indicadas en cada sistema. Escritorio puede tener funciones diferentes. Un core integrado no garantiza todos los juegos ni velocidad completa.",
+    "es.pages.nintendo-ds.status_note": "Integrado con dos pantallas, táctil y estados. La compatibilidad, la recuperación de partidas y la velocidad dependen del juego y del dispositivo; consulta las pruebas por título.",
+    "en.labels.index_description": "These guides describe Android integration and the tests identified for each system. Desktop features may differ. An integrated core does not guarantee every game or full speed.",
+    "en.pages.nintendo-ds.status_note": "Integrated with dual screens, touch and save states. Compatibility, save recovery and speed depend on the game and device; check per-game test results."
+  }
+}

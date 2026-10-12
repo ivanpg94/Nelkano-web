@@ -1,0 +1,72 @@
+uuid: 766bc98c-9cf3-3c8c-af97-ee97349b49ec
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_module_systems
+field_name: field_module_systems
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: chip8
+      label: CHIP-8
+    -
+      value: gb
+      label: 'GB · Game Boy'
+    -
+      value: gbc
+      label: 'GBC · Game Boy Color'
+    -
+      value: gba
+      label: 'GBA · Game Boy Advance'
+    -
+      value: nes
+      label: 'NES / Famicom'
+    -
+      value: snes
+      label: 'SNES · Super Nintendo'
+    -
+      value: sms
+      label: 'Master System'
+    -
+      value: gg
+      label: 'Game Gear'
+    -
+      value: md
+      label: 'Mega Drive'
+    -
+      value: ngp
+      label: 'Neo Geo Pocket'
+    -
+      value: nds
+      label: 'NDS · Nintendo DS'
+    -
+      value: 3ds
+      label: 'Nintendo 3DS'
+    -
+      value: ps1
+      label: PlayStation
+    -
+      value: psp
+      label: PSP
+    -
+      value: gamecube
+      label: GameCube
+    -
+      value: switch
+      label: 'Nintendo Switch'
+    -
+      value: rpgmaker
+      label: 'RPG Maker'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

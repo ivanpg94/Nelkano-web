@@ -15,36 +15,40 @@
     <link rel="stylesheet" href="{{ header_css_url }}">
     <link rel="stylesheet" href="{{ footer_css_url }}">
     <link rel="stylesheet" href="{{ contact_css_url }}">
+    <link rel="stylesheet" href="{{ redesign_css_url }}">
+    <link rel="stylesheet" href="{{ site_pages_css_url }}">
     {# Future color-mode toggle script. <script defer src="{{ theme_js_url }}"></script> #}
     {% include '@nelkano_home/nelkano-analytics.html.twig' %}
   </head>
   <body>
     {% include '@nelkano_home/nelkano-header.html.twig' %}
-    <main class="nk-contact-page">
-      <div class="nk-contact-layout">
-        <section class="nk-contact-brand">
-          <p class="nk-contact-kicker">{{ contact_kicker }}</p>
+    <main class="nkr nk-contact-page">
+      <section class="r-gradient r-index-hero">
+        <div class="r-wrap">
+          <nav class="r-crumb" aria-label="{{ page_title }}"><a href="{{ nav_home_url }}">{{ language == 'en' ? 'Home' : 'Inicio' }}</a><span>/</span><span>{{ page_title }}</span></nav>
+          <p class="r-label">{{ contact_kicker }}</p>
           <h1>{{ page_title }}</h1>
-          <p>{{ contact_intro }}</p>
-          <ul class="nk-contact-points" aria-label="{{ language == 'en' ? 'Contact notes' : 'Notas de contacto' }}">
-            {% for point in contact_points %}
-              <li>{{ point }}</li>
-            {% endfor %}
+          <p class="r-copy">{{ contact_intro }}</p>
+        </div>
+      </section>
+      <div class="r-wrap r-contact-body">
+        <aside class="r-panel r-contact-notes">
+          <h2>{{ language == 'en' ? 'Before sending' : 'Antes de enviar' }}</h2>
+          <ul class="r-list nk-contact-points" aria-label="{{ language == 'en' ? 'Contact notes' : 'Notas de contacto' }}">
+            {% for point in contact_points %}<li>{{ point }}</li>{% endfor %}
           </ul>
-        </section>
-
+        </aside>
         <section class="nk-contact-card" aria-label="{{ language == 'en' ? 'Contact form' : 'Formulario de contacto' }}">
-          <div class="nk-contact-card-head">
-            <span>{{ contact_form_kicker }}</span>
-            <h2>{{ language == 'en' ? 'Send a message' : 'Enviar mensaje' }}</h2>
-          </div>
+          <div class="nk-contact-card-head"><span>{{ contact_form_kicker }}</span><h2>{{ language == 'en' ? 'Send a message' : 'Enviar mensaje' }}</h2></div>
           {{ messages|raw }}
           {{ form|raw }}
         </section>
       </div>
     </main>
-    {% include '@nelkano_home/nelkano-footer.html.twig' %}
-    {% include '@nelkano_home/nelkano-consent-banner.html.twig' %}
+    <div class="nk-page r-footer-shell">
+      {% include '@nelkano_home/nelkano-footer.html.twig' %}
+      {% include '@nelkano_home/nelkano-consent-banner.html.twig' %}
+    </div>
     <script defer src="{{ base_js_url }}"></script>
   </body>
 </html>

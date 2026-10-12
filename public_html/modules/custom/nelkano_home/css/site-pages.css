@@ -1,0 +1,68 @@
+/* Shared presentation for editorial pages, Contact and Streaming. */
+.nkr:is(.nk-contact-page,.nk-stream) {
+  --nk-text: #0f172a;
+  --nk-text-page: #0f172a;
+  --nk-text-muted-strong: #475569;
+  --nk-text-muted-blue: var(--r-muted);
+  --nk-text-info-soft: #475569;
+  --nk-primary: var(--r-primary);
+  --nk-primary-soft: var(--r-primary);
+  --nk-primary-hover: #6d28d9;
+  --nk-info: var(--r-primary);
+  --nk-surface: #fff;
+  --nk-surface-overlay-strong: #fff;
+  --nk-surface-control: #fff;
+  --nk-surface-info: #fff;
+  --nk-surface-button: #fff;
+  --nk-border-strong: var(--r-border);
+  --nk-border-control: #cbd5e1;
+  --nk-border-muted-blue-soft: var(--r-border);
+  --nk-border-muted-blue-strong: #cbd5e1;
+  --nk-border-button-muted: var(--r-border);
+  --nk-gradient-primary: linear-gradient(var(--r-primary),var(--r-primary));
+  --nk-gradient-primary-hover: linear-gradient(#6d28d9,#6d28d9);
+  --nk-focus-primary-color: rgba(124,58,237,.15);
+  --nk-action-text: #fff;
+  --nk-panel-padding: 24px;
+  --nk-grid-gap: 24px;
+  background: #f8fafc;
+  color: #0f172a;
+  padding: 0;
+}
+.nkr .r-contact-body { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,2fr); gap: 32px; padding-block: 32px 64px; align-items: start; }
+.nkr .r-contact-notes { padding: 24px; }
+.nkr .nk-contact-points { margin: 0; gap: 16px; }
+.nkr .nk-contact-points li { font-size: 14px; line-height: 1.625; display: block; padding-left: 24px; }
+.nkr .nk-contact-points li::before { background: transparent; width: auto; height: auto; margin: 0; }
+.nkr .nk-contact-card { padding: 24px; border-radius: 20px; box-shadow: none; }
+.nkr .nk-contact-card-head span { color: var(--r-primary); font-weight: 600; font-size: 12px; display: block; margin-bottom: 8px; }
+.nkr .nk-contact-card-head h2 { font-size: 20px; font-weight: 600; line-height: 1.4; }
+.nkr .nk-contact-form { font-size: 14px; gap: 16px; }
+.nkr .nk-contact-form label { font-weight: 500; line-height: 1.5; }
+.nkr .nk-contact-form :is(input[type=email],input[type=text],textarea) { font-size: 14px; min-height: 46px; border-color: #cbd5e1; }
+.nkr .nk-contact-form textarea { min-height: 180px; }
+.nkr .nk-contact-form input[type=submit] { border-radius: 999px; min-height: 44px; font-weight: 600; width: auto; padding: 10px 24px; font-size: 14px; }
+.nkr .nk-contact-form .description { font-size: 12px; color: var(--r-muted); }
+.nkr .nk-contact-form .form-type-checkbox label { font-size: 14px; font-weight: 400; }
+.nkr .nk-contact-form input[type=checkbox] { accent-color: var(--r-primary); }
+.nkr.nk-stream > .nk-stream-layout { max-width: 1280px; padding-block: 32px 64px; padding-inline: 16px; }
+.nkr .nk-stream-layout { grid-template-columns: minmax(0,2fr) minmax(0,1fr); gap: 24px; align-items: start; }
+.nkr .nk-viewer { border-radius: 20px; border-color: var(--r-border); background: #0f172a; }
+.nkr .nk-video-empty { background: #0f172a; color: #cbd5e1; font-size: 12px; letter-spacing: .06em; }
+.nkr .nk-panel { background: #fff; border: 1px solid var(--r-border); border-radius: 20px; padding: 24px; }
+.nkr .nk-panel h2 { font-size: 20px; font-weight: 600; line-height: 1.4; }
+.nkr .nk-eyebrow { font-size: 12px; color: var(--r-primary); font-weight: 600; margin-bottom: 12px; }
+.nkr .nk-copy { font-size: 14px; color: #475569; line-height: 1.625; margin: 16px 0 24px; }
+.nkr.nk-stream .nk-button { border-radius: 999px; font-size: 14px; font-weight: 600; }
+.nkr.nk-stream .nk-stream-disconnect,.nkr.nk-stream .nk-primary { background: var(--r-primary); border-color: var(--r-primary); color: #fff; }
+.nkr.nk-stream .nk-button:focus-visible { outline: 3px solid rgba(124,58,237,.3); outline-offset: 3px; }
+.nkr .nk-stream-form label { font-size: 14px; }
+.nkr .nk-stream-form input { font: inherit; border-radius: 10px; }
+.nkr .r-guide-sections { overflow-wrap: anywhere; }
+.nkr .r-guide-toc a { align-items: baseline; }
+@media(max-width:920px) { .nkr .r-contact-body,.nkr .nk-stream-layout { grid-template-columns: minmax(0,1fr); gap: 24px; } }
+@media(max-width:640px) {
+  .nkr .nk-contact-card,.nkr .r-contact-notes,.nkr .nk-panel { padding: 20px; }
+  .nkr .nk-contact-grid { grid-template-columns: minmax(0,1fr); }
+  .nkr .nk-viewer { min-height: 0; }
+}

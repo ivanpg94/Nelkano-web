@@ -14,7 +14,7 @@ change nelkano error report status:
 
 administer nelkano backlog:
   title: 'Administrar backlog de HU'
-  description: 'Crear, editar y mover historias de usuario privadas de Nelkano.'
+  description: 'Crear, editar, mover y eliminar historias de usuario privadas de Nelkano.'
   restrict access: true
 
 delete nelkano error reports:
@@ -34,6 +34,20 @@ use nelkano debug tools:
   title: 'Herramientas de depuracion de la app Nelkano'
   description: 'Contador de FPS activado por defecto y otras ayudas para testers.'
 
+use nelkano translation:
+  title: 'Traduccion de juegos en la app Nelkano'
+  description: 'Boton Preparar traduccion y clave API de OpenAI en ajustes. La traduccion se hace en el dispositivo: solo oculta la interfaz.'
+
 nelkano premium:
   title: 'Funciones Premium de la app Nelkano'
   description: 'Reservado para las ventajas Premium. Todavia no desbloquea nada.'
+
+administer nelkano sdk:
+  title: 'Administrar el libro SDK de Nelkano'
+  description: 'Editar sus páginas y jerarquía e importar/exportar exclusivamente este libro.'
+  restrict access: true
+
+administer nelkano app updates:
+  title: 'Administrar actualizaciones de la aplicación'
+  description: 'Publicar paquetes ejecutables oficiales para Android, Windows y Linux.'
+  restrict access: true

@@ -28,3 +28,10 @@
 .nk-hu-sprint { display: inline-block; font-size: 11px; color: #675080; background: #f1ecf9; border-radius: 5px; padding: 3px 6px; margin-top: 9px; }
 .nk-hu-form .form-actions { display: flex; gap: 20px; align-items: center; }
 @media (max-width: 700px) { .nk-backlog { grid-template-columns: repeat(4, minmax(260px, 1fr)); } }
+
+.nk-sprint-filter input[type="search"] { flex: 1 1 240px; min-width: 180px; padding: 8px 12px; border: 1px solid #d9d1e5; border-radius: 6px; background: #fff; color: #493258; }
+#nk-backlog-results[aria-busy="true"] { opacity: .65; pointer-events: none; }
+.nk-hu-delete { margin-top: 14px; padding: 5px 0; border: 0; background: transparent; color: #a42f37; font: inherit; font-size: 12px; font-weight: 650; cursor: pointer; }
+.nk-hu-delete:hover { text-decoration: underline; }
+.nk-hu-delete:focus-visible { outline: 2px solid #a42f37; outline-offset: 4px; border-radius: 3px; }
+.nk-hu-delete:disabled { opacity: .5; cursor: progress; text-decoration: none; }

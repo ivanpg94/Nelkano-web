@@ -1,0 +1,18 @@
+uuid: aba69dc9-8ffe-48d3-aca6-f4bbe2d8c3a1
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.sdk_page
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+_core:
+  default_config_hash: vzhKIElNDyN_xG3Ot5sJiHV7zEI1eZCTTvbkZaaCFdo
+id: node.sdk_page
+target_entity_type_id: node
+target_bundle: sdk_page
+default_langcode: current_interface
+language_alterable: true

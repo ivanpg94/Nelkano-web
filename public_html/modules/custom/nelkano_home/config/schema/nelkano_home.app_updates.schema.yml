@@ -1,0 +1,25 @@
+nelkano_home.app_updates:
+  type: config_object
+  label: 'Actualizaciones de la aplicación nueva'
+  mapping:
+    active:
+      type: sequence
+      sequence:
+        type: integer
+    releases:
+      type: sequence
+      sequence:
+        type: sequence
+        sequence:
+          type: mapping
+          mapping:
+            file_id:
+              type: integer
+            version:
+              type: string
+            bytes:
+              type: integer
+            sha256:
+              type: string
+            notes:
+              type: text

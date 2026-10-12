@@ -1,0 +1,21 @@
+<section class="nm-hero">
+  <div><p class="nm-eyebrow">Comunidad Nelkano</p><h1>{{ mine ? 'Mis módulos' : 'Módulos' }}</h1>
+    <p>{{ mine ? 'Gestiona tus fichas y las versiones que compartes.' : 'Dale nuevas posibilidades a tu emulador. Descubre módulos creados con el SDK de Nelkano.' }}</p>
+  </div>
+  {% if can_create %}<nav class="nm-actions" aria-label="Tus módulos"><a class="nm-button" href="{{ path('nelkano_modules.add') }}">Publicar un módulo <span aria-hidden="true">↗</span></a><a class="nm-link" href="{{ path(mine ? 'nelkano_modules.catalog' : 'nelkano_modules.mine') }}">{{ mine ? 'Explorar módulos' : 'Mis módulos' }}</a></nav>
+  {% else %}<a class="nm-button" href="/user/login?destination=/modulos/crear">Accede para publicar</a>{% endif %}
+</section>
+{% if not mine and sdk_download.url %}<section class="nm-sdk-download"><h2>Crea tus propios módulos</h2><p>SDK Studio para Windows · {{ sdk_download.version }}</p><a class="nm-button" href="{{ sdk_download.url }}">Descargar SDK</a></section>{% endif %}
+<section class="nm-browser" aria-label="Catálogo de módulos">
+  {% if not mine %}
+  <form class="nm-search" action="{{ path('nelkano_modules.catalog') }}" method="get" data-nm-search>
+    <div class="nm-search-input"><label for="nm-query">Buscar módulos</label><input id="nm-query" name="q" type="search" value="{{ query }}" placeholder="Nombre, descripción o ID del módulo" maxlength="200"></div>
+    <div><label for="nm-platform">Plataforma</label><select name="plataforma" id="nm-platform"><option value="">Todas las plataformas</option><option value="android"{{ platform == 'android' ? ' selected' : '' }}>Android</option><option value="jvm-desktop"{{ platform == 'jvm-desktop' ? ' selected' : '' }}>Windows · Linux</option></select></div>
+    <div><label for="nm-system">Sistema</label><select name="sistema" id="nm-system"><option value="">Todos los sistemas</option>{% for id, label in system_options %}<option value="{{ id }}"{{ system == id ? ' selected' : '' }}>{{ label }}</option>{% endfor %}</select></div>
+    <button type="submit" class="nm-button">Buscar</button><a class="nm-link" href="{{ path('nelkano_modules.catalog') }}" data-nm-clear{{ query == '' and platform == '' and system == '' ? ' hidden' : '' }}>Limpiar</a>
+  </form>
+  {% endif %}
+  <p class="nm-feedback" role="status" aria-live="polite"></p>
+  {% include '@nelkano_modules/nelkano-module-results.html.twig' %}
+</section>
+<p class="nm-footnote">Cada módulo lo mantiene su autor. Los archivos se descargan desde su alojamiento externo.</p>

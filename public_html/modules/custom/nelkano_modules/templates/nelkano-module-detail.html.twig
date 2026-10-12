@@ -1,0 +1,33 @@
+<a class="nm-back" href="{{ path('nelkano_modules.catalog') }}">← Todos los módulos</a>
+<section class="nm-detail-head">
+  <span class="nm-module-icon nm-module-icon-large" aria-hidden="true">{{ module.initial }}</span>
+  <div><p class="nm-eyebrow">{{ module.module_id }}</p><h1>{{ module.title }}</h1><p class="nm-author">Por {{ module.author }}{% if not module.published %} · Borrador{% endif %}</p>
+    <div class="nm-tags">{% for platform in module.platforms %}<span>{{ platform }}</span>{% endfor %}{% for system in module.systems %}<span class="nm-system-tag">{{ system }}</span>{% else %}<span>Sistemas sin especificar</span>{% endfor %}</div>
+  </div>
+  {% if can_edit %}<nav class="nm-actions" aria-label="Gestionar módulo"><a class="nm-button" href="{{ module.release_url }}">Añadir versión</a><a class="nm-link" href="{{ module.edit_url }}">Editar ficha</a></nav>{% endif %}
+</section>
+<div class="nm-detail-layout">
+  <div>{% if module.image_detail %}<div class="nm-detail-image">{{ module.image_detail }}</div>{% endif %}<article class="nm-panel"><h2>Acerca del módulo</h2><p class="nm-description">{{ module.description }}</p></article>
+    <section class="nm-panel nm-versions"><h2>Versiones</h2>
+      {% if not module.available %}<p class="nm-notice">Este módulo no tiene ninguna descarga disponible en este momento.</p>{% endif %}
+      {% for version in versions %}<article class="nm-release">
+        <div class="nm-release-head"><div><h3>Versión {{ version.version }}</h3><p>SDK {{ version.sdk }} · {{ version.size }} KiB</p></div>
+          {% if version.available %}<a class="nm-button nm-download" href="{{ version.url }}" rel="noopener noreferrer">Descargar .nelkmod <span aria-hidden="true">↓</span></a>{% else %}<span class="nm-unavailable">Descarga no disponible</span>{% endif %}
+        </div>
+        <div class="nm-tags">{% for platform in version.platforms %}<span>{{ platform }}</span>{% endfor %}</div>
+        {% if version.notes %}<p class="nm-description">{{ version.notes }}</p>{% endif %}
+        <details class="nm-verification"><summary>Permisos y verificación</summary>
+          <p>Permisos solicitados:</p><ul>{% for capability in version.capabilities %}<li><code>{{ capability }}</code></li>{% else %}<li>Sin permisos adicionales.</li>{% endfor %}</ul>
+          <p>SHA-256 del archivo:</p><code class="nm-hash">{{ version.sha256 }}</code>
+        </details>
+        {% if can_edit %}<div class="nm-release-owner"><span>Última revisión: {{ version.checked }}</span><a href="{{ version.edit_url }}">Editar versión o reparar enlace</a>{% if version.error %}<p class="nm-notice">{{ version.error }}</p>{% endif %}</div>{% endif %}
+      </article>{% else %}<p>Aún no hay versiones registradas.</p>{% endfor %}
+    </section>
+  </div>
+  <aside class="nm-panel nm-project"><h2>Proyecto</h2>
+    {% if module.source %}<a class="nm-button nm-button-secondary" href="{{ module.source }}" target="_blank" rel="noopener noreferrer">Código fuente ↗</a><p>Colabora con su autor desde el repositorio.</p>{% else %}<p>El autor no ha añadido un repositorio de código fuente.</p>{% endif %}
+    <h3>Firma del paquete</h3><code class="nm-hash">{{ module.fingerprint }}</code>
+    <p>Las versiones conservan esta firma. La verificación comprueba la integridad del archivo; no es una revisión de su funcionamiento.</p>
+    <h3>Instalación</h3><p>Descarga el archivo y ábrelo desde Ajustes → Módulos en Nelkano. Revisa los permisos antes de activarlo.</p>
+  </aside>
+</div>

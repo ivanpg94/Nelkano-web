@@ -563,7 +563,7 @@
     }
     if (type === 'disconnect') {
       setState('Sesion cerrada');
-      setSession('Abre el emulador en Android y pulsa Streaming.');
+      setSession('Abre Nelkano, inicia una partida compatible y pulsa Streaming.');
       log(payload.reason || 'Sesion cerrada');
       closePeer();
     }
@@ -665,7 +665,7 @@
         if (message.toLowerCase().indexOf('sesion de streaming no encontrada') !== -1 || message.indexOf('404') !== -1) {
           framePolling = false;
           setState('Emision cerrada');
-          setSession('Abre el emulador en Android y pulsa Streaming.');
+          setSession('Abre Nelkano, inicia una partida compatible y pulsa Streaming.');
           setHint('Drupal no encuentra la sesion activa. Vuelve a pulsar Streaming en Android.');
           log('Fallback HTTP: sesion no encontrada en Drupal');
           return;
@@ -680,7 +680,7 @@
     disconnect({ notifyAndroid: false });
     if (!sessionId || !endpoint) {
       setState('Sin emision activa');
-      setSession('Abre el emulador en Android y pulsa Streaming.');
+      setSession('Abre Nelkano, inicia una partida compatible y pulsa Streaming.');
       return;
     }
     currentSessionId = sessionId;
@@ -726,7 +726,7 @@
           currentSessionId = '';
           closePeer();
           setState('Emision cerrada');
-          setSession('Abre el emulador en Android y pulsa Streaming.');
+          setSession('Abre Nelkano, inicia una partida compatible y pulsa Streaming.');
           setHint('La emision activa ya no existe. Vuelve a pulsar Streaming en Android.');
           log('Sesion de streaming cerrada');
           return;
@@ -742,7 +742,7 @@
     disconnect({ notifyAndroid: false });
     if (!sessionId) {
       setState('Sin emision activa');
-      setSession('Abre el emulador en Android y pulsa Streaming.');
+      setSession('Abre Nelkano, inicia una partida compatible y pulsa Streaming.');
       return;
     }
     currentSessionId = sessionId;
@@ -792,7 +792,7 @@
       }
       if (message.type === 'disconnect') {
         setState('Sesion cerrada');
-        setSession('Abre el emulador en Android y pulsa Streaming.');
+        setSession('Abre Nelkano, inicia una partida compatible y pulsa Streaming.');
         log(payload.reason || 'Sesion cerrada');
         closePeer();
         return;
@@ -934,8 +934,8 @@
       }
       if (!data.active || !data.session) {
         setState('Esperando Android');
-        setSession(data.message || 'Abre el emulador en Android y pulsa Streaming.');
-        setHint(data.message || 'Abre el emulador en Android y pulsa Streaming.');
+        setSession(data.message || 'Abre Nelkano, inicia una partida compatible y pulsa Streaming.');
+        setHint(data.message || 'Abre Nelkano, inicia una partida compatible y pulsa Streaming.');
         return;
       }
       connectFromActiveSession(data.session);

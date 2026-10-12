@@ -14,7 +14,7 @@ foreach (['es', 'en'] as $lang) {
     $uri = trim($row['apk_file'] ?? '');
     if ($uri === '') continue;
     $name = basename($uri);
-    if ($uri !== 'public://nelkano-releases/' . $name || !str_ends_with($name, '.apk')) {
+    if (!in_array($uri, ['public://nelkano-releases/' . $name, 'private://nelkano-releases/' . $name], TRUE) || !preg_match('/\.(apk|msi|zip)$/D', $name)) {
       throw new RuntimeException('Unexpected release URI: ' . $uri);
     }
     $required[$name] = $uri;
@@ -35,17 +35,15 @@ if (getenv('NELKANO_RELEASE_ASSETS_CHECK_ONLY') === '1') {
   echo 'Release asset preflight OK: ' . count($required) . PHP_EOL;
   return;
 }
-$destination = 'public://nelkano-releases';
-if (!\Drupal::service('file_system')->prepareDirectory($destination, FileSystemInterface::CREATE_DIRECTORY)) {
-  throw new RuntimeException('Cannot create release directory');
-}
 foreach ($required as $name => $uri) {
+  $destination = dirname($uri);
+  if (!\Drupal::service('file_system')->prepareDirectory($destination, FileSystemInterface::CREATE_DIRECTORY)) throw new RuntimeException('Cannot create release directory');
   if (!is_file($uri) && !copy($directory . '/' . $name, $uri)) throw new RuntimeException('Copy failed: ' . $name);
   if (!hash_equals($manifest[$name], hash_file('sha256', $uri))) throw new RuntimeException('Copied hash mismatch');
   $files = \Drupal::entityTypeManager()->getStorage('file')->loadByProperties(['uri' => $uri]);
   $file = reset($files) ?: File::create(['uri' => $uri, 'uid' => 1]);
   $file->setFilename($name);
-  $file->setMimeType('application/vnd.android.package-archive');
+  $file->setMimeType(str_ends_with($name, '.apk') ? 'application/vnd.android.package-archive' : (str_ends_with($name, '.zip') ? 'application/zip' : 'application/octet-stream'));
   $file->setSize(filesize($uri));
   $file->setPermanent();
   $file->save();

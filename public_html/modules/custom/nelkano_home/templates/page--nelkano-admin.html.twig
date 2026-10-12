@@ -1,0 +1,9 @@
+{#
+  Nelkano's administrative interface already supplies its header and sidebar.
+  Keep Drupal's messages/content without the active theme's public chrome.
+#}
+<main id="main-content" class="nk-admin-page" tabindex="-1">
+  {{ page.highlighted }}
+  {{ page.help }}
+  {{ page.content }}
+</main>

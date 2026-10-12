@@ -1,0 +1,18 @@
+uuid: 9f9bcf54-1bd6-4a52-bbb0-a326abec79bd
+langcode: en
+status: true
+dependencies:
+  module:
+    - search_api_db
+id: nelkano_backlog
+name: 'Backlog de HU'
+description: 'Índice privado del backlog administrativo.'
+backend: search_api_db
+backend_config:
+  database: 'default:default'
+  min_chars: 1
+  matching: partial
+  phrase: bigram
+  autocomplete:
+    suggest_suffix: true
+    suggest_words: true

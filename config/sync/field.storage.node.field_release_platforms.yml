@@ -1,0 +1,21 @@
+uuid: 39f6d370-ba42-35a4-a0c9-34d2583be8d8
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_release_platforms
+field_name: field_release_platforms
+entity_type: node
+type: string
+settings:
+  max_length: 32
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 2
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

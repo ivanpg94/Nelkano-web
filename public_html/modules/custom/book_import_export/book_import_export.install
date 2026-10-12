@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @file
+ * Enable Book only for the dedicated documentation bundle.
+ */
+function book_import_export_install(): void {
+  $settings = \Drupal::configFactory()->getEditable('book.settings');
+  $allowed = $settings->get('allowed_types') ?? [];
+  if (!in_array('sdk_page', array_column($allowed, 'content_type'), TRUE)) {
+    $allowed[] = ['content_type' => 'sdk_page', 'child_type' => 'sdk_page'];
+  }
+  $settings->set('allowed_types', $allowed)->save();
+  \Drupal::service('entity_type.bundle.info')->clearCachedBundles();
+}

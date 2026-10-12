@@ -1,0 +1,17 @@
+{% if content.downloads %}
+<div id="downloads" class="r-install" data-install-picker>
+  {% set first = content.downloads|first %}
+  <a class="r-btn r-install-main" href="{{ first.url }}" data-install-link>
+    <span data-install-label>{{ language == 'es' ? 'Instalar en ' : 'Install on ' }}{{ first.label }}</span>
+    <span class="r-install-symbol" data-install-symbol aria-hidden="true">{% include '@nelkano_home/nelkano-platform-icon.html.twig' with { platform: first.platform } %}</span>
+  </a>
+  <div class="r-install-alternatives" data-install-alternatives{% if content.downloads|length <= 1 %} hidden{% endif %}>
+    <span>{{ language == 'es' ? 'También disponible en:' : 'Also available on:' }}</span>
+    <div class="r-install-platforms" role="group" aria-label="{{ language == 'es' ? 'Elegir sistema operativo' : 'Choose operating system' }}">
+    {% for download in content.downloads %}
+      <button type="button" class="r-install-platform" data-install-platform="{{ download.platform }}" data-url="{{ download.url }}" data-label="{{ language == 'es' ? 'Instalar en ' : 'Install on ' }}{{ download.label }}" aria-label="{{ language == 'es' ? 'Elegir ' : 'Choose ' }}{{ download.label }}" title="{{ download.label }}" aria-pressed="{{ loop.first ? 'true' : 'false' }}"{% if loop.first %} hidden{% endif %}>{% include '@nelkano_home/nelkano-platform-icon.html.twig' with { platform: download.platform } %}</button>
+    {% endfor %}
+    </div>
+  </div>
+</div>
+{% endif %}

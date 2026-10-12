@@ -1,0 +1,15 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.sdk_page
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: node.sdk_page
+target_entity_type_id: node
+target_bundle: sdk_page
+default_langcode: current_interface
+language_alterable: true

@@ -689,7 +689,7 @@ nelkano_home.admin_backlog:
   path: '/admin/nelkano/backlog'
   defaults:
     _controller: '\Drupal\nelkano_home\Controller\HuAdminController::board'
-    _title: 'Backlog · HU'
+    _title: 'Backlog Â· HU'
   requirements:
     _permission: 'administer nelkano backlog'
   options:
@@ -817,7 +817,7 @@ nelkano_home.admin_guide:
   path: '/admin/nelkano/guia'
   defaults:
     _form: '\Drupal\nelkano_home\Form\GuideSettingsForm'
-    _title: 'Guía de uso'
+    _title: 'GuÃ­a de uso'
   requirements:
     _permission: 'administer nelkano editable pages'
   options:
@@ -837,7 +837,7 @@ nelkano_home.admin_add_system:
   path: '/admin/nelkano/sistemas/nuevo'
   defaults:
     _form: '\Drupal\nelkano_home\Form\AddSystemForm'
-    _title: 'Añadir sistema'
+    _title: 'AÃ±adir sistema'
   requirements:
     _permission: 'administer nelkano editable pages'
   options:
@@ -853,3 +853,83 @@ nelkano_home.release_download:
     version: '[A-Za-z0-9.+_-]+'
   options:
     no_cache: TRUE
+
+nelkano_home.admin_sdk:
+  path: '/admin/nelkano/sdk'
+  defaults:
+    _form: '\Drupal\nelkano_home\Form\SdkBookAdminForm'
+    _title: 'SDK de Nelkano'
+  requirements:
+    _permission: 'administer nelkano editable pages+administer nelkano sdk'
+  options:
+    _admin_route: TRUE
+    no_cache: TRUE
+
+nelkano_home.admin_sdk_import:
+  path: '/admin/nelkano/sdk/importar'
+  defaults:
+    _form: '\Drupal\nelkano_home\Form\SdkBookImportForm'
+    _title: 'Importar SDK de Nelkano'
+  requirements:
+    _permission: 'administer nelkano editable pages+administer nelkano sdk'
+  options:
+    _admin_route: TRUE
+    no_cache: TRUE
+
+nelkano_home.admin_sdk_export:
+  path: '/admin/nelkano/sdk/exportar'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\SdkBookExportController::download'
+  requirements:
+    _permission: 'administer nelkano editable pages+administer nelkano sdk'
+  options:
+    _admin_route: TRUE
+    no_cache: TRUE
+
+nelkano_home.admin_hu_delete:
+  path: '/admin/nelkano/backlog/{hu}/delete'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HuAdminController::delete'
+  requirements:
+    _permission: 'administer nelkano backlog'
+    _user_is_logged_in: 'TRUE'
+    _csrf_request_header_token: 'TRUE'
+    hu: '\d+'
+nelkano_home.app_updates_api:
+  path: '/api/nelkano/v1/app/releases/{platform}'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppUpdatesController::latest'
+  requirements:
+    _access: 'TRUE'
+    platform: 'android-arm64|windows-x86_64|linux-x86_64|sdk-studio-windows-x86_64'
+  methods: [GET, HEAD]
+nelkano_home.app_updates_download:
+  path: '/api/nelkano/v1/app/releases/{platform}/{build}/download'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppUpdatesController::download'
+  requirements:
+    _access: 'TRUE'
+    platform: 'android-arm64|windows-x86_64|linux-x86_64|sdk-studio-windows-x86_64'
+    build: '[1-9][0-9]*'
+  methods: [GET, HEAD]
+nelkano_home.app_updates_admin:
+  path: '/admin/nelkano/app-updates'
+  defaults:
+    _form: '\Drupal\nelkano_home\Form\AppUpdatesForm'
+    _title: 'Actualizaciones de la aplicaciÃ³n'
+  requirements:
+    _permission: 'administer nelkano app updates'
+
+nelkano_home.platform_release_download:
+  path: '/descargar/{language}/{platform}/{version}'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::downloadRelease'
+  requirements:
+    _access: 'TRUE'
+    language: 'es|en'
+    platform: 'android|windows|steamos|sdk'
+    version: '[A-Za-z0-9.+_-]+'
+  options:
+    no_cache: TRUE
+

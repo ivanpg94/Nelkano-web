@@ -1,0 +1,13 @@
+uuid: 1285ad03-02be-48b1-8032-ca0103964582
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: 3Y5MmABQ85IuTbkLXM5wyWsYIUttXpW73fADLRP5KZM
+name: 'SDK documentation page'
+type: sdk_page
+description: 'Editorial SDK documentation, versioned separately as Book YAML.'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

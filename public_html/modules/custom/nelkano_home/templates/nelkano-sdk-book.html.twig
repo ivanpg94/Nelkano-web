@@ -1,0 +1,26 @@
+<section class="r-gradient r-index-hero r-guide-hero">
+  <div class="r-wrap">
+    <p class="r-label">{{ book.title }}</p>
+    {% if not book.is_root %}<nav class="r-crumb" aria-label="{{ book.index_label }}"><a href="{{ book.root_url }}">{{ book.title }}</a><span aria-hidden="true">/</span><span>{{ page.title }}</span></nav>{% endif %}
+    <h1>{{ page.title }}</h1>
+  </div>
+</section>
+<div class="r-wrap r-guide-layout r-sdk-layout">
+  <aside>
+    <details class="r-guide-toc" open>
+      <summary>{{ book.index_label }}</summary>
+      <nav aria-label="{{ book.index_label }}">
+        <ol>{% for chapter in book.chapters %}
+          <li class="r-sdk-depth-{{ chapter.depth }}"><a href="{{ chapter.url }}"{% if chapter.current %} aria-current="page"{% endif %}><span>{{ '%02d'|format(loop.index) }}</span>{{ chapter.title }}</a></li>
+        {% endfor %}</ol>
+      </nav>
+    </details>
+  </aside>
+  <div class="r-guide-sections">
+    <article class="r-sdk-body" aria-label="{{ page.title }}">{{ book.body }}</article>
+    <nav class="r-sdk-pagination" aria-label="{{ book.index_label }}">
+      {% if book.previous %}<a href="{{ book.previous.url }}" rel="prev"><small>← {{ book.previous_label }}</small>{{ book.previous.title }}</a>{% endif %}
+      {% if book.next %}<a href="{{ book.next.url }}" rel="next"><small>{{ book.next_label }} →</small>{{ book.next.title }}</a>{% endif %}
+    </nav>
+  </div>
+</div>

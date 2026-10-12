@@ -1,4 +1,4 @@
-/* Scoped: backlog and reports never load this library or receive this class. */
+/* Shared administration shell; data-list refinements live in admin-data.css. */
 .nk-admin-app.nk-redesign-admin{background:#f8fafc;color:#0f172a;border:0;border-radius:0;box-shadow:none;max-width:none;margin:0;overflow:visible;font-family:Inter,ui-sans-serif,system-ui,sans-serif;color-scheme:light}
 .nk-redesign-admin .nk-admin-body{max-width:1280px;grid-template-columns:224px minmax(0,1fr);gap:32px;margin:auto;padding:32px 24px;align-items:start}
 .nk-redesign-admin .nk-admin-sidebar{padding:16px 12px;background:white;border:1px solid rgba(0,0,0,.08);box-shadow:0 1px 3px rgba(0,0,0,.04);border-radius:16px;position:sticky;top:84px}
@@ -81,3 +81,5 @@
 .nk-redesign-admin .r-publication-bar .form-item {margin:0;width:100%;}
 .nk-redesign-admin .r-publication-bar .form-item .description {flex-basis:100%;margin-left:24px;}
 .nk-redesign-admin .r-publication-bar .form-type-checkbox {flex-wrap:wrap;}
+
+.nk-redesign-admin .nk-admin-config-form details.r-release-platform-group > summary{justify-content:flex-start}.nk-redesign-admin .r-release-platform-group > summary .claro-details__summary-summary{margin-left:auto}

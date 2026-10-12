@@ -68,6 +68,8 @@ final class ProfileController extends ControllerBase {
       'base_css_url' => '/' . $this->moduleExtensionList->getPath('nelkano_home') . '/css/base.css',
       'header_css_url' => '/' . $this->moduleExtensionList->getPath('nelkano_home') . '/css/header.css',
       'account_css_url' => '/' . $this->moduleExtensionList->getPath('nelkano_home') . '/css/account.css',
+      'redesign_css_url' => '/' . $this->moduleExtensionList->getPath('nelkano_home') . '/css/redesign.css?v=' . filemtime(DRUPAL_ROOT . '/' . $this->moduleExtensionList->getPath('nelkano_home') . '/css/redesign.css'),
+      'profile_css_url' => '/' . $this->moduleExtensionList->getPath('nelkano_home') . '/css/profile.css?v=' . filemtime(DRUPAL_ROOT . '/' . $this->moduleExtensionList->getPath('nelkano_home') . '/css/profile.css'),
       'section_html' => $this->renderSection($data),
     ] + $this->userMenuContext($language, 'profile', (bool) $data['is_owner']) + $this->chromeContext(
       $this->moduleExtensionList->getPath('nelkano_home'),

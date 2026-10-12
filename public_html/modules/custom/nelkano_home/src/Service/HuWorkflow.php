@@ -18,6 +18,37 @@ final class HuWorkflow {
     return sprintf('%05d', (int) $node->get('field_hu_number')->value);
   }
 
+  /** Delete only the confirmed HU revision, using the same lock as editing. */
+  public static function delete(int $id, int $revision): array {
+    if (!\Drupal::currentUser()->hasPermission(self::PERMISSION)) { throw new AccessDeniedHttpException(); }
+    if ($revision < 1) { throw new \InvalidArgumentException('Revisión no válida.'); }
+    $key = 'nelkano_hu:' . $id;
+    $lock = \Drupal::lock();
+    if (!$lock->acquire($key, 60)) { throw new ConflictHttpException('La HU se está guardando. Vuelve a intentarlo.'); }
+    $transaction = \Drupal::database()->startTransaction();
+    $storage = \Drupal::entityTypeManager()->getStorage('node');
+    try {
+      $storage->resetCache([$id]);
+      $node = $storage->load($id);
+      if (!$node || $node->bundle() !== 'hu') { throw new NotFoundHttpException('HU no encontrada.'); }
+      if ((int) $node->getRevisionId() !== $revision) {
+        throw new ConflictHttpException('Otra persona ha modificado esta HU. Actualiza el backlog antes de eliminarla.');
+      }
+      $result = ['id' => $id, 'number' => self::number($node), 'deleted' => TRUE];
+      // Native entity deletion removes all revisions/fields and Search API items.
+      // Never rewind the sequence: deleted HU numbers remain consumed.
+      $node->delete();
+      unset($transaction);
+      return $result;
+    }
+    catch (\Throwable $error) {
+      $transaction->rollBack();
+      $storage->resetCache([$id]);
+      throw $error;
+    }
+    finally { unset($transaction); $lock->release($key); }
+  }
+
   public static function save(?int $id, ?int $revision, string $status, ?string $title = NULL, ?string $description = NULL, array $fields = []): NodeInterface {
     if (!\Drupal::currentUser()->hasPermission(self::PERMISSION)) {
       throw new AccessDeniedHttpException();

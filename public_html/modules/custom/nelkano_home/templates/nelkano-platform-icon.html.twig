@@ -1,0 +1,9 @@
+<svg viewBox="0 0 24 24" fill="currentColor" focusable="false" aria-hidden="true">
+{% if platform == 'android' %}
+<path d="M5.5 8.5a6.5 6.5 0 0 1 13 0H5.5ZM5.5 10h13v8a1.5 1.5 0 0 1-1.5 1.5H7A1.5 1.5 0 0 1 5.5 18v-8Z"/><path d="M7 4 5.5 1.5M17 4l1.5-2.5M3 10v7M21 10v7M8.5 19v3M15.5 19v3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="9" cy="6.5" r=".7" fill="var(--r-icon-eye,white)"/><circle cx="15" cy="6.5" r=".7" fill="var(--r-icon-eye,white)"/>
+{% elseif platform == 'windows' %}
+<path d="m2 4 8.5-1.2v8.3H2V4Zm10-1.5L22 1v10.1H12V2.5ZM2 12.6h8.5v8.3L2 19.7v-7.1ZM12 12.6h10V23l-10-1.5v-8.9Z"/>
+{% else %}
+<circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="16.5" cy="7.5" r="3.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="8" cy="16" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m3 14 5 2m2.4-2.3 3.3-4.1m-2 6.3 5-4.3" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+{% endif %}
+</svg>

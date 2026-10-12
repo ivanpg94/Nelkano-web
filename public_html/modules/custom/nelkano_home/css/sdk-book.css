@@ -1,0 +1,22 @@
+/* SDK chapters reuse the guide layout, with readable source examples. */
+.nkr .r-sdk-body{overflow-wrap:anywhere}
+.nkr .r-sdk-body h2{margin:32px 0 16px;line-height:1.4}
+.nkr .r-sdk-body h3{font-size:16px;margin:24px 0 12px}
+.nkr .r-sdk-body>:first-child{margin-top:0}
+.nkr .r-sdk-body a{color:var(--r-primary);text-decoration:underline;text-underline-offset:3px}
+.nkr .r-sdk-body code{font: .9em/1.65 ui-monospace,SFMono-Regular,Consolas,monospace;background:#ede9fe;color:#5b21b6;border-radius:4px;padding:2px 5px;white-space:break-spaces}
+.nkr .r-sdk-body pre{max-width:100%;overflow:auto;background:#0f172a;color:#e2e8f0;border:1px solid var(--r-border);border-radius:12px;padding:20px;margin:20px 0}
+.nkr .r-sdk-body pre code{background:transparent;color:inherit;padding:0;white-space:pre;overflow-wrap:normal}
+.nkr .r-sdk-body table{display:block;max-width:100%;overflow:auto;border-collapse:collapse;margin:20px 0;font-size:14px}
+.nkr .r-sdk-body td,.nkr .r-sdk-body th{padding:12px;border:1px solid var(--r-border);text-align:left}
+.nkr .r-sdk-body blockquote{margin:20px 0;padding:4px 20px;border-left:3px solid var(--r-primary)}
+.nkr .r-sdk-body img{max-width:100%;height:auto}
+.nkr .r-guide-toc a[aria-current=page]{background:#ede9fe;color:#5b21b6;border-radius:8px;font-weight:600;padding:8px}
+.nkr .r-sdk-depth-1{padding-left:12px}.nkr .r-sdk-depth-2{padding-left:24px}.nkr .r-sdk-depth-3{padding-left:36px}
+.nkr .r-sdk-pagination{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;padding-bottom:32px}
+.nkr .r-sdk-pagination a{flex:1 1 220px;padding:16px 20px;border:1px solid var(--r-border);border-radius:12px;background:white;font-size:14px;color:#334155}
+.nkr .r-sdk-pagination a:hover{border-color:var(--r-primary);color:var(--r-primary)}
+.nkr .r-sdk-pagination small{display:block;color:var(--r-muted);font-size:12px;margin-bottom:4px}
+@media(min-width:1024px){.nkr .r-sdk-layout{grid-template-columns:260px minmax(0,1fr)}}
+
+.nkr :is(.r-sdk-depth-4,.r-sdk-depth-5,.r-sdk-depth-6,.r-sdk-depth-7,.r-sdk-depth-8){padding-left:40px}

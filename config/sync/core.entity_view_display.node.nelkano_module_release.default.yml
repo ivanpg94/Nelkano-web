@@ -1,0 +1,51 @@
+uuid: a66c8f63-b178-3703-a55c-a15b0cedfc45
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.nelkano_module_release.field_release_capabilities
+    - field.field.node.nelkano_module_release.field_release_checked
+    - field.field.node.nelkano_module_release.field_release_error
+    - field.field.node.nelkano_module_release.field_release_etag
+    - field.field.node.nelkano_module_release.field_release_hash
+    - field.field.node.nelkano_module_release.field_release_modified
+    - field.field.node.nelkano_module_release.field_release_module
+    - field.field.node.nelkano_module_release.field_release_notes
+    - field.field.node.nelkano_module_release.field_release_platforms
+    - field.field.node.nelkano_module_release.field_release_queued
+    - field.field.node.nelkano_module_release.field_release_sdk
+    - field.field.node.nelkano_module_release.field_release_size
+    - field.field.node.nelkano_module_release.field_release_state
+    - field.field.node.nelkano_module_release.field_release_url
+    - field.field.node.nelkano_module_release.field_release_version
+    - node.type.nelkano_module_release
+  module:
+    - user
+id: node.nelkano_module_release.default
+targetEntityType: node
+bundle: nelkano_module_release
+mode: default
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_release_capabilities: true
+  field_release_checked: true
+  field_release_error: true
+  field_release_etag: true
+  field_release_hash: true
+  field_release_modified: true
+  field_release_module: true
+  field_release_notes: true
+  field_release_platforms: true
+  field_release_queued: true
+  field_release_sdk: true
+  field_release_size: true
+  field_release_state: true
+  field_release_url: true
+  field_release_version: true
+  langcode: true
+  search_api_excerpt: true

@@ -31,7 +31,7 @@
   <body>
     <a class="nk-skip-link" href="#system-content">{{ labels.skip }}</a>
     {% include '@nelkano_home/nelkano-header.html.twig' %}
-    <main id="system-content" class="nkr">{% if guide %}{% include '@nelkano_home/nelkano-guide.html.twig' %}{% elseif index_page %}{% include '@nelkano_home/nelkano-systems-index.html.twig' %}{% else %}{% include '@nelkano_home/nelkano-system-detail.html.twig' %}{% endif %}</main>
+    <main id="system-content" class="nkr">{% if guide %}{% include '@nelkano_home/nelkano-guide.html.twig' %}{% elseif book %}{% include '@nelkano_home/nelkano-sdk-book.html.twig' %}{% elseif index_page %}{% include '@nelkano_home/nelkano-systems-index.html.twig' %}{% else %}{% include '@nelkano_home/nelkano-system-detail.html.twig' %}{% endif %}</main>
     <div class="nk-page r-footer-shell">{% include '@nelkano_home/nelkano-footer.html.twig' %}{% include '@nelkano_home/nelkano-consent-banner.html.twig' %}</div>
     <script defer src="{{ base_js_url }}"></script>
   </body>

@@ -28,3 +28,8 @@ test -f public_html/modules/custom/nelkano_home/src/Controller/ErrorReportApiCon
 NELKANO_RELEASE_ASSETS_CHECK_ONLY=1 ./vendor/bin/drush --root=public_html php:script scripts/install-release-assets.php
 ./vendor/bin/drush --root=public_html php:script scripts/install-release-assets.php
 ./vendor/bin/drush --root=public_html deploy --yes
+# Configuration export does not contain Book nodes. Import by UUID only after
+# the bundle, fields, languages and text formats have been installed.
+./vendor/bin/drush --root=public_html book:import content/books/nelkano-sdk.yml --dry-run
+./vendor/bin/drush --root=public_html book:import content/books/nelkano-sdk.yml
+./vendor/bin/drush --root=public_html cache:rebuild

@@ -1,0 +1,9 @@
+{% include '@nelkano_home/nelkano-theme-init.html.twig' %}
+{% include '@nelkano_home/nelkano-analytics.html.twig' with catalog_chrome only %}
+{% include '@nelkano_home/nelkano-header.html.twig' with catalog_chrome only %}
+<main id="main-content" class="nm-page" tabindex="-1">
+  {{ page.highlighted }}
+  {{ page.help }}
+  {{ page.content }}
+</main>
+<div class="nm-footer">{% include '@nelkano_home/nelkano-footer.html.twig' with catalog_chrome only %}</div>{% include '@nelkano_home/nelkano-consent-banner.html.twig' with catalog_chrome only %}

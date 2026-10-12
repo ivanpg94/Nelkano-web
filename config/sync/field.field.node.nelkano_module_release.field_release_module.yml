@@ -1,0 +1,24 @@
+uuid: 45cf2913-39e4-38d5-a164-a2a66e65bb23
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_release_module
+    - node.type.nelkano_module
+    - node.type.nelkano_module_release
+id: node.nelkano_module_release.field_release_module
+field_name: field_release_module
+entity_type: node
+bundle: nelkano_module_release
+label: Módulo
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      nelkano_module: nelkano_module
+field_type: entity_reference

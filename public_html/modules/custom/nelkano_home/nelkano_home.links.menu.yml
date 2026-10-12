@@ -67,3 +67,9 @@ nelkano_home.seo_settings:
   route_name: nelkano_home.admin_seo
   parent: nelkano_home.admin
   weight: 6
+
+nelkano_home.app_updates_menu:
+  title: 'Actualizaciones de la aplicación'
+  route_name: nelkano_home.app_updates_admin
+  parent: nelkano_home.admin
+  weight: 12

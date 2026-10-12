@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies: {  }
+name: 'SDK documentation page'
+type: sdk_page
+description: 'Editorial SDK documentation, versioned separately as Book YAML.'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

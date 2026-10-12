@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.sdk_page.body
+    - node.type.sdk_page
+  module:
+    - book
+    - text
+    - user
+id: node.sdk_page.default
+targetEntityType: node
+bundle: sdk_page
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  book_navigation:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  links: true
+  langcode: true

@@ -1,0 +1,11 @@
+_core:
+  default_config_hash: Y61OL3iuupvET4fODe_GpNwWctlXU81TDN1K9wPUZaY
+allowed_types:
+  -
+    content_type: sdk_page
+    child_type: sdk_page
+book_sort: weight
+truncate_label: true
+use_parent_selector: true
+use_alternative_form: false
+update_child_aliases: false

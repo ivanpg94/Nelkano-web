@@ -8,6 +8,8 @@ module:
   big_pipe: 0
   block: 0
   block_content: 0
+  book: 0
+  book_import_export: 0
   breakpoint: 0
   ckeditor5: 0
   comment: 0
@@ -26,6 +28,7 @@ module:
   help: 0
   history: 0
   image: 0
+  language: 0
   link: 0
   menu_link_content: 0
   menu_ui: 0
@@ -34,6 +37,7 @@ module:
   metatag_twitter_cards: 0
   mysql: 0
   nelkano_home: 0
+  nelkano_modules: 0
   node: 0
   options: 0
   page_cache: 0
@@ -42,6 +46,8 @@ module:
   redirect: 0
   rest: 0
   search: 0
+  search_api: 0
+  search_api_db: 0
   search_help: 0
   search_node: 0
   serialization: 0
@@ -57,6 +63,7 @@ module:
   views_data_export: 0
   views_ui: 0
   pathauto: 1
+  content_translation: 10
   views: 10
   standard: 1000
 theme:

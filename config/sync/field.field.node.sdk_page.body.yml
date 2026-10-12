@@ -1,0 +1,28 @@
+uuid: 3f60c1d6-d155-495e-9b75-c4c238d1a33d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - filter.format.basic_html
+    - node.type.sdk_page
+  module:
+    - text
+_core:
+  default_config_hash: IRXkbW_YMf3Kv-qF-06sG-G8ukSgkYFqd47c5iVfyMQ
+id: node.sdk_page.body
+field_name: body
+entity_type: node
+bundle: sdk_page
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+  allowed_formats:
+    - basic_html
+field_type: text_with_summary

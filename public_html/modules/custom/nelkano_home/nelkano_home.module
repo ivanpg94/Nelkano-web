@@ -47,8 +47,21 @@ function nelkano_home_page_attachments_alter(array &$attachments): void {
 
   $attachments['#attached']['library'] = array_values(array_filter(
     $attachments['#attached']['library'] ?? [],
-    static fn(string $library): bool => !preg_match('/^(claro|seven|gin|adminimal_admin_toolbar)\//', $library),
+    static fn(string $library): bool => !preg_match('/^(olivero|claro|seven|gin|adminimal_admin_toolbar)\//', $library),
   ));
+}
+
+/**
+ * Implements hook_theme_suggestions_page_alter().
+ *
+ * Limited administrators can use the default theme instead of the admin theme.
+ * Render our own page shell in either case, retaining messages and main content.
+ */
+function nelkano_home_theme_suggestions_page_alter(array &$suggestions, array $variables): void {
+  $route_name = \Drupal::routeMatch()->getRouteName() ?: '';
+  if (str_starts_with($route_name, 'nelkano_home.admin')) {
+    $suggestions[] = 'page__nelkano_admin';
+  }
 }
 
 /**
@@ -56,8 +69,10 @@ function nelkano_home_page_attachments_alter(array &$attachments): void {
  */
 function nelkano_home_theme(): array {
   return [
+    'page__nelkano_admin' => ['base hook' => 'page', 'template' => 'page--nelkano-admin'],
+    'nelkano_backlog_cards' => ['variables' => ['columns' => []]],
     'nelkano_report_detail' => ['variables' => ['report' => []]],
-    'nelkano_backlog' => ['variables' => ['columns' => [], 'create_url' => '', 'total' => 0, 'sprint' => '', 'sprints' => [], 'filter_url' => '']],
+    'nelkano_backlog' => ['variables' => ['columns' => [], 'create_url' => '', 'total' => 0, 'sprint' => '', 'sprints' => [], 'filter_url' => '', 'search' => '', 'results' => []]],
     'nelkano_home' => [
       'variables' => [
         'content' => [],
@@ -276,4 +291,9 @@ function nelkano_home_user_delete(\Drupal\user\UserInterface $account): void {
  */
 function nelkano_home_cron(): void {
   \Drupal\nelkano_home\Service\AppSessions::cleanup();
+}
+
+/** Release artifacts are served only by publication-aware download controllers. */
+function nelkano_home_file_download($uri) {
+  if (str_starts_with($uri, 'private://nelkano-releases/')) return -1;
 }

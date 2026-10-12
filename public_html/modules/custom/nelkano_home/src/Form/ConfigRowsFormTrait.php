@@ -184,7 +184,7 @@ trait ConfigRowsFormTrait {
     return is_array($element) ? $element : $form;
   }
 
-  private function normalizeConfigRowsValue(mixed $value, array $definition): array {
+  private function normalizeConfigRowsValue(mixed $value, array $definition, bool $persistFiles = TRUE): array {
     $columns = $definition['columns'] ?? [];
     $keys = array_keys($columns);
     $rows = $value['rows'] ?? $value ?? [];
@@ -199,8 +199,8 @@ trait ConfigRowsFormTrait {
       $item = [];
       $has_value = FALSE;
       foreach ($keys as $key) {
-        $item[$key] = $this->normalizeConfigRowsColumnValue($row[$key] ?? '', $columns[$key] ?? []);
-        $has_value = $has_value || (!in_array($key, ['visible','icon','weight'], TRUE) && $item[$key] !== '');
+        $item[$key] = $this->normalizeConfigRowsColumnValue($row[$key] ?? '', $columns[$key] ?? [], $persistFiles);
+        $has_value = $has_value || (!in_array($key, ['visible','icon','weight','platform','version_code'], TRUE) && $item[$key] !== '');
       }
       if ($has_value) {
         $normalized[] = $item;
@@ -222,7 +222,7 @@ trait ConfigRowsFormTrait {
         }
         $item = [];
         foreach ($keys as $key) {
-          $item[$key] = $this->storedConfigRowsString($row[$key] ?? ($key === 'visible' ? '1' : ''), $definition['columns'][$key] ?? []);
+          $item[$key] = $this->storedConfigRowsString($row[$key] ?? ($key === 'visible' ? '1' : ($key === 'platform' ? 'android' : '')), $definition['columns'][$key] ?? []);
         }
         $item['_delete'] = $row['_delete'] ?? 0;
         $rows[] = $item;
@@ -270,6 +270,7 @@ trait ConfigRowsFormTrait {
       $field['#description'] = $this->adminDescription($column['description'] ?? NULL, $language);
     }
 
+    if (($column['type'] ?? '') === 'value') { $field['#value'] = $column['value'] ?? ''; }
     if (isset($column['options'])) { $field['#options'] = $column['options']; }
     if ($key === 'visible' && !array_key_exists($key, $row)) { $field['#default_value'] = '1'; }
     if ($key === 'image_uri' && (isset($row['icon']) || !empty($row[$key]))) {
@@ -297,7 +298,7 @@ trait ConfigRowsFormTrait {
     return $version !== '' ? $prefix . ' - ' . $version : $prefix;
   }
 
-  private function normalizeConfigRowsColumnValue(mixed $value, array $column): string {
+  private function normalizeConfigRowsColumnValue(mixed $value, array $column, bool $persistFile = TRUE): string {
     if (($column['type'] ?? '') === 'managed_file') {
       $fid = is_array($value) ? (int) reset($value) : (int) $value;
       if ($fid <= 0) {
@@ -307,8 +308,7 @@ trait ConfigRowsFormTrait {
       if (!$file) {
         return '';
       }
-      $file->setPermanent();
-      $file->save();
+      if ($persistFile) { $file->setPermanent(); $file->save(); }
       return $file->getFileUri();
     }
 

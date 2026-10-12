@@ -1,0 +1,24 @@
+<section class="r-gradient r-index-hero">
+  <div class="r-wrap">
+    <nav class="r-crumb" aria-label="{{ page.heading }}"><a href="{{ nav_home_url }}">{{ language == 'en' ? 'Home' : 'Inicio' }}</a><span>/</span><span>{{ page.eyebrow }}</span></nav>
+    <p class="r-label">{{ page.eyebrow }}</p>
+    <h1>{{ page.heading }}</h1>
+    <p class="r-copy">{{ page.intro }}</p>
+  </div>
+</section>
+<div class="r-wrap r-guide-layout">
+  <aside>
+    <details class="r-guide-toc" open>
+      <summary>{{ language == 'en' ? 'On this page' : 'En esta página' }}</summary>
+      <ol>{% for section in page.sections %}<li><a href="#section-{{ loop.index }}"><span>{{ loop.index }}.</span>{{ section.title }}</a></li>{% endfor %}</ol>
+    </details>
+  </aside>
+  <section id="page-content" class="r-guide-sections">
+    {% for section in page.sections %}
+      <article id="section-{{ loop.index }}">
+        <h2><span>{{ loop.index }}</span>{{ section.title }}</h2>
+        {% if section.paragraphs is defined %}{% for paragraph in section.paragraphs %}<p>{{ paragraph }}</p>{% endfor %}{% else %}<p>{{ section.description }}</p>{% endif %}
+      </article>
+    {% endfor %}
+  </section>
+</div>

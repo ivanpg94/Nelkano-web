@@ -11,3 +11,5 @@ dependencies:
   - drupal:views
   - views_data_export:views_data_export
   - drupal:taxonomy
+  - search_api:search_api
+  - search_api:search_api_db

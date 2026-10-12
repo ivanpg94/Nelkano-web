@@ -32,6 +32,7 @@ final class ErrorReportAdminController extends ControllerBase {
       $view->render(),
       $this->currentUser()->hasPermission(\Drupal\nelkano_home\Service\ReportDeletion::PERMISSION)
         ? $this->formBuilder()->getForm(\Drupal\nelkano_home\Form\ReportCleanupForm::class) : [],
+      TRUE,
     );
   }
 
@@ -116,13 +117,13 @@ final class ErrorReportAdminController extends ControllerBase {
     return $this->privateDownload((string) $node->get('field_report_screenshot_uri')->value, 'report-' . $node->id() . '.png');
   }
 
-  private function adminPage(string $title, string $description, array $content, array $actions = []): array {
+  private function adminPage(string $title, string $description, array $content, array $actions = [], bool $redesigned = FALSE): array {
     $module_path = \Drupal::service('extension.list.module')->getPath('nelkano_home');
     return [
       '#type' => 'container',
       '#attributes' => ['class' => ['nk-admin-config-form', 'nk-admin-report-page']],
-      '#attached' => ['library' => ['nelkano_home/admin_forms']],
-      '#prefix' => $this->nelkanoAdminHeader($module_path) . '<div class="nk-admin-app"><div class="nk-admin-body">' . $this->nelkanoAdminSidebar('error_reports') . '<div class="nk-admin-workspace"><section class="nk-admin-panel">',
+      '#attached' => ['library' => [$redesigned ? 'nelkano_home/admin_data' : 'nelkano_home/admin_forms']],
+      '#prefix' => $this->nelkanoAdminHeader($module_path) . '<div class="nk-admin-app' . ($redesigned ? ' nk-redesign-admin nk-admin-data' : '') . '"><div class="nk-admin-body">' . $this->nelkanoAdminSidebar('error_reports') . '<div class="nk-admin-workspace"><section class="nk-admin-panel">',
       '#suffix' => '</section></div></div></div>',
       'header' => [
         '#weight' => -1000,

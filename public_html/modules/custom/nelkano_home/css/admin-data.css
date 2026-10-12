@@ -1,0 +1,55 @@
+/* Data screens share the established administration shell. Scoped to the two lists. */
+.nk-admin-data .nk-admin-panel > .nk-admin-config-form { margin: 0; padding: 0; }
+.nk-admin-data .nk-sprint-filter,
+.nk-admin-data .views-exposed-form { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; padding: 16px; margin: 0 0 20px; background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; }
+.nk-admin-data .nk-sprint-filter { align-items: center; }
+.nk-admin-data .nk-sprint-filter label,
+.nk-admin-data .views-exposed-form label { color: #64748b; font-size: 11px; font-weight: 600; }
+.nk-admin-data .nk-sprint-filter input[type="search"] { min-width: 130px; min-height: 40px; padding: 8px 12px; font-size: 13px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 10px; }
+.nk-admin-data .nk-sprint-filter select { max-width: 190px; min-height: 40px; padding: 8px 10px; font-size: 12px; background: #f8fafc; border-radius: 10px; }
+.nk-admin-data .nk-sprint-filter button,
+.nk-admin-data .views-exposed-form input[type="submit"],
+.nk-admin-data .nk-report-bulk-controls input[type="submit"],
+.nk-admin-data .nk-report-cleanup-form input[type="submit"] { border: 1px solid transparent; border-radius: 999px; background: #7c3aed; color: #fff; padding: 8px 14px; min-height: 36px; font: 600 12px/1.5 Inter, system-ui, sans-serif; box-shadow: none; cursor: pointer; }
+.nk-admin-data .nk-sprint-filter button:hover,
+.nk-admin-data .views-exposed-form input[type="submit"]:hover { background: #6d28d9; }
+.nk-admin-data .nk-sprint-filter a { color: #7c3aed; font-size: 12px; }
+.nk-admin-data .nk-backlog-feedback { font-size: 12px; margin-bottom: 12px; }
+.nk-admin-data .nk-backlog { grid-template-columns: repeat(4, minmax(150px, 1fr)); gap: 12px; }
+.nk-admin-data .nk-hu-column { padding: 10px; background: #f1f5f9; border-color: #e2e8f0; border-radius: 12px; }
+.nk-admin-data .nk-hu-column h2 { font-size: 12px; margin-bottom: 12px; color: #334155; gap: 8px; }
+.nk-admin-data .nk-hu-count { padding: 2px 6px; font-size: 11px; background: #e2e8f0; line-height: 1.5; }
+.nk-admin-data .nk-hu-card { padding: 12px; border-color: #e2e8f0; box-shadow: 0 1px 3px #0f172a08; border-radius: 12px; }
+.nk-admin-data .nk-hu-card-top { font-size: 10px; }
+.nk-admin-data .nk-hu-card h3 { font-size: 13px; font-weight: 600; }
+.nk-admin-data .nk-hu-description { font-size: 12px; color: #64748b; }
+.nk-admin-data .nk-hu-card .nk-hu-state { min-height: 34px; padding: 6px 8px; font-size: 11px; border-radius: 8px; }
+.nk-admin-data .nk-hu-empty { font-size: 12px; color: #64748b; }
+.nk-admin-data .view-nelkano-error-reports { padding: 0; overflow: visible; min-width: 0; }
+.nk-admin-data .view-nelkano-error-reports .views-exposed-form .form-item { margin: 0; }
+.nk-admin-data .view-nelkano-error-reports .views-exposed-form .form-actions { margin: 0; padding: 0; border: 0; background: transparent; }
+.nk-admin-data .view-nelkano-error-reports .view-content { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden; margin: 0; }
+.nk-admin-data .view-nelkano-error-reports table { margin: 0; min-width: 820px; font-size: 12px; }
+.nk-admin-data .view-nelkano-error-reports th { background: #f8fafc; color: #64748b; font-size: 11px; font-weight: 600; }
+.nk-admin-data .view-nelkano-error-reports th,
+.nk-admin-data .view-nelkano-error-reports td { padding: 12px; line-height: 1.5; }
+.nk-admin-data .view-nelkano-error-reports .views-field-created,
+.nk-admin-data .view-nelkano-error-reports .views-field-changed,
+.nk-admin-data .view-nelkano-error-reports .views-field-field-report-status { white-space: nowrap; }
+.nk-admin-data .nk-report-bulk-controls { margin: 16px; padding: 16px; border: 1px solid #e2e8f0; border-radius: 12px; background: #f8fafc; font-size: 12px; }
+.nk-admin-data .nk-report-bulk-controls legend { background: transparent; color: #334155; border: 0; font-size: 13px; font-weight: 600; padding: 0 6px; }
+.nk-admin-data .nk-report-bulk-controls select[name="target_status"] { min-height: 38px; font-size: 12px; border-radius: 10px; }
+@media (max-width: 800px) {
+  .nk-admin-data .nk-backlog { grid-template-columns: repeat(4, minmax(230px, 1fr)); }
+  .nk-admin-data .nk-sprint-filter input[type="search"] { flex-basis: calc(100% - 90px); }
+}
+.nk-admin-data .nk-admin-nav-item.is-active .nk-admin-nav-icon { color: #7c3aed; }
+.nk-admin-data .view-nelkano-error-reports .view-filters,
+.nk-admin-data .view-nelkano-error-reports .views-form,
+.nk-admin-data .view-nelkano-error-reports .nk-report-bulk-form { margin: 0; padding: 0; min-width: 0; }
+.nk-admin-data .nk-report-table-scroll { width: 100%; overflow-x: auto; }
+.nk-admin-data .nk-report-table-scroll:focus-visible { outline: 2px solid #7c3aed; outline-offset: -2px; }
+.nk-admin-data .nk-report-bulk-controls { min-width: 0; max-width: calc(100% - 32px); }
+.nk-admin-data .nk-report-bulk-controls .fieldset__label { color: #334155; background: transparent; padding: 0; }
+.nk-admin-data .nk-admin-config-form input.nk-report-delete { color: #b42332; background: #fff; border: 1px solid #fecdd3; box-shadow: none; }
+.nk-admin-data .nk-admin-config-form input.nk-report-delete:hover { background: #fff1f2; }

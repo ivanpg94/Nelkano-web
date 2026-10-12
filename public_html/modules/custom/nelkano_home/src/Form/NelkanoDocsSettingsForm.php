@@ -61,15 +61,17 @@ final class NelkanoDocsSettingsForm extends ConfigFormBase {
         'description' => 'Add one row per release. Put each change on its own line.',
         'columns' => [
           'visible' => ['title' => 'Mostrar version', 'type' => 'checkbox'],
+          'platform' => ['title' => 'Aplicación', 'type' => 'select', 'options' => ['android' => 'Android', 'windows' => 'Windows', 'steamos' => 'SteamOS', 'sdk' => 'SDK Studio (Windows)']],
+          'version_code' => ['title' => 'Código de actualización'],
           'version' => ['title' => 'Public version'],
           'apk_file' => [
-            'title' => 'APK',
+            'title' => 'Archivo de descarga (APK, MSI o ZIP)',
             'type' => 'managed_file',
-            'upload_location' => 'public://nelkano-releases',
-            'upload_validators' => ['FileExtension' => ['extensions' => 'apk']],
-            'description' => 'Sube el APK publico de esta version.',
+            'upload_location' => 'private://nelkano-releases',
+            'upload_validators' => ['FileExtension' => ['extensions' => 'apk msi zip']],
+            'description' => 'Sube el archivo de esta aplicación. Mostrar versión controla el enlace y la descarga; desmárcalo para despublicar.',
           ],
-          'filename' => ['title' => 'APK filename fallback'],
+          'filename' => ['title' => 'Nombre del archivo'],
           'date' => ['title' => 'Publication date'],
           'changes' => ['title' => 'Changelog items', 'type' => 'textarea'],
         ],
@@ -173,6 +175,21 @@ final class NelkanoDocsSettingsForm extends ConfigFormBase {
             if ($key === 'releases_items' && $stored_value === '') {
               $stored_value = $this->legacyReleaseRows($config->get($langcode) ?? []);
             }
+            if ($key === 'releases_items') {
+              $form[$langcode][$section_key][$key] = ['#type' => 'container', '#tree' => TRUE];
+              foreach (['android' => 'Android', 'windows' => 'Windows', 'steamos' => 'SteamOS', 'sdk' => 'SDK'] as $platform => $label) {
+                $platform_definition = $definition;
+                $platform_definition['title'] = $active_language === 'es' ? 'Versiones publicadas' : 'Published releases';
+                $platform_definition['columns']['platform'] = ['title' => 'Aplicación', 'type' => 'value', 'value' => $platform];
+                $platform_definition['columns']['apk_file']['upload_validators']['FileExtension']['extensions'] = \Drupal\nelkano_home\Service\ReleaseArtifact::PLATFORMS[$platform][1];
+                $stored_rows = array_values(array_filter(is_array($stored_value) ? $stored_value : [], static fn($row) => \Drupal\nelkano_home\Service\ReleaseArtifact::platform($row) === $platform));
+                $group = $this->buildConfigRowsElement($stored_rows, $platform_definition, [$langcode, $section_key, $key, $platform], $active_language, $form_state);
+                $group['#attributes']['class'][] = 'r-release-platform-group';
+                $group['#type'] = 'details'; $group['#title'] = $label; $group['#open'] = FALSE;
+                $form[$langcode][$section_key][$key][$platform] = $group;
+              }
+              continue;
+            }
             $form[$langcode][$section_key][$key] = $this->buildConfigRowsElement(
               $stored_value,
               $definition,
@@ -211,6 +228,29 @@ final class NelkanoDocsSettingsForm extends ConfigFormBase {
     return $form;
   }
 
+  public function validateForm(array &$form, FormStateInterface $form_state): void {
+    parent::validateForm($form, $form_state);
+    $language = (string) $form_state->getValue('active_language', 'es');
+    $value = $form_state->getValue([$language, 'releases', 'releases_items']);
+    if ($value === NULL) return;
+    $rows = $this->normalizeReleaseGroups($value, FALSE);
+    $seen = [];
+    foreach ($rows as $row) {
+      $platform = \Drupal\nelkano_home\Service\ReleaseArtifact::platform($row);
+      $format = \Drupal\nelkano_home\Service\ReleaseArtifact::PLATFORMS[$platform][1] ?? '';
+      $key = $platform . ':' . $row['version'];
+      $code = trim((string) $row['version_code']);
+      $error = '';
+      if (!$format || !preg_match('/^[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$/D', $row['version'])) $error = 'Selecciona una aplicación y una versión válida, por ejemplo 1.0.0-beta.';
+      elseif (isset($seen[$key]) || ($code !== '' && isset($seen[$platform . ':build:' . $code]))) $error = 'No repitas la versión ni el código de actualización dentro de una aplicación.';
+      elseif ($code !== '' && (!ctype_digit($code) || (int) $code < 1 || strlen($code) > 10 || (int) $code > 2147483647)) $error = 'El código de actualización debe ser un entero positivo.';
+      elseif ($row['apk_file'] !== '' && !str_ends_with($row['apk_file'], '.' . $format)) $error = 'El archivo no corresponde a la aplicación: Android APK, Windows MSI, SteamOS y SDK ZIP.';
+      if ($error !== '') $form_state->setErrorByName($language . '][releases][releases_items', $this->t($error));
+      $seen[$key] = TRUE;
+      if ($code !== '') $seen[$platform . ':build:' . $code] = TRUE;
+    }
+  }
+
   public function submitForm(array &$form, FormStateInterface $form_state): void {
     $config = $this->configFactory->getEditable('nelkano_home.docs');
     $page_key = (string) ($form_state->getValue('page_key') ?? 'all');
@@ -234,15 +274,41 @@ final class NelkanoDocsSettingsForm extends ConfigFormBase {
           if ($only_keys!==NULL && !in_array($key,$only_keys,TRUE)) {continue;}
           $value = $form_state->getValue([$langcode, $section_key, $key]);
           $language_values[$key] = ($fields[$key]['type'] ?? '') === 'config_rows'
-            ? $this->normalizeConfigRowsValue($value, $fields[$key])
+            ? ($key === 'releases_items' ? $this->normalizeReleaseGroups($value) : $this->normalizeConfigRowsValue($value, $fields[$key]))
             : $value;
         }
       }
       $config->set($langcode, $language_values);
     }
 
+    if ($form_state->getValue([$active_language, 'releases', 'releases_items']) !== NULL && (($form_state->getTriggeringElement()['#r_section'] ?? 'releases') === 'releases')) {
+      $source = $config->get($active_language . '.releases_items') ?? [];
+      $other = $active_language === 'es' ? 'en' : 'es';
+      $previous = [];
+      foreach ($config->get($other . '.releases_items') ?? [] as $row) $previous[\Drupal\nelkano_home\Service\ReleaseArtifact::platform($row) . ':' . $row['version']] = $row;
+      $translated = [];
+      foreach ($source as $row) {
+        $key = \Drupal\nelkano_home\Service\ReleaseArtifact::platform($row) . ':' . $row['version'];
+        $copy = $previous[$key] ?? $row;
+        foreach (['visible', 'platform', 'version', 'version_code', 'apk_file', 'filename', 'date'] as $field) $copy[$field] = $row[$field];
+        $translated[] = $copy;
+      }
+      $config->set($other . '.releases_items', $translated);
+    }
     $config->save();
     parent::submitForm($form, $form_state);
+  }
+
+  /** Keep one canonical catalog while presenting separate platform editors. */
+  private function normalizeReleaseGroups(mixed $value, bool $persistFiles = TRUE): array {
+    if (!is_array($value)) return [];
+    $definition = self::FIELDS['Releases']['releases_items'];
+    if (isset($value['rows'])) return $this->normalizeConfigRowsValue($value, $definition, $persistFiles);
+    $rows = [];
+    foreach (array_keys(\Drupal\nelkano_home\Service\ReleaseArtifact::PLATFORMS) as $platform) {
+      foreach ($this->normalizeConfigRowsValue($value[$platform] ?? [], $definition, $persistFiles) as $row) { $row['platform'] = $platform; $rows[] = $row; }
+    }
+    return $rows;
   }
 
   private function sectionFilter(string $pageKey): ?string {
@@ -269,12 +335,12 @@ final class NelkanoDocsSettingsForm extends ConfigFormBase {
       ],
       'releases' => [
         'title' => 'Versiones',
-        'description' => 'Gestiona la beta publica, el APK, requisitos y changelog.',
+        'description' => 'Gestiona las descargas publicadas, requisitos y notas de cada versión.',
         'public_path' => '/versiones',
       ],
       'security' => [
         'title' => 'Seguridad y privacidad',
-        'description' => 'Gestiona la informacion sobre datos, cuenta, permisos y Google Drive.',
+        'description' => 'Gestiona la información sobre datos locales, cuenta y permisos de los módulos.',
         'public_path' => '/seguridad-privacidad',
       ],
       default => [

@@ -81,6 +81,9 @@ try {
   $switcher->switchBack();
   $switched = FALSE;
 
+  // CLI writes do not run HTTP termination; flush pending Search API items.
+  \Drupal\search_api\Entity\Index::load('nelkano_backlog')->indexItems();
+
   // Authenticate a restricted temporary account through the real HTTP kernel.
   $timestamp = time();
   $login = '/user/reset/' . $user->id() . '/' . $timestamp . '/' . user_pass_rehash($user, $timestamp) . '/login';

@@ -1,0 +1,80 @@
+<?php
+
+use Drupal\Core\Access\AccessResult;
+use Drupal\nelkano_modules\Service\ModuleRegistry;
+use Drupal\node\NodeInterface;
+
+function nelkano_modules_is_page(): bool {
+  $route = \Drupal::routeMatch();
+  if (str_starts_with($route->getRouteName() ?: '', 'nelkano_modules.')) { return TRUE; }
+  $node = $route->getParameter('node');
+  return $route->getRouteName() === 'entity.node.canonical' && $node instanceof NodeInterface && $node->bundle() === 'nelkano_module';
+}
+
+function nelkano_modules_theme(): array {
+  return [
+    'page__nelkano_modules' => ['base hook' => 'page', 'template' => 'page--nelkano-modules'],
+    'nelkano_module_catalog' => ['variables' => ['items' => [], 'total' => 0, 'query' => '', 'platform' => '', 'system' => '', 'system_options' => [], 'sdk_download' => [], 'pager' => [], 'can_create' => FALSE, 'mine' => FALSE]],
+    'nelkano_module_results' => ['variables' => ['items' => [], 'total' => 0, 'pager' => [], 'mine' => FALSE]],
+    'nelkano_module_detail' => ['variables' => ['module' => [], 'versions' => [], 'can_edit' => FALSE]],
+  ];
+}
+function nelkano_modules_theme_suggestions_page_alter(array &$suggestions, array $variables): void {
+  if (nelkano_modules_is_page()) { $suggestions[] = 'page__nelkano_modules'; }
+}
+function nelkano_modules_preprocess_page(array &$variables): void {
+  if (nelkano_modules_is_page()) {
+    $variables['catalog_chrome'] = \Drupal::service('nelkano_modules.page_context')->context();
+  }
+}
+function nelkano_modules_page_attachments_alter(array &$attachments): void {
+  if (!nelkano_modules_is_page()) { return; }
+  $attachments['#attached']['library'] = array_values(array_filter($attachments['#attached']['library'] ?? [],
+    static fn($library) => !preg_match('/^(olivero|claro)\//', $library)));
+  $attachments['#attached']['library'][] = 'nelkano_modules/catalog';
+}
+function nelkano_modules_cron(): void {
+  \Drupal::service('nelkano_modules.registry')->enqueueDue();
+}
+function nelkano_modules_node_access(NodeInterface $node, $op, \Drupal\Core\Session\AccountInterface $account) {
+  if (!in_array($node->bundle(), ['nelkano_module', 'nelkano_module_release'], TRUE)) { return AccessResult::neutral(); }
+  $admin = $account->hasPermission('administer nelkano modules');
+  if ($node->bundle() === 'nelkano_module_release') {
+    $parent = $node->get('field_release_module')->entity;
+    $allowed = $op === 'view' && ($admin || ($parent && ModuleRegistry::canEdit($parent, $account)));
+  }
+  else {
+    $allowed = $op === 'view'
+      ? ($node->isPublished() || ModuleRegistry::canEdit($node, $account))
+      : $admin;
+  }
+  return ($allowed ? AccessResult::allowed() : AccessResult::forbidden())
+    ->cachePerUser()->cachePerPermissions()->addCacheableDependency($node);
+}
+function nelkano_modules_node_presave(NodeInterface $node): void {
+  if (!in_array($node->bundle(), ['nelkano_module', 'nelkano_module_release'], TRUE)) { return; }
+  $internal = \Drupal::service('nelkano_modules.registry')->isWriting();
+  if ($node->bundle() === 'nelkano_module_release') {
+    if (!$internal) { throw new \InvalidArgumentException('Las versiones deben guardarse mediante el formulario con verificación de paquete.'); }
+    $node->setUnpublished();
+    return;
+  }
+  if (!$internal) {
+    if ($node->isNew()) {
+      $node->set('field_module_available', FALSE)->set('field_module_id', NULL)
+        ->set('field_module_author', NULL)->set('field_module_platforms', []);
+    }
+    else {
+      foreach (['field_module_id', 'field_module_author', 'field_module_available', 'field_module_platforms'] as $field) {
+        if ($node->get($field)->getValue() !== $node->getOriginal()->get($field)->getValue()) {
+          throw new \InvalidArgumentException('Los metadatos verificados del módulo no se pueden modificar manualmente.');
+        }
+      }
+    }
+  }
+}
+function nelkano_modules_node_delete(NodeInterface $node): void {
+  if ($node->bundle() === 'nelkano_module') {
+    foreach (\Drupal::service('nelkano_modules.registry')->releases($node) as $release) { $release->delete(); }
+  }
+}
