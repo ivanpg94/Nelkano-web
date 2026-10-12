@@ -41,3 +41,67 @@ Stack trace:
 #5 /home/u985217890/domains/nelkano.com/public_html/core/includes/bootstrap.inc(513): Drupal\Core\Lock\DatabaseLockBackend->releaseAll()
 #6 [internal function]: _drupal_shutdown_function()
 #7 {main}
+[24-Sep-2026 07:42:42 UTC] Error: Undefined constant "Drupal\nelkano_home\Service\SODIUM_CRYPTO_SIGN_SEEDBYTES" in /home/u985217890/domains/nelkano.com/public_html/modules/custom/nelkano_home/src/Service/AppEntitlements.php on line 141 #0 /home/u985217890/domains/nelkano.com/public_html/modules/custom/nelkano_home/src/Service/AppEntitlements.php(115): Drupal\nelkano_home\Service\AppEntitlements::keyPair()
+#1 /home/u985217890/domains/nelkano.com/public_html/modules/custom/nelkano_home/scripts/app-signing-key.php(20): Drupal\nelkano_home\Service\AppEntitlements::keyId()
+#2 /home/u985217890/domains/nelkano.com/vendor/drush/drush/src/Commands/core/PhpCommands.php(107): include('/home/u98521789...')
+#3 [internal function]: Drush\Commands\core\PhpCommands->script()
+#4 /home/u985217890/domains/nelkano.com/vendor/consolidation/annotated-command/src/CommandProcessor.php(276): call_user_func_array()
+#5 /home/u985217890/domains/nelkano.com/vendor/consolidation/annotated-command/src/CommandProcessor.php(212): Consolidation\AnnotatedCommand\CommandProcessor->runCommandCallback()
+#6 /home/u985217890/domains/nelkano.com/vendor/consolidation/annotated-command/src/CommandProcessor.php(175): Consolidation\AnnotatedCommand\CommandProcessor->validateRunAndAlter()
+#7 /home/u985217890/domains/nelkano.com/vendor/consolidation/annotated-command/src/AnnotatedCommand.php(389): Consolidation\AnnotatedCommand\CommandProcessor->process()
+#8 /home/u985217890/domains/nelkano.com/vendor/symfony/console/Command/Command.php(341): Consolidation\AnnotatedCommand\AnnotatedCommand->execute()
+#9 /home/u985217890/domains/nelkano.com/vendor/symfony/console/Application.php(1117): Symfony\Component\Console\Command\Command->run()
+#10 /home/u985217890/domains/nelkano.com/vendor/drush/drush/src/Application.php(201): Symfony\Component\Console\Application->doRunCommand()
+#11 /home/u985217890/domains/nelkano.com/vendor/symfony/console/Application.php(356): Drush\Application->doRunCommand()
+#12 /home/u985217890/domains/nelkano.com/vendor/symfony/console/Application.php(195): Symfony\Component\Console\Application->doRun()
+#13 /home/u985217890/domains/nelkano.com/vendor/drush/drush/src/Runtime/Runtime.php(113): Symfony\Component\Console\Application->run()
+#14 /home/u985217890/domains/nelkano.com/vendor/drush/drush/src/Runtime/Runtime.php(40): Drush\Runtime\Runtime->doRun()
+#15 /home/u985217890/domains/nelkano.com/vendor/drush/drush/drush.php(140): Drush\Runtime\Runtime->run()
+#16 /home/u985217890/domains/nelkano.com/vendor/bin/drush.php(119): include('/home/u98521789...')
+#17 {main}
+[24-Sep-2026 07:46:16 UTC] Error: Undefined constant "Drupal\nelkano_home\Service\SODIUM_CRYPTO_SIGN_SEEDBYTES" in /home/u985217890/domains/nelkano.com/public_html/modules/custom/nelkano_home/src/Service/AppEntitlements.php on line 141 #0 /home/u985217890/domains/nelkano.com/public_html/modules/custom/nelkano_home/src/Service/AppEntitlements.php(115): Drupal\nelkano_home\Service\AppEntitlements::keyPair()
+#1 /home/u985217890/domains/nelkano.com/public_html/modules/custom/nelkano_home/scripts/app-signing-key.php(20): Drupal\nelkano_home\Service\AppEntitlements::keyId()
+#2 /home/u985217890/domains/nelkano.com/vendor/drush/drush/src/Commands/core/PhpCommands.php(107): include('/home/u98521789...')
+#3 [internal function]: Drush\Commands\core\PhpCommands->script()
+#4 /home/u985217890/domains/nelkano.com/vendor/consolidation/annotated-command/src/CommandProcessor.php(276): call_user_func_array()
+#5 /home/u985217890/domains/nelkano.com/vendor/consolidation/annotated-command/src/CommandProcessor.php(212): Consolidation\AnnotatedCommand\CommandProcessor->runCommandCallback()
+#6 /home/u985217890/domains/nelkano.com/vendor/consolidation/annotated-command/src/CommandProcessor.php(175): Consolidation\AnnotatedCommand\CommandProcessor->validateRunAndAlter()
+#7 /home/u985217890/domains/nelkano.com/vendor/consolidation/annotated-command/src/AnnotatedCommand.php(389): Consolidation\AnnotatedCommand\CommandProcessor->process()
+#8 /home/u985217890/domains/nelkano.com/vendor/symfony/console/Command/Command.php(341): Consolidation\AnnotatedCommand\AnnotatedCommand->execute()
+#9 /home/u985217890/domains/nelkano.com/vendor/symfony/console/Application.php(1117): Symfony\Component\Console\Command\Command->run()
+#10 /home/u985217890/domains/nelkano.com/vendor/drush/drush/src/Application.php(201): Symfony\Component\Console\Application->doRunCommand()
+#11 /home/u985217890/domains/nelkano.com/vendor/symfony/console/Application.php(356): Drush\Application->doRunCommand()
+#12 /home/u985217890/domains/nelkano.com/vendor/symfony/console/Application.php(195): Symfony\Component\Console\Application->doRun()
+#13 /home/u985217890/domains/nelkano.com/vendor/drush/drush/src/Runtime/Runtime.php(113): Symfony\Component\Console\Application->run()
+#14 /home/u985217890/domains/nelkano.com/vendor/drush/drush/src/Runtime/Runtime.php(40): Drush\Runtime\Runtime->doRun()
+#15 /home/u985217890/domains/nelkano.com/vendor/drush/drush/drush.php(140): Drush\Runtime\Runtime->run()
+#16 /home/u985217890/domains/nelkano.com/vendor/bin/drush.php(119): include('/home/u98521789...')
+#17 {main}
+[12-Oct-2026 10:39:55 UTC] PDOException: SQLSTATE[HY000]: General error: 2006 MySQL server has gone away in /home/u985217890/domains/nelkano.com/public_html/core/lib/Drupal/Core/Database/Statement/PdoTrait.php:109
+Stack trace:
+#0 /home/u985217890/domains/nelkano.com/public_html/core/lib/Drupal/Core/Database/Statement/PdoTrait.php(109): PDOStatement->execute()
+#1 /home/u985217890/domains/nelkano.com/public_html/core/lib/Drupal/Core/Database/StatementWrapperIterator.php(89): Drupal\Core\Database\Statement\StatementBase->clientExecute()
+#2 /home/u985217890/domains/nelkano.com/public_html/core/lib/Drupal/Core/Database/Connection.php(666): Drupal\Core\Database\StatementWrapperIterator->execute()
+#3 /home/u985217890/domains/nelkano.com/public_html/core/lib/Drupal/Core/Database/Schema.php(204): Drupal\Core\Database\Connection->query()
+#4 /home/u985217890/domains/nelkano.com/public_html/core/lib/Drupal/Core/Lock/DatabaseLockBackend.php(214): Drupal\Core\Database\Schema->tableExists()
+#5 /home/u985217890/domains/nelkano.com/public_html/core/lib/Drupal/Core/Lock/DatabaseLockBackend.php(176): Drupal\Core\Lock\DatabaseLockBackend->catchException()
+#6 /home/u985217890/domains/nelkano.com/public_html/core/includes/bootstrap.inc(513): Drupal\Core\Lock\DatabaseLockBackend->releaseAll()
+#7 [internal function]: _drupal_shutdown_function()
+#8 {main}
+
+Next Drupal\Core\Database\DatabaseExceptionWrapper: SQLSTATE[HY000]: General error: 2006 MySQL server has gone away: SELECT 1 FROM information_schema.tables WHERE ("table_schema" = :db_condition_placeholder_6) AND ("table_name" = :db_condition_placeholder_7) AND ("table_type" = :db_condition_placeholder_8); Array
+(
+    [:db_condition_placeholder_6] => u985217890_nelkano
+    [:db_condition_placeholder_7] => semaphore
+    [:db_condition_placeholder_8] => BASE TABLE
+)
+ in /home/u985217890/domains/nelkano.com/public_html/core/modules/mysql/src/Driver/Database/mysql/ExceptionHandler.php:89
+Stack trace:
+#0 /home/u985217890/domains/nelkano.com/public_html/core/modules/mysql/src/Driver/Database/mysql/ExceptionHandler.php(26): Drupal\mysql\Driver\Database\mysql\ExceptionHandler->rethrowNormalizedException()
+#1 /home/u985217890/domains/nelkano.com/public_html/core/lib/Drupal/Core/Database/Connection.php(669): Drupal\mysql\Driver\Database\mysql\ExceptionHandler->handleExecutionException()
+#2 /home/u985217890/domains/nelkano.com/public_html/core/lib/Drupal/Core/Database/Schema.php(204): Drupal\Core\Database\Connection->query()
+#3 /home/u985217890/domains/nelkano.com/public_html/core/lib/Drupal/Core/Lock/DatabaseLockBackend.php(214): Drupal\Core\Database\Schema->tableExists()
+#4 /home/u985217890/domains/nelkano.com/public_html/core/lib/Drupal/Core/Lock/DatabaseLockBackend.php(176): Drupal\Core\Lock\DatabaseLockBackend->catchException()
+#5 /home/u985217890/domains/nelkano.com/public_html/core/includes/bootstrap.inc(513): Drupal\Core\Lock\DatabaseLockBackend->releaseAll()
+#6 [internal function]: _drupal_shutdown_function()
+#7 {main}

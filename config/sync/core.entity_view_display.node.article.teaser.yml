@@ -54,3 +54,4 @@ content:
 hidden:
   comment: true
   langcode: true
+  search_api_excerpt: true
