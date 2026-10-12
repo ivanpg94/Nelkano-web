@@ -1,6 +1,19 @@
 [
   {
     "platform": "android",
+    "version": "3.0.1-beta",
+    "version_code": "11",
+    "visible": true,
+    "apk_file": "private://nelkano-releases/Nelkano 3.0.1-beta.apk",
+    "filename": "Nelkano 3.0.1-beta.apk",
+    "date": "12/10/2026",
+    "changes": {
+      "es": "Corrección del resaltado de Home al navegar por pantalla táctil sin mando conectado.\nEl teclado virtual de Android ya no se detecta como mando.\nTodos los sistemas Android recompilados para producción.\nIncluye únicamente los cinco módulos obligatorios.",
+      "en": "Fixed Home remaining highlighted during touch navigation without a connected controller.\nThe Android virtual keyboard is no longer detected as a controller.\nAll Android systems rebuilt for production.\nIncludes only the five mandatory modules."
+    }
+  },
+  {
+    "platform": "android",
     "version": "3.0.0-beta",
     "version_code": "10",
     "visible": true,
