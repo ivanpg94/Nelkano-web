@@ -1,6 +1,19 @@
 [
   {
     "platform": "android",
+    "version": "3.0.2-beta",
+    "version_code": "12",
+    "visible": true,
+    "apk_file": "private://nelkano-releases/Nelkano 3.0.2-beta.apk",
+    "filename": "Nelkano 3.0.2-beta.apk",
+    "date": "13/10/2026",
+    "changes": {
+      "es": "Mejoras de compatibilidad con PS1.",
+      "en": "PS1 compatibility improvements."
+    }
+  },
+  {
+    "platform": "android",
     "version": "3.0.1-beta",
     "version_code": "11",
     "visible": true,
@@ -21,8 +34,8 @@
     "filename": "Nelkano 3.0.0-beta.apk",
     "date": "12/10/2026",
     "changes": {
-      "es": "Nueva aplicación Nelkano con módulos y actualizador.",
-      "en": "New Nelkano application with modules and updater."
+      "es": "Organización por módulos: Apariencia, Nelkano Básicos, Editor de controles, Amigos y Parches vienen incluidos y activos.\r\nInstalación de módulos adicionales en formato .nelkmod, con revisión de autor y permisos y opciones para activarlos, desactivarlos o desinstalarlos.\r\nActualizador integrado: consulta las nuevas versiones, verifica la descarga y permite iniciar su instalación con la confirmación de Android.\r\nSeis espacios de guardado manual por juego, frente a cinco en la beta 2, con miniaturas en el selector rápido y autoguardado separado. La disponibilidad depende del sistema.\r\nMejoras en la distribución de los controles táctiles y los botones de sistema al cambiar de orientación.\r\nImportación con indicador de progreso y nombre del archivo. Los paquetes ZIP, RAR y 7z pueden contener varios juegos.\r\nGoogle Drive y Nelkano online no están disponibles en esta beta se añadirán mas adelante mediante módulos descargables.",
+      "en": "Module-based organization: Appearance, Nelkano Basics, Control Editor, Friends and Patches are included and active.\r\nInstall additional .nelkmod modules, review their author and permissions, and enable, disable or uninstall them.\r\nBuilt-in updater: checks for new releases, verifies the download and lets you start installation with Android confirmation.\r\nSix manual save-state slots per game, up from five in beta 2, with thumbnails in the quick selector and a separate autosave. Availability depends on the system.\r\nImproved touch-control and system-button layouts when changing orientation.\r\nImport progress with the file name. ZIP, RAR and 7z archives can contain multiple games.\r\nGoogle Drive and Nelkano Online are not available in this beta. They will be added later through downloadable modules."
     }
   },
   {

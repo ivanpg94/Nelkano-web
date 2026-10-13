@@ -1,0 +1,113 @@
+{
+  "version": "3.0.2-beta",
+  "versionCode": 12,
+  "appId": "com.ivanp.nelkano.modular",
+  "bytes": 55416169,
+  "sha256": "4c9ddd557982ee03952196fcd2139debdcfcb437014d9ac04c1f27d421826f2f",
+  "productionCertificateSha256": "57780bcd54cdddceeb9ab5445f9b256ec64ad05ec153ef249b78941a8ec4adc5",
+  "date": "13/10/2026",
+  "systems": 17,
+  "nativeLibraries": {
+    "lib/arm64-v8a/libandroidx.graphics.path.so": "41e9a793c43a0f4fddb19e33f346bace464f30f888ba7b9eaf96294ea115bfb6",
+    "lib/arm64-v8a/libarchive-jni.so": "92332de41e661c2a5ce05df65c8a0a6367a99a2cb201e3b3eec7039c9cbc669e",
+    "lib/arm64-v8a/libc++_shared.so": "cd61762848882a16c8244c964a6f396c0caa0b440588a210ce9cc4ab0e6d9f0c",
+    "lib/arm64-v8a/libgba_android.so": "334bdfc7a470aed006b89d88b760dc416a070d9ee30fa35dbecd8a4508797b21",
+    "lib/arm64-v8a/libjingle_peerconnection_so.so": "ba8435d0f85bbb5dbd438189f05a14b77ce7b954c69300c18359b7c4e0c0e194",
+    "lib/arm64-v8a/libmegadrive_android.so": "41cdabbc476252ac4a76b2e510aedd94681d8a6275001de425f03ff76a9c33d6",
+    "lib/arm64-v8a/libn3ds_android.so": "4901fe1e8448af6f15d0491c0292879ee32730531c1b610fc4b7a0b20880cb87",
+    "lib/arm64-v8a/libnds_android.so": "55cce9f3e052790e5f5df985c604ef826feb360c081fe36757b591bcf35f9fa6",
+    "lib/arm64-v8a/libnelkano_quickjs.so": "c63b6ab84f352e7e0a05fcc822fdaa596c78f3bfb9ecaf7ade7b4f6c65ff80bd",
+    "lib/arm64-v8a/libportablecores.so": "a165dd223d6832bb493b1b62ce3f2ea6f0e62f21bbb9210f9f45c3178b650983",
+    "lib/arm64-v8a/libps1_android.so": "1a954bb569de0e82421c637764aa7c7c12b42ab44804567a09971c13b53db63b",
+    "lib/arm64-v8a/librgss_cruby_android.so": "097eb391380dae4aa2ce5d0c38c40aac5a54c0b76629995d59402048d5d4c5fe",
+    "lib/arm64-v8a/libsnes_android.so": "170b6057688bd2200611b1d232ad5444f43ed9f12d54e175e3040cb69e19a1af",
+    "lib/arm64-v8a/libswitch_android.so": "ea3768469226fd935d34c3367d14ca6e397305a2bdb6539448dd569e58e72efa"
+  },
+  "modules": [
+    "nelkano.appearance",
+    "nelkano.basics",
+    "nelkano.control-editor",
+    "nelkano.friends",
+    "nelkano.patches"
+  ],
+  "tests": [
+    {
+      "name": "AppUpdateDownloadTest[jvm]",
+      "tests": "3",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "AppUpdateManifestTest[jvm]",
+      "tests": "3",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "AppUpdateOwnerTest[jvm]",
+      "tests": "4",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "AutoSaveOwnerTest[jvm]",
+      "tests": "3",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "ModuleSavePolicyTest[jvm]",
+      "tests": "2",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "SessionOwnerTest[jvm]",
+      "tests": "2",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "PortablePspSpeedMeterTest[jvm]",
+      "tests": "7",
+      "failures": "0",
+      "errors": "0"
+    },
+    {
+      "name": "PlayerSpeedUiTest[jvm]",
+      "tests": "6",
+      "failures": "0",
+      "errors": "0"
+    }
+  ],
+  "publishedToProduction": false,
+  "installedOnDevices": false,
+  "notes": {
+    "es": "Mejoras de compatibilidad con PS1.",
+    "en": "PS1 compatibility improvements."
+  },
+  "qa": {
+    "releaseTabsChecks": 40,
+    "releaseDownloadChecks": 8,
+    "platformDownloadChecks": 87,
+    "appUpdateWebChannels": 4,
+    "sdkModuleSaveTests": 1,
+    "localApiAndHttpDownloadVerified": true,
+    "previousReleaseRowsPreserved": true,
+    "hiddenChannelsVerified": true,
+    "releaseAssetPreflightCount": 8,
+    "publishedBundleCount": 5,
+    "allCoresRebuilt": true,
+    "releaseBuildType": "Release",
+    "pspPgo": "off",
+    "moduleSourceAndAuthorVerified": true,
+    "ps1NativeContracts": [
+      "cd-buffer: ring overflow, split DMA, state v22/v21, Pause",
+      "libc-memory: BIOS vectors, abs, longjmp, mirrors, state"
+    ],
+    "sourceRepository": "Nelkano-emulator",
+    "sourceBranch": "feature/stable",
+    "applicationSourcesUncommitted": true,
+    "limitations": "No device installation or gameplay validation performed for this release."
+  }
+}

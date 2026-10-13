@@ -376,62 +376,75 @@ ocultas ausentes/puntero LFS, y rechazo de un APK publicado corrupto. Consulta
 pública de producción durante la revisión: Versiones y Módulos200, SDK404,
 actualizador200 con latest=null. Esto verifica el problema de disponibilidad,
 no certifica una emisión real, formularios autenticados ni pruebas de la app.
-## Entrega Android 3.0.1-beta y prueba de actualización
+## Entrega Android 3.0.2-beta y despliegue
 
-Entrega preparada localmente: **3.0.1-beta, código 11**, paquete
-`com.ivanp.nelkano.modular`, Release ARM64 no depurable. Se recompilaron todos
-los sistemas Android desde fuentes: nueve bibliotecas JNI y los cores Java;
-solo se empaquetan los cinco módulos obligatorios. Tamaño: **55.347.969 bytes**.
-SHA-256: `87ecfd6279acae87db49abf0c290984813a729adfc87131e5ae628c17e4e22cd`.
-Certificado de producción SHA-256:
-`57780bcd54cdddceeb9ab5445f9b256ec64ad05ec153ef249b78941a8ec4adc5`.
-El manifiesto y hashes de bibliotecas están en `release-artifacts/android-3.0.1-beta.json`.
-Las descargas anteriores se conservan. Windows, SteamOS y SDK continúan ocultos
-con versión 1.0.0-beta. No se ha hecho push, desplegado ni instalado esta versión
-sobre los móviles: el Moto conserva 3.0.0-beta de producción para el ensayo.
+Preparada localmente el 13/10/2026: **3.0.2-beta, código 12**, paquete
+`com.ivanp.nelkano.modular`, Release ARM64 no depurable, firmado con la identidad
+de producción existente. Tamaño **55.416.169 bytes**; SHA-256
+`4c9ddd557982ee03952196fcd2139debdcfcb437014d9ac04c1f27d421826f2f`.
+Notas elegidas por Ivan: «Mejoras de compatibilidad con PS1» / «PS1 compatibility improvements».
+APK y metadatos: `release-artifacts/Nelkano 3.0.2-beta.apk` y
+`release-artifacts/android-3.0.2-beta.json`. El APK se transporta por Git normal.
+El historial y las notas anteriores se conservan; Windows, SteamOS y SDK siguen ocultos.
 
-Para desplegar, seguir los cinco pasos de «Despliegue de la entrega beta 3»
-indicados arriba: publicar el commit, guardar respaldo SQL/configuración y
-archivos, activar mantenimiento, actualizar el checkout y ejecutar
-`bash scripts/deploy-hostinger.sh`. El APK nuevo es un archivo Git normal de
-52,8 MiB y no necesita LFS. Si solo se ejecutó `drush deploy`, completar también
-`drush --root=public_html php:script scripts/install-release-assets.php`;
-la configuración por sí sola no transporta ni registra la APK.
-La receta compara correctamente APP_DIR y REPO_DIR y conserva settings.php,
-archivos de usuarios y directorio privado existente. No ejecutar la herramienta
-local `scripts/register-android-release.php` en producción.
+Todos los cores Android se recompilaron desde fuentes; nueve bibliotecas JNI,
+17 sistemas y únicamente cinco módulos esenciales. Firma v1/v2/v3 y autores de
+los módulos verificados; PSP usa PGO off. Pasan 30 pruebas JVM, una regresión SDK
+de guardados, contratos PS1 CD-buffer/Pause y libc-memory/longjmp, 40 checks de
+pestañas, 8 de descarga, 87 de catálogo y QA de cuatro canales. API y descarga
+HTTP local coinciden en versión, código, bytes y hash; preflight de ocho
+artefactos y paquete publicado de cinco archivos correctos.
+No se ha hecho push, desplegado ni instalado en teléfonos; no se certifica gameplay Android.
+Las fuentes de la aplicación siguen sin commit en Nelkano-emulator/feature/stable.
+Los cambios locales ajenos del libro SDK y displays exportados quedan fuera del commit de entrega.
 
-Al terminar el despliegue y desactivar mantenimiento, comprobar:
+PC, desde `C:/Users/ivanp/Desktop/nelkano-web`, revisar primero la rama main y
+los commits pendientes; publicar la entrega con `git push origin main`.
+No descartar cambios pendientes de producción: resolverlos antes del pull.
+En la sesión SSH del usuario, ejecutar cada fase y detenerse ante cualquier error:
 
 ```bash
-curl --fail --silent --show-error https://nelkano.com/api/nelkano/v1/app/releases/android-arm64
-curl --fail --location --output /tmp/Nelkano-3.0.1-beta.apk \
-  https://nelkano.com/api/nelkano/v1/app/releases/android-arm64/11/download
-printf '%s  %s\n' \
-  87ecfd6279acae87db49abf0c290984813a729adfc87131e5ae628c17e4e22cd \
-  /tmp/Nelkano-3.0.1-beta.apk | sha256sum --check
+cd /home/u985217890/domains/nelkano.com
+git status --short
+# Continuar solo si el checkout no tiene cambios pendientes.
+backup_dir="$HOME/nelkano-backups/3.0.2-beta-$(date +%Y%m%d-%H%M%S)"
+test ! -e "$backup_dir" && mkdir -p "$backup_dir"
+./vendor/bin/drush --root=public_html sql:dump --gzip --result-file="$backup_dir/database.sql"
+./vendor/bin/drush --root=public_html config:export --destination="$backup_dir/config" --yes
+git rev-parse HEAD > "$backup_dir/revision.txt"
+public_files="$(./vendor/bin/drush --root=public_html php:eval 'echo \Drupal::service("file_system")->realpath("public://");')"
+private_files="$(./vendor/bin/drush --root=public_html php:eval 'echo \Drupal::service("file_system")->realpath("private://");')"
+test -d "$public_files" && test -d "$private_files"
+tar -czf "$backup_dir/files-settings.tar.gz" -- public_html/sites/default/settings.php "$public_files" "$private_files"
+./vendor/bin/drush --root=public_html state:set system.maintenance_mode 1 --input-format=integer
+./vendor/bin/drush --root=public_html cache:rebuild
+git pull --ff-only origin main
+git log -1 --oneline
+# Verificar que HEAD incluye el commit preparado antes de desplegar.
+bash scripts/deploy-hostinger.sh
 ```
 
-El catálogo debe indicar 3.0.1-beta, version_code 11, 55347969 bytes y el hash
-anterior. Revisar `/versiones` y `/en/releases`: 3.0.1-beta debe ser la última
-Android, manteniendo el historial. Los otros tres canales deben dar latest=null.
-En administración → Versiones, la fila Android nueva permite editar notas y
-ocultar/publicar la oferta igual que las anteriores.
+El script completo instala los APK privados, ejecuta Composer, drush deploy e
+importa el libro SDK. Si falla, mantener mantenimiento y conservar el respaldo.
+No ejecutar config:export en producción después del pull. Solo tras éxito:
 
-Para la prueba real del aviso, usar **Moto G15**, cuya 3.0.0-beta está firmada con
-esta misma identidad de producción. Con Internet y sin una partida abierta,
-abrir Nelkano y entrar en Ajustes → General → Actualización de Nelkano → Comprobar.
-La comprobación manual evita la espera automática de seis horas; también se
-comprueba en un arranque nuevo de la aplicación. Debe ofrecer 3.0.1-beta.
-Pulsar Descargar, esperar la verificación, pulsar Instalar, autorizar Nelkano como
-fuente si Android lo solicita y confirmar la actualización en el instalador.
-Confirmar versión 3.0.1-beta y que permanecen los 1000 juegos y guardados.
-Una nueva comprobación debe indicar que ya está actualizada.
-**Redmi tiene una firma debug diferente**: el actualizador rechaza esta APK de
-producción; no desinstalar ni borrar datos para forzar el ensayo.
+```bash
+./vendor/bin/drush --root=public_html state:set system.maintenance_mode 0 --input-format=integer
+./vendor/bin/drush --root=public_html cache:rebuild
+./vendor/bin/drush --root=public_html updatedb:status
+./vendor/bin/drush --root=public_html config:status
+curl --fail --silent --show-error https://nelkano.com/api/nelkano/v1/app/releases/android-arm64
+curl --fail --location --output /tmp/Nelkano-3.0.2-beta.apk \
+  https://nelkano.com/api/nelkano/v1/app/releases/android-arm64/12/download
+printf '%s  %s\n' \
+  4c9ddd557982ee03952196fcd2139debdcfcb437014d9ac04c1f27d421826f2f \
+  /tmp/Nelkano-3.0.2-beta.apk | sha256sum --check
+```
 
-Verificado localmente: 10 tests JVM del actualizador, 40 checks de pestañas,
-5 pruebas de visibilidad de controles, 8 checks de descargas, QA de los cuatro canales, catálogo real build 11,
-canales ocultos, preflight de siete artefactos y descarga HTTP con SHA-256
-idéntico. La aparición e instalación del aviso en el Moto queda para después
-del despliegue HTTPS; no se afirma realizada en esta preparación.
+El catálogo debe ofrecer 3.0.2-beta/12, 55416169 bytes y ese hash. Revisar
+`/versiones` y `/en/releases` y que los otros tres canales continúan sin oferta.
+Para comprobar el aviso desde una versión anterior con firma de producción:
+Ajustes → General → Actualización de Nelkano → Comprobar, sin partida abierta.
+Descargar e instalar mediante la confirmación de Android; verificar versión,
+biblioteca y guardados conservados. Las instalaciones debug no admiten esta
+firma como actualización; no desinstalar ni borrar datos para forzar el ensayo.

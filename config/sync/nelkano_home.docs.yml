@@ -101,6 +101,15 @@ es:
       filename: 'Nelkano SDK Studio 1.0.0-beta-windows.zip'
       date: 12/10/2026
       changes: 'Primera beta de Nelkano SDK Studio para Windows.'
+    -
+      visible: true
+      version: 3.0.2-beta
+      platform: android
+      version_code: '12'
+      apk_file: 'private://nelkano-releases/Nelkano 3.0.2-beta.apk'
+      filename: 'Nelkano 3.0.2-beta.apk'
+      date: 13/10/2026
+      changes: 'Mejoras de compatibilidad con PS1.'
   compatibility_seo_title: 'Compatibilidad de Nelkano'
   compatibility_seo_description: 'Estado real de compatibilidad de los sistemas soportados por Nelkano para Android.'
   compatibility_eyebrow: Compatibilidad
@@ -230,6 +239,15 @@ en:
       filename: 'Nelkano SDK Studio 1.0.0-beta-windows.zip'
       date: 12/10/2026
       changes: 'First beta of Nelkano SDK Studio for Windows.'
+    -
+      visible: true
+      version: 3.0.2-beta
+      platform: android
+      version_code: '12'
+      apk_file: 'private://nelkano-releases/Nelkano 3.0.2-beta.apk'
+      filename: 'Nelkano 3.0.2-beta.apk'
+      date: 13/10/2026
+      changes: 'PS1 compatibility improvements.'
   compatibility_seo_title: 'Nelkano compatibility'
   compatibility_seo_description: 'Real compatibility status for the systems supported by Nelkano on Android.'
   compatibility_eyebrow: Compatibility
