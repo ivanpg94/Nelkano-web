@@ -53,6 +53,11 @@ Ed25519 sobre el inventario canónico. Admite JS/JSON/SVG/PNG/TXT/TTF. Límites:
 32 MiB comprimidos/descomprimidos, 128 entradas, 8 MiB por archivo y 256 KiB
 por documento de metadatos. No ejecuta el JavaScript ni extrae archivos.
 
+La capacidad reservada error-reports.send sólo se admite tras verificar Ed25519,
+con ID nelkano.error-reports y la huella oficial fijada por el SDK. Otro ID,
+otro firmante o una firma inválida siguen rechazados. No se añade al conjunto
+público de capacidades ni se almacena código o claves privadas en este módulo.
+
 El transporte usa cURL con TLS verificado, solo HTTPS público, IP validada
 fijada por cada conexión, límite de bytes/tiempo/redirecciones y sin proxy.
 Rechaza direcciones privadas/reservadas/multicast, credenciales embebidas,

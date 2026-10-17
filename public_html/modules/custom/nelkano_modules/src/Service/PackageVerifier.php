@@ -13,6 +13,8 @@ namespace Drupal\nelkano_modules\Service;
 final class PackageVerifier {
   public const MAX_ARCHIVE = 33554432;
   private const MAX_FILE = 8388608;
+  // Same product trust anchor as SDK tooling/private-package-access.mjs.
+  private const REPORT_AUTHOR_SHA256 = 'd678dfc43349f1cf71d3bd98019c94655768685ff2b6163e5163d1b3a69df4a1';
   private const CAPABILITIES = [
     'emulation.game-mod', 'emulation.memory.read', 'emulation.memory.write',
     'emulation.resources', 'emulation.handoff', 'presentation.overlay',
@@ -194,7 +196,6 @@ final class PackageVerifier {
     $this->require(count($manifest['files']) > 0 && count($manifest['files']) <= 120
       && count($manifest['platforms']) > 0 && count($manifest['platforms']) <= 2
       && !array_diff($manifest['platforms'], ['android', 'jvm-desktop'])
-      && !array_diff($manifest['capabilities'], self::CAPABILITIES)
       && is_string($manifest['entry'] ?? NULL)
       && str_ends_with($manifest['entry'], '.js')
       && in_array($manifest['entry'], $manifest['files'], TRUE));
@@ -232,10 +233,17 @@ final class PackageVerifier {
       && substr($key, 0, 12) === hex2bin('302a300506032b6570032100')
       && is_string($signed) && strlen($signed) === 64
       && sodium_crypto_sign_verify_detached($signed, json_encode($canonical, JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR), substr($key, 12)));
+    $author = hash('sha256', $key);
+    $allowedCapabilities = self::CAPABILITIES;
+    if ($manifest['id'] === 'nelkano.error-reports' && hash_equals(self::REPORT_AUTHOR_SHA256, $author)) {
+      $allowedCapabilities[] = 'error-reports.send';
+    }
+    // Author/ID exceptions are evaluated only after successful Ed25519 verification.
+    $this->require(!array_diff($manifest['capabilities'], $allowedCapabilities));
     return [
       'id' => $manifest['id'], 'version' => $manifest['version'],
       'sdk' => $manifest['sdkVersion'], 'platforms' => $manifest['platforms'],
-      'capabilities' => $manifest['capabilities'], 'author' => hash('sha256', $key),
+      'capabilities' => $manifest['capabilities'], 'author' => $author,
       'sha256' => hash('sha256', $bytes), 'size' => strlen($bytes),
     ];
   }
