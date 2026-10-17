@@ -17,17 +17,20 @@ final class ModuleApiExceptionSubscriber implements EventSubscriberInterface {
     $exception = $event->getThrowable();
     $status = $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : 500;
     $code = match ($status) {
-      400 => 'invalid_parameters', 404 => 'not_found', 405 => 'method_not_allowed',
+      400 => 'invalid_parameters', 401 => 'invalid_token', 403 => 'access_denied', 404 => 'not_found', 405 => 'method_not_allowed',
+      410 => 'download_unavailable',
       429 => 'rate_limited', 503 => 'catalog_unavailable', default => 'request_failed',
     };
     if ($status === 404 && in_array($exception->getMessage(), ['module_not_found', 'version_not_found'], TRUE)) { $code = $exception->getMessage(); }
     $message = match ($status) {
-      400 => 'Los parámetros de la consulta no son válidos.', 404 => 'El módulo o la versión no están disponibles.',
+      400 => 'Los parámetros de la consulta no son válidos.', 401 => 'La sesión no es válida o ha caducado.',
+      403 => 'No tienes acceso a este módulo.', 404 => 'El módulo o la versión no están disponibles.',
+      410 => 'La descarga de esta versión no está disponible.',
       405 => 'Esta API solo permite consultas GET y HEAD.', 429 => 'Demasiadas consultas. Inténtalo de nuevo más tarde.',
       default => 'No se pudo consultar el catálogo. Inténtalo de nuevo más tarde.',
     };
     $headers = $exception instanceof HttpExceptionInterface ? $exception->getHeaders() : [];
     $event->setResponse(new JsonResponse(['api_version' => 1, 'ok' => FALSE, 'code' => $code, 'message' => $message],
-      $status, $headers + ['Cache-Control' => 'private, no-store', 'X-Content-Type-Options' => 'nosniff']));
+      $status, $headers + ['Cache-Control' => 'private, no-store', 'Vary' => 'Authorization, Cookie', 'X-Content-Type-Options' => 'nosniff']));
   }
 }

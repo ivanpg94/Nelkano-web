@@ -3,5 +3,5 @@ create nelkano modules:
   description: 'Registrar módulos y versiones externas firmadas; editar solo los propios.'
 administer nelkano modules:
   title: 'Administrar módulos de Nelkano'
-  description: 'Editar y retirar módulos de cualquier propietario.'
+  description: 'Publicar y gestionar módulos exclusivos Tester; editar y retirar módulos de cualquier propietario.'
   restrict access: true

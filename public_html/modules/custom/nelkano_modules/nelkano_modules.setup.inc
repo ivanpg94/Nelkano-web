@@ -36,6 +36,7 @@ function nelkano_modules_setup(): void {
   }
   nelkano_modules_setup_images();
   nelkano_modules_setup_systems();
+  nelkano_modules_setup_audiences();
   $module = 'nelkano_module';
   nelkano_modules_field($module, 'field_module_description', 'string_long', 'Descripción');
   nelkano_modules_field($module, 'field_module_source', 'string', 'Código fuente', ['max_length' => 2048]);
@@ -105,6 +106,23 @@ function nelkano_modules_setup_systems(): void {
     $field = new \Drupal\search_api\Item\Field($index, 'systems');
     $field->setLabel('Sistemas compatibles')->setDatasourceId('entity:node')
       ->setPropertyPath('field_module_systems')->setType('string');
+    $index->addField($field)->save();
+    $index->reindex();
+  }
+}
+
+/** Add privacy fields/indexing without changing existing module identities or data. */
+function nelkano_modules_setup_audiences(): void {
+  nelkano_modules_field('nelkano_module', 'field_module_access', 'list_string', 'Acceso',
+    ['allowed_values' => ['public' => 'Público', 'tester' => 'Sólo Tester']]);
+  nelkano_modules_field('nelkano_module_release', 'field_release_package', 'file', 'Paquete alojado',
+    ['target_type' => 'file', 'uri_scheme' => 'private', 'display_field' => FALSE, 'display_default' => TRUE], 1,
+    ['file_directory' => 'nelkano-modules/packages', 'file_extensions' => 'nelkmod', 'max_filesize' => '32 MB',
+      'description_field' => FALSE, 'handler' => 'default:file', 'handler_settings' => []]);
+  $index = Index::load('nelkano_modules');
+  if ($index && !$index->getField('module_access')) {
+    $field = new \Drupal\search_api\Item\Field($index, 'module_access');
+    $field->setLabel('Acceso')->setDatasourceId('entity:node')->setPropertyPath('field_module_access')->setType('string');
     $index->addField($field)->save();
     $index->reindex();
   }

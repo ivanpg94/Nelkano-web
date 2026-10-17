@@ -3,6 +3,9 @@ services:
     class: Drupal\nelkano_modules\Service\PackageVerifier
   nelkano_modules.downloader:
     class: Drupal\nelkano_modules\Service\SecureDownloadClient
+  nelkano_modules.hosted_packages:
+    class: Drupal\nelkano_modules\Service\ModuleHostedPackages
+    arguments: ['@nelkano_modules.packages']
   nelkano_modules.registry:
     class: Drupal\nelkano_modules\Service\ModuleRegistry
     arguments: ['@nelkano_modules.downloader', '@nelkano_modules.packages']

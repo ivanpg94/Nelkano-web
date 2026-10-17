@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\nelkano_modules\Service;
 
+use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\node\Entity\Node;
 use Drupal\node\NodeInterface;
@@ -19,9 +20,10 @@ final class ModuleRegistry {
   public function isWriting(): bool { return $this->writing; }
 
   public static function canEdit(NodeInterface $module, AccountInterface $account): bool {
-    return $module->bundle() === 'nelkano_module' && $account->isAuthenticated()
-      && ($account->hasPermission('administer nelkano modules')
-        || ($account->hasPermission('create nelkano modules') && (int) $module->getOwnerId() === (int) $account->id()));
+    if ($module->bundle() !== 'nelkano_module' || !$account->isAuthenticated()) { return FALSE; }
+    if (ModuleAudience::access($module) === 'tester') { return ModuleAudience::canManageTester($account); }
+    return $account->hasPermission('administer nelkano modules')
+      || ($account->hasPermission('create nelkano modules') && (int) $module->getOwnerId() === (int) $account->id());
   }
 
   private function authorize(?NodeInterface $module = NULL): void {
@@ -40,6 +42,10 @@ final class ModuleRegistry {
     return $this->packages->verify($response['body']) + [
       'url' => $url, 'etag' => $response['etag'] ?? '', 'modified' => $response['modified'] ?? '',
     ];
+  }
+
+  public function inspectUpload(int $fid, ?NodeInterface $module = NULL, ?NodeInterface $release = NULL): array {
+    return \Drupal::service('nelkano_modules.hosted_packages')->inspect($fid, $module, $release);
   }
 
   public function releases(NodeInterface $module): array {
@@ -104,25 +110,41 @@ final class ModuleRegistry {
 
   public function saveModule(?NodeInterface $module, ?int $revision, array $values, ?array $initial = NULL): NodeInterface {
     $this->authorize($module);
+    $language = $module ? NULL : $this->contentLanguage($values['langcode'] ?? 'es');
+    $access = $values['access'] ?? ($module ? ModuleAudience::access($module) : 'public');
+    if (!in_array($access, ['public', 'tester'], TRUE)) { throw new \InvalidArgumentException('Selecciona un acceso válido.'); }
+    if ($module && $access !== ModuleAudience::access($module)) {
+      throw new \InvalidArgumentException('El acceso se fija al crear la ficha. Crea otra ficha para una distribución distinta.');
+    }
+    if ($access === 'tester' && !ModuleAudience::canManageTester(\Drupal::currentUser())) {
+      throw new AccessDeniedHttpException('Sólo un administrador puede publicar y gestionar módulos exclusivos Tester.');
+    }
+    if ($access === 'tester' && !empty($values['image'])) {
+      throw new \InvalidArgumentException('Los módulos Tester no admiten imágenes públicas.');
+    }
+    if ($access === 'tester' && ($values['source'] ?? '') !== '') {
+      throw new \InvalidArgumentException('Los módulos Tester no incluyen repositorio de código fuente.');
+    }
+    $values['access'] = $access;
     if ($values['source'] !== '') { SecureDownloadClient::validateUrl($values['source']); }
     if (trim($values['title']) === '' || mb_strlen($values['title']) > 255
       || trim($values['description']) === '' || mb_strlen($values['description']) > 12000) {
       throw new \InvalidArgumentException('Completa el nombre y la descripción.');
     }
     if (array_key_exists('systems', $values)) { $values['systems'] = ModuleSystems::validate($values['systems']); }
-    return $this->write(function () use ($module, $revision, $values, $initial) {
+    return $this->write(function () use ($module, $revision, $values, $initial, $language) {
       if ($module) { $module = $this->reload($module, $revision); $this->authorize($module); }
       else {
         if (!$initial) { throw new \InvalidArgumentException('Añade una primera versión válida.'); }
         $ids = \Drupal::entityTypeManager()->getStorage('node')->getQuery()->accessCheck(FALSE)
           ->condition('type', 'nelkano_module')->condition('field_module_id', $initial['id'])->execute();
         if ($ids) { throw new \InvalidArgumentException('Ya hay una ficha con ese ID de módulo.'); }
-        $module = Node::create(['type' => 'nelkano_module', 'uid' => \Drupal::currentUser()->id(),
+        $module = Node::create(['type' => 'nelkano_module', 'langcode' => $language, 'uid' => \Drupal::currentUser()->id(),
           'field_module_id' => $initial['id'], 'field_module_author' => $initial['author'],
           'field_module_available' => FALSE]);
       }
       $module->setTitle($values['title'])->set('field_module_description', $values['description'])
-        ->set('field_module_source', $values['source'])->set('status', (int) $values['published']);
+        ->set('field_module_source', $values['source'])->set('field_module_access', $values['access'])->set('status', (int) $values['published']);
       if (array_key_exists('systems', $values)) { $module->set('field_module_systems', $values['systems']); }
       if (array_key_exists('image', $values)) {
         $file = $this->validateImage((int) $values['image'], $module);
@@ -137,6 +159,44 @@ final class ModuleRegistry {
       }
       return $module;
     });
+  }
+
+  /** Correct original content language without translating text or rechecking packages. */
+  public function setContentLanguage(NodeInterface $module, int $expectedRevision, string $language): NodeInterface {
+    $this->authorize($module);
+    $language = $this->contentLanguage($language);
+    return $this->write(function () use ($module, $expectedRevision, $language) {
+      $module = $this->reload($module, $expectedRevision)->getUntranslated();
+      $this->authorize($module);
+      $storage = \Drupal::entityTypeManager()->getStorage('node');
+      $release_ids = array_map(static fn(NodeInterface $release) => $release->id(), $this->releases($module));
+      $storage->resetCache($release_ids);
+      $entities = [$module, ...array_values($storage->loadMultiple($release_ids))];
+      // Preflight the complete set before saving anything. A default-language
+      // switch with existing translations could overwrite or mislabel real text.
+      foreach ($entities as $entity) {
+        if ($entity->getUntranslated()->language()->getId() !== $language && count($entity->getTranslationLanguages()) > 1) {
+          throw new ConflictHttpException('La ficha o una versión tiene traducciones. Revisa sus idiomas antes de cambiar el idioma predeterminado.');
+        }
+      }
+      foreach ($entities as $entity) {
+        $entity = $entity->getUntranslated();
+        if ($entity->language()->getId() === $language) { continue; }
+        $entity->set('langcode', $language);
+        $entity->setNewRevision(TRUE);
+        $entity->setRevisionUserId((int) \Drupal::currentUser()->id());
+        $entity->save();
+      }
+      return $module;
+    });
+  }
+
+  private function contentLanguage(mixed $language): string {
+    $languages = \Drupal::languageManager()->getLanguages(LanguageInterface::STATE_CONFIGURABLE);
+    if (!is_string($language) || !isset($languages[$language])) {
+      throw new \InvalidArgumentException('Selecciona un idioma habilitado para el contenido.');
+    }
+    return $language;
   }
 
   public function saveVersion(NodeInterface $module, ?NodeInterface $release, ?int $revision, array $verified, string $notes): NodeInterface {
@@ -155,6 +215,17 @@ final class ModuleRegistry {
   }
 
   private function persistVersion(NodeInterface $module, ?NodeInterface $release, array $verified, string $notes): NodeInterface {
+    $fid = (int) ($verified['package_fid'] ?? 0);
+    if ($fid) {
+      $actual = $this->inspectUpload($fid, $module, $release);
+      if ($actual['sha256'] !== $verified['sha256'] || $actual['id'] !== $verified['id'] || $actual['author'] !== $verified['author']) {
+        throw new \InvalidArgumentException('El paquete subido ha cambiado. Vuelve a validarlo.');
+      }
+      $verified = $actual;
+    }
+    elseif (ModuleAudience::access($module) === 'tester') {
+      throw new \InvalidArgumentException('Los módulos Tester deben alojar su paquete privado en esta web.');
+    }
     if ($verified['id'] !== $module->get('field_module_id')->value
       || $verified['author'] !== $module->get('field_module_author')->value
       || mb_strlen($notes) > 8000) {
@@ -173,13 +244,14 @@ final class ModuleRegistry {
           throw new \InvalidArgumentException('Esa versión ya está registrada. Puedes reparar su enlace.');
         }
       }
-      $release = Node::create(['type' => 'nelkano_module_release', 'uid' => $module->getOwnerId(),
+      $release = Node::create(['type' => 'nelkano_module_release', 'langcode' => $module->getUntranslated()->language()->getId(), 'uid' => $module->getOwnerId(),
         'status' => 0, 'field_release_module' => $module->id()]);
     }
     $release->setTitle($module->get('field_module_id')->value . ' ' . $verified['version']);
     foreach (['url', 'version', 'sdk', 'platforms', 'capabilities', 'size', 'etag', 'modified'] as $key) {
       $release->set('field_release_' . $key, $verified[$key]);
     }
+    $release->set('field_release_package', $fid ? ['target_id' => $fid, 'display' => 1] : []);
     $release->set('field_release_hash', $verified['sha256'])->set('field_release_notes', $notes)
       ->set('field_release_state', 'available')->set('field_release_error', '')
       ->set('field_release_checked', time())->set('field_release_queued', 0);
@@ -248,7 +320,15 @@ final class ModuleRegistry {
         'modified' => $release->get('field_release_modified')->value ?? ''];
     }
     try {
-      $response = $this->downloader->fetch($url, $validators);
+      $fid = ModuleHostedPackages::fid($release);
+      if ($fid) {
+        $hosted = \Drupal::service('nelkano_modules.hosted_packages');
+        $file = $hosted->file($fid, NULL, $release, FALSE);
+        $body = file_get_contents($hosted->path($file));
+        if (!is_string($body)) { throw new \InvalidArgumentException('El paquete alojado no está disponible.'); }
+        $response = ['status' => 200, 'body' => $body];
+      }
+      else { $response = $this->downloader->fetch($url, $validators); }
       if ($response['status'] === 304 && $state === 'available') {
         // Provider confirms the already-verified version is unchanged.
       }

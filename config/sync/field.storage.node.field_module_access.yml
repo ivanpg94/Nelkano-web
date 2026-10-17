@@ -1,0 +1,27 @@
+uuid: 18254fcc-e0ee-3815-a24c-794d0e1e6659
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_module_access
+field_name: field_module_access
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: public
+      label: Público
+    -
+      value: tester
+      label: 'Sólo Tester'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

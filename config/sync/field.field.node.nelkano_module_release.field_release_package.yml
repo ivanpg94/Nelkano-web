@@ -1,0 +1,27 @@
+uuid: d16eaf87-bca3-32ff-a993-2d8db23de6ed
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_release_package
+    - node.type.nelkano_module_release
+  module:
+    - file
+id: node.nelkano_module_release.field_release_package
+field_name: field_release_package
+entity_type: node
+bundle: nelkano_module_release
+label: 'Paquete alojado'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: nelkano-modules/packages
+  file_extensions: nelkmod
+  max_filesize: '32 MB'
+  description_field: false
+field_type: file

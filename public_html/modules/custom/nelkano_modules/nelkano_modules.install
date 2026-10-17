@@ -14,3 +14,16 @@ function nelkano_modules_requirements(string $phase): array {
     'severity' => $available ? REQUIREMENT_OK : REQUIREMENT_ERROR,
   ]];
 }
+/** Add role-restricted hosted packages; no fixtures or user role changes. */
+function nelkano_modules_update_11001(): void {
+  require_once __DIR__ . '/nelkano_modules.setup.inc';
+  nelkano_modules_setup_audiences();
+  node_access_rebuild(FALSE);
+  $index = \Drupal\search_api\Entity\Index::load('nelkano_modules');
+  if ($index) {
+    $index->reindex();
+    while ($index->getTrackerInstance()->getRemainingItemsCount() > 0) {
+      if (!$index->indexItems(50)) { break; }
+    }
+  }
+}

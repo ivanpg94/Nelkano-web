@@ -15,7 +15,7 @@ nelkano_modules.mine:
     _title: 'Mis módulos'
   requirements:
     _user_is_logged_in: 'TRUE'
-    _permission: 'create nelkano modules'
+    _permission: 'create nelkano modules+administer nelkano modules'
   options:
     no_cache: TRUE
 nelkano_modules.add:
@@ -25,7 +25,7 @@ nelkano_modules.add:
     _title: 'Publicar un módulo'
   requirements:
     _user_is_logged_in: 'TRUE'
-    _permission: 'create nelkano modules'
+    _permission: 'create nelkano modules+administer nelkano modules'
   options:
     no_cache: TRUE
 nelkano_modules.detail:
@@ -120,6 +120,17 @@ nelkano_modules.api_version:
   defaults:
     _controller: '\Drupal\nelkano_modules\Controller\ModuleApiController::version'
     _format: json
+  methods: [GET, HEAD]
+  requirements:
+    _access: 'TRUE'
+    module_id: '[a-z][a-z0-9]*(\.[a-z][a-z0-9-]*)+'
+    version: '[0-9]+\.[0-9]+\.[0-9]+'
+  options:
+    no_cache: TRUE
+nelkano_modules.api_download:
+  path: '/api/nelkano/v1/modules/{module_id}/versions/{version}/download'
+  defaults:
+    _controller: '\Drupal\nelkano_modules\Controller\ModuleDownloadController::download'
   methods: [GET, HEAD]
   requirements:
     _access: 'TRUE'

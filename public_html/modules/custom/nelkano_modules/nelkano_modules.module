@@ -38,10 +38,14 @@ function nelkano_modules_cron(): void {
 }
 function nelkano_modules_node_access(NodeInterface $node, $op, \Drupal\Core\Session\AccountInterface $account) {
   if (!in_array($node->bundle(), ['nelkano_module', 'nelkano_module_release'], TRUE)) { return AccessResult::neutral(); }
-  $admin = $account->hasPermission('administer nelkano modules');
+  if ($op === 'view' && $node->bundle() === 'nelkano_module' && !\Drupal\nelkano_modules\Service\ModuleAudience::canRead($node, $account)) {
+    return AccessResult::forbidden()->cachePerUser()->cachePerPermissions()->addCacheContexts(['user.roles'])->addCacheableDependency($node);
+  }
+  $admin = \Drupal\nelkano_modules\Service\ModuleAudience::canManageTester($account);
   if ($node->bundle() === 'nelkano_module_release') {
     $parent = $node->get('field_release_module')->entity;
-    $allowed = $op === 'view' && ($admin || ($parent && ModuleRegistry::canEdit($parent, $account)));
+    $allowed = $op === 'view' && $parent && \Drupal\nelkano_modules\Service\ModuleAudience::canRead($parent, $account)
+      && ($admin || ModuleRegistry::canEdit($parent, $account));
   }
   else {
     $allowed = $op === 'view'
@@ -49,7 +53,7 @@ function nelkano_modules_node_access(NodeInterface $node, $op, \Drupal\Core\Sess
       : $admin;
   }
   return ($allowed ? AccessResult::allowed() : AccessResult::forbidden())
-    ->cachePerUser()->cachePerPermissions()->addCacheableDependency($node);
+    ->cachePerUser()->cachePerPermissions()->addCacheContexts(['user.roles'])->addCacheableDependency($node);
 }
 function nelkano_modules_node_presave(NodeInterface $node): void {
   if (!in_array($node->bundle(), ['nelkano_module', 'nelkano_module_release'], TRUE)) { return; }
@@ -59,13 +63,20 @@ function nelkano_modules_node_presave(NodeInterface $node): void {
     $node->setUnpublished();
     return;
   }
+  if (\Drupal\nelkano_modules\Service\ModuleAudience::access($node) === 'tester') {
+    if (!$internal && !\Drupal\nelkano_modules\Service\ModuleAudience::canManageTester(\Drupal::currentUser())) {
+      throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('Sólo un administrador puede gestionar módulos exclusivos Tester.');
+    }
+    if (!$node->get('field_module_image')->isEmpty()) { throw new \InvalidArgumentException('Los módulos Tester no admiten imágenes públicas.'); }
+    if (!$node->get('field_module_source')->isEmpty()) { throw new \InvalidArgumentException('Los módulos Tester no incluyen repositorio.'); }
+  }
   if (!$internal) {
     if ($node->isNew()) {
       $node->set('field_module_available', FALSE)->set('field_module_id', NULL)
         ->set('field_module_author', NULL)->set('field_module_platforms', []);
     }
     else {
-      foreach (['field_module_id', 'field_module_author', 'field_module_available', 'field_module_platforms'] as $field) {
+      foreach (['field_module_id', 'field_module_author', 'field_module_available', 'field_module_platforms', 'field_module_access'] as $field) {
         if ($node->get($field)->getValue() !== $node->getOriginal()->get($field)->getValue()) {
           throw new \InvalidArgumentException('Los metadatos verificados del módulo no se pueden modificar manualmente.');
         }
@@ -77,4 +88,35 @@ function nelkano_modules_node_delete(NodeInterface $node): void {
   if ($node->bundle() === 'nelkano_module') {
     foreach (\Drupal::service('nelkano_modules.registry')->releases($node) as $release) { $release->delete(); }
   }
+}
+/** All package bytes must pass through the audience-checked download controller. */
+function nelkano_modules_file_download(string $uri) {
+  if (str_starts_with($uri, \Drupal\nelkano_modules\Service\ModuleHostedPackages::PREFIX)) { return -1; }
+}
+function nelkano_modules_file_access(\Drupal\file\FileInterface $file, string $op, \Drupal\Core\Session\AccountInterface $account) {
+  if (str_starts_with($file->getFileUri(), \Drupal\nelkano_modules\Service\ModuleHostedPackages::PREFIX)) {
+    // ManagedFile validates retained/default fids using this operation. Bytes still
+    // cannot use /system/files: hook_file_download above always denies that route.
+    $widget = $op === 'download' && \Drupal\nelkano_modules\Service\ModuleAudience::canManageTester($account);
+    return ($widget ? AccessResult::allowed() : AccessResult::forbidden())->setCacheMaxAge(0);
+  }
+  return AccessResult::neutral();
+}
+/** Hide the private managed file reference from REST/generic entity displays too. */
+function nelkano_modules_entity_field_access(string $operation, \Drupal\Core\Field\FieldDefinitionInterface $field_definition, \Drupal\Core\Session\AccountInterface $account, ?\Drupal\Core\Field\FieldItemListInterface $items = NULL) {
+  if ($field_definition->getName() === 'field_release_package') { return AccessResult::forbidden()->setCacheMaxAge(0); }
+  return AccessResult::neutral();
+}
+
+/** Grants protect ordinary entity queries, Views and sitemap consumers as well. */
+function nelkano_modules_node_grants(\Drupal\Core\Session\AccountInterface $account, string $op): array {
+  if ($op !== 'view') { return []; }
+  return ['nelkano_module_audience' => (\Drupal\nelkano_modules\Service\ModuleAudience::isTester($account)
+    || \Drupal\nelkano_modules\Service\ModuleAudience::canManageTester($account)) ? [1, 2] : [1]];
+}
+function nelkano_modules_node_access_records(NodeInterface $node): array {
+  if ($node->bundle() !== 'nelkano_module') { return []; }
+  return [['realm' => 'nelkano_module_audience',
+    'gid' => \Drupal\nelkano_modules\Service\ModuleAudience::access($node) === 'tester' ? 2 : 1,
+    'grant_view' => (int) $node->isPublished(), 'grant_update' => 0, 'grant_delete' => 0]];
 }

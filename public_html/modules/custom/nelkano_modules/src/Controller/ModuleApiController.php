@@ -20,9 +20,8 @@ final class ModuleApiController extends ControllerBase {
   }
 
   private function allow(Request $request): void {
-    $ip = $request->getClientIp() ?? 'unknown';
-    if (!$this->flood->isAllowed('nelkano_modules.public_api', 240, 60, $ip)) { throw new TooManyRequestsHttpException(60); }
-    $this->flood->register('nelkano_modules.public_api', 60, $ip);
+    \Drupal\nelkano_modules\Service\ModuleAudience::account();
+    \Drupal\nelkano_modules\Service\ModuleApiRateLimit::allow($request, $this->flood);
   }
 
   public function catalog(Request $request): JsonResponse {
@@ -53,7 +52,7 @@ final class ModuleApiController extends ControllerBase {
   }
 
   private function response(Request $request, array $payload, int $status = 200): JsonResponse {
-    $response = new JsonResponse(NULL, $status, ['Cache-Control' => 'private, no-cache, must-revalidate', 'X-Content-Type-Options' => 'nosniff']);
+    $response = new JsonResponse(NULL, $status, ['Cache-Control' => \Drupal\nelkano_modules\Service\ModuleAudience::account()->isAuthenticated() ? 'private, no-store' : 'private, no-cache, must-revalidate', 'Vary' => 'Authorization, Cookie', 'X-Content-Type-Options' => 'nosniff']);
     $response->setEncodingOptions(JsonResponse::DEFAULT_ENCODING_OPTIONS | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
     $response->setData(['api_version' => 1, 'ok' => $status === 200] + $payload);
     if ($status === 200) {

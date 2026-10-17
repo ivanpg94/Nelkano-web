@@ -24,12 +24,12 @@ final class ModuleController extends ControllerBase {
     $latest = $available[0] ?? NULL;
     return [
       'id' => $node->id(), 'title' => $node->label(), 'initial' => mb_strtoupper(mb_substr($node->label(), 0, 1)),
-      'image' => $node->get('field_module_image')->isEmpty() ? [] : $node->get('field_module_image')->view([
+      'image' => \Drupal\nelkano_modules\Service\ModuleAudience::access($node) === 'tester' || $node->get('field_module_image')->isEmpty() ? [] : $node->get('field_module_image')->view([
         'label' => 'hidden', 'type' => 'image', 'settings' => ['image_style' => 'nelkano_module_card', 'image_link' => '']]),
-      'image_detail' => $node->get('field_module_image')->isEmpty() ? [] : $node->get('field_module_image')->view([
+      'image_detail' => \Drupal\nelkano_modules\Service\ModuleAudience::access($node) === 'tester' || $node->get('field_module_image')->isEmpty() ? [] : $node->get('field_module_image')->view([
         'label' => 'hidden', 'type' => 'image', 'settings' => ['image_style' => 'nelkano_module_detail', 'image_link' => '']]),
       'description' => $node->get('field_module_description')->value, 'module_id' => $node->get('field_module_id')->value,
-      'author' => $node->getOwner()?->getDisplayName() ?? '', 'source' => $node->get('field_module_source')->value,
+      'author' => $node->getOwner()?->getDisplayName() ?? '', 'source' => \Drupal\nelkano_modules\Service\ModuleAudience::access($node) === 'tester' ? '' : $node->get('field_module_source')->value,
       'fingerprint' => $node->get('field_module_author')->value, 'published' => $node->isPublished(),
       'available' => (bool) $available, 'version' => $latest?->get('field_release_version')->value,
       'systems' => array_values(array_intersect_key(\Drupal\nelkano_modules\Service\ModuleSystems::options(),
@@ -43,7 +43,7 @@ final class ModuleController extends ControllerBase {
   }
 
   public function detail(NodeInterface $module): array {
-    if ($module->bundle() !== 'nelkano_module' || !$module->access('view', $this->currentUser())) {
+    if ($module->bundle() !== 'nelkano_module' || !\Drupal\nelkano_modules\Service\ModuleAudience::canRead($module, $this->currentUser()) || !$module->access('view', $this->currentUser())) {
       throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException();
     }
     $can_edit = ModuleRegistry::canEdit($module, $this->currentUser());
@@ -53,7 +53,7 @@ final class ModuleController extends ControllerBase {
         'version' => $release->get('field_release_version')->value, 'sdk' => $release->get('field_release_sdk')->value,
         'notes' => $release->get('field_release_notes')->value,
         'available' => $release->get('field_release_state')->value === 'available',
-        'url' => $release->get('field_release_url')->value, 'sha256' => $release->get('field_release_hash')->value,
+        'url' => \Drupal\nelkano_modules\Service\ModuleHostedPackages::fid($release) ? Url::fromRoute('nelkano_modules.api_download', ['module_id' => $module->get('field_module_id')->value, 'version' => $release->get('field_release_version')->value])->toString() : $release->get('field_release_url')->value, 'sha256' => $release->get('field_release_hash')->value,
         'size' => round((int) $release->get('field_release_size')->value / 1024, 1),
         'platforms' => array_map(static fn($p) => $p === 'android' ? 'Android' : 'Windows · Linux',
           array_column($release->get('field_release_platforms')->getValue(), 'value')),
@@ -71,7 +71,9 @@ final class ModuleController extends ControllerBase {
     $ids = $this->entityTypeManager()->getStorage('node')->getQuery()->accessCheck(FALSE)
       ->condition('type', 'nelkano_module')->condition('uid', $this->currentUser()->id())->sort('changed', 'DESC')->execute();
     $items = [];
-    foreach ($this->entityTypeManager()->getStorage('node')->loadMultiple($ids) as $node) { $items[] = $this->card($node); }
+    foreach ($this->entityTypeManager()->getStorage('node')->loadMultiple($ids) as $node) {
+      if (\Drupal\nelkano_modules\Service\ModuleAudience::canRead($node, $this->currentUser())) { $items[] = $this->card($node); }
+    }
     return ['#theme' => 'nelkano_module_catalog', '#mine' => TRUE, '#items' => $items, '#total' => count($items),
       '#can_create' => TRUE, '#cache' => ['max-age' => 0]];
   }
@@ -92,6 +94,7 @@ final class ModuleController extends ControllerBase {
     if (!$index || !$index->status()) { throw new \Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException(); }
     $query = $index->query()->addCondition('available', TRUE)->addCondition('published', TRUE)
       ->sort('changed', 'DESC')->range($page * 12, 12);
+    \Drupal\nelkano_modules\Service\ModuleAudience::filterQuery($query, $this->currentUser());
     if ($platform !== '') { $query->addCondition('platforms', $platform); }
     if ($system !== '') { $query->addCondition('systems', $system); }
     if (trim($text) !== '') {

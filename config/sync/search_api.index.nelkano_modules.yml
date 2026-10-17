@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.storage.node.field_module_access
     - field.storage.node.field_module_available
     - field.storage.node.field_module_description
     - field.storage.node.field_module_id
@@ -41,6 +42,14 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_module_description
+  module_access:
+    label: Acceso
+    datasource_id: 'entity:node'
+    property_path: field_module_access
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_module_access
   module_id:
     label: ID
     datasource_id: 'entity:node'
@@ -104,6 +113,7 @@ processor_settings:
     all_fields: true
     fields:
       - description
+      - module_access
       - module_id
       - platforms
       - systems
@@ -130,6 +140,7 @@ processor_settings:
     all_fields: true
     fields:
       - description
+      - module_access
       - module_id
       - platforms
       - systems

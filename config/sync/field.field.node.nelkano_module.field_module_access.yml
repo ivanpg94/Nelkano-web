@@ -1,0 +1,21 @@
+uuid: ece75bce-d11a-3e18-a1b5-80a44089028e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_module_access
+    - node.type.nelkano_module
+  module:
+    - options
+id: node.nelkano_module.field_module_access
+field_name: field_module_access
+entity_type: node
+bundle: nelkano_module
+label: Acceso
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

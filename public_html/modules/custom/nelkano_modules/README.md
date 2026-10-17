@@ -21,7 +21,7 @@ campo de imagen nativo conserva uso y revisiones. Las tarjetas usan una
 miniatura 16:9 y la ficha muestra la imagen completa, sin recortarla.
 Solo se pueden adjuntar imágenes propias o conservar la ya asociada a la
 ficha; se comprueban formato real, extensión, tamaño y dimensiones. Esta
-imagen sí se aloja en la web; los paquetes .nelkmod siguen siendo externos.
+imagen sí se aloja en la web para módulos públicos. Los módulos Tester no admiten imágenes públicas y alojan su paquete privado en el servidor.
 Cada versión es un nodo nelkano_module_release relacionado con su ficha,
 con el mismo propietario, siempre despublicado y sin acceso público directo.
 La página del módulo muestra los metadatos públicos y las descargas de versiones.
@@ -57,7 +57,7 @@ El transporte usa cURL con TLS verificado, solo HTTPS público, IP validada
 fijada por cada conexión, límite de bytes/tiempo/redirecciones y sin proxy.
 Rechaza direcciones privadas/reservadas/multicast, credenciales embebidas,
 puertos alternativos y redirecciones inseguras. Guarda metadatos y URL, nunca
-el paquete. El visitante descarga directamente desde el alojamiento del autor.
+el paquete. En módulos públicos externos el visitante descarga directamente desde el alojamiento del autor.
 Requiere PHP cURL, zlib y sodium, comprobados en requisitos del módulo.
 
 ## Disponibilidad, búsqueda y cron
@@ -107,8 +107,7 @@ No reutilizar ni borrar build como fuente: toda la implementación reside aquí.
 
 Desplegar el repositorio completo y ejecutar el flujo habitual Composer install
 y drush deploy (updatedb antes de configuración). No usar site:install.
-Conservar la copia SQL y archivos como describe el README raíz. No se necesita
-subir ningún .nelkmod al servidor.
+Conservar la copia SQL y archivos como describe el README raíz. Los módulos públicos externos no necesitan subir su .nelkmod; los paquetes Tester requieren el almacenamiento privado de Drupal fuera del docroot.
 
 ## Verificación local
 
@@ -180,3 +179,59 @@ La ficha permite marcar varios sistemas emulados mediante casillas nativas de Dr
 El catálogo combina `q`, `plataforma` y `sistema` mediante Search API y AJAX, incluidos limpieza, cambio de filtros y paginación. Se contrastan los sistemas actuales del nodo para descartar datos obsoletos del índice. La API pública añade `systems` y el filtro `system` de catálogo; contrato canónico en `brain/API de modulos.md` del repositorio Nelkano-emulator.
 
 Update `nelkano_home_update_11038`: añade el campo y el campo de índice, conserva configuración y contenido, e indexa en lotes de 50. No asigna compatibilidad a nodos existentes. El seed local añade selecciones a los ejemplos sin duplicarlos; nunca se ejecuta al desplegar. Verificación: `NELKANO_LOCAL_MODULE_CATALOG_TEST=1 vendor/bin/drush php:script web/modules/custom/nelkano_modules/tests/systems-smoke.php` y `scripts/test-module-catalog-browser.cjs`.
+
+
+## Módulos exclusivos Tester y paquetes alojados
+
+La ficha añade field_module_access: public o tester; los valores vacíos de
+fichas anteriores siguen siendo públicos. El acceso se fija al crearla, para
+no convertir un enlace o imagen antes públicos en una supuesta distribución
+privada. Publicar, subir, actualizar, editar o retirar módulos exclusivos requiere
+una cuenta autenticada con el permiso administer nelkano modules. Ese administrador
+puede gestionarlos y consultarlos sin tener el rol Tester. Tester es consumidor:
+puede consultar y descargar exclusivos, pero no publicarlos ni gestionarlos, aunque
+figure como propietario. Los autores de módulos públicos conservan sus permisos.
+No se asignan roles ni permisos nuevos a usuarios existentes.
+
+El formulario mantiene los enlaces externos para públicos. Sólo el administrador
+puede subir un .nelkmod exclusivo firmado hasta 32 MiB mediante managed_file, bajo
+private://nelkano-modules/packages. La ficha Tester no incluye repositorio; el formulario oculta ese campo y el servidor rechaza un valor no vacío. Los públicos conservan su repositorio opcional. La imagen pública se deshabilita para esta audiencia.
+Se verifica el mismo ZIP, inventario, Ed25519, identidad, tamaño y SHA-256;
+versiones y reparaciones conservan las reglas existentes. El archivo debe
+pertenecer al autor de la subida y no estar vinculado a otra versión.
+field_release_package guarda su referencia gestionada; nunca una URL pública.
+
+La API v1 conserva sus rutas y filtros. Acepta Authorization: Bearer con el
+access token nkat_ de sesiones v2; no emite credenciales nuevas ni admite
+tokens en la URL. Sin cabecera utiliza la sesión web o el acceso anónimo.
+Un Bearer inválido/caducado produce 401 invalid_token, sin fallback a cookies.
+Se consulta la cuenta activa y sus roles en cada petición. El catálogo Tester
+y el administrativo incluyen públicos y Tester; los demás sólo públicos. Ficha, versiones y descarga
+no autorizadas responden 404. No se devuelve UID ni email del propietario.
+
+El resumen añade access: public|tester y cada release download_auth: none|session.
+Un paquete alojado usa exactamente
+/api/nelkano/v1/modules/{id}/versions/{version}/download, GET/HEAD binario sin
+redirección. download_auth session exige Bearer o cookie válidos de Tester o de una cuenta con permiso de administración;
+none es público. El transporte de la app sólo debe enviar Bearer al catálogo
+y a esta ruta exacta del mismo origen, nunca a imágenes ni repositorios externos.
+Los paquetes públicos alojados se admiten internamente para muestras locales;
+el formulario normal conserva el enlace externo. Su archivo también reside en
+private://, y el controlador decide su audiencia. /system/files y las rutas
+genéricas de archivo no permiten descargar ninguno de estos paquetes. El permiso de entidad download sólo se permite al administrador autenticado para validar el widget ManagedFile, sin exigirle rol Tester; no habilita el acceso HTTP genérico a los bytes.
+
+Catálogo y descargas alojadas comparten el límite por IP de 240 peticiones en 60 segundos y Retry-After. Las respuestas autenticadas son private, no-store y varían por Authorization
+y Cookie. Las anónimas mantienen ETag y revalidación. Search API filtra la
+audiencia en servidor e incluye los registros públicos antiguos sin valor;
+después vuelve a contrastar el nodo actual. Los grants de nodos protegen las
+consultas de entidades/Views/sitemap y los guards de rutas/entidades protegen
+el acceso directo. Las versiones privadas y sus referencias de archivo no se
+proyectan mediante los displays genéricos.
+
+La actualización aditiva nelkano_modules_update_11001 crea sólo los dos campos
+y el campo del índice, reconstruye permisos e indexa sin crear ejemplos ni
+modificar cuentas, libros, reportes o fichas. Configuración exportada en
+config/sync y receta del índice en config/catalog. Para local o un despliegue
+autorizado se usa el flujo normal drush updatedb seguido de reconstruir caché;
+no ejecutar install ni seeds en producción. Las muestras y QA son recetas
+locales opt-in independientes.

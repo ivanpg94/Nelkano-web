@@ -23,7 +23,7 @@ body.nm-catalog { --nk-bg: #f7f7fc; --nk-bg-nav: #fff; --nk-text: #17162a; --nk-
 .nm-search { display: flex; align-items: end; gap: 16px; padding: 22px; background: #fff; border: 1px solid #e4e2ed; border-radius: 15px; }
 .nm-search label { display: block; margin-bottom: 9px; font-size: 13px; font-weight: 650; }
 .nm-search-input { flex: 1; }
-.nm-page input:not([type="checkbox"]):not([type="submit"]), .nm-page select, .nm-page textarea { width: 100%; background: #fff; border: 1px solid #dbd8e7; border-radius: 9px; padding: 11px 13px; font: inherit; color: #17162a; }
+.nm-page input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]), .nm-page select, .nm-page textarea { width: 100%; background: #fff; border: 1px solid #dbd8e7; border-radius: 9px; padding: 11px 13px; font: inherit; color: #17162a; }
 .nm-search select { min-width: 190px; }
 .nm-search .nm-link { align-self: center; }
 .nm-feedback { color: #a53244; margin: 12px 0 0 !important; }
@@ -70,7 +70,12 @@ body.nm-catalog { --nk-bg: #f7f7fc; --nk-bg-nav: #fff; --nk-text: #17162a; --nk-
 .nm-editor { max-width: 760px; padding: 28px; margin: 16px auto; border: 1px solid #e4e2ed; border-radius: 16px; background: #fff; }
 .nm-editor .form-item { margin: 24px 0; }
 .nm-editor label { display: block; font-weight: 650; margin-bottom: 8px; }
-.nm-editor .form-type-checkbox label { display: inline; margin-left: 8px; }
+.nm-editor .form-type-checkbox { display: flex; align-items: center; gap: 8px; }
+.nm-editor .form-type-checkbox label { display: inline; margin: 0; }
+.nm-editor input[type="radio"], .nm-editor input[type="checkbox"] { appearance: auto; width: 18px; height: 18px; min-width: 18px; min-height: 18px; max-width: 18px; padding: 0; margin: 0; flex: 0 0 18px; accent-color: #7731d8; }
+.nm-editor .form-radios { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.nm-editor .form-radios .form-item { display: flex; align-items: center; gap: 8px; margin: 0; min-height: 44px; }
+.nm-editor .form-radios label { margin: 0; font-weight: 500; }
 .nm-editor .description { color: #68677b; font-size: 12px; line-height: 1.6; margin-top: 8px; }
 .nm-editor .form-actions { display: flex; gap: 22px; align-items: center; margin-top: 28px; }
 .nm-footer .nk-footer { background: #fff; color: #68677b; border-top: 1px solid #e4e2ed; }

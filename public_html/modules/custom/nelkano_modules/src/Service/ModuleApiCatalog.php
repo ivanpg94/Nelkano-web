@@ -25,9 +25,9 @@ final class ModuleApiCatalog {
   }
 
   private function publicModule(NodeInterface $node): bool {
-    // Even an administrator's session must not expand the public API.
+    $account = ModuleAudience::account();
     return $node->bundle() === 'nelkano_module' && $node->isPublished()
-      && $node->access('view', new AnonymousUserSession());
+      && ModuleAudience::canRead($node, $account) && $node->access('view', $account);
   }
 
   private function matches(NodeInterface $release, array $query): bool {
@@ -40,8 +40,18 @@ final class ModuleApiCatalog {
     $url = (string) $release->get('field_release_url')->value;
     $hash = (string) $release->get('field_release_hash')->value;
     $size = (int) $release->get('field_release_size')->value;
-    try { SecureDownloadClient::validateUrl($url, TRUE); }
-    catch (\InvalidArgumentException) { $available = FALSE; }
+    $fid = ModuleHostedPackages::fid($release);
+    if ($fid) {
+      $url = $this->url('nelkano_modules.api_download', ['module_id' => $module->get('field_module_id')->value,
+        'version' => $release->get('field_release_version')->value]);
+      try { \Drupal::service('nelkano_modules.hosted_packages')->file($fid, $module, $release, FALSE); }
+      catch (\InvalidArgumentException) { $available = FALSE; }
+    }
+    else {
+      if (ModuleAudience::access($module) === 'tester') { $available = FALSE; }
+      try { SecureDownloadClient::validateUrl($url, TRUE); }
+      catch (\InvalidArgumentException) { $available = FALSE; }
+    }
     $available = $available && preg_match('/^[0-9a-f]{64}$/D', $hash)
       && $size > 0 && $size <= PackageVerifier::MAX_ARCHIVE;
     $result = [
@@ -50,6 +60,7 @@ final class ModuleApiCatalog {
       'platforms' => array_column($release->get('field_release_platforms')->getValue(), 'value'),
       'capabilities' => array_column($release->get('field_release_capabilities')->getValue(), 'value'),
       'available' => (bool) $available, 'download_url' => $available ? $url : NULL,
+      'download_auth' => $fid && ModuleAudience::access($module) === 'tester' ? 'session' : 'none',
       'size_bytes' => $size, 'sha256' => $hash,
       'checked_at' => gmdate('Y-m-d\TH:i:s\Z', (int) $release->get('field_release_checked')->value),
       'api_url' => $this->url('nelkano_modules.api_version', ['module_id' => $module->get('field_module_id')->value,
@@ -72,7 +83,7 @@ final class ModuleApiCatalog {
     $id = (string) $module->get('field_module_id')->value;
     $description = (string) $module->get('field_module_description')->value;
     $data = [
-      'id' => $id, 'name' => $module->label(),
+      'id' => $id, 'name' => $module->label(), 'access' => ModuleAudience::access($module),
       'description' => $full ? $description : mb_substr($description, 0, 320),
       'author' => ['name' => $module->getOwner()?->getDisplayName() ?? ''],
       'signing' => ['algorithm' => 'Ed25519', 'author_fingerprint_sha256' => (string) $module->get('field_module_author')->value],
@@ -83,11 +94,12 @@ final class ModuleApiCatalog {
       'api_url' => $this->url('nelkano_modules.api_detail', ['module_id' => $id]),
       'versions_url' => $this->url('nelkano_modules.api_versions', ['module_id' => $id]),
     ];
-    if ($full) { $data['source_url'] = $module->get('field_module_source')->value ?: NULL; }
+    if ($full) { $data['source_url'] = ModuleAudience::access($module) === 'tester' ? NULL : ($module->get('field_module_source')->value ?: NULL); }
     return $data;
   }
 
   private function image(NodeInterface $module): ?array {
+    if (ModuleAudience::access($module) === 'tester') { return NULL; }
     $field = $module->get('field_module_image');
     $file = $field->entity;
     if (!$file || !$file->access('download', new AnonymousUserSession())) { return NULL; }
@@ -110,6 +122,7 @@ final class ModuleApiCatalog {
     catch (\Drupal\search_api\SearchApiException $e) { throw new ServiceUnavailableHttpException(60, 'catalog_unavailable', $e); }
     $query = $index->query()->addCondition('available', TRUE)->addCondition('published', TRUE)
       ->sort('changed', 'DESC')->sort('search_api_id', 'ASC');
+    ModuleAudience::filterQuery($query, ModuleAudience::account());
     if ($parameters['platform']) { $query->addCondition('platforms', $parameters['platform']); }
     if (!empty($parameters['system'])) { $query->addCondition('systems', $parameters['system']); }
     if ($parameters['q']) {
