@@ -1,0 +1,50 @@
+{
+  "version": "3.0.3-beta",
+  "versionCode": 13,
+  "appId": "com.ivanp.nelkano.modular",
+  "bytes": 47163396,
+  "sha256": "f5389ada2b72178cccdc4e44044b79cbb75a64e399b16ed99bf7407e4500f20e",
+  "productionCertificateSha256": "57780bcd54cdddceeb9ab5445f9b256ec64ad05ec153ef249b78941a8ec4adc5",
+  "signatureSchemes": [
+    "v1",
+    "v2",
+    "v3"
+  ],
+  "debuggable": false,
+  "date": "18/10/2026",
+  "nativeLibraries": {
+    "lib/arm64-v8a/libandroidx.graphics.path.so": "41e9a793c43a0f4fddb19e33f346bace464f30f888ba7b9eaf96294ea115bfb6",
+    "lib/arm64-v8a/libarchive-jni.so": "92332de41e661c2a5ce05df65c8a0a6367a99a2cb201e3b3eec7039c9cbc669e",
+    "lib/arm64-v8a/libc++_shared.so": "cd61762848882a16c8244c964a6f396c0caa0b440588a210ce9cc4ab0e6d9f0c",
+    "lib/arm64-v8a/libgba_android.so": "6769692899ce6944b53eb06f4eede5608fbace653cf74315a9cde4a448a8ad07",
+    "lib/arm64-v8a/libjingle_peerconnection_so.so": "ba8435d0f85bbb5dbd438189f05a14b77ce7b954c69300c18359b7c4e0c0e194",
+    "lib/arm64-v8a/libmegadrive_android.so": "a89552437d32b03e434f53c63a90143d0fb7e6729a1f6696e6ee27d3ff873a64",
+    "lib/arm64-v8a/libn3ds_android.so": "5333c46b38c74f271db683aa9210b4a45a548f988382b91bf365a64cfbf4b3dc",
+    "lib/arm64-v8a/libnds_android.so": "e590d63cf4e9b07e4656e05407bcf02da9c35fecf8bbb0658cc1c36425a75e95",
+    "lib/arm64-v8a/libnelkano_quickjs.so": "c63b6ab84f352e7e0a05fcc822fdaa596c78f3bfb9ecaf7ade7b4f6c65ff80bd",
+    "lib/arm64-v8a/libportablecores.so": "055b5fca08f8149f28d22a67b86a680811b1c5dd95e336ede96a227f315ccceb",
+    "lib/arm64-v8a/libps1_android.so": "6b305e78b7ff004c9407a817f1820bfa0746b7e2597fa1094dba26debc31c0f1",
+    "lib/arm64-v8a/librgss_cruby_android.so": "7224de4c35b1c1017c22308d72f6d59c166b3323460810ea304f825471f1ac33",
+    "lib/arm64-v8a/libsnes_android.so": "5baf698dfc21c20b42fbe64a1e7e20fe9336329d95753bf117b975e85fe5b241",
+    "lib/arm64-v8a/libtranslate_jni.so": "45040ff0cdd194d6e601589d759e6f1ba733de5f95790f76cc3e2046919046be"
+  },
+  "notes": {
+    "es": "Optimizaciones de carga de módulos al iniciar la aplicación.\nCorrecciones de bugs de PS1.\nCorrecciones de bugs con módulo de segunda pantalla para NDS y 3DS.\nNuevo módulo multijugador para GBA y PS1 experimental.\nMejora de sonido GB/GBC.\nMejora de rendimiento GBA para dispositivos Android de gama media.\nMejoras de rendimiento en la interfaz de la app.\nConexión con la página de módulos.",
+    "en": "Optimized module loading when starting the app.\nPS1 bug fixes.\nBug fixes for the second-screen module for NDS and 3DS.\nNew experimental multiplayer module for GBA and PS1.\nGB/GBC sound improvements.\nImproved GBA performance on mid-range Android devices.\nApp interface performance improvements.\nConnection to the modules page."
+  },
+  "publishedToProduction": false,
+  "installedOnDevices": false,
+  "qa": {
+    "allCoreJniRebuilt": true,
+    "nativeCoreLibraryCount": 8,
+    "chip8JavaRebuilt": true,
+    "productionApkVerified": true,
+    "localApiAndHttpDownloadVerified": true,
+    "limitations": "No device installation or gameplay validation performed for this release.",
+    "previousReleaseRowsPreserved": true,
+    "platformDownloadChecks": 123,
+    "releaseAssetPreflightCount": 10
+  },
+  "sourceCommit": "7a0ea0c57915ae2d33b5bed94690e43e0d733557",
+  "buildBaseCommit": "0bec950b3"
+}

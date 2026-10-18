@@ -84,14 +84,22 @@ es:
       date: 13/10/2026
       changes: 'Mejoras de compatibilidad con PS1.'
     -
-      visible: false
+      visible: true
       version: 3.0.3-beta
       platform: android
-      version_code: ''
-      apk_file: ''
+      version_code: '13'
+      apk_file: 'private://nelkano-releases/Nelkano 3.0.3-beta.apk'
       filename: 'Nelkano 3.0.3-beta.apk'
-      date: ''
-      changes: "- Optimizaciones de carga de modulos al iniciar la aplicacion\r\n- correcciones de bugs de ps1\r\n- mejoras de compatibilidad y rendimiento de psp\r\n- nuevo modulo multijugador para gba y ps1"
+      date: 18/10/2026
+      changes: |-
+        Optimizaciones de carga de módulos al iniciar la aplicación.
+        Correcciones de bugs de PS1.
+        Correcciones de bugs con módulo de segunda pantalla para NDS y 3DS.
+        Nuevo módulo multijugador para GBA y PS1 experimental.
+        Mejora de sonido GB/GBC.
+        Mejora de rendimiento GBA para dispositivos Android de gama media.
+        Mejoras de rendimiento en la interfaz de la app.
+        Conexión con la página de módulos.
     -
       visible: false
       version: 1.0.0-beta
@@ -119,6 +127,26 @@ es:
       filename: 'Nelkano SDK Studio 1.0.0-beta-windows.zip'
       date: 12/10/2026
       changes: 'Primera beta de Nelkano SDK Studio para Windows.'
+    -
+      visible: true
+      version: 3.0.3-beta
+      platform: windows
+      version_code: '13'
+      apk_file: 'private://nelkano-releases/Nelkano 3.0.3-beta-windows.msi'
+      installer_file: 'private://nelkano-releases/Nelkano 3.0.3-beta-windows.exe'
+      filename: 'Nelkano 3.0.3-beta-windows.exe'
+      date: 18/10/2026
+      changes: 'Primera beta pública'
+    -
+      visible: true
+      version: 3.0.3-beta
+      platform: sdk
+      version_code: '13'
+      apk_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.zip'
+      installer_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.exe'
+      filename: Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.exe
+      date: 18/10/2026
+      changes: 'Primera beta pública'
   compatibility_seo_title: 'Compatibilidad de Nelkano'
   compatibility_seo_description: 'Estado real de compatibilidad de los sistemas soportados por Nelkano para Android.'
   compatibility_eyebrow: Compatibilidad
@@ -231,14 +259,22 @@ en:
       date: 13/10/2026
       changes: 'PS1 compatibility improvements.'
     -
-      visible: false
+      visible: true
       version: 3.0.3-beta
       platform: android
-      version_code: ''
-      apk_file: ''
+      version_code: '13'
+      apk_file: 'private://nelkano-releases/Nelkano 3.0.3-beta.apk'
       filename: 'Nelkano 3.0.3-beta.apk'
-      date: ''
-      changes: "- Optimizaciones de carga de modulos al iniciar la aplicacion\r\n- correcciones de bugs de ps1\r\n- mejoras de compatibilidad y rendimiento de psp\r\n- nuevo modulo multijugador para gba y ps1"
+      date: 18/10/2026
+      changes: |-
+        Optimized module loading when starting the app.
+        PS1 bug fixes.
+        Bug fixes for the second-screen module for NDS and 3DS.
+        New experimental multiplayer module for GBA and PS1.
+        GB/GBC sound improvements.
+        Improved GBA performance on mid-range Android devices.
+        App interface performance improvements.
+        Connection to the modules page.
     -
       visible: false
       version: 1.0.0-beta
@@ -266,6 +302,26 @@ en:
       filename: 'Nelkano SDK Studio 1.0.0-beta-windows.zip'
       date: 12/10/2026
       changes: 'First beta of Nelkano SDK Studio for Windows.'
+    -
+      visible: true
+      version: 3.0.3-beta
+      platform: windows
+      version_code: '13'
+      apk_file: 'private://nelkano-releases/Nelkano 3.0.3-beta-windows.msi'
+      installer_file: 'private://nelkano-releases/Nelkano 3.0.3-beta-windows.exe'
+      filename: 'Nelkano 3.0.3-beta-windows.exe'
+      date: 18/10/2026
+      changes: 'First public beta'
+    -
+      visible: true
+      version: 3.0.3-beta
+      platform: sdk
+      version_code: '13'
+      apk_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.zip'
+      installer_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.exe'
+      filename: Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.exe
+      date: 18/10/2026
+      changes: 'First public beta'
   compatibility_seo_title: 'Nelkano compatibility'
   compatibility_seo_description: 'Real compatibility status for the systems supported by Nelkano on Android.'
   compatibility_eyebrow: Compatibility

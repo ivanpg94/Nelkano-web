@@ -11,15 +11,16 @@ Preparar el commit no hace push ni modifica producción.
 - Libro SDK canónico, capturas/diagramas versionados y transporte de imágenes.
 - Referencia pública del SDK para Studio: /api/nelkano/v1/sdk/reference.
 - API privada de HU para Codex: /api/nelkano/v1/backlog/hu.
-- Soporte de MSI inicial y ZIP de actualización para SDK Studio; su instalador
-  sigue en preparación en otro chat y no se publica en esta entrega.
-- Configuración editorial y displays actualizados, incluido el borrador oculto
-  3.0.3-beta. La descarga Android publicada sigue siendo 3.0.2-beta/código12.
+- Android, Windows y SDK Studio 3.0.3-beta/código13, visibles en el catálogo local.
+- Instaladores iniciales EXE para Windows y SDK Studio; MSI y ZIP separados para
+  sus actualizadores. Android conserva APK ARM64 firmado con la clave de producción.
+- Configuración editorial, libro y displays actualizados; notas ES/EN y manifiesto
+  de los cinco archivos en release-artifacts.
 
 El update11042 publica únicamente la portada española del SDK y añade los valores
 faltantes de «Amplía Nelkano». El YAML canónico también publica esa portada.
-Los capítulos de Reportes y Asistente continúan ocultos. Windows, SteamOS,
-SDK Studio y el borrador3.0.3 siguen sin publicarse.
+Los capítulos de Reportes y Asistente continúan ocultos. SteamOS sigue oculto.
+Las tres versiones nuevas están activas solo en local hasta ejecutar un despliegue autorizado.
 
 ## 1. Publicar el commit desde el PC
 
@@ -98,6 +99,7 @@ SQL/archivos y omitir solo el book:export fallido tras comprobar su ausencia.
 ```bash
 git merge --ff-only "$release_commit"
 test "$(git rev-parse HEAD)" = "$release_commit"
+# Materializar antes los binarios LFS, o transferir los reales por SFTP.
 php scripts/verify-release-bundle.php
 bash scripts/deploy-hostinger.sh
 ./vendor/bin/drush --root=public_html updatedb:status
@@ -111,11 +113,12 @@ Drush deploy e importa el Book por UUID, con simulación previa. El dry-run fina
 debe indicar 23 unchanged; no deben quedar updates pendientes ni diferencias
 inesperadas de configuración. No basta ejecutar únicamente drush deploy.
 
-Los cinco APK históricos/publicados viajan por Git normal. Los otros binarios
-ocultos pueden ser punteros Git LFS o faltar: el preflight los omite sin publicar
-esas plataformas. Para provisionarlos también, materializarlos con git lfs pull
-si el servidor dispone de LFS, o transportarlos por SFTP y verificar el manifiesto.
-No es necesario hacerlo para esta entrega Android/web.
+Los APK viajan por Git normal. Los EXE, el MSI de Windows y el ZIP de SDK viajan
+por Git LFS. Antes del preflight, ejecutar git lfs pull si el servidor tiene LFS,
+o transferir los archivos reales por SFTP a release-artifacts fuera del docroot.
+El preflight rechaza punteros o bytes que no coincidan con manifest.json; comprueba
+tanto paquetes del actualizador como instaladores iniciales. Los archivos ocultos
+de SteamOS y versiones anteriores no disponibles se omiten sin publicarlos.
 
 No ejecutar seeds, scripts de ilustración, pruebas ni exportadores QA en el
 servidor. Las HU, reportes, usuarios y módulos son contenido de BD: no vienen en
@@ -139,10 +142,11 @@ cargadas. Reportes/Asistente no deben aparecer en su índice ni referencia públ
 La API backlog anónima debe devolver401 y el tablero administrativo conservar sus
 HU. La credencial se comprueba por GET en la siguiente fase, sin crear HU de prueba.
 
-El actualizador debe ofrecer3.0.2-beta, código12,55416169bytes y SHA-256
-4c9ddd557982ee03952196fcd2139debdcfcb437014d9ac04c1f27d421826f2f.
+Los tres canales deben ofrecer3.0.3-beta/código13: Android APK, Windows MSI y
+SDK Studio ZIP. La descarga inicial de Windows y SDK debe ser EXE. Comprobar
+los cinco tamaños y SHA-256 contra release-artifacts/manifest.json.
 Comprobar también las APIs de reportes/módulos con sus conectores habituales y la
-redirección301 de www.nelkano.com. El borrador3.0.3 y las otras plataformas siguen ocultos.
+redirección301 de www.nelkano.com. SteamOS permanece oculto.
 
 ## 5. Activar el backlog en Codex
 

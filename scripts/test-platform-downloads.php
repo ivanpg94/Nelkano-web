@@ -32,6 +32,12 @@ try {
   $installerFile->save(); $files['sdk-installer'] = $installerFile;
   foreach ($override->rows as &$row) if ($row['platform'] === 'sdk') $row['installer_file'] = $installerUri;
   unset($row);
+  $windowsExeUri = $directory . '/qa-windows-installer-' . bin2hex(random_bytes(10)) . '.exe';
+  file_put_contents($windowsExeUri, 'fixture-windows-exe'); $uris[] = $windowsExeUri;
+  $windowsExeFile = \Drupal\file\Entity\File::create(['uri' => $windowsExeUri, 'filename' => basename($windowsExeUri), 'uid' => 1, 'status' => 0]);
+  $windowsExeFile->save(); $files['windows-installer'] = $windowsExeFile;
+  foreach ($override->rows as &$row) if ($row['platform'] === 'windows') $row['installer_file'] = $windowsExeUri;
+  unset($row);
   $factory->reset('nelkano_home.docs');
   $html = $home->spanish()->getContent(); $doc = new DOMDocument(); @$doc->loadHTML($html); $xpath = new DOMXPath($doc);
   $check($xpath->query('//*[@data-install-platform]')->length === 3, 'Install picker must have Android/Windows/SteamOS');
@@ -54,6 +60,11 @@ try {
         $check(file_get_contents($initial['path']) === 'fixture-sdk-msi', 'Initial SDK must resolve MSI bytes');
         $check(file_get_contents($home->downloadRelease($language, $row['version'], 'sdk', TRUE)->getFile()->getPathname()) === 'fixture-sdk-msi', 'Dedicated installer controller must serve MSI');
       }
+      if ($platform === 'windows') {
+        $initial = ReleaseArtifact::file($row);
+        $check(str_ends_with($initial['filename'], '.exe') && str_contains($initial['url'], '/instalador'), 'Windows initial download must use EXE installer route');
+        $check(file_get_contents($home->downloadRelease($language, $row['version'], 'windows', TRUE)->getFile()->getPathname()) === 'fixture-windows-exe', 'Windows installer route must serve EXE');
+      }
       $download = $home->downloadRelease($language, $row['version'], $platform);
       $check(file_get_contents($download->getFile()->getPathname()) === 'fixture-' . $platform, 'Version collision served wrong platform');
       $manifest = json_decode($updates->latest($channel)->getContent(), TRUE);
@@ -63,6 +74,23 @@ try {
       $check(file_get_contents($updates->download($channel, '12345')->getFile()->getPathname()) === 'fixture-' . $platform, 'Updater downloaded wrong platform');
     }
   }
+  // A public Studio EXE must use the installer route while updates remain ZIP.
+  $exeUri = $directory . '/qa-sdk-installer-' . bin2hex(random_bytes(10)) . '.exe';
+  file_put_contents($exeUri, 'fixture-sdk-exe'); $uris[] = $exeUri;
+  $exeFile = \Drupal\file\Entity\File::create(['uri' => $exeUri, 'filename' => basename($exeUri), 'uid' => 1, 'status' => 0]);
+  $exeFile->save(); $files['sdk-exe'] = $exeFile;
+  foreach ($override->rows as &$row) if ($row['platform'] === 'sdk') $row['installer_file'] = $exeUri;
+  unset($row); $factory->reset('nelkano_home.docs');
+  foreach (['es', 'en'] as $language) {
+    $sdkRow = array_values(array_filter($override->rows, static fn($row) => $row['platform'] === 'sdk'))[0];
+    $initial = ReleaseArtifact::file($sdkRow);
+    $check(str_ends_with($initial['filename'], '.exe') && str_contains($initial['url'], '/instalador'), 'Studio EXE did not resolve as installer');
+    $check(file_get_contents($home->downloadRelease($language, $sdkRow['version'], 'sdk', TRUE)->getFile()->getPathname()) === 'fixture-sdk-exe', 'Installer route did not serve EXE');
+    $manifest = json_decode($updates->latest('sdk-studio-windows-x86_64')->getContent(), TRUE)['latest'];
+    $check($manifest['format'] === 'zip' && $manifest['sha256'] === hash('sha256', 'fixture-sdk'), 'EXE changed Studio update ZIP');
+  }
+  foreach ($override->rows as &$row) if ($row['platform'] === 'sdk') $row['installer_file'] = $installerUri;
+  unset($row); $factory->reset('nelkano_home.docs');
   foreach ($override->rows as &$row) if ($row['platform'] !== 'android') $row['visible'] = FALSE;
   unset($row); $factory->reset('nelkano_home.docs');
   $html = $home->spanish()->getContent(); @$doc->loadHTML($html); $xpath = new DOMXPath($doc);
@@ -75,6 +103,10 @@ try {
     try { $home->downloadRelease('es', $row['version'], $row['platform']); throw new RuntimeException('Hidden public download accepted'); } catch (NotFoundHttpException $expected) { $checks++; }
     try { $updates->download($channel, '12345'); throw new RuntimeException('Hidden updater download accepted'); } catch (NotFoundHttpException $expected) { $checks++; }
     $check(nelkano_home_file_download($row['apk_file']) === -1, 'Private file bypass allowed');
+    if ($row['platform'] === 'windows') {
+      try { $home->downloadRelease('es', $row['version'], 'windows', TRUE); throw new RuntimeException('Hidden Windows installer download accepted'); } catch (NotFoundHttpException $expected) { $checks++; }
+      $check(nelkano_home_file_download($windowsExeUri) === -1, 'Private Windows installer bypass allowed');
+    }
     if ($row['platform'] === 'sdk') {
       try { $home->downloadRelease('es', $row['version'], 'sdk', TRUE); throw new RuntimeException('Hidden installer download accepted'); } catch (NotFoundHttpException $expected) { $checks++; }
       $check(nelkano_home_file_download($installerUri) === -1, 'Private installer bypass allowed');
@@ -88,9 +120,9 @@ try {
     if (($branch['#type'] ?? '') === 'details' && in_array($branch['#title'] ?? '', ['Android', 'Windows', 'SteamOS', 'SDK'], TRUE)) $found['platforms'][] = $branch['#title'];
     if (($branch['#type'] ?? '') === 'managed_file' && ($branch['#upload_location'] ?? '') === 'private://nelkano-releases') $found['formats'][] = $branch['#upload_validators']['FileExtension']['extensions'];
     foreach ($branch as $key => $child) if (is_array($child) && !str_starts_with((string) $key, '#')) $walk($child);
-  }; $walk($form); $check(count($found['platforms']) === 4 && count(array_unique($found['formats'])) === 3, 'Admin platform groups and format-specific upload fields missing');
+  }; $walk($form); $check(count($found['platforms']) === 4 && count(array_unique($found['formats'])) === 4, 'Admin platform groups and format-specific upload fields missing');
   $posted = [];
-  foreach ($override->rows as $row) { $row['apk_file'] = [$files[$row['platform']]->id()]; if ($row['platform'] === 'sdk') $row['installer_file'] = [$installerFile->id()]; $posted[$row['platform']]['rows'][] = $row; }
+  foreach ($override->rows as $row) { $row['apk_file'] = [$files[$row['platform']]->id()]; if ($row['platform'] === 'sdk') $row['installer_file'] = [$installerFile->id()]; if ($row['platform'] === 'windows') $row['installer_file'] = [$windowsExeFile->id()]; $posted[$row['platform']]['rows'][] = $row; }
   $state = (new FormState())->setUserInput([])->setValues(['active_language' => 'es', 'page_key' => 'releases', 'es' => ['releases' => ['releases_items' => $posted]]]);
   $trigger = ['#r_section' => 'releases', '#r_keys' => ['releases_items']]; $state->setTriggeringElement($trigger);
   $admin->validateForm($form, $state); $check(!$state->hasAnyErrors(), 'Valid platform rows rejected');
@@ -102,8 +134,12 @@ try {
       $check(($row['visible'] ? TRUE : FALSE) === ($row['platform'] === 'android'), 'Publication did not synchronize both languages');
       $check($row['apk_file'] === $files[$row['platform']]->getFileUri(), 'Managed artifact URI not saved');
       if ($row['platform'] === 'sdk') $check($row['installer_file'] === $installerUri, 'SDK installer not synchronized across languages');
+      if ($row['platform'] === 'windows') $check($row['installer_file'] === $windowsExeUri, 'Windows installer not synchronized across languages');
     }
   }
+  $exePosted = $posted; $exePosted['sdk']['rows'][0]['installer_file'] = [$exeFile->id()];
+  $exeState = (new FormState())->setUserInput([])->setValues(['active_language' => 'es', 'es' => ['releases' => ['releases_items' => $exePosted]]]);
+  $admin->validateForm($form, $exeState); $check(!$exeState->hasAnyErrors(), 'EXE rejected as Studio installer');
   $bad = $posted; $bad['windows']['rows'][0]['apk_file'] = [$files['android']->id()];
   $invalid = (new FormState())->setUserInput([])->setValues(['active_language' => 'es', 'es' => ['releases' => ['releases_items' => $bad]]]);
   $admin->validateForm($form, $invalid); $check($invalid->hasAnyErrors(), 'APK accepted as Windows MSI');

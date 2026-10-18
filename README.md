@@ -6,6 +6,17 @@ Consulta [la receta vigente de despliegue completo](DEPLOY.md) para publicar est
 entrega, respaldar producción, aplicar configuración y Book y activar Codex.
 Las secciones de despliegues anteriores se conservan como contexto histórico.
 
+## Entrega local 3.0.3-beta (13) — 18/10/2026
+
+Android, Windows y SDK Studio están preparados en el catálogo local con las notas
+solicitadas. Windows y Studio se instalan inicialmente con EXE; sus actualizadores
+conservan MSI y ZIP, respectivamente. Los cinco archivos están verificados por
+SHA-256 y se transportan con el plan `release-artifacts/release-3.0.3-beta.json`.
+MSI, EXE y ZIP grandes requieren materializar Git LFS o transferir los binarios
+reales por SFTP antes del preflight. Receta local en
+[`scripts/sdk-studio-release.md`](scripts/sdk-studio-release.md).
+No se ha hecho push, despliegue remoto ni instalación en dispositivos.
+
 ## Estructura
 
 Textos de producto revisados el 2026-10-12: portada, guía, privacidad, SEO y libro

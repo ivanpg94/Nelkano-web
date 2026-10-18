@@ -15,7 +15,7 @@ foreach (['es', 'en'] as $lang) {
       $uri = trim($row[$field] ?? '');
       if ($uri === '') continue;
       $name = basename($uri);
-      if (!in_array($uri, ['public://nelkano-releases/' . $name, 'private://nelkano-releases/' . $name], TRUE) || !preg_match('/\.(apk|msi|zip)$/D', $name)) throw new RuntimeException('Unexpected release URI: ' . $uri);
+      if (!in_array($uri, ['public://nelkano-releases/' . $name, 'private://nelkano-releases/' . $name], TRUE) || !preg_match('/\.(apk|exe|msi|zip)$/D', $name)) throw new RuntimeException('Unexpected release URI: ' . $uri);
       $visible = $row['visible'] ?? TRUE;
       $published = $visible !== FALSE && !in_array(strtolower(trim((string) $visible)), ['0', 'false', 'no', 'off'], TRUE);
       $required[$name] = ['uri' => $uri, 'published' => $published || ($required[$name]['published'] ?? FALSE)];

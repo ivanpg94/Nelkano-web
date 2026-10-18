@@ -1,0 +1,32 @@
+{
+  "version": "3.0.3-beta",
+  "version_code": 13,
+  "date": "18/10/2026",
+  "releases": {
+    "android": {
+      "apk_file": "Nelkano 3.0.3-beta.apk",
+      "notes": {
+        "es": "Optimizaciones de carga de módulos al iniciar la aplicación.\nCorrecciones de bugs de PS1.\nCorrecciones de bugs con módulo de segunda pantalla para NDS y 3DS.\nNuevo módulo multijugador para GBA y PS1 experimental.\nMejora de sonido GB/GBC.\nMejora de rendimiento GBA para dispositivos Android de gama media.\nMejoras de rendimiento en la interfaz de la app.\nConexión con la página de módulos.",
+        "en": "Optimized module loading when starting the app.\nPS1 bug fixes.\nBug fixes for the second-screen module for NDS and 3DS.\nNew experimental multiplayer module for GBA and PS1.\nGB/GBC sound improvements.\nImproved GBA performance on mid-range Android devices.\nApp interface performance improvements.\nConnection to the modules page."
+      }
+    },
+    "windows": {
+      "apk_file": "Nelkano 3.0.3-beta-windows.msi",
+      "notes": {
+        "es": "Primera beta pública",
+        "en": "First public beta"
+      },
+      "installer_file": "Nelkano 3.0.3-beta-windows.exe"
+    },
+    "sdk": {
+      "apk_file": "Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.zip",
+      "installer_file": "Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.exe",
+      "notes": {
+        "es": "Primera beta pública",
+        "en": "First public beta"
+      }
+    }
+  },
+  "source_commit": "7a0ea0c57915ae2d33b5bed94690e43e0d733557",
+  "build_base_commit": "0bec950b3"
+}

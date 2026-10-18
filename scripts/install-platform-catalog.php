@@ -15,4 +15,4 @@ foreach (['es','en'] as $lang) {
   $config->set($lang . '.releases_intro', $lang === 'es' ? 'Descargas y cambios de Nelkano para Android, Windows y SteamOS, y de SDK Studio. Solo aparecen las versiones publicadas.' : 'Downloads and changes for Nelkano on Android, Windows and SteamOS, and SDK Studio. Only published releases are shown.');
 }
 $config->save();
-echo "Catalog initialized: Android visible; Windows, SteamOS and SDK hidden.\n";
+echo "Catalog initialized from explicit snapshot; publication follows each row.\n";

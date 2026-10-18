@@ -1,35 +1,35 @@
 [
   {
-    "platform": "android",
-    "version": "3.0.2-beta",
-    "version_code": "12",
     "visible": true,
-    "apk_file": "private://nelkano-releases/Nelkano 3.0.2-beta.apk",
-    "filename": "Nelkano 3.0.2-beta.apk",
-    "date": "13/10/2026",
+    "version": "1.0.0-beta",
+    "platform": "android",
+    "version_code": "",
+    "apk_file": "public://nelkano-releases/Nelkano 1.0.0-beta.apk",
+    "filename": "Nelkano 1.0.0-beta.apk",
+    "date": "27/06/2026",
     "changes": {
-      "es": "Mejoras de compatibilidad con PS1.",
-      "en": "PS1 compatibility improvements."
+      "es": "Primera beta publica para Android.\r\nBiblioteca local, guardados y save states.\r\nCuenta Nelkano, amigos, gba nelkano online y streaming web.\r\nSincronizacion opcional con Google Drive.\r\nCores disponibles: Chip8, Game boy, Game boy color, Game boy advance, Megadrive, NES",
+      "en": "First public beta for Android.\r\nLocal library, in-game saves and save states.\r\nNelkano account, friends, GBA Nelkano Online and web streaming.\r\nOptional Google Drive synchronization.\r\nAvailable cores: CHIP-8, Game Boy, Game Boy Color, Game Boy Advance, Mega Drive and NES."
     }
   },
   {
-    "platform": "android",
-    "version": "3.0.1-beta",
-    "version_code": "11",
     "visible": true,
-    "apk_file": "private://nelkano-releases/Nelkano 3.0.1-beta.apk",
-    "filename": "Nelkano 3.0.1-beta.apk",
-    "date": "12/10/2026",
+    "version": "2.0.0-beta",
+    "platform": "android",
+    "version_code": "",
+    "apk_file": "public://nelkano-releases/Nelkano 2.0.0-beta.apk",
+    "filename": "Nelkano 2.0.0-beta.apk",
+    "date": "Pendiente de publicacion",
     "changes": {
-      "es": "Corrección del resaltado de Home al navegar por pantalla táctil sin mando conectado.\r\nEl teclado virtual de Android ya no se detecta como mando.\nLos controles táctiles se ocultan al usar el mando y reaparecen al tocar la pantalla.",
-      "en": "Fixed Home remaining highlighted during touch navigation without a connected controller.\r\nThe Android virtual keyboard is no longer detected as a controller.\nTouch controls hide when using the controller and reappear when touching the screen."
+      "es": "Nuevo core de Master System.\r\nCorrección del registro desde la app para solucionar la falta del correo de registro.\r\nBiblioteca con favoritos, colecciones, búsqueda, filtros por sistema, ordenación y vistas compacta, grande y de lista. Selección de varios juegos con una pulsación larga.\r\nImportación de juegos comprimidos en ZIP, RAR y 7z, incluidos paquetes con varios juegos. Importación de discos de PlayStation con sus archivos CUE y pistas, y de juegos de RPG Maker con todos sus recursos.\r\nOpción Continuar para retomar un estado guardado. Si eliges la captura de un estado manual como imagen del juego, ese estado tiene prioridad al continuar.\r\nCinco espacios de guardado manual por juego y un espacio independiente para el autoguardado, que se realiza aproximadamente cada minuto. Gestión de estados con filtros y ordenación, según el soporte de cada sistema.\r\nPersonalización de la ficha del juego: cambiar el nombre y la portada o utilizar la captura de un estado manual.\r\nConfiguración de mandos físicos: comprobación de botones, asignación por sistema, guardado y carga de configuraciones y restauración de los valores predeterminados.\r\nEditor de controles táctiles para mover y cambiar el tamaño de los botones, previsualizar el resultado y guardar una disposición para cada sistema y orientación.\r\nOpciones durante la partida: pausa, reinicio, volumen, pantalla completa, ajuste de imagen e indicador de FPS. Botón AUTO para repetir A y botones RECORD y REPLAY para grabar y repetir una secuencia de pulsaciones.\r\nSegunda pantalla para Nintendo DS y Nintendo 3DS: utiliza otro dispositivo Android conectado a la misma red local, intercambia las pantallas y controla la pantalla táctil desde el dispositivo receptor.\r\nAplicación de parches xdelta/VCDIFF a juegos de Nintendo DS. El juego modificado se añade por separado y conserva sus propios guardados, sin sustituir el original.\r\nSincronización de estados, tarjetas de memoria y datos asociados de PlayStation con Google Drive. Las imágenes de disco deben importarse por separado en el dispositivo de destino.\r\nTemas Oscuro, Claro, Azul marino, Pizarra y Grafito, y selección de español o inglés para la interfaz.",
+      "en": "New Master System core.\r\nFixed registration from the app to address missing registration emails.\r\nLibrary favorites, collections, search, system filters, sorting, and compact, large and list views. Long-press to select multiple games.\r\nImport games from ZIP, RAR and 7z archives, including archives containing multiple games. Import PlayStation discs with their CUE files and tracks, and RPG Maker games with all their resources.\r\nContinue from a saved state. If you choose a manual save state's screenshot as the game's image, that state takes priority when continuing.\r\nFive manual save slots per game and a separate autosave slot, updated approximately every minute. Filter and sort save states, depending on each system's support.\r\nCustomize game details: change the name and cover, or use a manual save state's screenshot.\r\nPhysical controller settings: test buttons, assign controls per system, save and load configurations, and restore defaults.\r\nTouch control editor: move and resize buttons, preview the result, and save a layout for each system and screen orientation.\r\nIn-game options: pause, restart, volume, full screen, image sizing and an FPS display. AUTO repeats the A button, while RECORD and REPLAY record and repeat a sequence of button presses.\r\nSecond screen for Nintendo DS and Nintendo 3DS: use another Android device on the same local network, swap screens and operate the touch screen from the receiving device.\r\nApply xdelta/VCDIFF patches to Nintendo DS games. Patched games are added separately with their own saves, without replacing the original.\r\nSync PlayStation save states, memory cards and associated data with Google Drive. Disc images must be imported separately on the destination device.\r\nDark, Light, Navy, Slate and Graphite themes, and Spanish or English interface language selection."
     }
   },
   {
-    "platform": "android",
+    "visible": true,
     "version": "3.0.0-beta",
+    "platform": "android",
     "version_code": "10",
-    "visible": true,
     "apk_file": "private://nelkano-releases/Nelkano 3.0.0-beta.apk",
     "filename": "Nelkano 3.0.0-beta.apk",
     "date": "12/10/2026",
@@ -39,10 +39,49 @@
     }
   },
   {
-    "platform": "windows",
-    "version": "1.0.0-beta",
-    "version_code": "10",
+    "visible": true,
+    "version": "3.0.1-beta",
+    "platform": "android",
+    "version_code": "11",
+    "apk_file": "private://nelkano-releases/Nelkano 3.0.1-beta.apk",
+    "filename": "Nelkano 3.0.1-beta.apk",
+    "date": "12/10/2026",
+    "changes": {
+      "es": "Corrección del resaltado de Home al navegar por pantalla táctil sin mando conectado.\r\nEl teclado virtual de Android ya no se detecta como mando.\r\nLos controles táctiles se ocultan al usar el mando y reaparecen al tocar la pantalla.",
+      "en": "Fixed Home remaining highlighted during touch navigation without a connected controller.\r\nThe Android virtual keyboard is no longer detected as a controller.\nTouch controls hide when using the controller and reappear when touching the screen."
+    }
+  },
+  {
+    "visible": true,
+    "version": "3.0.2-beta",
+    "platform": "android",
+    "version_code": "12",
+    "apk_file": "private://nelkano-releases/Nelkano 3.0.2-beta.apk",
+    "filename": "Nelkano 3.0.2-beta.apk",
+    "date": "13/10/2026",
+    "changes": {
+      "es": "Mejoras de compatibilidad con PS1.",
+      "en": "PS1 compatibility improvements."
+    }
+  },
+  {
+    "visible": true,
+    "version": "3.0.3-beta",
+    "platform": "android",
+    "version_code": "13",
+    "apk_file": "private://nelkano-releases/Nelkano 3.0.3-beta.apk",
+    "filename": "Nelkano 3.0.3-beta.apk",
+    "date": "18/10/2026",
+    "changes": {
+      "es": "Optimizaciones de carga de módulos al iniciar la aplicación.\nCorrecciones de bugs de PS1.\nCorrecciones de bugs con módulo de segunda pantalla para NDS y 3DS.\nNuevo módulo multijugador para GBA y PS1 experimental.\nMejora de sonido GB/GBC.\nMejora de rendimiento GBA para dispositivos Android de gama media.\nMejoras de rendimiento en la interfaz de la app.\nConexión con la página de módulos.",
+      "en": "Optimized module loading when starting the app.\nPS1 bug fixes.\nBug fixes for the second-screen module for NDS and 3DS.\nNew experimental multiplayer module for GBA and PS1.\nGB/GBC sound improvements.\nImproved GBA performance on mid-range Android devices.\nApp interface performance improvements.\nConnection to the modules page."
+    }
+  },
+  {
     "visible": false,
+    "version": "1.0.0-beta",
+    "platform": "windows",
+    "version_code": "10",
     "apk_file": "private://nelkano-releases/Nelkano 1.0.0-beta-windows.msi",
     "filename": "Nelkano 1.0.0-beta-windows.msi",
     "date": "12/10/2026",
@@ -52,10 +91,10 @@
     }
   },
   {
-    "platform": "steamos",
-    "version": "1.0.0-beta",
-    "version_code": "10",
     "visible": false,
+    "version": "1.0.0-beta",
+    "platform": "steamos",
+    "version_code": "10",
     "apk_file": "private://nelkano-releases/Nelkano 1.0.0-beta-steamos.zip",
     "filename": "Nelkano 1.0.0-beta-steamos.zip",
     "date": "12/10/2026",
@@ -65,16 +104,44 @@
     }
   },
   {
-    "platform": "sdk",
-    "version": "1.0.0-beta",
-    "version_code": "2",
     "visible": false,
+    "version": "1.0.0-beta",
+    "platform": "sdk",
+    "version_code": "2",
     "apk_file": "private://nelkano-releases/Nelkano SDK Studio 1.0.0-beta-windows.zip",
     "filename": "Nelkano SDK Studio 1.0.0-beta-windows.zip",
     "date": "12/10/2026",
     "changes": {
       "es": "Primera beta de Nelkano SDK Studio para Windows.",
       "en": "First beta of Nelkano SDK Studio for Windows."
+    }
+  },
+  {
+    "visible": true,
+    "version": "3.0.3-beta",
+    "platform": "windows",
+    "version_code": "13",
+    "apk_file": "private://nelkano-releases/Nelkano 3.0.3-beta-windows.msi",
+    "installer_file": "private://nelkano-releases/Nelkano 3.0.3-beta-windows.exe",
+    "filename": "Nelkano 3.0.3-beta-windows.exe",
+    "date": "18/10/2026",
+    "changes": {
+      "es": "Primera beta pública",
+      "en": "First public beta"
+    }
+  },
+  {
+    "visible": true,
+    "version": "3.0.3-beta",
+    "platform": "sdk",
+    "version_code": "13",
+    "apk_file": "private://nelkano-releases/Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.zip",
+    "installer_file": "private://nelkano-releases/Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.exe",
+    "filename": "Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.exe",
+    "date": "18/10/2026",
+    "changes": {
+      "es": "Primera beta pública",
+      "en": "First public beta"
     }
   }
 ]

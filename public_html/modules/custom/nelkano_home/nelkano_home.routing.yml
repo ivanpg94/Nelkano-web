@@ -987,16 +987,15 @@ nelkano_home.backlog_api_update:
   options:
     no_cache: TRUE
 
-# Dedicated initial installer URL; existing ZIP URLs keep serving ZIP bytes.
+# Dedicated initial installer URL; updater URLs retain their MSI/ZIP bytes.
 nelkano_home.sdk_installer_download:
   path: '/descargar/{language}/{platform}/{version}/instalador'
   defaults:
     _controller: '\Drupal\nelkano_home\Controller\HomeController::downloadRelease'
-    platform: 'sdk'
     installer: TRUE
   requirements:
     _access: 'TRUE'
-    platform: 'sdk'
+    platform: 'windows|sdk'
     language: 'es|en'
     version: '[A-Za-z0-9.+_-]+'
   options:

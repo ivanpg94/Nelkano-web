@@ -72,11 +72,11 @@ final class NelkanoDocsSettingsForm extends ConfigFormBase {
             'description' => 'Sube el archivo de esta aplicación. Mostrar versión controla el enlace y la descarga; desmárcalo para despublicar.',
           ],
           'installer_file' => [
-            'title' => 'Instalador de Windows (MSI)',
+            'title' => 'Instalador de Windows (EXE o MSI)',
             'type' => 'managed_file',
             'upload_location' => 'private://nelkano-releases',
-            'upload_validators' => ['FileExtension' => ['extensions' => 'msi']],
-            'description' => 'Descarga inicial de Studio. El ZIP separado se conserva para las actualizaciones automáticas.',
+            'upload_validators' => ['FileExtension' => ['extensions' => 'exe msi']],
+            'description' => 'Descarga inicial de Windows. El paquete de actualización se conserva por separado.',
           ],
           'filename' => ['title' => 'Nombre del archivo'],
           'date' => ['title' => 'Publication date'],
@@ -191,7 +191,11 @@ final class NelkanoDocsSettingsForm extends ConfigFormBase {
                 $platform_definition['columns']['apk_file']['upload_validators']['FileExtension']['extensions'] = \Drupal\nelkano_home\Service\ReleaseArtifact::PLATFORMS[$platform][1];
                 if ($platform === 'sdk') {
                   $platform_definition['columns']['apk_file']['title'] = 'Paquete de actualización (ZIP)';
-                  $platform_definition['columns']['apk_file']['description'] = 'Contenido completo para el actualizador de Studio. No subas el MSI en este campo.';
+                  $platform_definition['columns']['apk_file']['description'] = 'Contenido completo para el actualizador de Studio. No subas el instalador EXE o MSI en este campo.';
+                }
+                elseif ($platform === 'windows') {
+                  $platform_definition['columns']['apk_file']['title'] = 'Paquete de actualización (MSI)';
+                  $platform_definition['columns']['apk_file']['description'] = 'MSI para el actualizador de Nelkano. Sube el EXE de primera instalación en el campo de instalador.';
                 }
                 else unset($platform_definition['columns']['installer_file']);
                 $stored_rows = array_values(array_filter(is_array($stored_value) ? $stored_value : [], static fn($row) => \Drupal\nelkano_home\Service\ReleaseArtifact::platform($row) === $platform));
@@ -257,7 +261,7 @@ final class NelkanoDocsSettingsForm extends ConfigFormBase {
       elseif (isset($seen[$key]) || ($code !== '' && isset($seen[$platform . ':build:' . $code]))) $error = 'No repitas la versión ni el código de actualización dentro de una aplicación.';
       elseif ($code !== '' && (!ctype_digit($code) || (int) $code < 1 || strlen($code) > 10 || (int) $code > 2147483647)) $error = 'El código de actualización debe ser un entero positivo.';
       elseif ($row['apk_file'] !== '' && !str_ends_with($row['apk_file'], '.' . $format)) $error = 'El archivo no corresponde a la aplicación: Android APK, Windows MSI, SteamOS y SDK ZIP.';
-      if (($row['installer_file'] ?? '') !== '' && ($platform !== 'sdk' || !str_ends_with($row['installer_file'], '.msi'))) $error = 'El instalador adicional solo admite MSI de SDK Studio.';
+      if (($row['installer_file'] ?? '') !== '' && (!in_array($platform, ['windows', 'sdk'], TRUE) || !preg_match('/\.(exe|msi)$/D', $row['installer_file']))) $error = 'El instalador adicional solo admite EXE o MSI de Windows o SDK Studio.';
       if ($error !== '') $form_state->setErrorByName($language . '][releases][releases_items', $this->t($error));
       $seen[$key] = TRUE;
       if ($code !== '') $seen[$platform . ':build:' . $code] = TRUE;

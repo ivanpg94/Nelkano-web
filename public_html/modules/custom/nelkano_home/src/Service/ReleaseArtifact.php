@@ -17,9 +17,10 @@ final class ReleaseArtifact {
   }
   public static function file(array $row, string $purpose = 'download'): array {
     $platform = self::platform($row);
-    $installer = $platform === 'sdk' && ($purpose === 'installer' || ($purpose === 'download' && !empty($row['installer_file'])));
-    $format = $installer ? 'msi' : (self::PLATFORMS[$platform][1] ?? '');
+    $installer = in_array($platform, ['windows', 'sdk'], TRUE) && ($purpose === 'installer' || ($purpose === 'download' && !empty($row['installer_file'])));
     $uri = trim((string) ($row[$installer ? 'installer_file' : 'apk_file'] ?? ''));
+    $format = $installer ? strtolower(pathinfo($uri, PATHINFO_EXTENSION)) : (self::PLATFORMS[$platform][1] ?? '');
+    if ($installer && !in_array($format, ['exe', 'msi'], TRUE)) $format = '';
     $empty = ['path' => '', 'filename' => (string) ($row['filename'] ?? ''), 'url' => ''];
     if ($format === '' || !preg_match('@^(public|private)://nelkano-releases/[^/\\\\]+\.' . $format . '$@D', $uri)) return $empty;
     $fs = \Drupal::service('file_system');

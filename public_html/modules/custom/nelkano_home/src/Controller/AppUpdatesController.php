@@ -51,7 +51,7 @@ final class AppUpdatesController extends ControllerBase {
         if ((string) $row['version_code'] !== $build || \Drupal\nelkano_home\Service\ReleaseArtifact::hidden($row)) continue;
         $file = \Drupal\nelkano_home\Service\ReleaseArtifact::file($row, 'update');
         if ($file['path'] === '') continue;
-        $response = new BinaryFileResponse($file['path']);
+        $response = new \Drupal\nelkano_home\Http\ReleaseFileResponse($file['path']);
         $response->setContentDisposition('attachment', $file['filename']);
         $response->headers->set('Content-Type', $platform === 'android-arm64' ? 'application/vnd.android.package-archive' : 'application/octet-stream');
         $response->headers->set('Cache-Control', 'no-store');
@@ -63,7 +63,7 @@ final class AppUpdatesController extends ControllerBase {
     $row = $this->config('nelkano_home.app_updates')->get('releases.' . $platform . '.' . $build);
     $path = is_array($row) ? $this->artifact($platform, $row) : NULL;
     if (!$path) throw new NotFoundHttpException();
-    $response = new BinaryFileResponse($path);
+    $response = new \Drupal\nelkano_home\Http\ReleaseFileResponse($path);
     $response->setContentDisposition('attachment', 'Nelkano-' . preg_replace('/[^0-9.]/', '', $row['version']) . '.' . self::PLATFORMS[$platform][1]);
     $response->headers->set('Content-Type', $platform === 'android-arm64' ? 'application/vnd.android.package-archive' : 'application/octet-stream');
     $response->headers->set('Cache-Control', 'no-store');

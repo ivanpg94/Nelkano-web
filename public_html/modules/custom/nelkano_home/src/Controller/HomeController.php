@@ -1068,7 +1068,7 @@ final class HomeController extends ControllerBase {
       if (($row['version'] ?? '') !== $version || \Drupal\nelkano_home\Service\ReleaseArtifact::platform($row) !== $platform || $this->releaseIsHidden($row)) continue;
       $file = \Drupal\nelkano_home\Service\ReleaseArtifact::file($row, $installer ? 'installer' : 'update');
       if ($file['path'] === '' || !is_file($file['path'])) break;
-      $response = new \Symfony\Component\HttpFoundation\BinaryFileResponse($file['path']);
+      $response = new \Drupal\nelkano_home\Http\ReleaseFileResponse($file['path']);
       $response->headers->set('Content-Type', $platform === 'android' ? 'application/vnd.android.package-archive' : 'application/octet-stream');
       $response->setContentDisposition('attachment', $file['filename']);
       $response->headers->set('Cache-Control', 'no-store, private');
