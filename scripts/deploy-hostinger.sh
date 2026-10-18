@@ -20,6 +20,8 @@ if [[ "$(cd -- "$REPO_DIR" && pwd)" != "$(cd -- "$APP_DIR" && pwd)" ]]; then
 fi
 
 cd -- "$APP_DIR"
+# Plain Git transports the installers in parts; no Git LFS or extra tools.
+php scripts/materialize-release-artifacts.php
 php scripts/verify-release-bundle.php
 NELKANO_RELEASE_ASSETS_CHECK_ONLY=1 ./vendor/bin/drush --root=public_html php:script scripts/install-release-assets.php
 # Keep scripts enabled: they protect deployed code while Composer removes

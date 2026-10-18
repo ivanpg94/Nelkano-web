@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "artifacts": [
+    {
+      "file": "Nelkano 3.0.3-beta-windows.exe",
+      "bytes": 150731776,
+      "sha256": "327e5a2374962dbcb92fa2a563648fbc3c1d2822bf2ec49a565d2d87e05ca1c5",
+      "parts": [
+        {
+          "file": "parts/327e5a2374962dbcb92fa2a563648fbc3c1d2822bf2ec49a565d2d87e05ca1c5/0001.part",
+          "bytes": 41943040,
+          "sha256": "d8a22d47442d225ae7d88d505240f82ef7611b4706910a6a478ca434458aaadc"
+        },
+        {
+          "file": "parts/327e5a2374962dbcb92fa2a563648fbc3c1d2822bf2ec49a565d2d87e05ca1c5/0002.part",
+          "bytes": 41943040,
+          "sha256": "9706ff5c113f47e7bad1e6359dadf304be8d10d700fdba7d43dc6e8d501ce7f9"
+        },
+        {
+          "file": "parts/327e5a2374962dbcb92fa2a563648fbc3c1d2822bf2ec49a565d2d87e05ca1c5/0003.part",
+          "bytes": 41943040,
+          "sha256": "c917c1a2af7476a727071c3015c3e6d3b87126afce5e3b757cab2048a9d38b6d"
+        },
+        {
+          "file": "parts/327e5a2374962dbcb92fa2a563648fbc3c1d2822bf2ec49a565d2d87e05ca1c5/0004.part",
+          "bytes": 24902656,
+          "sha256": "97d72901c8c3331d2004cfdf12e9a5888b4512de768b604ed5d05eae97588eb2"
+        }
+      ]
+    },
+    {
+      "file": "Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.exe",
+      "bytes": 109238272,
+      "sha256": "6a084f9b0e02befe0a114a498d928918129d3db74881a84325e69115ef6f1d62",
+      "parts": [
+        {
+          "file": "parts/6a084f9b0e02befe0a114a498d928918129d3db74881a84325e69115ef6f1d62/0001.part",
+          "bytes": 41943040,
+          "sha256": "311a94bf5735ba0bd846eed104ebbd4a18fcec054b04d1aa3914b1d6a9426974"
+        },
+        {
+          "file": "parts/6a084f9b0e02befe0a114a498d928918129d3db74881a84325e69115ef6f1d62/0002.part",
+          "bytes": 41943040,
+          "sha256": "a9c398b0dcaf1445458663b101debc542f1d2ca1ab8b0b4808bc6f63e25839ec"
+        },
+        {
+          "file": "parts/6a084f9b0e02befe0a114a498d928918129d3db74881a84325e69115ef6f1d62/0003.part",
+          "bytes": 25352192,
+          "sha256": "b1abb4e45ffcb2d01f39506da22e4a60edcca0157150c29cdb8026d06d907853"
+        }
+      ]
+    }
+  ]
+}

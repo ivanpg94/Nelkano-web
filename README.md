@@ -14,7 +14,7 @@ de Studio. Windows y Studio se instalan y actualizan manualmente con sus EXE;
 no se distribuyen el MSI ni el ZIP de actualización de esta versión. Sus canales
 automáticos no ofrecen paquetes; Android conserva su actualizador. Los hashes
 están en manifest.json y el plan en `release-artifacts/release-3.0.3-beta.json`.
-Los EXE requieren materializar Git LFS o transferir los binarios reales por SFTP
+El despliegue reconstruye los instaladores desde fragmentos de Git normal.
 antes del preflight. Receta local en
 [`scripts/sdk-studio-release.md`](scripts/sdk-studio-release.md).
 No se ha hecho push, despliegue remoto ni instalación en dispositivos.

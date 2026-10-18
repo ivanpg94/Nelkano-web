@@ -33,3 +33,7 @@ Thumbs.db
 
 # Local QA evidence and temporary deployment bundles.
 /outputs/
+
+# Assembled locally/from Git parts during deployment.
+/release-artifacts/*.exe
+/release-artifacts/.assemble-*

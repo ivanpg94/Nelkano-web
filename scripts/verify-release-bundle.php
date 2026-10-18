@@ -22,7 +22,7 @@ foreach ($required as $name => $_) {
   if (!preg_match('/\.(apk|exe|msi|zip)$/D', $name) || !preg_match('/^[a-f0-9]{64}$/D', $expected)) throw new RuntimeException('Invalid published release manifest entry: ' . $name);
   $source = $directory . '/' . $name;
   if (!is_file($source) || !hash_equals($expected, hash_file('sha256', $source))) {
-    throw new RuntimeException('Missing or corrupt published release artifact: ' . $name . '. Upload this file to release-artifacts/ or obtain its real Git LFS binary before deploying.');
+    throw new RuntimeException('Missing or corrupt published release artifact: ' . $name . '. Run bash scripts/deploy-hostinger.sh after completing git pull; installers are reconstructed automatically.');
   }
 }
 echo 'Published release bundle verified: ' . count($required) . PHP_EOL;

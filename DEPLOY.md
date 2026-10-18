@@ -4,6 +4,20 @@ Esta es la receta vigente para la entrega completa preparada el 18/10/2026.
 Las instrucciones antiguas del README describen entregas anteriores.
 Preparar el commit no hace push ni modifica producción.
 
+## Reanudar el despliegue detenido
+
+La dependencia de Git LFS se ha retirado. Con el nuevo commit subido, continúa
+en la sesión SSH y en la misma instalación. No repitas el respaldo ni restaures la BD.
+
+```bash
+set -e
+cd /home/u985217890/domains/nelkano.com
+git pull --ff-only origin main
+bash scripts/deploy-hostinger.sh
+./vendor/bin/drush --root=public_html state:set system.maintenance_mode 0 --input-format=integer
+./vendor/bin/drush --root=public_html cache:rebuild
+```
+
 ## Contenido de esta entrega
 
 - Navegación compartida, menú de cuenta y sección «Amplía Nelkano».
@@ -99,8 +113,7 @@ SQL/archivos y omitir solo el book:export fallido tras comprobar su ausencia.
 ```bash
 git merge --ff-only "$release_commit"
 test "$(git rev-parse HEAD)" = "$release_commit"
-# Materializar antes los binarios LFS, o transferir los reales por SFTP.
-php scripts/verify-release-bundle.php
+# El script reconstruye los EXE desde los fragmentos antes de comprobar la entrega.
 bash scripts/deploy-hostinger.sh
 ./vendor/bin/drush --root=public_html updatedb:status
 ./vendor/bin/drush --root=public_html config:status
@@ -113,11 +126,11 @@ Drush deploy e importa el Book por UUID, con simulación previa. El dry-run fina
 debe indicar 23 unchanged; no deben quedar updates pendientes ni diferencias
 inesperadas de configuración. No basta ejecutar únicamente drush deploy.
 
-Los APK viajan por Git normal. Los dos EXE de esta entrega viajan por Git LFS. Antes del preflight, ejecutar git lfs pull si el servidor tiene LFS,
-o transferir los archivos reales por SFTP a release-artifacts fuera del docroot.
-El preflight rechaza punteros o bytes que no coincidan con manifest.json; comprueba
-tanto paquetes del actualizador como instaladores iniciales. Los archivos ocultos
-de SteamOS y versiones anteriores no disponibles se omiten sin publicarlos.
+El APK y los fragmentos de los EXE viajan por Git normal. Cada fragmento pesa
+como máximo 40 MiB. El script reconstruye los instaladores automáticamente,
+comprueba sus SHA-256 y conserva exactamente los EXE originales. Solo necesita
+el PHP ya utilizado por Drupal; no requiere Git LFS ni transferencias manuales.
+Los EXE ensamblados están ignorados por Git y pueden regenerarse al desplegar.
 
 No ejecutar seeds, scripts de ilustración, pruebas ni exportadores QA en el
 servidor. Las HU, reportes, usuarios y módulos son contenido de BD: no vienen en

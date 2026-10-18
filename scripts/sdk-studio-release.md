@@ -35,10 +35,16 @@ bytes y no habilita reemplazos en producción.
 
 ## Transporte cuando se autorice el despliegue
 
-El APK viaja por Git normal; los dos EXE, por Git LFS. Antes del despliegue,
-materializar los EXE con `git lfs pull` o transferir sus archivos reales por SFTP.
-Los punteros LFS no son instaladores. Los paquetes MSI y ZIP retirados no forman
-parte de esta entrega ni deben copiarse al servidor.
+El APK viaja por Git normal. Para los EXE, ejecutar antes de preparar el commit:
+
+```powershell
+python scripts/pack-release-artifacts.py "Nelkano 3.0.3-beta-windows.exe" "Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.exe"
+```
+
+Se versionan parts.json y los fragmentos de hasta 40 MiB. Los EXE completos
+permanecen en local, ignorados por Git; el despliegue los reconstruye con PHP
+y verifica los hashes del manifiesto. No requiere Git LFS ni transferencias
+manuales. MSI y ZIP 3.0.3-beta no forman parte de esta entrega.
 
 La receta vigente está en DEPLOY.md. `deploy-hostinger.sh` comprueba el
 manifiesto, registra los artefactos, importa configuración y libro y reconstruye

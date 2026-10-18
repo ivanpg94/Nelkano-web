@@ -64,8 +64,5 @@ core/.phpstan-baseline.php text eol=lf whitespace=blank-at-eol,-blank-at-eof,-sp
 *.woff    -text diff
 *.woff2   -text diff
 
-# Large release installers travel through the existing Git LFS/SFTP workflow.
-release-artifacts/*.msi filter=lfs diff=lfs merge=lfs -text
-release-artifacts/*.exe filter=lfs diff=lfs merge=lfs -text
-release-artifacts/*steamos.zip filter=lfs diff=lfs merge=lfs -text
-release-artifacts/Nelkano-SDK-Studio-*.zip filter=lfs diff=lfs merge=lfs -text
+# Release parts are plain Git binaries; no clean/smudge filters.
+release-artifacts/parts/** -text -diff -filter -merge
