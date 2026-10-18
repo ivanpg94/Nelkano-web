@@ -1,68 +1,48 @@
 # Entrega local 3.0.3-beta (13)
 
-Android, Windows y SDK Studio comparten versión y código. Las tres filas se
-preparan visibles en Drupal local. Esto no publica ni despliega producción.
-Las notas ES/EN y los nombres de archivo están en
+Esta entrega contiene tres archivos: APK Android, EXE de Nelkano Windows y EXE
+de SDK Studio. Las notas ES/EN y nombres están en
 `release-artifacts/release-3.0.3-beta.json`; los SHA-256 están en `manifest.json`.
 
-Windows y SDK Studio ofrecen dos archivos en cada fila:
+Windows y Studio solo publican `installer_file`. Se instalan y actualizan
+manualmente con sus EXE. Los clientes actuales necesitan MSI y ZIP para las
+actualizaciones automáticas; sin esos archivos, sus canales devuelven
+`latest=null` y no anuncian un EXE incompatible. Android conserva `apk_file`
+y su actualización automática.
 
-- `installer_file`: EXE para la primera instalación. Studio incluye Node.js y Java; Nelkano Desktop incluye Java.
-- `apk_file`: MSI para el canal Windows y ZIP completo para `sdk-studio-windows-x86_64`.
+Los EXE usan `/descargar/{language}/{platform}/{version}/instalador`, con
+`platform=windows` o `sdk`. Ocultar la fila retira también su descarga manual.
+Los archivos y notas históricos se conservan.
 
-Los instaladores usan `/descargar/{language}/{platform}/{version}/instalador`
-para `windows` y `sdk`; las rutas sin
-`/instalador` conservan el MSI de Windows y el ZIP de Studio. Los MSI anteriores siguen
-admitidos. Ocultar una fila retira sus descargas y su oferta de actualización.
+## Preparación local
 
-## Preparar y verificar en local
-
-Copiar los cinco artefactos verificados y ambos JSON a una carpeta fuera del
-docroot del contenedor. Con `NELKANO_RELEASE_PLAN` apuntando al plan JSON:
+Copiar los tres artefactos y los JSON a una carpeta fuera del docroot. Definir
+`NELKANO_RELEASE_PLAN` con la ruta del plan y ejecutar:
 
 ```sh
 vendor/bin/drush php:script scripts/prepare-local-release.php
 ```
 
-La llamada predeterminada solo verifica. Con `NELKANO_RELEASE_APPLY=1`, registra
-los cinco archivos privados, completa el borrador Android y añade Windows/SDK
-en ES/EN. Exporta únicamente `nelkano_home.docs`; conserva filas históricas y
-rechaza versiones o códigos registrados con otros bytes.
+La llamada predeterminada solo comprueba entradas. Con
+`NELKANO_RELEASE_APPLY=1`, registra archivos privados y filas ES/EN, conserva
+históricos y exporta `nelkano_home.docs`. Windows y SDK admiten filas con solo
+`installer_file`; un paquete automático opcional debe seguir siendo MSI o ZIP.
 
-```sh
-vendor/bin/drush php:script scripts/test-platform-downloads.php
-vendor/bin/drush php:script scripts/test-sdk-installer-release.php
-vendor/bin/drush book:import content/books/nelkano-sdk.yml --dry-run
-```
+La sustitución autorizada del borrador local13 exige
+`NELKANO_REPLACE_LOCAL_DRAFT=3.0.3-beta:13` y un manifiesto anterior en
+`NELKANO_RELEASE_PREVIOUS_MANIFEST`. Conserva un respaldo antes de sustituir
+bytes y no habilita reemplazos en producción.
 
-La primera prueba usa fixtures temporales. La segunda verifica la descarga
-inicial del SDK, el ZIP del actualizador y el transporte de los binarios; también
-comprueba que un checksum corrupto se rechaza sin cambiar configuración.
-
-## Sustituir el borrador local antes de publicarlo
-
-La limpieza autorizada de 3.0.3-beta (13) conserva esa identidad. El helper solo
-permite reemplazarla en Docker local con `NELKANO_REPLACE_LOCAL_DRAFT=3.0.3-beta:13`
-y `NELKANO_RELEASE_PREVIOUS_MANIFEST` apuntando al manifiesto anterior verificado.
-Primero comprueba los cinco archivos nuevos y los hashes existentes; con APPLY
-conserva los bytes y el catálogo anteriores bajo el almacenamiento privado antes
-de reemplazar cada archivo de forma atómica. Sin esas opciones sigue rechazando
-cualquier colisión. Esta excepción no se usa en producción.
 ## Transporte cuando se autorice el despliegue
 
-Los APK se transportan por Git normal. MSI, EXE y el ZIP nuevo de SDK se
-transportan con Git LFS, como los instaladores grandes anteriores. Antes del
-despliegue hay que materializar los binarios con `git lfs pull`. Si el destino
-no dispone de LFS, se pueden transferir los archivos reales por SFTP, según el
-procedimiento del README. Los punteros LFS no son instaladores: el preflight
-rechaza cualquier puntero o archivo cuyo SHA-256 no coincida.
+El APK viaja por Git normal; los dos EXE, por Git LFS. Antes del despliegue,
+materializar los EXE con `git lfs pull` o transferir sus archivos reales por SFTP.
+Los punteros LFS no son instaladores. Los paquetes MSI y ZIP retirados no forman
+parte de esta entrega ni deben copiarse al servidor.
 
-Transportar también código, configuración, manifiesto, libro e imágenes. El
-script `scripts/install-release-assets.php` verifica y registra `apk_file` e
-`installer_file` antes de importar configuración; no basta con subir YAML.
-Mantener los binarios fuera de `public_html`, en el almacenamiento privado.
+La receta vigente está en DEPLOY.md. `deploy-hostinger.sh` comprueba el
+manifiesto, registra los artefactos, importa configuración y libro y reconstruye
+cachés. Mantener los archivos privados fuera de `public_html`. No ejecutar
+`install-platform-catalog.php`: no hace falta para el despliegue.
 
-El libro se importa con `scripts/import-sdk-book.sh --apply`. Después se
-comprueban las tres API de versiones, los cinco hashes de descarga y la
-referencia `/api/nelkano/v1/sdk/reference`. Esta preparación no hace push,
-despliegue remoto ni instalaciones en dispositivos.
+Esta preparación no hace push, despliegue remoto ni instalaciones en dispositivos.

@@ -39,6 +39,7 @@ foreach ($definitions as $platform => $fields) {
   foreach (['es', 'en'] as $language) if (!is_string($entries[$platform]['notes'][$language] ?? NULL) || trim($entries[$platform]['notes'][$language]) === '') throw new RuntimeException('Missing release notes');
   foreach ($fields as $field => $extension) {
     $name = $entries[$platform][$field] ?? '';
+    if ($name === '' && $platform !== 'android') continue;
     if (!is_string($name) || $name === '' || basename($name) !== $name || strpbrk($name, "/\\\r\n") !== FALSE || !str_ends_with($name, '.' . $extension)) throw new RuntimeException('Invalid artifact filename');
     $source = $directory . '/' . $name; $uri = 'private://nelkano-releases/' . $name;
     $sha256 = $manifest[$name] ?? '';
@@ -52,6 +53,7 @@ foreach ($definitions as $platform => $fields) {
       || !hash_equals($previousManifest[$name], $previousSha256))) throw new RuntimeException('Refusing to overwrite a different artifact: ' . $name);
     $artifacts[$platform][$field] = compact('source', 'uri', 'name', 'sha256', 'extension', 'previousSha256', 'replacing');
   }
+  if (empty($artifacts[$platform])) throw new RuntimeException('Each release needs a downloadable artifact');
   foreach (['es', 'en'] as $language) foreach ($config->get($language . '.releases_items') ?? [] as $row) {
     if (($row['platform'] ?? 'android') !== $platform || (($row['version'] ?? '') !== $version && (string) ($row['version_code'] ?? '') !== $code)) continue;
     if (($row['version'] ?? '') !== $version || !in_array((string) ($row['version_code'] ?? ''), ['', $code], TRUE)) throw new RuntimeException('Release identity collision for ' . $platform);
@@ -64,7 +66,8 @@ foreach ($definitions as $platform => $fields) {
     }
   }
 }
-if (getenv('NELKANO_RELEASE_APPLY') !== '1') { echo "Local release preflight OK: $version ($code), five artifacts; no writes.\n"; return; }
+$artifactCount = array_sum(array_map('count', $artifacts));
+if (getenv('NELKANO_RELEASE_APPLY') !== '1') { echo "Local release preflight OK: $version ($code), $artifactCount artifacts; no writes.\n"; return; }
 $fs = \Drupal::service('file_system');
 $changed = [];
 foreach ($artifacts as $fields) foreach ($fields as $artifact) if ($artifact['replacing']) $changed[] = $artifact;
@@ -108,8 +111,9 @@ foreach (['es', 'en'] as $language) {
   $rows = $config->get($language . '.releases_items') ?? [];
   foreach ($entries as $platform => $entry) {
     $release = ['visible' => TRUE, 'platform' => $platform, 'version' => $version, 'version_code' => $code,
-      'apk_file' => $artifacts[$platform]['apk_file']['uri'], 'filename' => $entry['installer_file'] ?? $entry['apk_file'],
+      'filename' => $entry['installer_file'] ?? $entry['apk_file'],
       'date' => $plan['date'], 'changes' => $entry['notes'][$language]];
+    if (isset($artifacts[$platform]['apk_file'])) $release['apk_file'] = $artifacts[$platform]['apk_file']['uri'];
     if (isset($artifacts[$platform]['installer_file'])) $release['installer_file'] = $artifacts[$platform]['installer_file']['uri'];
     $found = FALSE;
     foreach ($rows as &$row) if (($row['platform'] ?? 'android') === $platform && ($row['version'] ?? '') === $version) { $row = $release; $found = TRUE; }

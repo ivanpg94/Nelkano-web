@@ -12,10 +12,10 @@ Preparar el commit no hace push ni modifica producción.
 - Referencia pública del SDK para Studio: /api/nelkano/v1/sdk/reference.
 - API privada de HU para Codex: /api/nelkano/v1/backlog/hu.
 - Android, Windows y SDK Studio 3.0.3-beta/código13, visibles en el catálogo local.
-- Instaladores iniciales EXE para Windows y SDK Studio; MSI y ZIP separados para
-  sus actualizadores. Android conserva APK ARM64 firmado con la clave de producción.
+- Instaladores EXE manuales para Windows y SDK Studio, sin paquetes MSI/ZIP de
+  actualización de esta versión. Android conserva su APK ARM64 y actualizador.
 - Configuración editorial, libro y displays actualizados; notas ES/EN y manifiesto
-  de los cinco archivos en release-artifacts.
+  de los tres archivos en release-artifacts.
 
 El update11042 publica únicamente la portada española del SDK y añade los valores
 faltantes de «Amplía Nelkano». El YAML canónico también publica esa portada.
@@ -113,8 +113,7 @@ Drush deploy e importa el Book por UUID, con simulación previa. El dry-run fina
 debe indicar 23 unchanged; no deben quedar updates pendientes ni diferencias
 inesperadas de configuración. No basta ejecutar únicamente drush deploy.
 
-Los APK viajan por Git normal. Los EXE, el MSI de Windows y el ZIP de SDK viajan
-por Git LFS. Antes del preflight, ejecutar git lfs pull si el servidor tiene LFS,
+Los APK viajan por Git normal. Los dos EXE de esta entrega viajan por Git LFS. Antes del preflight, ejecutar git lfs pull si el servidor tiene LFS,
 o transferir los archivos reales por SFTP a release-artifacts fuera del docroot.
 El preflight rechaza punteros o bytes que no coincidan con manifest.json; comprueba
 tanto paquetes del actualizador como instaladores iniciales. Los archivos ocultos
@@ -142,9 +141,10 @@ cargadas. Reportes/Asistente no deben aparecer en su índice ni referencia públ
 La API backlog anónima debe devolver401 y el tablero administrativo conservar sus
 HU. La credencial se comprueba por GET en la siguiente fase, sin crear HU de prueba.
 
-Los tres canales deben ofrecer3.0.3-beta/código13: Android APK, Windows MSI y
-SDK Studio ZIP. La descarga inicial de Windows y SDK debe ser EXE. Comprobar
-los cinco tamaños y SHA-256 contra release-artifacts/manifest.json.
+El canal Android debe ofrecer3.0.3-beta/código13. Los canales de actualización
+Windows y SDK Studio deben devolver latest=null: esta entrega no incluye sus
+paquetes MSI/ZIP. Sus descargas manuales deben ser EXE. Comprobar los tres
+tamaños y SHA-256 contra release-artifacts/manifest.json.
 Comprobar también las APIs de reportes/módulos con sus conectores habituales y la
 redirección301 de www.nelkano.com. SteamOS permanece oculto.
 

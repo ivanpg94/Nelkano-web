@@ -190,12 +190,12 @@ final class NelkanoDocsSettingsForm extends ConfigFormBase {
                 $platform_definition['columns']['platform'] = ['title' => 'Aplicación', 'type' => 'value', 'value' => $platform];
                 $platform_definition['columns']['apk_file']['upload_validators']['FileExtension']['extensions'] = \Drupal\nelkano_home\Service\ReleaseArtifact::PLATFORMS[$platform][1];
                 if ($platform === 'sdk') {
-                  $platform_definition['columns']['apk_file']['title'] = 'Paquete de actualización (ZIP)';
-                  $platform_definition['columns']['apk_file']['description'] = 'Contenido completo para el actualizador de Studio. No subas el instalador EXE o MSI en este campo.';
+                  $platform_definition['columns']['apk_file']['title'] = 'Paquete de actualización (ZIP, opcional)';
+                  $platform_definition['columns']['apk_file']['description'] = 'Opcional: déjalo vacío para publicar solo el EXE de instalación manual. El actualizador de Studio requiere ZIP.';
                 }
                 elseif ($platform === 'windows') {
-                  $platform_definition['columns']['apk_file']['title'] = 'Paquete de actualización (MSI)';
-                  $platform_definition['columns']['apk_file']['description'] = 'MSI para el actualizador de Nelkano. Sube el EXE de primera instalación en el campo de instalador.';
+                  $platform_definition['columns']['apk_file']['title'] = 'Paquete de actualización (MSI, opcional)';
+                  $platform_definition['columns']['apk_file']['description'] = 'Opcional: déjalo vacío para publicar solo el EXE de instalación manual. El actualizador de Nelkano requiere MSI.';
                 }
                 else unset($platform_definition['columns']['installer_file']);
                 $stored_rows = array_values(array_filter(is_array($stored_value) ? $stored_value : [], static fn($row) => \Drupal\nelkano_home\Service\ReleaseArtifact::platform($row) === $platform));

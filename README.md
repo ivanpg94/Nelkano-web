@@ -9,11 +9,13 @@ Las secciones de despliegues anteriores se conservan como contexto histórico.
 ## Entrega local 3.0.3-beta (13) — 18/10/2026
 
 Android, Windows y SDK Studio están preparados en el catálogo local con las notas
-solicitadas. Windows y Studio se instalan inicialmente con EXE; sus actualizadores
-conservan MSI y ZIP, respectivamente. Los cinco archivos están verificados por
-SHA-256 y se transportan con el plan `release-artifacts/release-3.0.3-beta.json`.
-MSI, EXE y ZIP grandes requieren materializar Git LFS o transferir los binarios
-reales por SFTP antes del preflight. Receta local en
+solicitadas. Esta entrega ofrece tres archivos: APK Android, EXE Windows y EXE
+de Studio. Windows y Studio se instalan y actualizan manualmente con sus EXE;
+no se distribuyen el MSI ni el ZIP de actualización de esta versión. Sus canales
+automáticos no ofrecen paquetes; Android conserva su actualizador. Los hashes
+están en manifest.json y el plan en `release-artifacts/release-3.0.3-beta.json`.
+Los EXE requieren materializar Git LFS o transferir los binarios reales por SFTP
+antes del preflight. Receta local en
 [`scripts/sdk-studio-release.md`](scripts/sdk-studio-release.md).
 No se ha hecho push, despliegue remoto ni instalación en dispositivos.
 

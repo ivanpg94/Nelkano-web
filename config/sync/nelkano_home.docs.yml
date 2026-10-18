@@ -132,7 +132,6 @@ es:
       version: 3.0.3-beta
       platform: windows
       version_code: '13'
-      apk_file: 'private://nelkano-releases/Nelkano 3.0.3-beta-windows.msi'
       installer_file: 'private://nelkano-releases/Nelkano 3.0.3-beta-windows.exe'
       filename: 'Nelkano 3.0.3-beta-windows.exe'
       date: 18/10/2026
@@ -142,7 +141,6 @@ es:
       version: 3.0.3-beta
       platform: sdk
       version_code: '13'
-      apk_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.zip'
       installer_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.exe'
       filename: Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.exe
       date: 18/10/2026
@@ -307,7 +305,6 @@ en:
       version: 3.0.3-beta
       platform: windows
       version_code: '13'
-      apk_file: 'private://nelkano-releases/Nelkano 3.0.3-beta-windows.msi'
       installer_file: 'private://nelkano-releases/Nelkano 3.0.3-beta-windows.exe'
       filename: 'Nelkano 3.0.3-beta-windows.exe'
       date: 18/10/2026
@@ -317,7 +314,6 @@ en:
       version: 3.0.3-beta
       platform: sdk
       version_code: '13'
-      apk_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.zip'
       installer_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.exe'
       filename: Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.exe
       date: 18/10/2026
