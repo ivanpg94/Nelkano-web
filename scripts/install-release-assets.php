@@ -11,13 +11,15 @@ $docs = Yaml::decode(file_get_contents($root . '/config/sync/nelkano_home.docs.y
 $required = [];
 foreach (['es', 'en'] as $lang) {
   foreach ($docs[$lang]['releases_items'] ?? [] as $row) {
-    $uri = trim($row['apk_file'] ?? '');
-    if ($uri === '') continue;
-    $name = basename($uri);
-    if (!in_array($uri, ['public://nelkano-releases/' . $name, 'private://nelkano-releases/' . $name], TRUE) || !preg_match('/\.(apk|msi|zip)$/D', $name)) throw new RuntimeException('Unexpected release URI: ' . $uri);
-    $visible = $row['visible'] ?? TRUE;
-    $published = $visible !== FALSE && !in_array(strtolower(trim((string) $visible)), ['0', 'false', 'no', 'off'], TRUE);
-    $required[$name] = ['uri' => $uri, 'published' => $published || ($required[$name]['published'] ?? FALSE)];
+    foreach (['apk_file', 'installer_file'] as $field) {
+      $uri = trim($row[$field] ?? '');
+      if ($uri === '') continue;
+      $name = basename($uri);
+      if (!in_array($uri, ['public://nelkano-releases/' . $name, 'private://nelkano-releases/' . $name], TRUE) || !preg_match('/\.(apk|msi|zip)$/D', $name)) throw new RuntimeException('Unexpected release URI: ' . $uri);
+      $visible = $row['visible'] ?? TRUE;
+      $published = $visible !== FALSE && !in_array(strtolower(trim((string) $visible)), ['0', 'false', 'no', 'off'], TRUE);
+      $required[$name] = ['uri' => $uri, 'published' => $published || ($required[$name]['published'] ?? FALSE)];
+    }
   }
 }
 $install = [];

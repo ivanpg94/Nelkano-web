@@ -121,7 +121,7 @@ final class HuAdminController extends ControllerBase {
     $module_path = \Drupal::service('extension.list.module')->getPath('nelkano_home');
     return [
       '#type' => 'container', '#attributes' => ['class' => ['nk-admin-config-form']],
-      '#prefix' => $this->nelkanoAdminHeader($module_path) . '<div class="nk-admin-app nk-redesign-admin nk-admin-data"><div class="nk-admin-body">' . $this->nelkanoAdminSidebar('backlog') . '<div class="nk-admin-workspace"><section class="nk-admin-panel">',
+      '#prefix' => $this->nelkanoAdminPrefix($module_path, 'backlog', 'nk-redesign-admin nk-admin-data'),
       '#suffix' => '</section></div></div></div>',
       '#attached' => [
         'library' => ['nelkano_home/admin_forms', 'nelkano_home/backlog', 'nelkano_home/admin_data'],

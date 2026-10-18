@@ -29,11 +29,25 @@ nelkano_home.guide_language:
         mapping:
           title:
             type: text
+          group:
+            type: text
           description:
+            type: text
+          steps:
+            type: text
+          notes:
             type: text
           bullets:
             type: text
           visible:
             type: string
           image_uri:
+            type: string
+          image_asset:
+            type: string
+          image_alt:
+            type: text
+          image_caption:
+            type: text
+          image_focus:
             type: string

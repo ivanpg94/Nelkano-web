@@ -11,6 +11,7 @@ dependencies:
     - field.field.node.nelkano_module_release.field_release_modified
     - field.field.node.nelkano_module_release.field_release_module
     - field.field.node.nelkano_module_release.field_release_notes
+    - field.field.node.nelkano_module_release.field_release_package
     - field.field.node.nelkano_module_release.field_release_platforms
     - field.field.node.nelkano_module_release.field_release_queued
     - field.field.node.nelkano_module_release.field_release_sdk
@@ -40,6 +41,7 @@ hidden:
   field_release_modified: true
   field_release_module: true
   field_release_notes: true
+  field_release_package: true
   field_release_platforms: true
   field_release_queued: true
   field_release_sdk: true

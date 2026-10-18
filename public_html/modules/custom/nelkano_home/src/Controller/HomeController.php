@@ -89,7 +89,6 @@ final class HomeController extends ControllerBase {
     $stream_js_version = is_file($stream_js_path) ? (string) filemtime($stream_js_path) : (string) time();
     $html = \Drupal::service('twig')->createTemplate($template)->render([
       'base_css_url' => '/' . $module_path . '/css/base.css',
-      'header_css_url' => '/' . $module_path . '/css/header.css',
       'stream_css_url' => '/' . $module_path . '/css/stream.css?v=' . $stream_css_version,
       'stream_js_url' => '/' . $module_path . '/js/stream-viewer.js?v=' . $stream_js_version,
       'stream_ws_url' => $this->streamWebSocketUrl(),
@@ -295,19 +294,50 @@ final class HomeController extends ControllerBase {
   public function guidePage(string $language='es'): Response {
     $language=$language==='en'?'en':'es';$guide=\Drupal::config('nelkano_home.guide')->get($language)??[];
     $guide['sections']=array_values(array_filter($guide['sections']??[],static fn($r)=>($r['visible']??'1')!=='0' && !empty($r['title'])));
-    foreach($guide['sections'] as &$section){
-      $section['bullets']=SystemPages::lines($section['bullets']??'');
-      $section['image_url']=str_starts_with($section['image_uri']??'','public://') ? \Drupal::service('file_url_generator')->generateString($section['image_uri']) : '';
-    }unset($section);
+    $guide['groups'] = [];
+    foreach ($guide['sections'] as $index => &$section) {
+      $section['id'] = 'guide-' . ($index + 1);
+      $section['bullets'] = SystemPages::lines($section['bullets'] ?? '');
+      $section['steps'] = SystemPages::lines($section['steps'] ?? '');
+      $section['notes'] = SystemPages::lines($section['notes'] ?? '');
+      $section = array_replace($section, $this->guideImage($section));
+      $section['image_alt'] = trim((string) ($section['image_alt'] ?? '')) ?: $section['title'];
+      $section['image_focus'] = in_array($section['image_focus'] ?? '', ['top', 'middle', 'lower', 'bottom'], TRUE)
+        ? $section['image_focus'] : 'middle';
+      $groupTitle = trim((string) ($section['group'] ?? '')) ?: ($guide['title'] ?? 'Nelkano');
+      if (!isset($guide['groups'][$groupTitle])) {
+        $guide['groups'][$groupTitle] = ['id' => 'guide-group-' . (count($guide['groups']) + 1), 'title' => $groupTitle, 'sections' => []];
+      }
+      $guide['groups'][$groupTitle]['sections'][] = $section;
+    }
+    unset($section);
+    $guide['groups'] = array_values($guide['groups']);
     $module_path=$this->moduleExtensionList->getPath('nelkano_home');$url=$language==='es'?'/guia':'/en/guide';$alternate=$language==='es'?'/en/guide':'/guia';$base=\Drupal::request()->getSchemeAndHttpHost();
     $page=['title'=>$guide['title']??'Nelkano','seo_title'=>($guide['title']??'Nelkano').' — Nelkano','seo_description'=>$guide['intro']??'','canonical'=>$base.$url,'alternate'=>$base.$alternate,'alternate_lang'=>$language==='es'?'en':'es','default_url'=>$base.'/guia'];
     $html=\Drupal::service('twig')->createTemplate(file_get_contents(DRUPAL_ROOT.'/'.$module_path.'/templates/nelkano-systems-redesign.html.twig'))->render([
-      'page'=>$page,'guide'=>$guide,'labels'=>SystemPages::content($language)['labels'],'guide_js'=>'/'.$module_path.'/js/guide.js',
+      'page'=>$page,'guide'=>$guide,'labels'=>SystemPages::content($language)['labels'],'guide_js'=>'/'.$module_path.'/js/guide.js?v='.filemtime(DRUPAL_ROOT.'/'.$module_path.'/js/guide.js'),
       'footer_primary'=>$this->homeConfigFactory->get('nelkano_home.settings')->get($language.'.footer_primary'),
       'social_image_url'=>$this->socialImageUrl($module_path),'analytics'=>$this->analyticsSettings(),
-      'css_inline'=>$this->loadInlineCss($module_path).file_get_contents(DRUPAL_ROOT.'/'.$module_path.'/css/redesign.css'),
+      'css_inline'=>$this->loadInlineCss($module_path).file_get_contents(DRUPAL_ROOT.'/'.$module_path.'/css/redesign.css').file_get_contents(DRUPAL_ROOT.'/'.$module_path.'/css/usage-guide.css'),
     ]+$this->chromeContext($module_path,$language,$alternate,$language==='es'?'English':'Español'));
     return new Response($html,200,['Content-Type'=>'text/html; charset=UTF-8','Cache-Control'=>'no-store, private','X-Content-Type-Options'=>'nosniff']);
+  }
+
+  /** Resolve uploaded guide images or the versioned screenshots shipped with the site. */
+  private function guideImage(array $section): array {
+    $uri = (string) ($section['image_uri'] ?? '');
+    if (str_starts_with($uri, 'public://')) {
+      return ['image_url' => \Drupal::service('file_url_generator')->generateString($uri)];
+    }
+    $asset = (string) ($section['image_asset'] ?? '');
+    $prefix = '/modules/custom/nelkano_home/assets/docs/guide/';
+    if (!str_starts_with($asset, $prefix)
+      || !preg_match('@^/modules/custom/nelkano_home/assets/docs/guide/(?:[a-z0-9_-]+/)*[a-z0-9_-]+\.(?:png|webp|jpg|jpeg)$@D', $asset)
+      || !is_file(DRUPAL_ROOT . $asset)) {
+      return ['image_url' => ''];
+    }
+    $size = getimagesize(DRUPAL_ROOT . $asset);
+    return $size ? ['image_url' => $asset, 'image_width' => $size[0], 'image_height' => $size[1]] : ['image_url' => ''];
   }
 
   /** Render SDK chapters with the same public shell as the usage guide. */
@@ -330,7 +360,8 @@ final class HomeController extends ControllerBase {
       $chapter = $nodes[$row->nid] ?? NULL;
       if (!$chapter) { continue; }
       $chapter = $repository->getTranslationFromContext($chapter, $langcode);
-      // Do not expose unpublished chapters or descendants of inaccessible parents.
+      // The reading index shows published chapters; drafts remain in the SDK admin panel.
+      if (!$chapter->isPublished() && $chapter->id() !== $root->id()) { continue; }
       if (!$chapter->access('view', $this->currentUser())) { continue; }
       $children[(int) $row->pid][] = ['node' => $chapter, 'weight' => (int) $row->weight];
     }
@@ -375,6 +406,7 @@ final class HomeController extends ControllerBase {
         'index_label' => $language === 'en' ? 'Chapters' : 'Capítulos',
         'previous_label' => $language === 'en' ? 'Previous' : 'Anterior',
         'next_label' => $language === 'en' ? 'Next' : 'Siguiente'],
+      'guide_js' => '/' . $module_path . '/js/guide.js?v=' . filemtime(DRUPAL_ROOT . '/' . $module_path . '/js/guide.js'),
       'labels' => SystemPages::content($language)['labels'],
       'footer_primary' => $this->homeConfigFactory->get('nelkano_home.settings')->get($language . '.footer_primary'),
       'social_image_url' => $this->socialImageUrl($module_path), 'analytics' => $this->analyticsSettings(),
@@ -976,7 +1008,7 @@ final class HomeController extends ControllerBase {
   private function releaseRows(array $content, string $modulePath, bool $includeMetadata = TRUE, ?string $platformFilter = NULL): array {
     $release_items = $content['releases_items'] ?? '';
     $rows = is_array($release_items)
-      ? $this->parseRows($release_items, ['visible', 'platform', 'version_code', 'version', 'apk_file', 'filename', 'date', 'changes'])
+      ? $this->parseRows($release_items, ['visible', 'platform', 'version_code', 'version', 'apk_file', 'installer_file', 'filename', 'date', 'changes'])
       : $this->parseRows($release_items, ['version', 'filename', 'date', 'requirements', 'changes', 'notice']);
     if ($rows === []) {
       $rows = [[
@@ -1030,11 +1062,11 @@ final class HomeController extends ControllerBase {
   }
 
   /** Serve the selected published artifact with a stable public filename. */
-  public function downloadRelease(string $language, string $version, string $platform = 'android'): \Symfony\Component\HttpFoundation\BinaryFileResponse {
+  public function downloadRelease(string $language, string $version, string $platform = 'android', bool $installer = FALSE): \Symfony\Component\HttpFoundation\BinaryFileResponse {
     $rows = $this->homeConfigFactory->get('nelkano_home.docs')->get($language . '.releases_items') ?? [];
     foreach ($rows as $row) {
       if (($row['version'] ?? '') !== $version || \Drupal\nelkano_home\Service\ReleaseArtifact::platform($row) !== $platform || $this->releaseIsHidden($row)) continue;
-      $file = $this->releaseFile($row, '');
+      $file = \Drupal\nelkano_home\Service\ReleaseArtifact::file($row, $installer ? 'installer' : 'update');
       if ($file['path'] === '' || !is_file($file['path'])) break;
       $response = new \Symfony\Component\HttpFoundation\BinaryFileResponse($file['path']);
       $response->headers->set('Content-Type', $platform === 'android' ? 'application/vnd.android.package-archive' : 'application/octet-stream');

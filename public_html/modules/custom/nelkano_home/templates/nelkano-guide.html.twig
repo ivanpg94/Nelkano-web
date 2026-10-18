@@ -1,1 +1,63 @@
-<section class="r-gradient r-index-hero r-guide-hero"><div class="r-wrap"><p class="r-label">{{ guide.eyebrow }}</p><h1>{{ guide.title }}</h1><p class="r-copy">{{ guide.intro }}</p></div></section><div class="r-wrap r-guide-layout"><aside><details class="r-guide-toc" open><summary>{{ guide.toc_label }}</summary><nav aria-label="{{ guide.toc_label }}"><ol>{% for section in guide.sections %}<li><a href="#guide-{{ loop.index }}"><span>{{ '%02d'|format(loop.index) }}</span>{{ section.title }}</a></li>{% endfor %}</ol></nav></details></aside><div class="r-guide-sections">{% for section in guide.sections %}<article id="guide-{{ loop.index }}"><h2><span>{{ loop.index }}</span>{{ section.title }}</h2><div class="{{ section.image_url ? 'r-guide-columns' : '' }}"><div><p>{{ section.description }}</p><ul>{% for item in section.bullets %}<li>{{ item }}</li>{% endfor %}</ul></div>{% if section.image_url %}<a class="r-guide-image" href="{{ section.image_url }}" data-r-lightbox aria-label="{{ guide.zoom_label }}"><img src="{{ section.image_url }}" alt="{{ section.title }}" loading="lazy"></a>{% endif %}</div></article>{% else %}<p>{{ guide.empty_label }}</p>{% endfor %}</div></div><dialog class="r-lightbox"><button type="button" aria-label="{{ guide.close_label }}">×</button><img alt=""></dialog><script defer src="{{ guide_js }}"></script>
+<div class="r-usage-guide">
+  <section class="r-gradient r-index-hero r-guide-hero">
+    <div class="r-wrap">
+      <h1>{{ guide.title }}</h1>
+      <p class="r-copy">{{ guide.intro }}</p>
+    </div>
+  </section>
+  <div class="r-wrap r-guide-layout">
+    <aside>
+      <div class="r-guide-toc">
+        <p class="r-guide-toc-title">{{ guide.toc_label }}</p>
+        <nav aria-label="{{ guide.toc_label }}">
+          <ol>
+            {% for group in guide.groups %}
+              <li><a href="#{{ group.id }}"><span>{{ '%02d'|format(loop.index) }}</span>{{ group.title }}</a></li>
+            {% endfor %}
+          </ol>
+        </nav>
+      </div>
+    </aside>
+    <div class="r-guide-sections">
+      {% for group in guide.groups %}
+        <section class="r-guide-group" id="{{ group.id }}">
+          <div class="r-guide-group-heading"><h2>{{ group.title }}</h2></div>
+          <div class="r-guide-group-tasks">
+            {% for section in group.sections %}
+              <article class="r-guide-task{% if section.image_url %} r-guide-task-illustrated{% endif %}" id="{{ section.id }}">
+                <div class="r-guide-task-copy">
+                  <h3>{{ section.title }}</h3>
+                  {% if section.description %}<p>{{ section.description }}</p>{% endif %}
+                  {% if section.steps %}
+                    <ol class="r-guide-task-steps">{% for step in section.steps %}<li>{{ step }}</li>{% endfor %}</ol>
+                  {% endif %}
+                  {% if section.notes or section.bullets %}
+                    {% if section.id == 'guide-1' %}
+                      <div class="r-guide-special-formats"><p class="r-guide-special-formats-title">{{ language == 'en' ? 'CUE discs and RPG Maker' : 'Discos CUE y RPG Maker' }}</p>
+                    {% endif %}
+                    <ul class="r-guide-notes">
+                      {% for note in section.notes %}<li>{{ note }}</li>{% endfor %}
+                      {% for item in section.bullets %}<li>{{ item }}</li>{% endfor %}
+                    </ul>
+                    {% if section.id == 'guide-1' %}</div>{% endif %}
+                  {% endif %}
+                </div>
+                {% if section.image_url %}
+                  <figure class="r-guide-figure r-guide-focus-{{ section.image_focus }}">
+                    <a class="r-guide-image" href="{{ section.image_url }}" data-r-lightbox aria-label="{{ guide.zoom_label }}: {{ section.image_alt }}">
+                      <img src="{{ section.image_url }}" alt="{{ section.image_alt }}"{% if section.image_width %} width="{{ section.image_width }}" height="{{ section.image_height }}"{% endif %} loading="lazy" decoding="async">
+                      <span class="r-guide-zoom">{{ guide.zoom_label }} <span aria-hidden="true">↗</span></span>
+                    </a>
+                    {% if section.image_caption %}<figcaption>{{ section.image_caption }}</figcaption>{% endif %}
+                  </figure>
+                {% endif %}
+              </article>
+            {% endfor %}
+          </div>
+        </section>
+      {% else %}<p>{{ guide.empty_label }}</p>{% endfor %}
+    </div>
+  </div>
+  <dialog class="r-lightbox" aria-label="{{ guide.zoom_label }}"><button type="button" aria-label="{{ guide.close_label }}">×</button><img alt=""></dialog>
+</div>
+<script defer src="{{ guide_js }}"></script>

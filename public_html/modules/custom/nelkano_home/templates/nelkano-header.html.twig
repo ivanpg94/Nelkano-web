@@ -1,4 +1,4 @@
-<header class="nk-app-nav">
+<header class="nk-app-nav" data-nk-header>
   <div class="nk-nav-inner">
     <a class="nk-brand" href="{{ nav_home_url|default('/') }}">
       <img class="nk-logo-mark" src="{{ logo_url }}" width="44" height="44" alt="">
@@ -8,62 +8,48 @@
       </span>
     </a>
 
-    <input class="nk-menu-toggle" type="checkbox" id="nk-menu-toggle" aria-hidden="true">
-    {% if nav_alternate_url|default('') %}
-      <a class="nk-language-link nk-language-link-mobile" href="{{ nav_alternate_url }}" aria-label="{{ nav_alternate_label|default('English') }}">
-        <img class="nk-language-flag" src="{{ nav_alternate_flag_url }}" width="30" height="30" alt="">
-      </a>
-    {% endif %}
-    {#
-    Future color-mode toggle.
-    <button class="nk-theme-toggle nk-theme-toggle-mobile" type="button" data-theme-toggle data-theme-language="{{ language|default('es') }}" aria-label="{{ theme_toggle_label|default('Cambiar modo de color') }}">
-      <span class="nk-theme-toggle-track" aria-hidden="true">
-        <span class="nk-theme-toggle-sun"></span>
-        <span class="nk-theme-toggle-moon"></span>
-        <span class="nk-theme-toggle-thumb"></span>
-      </span>
+    <button class="nk-menu-button" type="button" data-nk-navigation-toggle aria-controls="nk-main-menu" aria-expanded="false" aria-label="{{ nav_menu_open_label|default('Abrir menú') }}" data-open-label="{{ nav_menu_open_label|default('Abrir menú') }}" data-close-label="{{ nav_menu_close_label|default('Cerrar menú') }}" hidden>
+      <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
     </button>
-    #}
-    <label class="nk-menu-button" for="nk-menu-toggle" aria-label="{{ language == 'en' ? 'Open menu' : 'Abrir menu' }}">
-      <span></span>
-      <span></span>
-      <span></span>
-    </label>
 
-    <nav class="nk-main-menu" aria-label="{{ nav_aria_label|default('Navegacion principal') }}">
-      {#
-      Future color-mode toggle.
-      <button class="nk-theme-toggle nk-theme-toggle-desktop" type="button" data-theme-toggle data-theme-language="{{ language|default('es') }}" aria-label="{{ theme_toggle_label|default('Cambiar modo de color') }}">
-        <span class="nk-theme-toggle-track" aria-hidden="true">
-          <span class="nk-theme-toggle-sun"></span>
-          <span class="nk-theme-toggle-moon"></span>
-          <span class="nk-theme-toggle-thumb"></span>
-        </span>
-      </button>
-      #}
-      {% if nav_alternate_url|default('') %}
-        <a class="nk-language-link nk-language-link-desktop" href="{{ nav_alternate_url }}" aria-label="{{ nav_alternate_label|default('English') }}">
-          <img class="nk-language-flag" src="{{ nav_alternate_flag_url }}" width="30" height="30" alt="">
-        </a>
-      {% endif %}
+    <nav class="nk-main-menu" id="nk-main-menu" aria-label="{{ nav_aria_label|default('Navegación principal') }}">
       {% for link in nav_links|default([]) %}
         <a href="{{ link.url }}">{{ link.label }}</a>
       {% endfor %}
-      {% if nav_is_authenticated|default(false) %}
-        <a class="nk-profile-link" href="{{ nav_account_url|default('/user') }}" aria-label="{{ nav_account_label|default('Mi perfil') }}">
-          {% if nav_account_avatar_url|default('') %}
-            <img class="nk-user-avatar" src="{{ nav_account_avatar_url }}" width="36" height="36" alt="">
-          {% else %}
-            <span class="nk-user-avatar" style="--avatar-color: {{ nav_account_color|default('#a414ff') }}">{{ nav_account_initial|default('N') }}</span>
-          {% endif %}
-          <span class="nk-profile-label">{{ nav_profile_label|default('Mi perfil') }}</span>
-        </a>
-        {% if nav_logout_url|default('') %}
-          <a class="nk-logout-link" href="{{ nav_logout_url }}">{{ nav_logout_label|default('Cerrar sesion') }}</a>
-        {% endif %}
-      {% else %}
-        <a href="{{ nav_account_url|default('/user/login') }}">{{ nav_account_label|default('Login') }}</a>
-      {% endif %}
     </nav>
+
+    <div class="nk-nav-tools">
+      {% if nav_alternate_url|default('') %}
+        <a class="nk-language-link" href="{{ nav_alternate_url }}" aria-label="{{ nav_alternate_label|default('English') }}">
+          <img class="nk-language-flag" src="{{ nav_alternate_flag_url }}" width="30" height="30" alt="">
+        </a>
+      {% endif %}
+      {% if nav_is_authenticated|default(false) %}
+        <details class="nk-account" data-nk-account>
+          <summary class="nk-account-trigger" aria-label="{{ nav_account_menu_label|default('Mi cuenta') }}: {{ nav_account_label }}">
+            {% if nav_account_avatar_url|default('') %}
+              <img class="nk-user-avatar" src="{{ nav_account_avatar_url }}" width="38" height="38" alt="">
+            {% else %}
+              <span class="nk-user-avatar" style="--avatar-color: {{ nav_account_color|default('#a414ff') }}" aria-hidden="true">{{ nav_account_initial|default('N') }}</span>
+            {% endif %}
+            <span class="nk-account-name">{{ nav_account_label }}</span>
+            <svg class="nk-account-chevron" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </summary>
+          <nav class="nk-account-panel" aria-label="{{ nav_account_menu_label|default('Mi cuenta') }}">
+            {% for link in nav_account_links|default([]) %}
+              <a href="{{ link.url }}">{{ link.label }}</a>
+            {% endfor %}
+            {% if nav_logout_url|default('') %}
+              <a class="nk-logout-link" href="{{ nav_logout_url }}">{{ nav_logout_label|default('Cerrar sesión') }}</a>
+            {% endif %}
+          </nav>
+        </details>
+      {% else %}
+        <a class="nk-login-link" href="{{ nav_account_url|default('/user/login') }}">{{ nav_login_label|default('Entrar') }}</a>
+      {% endif %}
+    </div>
   </div>
 </header>
+{% if not header_js_attached|default(false) %}
+<script defer src="{{ header_js_url|default('/modules/custom/nelkano_home/js/header.js') }}"></script>
+{% endif %}

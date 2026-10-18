@@ -1,4 +1,7 @@
 services:
+  nelkano_home.sdk_reference:
+    class: Drupal\nelkano_home\Service\SdkReference
+    arguments: ['@entity_type.manager', '@database', '@language_manager']
   nelkano_home.report_bulk_updater:
     class: Drupal\nelkano_home\Service\ReportBulkUpdater
     arguments: ['@entity_type.manager', '@database', '@lock']

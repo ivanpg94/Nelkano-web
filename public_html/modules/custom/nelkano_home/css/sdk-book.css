@@ -10,7 +10,15 @@
 .nkr .r-sdk-body table{display:block;max-width:100%;overflow:auto;border-collapse:collapse;margin:20px 0;font-size:14px}
 .nkr .r-sdk-body td,.nkr .r-sdk-body th{padding:12px;border:1px solid var(--r-border);text-align:left}
 .nkr .r-sdk-body blockquote{margin:20px 0;padding:4px 20px;border-left:3px solid var(--r-primary)}
-.nkr .r-sdk-body img{max-width:100%;height:auto}
+/* data-caption is transformed into figure/figcaption by basic_html. Images
+   remain ordinary links to their full-size static asset; no lightbox required. */
+.nkr .r-sdk-body img{display:block;max-width:100%;height:auto;margin-inline:auto;border:1px solid var(--r-border);border-radius:12px;background:#f8fafc}
+.nkr .r-sdk-body figure{display:block;float:none;width:auto;max-width:100%;margin:24px 0}
+.nkr .r-sdk-body figure>a{display:block;width:fit-content;max-width:100%;margin-inline:auto;border-radius:12px}
+.nkr .r-sdk-body a>img{cursor:zoom-in}
+.nkr .r-sdk-body a:focus-visible{outline:3px solid var(--r-primary);outline-offset:4px}
+.nkr .r-sdk-body figcaption{display:block;max-width:100%;padding:12px 4px 0;color:var(--r-muted);font-size:14px;line-height:1.6;text-align:left;overflow-wrap:anywhere}
+@media(max-width:600px){.nkr .r-sdk-body figure{margin:20px 0}.nkr .r-sdk-body figcaption{font-size:13px}}
 .nkr .r-guide-toc a[aria-current=page]{background:#ede9fe;color:#5b21b6;border-radius:8px;font-weight:600;padding:8px}
 .nkr .r-sdk-depth-1{padding-left:12px}.nkr .r-sdk-depth-2{padding-left:24px}.nkr .r-sdk-depth-3{padding-left:36px}
 .nkr .r-sdk-pagination{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;padding-bottom:32px}
@@ -20,3 +28,7 @@
 @media(min-width:1024px){.nkr .r-sdk-layout{grid-template-columns:260px minmax(0,1fr)}}
 
 .nkr :is(.r-sdk-depth-4,.r-sdk-depth-5,.r-sdk-depth-6,.r-sdk-depth-7,.r-sdk-depth-8){padding-left:40px}
+
+/* basic_html keeps block examples as top-level code when it removes pre. */
+.nkr .r-sdk-body>code{display:block;max-width:100%;overflow:auto;background:#0f172a;color:#e2e8f0;border:1px solid var(--r-border);border-radius:12px;padding:20px;margin:20px 0;white-space:pre;overflow-wrap:normal}
+.nkr .r-sdk-body{min-width:0}

@@ -73,7 +73,25 @@ es:
       apk_file: 'private://nelkano-releases/Nelkano 3.0.1-beta.apk'
       filename: 'Nelkano 3.0.1-beta.apk'
       date: 12/10/2026
-      changes: "Corrección del resaltado de Home al navegar por pantalla táctil sin mando conectado.\r\nEl teclado virtual de Android ya no se detecta como mando.\nLos controles táctiles se ocultan al usar el mando y reaparecen al tocar la pantalla."
+      changes: "Corrección del resaltado de Home al navegar por pantalla táctil sin mando conectado.\r\nEl teclado virtual de Android ya no se detecta como mando.\r\nLos controles táctiles se ocultan al usar el mando y reaparecen al tocar la pantalla."
+    -
+      visible: true
+      version: 3.0.2-beta
+      platform: android
+      version_code: '12'
+      apk_file: 'private://nelkano-releases/Nelkano 3.0.2-beta.apk'
+      filename: 'Nelkano 3.0.2-beta.apk'
+      date: 13/10/2026
+      changes: 'Mejoras de compatibilidad con PS1.'
+    -
+      visible: false
+      version: 3.0.3-beta
+      platform: android
+      version_code: ''
+      apk_file: ''
+      filename: 'Nelkano 3.0.3-beta.apk'
+      date: ''
+      changes: "- Optimizaciones de carga de modulos al iniciar la aplicacion\r\n- correcciones de bugs de ps1\r\n- mejoras de compatibilidad y rendimiento de psp\r\n- nuevo modulo multijugador para gba y ps1"
     -
       visible: false
       version: 1.0.0-beta
@@ -101,15 +119,6 @@ es:
       filename: 'Nelkano SDK Studio 1.0.0-beta-windows.zip'
       date: 12/10/2026
       changes: 'Primera beta de Nelkano SDK Studio para Windows.'
-    -
-      visible: true
-      version: 3.0.2-beta
-      platform: android
-      version_code: '12'
-      apk_file: 'private://nelkano-releases/Nelkano 3.0.2-beta.apk'
-      filename: 'Nelkano 3.0.2-beta.apk'
-      date: 13/10/2026
-      changes: 'Mejoras de compatibilidad con PS1.'
   compatibility_seo_title: 'Compatibilidad de Nelkano'
   compatibility_seo_description: 'Estado real de compatibilidad de los sistemas soportados por Nelkano para Android.'
   compatibility_eyebrow: Compatibilidad
@@ -213,6 +222,24 @@ en:
       date: 12/10/2026
       changes: "Fixed Home remaining highlighted during touch navigation without a connected controller.\r\nThe Android virtual keyboard is no longer detected as a controller.\nTouch controls hide when using the controller and reappear when touching the screen."
     -
+      visible: true
+      version: 3.0.2-beta
+      platform: android
+      version_code: '12'
+      apk_file: 'private://nelkano-releases/Nelkano 3.0.2-beta.apk'
+      filename: 'Nelkano 3.0.2-beta.apk'
+      date: 13/10/2026
+      changes: 'PS1 compatibility improvements.'
+    -
+      visible: false
+      version: 3.0.3-beta
+      platform: android
+      version_code: ''
+      apk_file: ''
+      filename: 'Nelkano 3.0.3-beta.apk'
+      date: ''
+      changes: "- Optimizaciones de carga de modulos al iniciar la aplicacion\r\n- correcciones de bugs de ps1\r\n- mejoras de compatibilidad y rendimiento de psp\r\n- nuevo modulo multijugador para gba y ps1"
+    -
       visible: false
       version: 1.0.0-beta
       platform: windows
@@ -239,15 +266,6 @@ en:
       filename: 'Nelkano SDK Studio 1.0.0-beta-windows.zip'
       date: 12/10/2026
       changes: 'First beta of Nelkano SDK Studio for Windows.'
-    -
-      visible: true
-      version: 3.0.2-beta
-      platform: android
-      version_code: '12'
-      apk_file: 'private://nelkano-releases/Nelkano 3.0.2-beta.apk'
-      filename: 'Nelkano 3.0.2-beta.apk'
-      date: 13/10/2026
-      changes: 'PS1 compatibility improvements.'
   compatibility_seo_title: 'Nelkano compatibility'
   compatibility_seo_description: 'Real compatibility status for the systems supported by Nelkano on Android.'
   compatibility_eyebrow: Compatibility

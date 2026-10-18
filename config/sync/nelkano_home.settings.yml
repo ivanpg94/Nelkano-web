@@ -5,12 +5,6 @@ es:
   nav_language: English
   feature_items:
     -
-      title: 'Módulos y SDK'
-      description: 'Añade funciones con módulos JavaScript o TypeScript y los recursos del SDK.'
-      visible: '1'
-      icon: IcoPencilTouch
-      image_uri: ''
-    -
       title: 'Mando Bluetooth'
       description: 'Usa un mando reconocido por tu dispositivo y configura sus botones por sistema. La compatibilidad depende del mando y de la plataforma.'
       visible: '1'
@@ -70,6 +64,16 @@ es:
   status_title: 'Estado real de los sistemas'
   status_description: 'Algunos sistemas ya estan en una fase muy usable; otros siguen mejorando precision y compatibilidad. El estado se basa en pruebas tecnicas y trabajo real del emulador.'
   status_items: "CHIP-8|Muy estable|Emulacion ligera y madura para programas CHIP-8, con una base estable para entrada, video y guardado.\r\nGame Boy|Muy estable|Emulador DMG solido para abrir archivos compatibles, guardar y cargar, con pruebas enfocadas en compatibilidad real.\r\nGame Boy Color|Avanzado|Compatibilidad CGB con color, bancos de memoria, paletas, HDMA y mejoras clave; sigue en pulido de precision.\r\nGame Boy Advance|Jugable y en mejora|Ejecuta una parte creciente de la biblioteca compatible y se sigue midiendo con pruebas reales para ampliar compatibilidad.\r\nNES|Jugable y muy avanzado|Emulacion NES con video, audio, mandos y muchos mappers importantes; la suite de pruebas y compatibilidad ya ofrece una base muy solida.\r\nRPG Maker MV/MZ|Experimental funcional|Runtime por WebView/NW.js para juegos exportados por el propio RPG Maker, con importacion, input, audio y guardados en evolucion.\r\nRPG Maker 2000/2003|Core propio en preparacion|El soporte se hara con un core propio de Nelkano para poder integrarlo dentro de Android sin depender de runtimes externos.\r\nNintendo DS|Experimental activo|Foco tecnico actual: ARM9/ARM7, planificador interno, comunicacion entre procesadores, video 2D/3D parcial, timings, guardados y arranque de pruebas cada vez mas exigentes."
+  extensions_enabled: true
+  extensions_eyebrow: 'Módulos y SDK'
+  extensions_title: 'Amplía Nelkano'
+  extensions_description: 'Añade funciones a tu experiencia o crea tus propios módulos.'
+  extensions_modules_title: 'Añade nuevas funciones'
+  extensions_modules_description: 'Descubre módulos para personalizar tu experiencia con Nelkano.'
+  extensions_modules_cta: 'Explorar módulos'
+  extensions_sdk_title: 'Crea tu propio módulo'
+  extensions_sdk_description: 'Desarrolla y prueba tus ideas con SDK Studio.'
+  extensions_sdk_cta: 'Empezar con el SDK'
   platforms_enabled: true
   platforms_eyebrow: Plataformas
   platforms_title: 'Android y escritorio'
@@ -173,12 +177,6 @@ en:
   nav_language: Español
   feature_items:
     -
-      title: 'Modules and SDK'
-      description: 'Add features through JavaScript or TypeScript modules and SDK capabilities.'
-      visible: '1'
-      icon: IcoPencilTouch
-      image_uri: ''
-    -
       title: 'Bluetooth controllers'
       description: 'Use a controller recognized by your device and configure its buttons per system. Support depends on the controller and platform.'
       visible: '1'
@@ -246,6 +244,16 @@ en:
     RPG Maker MV/MZ|Functional experimental|WebView/NW.js runtime for games exported by RPG Maker itself, with import, input, audio and saves still evolving.
     RPG Maker 2000/2003|Preparing own core|Support will use Nelkano own core so it can be integrated into Android without relying on external runtimes.
     Nintendo DS|Active experimental|Current technical focus: ARM9/ARM7, internal scheduling, processor communication, partial 2D/3D video, timings, saves and increasingly demanding boot tests.
+  extensions_enabled: true
+  extensions_eyebrow: 'Modules and SDK'
+  extensions_title: 'Extend Nelkano'
+  extensions_description: 'Add features to your experience or create your own modules.'
+  extensions_modules_title: 'Add new features'
+  extensions_modules_description: 'Discover modules to personalize your Nelkano experience.'
+  extensions_modules_cta: 'Explore modules'
+  extensions_sdk_title: 'Create your own module'
+  extensions_sdk_description: 'Develop and test your ideas with SDK Studio.'
+  extensions_sdk_cta: 'Get started with the SDK'
   platforms_enabled: true
   platforms_eyebrow: Platforms
   platforms_title: 'Android and desktop'

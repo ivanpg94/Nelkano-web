@@ -151,32 +151,43 @@ ficha en escritorio/móvil. Update 11037 aplicado solamente en Docker local.
 ## Demostración persistente del buscador (solo local)
 
 scripts/module-demo.json define 16 fichas con propietarios ficticios, 14 portadas,
-plataformas Android/escritorio, versiones anteriores y una versión retirada.
-Los títulos incluyen (prueba) y las descripciones explican que las descargas
-son simuladas. Se conservan para revisar /modulos; no pertenecen al fixture
-temporal de pruebas ni se eliminan al terminar la comprobación visual.
+plataformas Android/escritorio y versiones anteriores. Son ejemplos inocuos:
+los paquetes firmados se descargan de verdad, pero su JavaScript no implementa
+las funciones anunciadas en las fichas. No son módulos de producto.
 
-Para recrear/restaurar sin duplicar desde la raíz de nelkano-web:
+Para crear o reparar las fichas registradas por la receta, sin duplicarlas:
 
-    node scripts/render-module-demo.cjs
-    docker compose exec -T drupal mkdir -p /tmp/nelkano-module-demo
-    docker compose cp outputs/module-demo/. drupal:/tmp/nelkano-module-demo/
     docker compose exec -T -u www-data -e NELKANO_LOCAL_MODULE_DEMO=1 drupal vendor/bin/drush php:script scripts/seed-module-demo.php
 
-El render usa Playwright/Chrome y los SVG ya existentes del sitio; NODE_PATH
-puede resolver las dependencias del runtime local. Las PNG de outputs/module-demo
-son salidas desechables: su receta está en scripts y no depende de build.
-El seed exige opt-in, base nelkano_drupal y host database. No es un update N ni
-una receta de producción. Solo crea/restaura entidades registradas en el estado
-local nelkano_modules_demo_content, con paquetes firmados de prueba y transporte
-simulado únicamente en ese proceso; no modifica validadores ni cron de producción.
-La identidad de firma de demostración se conserva solo en ese estado local.
+La receta exige CLI, opt-in y la base Docker nelkano_drupal en host database.
+Antes de escribir verifica TODOS los ID, propietarios de demo, huellas de autor,
+tamaños y hashes de los paquetes reconstruidos. Conserva nombres, imágenes,
+propietarios e identidades. No adopta fichas o cuentas ajenas y nunca cambia
+los roles persistentes: el permiso de administración del verificador se aplica
+sólo a una UserSession acotada con el mismo UID de cada autor ficticio.
 
-Los enlaces GitHub son ficticios y no ofrecen descargas reales. El cron normal
-puede retirar estas versiones del buscador al comprobar sus enlaces; repetir
-el seed restaura los ejemplos sin duplicarlos, conservando ediciones de las fichas.
-Verificación visual local: 16 resultados, páginas de 12 + 4, búsqueda AJAX,
-11 resultados Android y 11 escritorio, imágenes, versiones y presentación móvil.
+Las versiones descargables se guardan como archivos gestionados privados y se
+sirven mediante el controlador oficial con audiencia public/download_auth none.
+No hay URLs ficticias marcadas disponibles ni transporte simulado. La firma y
+los hashes permanecen idénticos a los originales. El cron comprueba esos bytes
+locales; no retira los ejemplos por buscar repositorios inexistentes.
+
+La versión retirada editor-de-mandos 1.0.0 se conserva sin paquete asociado,
+sin cambiar su estado, hash ni fecha de comprobación. Al reconstruir desde cero
+se omite esa versión intencionalmente retirada si no existe; no se inventa una
+descarga disponible. Cada una de las 16 fichas mantiene al menos una versión válida.
+Los archivos ya asociados se reutilizan al repetir; las imágenes existentes
+no necesitan renderizarse ni copiarse de nuevo. Para una creación nueva sin
+ilustración guardada se requieren sus PNG en /tmp/nelkano-module-demo, preparadas
+con la receta permanente scripts/render-module-demo.cjs; las salidas son desechables.
+
+Los nodos nuevos se crean en español y la migración de idioma usa
+ModuleRegistry::setContentLanguage con revisión esperada para ficha y versiones,
+sin alterar firmas, tamaños, fechas de comprobación ni disponibilidad. El índice
+se reconstruye al terminar. La identidad de firma de estas muestras permanece
+sólo en el estado local nelkano_modules_demo_content; no se imprime ni se exporta.
+No ejecutar esta receta como actualización o despliegue en producción.
+
 ### Sistemas compatibles
 
 La ficha permite marcar varios sistemas emulados mediante casillas nativas de Drupal. Campo `field_module_systems`, `list_string`, cardinalidad ilimitada; IDs compartidos con `GameSystems` de la nueva app. Es metadata declarada por el propietario, distinta de las plataformas Android/Windows/Linux verificadas en los paquetes. La selección se muestra en tarjetas y ficha. Sin selección, sigue visible sin filtro y no coincide con un sistema concreto.

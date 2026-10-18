@@ -1,0 +1,49 @@
+/* Task-based usage guide; shared SDK book styles stay unchanged. */
+.nkr .r-usage-guide .r-guide-hero{padding:0}
+.nkr .r-usage-guide .r-guide-hero .r-wrap{padding-block:28px}
+.nkr .r-usage-guide .r-guide-hero h1{font-size:clamp(1.8rem,4vw,2.5rem);margin-bottom:10px}
+.nkr .r-usage-guide .r-guide-hero .r-copy{max-width:65ch;font-size:16px;line-height:1.6}
+.nkr .r-usage-guide .r-guide-layout{gap:24px;padding-block:28px;align-items:start}
+.nkr .r-usage-guide .r-guide-toc{padding:16px;border-radius:14px}
+.nkr .r-usage-guide .r-guide-toc a{padding:11px 8px}
+.nkr .r-usage-guide .r-guide-toc a span{min-width:20px}
+.nkr .r-usage-guide .r-guide-toc-title{margin:0 0 8px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#64748b}
+.nkr .r-usage-guide .r-guide-sections{gap:12px}
+.nkr .r-usage-guide .r-guide-group{border:1px solid var(--r-border);border-radius:14px;background:#fff;scroll-margin-top:90px;min-width:0}
+.nkr .r-usage-guide .r-guide-group-heading{padding:20px;border-bottom:1px solid var(--r-border)}
+.nkr .r-usage-guide .r-guide-group h2{font-size:19px;line-height:1.35;margin:0;display:block}
+.nkr .r-usage-guide .r-guide-group-tasks{padding-inline:20px}
+.nkr .r-usage-guide article.r-guide-task{padding-block:24px;border-bottom:1px solid var(--r-border);scroll-margin-top:90px;min-width:0}
+.nkr .r-usage-guide article.r-guide-task:last-child{border-bottom:0}
+.nkr .r-usage-guide .r-guide-task-copy{min-width:0}
+.nkr .r-usage-guide .r-guide-task h3{font-size:17px;line-height:1.4;margin:0 0 12px;font-weight:700;letter-spacing:-.01em;color:#1e293b}
+.nkr .r-usage-guide .r-guide-task p,.nkr .r-usage-guide .r-guide-task li{font-size:15px;line-height:1.6;white-space:normal}
+.nkr .r-usage-guide .r-guide-task p{margin:0 0 12px;color:#475569}
+.nkr .r-usage-guide ol.r-guide-task-steps{display:grid;gap:10px;list-style:decimal;padding-left:22px;margin:0}
+.nkr .r-usage-guide .r-guide-task-steps li{padding-left:4px;color:#1e293b}
+.nkr .r-usage-guide .r-guide-task-steps li::marker{font-weight:700;color:#7c3aed}
+.nkr .r-usage-guide ul.r-guide-notes{display:grid;gap:6px;padding-left:16px;border-left:2px solid #ddd6fe;list-style:none;margin:18px 0 0}
+.nkr .r-usage-guide .r-guide-notes li{color:#64748b;font-size:13px;line-height:1.55}
+.nkr .r-usage-guide .r-guide-figure{width:100%;max-width:250px;margin:20px 0 0;align-self:start}
+.nkr .r-usage-guide .r-guide-image{position:relative;display:block;margin:0;border-radius:10px;background:#f1f5f9}
+.nkr .r-usage-guide .r-guide-image img{display:block;width:100%;height:300px;object-fit:cover;object-position:center}
+.nkr .r-usage-guide .r-guide-focus-top img{object-position:center top}
+.nkr .r-usage-guide .r-guide-focus-lower img{object-position:center 70%}
+.nkr .r-usage-guide .r-guide-focus-bottom img{object-position:center bottom}
+.nkr .r-usage-guide .r-guide-zoom{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:7px 10px;border-top:1px solid var(--r-border);background:white;color:#6d28d9;font-size:12px;line-height:1.4}
+.nkr .r-usage-guide #guide-1 .r-guide-image img{height:190px}
+.nkr .r-usage-guide #guide-2 .r-guide-image img{height:210px;object-position:center 80%}
+.nkr .r-usage-guide .r-guide-special-formats{margin-top:16px}
+.nkr .r-usage-guide .r-guide-special-formats-title{margin:0;color:#64748b;font-size:13px;line-height:1.5;font-weight:600}
+.nkr .r-usage-guide .r-guide-special-formats .r-guide-notes{margin-top:10px}
+.nkr .r-usage-guide .r-guide-figure figcaption{font-size:12px;line-height:1.45;margin-top:8px;color:#64748b}
+.nkr .r-usage-guide a:focus-visible,.nkr .r-usage-guide button:focus-visible{outline:3px solid #7c3aed;outline-offset:4px}
+@media(min-width:760px){
+  .nkr .r-usage-guide article.r-guide-task-illustrated{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:28px;align-items:start}
+  .nkr .r-usage-guide .r-guide-figure{margin:0}
+}
+@media(min-width:1024px){
+  .nkr .r-usage-guide .r-guide-layout{grid-template-columns:210px minmax(0,1fr);gap:28px;padding-block:32px}
+  .nkr .r-usage-guide .r-guide-group-heading{padding:20px 24px}
+  .nkr .r-usage-guide .r-guide-group-tasks{padding-inline:24px}
+}

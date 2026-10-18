@@ -69,6 +69,17 @@ $assert(!array_intersect(['uid', 'revision_uid', 'nid', 'vid', 'created', 'passw
 // Restore source through revisions and verify export shape.
 $transfer->import($source);
 $assert($transfer->export($source['book']) == $source, 'restore exact book content through import');
+// Versioned documentation assets are static files, not transported uploads.
+$illustrated = $source;
+$documentationImage = '<a href="/modules/custom/nelkano_home/assets/docs/sdk/module-lifecycle.svg"><img src="/modules/custom/nelkano_home/assets/docs/sdk/module-lifecycle.svg" alt="Ciclo de un módulo" width="1120" height="640" data-caption="Diagrama del SDK. Pulsa para ampliar."></a>';
+$illustrated['pages'][0]['translations']['es']['body']['value'] .= $documentationImage;
+$transfer->import($illustrated, TRUE);
+$transfer->import($illustrated);
+$assert($transfer->export($source['book']) == $illustrated, 'static documentation image, link, alt and caption round-trip through import/export');
+$render = ['#type' => 'processed_text', '#text' => $documentationImage, '#format' => 'basic_html', '#langcode' => 'es'];
+$rendered = (string) \Drupal::service('renderer')->renderInIsolation($render);
+$assert(str_contains($rendered, '<figure') && str_contains($rendered, '<figcaption') && str_contains($rendered, 'href="/modules/custom/nelkano_home/assets/docs/sdk/module-lifecycle.svg"') && str_contains($rendered, 'alt="Ciclo de un módulo"'), 'basic_html creates linked figure/caption and preserves alt without format changes');
+$transfer->import($source);
 // Add actual translations and cross-language links, fragments, queries and weights.
 $translated = $source;
 $translated['pages'][0]['translations']['en'] = [

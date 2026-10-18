@@ -62,10 +62,48 @@ usa enlaces internos relativos al sitio, sin codificar el dominio local.
 La salida tiene un allowlist estricto: solamente los campos del esquema anterior.
 No incluye autores, usuarios, correos, permisos, tokens, contraseñas, timestamps,
 metadata de revisiones, reportes, backlog, archivos ni otros libros. Se rechazan
-campos desconocidos y medios incrustados/subidos; no se transportan uploads.
+campos desconocidos y medios incrustados/subidos. La excepción son las imágenes
+estáticas versionadas del SDK descritas a continuación; no se transportan uploads.
 El texto editorial puede contener lo que escriba un editor: revisa su diff para
 asegurar que no ha pegado credenciales, datos personales o material privado.
 Un YAML editorial nunca sustituye un backup de la base de datos.
+
+## Imágenes estáticas del libro
+
+Las capturas aprobadas y los diagramas fuente se versionan junto al módulo en
+`public_html/modules/custom/nelkano_home/assets/docs/sdk/`. Usa nombres en
+minúsculas con letras, números, guiones y guiones bajos; admite subdirectorios
+como `20261018/`. El enlace público comienza por
+`/modules/custom/nelkano_home/assets/docs/sdk/` y termina en `.png`, `.webp` o
+`.svg`, sin parámetros, fragmentos, rutas relativas ni codificación porcentual.
+No uses `content/` como alojamiento público: está fuera del docroot.
+
+El HTML conserva un enlace al archivo completo, texto alternativo y pie:
+
+```html
+<a href="/modules/custom/nelkano_home/assets/docs/sdk/module-lifecycle.svg"><img src="/modules/custom/nelkano_home/assets/docs/sdk/module-lifecycle.svg" alt="Ciclo de un módulo: activación, contribuciones y acciones" width="1120" height="640" data-caption="SDK · Ciclo de la interfaz. Pulsa la imagen para ampliarla."></a>
+```
+
+`basic_html` ya permite estos atributos. Su filtro `data-caption` genera
+`figure`/`figcaption` después del filtrado; no escribas esos elementos a mano ni
+cambies el formato global. El enlace permite ampliar sin JavaScript. Los pies
+identifican Android, Desktop o Studio; una imagen de Studio no demuestra una
+prueba real del hardware. Revisa datos personales antes de versionar capturas.
+
+El importador sólo conserva las referencias; **no copia los archivos**. Despliega
+los assets versionados junto al código antes de importar el libro y comprueba sus
+URLs. No requiere entidades file/media, uploads ni SQL. Conserva los SVG como
+fuente; usa dimensiones reales para las capturas. Se mantiene el rechazo de
+archivos subidos, URLs remotas en imágenes y atributos alternativos como srcset.
+
+Comprobación focalizada, sin conexión a la base de datos:
+
+```sh
+docker exec nelkano-drupal php scripts/test-book-static-assets.php
+```
+
+La prueba de integración del libro en la base QA aislada añade un round-trip de
+imagen, enlace y pie. Sus cambios de fixture se revierten al terminar.
 
 ## Editar local → exportar → Git
 
@@ -104,15 +142,15 @@ Un YAML editorial nunca sustituye un backup de la base de datos.
 Después de aprobar la entrega, conserva backups fuera del docroot y concilia los
 cambios editoriales del servidor. Ejecuta el despliegue existente para instalar
 Composer y sincronizar configuración. No cambiar el UUID del sitio ni sustituir
-settings.php. El script de despliegue existente **no importa automáticamente el
-libro**: el contenido tiene una fase explícita y revisable.
+settings.php. El script de despliegue existente simula e importa automáticamente
+`content/books/nelkano-sdk.yml` después de `drush deploy`. Revisar y conciliar el
+YAML antes de ejecutar la entrega; un fallo de simulación detiene el script.
 
 ```sh
-bash scripts/deploy-hostinger.sh
+# Simulación opcional previa para revisar el plan de contenido:
 ./vendor/bin/drush --root=public_html book:import content/books/nelkano-sdk.yml --dry-run
-# Revisar el plan; aplicar solo la entrega aprobada:
-./vendor/bin/drush --root=public_html book:import content/books/nelkano-sdk.yml
-./vendor/bin/drush --root=public_html cr
+# La entrega aprobada instala, actualiza, importa configuración y después el Book:
+bash scripts/deploy-hostinger.sh
 ```
 
 Alternativa preparada: `bash scripts/import-sdk-book.sh` simula; añadir `--apply`

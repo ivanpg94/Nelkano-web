@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.nelkano_module.field_module_access
     - field.field.node.nelkano_module.field_module_author
     - field.field.node.nelkano_module.field_module_available
     - field.field.node.nelkano_module.field_module_description
@@ -74,6 +75,7 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  field_module_access: true
   field_module_author: true
   field_module_available: true
   field_module_description: true

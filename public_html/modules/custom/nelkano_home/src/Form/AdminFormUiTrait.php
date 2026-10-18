@@ -3,19 +3,23 @@
 namespace Drupal\nelkano_home\Form;
 
 use Drupal\Core\Url;
+use Drupal\Core\Render\Markup;
+use Drupal\nelkano_home\Controller\NelkanoPageContextTrait;
 
 trait AdminFormUiTrait {
+
+  use NelkanoPageContextTrait;
 
   private function applyNelkanoAdminChrome(array &$form, string $activeKey, string $title, string $description, string $publicPath, string $activeLanguage): void {
     $module_path = \Drupal::service('extension.list.module')->getPath('nelkano_home');
     $form['#attached']['library'][] = 'nelkano_home/admin_forms';
     $form['#attributes']['class'][] = 'nk-admin-config-form';
-    $form['#prefix'] = $this->nelkanoAdminHeader($module_path) . '<div class="nk-admin-app"><div class="nk-admin-body">' . $this->nelkanoAdminSidebar($activeKey) . '<div class="nk-admin-workspace"><section class="nk-admin-panel">';
+    $redesigned = in_array($activeKey, ['home','systems','privacy_cookies','legal_notice','releases','security','all','guide','seo','sdk'], TRUE);
+    $form['#prefix'] = $this->nelkanoAdminPrefix($module_path, $activeKey, $redesigned ? 'nk-redesign-admin' : '');
     $form['#suffix'] = '</section></div></div></div>';
-    if (in_array($activeKey, ['home','systems','privacy_cookies','legal_notice','releases','security','all','guide','seo','sdk'], TRUE)) {
+    if ($redesigned) {
       $title = ($activeLanguage === 'es' ? 'Editar: ' : 'Edit: ') . $title;
       $form['#attached']['library'][] = 'nelkano_home/redesign_admin';
-      $form['#prefix'] = str_replace('class="nk-admin-app"', 'class="nk-admin-app nk-redesign-admin"', $form['#prefix']);
     }
 
     $form['admin_header'] = [
@@ -45,34 +49,17 @@ trait AdminFormUiTrait {
     }
   }
 
-  private function nelkanoAdminHeader(string $modulePath): string {
-    $account = \Drupal::currentUser();
-    $name = trim((string) $account->getDisplayName());
-    $initial = mb_strtoupper(mb_substr($name !== '' ? $name : 'N', 0, 1));
-    $template = file_get_contents(DRUPAL_ROOT . '/' . $modulePath . '/templates/nelkano-header.html.twig');
+  /** Shared trusted wrapper: Twig escapes account data and the sidebar escapes URLs. */
+  private function nelkanoAdminPrefix(string $modulePath, string $activeKey, string $appClasses = '', string $panelClasses = ''): Markup {
+    return Markup::create($this->nelkanoAdminHeader($modulePath)
+      . '<div class="nk-admin-app ' . htmlspecialchars($appClasses, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '"><div class="nk-admin-body">'
+      . $this->nelkanoAdminSidebar($activeKey)
+      . '<div class="nk-admin-workspace"><section class="nk-admin-panel ' . htmlspecialchars($panelClasses, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '">');
+  }
 
-    return \Drupal::service('twig')->createTemplate($template)->render([
-      'language' => 'es',
-      'logo_url' => '/' . $modulePath . '/assets/logo-nav.webp',
-      'nav_home_url' => '/',
-      'nav_subtitle' => 'Emulador para Android',
-      'nav_aria_label' => 'Navegacion principal',
-      'nav_alternate_url' => '',
-      'nav_is_authenticated' => TRUE,
-      'nav_account_label' => $name,
-      'nav_profile_label' => 'Mi perfil',
-      'nav_account_url' => '/user',
-      'nav_account_initial' => $initial,
-      'nav_account_color' => '#a414ff',
-      'nav_account_avatar_url' => '',
-      'nav_logout_url' => Url::fromUserInput('/user/logout', [
-        'query' => ['token' => \Drupal::service('csrf_token')->get('user/logout')],
-      ])->toString(),
-      'nav_logout_label' => 'Cerrar sesion',
-      'nav_links' => [
-        ['label' => 'Admin', 'url' => Url::fromRoute('nelkano_home.admin_home')->toString()],
-      ],
-    ]);
+  private function nelkanoAdminHeader(string $modulePath): string {
+    $template = file_get_contents(DRUPAL_ROOT . '/' . $modulePath . '/templates/nelkano-header.html.twig');
+    return \Drupal::service('twig')->createTemplate($template)->render($this->chromeContext($modulePath, 'es', '', '') + ['header_js_attached' => TRUE]);
   }
 
   private function nelkanoAdminLanguageLinks(string $activeLanguage): string {
@@ -101,6 +88,13 @@ trait AdminFormUiTrait {
   private function adminLabel(string $label, string $language): string {
     $spanish = [
       'Navigation' => 'Navegacion',
+      'Extensions' => 'Amplía Nelkano',
+      'Modules card title' => 'Título de la tarjeta de módulos',
+      'Modules card description' => 'Descripción de la tarjeta de módulos',
+      'Modules button label' => 'Texto del botón de módulos',
+      'SDK card title' => 'Título de la tarjeta del SDK',
+      'SDK card description' => 'Descripción de la tarjeta del SDK',
+      'SDK button label' => 'Texto del botón del SDK',
       'Hero' => 'Cabecera principal',
       'Downloads' => 'Descargas',
       'About' => 'Informacion',

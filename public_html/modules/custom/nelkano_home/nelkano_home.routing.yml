@@ -783,6 +783,16 @@ nelkano_home.systems_index_es:
   options:
     no_cache: TRUE
 
+nelkano_home.sdk_reference:
+  path: '/api/nelkano/v1/sdk/reference'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\SdkReferenceController::reference'
+  requirements:
+    _access: 'TRUE'
+  methods: [GET, HEAD]
+  options:
+    no_cache: TRUE
+
 nelkano_home.systems_index_en:
   path: '/en/systems'
   defaults:
@@ -933,3 +943,61 @@ nelkano_home.platform_release_download:
   options:
     no_cache: TRUE
 
+
+
+nelkano_home.backlog_api_list:
+  path: '/api/nelkano/v1/backlog/hu'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\BacklogApiController::listing'
+  requirements:
+    _access: 'TRUE'
+  methods: [GET]
+  options:
+    no_cache: TRUE
+
+nelkano_home.backlog_api_create:
+  path: '/api/nelkano/v1/backlog/hu'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\BacklogApiController::createHu'
+  requirements:
+    _access: 'TRUE'
+  methods: [POST]
+  options:
+    no_cache: TRUE
+
+nelkano_home.backlog_api_detail:
+  path: '/api/nelkano/v1/backlog/hu/{hu}'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\BacklogApiController::detail'
+  requirements:
+    _access: 'TRUE'
+    hu: '[1-9][0-9]*'
+  methods: [GET]
+  options:
+    no_cache: TRUE
+
+nelkano_home.backlog_api_update:
+  path: '/api/nelkano/v1/backlog/hu/{hu}'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\BacklogApiController::updateHu'
+  requirements:
+    _access: 'TRUE'
+    hu: '[1-9][0-9]*'
+  methods: [PATCH]
+  options:
+    no_cache: TRUE
+
+# Dedicated initial installer URL; existing ZIP URLs keep serving ZIP bytes.
+nelkano_home.sdk_installer_download:
+  path: '/descargar/{language}/{platform}/{version}/instalador'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::downloadRelease'
+    platform: 'sdk'
+    installer: TRUE
+  requirements:
+    _access: 'TRUE'
+    platform: 'sdk'
+    language: 'es|en'
+    version: '[A-Za-z0-9.+_-]+'
+  options:
+    no_cache: TRUE

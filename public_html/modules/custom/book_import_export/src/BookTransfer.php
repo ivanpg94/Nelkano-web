@@ -127,8 +127,30 @@ final class BookTransfer {
 
   /** Preserve markup bytes; rewrite only href attribute values, including unquoted. */
   private function links(string $html, callable $rewrite): string {
-    if (preg_match('~<(?:img|iframe|video|audio|source)\b|data-entity-type\s*=\s*["\x27]?(?:file|media)~i', $html)) {
+    if (preg_match('~<(?:iframe|video|audio|source)\b|data-entity-type\s*=\s*["\x27]?(?:file|media)~i', $html)) {
       throw new \InvalidArgumentException('Uploaded/embedded media are not portable; use an external text link.');
+    }
+    // Source-controlled SDK documentation assets travel with the deployed module,
+    // not with Drupal file/media entities. Validate without rewriting HTML bytes.
+    if (preg_match('~<img\b~i', $html)) {
+      $document = \Drupal\Component\Utility\Html::load($html);
+      foreach ($document->getElementsByTagName('img') as $image) {
+        $src = $image->getAttribute('src');
+        if (!preg_match('~^/modules/custom/nelkano_home/assets/docs/sdk/(?:[a-z0-9][a-z0-9_-]*/)*[a-z0-9][a-z0-9_-]*\.(?:png|webp|svg)$~D', $src)) {
+          throw new \InvalidArgumentException('Book images must use normalized versioned SDK documentation assets (png, webp or svg).');
+        }
+        $parent = $image->parentNode;
+        if ($parent instanceof \DOMElement && strtolower($parent->tagName) === 'a' && $parent->getAttribute('href') !== $src) {
+          throw new \InvalidArgumentException('A documentation image link must open the same static asset.');
+        }
+        // No alternate URL, browser handler or managed-file metadata may bypass
+        // the src allowlist. data-caption is handled by the existing text filter.
+        foreach ($image->attributes as $attribute) {
+          if (!in_array(strtolower($attribute->name), ['src', 'alt', 'width', 'height', 'data-caption', 'data-align'], TRUE)) {
+            throw new \InvalidArgumentException('Unsupported documentation image attribute.');
+          }
+        }
+      }
     }
     return preg_replace_callback('~(\bhref\s*=\s*)(?:"([^"]*)"|\x27([^\x27]*)\x27|([^\s>]+))~i', function (array $match) use ($rewrite): string {
       $href = html_entity_decode($match[2] ?: ($match[3] ?? '') ?: ($match[4] ?? ''), ENT_QUOTES | ENT_HTML5, 'UTF-8');

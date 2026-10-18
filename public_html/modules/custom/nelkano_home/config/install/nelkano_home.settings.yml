@@ -1,4 +1,14 @@
 es:
+  extensions_enabled: true
+  extensions_eyebrow: "Módulos y SDK"
+  extensions_title: "Amplía Nelkano"
+  extensions_description: "Añade funciones a tu experiencia o crea tus propios módulos."
+  extensions_modules_title: "Añade nuevas funciones"
+  extensions_modules_description: "Descubre módulos para personalizar tu experiencia con Nelkano."
+  extensions_modules_cta: "Explorar módulos"
+  extensions_sdk_title: "Crea tu propio módulo"
+  extensions_sdk_description: "Desarrolla y prueba tus ideas con SDK Studio."
+  extensions_sdk_cta: "Empezar con el SDK"
   nav_language: English
   seo_title: Nelkano — Emulador multisistema gratuito
   seo_description: Emulador gratuito con biblioteca local, controles personalizables y módulos. Consulta las funciones, los sistemas y las descargas disponibles para cada plataforma.
@@ -106,11 +116,6 @@ es:
   footer_primary: Emulador multisistema gratuito, ampliable con módulos.
   footer_secondary: ''
   feature_items:
-  - title: Módulos y SDK
-    description: Añade funciones con módulos JavaScript o TypeScript y los recursos del SDK.
-    visible: '1'
-    icon: IcoPencilTouch
-    image_uri: ''
   - title: Mando Bluetooth
     description: Usa un mando reconocido por tu dispositivo y configura sus botones por sistema. La compatibilidad depende del mando y de la plataforma.
     visible: '1'
@@ -132,6 +137,16 @@ es:
     icon: IcoZip
     image_uri: ''
 en:
+  extensions_enabled: true
+  extensions_eyebrow: "Modules and SDK"
+  extensions_title: "Extend Nelkano"
+  extensions_description: "Add features to your experience or create your own modules."
+  extensions_modules_title: "Add new features"
+  extensions_modules_description: "Discover modules to personalize your Nelkano experience."
+  extensions_modules_cta: "Explore modules"
+  extensions_sdk_title: "Create your own module"
+  extensions_sdk_description: "Develop and test your ideas with SDK Studio."
+  extensions_sdk_cta: "Get started with the SDK"
   nav_language: Espanol
   seo_title: Nelkano — Free multisystem emulator
   seo_description: Free emulator with a local library, customizable controls and modules. Check the features, systems and downloads available for each platform.
@@ -222,11 +237,6 @@ en:
   footer_primary: Free multisystem emulator, extensible through modules.
   footer_secondary: ''
   feature_items:
-  - title: Modules and SDK
-    description: Add features through JavaScript or TypeScript modules and SDK capabilities.
-    visible: '1'
-    icon: IcoPencilTouch
-    image_uri: ''
   - title: Bluetooth controllers
     description: Use a controller recognized by your device and configure its buttons per system. Support depends on the controller and platform.
     visible: '1'

@@ -10,9 +10,16 @@ final class GuideSettingsForm extends ConfigFormBase {
   private const ROWS=['layout'=>'cards','title'=>'Secciones de la guía','columns'=>[
     'visible'=>['title'=>'Visible','type'=>'checkbox'],
     'title'=>['title'=>'Título'],
+    'group'=>['title'=>'Grupo de tareas'],
     'description'=>['title'=>'Introducción','type'=>'textarea'],
-    'bullets'=>['title'=>'Puntos (uno por línea)','type'=>'textarea'],
+    'steps'=>['title'=>'Pasos (uno por línea)','type'=>'textarea'],
+    'notes'=>['title'=>'Notas útiles (una por línea)','type'=>'textarea'],
+    'bullets'=>['title'=>'Puntos adicionales (opcional)','type'=>'textarea'],
     'image_uri'=>['title'=>'Captura opcional','type'=>'managed_file','upload_location'=>'public://nelkano-images','upload_validators'=>['FileExtension'=>['extensions'=>'png jpg jpeg webp gif'],'FileIsImage'=>[]]],
+    'image_asset'=>['title'=>'Captura incluida en la web (ruta /modules/custom/nelkano_home/assets/docs/guide/)'],
+    'image_alt'=>['title'=>'Descripción accesible de la captura'],
+    'image_caption'=>['title'=>'Pie de la captura'],
+    'image_focus'=>['title'=>'Zona visible en la vista previa','type'=>'select','options'=>['top'=>'Superior','middle'=>'Central','lower'=>'Central inferior','bottom'=>'Inferior']],
   ]];
   public function getFormId(): string {return 'nelkano_guide_settings';}
   protected function getEditableConfigNames(): array {return ['nelkano_home.guide'];}

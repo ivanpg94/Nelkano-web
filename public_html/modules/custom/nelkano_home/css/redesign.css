@@ -24,3 +24,11 @@
 
 /* Releases use the shared index header, cards and download buttons. */
 .nkr .r-release-list{display:grid;gap:24px}.nkr .r-release-card{min-width:0}.nkr .r-release-card h2{font-size:1.1rem;margin-bottom:0}.nkr .r-release-card .r-pill{flex-shrink:0}.nkr .r-release-meta{display:grid;gap:8px;font-size:12px;color:#64748b}.nkr .r-release-meta>div{display:grid;grid-template-columns:80px minmax(0,1fr);gap:12px}.nkr .r-release-meta dd{margin:0;overflow-wrap:anywhere;color:#334155}.nkr .r-release-hash{font-family:'Cascadia Mono','SFMono-Regular',Consolas,monospace}.nkr .r-release-changes ul{padding-left:20px;display:grid;gap:8px;font-size:14px;line-height:1.625;color:#334155}.nkr .r-release-changes li::marker{color:var(--r-primary)}.nkr .r-release-card>.r-btn{align-self:flex-start}@media(max-width:479px){.nkr .r-release-card .r-card-top{flex-direction:column}}
+
+/* Home: module discovery and authoring share one compact section. */
+.nkr .r-extensions .r-section-head{margin-bottom:24px}.nkr .r-extensions-intro{max-width:680px;margin-top:12px}.nkr .r-extensions-grid{display:grid;gap:24px}.nkr .r-extensions-card{min-width:0;padding:24px;gap:20px}.nkr .r-extensions-card h3{font-size:1.1rem;line-height:1.4;margin-bottom:8px}.nkr .r-extensions-card p{max-width:62ch;color:#475569}.nkr .r-extensions-card .r-btn{align-self:flex-start;min-height:44px;text-align:center}.nkr .r-extensions-icon{display:inline-flex;align-items:center;justify-content:center;align-self:flex-start;width:44px;height:44px;border-radius:12px;background:#f5f3ff;color:#6d28d9}.nkr .r-extensions-icon svg{display:block}
+@media(min-width:640px){.nkr .r-extensions-pair{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Android screenshots stay readable beside the usage instructions. */
+.nkr .r-guide-figure{width:100%;max-width:320px;margin:0 auto}.nkr .r-guide-figure .r-guide-image{margin-top:0}.nkr .r-guide-figure img{height:auto}.nkr .r-guide-figure figcaption{font-size:13px;line-height:1.5;color:#64748b;margin-top:10px}.nkr .r-guide-columns>*{min-width:0}
+@media(min-width:1024px){.nkr .r-guide-columns{grid-template-columns:minmax(0,1fr) minmax(220px,300px)}}

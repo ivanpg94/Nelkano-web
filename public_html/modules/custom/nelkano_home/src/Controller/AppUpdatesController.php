@@ -19,7 +19,7 @@ final class AppUpdatesController extends ControllerBase {
       $latest = NULL;
       foreach ($catalog as $row) {
         if (\Drupal\nelkano_home\Service\ReleaseArtifact::hidden($row)) continue;
-        $file = \Drupal\nelkano_home\Service\ReleaseArtifact::file($row);
+        $file = \Drupal\nelkano_home\Service\ReleaseArtifact::file($row, 'update');
         if ($file['path'] === '') continue;
         $latest = ['app_id' => self::PLATFORMS[$platform][0], 'platform' => $platform, 'version' => $row['version'],
           'version_code' => (int) $row['version_code'], 'format' => self::PLATFORMS[$platform][1],
@@ -49,7 +49,7 @@ final class AppUpdatesController extends ControllerBase {
     if ($catalog !== NULL) {
       foreach ($catalog as $row) {
         if ((string) $row['version_code'] !== $build || \Drupal\nelkano_home\Service\ReleaseArtifact::hidden($row)) continue;
-        $file = \Drupal\nelkano_home\Service\ReleaseArtifact::file($row);
+        $file = \Drupal\nelkano_home\Service\ReleaseArtifact::file($row, 'update');
         if ($file['path'] === '') continue;
         $response = new BinaryFileResponse($file['path']);
         $response->setContentDisposition('attachment', $file['filename']);

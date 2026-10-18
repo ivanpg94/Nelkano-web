@@ -38,7 +38,7 @@ final class HuForm extends FormBase {
     $module_path = \Drupal::service('extension.list.module')->getPath('nelkano_home');
     $form['#attached']['library'] = ['nelkano_home/admin_forms', 'nelkano_home/detail_ui'];
     $form['#attributes']['class'][] = 'nk-admin-config-form';
-    $form['#prefix'] = $this->nelkanoAdminHeader($module_path) . '<div class="nk-admin-app"><div class="nk-admin-body">' . $this->nelkanoAdminSidebar('backlog') . '<div class="nk-admin-workspace"><section class="nk-admin-panel nk-hu-form">';
+    $form['#prefix'] = $this->nelkanoAdminPrefix($module_path, 'backlog', '', 'nk-hu-form');
     $form['#suffix'] = '</section></div></div></div>';
     $back_url = Url::fromRoute('nelkano_home.admin_backlog', [], ['query' => $filter_query])->toString();
     $form['heading'] = ['#markup' => '<header class="nk-record-head"><a class="nk-record-back" href="' . htmlspecialchars($back_url, ENT_QUOTES, 'UTF-8') . '">← Volver al backlog</a><div class="nk-record-heading"><div><span class="nk-record-eyebrow">Historia de usuario</span><h1>' . ($node ? 'HU ' . HuWorkflow::number($node) : 'Nueva HU') . '</h1><p>' . ($node ? 'Define el trabajo y organiza su seguimiento.' : 'El número se asignará automáticamente al guardar.') . '</p></div></div></header>'];

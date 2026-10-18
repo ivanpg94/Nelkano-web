@@ -2,6 +2,10 @@
 
 Web de produccion de Nelkano alojada en Hostinger.
 
+Consulta [la receta vigente de despliegue completo](DEPLOY.md) para publicar esta
+entrega, respaldar producción, aplicar configuración y Book y activar Codex.
+Las secciones de despliegues anteriores se conservan como contexto histórico.
+
 ## Estructura
 
 Textos de producto revisados el 2026-10-12: portada, guía, privacidad, SEO y libro
@@ -10,7 +14,7 @@ integrada. Las notas y los archivos de descargas históricas se conservan.
 La actualización `nelkano_home_update_11039` aplica los cambios editoriales a una
 instalación existente desde `config/new-app-copy.json`, conservando ilustraciones
 y secciones adicionales. Docker recuperado el 2026-10-12 reiniciando WSL, sin borrar contenedores ni
-volúmenes. Aplicadas las actualizaciones 11039–11041 en Drupal local y exportada
+volúmenes. Aplicadas las actualizaciones 11039–11042 en Drupal local y exportada
 la configuración. Libro SDK conciliado con la base, importado y exportado: 23
 páginas sin cambios en la comprobación final. Web disponible en
 http://localhost:8088; páginas públicas verificadas y 115 checks de fichas
@@ -216,12 +220,43 @@ viven en la base de datos y se transportan expresamente en
 El módulo `book_import_export` proporciona `book:export UUID archivo.yml` y
 `book:import archivo.yml --dry-run`, actualiza por UUID y crea revisiones sin
 borrados implícitos. Consulta [flujo local → Git → producción, esquema y QA](public_html/modules/custom/book_import_export/README.md).
-El despliegue del libro en producción queda pendiente de aprobación; la
-importación de contenido es una fase explícita posterior a la configuración.
+El despliegue del libro en producción queda pendiente. El script existente
+`deploy-hostinger.sh` simula e importa el YAML después de actualizar la base y
+sincronizar la configuración; la exportación de configuración no contiene nodos.
+
+## Navegación y descubrimiento de módulos (2026-10-18)
+
+La cabecera compartida muestra Sistemas, Módulos, Guía de uso y SDK. Mi perfil,
+Streaming, Administración (según permisos) y Cerrar sesión quedan dentro del
+menú del avatar. Sin sesión se muestra Entrar. «Mis módulos» queda fuera.
+En móvil, el botón de menú abre los enlaces públicos; ambos desplegables
+admiten teclado y Escape.
+
+La home incorpora «Amplía Nelkano» entre sistemas y experiencia, con dos tarjetas:
+Explorar módulos y Empezar con el SDK. Sus textos y visibilidad se editan en
+Administración → Inicio → Amplía Nelkano. El SDK solo se enlaza si su portada
+está publicada y el visitante tiene acceso.
+
+`nelkano_home_update_11042()` añade los campos que faltan, conserva valores
+personalizados (también vacíos), retira la fila duplicada de módulos/SDK en
+Información y publica únicamente la portada española del libro por UUID.
+Los capítulos privados y traducciones en borrador conservan su estado.
+`config/sync/nelkano_home.settings.yml` y `content/books/nelkano-sdk.yml`
+transportan el mismo resultado, para que `drush deploy` no revierta el update.
+El despliegue habitual ejecuta updates, importación de configuración e importación
+del Book; no hay pasos SQL manuales ni IDs numéricos específicos del entorno.
+
+QA local: 108 checks de cabecera y 17 de la sección; migración real ensayada en
+`nelkano_navigation_qa_20261018`, con conservación de contenido/configuración,
+esquema válido y dos repeticiones sin cambios. Ensayada también la secuencia
+`updatedb` → `config:import` → importación del Book. Navegador revisado en
+escritorio, 390 y 320 px; visitantes anónimos ES/EN con enlaces HTTP 200.
+No desplegado en producción.
 
 ## Catálogo de módulos comunitarios
 
-El catálogo está preparado en /modulos, sin enlaces desde la navegación pública.
+El catálogo de `/modulos` está enlazado desde el menú público y desde la sección
+«Amplía Nelkano» de la home.
 Usa nodos con propietarios autenticados y versiones .nelkmod externas firmadas,
 Search API y AJAX. La actualización 11036 habilita el módulo y la revisión horaria.
 Consulta [catálogo, versiones, seguridad, cron y despliegue](public_html/modules/custom/nelkano_modules/README.md).

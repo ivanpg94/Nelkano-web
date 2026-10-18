@@ -2,6 +2,12 @@
 
 La implementación activa está en `public_html/modules/custom/nelkano_home/`.
 
+## Acceso desde Codex
+
+Consulta [API privada del backlog](README.backlog-api.md) para consultar, crear,
+editar, asignar sprints y cambiar estados desde Codex con credenciales dedicadas.
+La API se prepara para subir; su activación es independiente de reportes.
+
 ## Administración
 
 `/admin/nelkano/backlog` aparece justo debajo de **Reportes de errores** en la

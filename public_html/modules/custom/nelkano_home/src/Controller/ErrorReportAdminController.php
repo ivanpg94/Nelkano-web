@@ -123,7 +123,7 @@ final class ErrorReportAdminController extends ControllerBase {
       '#type' => 'container',
       '#attributes' => ['class' => ['nk-admin-config-form', 'nk-admin-report-page']],
       '#attached' => ['library' => [$redesigned ? 'nelkano_home/admin_data' : 'nelkano_home/admin_forms']],
-      '#prefix' => $this->nelkanoAdminHeader($module_path) . '<div class="nk-admin-app' . ($redesigned ? ' nk-redesign-admin nk-admin-data' : '') . '"><div class="nk-admin-body">' . $this->nelkanoAdminSidebar('error_reports') . '<div class="nk-admin-workspace"><section class="nk-admin-panel">',
+      '#prefix' => $this->nelkanoAdminPrefix($module_path, 'error_reports', $redesigned ? 'nk-redesign-admin nk-admin-data' : ''),
       '#suffix' => '</section></div></div></div>',
       'header' => [
         '#weight' => -1000,

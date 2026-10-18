@@ -2,386 +2,552 @@ langcode: es
 es:
   title: 'Guía de uso'
   eyebrow: Documentación
-  intro: 'Guía de Nelkano: biblioteca, guardados, controles y módulos. Algunas funciones y sistemas dependen de la plataforma y de la versión.'
+  intro: 'Empieza con tu primer juego y aprende a guardar la partida. Después, configura Nelkano a tu gusto.'
   toc_label: Índice
   empty_label: 'La guía de uso está siendo preparada. Vuelve pronto.'
   zoom_label: 'Ampliar imagen'
   close_label: 'Cerrar imagen'
   sections:
     -
-      title: 'Biblioteca y colecciones'
-      description: 'Nelkano organiza tus juegos en una biblioteca local. Puedes filtrar por sistema, buscar por nombre, ordenar y agrupar según tus preferencias.'
-      bullets: "Busca un juego por su nombre o filtra la biblioteca por sistema.\r\nOrdena los juegos alfabéticamente o por fecha de incorporación.\r\nCambia entre las vistas compacta, grande y de lista.\r\nMarca tus juegos favoritos y crea colecciones para agruparlos.\r\nMantén pulsado un juego para seleccionar varios y añadirlos o quitarlos de una colección.\r\nQuitar un juego de una colección lo conserva en la biblioteca."
+      title: 'Añadir tu primer juego'
+      group: 'Empieza a jugar'
+      description: 'Necesitas el archivo de un juego, también llamado ROM.'
+      steps: |-
+        Abre Biblioteca y pulsa +.
+        Busca el archivo en tu dispositivo. Puedes elegir la ROM o un archivo ZIP, RAR o 7z que la contenga.
+        Selecciónalo para importarlo a la biblioteca.
+      notes: |-
+        Para un disco CUE, incluye todas sus pistas y conserva sus nombres.
+        Para RPG Maker, comprime el proyecto completo: XP funciona en Android y PC; MV/MZ, en Android.
+      bullets: ''
+      visible: '1'
+      image_uri: ''
+      image_asset: /modules/custom/nelkano_home/assets/docs/guide/20261018/01-importar-juegos.webp
+      image_alt: 'Selector de archivos de Android con el paquete de juegos de demostración.'
+      image_caption: 'Selecciona el archivo del juego.'
+      image_focus: top
+    -
+      title: 'Abrir el juego'
+      group: 'Empieza a jugar'
+      description: ''
+      steps: |-
+        En Biblioteca, pulsa la carátula del juego que has importado.
+        Pulsa Jugar para iniciarlo.
+      notes: ''
+      bullets: ''
+      visible: '1'
+      image_uri: ''
+      image_asset: /modules/custom/nelkano_home/assets/docs/guide/20261018/03-ficha-juego.webp
+      image_alt: 'Ficha de un juego de demostración con sus estados guardados.'
+      image_caption: 'La ficha del juego.'
+      image_focus: lower
+    -
+      title: 'Guardar y retomar la partida'
+      group: 'Empieza a jugar'
+      description: 'Un estado guarda el punto exacto de la partida para volver a él después.'
+      steps: |-
+        Durante la partida, abre el engranaje y entra en Guardados rápidos.
+        Selecciona un espacio S0–S5 y pulsa Guardar. Para volver a ese punto, elige el mismo espacio y pulsa Cargar.
+        La próxima vez, abre la ficha y pulsa Continuar. Para escoger otro estado, pulsa su captura en la ficha o en Guardados.
+      notes: |-
+        Guardar en un espacio ocupado sustituye su estado anterior.
+        Autoguardados utiliza el espacio Auto y lo renueva aproximadamente cada minuto; Continuar le da prioridad.
+        Los guardados del propio juego son independientes. Los estados solo están disponibles en los sistemas que los admiten.
+      bullets: ''
+      visible: '1'
+      image_uri: ''
+      image_asset: /modules/custom/nelkano_home/assets/docs/guide/20261018/05-guardados-rapidos.webp
+      image_alt: 'Ajustes de una partida de demostración con sus espacios de guardado rápido.'
+      image_caption: 'Selecciona un espacio antes de guardar o cargar.'
+      image_focus: middle
+    -
+      title: 'Organizar los juegos'
+      group: Biblioteca
+      description: 'Agrupa tus juegos en colecciones o marca los que más usas como favoritos.'
+      steps: |-
+        Mantén pulsado un juego y selecciona los que quieras agrupar.
+        Pulsa Añadir a colección. Elige una existente o pulsa Crear colección, escribe un nombre y confirma con Crear.
+        Abre Colecciones junto al buscador para ver solo los juegos de una colección.
+      notes: |-
+        La estrella de la ficha añade el juego a Favoritos.
+        Las flechas ordenan por fecha de importación; ABC, por nombre.
+      bullets: ''
+      visible: '1'
+      image_uri: ''
+      image_asset: /modules/custom/nelkano_home/assets/docs/guide/20261018/02-biblioteca.webp
+      image_alt: 'Biblioteca de Nelkano con juegos de demostración y controles de búsqueda.'
+      image_caption: 'Busca, ordena o filtra tu biblioteca.'
+      image_focus: top
+    -
+      title: 'Cambiar una carátula'
+      group: Biblioteca
+      description: 'Puedes usar como carátula una captura de tus estados guardados.'
+      steps: |-
+        Abre la ficha del juego y pulsa el icono de carpeta de la imagen.
+        Elige la captura que quieres usar.
+      notes: 'Si todavía no hay capturas, guarda primero un estado durante la partida.'
+      bullets: ''
+      visible: '1'
+      image_uri: ''
+      image_asset: /modules/custom/nelkano_home/assets/docs/guide/20261018/09-seleccionar-caratula.webp
+      image_alt: 'Selector de carátula con capturas de estados de un juego de demostración.'
+      image_caption: 'Elige una captura como carátula.'
+      image_focus: middle
+    -
+      title: 'Colocar los controles táctiles'
+      group: 'Controles y pantalla'
+      description: 'Ajusta los botones sin cambiar los controles de otros sistemas.'
+      steps: |-
+        Abre Ajustes → General → Controles → Editor de controles, o entra al editor desde los ajustes de una partida.
+        Elige el sistema y la orientación de la pantalla.
+        Selecciona un botón para moverlo, cambiar su tamaño u ocultarlo. Pulsa Guardar al terminar.
+      notes: 'Guarda las posiciones verticales y horizontales por separado. Game Boy y Game Boy Color comparten perfil.'
+      bullets: ''
+      visible: '1'
+      image_uri: ''
+      image_asset: /modules/custom/nelkano_home/assets/docs/guide/20261018/06-editor-controles.webp
+      image_alt: 'Editor de controles de Nelkano con los botones de un perfil.'
+      image_caption: 'Selecciona y coloca cada botón en el editor.'
+      image_focus: bottom
+    -
+      title: 'Usar un mando o el teclado'
+      group: 'Controles y pantalla'
+      description: 'Puedes asignar los botones del mando para cada sistema.'
+      steps: |-
+        Conecta el mando al dispositivo y abre Ajustes → General → Controles → Mando Bluetooth.
+        Elige el sistema, selecciona un control y pulsa el botón del mando que quieres asignarle.
+        Durante la partida, activa Pantalla completa para controlar el juego con el mando.
+      notes: |-
+        En PC: flechas para la dirección, Z/X y A/S para los botones, Enter para Start y Mayús derecha para Select. F11 alterna pantalla completa.
+        CHIP-8 utiliza 1234, QWER, ASDF y ZXCV.
+      bullets: ''
       visible: '1'
       image_uri: ''
     -
-      title: 'Importar juegos'
-      description: 'En Android, utiliza el selector de documentos para añadir tus archivos compatibles; escritorio tiene su propio selector.'
+      title: 'Ajustar la imagen o pausar'
+      group: 'Controles y pantalla'
+      description: 'Los botones de sistema aparecen alrededor de la imagen del juego.'
+      steps: |-
+        Pulsa el botón de pausa para detener o reanudar el juego.
+        Usa Estirar para llenar la zona de juego; cambia las proporciones de la imagen.
+        En DS y 3DS, abre Pantallas para elegir Ambas, Superior o Inferior.
+      notes: 'Para reiniciar el juego, abre el engranaje y pulsa Reiniciar.'
+      bullets: ''
+      visible: '1'
+      image_uri: ''
+      image_asset: /modules/custom/nelkano_home/assets/docs/guide/20261018/04-partida-gba.webp
+      image_alt: 'Partida de demostración con los controles táctiles de Nelkano.'
+      image_caption: 'La partida con los controles en pantalla.'
+      image_focus: top
+    -
+      title: 'Instalar un módulo'
+      group: 'Módulos y actualizaciones'
+      description: 'Los módulos añaden funciones a Nelkano.'
+      steps: |-
+        Abre Ajustes → General → Módulos y entra en Explorar.
+        Elige un módulo y pulsa Instalar para descargarlo y verificarlo.
+        Revisa el autor y los permisos que solicita. Confirma la instalación si estás de acuerdo.
+      notes: |-
+        Si tienes un archivo .nelkmod, usa Instalados → Importar módulo.
+        Desde Instalados puedes desactivar o desinstalar los módulos opcionales. Eliminar también sus datos borra sus datos guardados.
+        Los módulos exclusivos para Tester solo aparecen para cuentas con ese acceso.
+      bullets: ''
+      visible: '1'
+      image_uri: ''
+      image_asset: /modules/custom/nelkano_home/assets/docs/guide/20261018/07-modulos.webp
+      image_alt: 'Pantalla de módulos de Nelkano con los módulos incluidos.'
+      image_caption: 'Gestiona los módulos desde Instalados.'
+      image_focus: top
+    -
+      title: 'Actualizar la app y los módulos'
+      group: 'Módulos y actualizaciones'
+      description: 'Los módulos incluidos se actualizan con la app; los opcionales tienen sus propias versiones.'
+      steps: |-
+        Para actualizar la app, cierra la partida y abre Ajustes → General → Actualización de Nelkano.
+        Para los módulos, abre Módulos → Instalados → Comprobar actualizaciones.
+        Elige la actualización. Si el módulo está activo, pulsa Desactivar y continuar; después revisa los permisos y confirma la instalación.
+      notes: 'La actualización del módulo conserva sus datos.'
+      bullets: ''
+      visible: '1'
+      image_uri: ''
+    -
+      title: 'Iniciar sesión y añadir amigos'
+      group: 'Cuenta y conexiones'
+      description: ''
+      steps: |-
+        Abre Ajustes → Cuenta → Iniciar sesión. Si acabas de registrarte, activa la cuenta con el enlace del correo.
+        En Biblioteca o Guardados, pulsa Amigos junto al buscador.
+        Busca al usuario y envíale una solicitud. Desde Amigos también puedes aceptar las que recibas.
+      notes: 'Iniciar sesión no sincroniza los juegos ni las partidas entre dispositivos.'
+      bullets: ''
+      visible: '1'
+      image_uri: ''
+    -
+      title: 'Jugar con amigos'
+      group: 'Cuenta y conexiones'
+      description: 'Ambos debéis iniciar sesión y teneros añadidos en Amigos.'
+      steps: |-
+        Abre un juego compatible y entra en Multijugador.
+        Una persona pulsa Crear partida y selecciona a los amigos. Las demás pulsan Unirse y eligen al anfitrión.
+        Para cable link de GBA, usad dos dispositivos con la misma versión exacta del juego. Pulsad Conectar con cable link y entrad en el modo multijugador del propio juego.
+      notes: 'La partida de cable link es temporal: al salir se restaura la sesión anterior y se descarta el progreso de la sesión multijugador.'
+      bullets: ''
+      visible: '1'
+      image_uri: ''
+    -
+      title: 'Usar una segunda pantalla'
+      group: 'Cuenta y conexiones'
+      description: 'Puedes repartir las pantallas de DS o 3DS entre dos dispositivos conectados a la misma red local.'
+      steps: |-
+        En el dispositivo que recibirá la imagen, abre Ajustes → Segunda pantalla → Cambiar modo y confirma con Sí.
+        En el dispositivo donde juegas, abre Segunda pantalla → Buscar pantallas. Elige el receptor y pulsa Conectar.
+        Acepta la conexión en el receptor si lo solicita. Usa Intercambiar pantallas para cambiar dónde se ve cada una.
+      notes: 'La pantalla inferior admite entrada táctil o ratón desde el receptor.'
+      bullets: ''
+      visible: '1'
+      image_uri: ''
+    -
+      title: 'Ver la partida desde la web'
+      group: 'Cuenta y conexiones'
+      description: 'Necesitas una cuenta con permiso para emitir.'
+      steps: |-
+        Durante la partida, abre el engranaje → Streaming → Iniciar emisión.
+        En nelkano.com, inicia sesión con la misma cuenta y abre Streaming para verla.
+        Al terminar, pulsa Detener emisión en la app.
+      notes: 'Se comparte el audio del juego, sin micrófono.'
+      bullets: ''
+      visible: '1'
+      image_uri: ''
+    -
+      title: 'Cambiar el idioma o el tema'
+      group: 'Ajustes y archivos'
+      description: ''
+      steps: |-
+        Abre Ajustes → Idioma y tema.
+        Elige el idioma de la interfaz y el tema que prefieras.
+      notes: 'El idioma de la interfaz no cambia el idioma de los juegos.'
+      bullets: ''
+      visible: '1'
+      image_uri: ''
+      image_asset: /modules/custom/nelkano_home/assets/docs/guide/20261018/08-apariencia.webp
+      image_alt: 'Ajustes de idioma y tema de Nelkano para Android.'
+      image_caption: 'Ajustes de idioma y tema.'
+      image_focus: middle
+    -
+      title: 'Aplicar un parche'
+      group: 'Ajustes y archivos'
+      description: 'Para juegos de GBA y Nintendo DS, con parches IPS o xdelta/VCDIFF.'
+      steps: |-
+        Abre la ficha del juego y pulsa Aplicar parche.
+        Selecciona el archivo del parche y el juego original. El parche debe corresponder a esa versión exacta del juego.
+        Busca el resultado en Biblioteca: se añade como otro juego, con guardados propios.
+      notes: 'El juego original se conserva.'
+      bullets: ''
+      visible: '1'
+      image_uri: ''
+    -
+      title: 'Conservar tus juegos y partidas'
+      group: 'Ajustes y archivos'
+      description: ''
+      steps: |-
+        Conserva los archivos originales de tus juegos fuera de Nelkano.
+        Antes de eliminar un juego, asegúrate de que ya no necesitas sus partidas ni sus estados guardados.
+      notes: |-
+        Eliminar un juego también borra sus partidas y estados.
+        Borrar los datos de la app o desinstalarla elimina la biblioteca y los guardados.
+      bullets: ''
+      visible: '1'
+      image_uri: ''
+    -
+      title: 'Traducciones de juegos'
+      description: 'Para jugar en otro idioma, utiliza una traducción del juego o un parche compatible.'
       bullets: |-
-        En Android, pulsa + en Biblioteca y selecciona un archivo o un paquete ZIP, RAR o 7z.
-        Un comprimido puede contener varios juegos reconocidos. No se admite la petición de contraseña para comprimidos cifrados.
-        Para PlayStation, aporta el CUE y todas sus pistas, juntos o en un paquete completo.
-        Para RPG Maker, aporta la carpeta completa del juego y sus recursos; los proyectos MV/MZ se ejecutan en Android, no en escritorio.
-        En escritorio, importa ROMs individuales, discos CUE con sus pistas y proyectos RPG Maker XP en ZIP. El importador ZIP de escritorio está limitado a esos proyectos XP; no admite paquetes generales de ROMs.
-      visible: '1'
-      image_uri: ''
-    -
-      title: 'Jugar y continuar'
-      description: 'Abre la ficha de un juego para iniciarlo o recuperar un estado guardado.'
-      bullets: |-
-        Jugar inicia el juego; los guardados internos se recuperan desde los menús del propio juego.
-        Continuar aparece en la ficha cuando hay un estado disponible: prioriza el autoguardado y, si no existe, otro estado.
-        La captura elegida como carátula no cambia el estado que usa Continuar.
-        Desde Guardados puedes elegir un estado concreto.
-        La sección Continuar jugando de Inicio muestra los juegos abiertos recientemente; no garantiza que tengan estados.
-      visible: '1'
-      image_uri: ''
-    -
-      title: 'Guardados y estados'
-      description: 'Puedes guardar desde el propio juego o utilizar los estados de Nelkano cuando el sistema lo permita.'
-      bullets: "El guardado del juego se recupera desde sus propios menús.\r\nUn estado conserva la situación de la partida para retomarla desde ese punto.\r\nNelkano dispone de cinco espacios de guardado manual por juego.\r\nPulsa Guardar durante la partida y elige un espacio. Si ya contiene un estado, se sustituirá.\r\nActiva Autoguardados en Configuración para actualizar un espacio independiente aproximadamente cada minuto.\r\nDesde Guardados puedes consultar los estados, filtrarlos por juego y ordenarlos.\r\nLa disponibilidad de los estados depende del sistema y del juego."
-      visible: '1'
-      image_uri: ''
-    -
-      title: 'Personalizar la ficha de un juego'
-      description: 'Cambia cómo aparece cada juego en tu biblioteca.'
-      bullets: |-
-        Utiliza Seleccionar carátula en la ficha para elegir una captura de un estado disponible o restablecer la imagen.
-        Añade el juego a favoritos o colecciones.
-        La carátula no determina qué partida se carga al continuar.
-        Eliminar un juego pide confirmación y elimina la copia importada y sus datos asociados. Conserva antes lo que quieras guardar.
-      visible: '1'
-      image_uri: ''
-    -
-      title: 'Mandos físicos'
-      description: 'Utiliza un mando reconocido por Android y adapta sus botones a cada sistema.'
-      bullets: "Empareja el mando desde los ajustes de Bluetooth de Android.\r\nEn Configuración → Controles → Mando puedes comprobar qué pulsaciones detecta Nelkano.\r\nAbre Asignación de botones, selecciona un sistema y pulsa el control que quieras configurar.\r\nPresiona el botón del mando que quieras asignarle.\r\nPuedes guardar y cargar configuraciones de mando o restaurar los valores predeterminados.\r\nDurante la partida, utiliza la pantalla completa para controlar el juego con el mando."
-      visible: '1'
-      image_uri: ''
-    -
-      title: 'Editor de controles táctiles'
-      description: 'Ajusta la distribución de los controles para jugar cómodamente en tu pantalla.'
-      bullets: "Abre Configuración → Controles → Editor de controles.\r\nSelecciona el sistema y la orientación vertical u horizontal.\r\nMueve los controles y ajusta su tamaño.\r\nEn el selector de botones del sistema puedes mostrar u ocultar acciones como Guardar, Cargar o el indicador de velocidad.\r\nComprueba el resultado con la vista previa y pulsa Guardar.\r\nCada sistema conserva una distribución independiente para cada orientación."
-      visible: '1'
-      image_uri: ''
-    -
-      title: 'Botones durante la partida'
-      description: 'Los botones del emulador permiten controlar la partida y ajustar su presentación.'
-      bullets: |-
-        Pausa permite detener y reanudar la emulación.
-        Guardar y Cargar aparecen cuando el core admite estados.
-        Pantalla completa amplía la zona de juego; Estirar puede cambiar las proporciones de la imagen.
-        NDS y 3DS permiten elegir Ambas, Superior o Inferior desde Pantallas.
-        El indicador de velocidad muestra el porcentaje de avance respecto a la velocidad normal, cuando el core aporta esa información; no es un contador de FPS.
-        Los controles disponibles dependen del core y de los módulos. AUTO, RECORD y REPLAY no son funciones disponibles de los controles actuales.
-        Reiniciar solo está disponible en los cores que lo admiten.
-      visible: '1'
-      image_uri: ''
-    -
-      title: 'Datos locales y conexiones'
-      description: 'La biblioteca y las partidas se almacenan en tu dispositivo.'
-      bullets: |-
-        Nelkano no ofrece sincronización integrada con Google Drive.
-        La cuenta Nelkano se utiliza para perfil, amigos y funciones conectadas; no sincroniza tu biblioteca.
-        Un módulo puede conectarse a otros servidores con tu autorización. Revisa sus permisos y qué datos envía.
-        Conserva copias de tus archivos y partidas antes de borrar datos o usar modificaciones.
-      visible: '1'
-      image_uri: ''
-    -
-      title: 'Segunda pantalla para Nintendo DS y Nintendo 3DS'
-      description: 'Utiliza otro dispositivo Android para mostrar una de las dos pantallas del juego.'
-      bullets: "Abre Nelkano en ambos dispositivos y conéctalos a la misma red local.\r\nEn el dispositivo receptor, entra en Configuración → Segunda pantalla y activa Usar como segunda pantalla.\r\nEn el dispositivo donde vas a jugar, pulsa Buscar pantallas y selecciona el receptor.\r\nAcepta la conexión en el dispositivo receptor.\r\nAl ejecutar un juego de DS o 3DS, cada dispositivo mostrará una pantalla.\r\nUtiliza Intercambiar pantallas para cambiar cuál aparece en cada dispositivo.\r\nSi la pantalla inferior está en el receptor, puedes tocarla desde ese dispositivo."
-      visible: '1'
-      image_uri: ''
-    -
-      title: 'Apariencia e idioma'
-      description: 'Adapta la interfaz de Nelkano a tus preferencias.'
-      bullets: |-
-        Abre Idioma y tema en Ajustes para elegir español o inglés y una de las cinco paletas: oscuro, claro, navy, slate o graphite.
-        Guarda la elección para aplicarla.
-        El idioma de la interfaz no traduce los juegos.
-        La posición y el tamaño de los controles se ajustan en el editor de controles.
-      visible: '1'
-      image_uri: ''
-    -
-      title: 'Aplicar parches a juegos GBA y NDS'
-      description: 'Aplica un parche compatible y añade el resultado como un juego independiente.'
-      bullets: |-
-        Importa el juego GBA o NDS original.
-        Abre Parches en Ajustes o Aplicar parche en la ficha del juego.
-        Selecciona un archivo IPS o xdelta/VCDIFF y el juego exacto que requiere el parche.
-        IPS no permite verificar por sí mismo que has elegido la ROM correcta.
-        Se añade una copia modificada a la biblioteca y se conserva el original.
-        La copia utiliza sus propios guardados; no hereda los del original. No se admiten BPS, UPS ni PPF.
-      visible: '1'
-      image_uri: ''
-    -
-      title: 'Traducir juegos de Nintendo DS'
-      description: 'La traducción automática integrada de juegos no está disponible.'
-      bullets: |-
-        Puedes aplicar un parche de traducción compatible mediante Parches.
-        Cambiar el idioma de Nelkano solo cambia la interfaz.
+        El cambio de idioma de Nelkano solo afecta a la interfaz.
+        La aplicación no traduce automáticamente el texto de los juegos.
       visible: '0'
       image_uri: ''
     -
-      title: 'Cuenta Nelkano y amigos'
-      description: 'Gestiona tu perfil y tus contactos desde la aplicación.'
+      title: 'Enviar un reporte de error'
+      description: 'Las cuentas autorizadas para enviar reportes pueden usar el módulo oficial Reportes de errores en Android.'
       bullets: |-
-        Inicia sesión desde Cuenta en Ajustes. Abre Amigos desde la biblioteca para gestionar tus contactos.
-        Busca usuarios y envía solicitudes; puedes aceptar o rechazar las recibidas, cancelar las enviadas y eliminar amigos.
-        Desde el módulo puedes editar tu perfil.
-        No necesitas una cuenta para jugar localmente.
-      visible: '1'
-      image_uri: ''
-    -
-      title: 'Funciones online experimentales'
-      description: 'El online se ofrece mediante módulos opcionales y juegos concretos.'
-      bullets: |-
-        Requiere instalar un módulo online compatible y autorizar sus permisos.
-        Los módulos GBA Online y Pokémon Online tienen funciones y requisitos propios; no son multijugador universal ni se incluyen entre los módulos esenciales.
-        Consulta la documentación del módulo y las versiones de juego admitidas.
-        La disponibilidad depende también de la cuenta, los permisos y la conexión.
+        Instala el módulo si está disponible para tu cuenta y revisa sus permisos.
+        Abre un juego local que admita estados guardados, crea uno y utiliza Reportar un error en los ajustes de la partida. Completa el formulario y acepta el envío del estado y los datos técnicos antes de pulsar Enviar reporte.
+        Si tu cuenta no tiene acceso, utiliza el contacto de la web para contar qué ha ocurrido.
       visible: '0'
-      image_uri: ''
-    -
-      title: 'Emitir la partida en la web'
-      description: 'Utiliza Streaming para enviar la imagen y el audio de tu partida a la web de Nelkano.'
-      bullets: |-
-        Inicia sesión con una cuenta que tenga permiso de emisión.
-        Abre una partida y utiliza Streaming para iniciar la emisión, aceptando la autorización que solicite la plataforma.
-        Abre el visor Streaming de nelkano.com con la misma cuenta.
-        Detén la emisión desde la aplicación cuando termines.
-        Se comparte imagen y audio de la partida cuando el core lo permite. No se captura el micrófono ni todo el escritorio.
-        La conexión y la captura del core condicionan el resultado; no se garantiza emisión de todos los sistemas.
-      visible: '1'
-      image_uri: ''
-    -
-      title: 'Reportar un error'
-      description: 'Los reportes desde la app están reservados a testers autorizados.'
-      bullets: |-
-        En Android requiere el módulo oficial de reportes y una cuenta con permiso de Tester.
-        No es una función disponible para todas las cuentas ni un servicio público del SDK.
-        Los demás usuarios pueden utilizar las vías de contacto de la web.
-      visible: '0'
-      image_uri: ''
-    -
-      title: 'Módulos y SDK'
-      description: 'Amplía las funciones de Nelkano con paquetes .nelkmod.'
-      bullets: |-
-        Abre Módulos en Ajustes para importar un paquete, revisar su autor y permisos y gestionar los módulos opcionales.
-        Básicos, Apariencia, Editor de controles, Amigos y Parches son esenciales y permanecen activos.
-        El SDK permite programar páginas, botones, servicios, eventos y datos locales con JavaScript o TypeScript.
-        Las modificaciones de memoria y ROM temporal del SDK funcionan en GBA; otros cores no ofrecen esas operaciones.
-        Las modificaciones actúan mientras el módulo está activo, pero sus efectos pueden quedar en el guardado. Algunos módulos exigen una partida nueva o su presencia para cargarla.
-        SDK Studio usa juegos y datos simulados. El editor visual para generar código de módulos todavía no está disponible.
-      visible: '1'
       image_uri: ''
 en:
   title: 'User guide'
   eyebrow: Documentation
-  intro: 'Nelkano guide: library, saves, controls and modules. Some features and systems depend on the platform and version.'
+  intro: 'Start with your first game and learn how to save your progress. Then set up Nelkano the way you like.'
   toc_label: Contents
   empty_label: 'The user guide is being prepared. Check back soon.'
   zoom_label: 'Enlarge image'
   close_label: 'Close image'
   sections:
     -
-      title: 'Library and collections'
-      description: 'Nelkano organizes your games in a local library. You can filter by system, search by name, sort and group games to suit your preferences.'
-      bullets: |-
-        Search for a game by name or filter the library by system.
-        Sort games alphabetically or by the date they were added.
-        Switch between compact, large and list views.
-        Mark games as favorites and create collections to group them.
-        Press and hold a game to select several games and add them to or remove them from a collection.
-        Removing a game from a collection keeps it in your library.
+      title: 'Add your first game'
+      group: 'Start playing'
+      description: 'You need a game file, also called a ROM.'
+      steps: |-
+        Open Library and press +.
+        Find the file on your device. You can choose the ROM or a ZIP, RAR or 7z archive containing it.
+        Select it to import it into your library.
+      notes: |-
+        For CUE discs, include every track and keep the original filenames.
+        For RPG Maker, archive the whole project: XP works on Android and PC; MV/MZ, on Android.
+      bullets: ''
+      visible: '1'
+      image_uri: ''
+      image_asset: /modules/custom/nelkano_home/assets/docs/guide/20261018/01-importar-juegos.webp
+      image_alt: 'Android file picker with the demonstration game archive.'
+      image_caption: 'Select the game file.'
+      image_focus: top
+    -
+      title: 'Open the game'
+      group: 'Start playing'
+      description: ''
+      steps: |-
+        In Library, select the cover of the game you imported.
+        Press Play to start it.
+      notes: ''
+      bullets: ''
+      visible: '1'
+      image_uri: ''
+      image_asset: /modules/custom/nelkano_home/assets/docs/guide/20261018/03-ficha-juego.webp
+      image_alt: 'Demonstration game details with save states.'
+      image_caption: 'Game details.'
+      image_focus: lower
+    -
+      title: 'Save and resume your game'
+      group: 'Start playing'
+      description: 'A save state captures the exact point in a game so you can return to it later.'
+      steps: |-
+        During gameplay, open the gear button and choose Quick saves.
+        Select a slot, S0–S5, and press Save. To return to that point, select the same slot and press Load.
+        Next time, open the game details and press Continue. To choose a different state, select its screenshot in the game details or Save States.
+      notes: |-
+        Saving into an occupied slot replaces the previous state.
+        Autosaves uses the Auto slot and replaces it roughly every minute; Continue gives it priority.
+        The game's own saves are separate. Save states are only available on systems that support them.
+      bullets: ''
+      visible: '1'
+      image_uri: ''
+      image_asset: /modules/custom/nelkano_home/assets/docs/guide/20261018/05-guardados-rapidos.webp
+      image_alt: 'Demonstration game settings with quick-save slots.'
+      image_caption: 'Select a slot before saving or loading.'
+      image_focus: middle
+    -
+      title: 'Organize your games'
+      group: Library
+      description: 'Group games into collections or mark your most-played games as favorites.'
+      steps: |-
+        Hold a game and select the titles you want to group.
+        Press Add to collection. Choose an existing collection, or press Create collection, enter a name and confirm with Create.
+        Open Collections beside the search bar to show only games in a collection.
+      notes: |-
+        The star in the game details adds it to Favorites.
+        The arrows sort by import date; ABC sorts by name.
+      bullets: ''
+      visible: '1'
+      image_uri: ''
+      image_asset: /modules/custom/nelkano_home/assets/docs/guide/20261018/02-biblioteca.webp
+      image_alt: 'Nelkano library with demonstration games and search controls.'
+      image_caption: 'Search, sort or filter your library.'
+      image_focus: top
+    -
+      title: 'Change a cover'
+      group: Library
+      description: "Use one of your save-state screenshots as a game's cover."
+      steps: |-
+        Open the game details and press the folder icon on the image.
+        Choose the screenshot you want to use.
+      notes: 'If there are no screenshots yet, save a state during gameplay first.'
+      bullets: ''
+      visible: '1'
+      image_uri: ''
+      image_asset: /modules/custom/nelkano_home/assets/docs/guide/20261018/09-seleccionar-caratula.webp
+      image_alt: 'Cover selector with demonstration game save-state screenshots.'
+      image_caption: 'Choose a screenshot for the cover.'
+      image_focus: middle
+    -
+      title: 'Arrange the touch controls'
+      group: 'Controls and display'
+      description: "Adjust the buttons without changing other systems' controls."
+      steps: |-
+        Open Settings → General → Controls → Control editor, or open the editor from a game's settings.
+        Choose the system and screen orientation.
+        Select a button to move, resize or hide it. Press Save when finished.
+      notes: 'Save portrait and landscape layouts separately. Game Boy and Game Boy Color share a profile.'
+      bullets: ''
+      visible: '1'
+      image_uri: ''
+      image_asset: /modules/custom/nelkano_home/assets/docs/guide/20261018/06-editor-controles.webp
+      image_alt: 'Nelkano Control editor with a control profile.'
+      image_caption: 'Select and position each button in the editor.'
+      image_focus: bottom
+    -
+      title: 'Use a controller or keyboard'
+      group: 'Controls and display'
+      description: 'Assign controller buttons for each system.'
+      steps: |-
+        Connect your controller to the device and open Settings → General → Controls → Bluetooth controller.
+        Choose the system, select a control and press the controller button you want to assign.
+        During gameplay, enable Fullscreen to control the game with the controller.
+      notes: |-
+        On PC: arrows for directions, Z/X and A/S for buttons, Enter for Start and right Shift for Select. F11 toggles full screen.
+        CHIP-8 uses 1234, QWER, ASDF and ZXCV.
+      bullets: ''
       visible: '1'
       image_uri: ''
     -
-      title: 'Importing games'
-      description: 'On Android, use the document picker to add supported files; desktop has its own picker.'
-      bullets: |-
-        On Android, tap + in Library and select a file or a ZIP, RAR or 7z archive.
-        An archive can contain several recognized games. Password prompts for encrypted archives are not supported.
-        For PlayStation, provide the CUE and all tracks together or as a complete package.
-        For RPG Maker, provide the full game folder and resources; MV/MZ projects run on Android, not desktop.
-        On desktop, import individual ROMs, CUE discs with their tracks and RPG Maker XP projects in ZIP files. Desktop ZIP import is limited to those XP projects; general ROM archives are not supported.
+      title: 'Adjust the picture or pause'
+      group: 'Controls and display'
+      description: 'System buttons appear around the game picture.'
+      steps: |-
+        Press the pause button to pause or resume the game.
+        Use Stretch to fill the game area; this changes the picture's proportions.
+        On DS and 3DS, open Screens to choose Both, Upper or Lower.
+      notes: 'To restart the game, open the gear button and press Restart.'
+      bullets: ''
+      visible: '1'
+      image_uri: ''
+      image_asset: /modules/custom/nelkano_home/assets/docs/guide/20261018/04-partida-gba.webp
+      image_alt: 'A demonstration game running with Nelkano touch controls.'
+      image_caption: 'Gameplay with on-screen controls.'
+      image_focus: top
+    -
+      title: 'Install a module'
+      group: 'Modules and updates'
+      description: 'Modules add features to Nelkano.'
+      steps: |-
+        Open Settings → General → Modules and choose Explore.
+        Choose a module and press Install to download and verify it.
+        Review the author and requested permissions. Confirm installation if you agree.
+      notes: |-
+        For a .nelkmod file, use Installed → Import module.
+        From Installed, disable or uninstall optional modules. Delete its data too removes their saved data.
+        Tester-only modules appear only for accounts with access.
+      bullets: ''
+      visible: '1'
+      image_uri: ''
+      image_asset: /modules/custom/nelkano_home/assets/docs/guide/20261018/07-modulos.webp
+      image_alt: 'Nelkano Modules screen with the included modules.'
+      image_caption: 'Manage modules from Installed.'
+      image_focus: top
+    -
+      title: 'Update the app and modules'
+      group: 'Modules and updates'
+      description: 'Included modules update with the app; optional modules have their own versions.'
+      steps: |-
+        To update the app, close your game and open Settings → General → App update.
+        For modules, open Modules → Installed → Check for updates.
+        Choose the update. If the module is active, press Disable and continue, then review its permissions and confirm installation.
+      notes: 'Updating a module keeps its data.'
+      bullets: ''
       visible: '1'
       image_uri: ''
     -
-      title: 'Play and Continue'
-      description: "Open a game's details to start it or restore a save state."
-      bullets: |-
-        Play starts the game; in-game saves are loaded through the game’s own menus.
-        Continue appears on the details page when a state exists: it prioritizes the autosave, then another available state.
-        Choosing a screenshot as cover art does not change the state used by Continue.
-        Choose a specific state from Saves.
-        Continue playing on Home lists recently opened games; it does not guarantee they have save states.
+      title: 'Sign in and add friends'
+      group: 'Account and connections'
+      description: ''
+      steps: |-
+        Open Settings → Account → Log in. If you just registered, activate your account using the email link.
+        In Library or Save States, press Friends beside the search bar.
+        Find the user and send a request. You can also accept incoming requests from Friends.
+      notes: 'Signing in does not sync games or saves across devices.'
+      bullets: ''
       visible: '1'
       image_uri: ''
     -
-      title: 'Saves and save states'
-      description: 'You can save within the game or use Nelkano save states when the system supports them.'
-      bullets: |-
-        An in-game save is loaded through the game's own menus.
-        A save state captures the current game session so you can resume from that point.
-        Nelkano provides five manual save slots per game.
-        Tap Save during gameplay and choose a slot. If it already contains a state, that state will be replaced.
-        Enable Autosaves in Settings to update a separate slot approximately once a minute.
-        In Saves, you can browse states, filter them by game and sort them.
-        Save state support depends on the system and the game.
+      title: 'Play with friends'
+      group: 'Account and connections'
+      description: 'Both players must sign in and add each other in Friends.'
+      steps: |-
+        Open a compatible game and choose Multijugador.
+        One person presses Crear partida and selects their friends. The others press Unirse and choose the host.
+        For GBA link cable, use two devices with the exact same game version. Press Conectar con cable link and enter the game's own multiplayer mode.
+      notes: 'The link session is temporary: leaving restores the previous session and discards progress made during multiplayer.'
+      bullets: ''
       visible: '1'
       image_uri: ''
     -
-      title: "Customizing a game's details"
-      description: 'Change how each game appears in your library.'
-      bullets: |-
-        Use Select cover on the details page to choose a screenshot from an available state or restore the image.
-        Add the game to favorites or collections.
-        Cover art does not determine which state Continue loads.
-        Deleting a game asks for confirmation and removes its imported copy and associated data. Keep anything you need beforehand.
+      title: 'Use a second screen'
+      group: 'Account and connections'
+      description: 'Split DS or 3DS screens across two devices on the same local network.'
+      steps: |-
+        On the receiving device, open Settings → Second screen → Cambiar modo and confirm with Yes.
+        On the gaming device, open Second screen → Buscar pantallas. Choose the receiver and press Conectar.
+        Accept the connection on the receiver if prompted. Use Swap screens to change where each screen appears.
+      notes: 'The lower screen accepts touch or mouse input from the receiver.'
+      bullets: ''
       visible: '1'
       image_uri: ''
     -
-      title: 'Physical controllers'
-      description: 'Use a controller recognized by Android and map its buttons for each system.'
-      bullets: |-
-        Pair the controller in Android's Bluetooth settings.
-        In Settings → Controls → Controller, you can check which button presses Nelkano detects.
-        Open Button mapping, select a system and tap the control you want to configure.
-        Press the controller button you want to assign.
-        You can save and load controller configurations or restore the defaults.
-        During gameplay, use full-screen mode to play with the controller.
+      title: 'Watch your game from the web'
+      group: 'Account and connections'
+      description: 'You need an account allowed to broadcast.'
+      steps: |-
+        During gameplay, open the gear button → Streaming → Iniciar emisión.
+        On nelkano.com, sign in with the same account and open Streaming to watch.
+        When finished, press Detener emisión in the app.
+      notes: 'Game audio is shared; the microphone is excluded.'
+      bullets: ''
       visible: '1'
       image_uri: ''
     -
-      title: 'Touch control editor'
-      description: 'Adjust the control layout to play comfortably on your screen.'
-      bullets: |-
-        Open Settings → Controls → Control editor.
-        Select the system and portrait or landscape orientation.
-        Move the controls and adjust their size.
-        Use the system's button selector to show or hide actions such as Save, Load or the speed indicator.
-        Check the preview and tap Save.
-        Each system stores a separate layout for each orientation.
+      title: 'Change the language or theme'
+      group: 'Settings and files'
+      description: ''
+      steps: |-
+        Open Settings → Language and theme.
+        Choose your interface language and preferred theme.
+      notes: "The interface language does not change games' language."
+      bullets: ''
+      visible: '1'
+      image_uri: ''
+      image_asset: /modules/custom/nelkano_home/assets/docs/guide/20261018/08-apariencia.webp
+      image_alt: 'Language and theme settings in Nelkano for Android.'
+      image_caption: 'Language and theme settings.'
+      image_focus: middle
+    -
+      title: 'Apply a patch'
+      group: 'Settings and files'
+      description: 'For GBA and Nintendo DS games, using IPS or xdelta/VCDIFF patches.'
+      steps: |-
+        Open the game details and press Apply patch.
+        Select the patch file and original game. The patch must match that exact game version.
+        Find the result in Library: it appears as a separate game with its own saves.
+      notes: 'The original game is kept.'
+      bullets: ''
       visible: '1'
       image_uri: ''
     -
-      title: 'Buttons during gameplay'
-      description: 'The emulator buttons let you control the session and adjust the display.'
-      bullets: |-
-        Pause stops and resumes emulation.
-        Save and Load appear when the core supports save states.
-        Full screen expands the game area; Stretch can change the image’s proportions.
-        DS and 3DS offer Both, Upper or Lower through Screens.
-        The speed indicator shows progress as a percentage of normal speed when the core supplies this information; it is not an FPS counter.
-        Available controls depend on the core and modules. AUTO, RECORD and REPLAY are not available in the current controls.
-        Restart is available only when supported by the core.
+      title: 'Keep your games and saves'
+      group: 'Settings and files'
+      description: ''
+      steps: |-
+        Keep your original game files outside Nelkano.
+        Before deleting a game, make sure you no longer need its saves or save states.
+      notes: |-
+        Deleting a game also removes its saves and save states.
+        Clearing app data or uninstalling removes the library and saves.
+      bullets: ''
       visible: '1'
       image_uri: ''
     -
-      title: 'Local data and connections'
-      description: 'Your library and saves are stored on your device.'
+      title: 'Game translations'
+      description: 'To play in another language, use a translated game or a compatible patch.'
       bullets: |-
-        Nelkano does not offer integrated Google Drive synchronization.
-        Your Nelkano account is used for profiles, friends and connected features; it does not sync your library.
-        A module can connect to other servers with your authorization. Review its permissions and the data it sends.
-        Keep copies of your files and saves before deleting data or using modifications.
-      visible: '1'
-      image_uri: ''
-    -
-      title: 'Second screen for Nintendo DS and Nintendo 3DS'
-      description: "Use another Android device to display one of the game's two screens."
-      bullets: |-
-        Open Nelkano on both devices and connect them to the same local network.
-        On the receiving device, open Settings → Second screen and enable Use as second screen.
-        On the device you will play on, tap Find screens and select the receiving device.
-        Accept the connection on the receiving device.
-        When you run a DS or 3DS game, each device will display one screen.
-        Use Swap screens to change which screen appears on each device.
-        If the lower screen is on the receiving device, you can use its touch input there.
-      visible: '1'
-      image_uri: ''
-    -
-      title: 'Appearance and language'
-      description: 'Adjust the Nelkano interface to suit your preferences.'
-      bullets: |-
-        Open Language and theme in Settings to choose Spanish or English and one of five palettes: dark, light, navy, slate or graphite.
-        Save your choice to apply it.
-        Changing the interface language does not translate games.
-        Control positions and sizes are adjusted in the control editor.
-      visible: '1'
-      image_uri: ''
-    -
-      title: 'Apply patches to GBA and DS games'
-      description: 'Apply a compatible patch and add the result as a separate game.'
-      bullets: |-
-        Import the original GBA or DS game.
-        Open Patches in Settings or Apply patch on the game’s details page.
-        Select an IPS or xdelta/VCDIFF file and the exact game version required by the patch.
-        IPS cannot verify by itself that you selected the right ROM.
-        A modified copy is added to the library and the original is kept.
-        The copy uses its own saves; it does not inherit the original’s saves. BPS, UPS and PPF are not supported.
-      visible: '1'
-      image_uri: ''
-    -
-      title: 'Translating Nintendo DS games'
-      description: 'Integrated automatic game translation is not available.'
-      bullets: |-
-        You can apply a compatible translation patch through Patches.
-        Changing Nelkano’s language changes only its interface.
+        Nelkano's language setting only changes its interface.
+        The app does not automatically translate game text.
       visible: '0'
       image_uri: ''
     -
-      title: 'Nelkano account and friends'
-      description: 'Manage your profile and contacts from the app.'
+      title: 'Send an error report'
+      description: 'Accounts authorized to send error reports can use the official Reportes de errores module on Android.'
       bullets: |-
-        Sign in through Account in Settings. Open Friends from the library to manage contacts.
-        Find users and send requests; accept or reject incoming requests, cancel sent requests and remove friends.
-        You can edit your profile through the module.
-        Local play does not require an account.
-      visible: '1'
-      image_uri: ''
-    -
-      title: 'Experimental online features'
-      description: 'Online functionality is provided by optional modules for specific games.'
-      bullets: |-
-        Install a compatible online module and grant its permissions.
-        GBA Online and Pokémon Online have their own capabilities and requirements; they do not provide universal multiplayer and are not essential bundled modules.
-        Check the module documentation and supported game versions.
-        Availability also depends on your account, permissions and connection.
+        Install the module if it is available to your account and review its permissions.
+        Open a local game that supports save states, create one and use Report an error in its settings. Complete the form and agree to send the state and technical data before pressing Send report.
+        If your account does not have access, use the website's contact page to explain what happened.
       visible: '0'
-      image_uri: ''
-    -
-      title: 'Streaming gameplay to the web'
-      description: "Use Streaming to send your game's video and audio to the Nelkano website."
-      bullets: |-
-        Sign in with an account that has streaming permission.
-        Open a game and use Streaming to start broadcasting, accepting any platform authorization requested.
-        Open the nelkano.com Streaming viewer with the same account.
-        Stop broadcasting from the app when finished.
-        Game video and audio are shared when supported by the core. The microphone and entire desktop are not captured.
-        Connection and core capture support affect the result; streaming is not guaranteed for every system.
-      visible: '1'
-      image_uri: ''
-    -
-      title: 'Reporting an error'
-      description: 'In-app reports are reserved for authorized testers.'
-      bullets: |-
-        On Android this requires the official reports module and an account with Tester permission.
-        It is not available to every account or as a public SDK service.
-        Other users can use the website’s contact channels.
-      visible: '0'
-      image_uri: ''
-    -
-      title: 'Modules and SDK'
-      description: 'Extend Nelkano through .nelkmod packages.'
-      bullets: |-
-        Open Modules in Settings to import a package, review its author and permissions, and manage optional modules.
-        Basics, Appearance, Control editor, Friends and Patches are essential and remain active.
-        The SDK supports pages, buttons, services, events and local data through JavaScript or TypeScript.
-        SDK memory and temporary ROM modifications work on GBA; other cores do not expose these operations.
-        Modifications act while the module is active, but effects can remain in saves. Some modules require a fresh game or their presence to load it.
-        SDK Studio uses simulated games and data. A visual editor generating module code is not yet available.
-      visible: '1'
       image_uri: ''

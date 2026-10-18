@@ -19,9 +19,12 @@ trait NelkanoPageContextTrait {
       $messagesVersion = '?v=' . filemtime($messagesPath);
     }
 
+    $modules_url = '/modulos';
+    $sdk_url = '';
     $nav_links = [['label' => $language === 'en' ? 'Systems' : 'Sistemas', 'url' => $language === 'en' ? '/en/systems' : '/sistemas']];
+    $nav_links[] = ['label' => $language === 'en' ? 'Modules' : 'Módulos', 'url' => $modules_url];
     $nav_links[] = ['label' => $language === 'en' ? 'Guide' : 'Guía de uso', 'url' => $language === 'en' ? '/en/guide' : '/guia'];
-    $sdk_books = $this->entityTypeManager()->getStorage('node')->loadByProperties([
+    $sdk_books = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
       'uuid' => 'de520020-2026-4000-8000-000000000001',
       'type' => 'sdk_page',
     ]);
@@ -30,14 +33,17 @@ trait NelkanoPageContextTrait {
         ? $sdk_book->getTranslation($language)
         : \Drupal::service('entity.repository')->getTranslationFromContext($sdk_book, $language);
       if ($sdk_book->isPublished() && $sdk_book->access('view', $this->currentUser())) {
-        $nav_links[] = ['label' => 'SDK', 'url' => $sdk_book->toUrl()->toString()];
+        $sdk_url = $sdk_book->toUrl()->toString();
+        $nav_links[] = ['label' => 'SDK', 'url' => $sdk_url];
       }
     }
-    if ($authenticated && $this->currentUser()->hasPermission('administer nelkano editable pages')) {
-      $nav_links[] = ['label' => 'Admin', 'url' => '/admin/nelkano'];
-    }
+    $account_links = [];
     if ($authenticated) {
-      $nav_links[] = ['label' => 'Streaming', 'url' => $language === 'en' ? '/en/user/stream' : '/user/stream'];
+      $account_links[] = ['label' => $language === 'en' ? 'My profile' : 'Mi perfil', 'url' => $language === 'en' ? '/en/user' : '/user'];
+      $account_links[] = ['label' => 'Streaming', 'url' => $language === 'en' ? '/en/user/stream' : '/user/stream'];
+      if ($this->currentUser()->hasPermission('administer nelkano editable pages')) {
+        $account_links[] = ['label' => $language === 'en' ? 'Administration' : 'Administración', 'url' => '/admin/nelkano'];
+      }
     }
 
     return [
@@ -47,7 +53,8 @@ trait NelkanoPageContextTrait {
       'logo_url' => '/' . $modulePath . '/assets/logo-nav.webp' . $logoVersion,
       'redesign_css_url' => '/' . $modulePath . '/css/redesign.css?v=' . filemtime(DRUPAL_ROOT . '/' . $modulePath . '/css/redesign.css'),
       'site_pages_css_url' => '/' . $modulePath . '/css/site-pages.css?v=' . filemtime(DRUPAL_ROOT . '/' . $modulePath . '/css/site-pages.css'),
-      'header_css_url' => '/' . $modulePath . '/css/header.css',
+      'header_css_url' => '/' . $modulePath . '/css/header.css?v=' . filemtime(DRUPAL_ROOT . '/' . $modulePath . '/css/header.css'),
+      'header_js_url' => '/' . $modulePath . '/js/header.js?v=' . filemtime(DRUPAL_ROOT . '/' . $modulePath . '/js/header.js'),
       'footer_css_url' => '/' . $modulePath . '/css/footer.css?v=' . filemtime(DRUPAL_ROOT . '/' . $modulePath . '/css/footer.css'),
       'base_js_url' => '/' . $modulePath . '/js/messages.js' . $messagesVersion,
       'theme_js_url' => '/' . $modulePath . '/js/theme-toggle.js',
@@ -59,6 +66,13 @@ trait NelkanoPageContextTrait {
       'nav_alternate_flag' => $language === 'en' ? 'ES' : 'EN',
       'nav_alternate_flag_url' => '/' . $modulePath . '/assets/flags/' . ($language === 'en' ? 'es' : 'en') . '.svg',
       'theme_toggle_label' => $language === 'en' ? 'Switch color mode' : 'Cambiar modo de color',
+      'nav_modules_url' => $modules_url,
+      'nav_sdk_url' => $sdk_url,
+      'nav_menu_open_label' => $language === 'en' ? 'Open menu' : 'Abrir menú',
+      'nav_menu_close_label' => $language === 'en' ? 'Close menu' : 'Cerrar menú',
+      'nav_account_menu_label' => $language === 'en' ? 'My account' : 'Mi cuenta',
+      'nav_account_links' => $account_links,
+      'nav_login_label' => $language === 'en' ? 'Sign in' : 'Entrar',
       'nav_is_authenticated' => $authenticated,
       'nav_account_label' => $authenticated ? ($name !== '' ? $name : ($language === 'en' ? 'My profile' : 'Mi perfil')) : 'Login',
       'nav_profile_label' => $language === 'en' ? 'My profile' : 'Mi perfil',
@@ -69,7 +83,7 @@ trait NelkanoPageContextTrait {
       'nav_account_color' => $profile['color'],
       'nav_account_avatar_url' => $authenticated ? $profile['avatar_url'] : '',
       'nav_logout_url' => $authenticated ? $this->logoutUrl() : '',
-      'nav_logout_label' => $language === 'en' ? 'Log out' : 'Cerrar sesion',
+      'nav_logout_label' => $language === 'en' ? 'Log out' : 'Cerrar sesión',
       'nav_links' => $nav_links,
     ];
   }

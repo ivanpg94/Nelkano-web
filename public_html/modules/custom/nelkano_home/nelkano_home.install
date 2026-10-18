@@ -30,6 +30,7 @@ function nelkano_home_schema(): array {
  */
 function nelkano_home_install(): void {
   \Drupal\nelkano_home\Service\RedesignContent::install();
+  \Drupal\nelkano_home\Service\HomeExtensions::install();
   require_once __DIR__ . '/nelkano_home.error_reports.inc';
   nelkano_home_ensure_error_report_content();
   require_once __DIR__ . '/nelkano_home.backlog.inc';
@@ -970,4 +971,9 @@ function nelkano_home_update_11039(): void {
     }
     $config->save();
   }
+}
+
+/** Seed the compact navigation discovery section and publish only the SDK entry. */
+function nelkano_home_update_11042(): void {
+  \Drupal\nelkano_home\Service\HomeExtensions::install();
 }

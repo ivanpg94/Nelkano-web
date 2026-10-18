@@ -24,6 +24,7 @@ admin_forms:
       css/header.css: {}
       css/admin-forms.css: {}
   js:
+    js/header.js: {}
     js/admin-forms.js: {}
   dependencies:
     - core/drupal

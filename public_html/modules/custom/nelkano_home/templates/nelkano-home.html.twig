@@ -3,5 +3,38 @@
 {% if content.hero_enabled is not defined or content.hero_enabled %}<section class="r-hero r-gradient"><div class="r-wrap">{% if content.hero_badge %}<span class="r-badge">{{ content.hero_badge }}</span>{% endif %}<h1>{{ content.hero_title }}</h1><p class="r-lead">{{ content.hero_description }}</p><div class="r-actions">{% if content.primary_cta %}<a class="r-btn" href="{{ content.primary_url }}">{{ content.primary_cta }}</a>{% endif %}{% include '@nelkano_home/nelkano-download-selector.html.twig' %}</div></div></section>{% endif %}
 {% if content.about_enabled is not defined or content.about_enabled %}<section class="r-section" id="que-es"><div class="r-wrap"><p class="r-label">{{ content.about_eyebrow }}</p><div class="r-about"><div><h2>{{ content.about_title }}</h2><p class="r-copy">{{ content.about_description }}</p></div><ul class="r-feature-list">{% for item in content.feature_items %}<li class="r-feature"><img src="{{ item.image_url }}" alt="" width="36" height="36" loading="lazy"><div><h3>{{ item.title }}</h3><p>{{ item.description }}</p></div></li>{% endfor %}</ul></div></div></section>{% endif %}
 {% if content.status_enabled is not defined or content.status_enabled %}<section class="r-section r-alt" id="project-status"><div class="r-wrap"><div class="r-section-head"><div><p class="r-label">{{ content.status_eyebrow }}</p><h2 class="r-title">{{ content.status_title }}</h2></div><a href="{{ systems_url }}">{{ labels.all_systems }} →</a></div><div class="r-grid r-home-cards">{% for item in content.status_items %}{% include '@nelkano_home/nelkano-redesign-card.html.twig' with {home_card:true} %}{% endfor %}</div></div></section>{% endif %}
+{% if content.extensions_enabled and nav_modules_url %}
+<section class="r-section r-extensions" id="extend-nelkano" aria-labelledby="extensions-title">
+  <div class="r-wrap">
+    <div class="r-section-head">
+      <div>
+        {% if content.extensions_eyebrow %}<p class="r-label">{{ content.extensions_eyebrow }}</p>{% endif %}
+        <h2 class="r-title" id="extensions-title">{{ content.extensions_title }}</h2>
+        {% if content.extensions_description %}<p class="r-copy r-extensions-intro">{{ content.extensions_description }}</p>{% endif %}
+      </div>
+    </div>
+    <div class="r-extensions-grid{% if nav_sdk_url %} r-extensions-pair{% endif %}">
+      <article class="r-card r-extensions-card">
+        <span class="r-extensions-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
+        <div class="r-card-content">
+          <h3>{{ content.extensions_modules_title }}</h3>
+          <p>{{ content.extensions_modules_description }}</p>
+        </div>
+        <a class="r-btn" href="{{ nav_modules_url }}">{{ content.extensions_modules_cta }} <span aria-hidden="true">→</span></a>
+      </article>
+      {% if nav_sdk_url %}
+      <article class="r-card r-extensions-card">
+        <span class="r-extensions-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6m8-12 6 6-6 6M14 3l-4 18"/></svg></span>
+        <div class="r-card-content">
+          <h3>{{ content.extensions_sdk_title }}</h3>
+          <p>{{ content.extensions_sdk_description }}</p>
+        </div>
+        <a class="r-btn r-ghost" href="{{ nav_sdk_url }}">{{ content.extensions_sdk_cta }} <span aria-hidden="true">→</span></a>
+      </article>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endif %}
 {% if content.differentiators_enabled is not defined or content.differentiators_enabled %}<section class="r-section"><div class="r-wrap"><div class="r-section-head"><div><p class="r-label">{{ content.differentiators_eyebrow }}</p><h2 class="r-title">{{ content.differentiators_title }}</h2></div></div><div class="r-grid r-experience">{% for item in content.differentiator_items %}<div><h3>{{ item.title }}</h3><p>{{ item.description }}</p></div>{% endfor %}</div></div></section>{% endif %}
 </main><div class="nk-page r-footer-shell">{% include '@nelkano_home/nelkano-footer.html.twig' with {footer_primary:content.footer_primary} %}{% include '@nelkano_home/nelkano-consent-banner.html.twig' %}</div>

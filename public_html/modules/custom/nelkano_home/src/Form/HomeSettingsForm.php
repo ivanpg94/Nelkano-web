@@ -43,6 +43,18 @@ final class HomeSettingsForm extends ConfigFormBase {
       'status_eyebrow'=>['type'=>'textfield','title'=>'Eyebrow'],
       'status_title'=>['type'=>'textfield','title'=>'Title'],
     ],
+    'Extensions' => [
+      'extensions_enabled'=>['type'=>'checkbox','title'=>'Show section','default'=>TRUE],
+      'extensions_eyebrow'=>['type'=>'textfield','title'=>'Eyebrow'],
+      'extensions_title'=>['type'=>'textfield','title'=>'Section title'],
+      'extensions_description'=>['type'=>'textarea','title'=>'Description'],
+      'extensions_modules_title'=>['type'=>'textfield','title'=>'Modules card title'],
+      'extensions_modules_description'=>['type'=>'textarea','title'=>'Modules card description'],
+      'extensions_modules_cta'=>['type'=>'textfield','title'=>'Modules button label'],
+      'extensions_sdk_title'=>['type'=>'textfield','title'=>'SDK card title'],
+      'extensions_sdk_description'=>['type'=>'textarea','title'=>'SDK card description'],
+      'extensions_sdk_cta'=>['type'=>'textfield','title'=>'SDK button label'],
+    ],
     'Experiencia' => [
       'differentiators_enabled'=>['type'=>'checkbox','title'=>'Show section','default'=>TRUE],
       'differentiators_eyebrow'=>['type'=>'textfield','title'=>'Eyebrow'],

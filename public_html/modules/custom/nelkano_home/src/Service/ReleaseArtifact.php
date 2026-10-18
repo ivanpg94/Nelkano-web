@@ -15,10 +15,11 @@ final class ReleaseArtifact {
     foreach ($rows as $row) { $file = self::file($row); if ($file['path'] !== '') return $file + ['version' => $row['version']]; }
     return [];
   }
-  public static function file(array $row): array {
+  public static function file(array $row, string $purpose = 'download'): array {
     $platform = self::platform($row);
-    $format = self::PLATFORMS[$platform][1] ?? '';
-    $uri = trim((string) ($row['apk_file'] ?? ''));
+    $installer = $platform === 'sdk' && ($purpose === 'installer' || ($purpose === 'download' && !empty($row['installer_file'])));
+    $format = $installer ? 'msi' : (self::PLATFORMS[$platform][1] ?? '');
+    $uri = trim((string) ($row[$installer ? 'installer_file' : 'apk_file'] ?? ''));
     $empty = ['path' => '', 'filename' => (string) ($row['filename'] ?? ''), 'url' => ''];
     if ($format === '' || !preg_match('@^(public|private)://nelkano-releases/[^/\\\\]+\.' . $format . '$@D', $uri)) return $empty;
     $fs = \Drupal::service('file_system');
@@ -27,7 +28,7 @@ final class ReleaseArtifact {
     $version = preg_replace('/[^A-Za-z0-9.+_-]/', '', (string) ($row['version'] ?? ''));
     $filename = ($platform === 'sdk' ? 'Nelkano SDK Studio' : 'Nelkano') . ' ' . $version . ($platform === 'android' ? '' : '-' . $platform) . '.' . $format;
     $language = str_starts_with(\Drupal::request()->getPathInfo(), '/en') ? 'en' : 'es';
-    $url = \Drupal\Core\Url::fromRoute('nelkano_home.platform_release_download', ['language' => $language, 'platform' => $platform, 'version' => (string) $row['version']])->toString();
+    $url = \Drupal\Core\Url::fromRoute($installer ? 'nelkano_home.sdk_installer_download' : 'nelkano_home.platform_release_download', ['language' => $language, 'platform' => $platform, 'version' => (string) $row['version']])->toString();
     return ['path' => $path, 'filename' => $filename, 'url' => $url];
   }
 }

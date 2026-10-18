@@ -92,6 +92,26 @@ nelkano_home.settings:
                 type: string
               description:
                 type: text
+        extensions_enabled:
+          type: boolean
+        extensions_eyebrow:
+          type: string
+        extensions_title:
+          type: string
+        extensions_description:
+          type: text
+        extensions_modules_title:
+          type: string
+        extensions_modules_description:
+          type: text
+        extensions_modules_cta:
+          type: string
+        extensions_sdk_title:
+          type: string
+        extensions_sdk_description:
+          type: text
+        extensions_sdk_cta:
+          type: string
         platforms_enabled:
           type: boolean
         platforms_eyebrow:
@@ -277,6 +297,8 @@ nelkano_home.docs:
               version_code:
                 type: string
               apk_file:
+                type: string
+              installer_file:
                 type: string
               filename:
                 type: string
