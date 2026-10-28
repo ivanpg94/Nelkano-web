@@ -140,16 +140,24 @@ final class AppAuthController extends ControllerBase {
     }
 
     $metadata = json_decode((string) $request->request->get('metadata', ''), TRUE);
-    $state = $request->files->get('state');
+    $native_save = is_array($metadata) && ($metadata['attachment_type'] ?? '') === 'native_save';
+    $kind = $native_save ? 'native_save' : 'state';
+    if (is_array($metadata) && !in_array($metadata['attachment_type'] ?? 'state', ['state', 'native_save'], TRUE)) {
+      return $this->error('Tipo de adjunto no valido.', 400);
+    }
+    $state = $request->files->get($kind);
+    if ($request->files->has($native_save ? 'state' : 'native_save')) {
+      return $this->error('Envia un solo tipo de guardado.', 400);
+    }
     if (!is_array($metadata) || !$state instanceof \Symfony\Component\HttpFoundation\File\UploadedFile || !$state->isValid()) {
-      return $this->error('El reporte y el slot de guardado son obligatorios.', 400);
+      return $this->error('El reporte y el archivo de guardado son obligatorios.', 400);
     }
 
     $summary = $this->cleanText((string) ($metadata['summary'] ?? ''), 180);
     $steps = $this->cleanText((string) ($metadata['steps'] ?? ''), 20000);
     $system = strtoupper($this->cleanText((string) ($metadata['system'] ?? ''), 32));
     $rom_hash = strtolower($this->cleanId((string) ($metadata['rom_hash'] ?? '')));
-    $slot = (int) ($metadata['slot'] ?? -1);
+    $slot = $native_save ? 0 : (int) ($metadata['slot'] ?? -1);
     $category = strtolower($this->cleanId((string) ($metadata['category'] ?? 'other')));
     $allowed_categories = ['crash', 'freeze', 'graphics', 'audio', 'controls', 'performance', 'save_state', 'other'];
     if ($summary === '' || $steps === '' || $system === '' || $rom_hash === '' || $slot < 0 || $slot > 5) {
@@ -159,6 +167,13 @@ final class AppAuthController extends ControllerBase {
       $category = 'other';
     }
 
+    $original_name = (string) ($metadata['native_save_filename'] ?? '');
+    if ($native_save && ($system !== 'RPG_MAKER' || ($metadata['state_format'] ?? '') !== 'rpgmaker-native-save' || array_key_exists('slot', $metadata) || !\Drupal\nelkano_home\Service\ReportAttachment::validSaveName($original_name))) {
+      return $this->error('Guardado original de RPG Maker no valido.', 400);
+    }
+    if (!$native_save && ($metadata['state_format'] ?? '') === 'rpgmaker-native-save') {
+      return $this->error('Tipo de guardado no valido.', 400);
+    }
     $state_size = (int) $state->getSize();
     if ($state_size <= 0 || $state_size > 268435456) {
       return $this->error('El slot supera el limite de 256 MB.', 413);
@@ -179,7 +194,7 @@ final class AppAuthController extends ControllerBase {
       return $this->error('El almacenamiento privado de reportes no esta disponible.', 503);
     }
 
-    $state_filename = 'slot-' . $slot . '.' . $extension;
+    $state_filename = $native_save ? basename($original_name) : 'slot-' . $slot . '.' . $extension;
     try {
       $stored_state = $state->move($real_directory, $state_filename);
     }
@@ -187,7 +202,11 @@ final class AppAuthController extends ControllerBase {
       return $this->error('No se pudo guardar el slot enviado.', 500);
     }
     $state_sha256 = hash_file('sha256', $stored_state->getPathname()) ?: '';
-    $declared_sha256 = strtolower($this->cleanId((string) ($metadata['state_sha256'] ?? '')));
+    $declared_sha256 = $native_save ? (string) ($metadata['native_save_sha256'] ?? '') : strtolower($this->cleanId((string) ($metadata['state_sha256'] ?? '')));
+    if ($native_save && !preg_match('/^[a-f0-9]{64}$/D', $declared_sha256)) {
+      @unlink($stored_state->getPathname());
+      return $this->error('Hash del guardado original no valido.', 400);
+    }
     if ($state_sha256 === '' || ($declared_sha256 !== '' && !hash_equals($state_sha256, $declared_sha256))) {
       @unlink($stored_state->getPathname());
       return $this->error('La integridad del slot no es valida.', 400);
@@ -231,7 +250,7 @@ final class AppAuthController extends ControllerBase {
         'field_report_settings' => $this->cleanText((string) ($metadata['settings_json'] ?? ''), 20000),
         'field_report_logs' => $this->cleanText((string) ($metadata['logs'] ?? ''), 60000),
         'field_report_state_uri' => $directory . '/' . $state_filename,
-        'field_report_state_name' => $state_filename,
+        'field_report_state_name' => $native_save ? $original_name : $state_filename,
         'field_report_state_size' => $state_size,
         'field_report_state_sha256' => $state_sha256,
         'field_report_screenshot_uri' => $screenshot_uri,

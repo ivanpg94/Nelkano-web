@@ -145,6 +145,46 @@ es:
       filename: Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.exe
       date: 18/10/2026
       changes: 'Primera beta pública'
+    -
+      visible: true
+      version: 3.0.4
+      platform: android
+      version_code: '14'
+      apk_file: 'private://nelkano-releases/Nelkano 3.0.4.apk'
+      filename: 'Nelkano 3.0.4.apk'
+      date: 28/10/2026
+      changes: |-
+        Iconos unificados y botones de sistema sin doble marco.
+        Eliminación individual y múltiple de estados guardados.
+        Barra de filtros adaptada al ancho de la pantalla.
+        Ajustes simplificados y edición del nombre del juego desde su ficha.
+        Soporte de guardados originales de RPG Maker para el módulo opcional Reportes.
+    -
+      visible: true
+      version: 3.0.4
+      platform: windows
+      version_code: '14'
+      installer_file: 'private://nelkano-releases/Nelkano 3.0.4-windows.exe'
+      filename: 'Nelkano 3.0.4-windows.exe'
+      date: 28/10/2026
+      changes: |-
+        Iconos y botones de interfaz unificados.
+        Eliminación individual y múltiple de estados guardados.
+        Filtros adaptables y edición del nombre del juego desde su ficha.
+        Vista secundaria de las pantallas de Nintendo DS y Nintendo 3DS.
+    -
+      visible: true
+      version: 3.0.4
+      platform: sdk
+      version_code: '14'
+      installer_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.4-windows-x86_64.exe'
+      filename: Nelkano-SDK-Studio-3.0.4-windows-x86_64.exe
+      date: 28/10/2026
+      changes: |-
+        Sustitución y ampliación de funciones y pantallas de la aplicación.
+        Herramientas para componentes compilados y vistas reactivas.
+        Acceso autorizado a recursos de proyectos y extensiones de sesiones RPG Maker.
+        Documentación y referencia sin conexión actualizadas.
   compatibility_seo_title: 'Compatibilidad de Nelkano'
   compatibility_seo_description: 'Estado real de compatibilidad de los sistemas soportados por Nelkano para Android.'
   compatibility_eyebrow: Compatibilidad
@@ -318,6 +358,46 @@ en:
       filename: Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.exe
       date: 18/10/2026
       changes: 'First public beta'
+    -
+      visible: true
+      version: 3.0.4
+      platform: android
+      version_code: '14'
+      apk_file: 'private://nelkano-releases/Nelkano 3.0.4.apk'
+      filename: 'Nelkano 3.0.4.apk'
+      date: 28/10/2026
+      changes: |-
+        Unified icons and system buttons without duplicate frames.
+        Delete save states individually or in batches.
+        Filter toolbar adapts to the screen width.
+        Simplified settings and game-title editing from the game details dialog.
+        Support for original RPG Maker save files in the optional Reports module.
+    -
+      visible: true
+      version: 3.0.4
+      platform: windows
+      version_code: '14'
+      installer_file: 'private://nelkano-releases/Nelkano 3.0.4-windows.exe'
+      filename: 'Nelkano 3.0.4-windows.exe'
+      date: 28/10/2026
+      changes: |-
+        Unified interface icons and buttons.
+        Delete save states individually or in batches.
+        Adaptive filters and game-title editing from the game details dialog.
+        Secondary-screen preview for Nintendo DS and Nintendo 3DS.
+    -
+      visible: true
+      version: 3.0.4
+      platform: sdk
+      version_code: '14'
+      installer_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.4-windows-x86_64.exe'
+      filename: Nelkano-SDK-Studio-3.0.4-windows-x86_64.exe
+      date: 28/10/2026
+      changes: |-
+        Replace and extend application functions and screens.
+        Tools for compiled components and reactive views.
+        Authorized project-resource access and RPG Maker session extensions.
+        Updated documentation and offline reference.
   compatibility_seo_title: 'Nelkano compatibility'
   compatibility_seo_description: 'Real compatibility status for the systems supported by Nelkano on Android.'
   compatibility_eyebrow: Compatibility

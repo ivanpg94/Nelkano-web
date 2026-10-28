@@ -1,0 +1,47 @@
+{
+  "version": "3.0.4",
+  "version_code": 14,
+  "date": "28/10/2026",
+  "releases": {
+    "android": {
+      "apk_file": "Nelkano 3.0.4.apk",
+      "notes": {
+        "en": "Unified icons and system buttons without duplicate frames.\nDelete save states individually or in batches.\nFilter toolbar adapts to the screen width.\nSimplified settings and game-title editing from the game details dialog.\nSupport for original RPG Maker save files in the optional Reports module.",
+        "es": "Iconos unificados y botones de sistema sin doble marco.\nEliminación individual y múltiple de estados guardados.\nBarra de filtros adaptada al ancho de la pantalla.\nAjustes simplificados y edición del nombre del juego desde su ficha.\nSoporte de guardados originales de RPG Maker para el módulo opcional Reportes."
+      }
+    },
+    "windows": {
+      "installer_file": "Nelkano 3.0.4-windows.exe",
+      "notes": {
+        "en": "Unified interface icons and buttons.\nDelete save states individually or in batches.\nAdaptive filters and game-title editing from the game details dialog.\nSecondary-screen preview for Nintendo DS and Nintendo 3DS.",
+        "es": "Iconos y botones de interfaz unificados.\nEliminación individual y múltiple de estados guardados.\nFiltros adaptables y edición del nombre del juego desde su ficha.\nVista secundaria de las pantallas de Nintendo DS y Nintendo 3DS."
+      }
+    },
+    "sdk": {
+      "installer_file": "Nelkano-SDK-Studio-3.0.4-windows-x86_64.exe",
+      "notes": {
+        "en": "Replace and extend application functions and screens.\nTools for compiled components and reactive views.\nAuthorized project-resource access and RPG Maker session extensions.\nUpdated documentation and offline reference.",
+        "es": "Sustitución y ampliación de funciones y pantallas de la aplicación.\nHerramientas para componentes compilados y vistas reactivas.\nAcceso autorizado a recursos de proyectos y extensiones de sesiones RPG Maker.\nDocumentación y referencia sin conexión actualizadas."
+      }
+    }
+  },
+  "source_commit": "99a8bace065b141b00ad322120dbf85787f495db",
+  "source_dirty": true,
+  "publishedToProduction": false,
+  "optionalReports": {
+    "id": "nelkano.error-reports",
+    "includedInApk": false,
+    "publication": "manual-by-Ivan",
+    "version": "0.1.1"
+  },
+  "localVerification": {
+    "threeHttpDownloadsMatchManifest": true,
+    "historicalRowsPreserved": true,
+    "bookPagesUnchanged": 23,
+    "sdkReferenceRevision": "8e1e8b8627fc3cb8261aa4c09cedb267eefbba472fffb0e79f95d8b9d238ad0a",
+    "productionApkSignatureVerified": true,
+    "gameplayExecuted": false,
+    "visualReviewExecuted": false,
+    "desktopSdkAutomaticUpdates": false
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "version": "3.0.4",
+  "versionCode": 14,
+  "appId": "com.ivanp.nelkano.modular",
+  "bytes": 50042183,
+  "sha256": "fb3cea35b0fd9957c685e233680b0ecd5fe16aaabeb47fc475f935fdd92b414e",
+  "productionCertificateSha256": "57780bcd54cdddceeb9ab5445f9b256ec64ad05ec153ef249b78941a8ec4adc5",
+  "date": "28/10/2026",
+  "bundledModules": [
+    {
+      "id": "nelkano.appearance",
+      "version": "0.1.0",
+      "sha256": "f7a9cff4e9f1f90207dd1515eb007134ba946b478830d1ee0fa68f5f32a56e5c"
+    },
+    {
+      "id": "nelkano.basics",
+      "version": "0.1.0",
+      "sha256": "eaaf55682cf4681b24d1aebbb812e77b6679c12eadbadb657da16b6f02792c07"
+    },
+    {
+      "id": "nelkano.control-editor",
+      "version": "0.1.0",
+      "sha256": "9413b0917d65b6b8c21dcb7b8e870576f8b0d04f58b4ff81877c7d61d99fcea2"
+    },
+    {
+      "id": "nelkano.friends",
+      "version": "0.1.0",
+      "sha256": "11c489a2e0fbd7e339a08970ae404fad8b53144feb81137433f9ec6a48a7101f"
+    },
+    {
+      "id": "nelkano.multiplayer",
+      "version": "0.1.0",
+      "sha256": "efd0e2103e496dfb2a3f605d934ec3fc7d70f6884df7336d5b73ad3d47434089"
+    }
+  ],
+  "jniLibraries": {
+    "lib/arm64-v8a/libandroidx.graphics.path.so": "41e9a793c43a0f4fddb19e33f346bace464f30f888ba7b9eaf96294ea115bfb6",
+    "lib/arm64-v8a/libarchive-jni.so": "92332de41e661c2a5ce05df65c8a0a6367a99a2cb201e3b3eec7039c9cbc669e",
+    "lib/arm64-v8a/libc++_shared.so": "cd61762848882a16c8244c964a6f396c0caa0b440588a210ce9cc4ab0e6d9f0c",
+    "lib/arm64-v8a/libgba_android.so": "5b33cb29278337ff68f00fe35c2bd21b66c7e9602a9547b54e81ebe7c86ba5a2",
+    "lib/arm64-v8a/libjingle_peerconnection_so.so": "ba8435d0f85bbb5dbd438189f05a14b77ce7b954c69300c18359b7c4e0c0e194",
+    "lib/arm64-v8a/libmegadrive_android.so": "c4e2dc07cf1663a08f0c4b6b90572525faf394045c090da9a04c7f6afb0e47e4",
+    "lib/arm64-v8a/libn3ds_android.so": "cb2229f56fe5d07421e8c7812e0ed254b15127845ab69fbebc2af1146f3c5f43",
+    "lib/arm64-v8a/libnds_android.so": "e4db8725652575a022058ecf8d13a28c0d3bd50241d8795b8f3b796de4aa61d2",
+    "lib/arm64-v8a/libnelkano_quickjs.so": "c63b6ab84f352e7e0a05fcc822fdaa596c78f3bfb9ecaf7ade7b4f6c65ff80bd",
+    "lib/arm64-v8a/libportablecores.so": "0629128a5338b93d6199476506c96bbd29857f6525dfba1993bb064ffd8f7a9c",
+    "lib/arm64-v8a/libps1_android.so": "bc57873af5efb93efcb99aac50509e7fff838b85bc27a49bd0e6753e2c78b044",
+    "lib/arm64-v8a/librgss_cruby_android.so": "1251ad9aea901899896484a872ca0df9caa039dfb737253e8a9e39fe5188cbcf",
+    "lib/arm64-v8a/libsnes_android.so": "c58462acfdc0b4e418abee46d67e410f220ce97ff4c7924d996a331eb60dba94",
+    "lib/arm64-v8a/libtranslate_jni.so": "45040ff0cdd194d6e601589d759e6f1ba733de5f95790f76cc3e2046919046be"
+  },
+  "sourceCommit": "99a8bace065b141b00ad322120dbf85787f495db",
+  "sourceDirty": true,
+  "publishedToProduction": false,
+  "installedOnDevices": false,
+  "validation": {
+    "productionApkGate": true,
+    "productionSignatureVerified": true,
+    "gameplayExecuted": false
+  },
+  "notes": {
+    "en": "Unified icons and system buttons without duplicate frames.\nDelete save states individually or in batches.\nFilter toolbar adapts to the screen width.\nSimplified settings and game-title editing from the game details dialog.\nSupport for original RPG Maker save files in the optional Reports module.",
+    "es": "Iconos unificados y botones de sistema sin doble marco.\nEliminación individual y múltiple de estados guardados.\nBarra de filtros adaptada al ancho de la pantalla.\nAjustes simplificados y edición del nombre del juego desde su ficha.\nSoporte de guardados originales de RPG Maker para el módulo opcional Reportes."
+  }
+}

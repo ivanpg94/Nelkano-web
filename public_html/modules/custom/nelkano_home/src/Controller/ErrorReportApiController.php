@@ -48,7 +48,7 @@ final class ErrorReportApiController extends ControllerBase {
           'detail_url' => Url::fromRoute('nelkano_home.report_api_detail', ['report' => $node->id()])->toString(),
         ];
       }
-      return new JsonResponse(['api_version' => 1, 'capabilities' => ['blocked_observations' => TRUE, 'conditional_status' => TRUE, 'receipt_revision' => TRUE],
+      return new JsonResponse(['api_version' => 1, 'capabilities' => ['blocked_observations' => TRUE, 'conditional_status' => TRUE, 'receipt_revision' => TRUE, 'native_save' => TRUE],
         'items' => $items, 'next_after_id' => $ids ? (int) end($ids) : $after, 'has_more' => $has_more]);
     });
   }
@@ -69,10 +69,10 @@ final class ErrorReportApiController extends ControllerBase {
       if ($file === NULL) {
         throw new NotFoundHttpException('Attachment not found.');
       }
-      $field = $attachment === 'state' ? 'field_report_state_uri' : 'field_report_screenshot_uri';
+      $field = $attachment !== 'screenshot' ? 'field_report_state_uri' : 'field_report_screenshot_uri';
       $response = new BinaryFileResponse(ReportAttachment::path((string) $node->get($field)->value));
       $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $file['filename']);
-      $response->headers->set('Content-Type', $attachment === 'state' ? 'application/octet-stream' : 'image/png');
+      $response->headers->set('Content-Type', $attachment !== 'screenshot' ? 'application/octet-stream' : 'image/png');
       $response->headers->set('X-Checksum-SHA256', $file['sha256']);
       return $response;
     });
@@ -251,7 +251,14 @@ final class ErrorReportApiController extends ControllerBase {
       }
     }
     ksort($data['metadata']);
-    $data['attachments'] = ['state' => $this->attachment($node, 'state'), 'screenshot' => $this->attachment($node, 'screenshot')];
+    $kind = ReportAttachment::isNativeSave($node) ? 'native_save' : 'state';
+    if ($kind === 'native_save') {
+      unset($data['metadata']['slot']);
+      $data['metadata']['attachment_type'] = 'native_save';
+      $data['metadata']['native_save_filename'] = (string) $node->get('field_report_state_name')->value;
+      ksort($data['metadata']);
+    }
+    $data['attachments'] = [$kind => $this->attachment($node, $kind), 'screenshot' => $this->attachment($node, 'screenshot')];
     // Workflow updates do not change the downloaded report payload. Exclude
     // status, observations and revision timestamps so receipt retries remain
     // valid, including manifests downloaded before observations existed.
@@ -262,7 +269,10 @@ final class ErrorReportApiController extends ControllerBase {
   }
 
   private function attachment(NodeInterface $node, string $kind): ?array {
-    $uri = (string) $node->get($kind === 'state' ? 'field_report_state_uri' : 'field_report_screenshot_uri')->value;
+    if (!in_array($kind, ['state', 'native_save', 'screenshot'], TRUE) || ($kind !== 'screenshot' && ($kind === 'native_save') !== ReportAttachment::isNativeSave($node))) {
+      return NULL;
+    }
+    $uri = (string) $node->get($kind !== 'screenshot' ? 'field_report_state_uri' : 'field_report_screenshot_uri')->value;
     if ($uri === '') {
       return NULL;
     }

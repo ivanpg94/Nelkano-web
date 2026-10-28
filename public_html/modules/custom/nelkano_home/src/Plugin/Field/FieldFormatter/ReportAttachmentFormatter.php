@@ -27,7 +27,7 @@ final class ReportAttachmentFormatter extends FormatterBase {
     foreach ($items as $delta => $item) {
       $elements[$delta] = [
         '#type' => 'link',
-        '#title' => $screenshot ? $this->t('Descargar captura') : $this->t('Descargar slot'),
+        '#title' => $screenshot ? $this->t('Descargar captura') : (\Drupal\nelkano_home\Service\ReportAttachment::isNativeSave($node) ? $this->t('Descargar guardado original') : $this->t('Descargar slot')),
         '#url' => Url::fromRoute($screenshot ? 'nelkano_home.admin_error_report_screenshot' : 'nelkano_home.admin_error_report_state', ['report' => $node->id()]),
       ];
     }

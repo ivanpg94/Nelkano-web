@@ -63,7 +63,7 @@ final class ErrorReportAdminController extends ControllerBase {
       'overview' => [
         $field('Sistema', $value('field_report_system')),
         $field('Categoría', $category),
-        $field('Slot', $value('field_report_slot')),
+        $field(\Drupal\nelkano_home\Service\ReportAttachment::isNativeSave($node) ? 'Guardado original' : 'Slot', \Drupal\nelkano_home\Service\ReportAttachment::isNativeSave($node) ? $value('field_report_state_name') : $value('field_report_slot')),
         $field('Juego', $value('field_report_game'), 3),
       ],
       'problem' => [
@@ -95,7 +95,7 @@ final class ErrorReportAdminController extends ControllerBase {
       'settings' => $settings, 'logs' => $value('field_report_logs'),
     ];
     if ($value('field_report_state_uri') !== '') {
-      $data['attachments'][] = ['label' => 'Descargar save-state', 'name' => $value('field_report_state_name'), 'url' => Url::fromRoute('nelkano_home.admin_error_report_state', ['report' => $node->id()])->toString()];
+      $data['attachments'][] = ['label' => \Drupal\nelkano_home\Service\ReportAttachment::isNativeSave($node) ? 'Descargar guardado original' : 'Descargar save-state', 'name' => $value('field_report_state_name'), 'url' => Url::fromRoute('nelkano_home.admin_error_report_state', ['report' => $node->id()])->toString()];
     }
     if ($value('field_report_screenshot_uri') !== '') {
       $data['attachments'][] = ['label' => 'Descargar captura', 'name' => 'Imagen de la sesión', 'url' => Url::fromRoute('nelkano_home.admin_error_report_screenshot', ['report' => $node->id()])->toString()];

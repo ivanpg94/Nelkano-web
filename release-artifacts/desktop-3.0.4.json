@@ -1,0 +1,26 @@
+{
+  "version": "3.0.4",
+  "versionCode": 14,
+  "bytes": 159366656,
+  "sha256": "e617c7b28244038573ce72cfdc2da7c11ad4fe5308cc63d3bffc9c1c3042e30c",
+  "identityJar": "app-7d5197f2a86a3b4d27c24fbcf1de6f86.jar",
+  "nativeLibraries": {
+    "native/gba.dll": "3a2ede18faa809ab3932082f481023174a2a536137214e648a94ba2f37c92728",
+    "native/libSPIRV-Tools.dll": "e917bb7d7c9d081e3a8d08df26764ba809755d192da3de7493d0033e9a8c75a2",
+    "native/libgcc_s_seh-1.dll": "bbdaf375256e79665ec05705e54bf9bd16cdb527e4e5ad0a49318c8c848dc676",
+    "native/libshaderc_shared.dll": "ee51ef639494cf50b20487dd69394bc7379d5b85266e52674456eb120e85e84d",
+    "native/libstdc++-6.dll": "8232d00306de0679f43411da74a9c99ff8d1732a360616979cbdaffbed75034b",
+    "native/libwinpthread-1.dll": "8df77d4d80c850e4f36af2ed56bc2c598f7c6dc28ed8c5522dd07f4736f0e745",
+    "native/megadrive.dll": "3b929f44598aa4b700ef8c95db85b90abbe7429be3f75342dd2353fe961413e3",
+    "native/n3ds.dll": "a31ae2f200a0f2baf8853b9a59f356e8ebe2023ef2a67942796976d312f451f1",
+    "native/nds.dll": "19cee76f584013f2a7976d1bc624c5c70f4efa9c00328120dabba8304ad9a363",
+    "native/portablecores.dll": "7f113fab2090afb63d67ecb7f9e7c4b093a32474e9e46a4e69f8c6c944ac42d1",
+    "native/ps1.dll": "eb5e6469f130d963612c09395ad11c302dcc0ed291d9f2b3256310eedbef1998",
+    "native/rgss_cruby_android.dll": "f59b6e95f6f9ae36897d2e8e1aa1c4f09184e8228e4db52a8dece068afbc8515",
+    "native/snes.dll": "6773d7ec0c85495e5179c4d042d3b02603c248249afdb62db58f81cd15e18a15",
+    "native/x64-msvcrt-ruby340.dll": "dcff4a83962d072b25c3d2158d8df46539e6b8295e8a68eb04490254f1687441",
+    "native/zlib1.dll": "186fd0dbaef47417bc5248feca0addd9b39040fb4874e4317d70dfb2957f33a0",
+    "native/nelkano_quickjs.dll": "0297c2ff5f37827e612e769142cf2da85dbc8e8bdfcdc506dfa4ade38cf2911d"
+  },
+  "manualInstaller": true
+}

@@ -29,7 +29,7 @@ nelkano_home.report_api_download:
   requirements:
     _access: 'TRUE'
     report: '\d+'
-    attachment: 'state|screenshot'
+    attachment: 'state|native_save|screenshot'
   options:
     no_cache: TRUE
 

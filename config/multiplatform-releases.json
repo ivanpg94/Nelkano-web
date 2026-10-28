@@ -141,5 +141,44 @@
       "es": "Primera beta pública",
       "en": "First public beta"
     }
+  },
+  {
+    "visible": true,
+    "version": "3.0.4",
+    "platform": "android",
+    "version_code": "14",
+    "apk_file": "private://nelkano-releases/Nelkano 3.0.4.apk",
+    "filename": "Nelkano 3.0.4.apk",
+    "date": "28/10/2026",
+    "changes": {
+      "es": "Iconos unificados y botones de sistema sin doble marco.\nEliminación individual y múltiple de estados guardados.\nBarra de filtros adaptada al ancho de la pantalla.\nAjustes simplificados y edición del nombre del juego desde su ficha.\nSoporte de guardados originales de RPG Maker para el módulo opcional Reportes.",
+      "en": "Unified icons and system buttons without duplicate frames.\nDelete save states individually or in batches.\nFilter toolbar adapts to the screen width.\nSimplified settings and game-title editing from the game details dialog.\nSupport for original RPG Maker save files in the optional Reports module."
+    }
+  },
+  {
+    "visible": true,
+    "version": "3.0.4",
+    "platform": "windows",
+    "version_code": "14",
+    "installer_file": "private://nelkano-releases/Nelkano 3.0.4-windows.exe",
+    "filename": "Nelkano 3.0.4-windows.exe",
+    "date": "28/10/2026",
+    "changes": {
+      "es": "Iconos y botones de interfaz unificados.\nEliminación individual y múltiple de estados guardados.\nFiltros adaptables y edición del nombre del juego desde su ficha.\nVista secundaria de las pantallas de Nintendo DS y Nintendo 3DS.",
+      "en": "Unified interface icons and buttons.\nDelete save states individually or in batches.\nAdaptive filters and game-title editing from the game details dialog.\nSecondary-screen preview for Nintendo DS and Nintendo 3DS."
+    }
+  },
+  {
+    "visible": true,
+    "version": "3.0.4",
+    "platform": "sdk",
+    "version_code": "14",
+    "installer_file": "private://nelkano-releases/Nelkano-SDK-Studio-3.0.4-windows-x86_64.exe",
+    "filename": "Nelkano-SDK-Studio-3.0.4-windows-x86_64.exe",
+    "date": "28/10/2026",
+    "changes": {
+      "es": "Sustitución y ampliación de funciones y pantallas de la aplicación.\nHerramientas para componentes compilados y vistas reactivas.\nAcceso autorizado a recursos de proyectos y extensiones de sesiones RPG Maker.\nDocumentación y referencia sin conexión actualizadas.",
+      "en": "Replace and extend application functions and screens.\nTools for compiled components and reactive views.\nAuthorized project-resource access and RPG Maker session extensions.\nUpdated documentation and offline reference."
+    }
   }
 ]

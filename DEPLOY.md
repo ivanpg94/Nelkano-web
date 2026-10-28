@@ -1,6 +1,7 @@
 # Despliegue de Nelkano web
 
-Esta es la receta vigente para la entrega completa preparada el 18/10/2026.
+La receta vigente para 3.0.4 (14) está en [DEPLOY-3.0.4.md](DEPLOY-3.0.4.md).
+El resto de este documento conserva la entrega anterior del 18/10/2026.
 Las instrucciones antiguas del README describen entregas anteriores.
 Preparar el commit no hace push ni modifica producción.
 
@@ -211,3 +212,4 @@ No importar un YAML viejo para fingir un rollback completo: el importador conser
 páginas omitidas. No borrar archivos ni forzar un pull para resolver conflictos.
 
 No se ha ejecutado ninguna de estas fases en producción al preparar esta entrega.
+
