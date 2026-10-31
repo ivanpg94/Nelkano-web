@@ -4,6 +4,20 @@ namespace Drupal\nelkano_home\Controller;
 
 trait NelkanoPageContextTrait {
 
+  private function analyticsSettings(): array {
+    // Ivan confirmed these production accounts as his own. Other accounts remain measured.
+    // A site setting can override the list without sending account IDs to Analytics.
+    $excluded_uids = array_map('intval', (array) \Drupal\Core\Site\Settings::get(
+      'nelkano_analytics_excluded_uids', [1, 3, 10, 12, 13],
+    ));
+    $account = $this->currentUser();
+    return [
+      'ga_id' => 'G-2VCPFJW0PT',
+      'exclude_internal' => $account->isAuthenticated()
+        && in_array((int) $account->id(), $excluded_uids, TRUE),
+    ];
+  }
+
   private function chromeContext(string $modulePath, string $language = 'es', string $alternateUrl = '/en', string $alternateLabel = 'English'): array {
     $authenticated = $this->currentUser()->isAuthenticated();
     $profile = $this->headerProfile();
@@ -49,7 +63,7 @@ trait NelkanoPageContextTrait {
     return [
       'language' => $language,
       'seo_metadata' => \Drupal\nelkano_home\Service\SeoMetadata::forRequest($language),
-      'analytics' => ['ga_id' => 'G-2VCPFJW0PT'],
+      'analytics' => $this->analyticsSettings(),
       'logo_url' => '/' . $modulePath . '/assets/logo-nav.webp' . $logoVersion,
       'redesign_css_url' => '/' . $modulePath . '/css/redesign.css?v=' . filemtime(DRUPAL_ROOT . '/' . $modulePath . '/css/redesign.css'),
       'site_pages_css_url' => '/' . $modulePath . '/css/site-pages.css?v=' . filemtime(DRUPAL_ROOT . '/' . $modulePath . '/css/site-pages.css'),

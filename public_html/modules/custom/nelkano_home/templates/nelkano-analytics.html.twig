@@ -3,6 +3,31 @@
     (function () {
       var GA_ID = '{{ analytics.ga_id|e('js') }}';
       var STORAGE_KEY = 'nelkano_analytics_consent';
+      var INTERNAL_STORAGE_KEY = 'nelkano_analytics_internal';
+      var EXCLUDE_INTERNAL = {{ analytics.exclude_internal|default(false) ? 'true' : 'false' }};
+
+      if (EXCLUDE_INTERNAL) {
+        try {
+          window.localStorage.setItem(INTERNAL_STORAGE_KEY, '1');
+        }
+        catch (error) {}
+      }
+
+      function isInternalTraffic() {
+        if (EXCLUDE_INTERNAL) {
+          return true;
+        }
+        try {
+          return window.localStorage.getItem(INTERNAL_STORAGE_KEY) === '1';
+        }
+        catch (error) {
+          return false;
+        }
+      }
+
+      function disableAnalytics() {
+        window['ga-disable-' + GA_ID] = true;
+      }
 
       function isLocalEnvironment() {
         var host = window.location.hostname.toLowerCase();
@@ -33,7 +58,12 @@
       }
 
       function loadAnalytics() {
-        if (isLocalEnvironment() || window.nelkanoAnalyticsLoaded || consentValue() !== 'granted') {
+        if (isLocalEnvironment() || isInternalTraffic() || consentValue() !== 'granted') {
+          disableAnalytics();
+          return;
+        }
+        window['ga-disable-' + GA_ID] = false;
+        if (window.nelkanoAnalyticsLoaded) {
           return;
         }
         window.nelkanoAnalyticsLoaded = true;
@@ -51,15 +81,53 @@
         document.head.appendChild(script);
       }
 
+      function downloadDetails(link) {
+        var url;
+        try {
+          url = new URL(link.getAttribute('href'), window.location.href);
+        }
+        catch (error) {
+          return null;
+        }
+        if (url.origin !== window.location.origin) {
+          return null;
+        }
+        var match = url.pathname.match(/^\/descargar\/(es|en)\/(?:(android|windows|steamos|sdk)\/)?([0-9][A-Za-z0-9.+_-]{0,79})(\/instalador)?\/?$/);
+        if (!match || (match[4] && !match[2])) {
+          return null;
+        }
+        var platform = match[2] || 'android';
+        return {
+          download_product: platform === 'sdk' ? 'sdk_studio' : 'nelkano',
+          download_platform: platform === 'sdk' ? 'windows' : platform,
+          download_version: match[3],
+          link_url: url.origin + url.pathname
+        };
+      }
+
       function trackDownload(link) {
-        if (consentValue() !== 'granted' || typeof window.gtag !== 'function') {
+        if (isLocalEnvironment() || isInternalTraffic() || consentValue() !== 'granted'
+          || typeof window.gtag !== 'function') {
           return;
         }
-
+        var details = downloadDetails(link);
+        if (details) {
+          window.gtag('event', 'nelkano_download_click', details);
+          return;
+        }
+        if (!link.hasAttribute('data-analytics-event')) {
+          return;
+        }
+        var linkUrl = '';
+        try {
+          var url = new URL(link.getAttribute('href'), window.location.href);
+          linkUrl = url.origin + url.pathname;
+        }
+        catch (error) {}
         window.gtag('event', link.getAttribute('data-analytics-event') || 'download_click', {
           platform: link.getAttribute('data-analytics-platform') || '',
           file_name: link.getAttribute('data-analytics-file') || '',
-          link_url: link.href
+          link_url: linkUrl
         });
       }
 
@@ -78,6 +146,7 @@
       }
 
       function resetConsent() {
+        disableAnalytics();
         try {
           window.localStorage.removeItem(STORAGE_KEY);
         }
@@ -96,13 +165,6 @@
           return;
         }
 
-        if (consentValue()) {
-          banner.hidden = true;
-          loadAnalytics();
-          return;
-        }
-
-        banner.hidden = false;
         banner.querySelector('[data-consent-accept]').addEventListener('click', function () {
           saveConsent('granted');
           hideBanner();
@@ -110,8 +172,13 @@
         });
         banner.querySelector('[data-consent-reject]').addEventListener('click', function () {
           saveConsent('denied');
+          disableAnalytics();
           hideBanner();
         });
+        banner.hidden = !!consentValue();
+        if (consentValue()) {
+          loadAnalytics();
+        }
       }
 
       function bindConsentSettings() {
@@ -122,9 +189,16 @@
       }
 
       document.addEventListener('click', function (event) {
-        var link = event.target.closest('[data-analytics-event]');
+        var link = event.target && typeof event.target.closest === 'function'
+          ? event.target.closest('a[href], [data-analytics-event]') : null;
         if (link) {
           trackDownload(link);
+        }
+      });
+
+      window.addEventListener('storage', function (event) {
+        if (event.key === INTERNAL_STORAGE_KEY || event.key === STORAGE_KEY) {
+          loadAnalytics();
         }
       });
 

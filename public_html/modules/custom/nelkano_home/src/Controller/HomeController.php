@@ -16,7 +16,6 @@ final class HomeController extends ControllerBase {
 
   use NelkanoPageContextTrait;
 
-  private const GA_MEASUREMENT_ID = 'G-2VCPFJW0PT';
   private const SOCIAL_IMAGE_FILENAME = 'logo-social-v2.png';
 
   public function __construct(
@@ -464,7 +463,7 @@ final class HomeController extends ControllerBase {
 
     return new Response($html, 200, [
       'Content-Type' => 'text/html; charset=UTF-8',
-      'Cache-Control' => 'no-cache, must-revalidate',
+      'Cache-Control' => 'no-store, private',
       'X-Content-Type-Options' => 'nosniff',
       'Referrer-Policy' => 'strict-origin-when-cross-origin',
     ]);
@@ -488,7 +487,7 @@ final class HomeController extends ControllerBase {
 
     return new Response($html, 200, [
       'Content-Type' => 'text/html; charset=UTF-8',
-      'Cache-Control' => 'no-cache, must-revalidate',
+      'Cache-Control' => 'no-store, private',
       'X-Content-Type-Options' => 'nosniff',
       'Referrer-Policy' => 'strict-origin-when-cross-origin',
     ]);
@@ -1111,12 +1110,6 @@ final class HomeController extends ControllerBase {
     }
     $pattern = str_contains($text, '||') ? '/\s*\|\|\s*/' : '/\R+/';
     return array_values(array_filter(array_map('trim', preg_split($pattern, $text) ?: [])));
-  }
-
-  private function analyticsSettings(): array {
-    return [
-      'ga_id' => self::GA_MEASUREMENT_ID,
-    ];
   }
 
   private function resolveDownload(string $configuredUrl, string $modulePath, string $extension): array {
