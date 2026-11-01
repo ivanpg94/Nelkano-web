@@ -54,6 +54,20 @@ nelkano_modules.edit:
       module:
         type: entity:node
     no_cache: TRUE
+nelkano_modules.delete:
+  path: '/modulos/{module}/eliminar'
+  defaults:
+    _form: '\Drupal\nelkano_modules\Form\ModuleDeleteForm'
+    _title: 'Eliminar módulo'
+  methods: [GET, POST]
+  requirements:
+    _custom_access: '\Drupal\nelkano_modules\Access\ModuleAccess::edit'
+    module: '\d+'
+  options:
+    parameters:
+      module:
+        type: entity:node
+    no_cache: TRUE
 nelkano_modules.release_add:
   path: '/modulos/{module}/versiones/nueva'
   defaults:

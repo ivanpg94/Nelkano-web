@@ -6,6 +6,43 @@ Consulta [la receta vigente de despliegue completo](DEPLOY.md) para publicar est
 entrega, respaldar producción, aplicar configuración y Book y activar Codex.
 Las secciones de despliegues anteriores se conservan como contexto histórico.
 
+## Entrega 3.0.5: despliegue limpio y eliminación de módulos
+
+Entrega preparada el 01/11/2026, sin push ni despliegue remoto.
+El despliegue comprueba el repositorio antes de tocar la aplicación y antes de
+reabrirla. Rechaza cambios previos, archivos generados todavía versionados y
+reescrituras inesperadas; no ejecuta reset, restore, clean ni commits. Si falla
+una vez iniciado el mantenimiento, mantiene o vuelve a dejar cerrada la web.
+Composer conserva los archivos de scaffold ya controlados por Git; sus nuevas
+versiones se revisan durante la preparación de una entrega. Se conserva la
+configuración canónica de .htaccess que ya estaba versionada.
+
+La preparación retira del índice Git cinco logs/instaladores históricos generados,
+conservando sus copias locales. No elimina el .htaccess de protección privado.
+Los binarios reconstruidos y logs quedan ignorados; texto normalizado a LF.
+Preparar una entrega sigue modificando su configuración/metadatos intencionadamente:
+esos cambios se revisan antes del commit y del despliegue. No deben generarse
+nuevas fuentes al ejecutar un despliegue. Si un servidor antiguo ya tiene cambios,
+se respaldan y revisan antes de actualizar; el script no los descarta para continuar.
+
+Mis módulos y la ficha incluyen Eliminar módulo con confirmación protegida por
+Form API/CSRF, autorización del propietario/administrador y revisión esperada.
+Elimina la ficha y las versiones. Los archivos alojados quedan temporales solo
+si ya no tienen usos; la limpieza normal de Drupal retira sus bytes después.
+No toca descargas externas ni imágenes todavía compartidas por otros módulos.
+
+La transición `scripts/prepare-deploy-update.sh` respalda los restos de versiones
+anteriores antes del fast-forward y repone sus copias como archivos ignorados.
+Sólo concilia texto equivalente al original o ya incluido en el commit entrante;
+rechaza cambios de código distintos y cambios en el índice antes de escribir.
+Tiene cinco pruebas adicionales con repositorios Git reales y aislados.
+
+Comprobaciones locales: 17 del flujo de borrado y 6 escenarios de despliegue con
+Git/Composer/Drush simulados, sin despliegue real. Comandos de QA:
+
+- php scripts/test-deploy-clean.php
+- NELKANO_LOCAL_MODULE_DELETE_TEST=1 ./vendor/bin/drush --root=public_html php:script public_html/modules/custom/nelkano_modules/tests/module-delete-smoke.php (solo Docker local)
+
 ## Catálogo de módulos: contrato público SDK — 01/11/2026
 
 El validador admite los 63 permisos públicos actuales del SDK 0.2.0 para

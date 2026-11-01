@@ -1,10 +1,24 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -Eeuo pipefail
 
 # Deploy an already checked-out release. Never reset Git or change site UUIDs.
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="${REPO_DIR:-$(dirname -- "$SCRIPT_DIR")}"
 APP_DIR="${APP_DIR:-$REPO_DIR}"
+MAINTENANCE_STARTED=0
+deployment_failed() {
+  local result=$?
+  trap - ERR
+  if [[ "$MAINTENANCE_STARTED" = 1 ]]; then
+    "$APP_DIR/vendor/bin/drush" --root="$APP_DIR/public_html" state:set system.maintenance_mode 1 || true
+    "$APP_DIR/vendor/bin/drush" --root="$APP_DIR/public_html" cache:rebuild || true
+  fi
+  echo 'Deployment stopped. Source changes were preserved; no Git reset or cleanup was run.' >&2
+  exit "$result"
+}
+trap deployment_failed ERR
+
+php "$SCRIPT_DIR/check-deploy-worktree.php" "$REPO_DIR"
 
 test -f "$REPO_DIR/public_html/modules/custom/nelkano_home/src/Controller/ErrorReportApiController.php"
 test -f "$APP_DIR/public_html/sites/default/settings.php"
@@ -12,6 +26,8 @@ test -f "$APP_DIR/public_html/sites/default/settings.php"
 if [[ "$(cd -- "$REPO_DIR" && pwd)" != "$(cd -- "$APP_DIR" && pwd)" ]]; then
   rsync -a \
     --exclude='/.git/' --exclude='/vendor/' --exclude='/.env' \
+    --exclude='/private/' --exclude='/outputs/' --exclude='/public_html/error_log*' \
+    --exclude='/release-artifacts/*.exe' --exclude='/release-artifacts/*.msi' --exclude='/release-artifacts/*.zip' \
     --exclude='/public_html/core/' --exclude='/public_html/modules/contrib/' \
     --exclude='/public_html/themes/contrib/' --exclude='/public_html/libraries/' \
     --exclude='/public_html/sites/*/files/' --exclude='/public_html/sites/*/private/' \
@@ -29,6 +45,7 @@ php scripts/verify-release-bundle.php
 NELKANO_RELEASE_ASSETS_CHECK_ONLY=1 ./vendor/bin/drush --root=public_html php:script scripts/install-release-assets.php
 # Keep the site closed on any failed update or restored-account check.
 ./vendor/bin/drush --root=public_html state:set system.maintenance_mode 1
+MAINTENANCE_STARTED=1
 ./vendor/bin/drush --root=public_html cache:rebuild
 # Keep scripts enabled: they protect deployed code while Composer removes
 # the old nelkano/nelkano_home package on existing installations.
@@ -50,6 +67,10 @@ NELKANO_ERASURE_ACTION=reapply ./vendor/bin/drush --root=public_html php:script 
 ./vendor/bin/drush --root=public_html book:import content/books/nelkano-sdk.yml
 ./vendor/bin/drush --root=public_html cache:rebuild
 
+# Refuse to reopen if any deployment step rewrote Git-owned source/configuration.
+php "$SCRIPT_DIR/check-deploy-worktree.php" "$REPO_DIR"
+
 # Reopen only after the independent suppression register and content passed.
 ./vendor/bin/drush --root=public_html state:set system.maintenance_mode 0
 ./vendor/bin/drush --root=public_html cache:rebuild
+php "$SCRIPT_DIR/check-deploy-worktree.php" "$REPO_DIR"

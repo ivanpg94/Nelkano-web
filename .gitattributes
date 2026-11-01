@@ -1,3 +1,12 @@
+# Canonical text bytes on Windows and Linux; generated binary artifacts stay binary.
+* text=auto eol=lf
+*.cjs text eol=lf
+*.ini text eol=lf
+*.msi -text -diff
+*.zip -text -diff
+*.apk -text -diff
+*.part -text -diff
+
 # Drupal git normalization
 # @see https://www.kernel.org/pub/software/scm/git/docs/gitattributes.html
 # @see https://www.drupal.org/node/1542048

@@ -57,6 +57,30 @@ final class ModuleRegistry {
     return $releases;
   }
 
+  /** Same write lock and permission/revision checks as publication and editing. */
+  public function deleteModule(NodeInterface $module, int $revision): void {
+    $this->authorize($module);
+    $this->write(function () use ($module, $revision): void {
+      $current = $this->reload($module, $revision);
+      $this->authorize($current);
+      $fids = [];
+      foreach ($current->get('field_module_image')->getValue() as $item) { $fids[] = (int) $item['target_id']; }
+      foreach ($this->releases($current) as $release) { $fids[] = ModuleHostedPackages::fid($release); }
+      // The node-delete hook removes releases; Drupal removes their file usages.
+      $current->delete();
+      foreach (array_unique(array_filter($fids)) as $fid) {
+        $file = \Drupal\file\Entity\File::load($fid);
+        if ($file && (str_starts_with($file->getFileUri(), ModuleHostedPackages::PREFIX)
+          || str_starts_with($file->getFileUri(), 'public://nelkano-modules/images/'))
+          && !\Drupal::service('file.usage')->listUsage($file)) {
+          // Let normal file maintenance clean unused bytes after the transaction.
+          $file->setTemporary();
+          $file->save();
+        }
+      }
+    });
+  }
+
   private function write(callable $callback) {
     $lock = \Drupal::lock();
     if (!$lock->acquire('nelkano_modules.write', 60)) { throw new ConflictHttpException('Otro cambio está en curso. Vuelve a intentarlo.'); }

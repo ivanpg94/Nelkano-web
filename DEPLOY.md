@@ -5,19 +5,15 @@ El resto de este documento conserva la entrega anterior del 18/10/2026.
 Las instrucciones antiguas del README describen entregas anteriores.
 Preparar el commit no hace push ni modifica producción.
 
-## Reanudar el despliegue detenido
+## Procedimiento vigente
 
-La dependencia de Git LFS se ha retirado. Con el nuevo commit subido, continúa
-en la sesión SSH y en la misma instalación. No repitas el respaldo ni restaures la BD.
+Usa únicamente [DEPLOY-3.0.5.md](DEPLOY-3.0.5.md) para esta entrega. Incluye
+respaldo, transición de archivos históricos, actualización por fast-forward y
+comprobación del repositorio limpio antes de reabrir. No reanudar un despliegue
+fallido quitando mantenimiento manualmente.
 
-```bash
-set -e
-cd /home/u985217890/domains/nelkano.com
-git pull --ff-only origin main
-bash scripts/deploy-hostinger.sh
-./vendor/bin/drush --root=public_html state:set system.maintenance_mode 0 --input-format=integer
-./vendor/bin/drush --root=public_html cache:rebuild
-```
+Los apartados siguientes son referencia histórica de 3.0.3-beta; sus comandos
+no sustituyen la receta vigente ni sus comprobaciones de los tres canales.
 
 ## Contenido de esta entrega
 

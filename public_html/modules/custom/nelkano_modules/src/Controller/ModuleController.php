@@ -38,6 +38,7 @@ final class ModuleController extends ControllerBase {
         array_column($node->get('field_module_platforms')->getValue(), 'value')),
       'url' => Url::fromRoute('nelkano_modules.detail', ['module' => $node->id()])->toString(),
       'edit_url' => Url::fromRoute('nelkano_modules.edit', ['module' => $node->id()])->toString(),
+      'delete_url' => Url::fromRoute('nelkano_modules.delete', ['module' => $node->id()])->toString(),
       'release_url' => Url::fromRoute('nelkano_modules.release_add', ['module' => $node->id()])->toString(),
     ];
   }

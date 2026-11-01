@@ -4,7 +4,7 @@
   <div><p class="nm-eyebrow">{{ module.module_id }}</p><h1>{{ module.title }}</h1><p class="nm-author">Por {{ module.author }}{% if not module.published %} · Borrador{% endif %}</p>
     <div class="nm-tags">{% for platform in module.platforms %}<span>{{ platform }}</span>{% endfor %}{% for system in module.systems %}<span class="nm-system-tag">{{ system }}</span>{% else %}<span>Sistemas sin especificar</span>{% endfor %}</div>
   </div>
-  {% if can_edit %}<nav class="nm-actions" aria-label="Gestionar módulo"><a class="nm-button" href="{{ module.release_url }}">Añadir versión</a><a class="nm-link" href="{{ module.edit_url }}">Editar ficha</a></nav>{% endif %}
+  {% if can_edit %}<nav class="nm-actions" aria-label="Gestionar módulo"><a class="nm-button" href="{{ module.release_url }}">Añadir versión</a><a class="nm-link" href="{{ module.edit_url }}">Editar ficha</a><a class="nm-link button--danger" href="{{ module.delete_url }}">Eliminar módulo</a></nav>{% endif %}
 </section>
 <div class="nm-detail-layout">
   <div>{% if module.image_detail %}<div class="nm-detail-image">{{ module.image_detail }}</div>{% endif %}<article class="nm-panel"><h2>Acerca del módulo</h2><p class="nm-description">{{ module.description }}</p></article>

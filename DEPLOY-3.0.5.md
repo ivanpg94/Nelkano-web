@@ -12,13 +12,25 @@ MSI y SDK Studio un ZIP completo. Sus EXE siguen disponibles para instalación m
 Las fuentes propias de Nelkano siguen privadas. El ZIP público contiene sólo
 las fuentes y recetas correspondientes de Java/GCC, no las de la aplicación.
 
+## Comprobación de limpieza del despliegue
+
+El script preparado exige un checkout limpio antes de empezar y verifica que
+siga limpio antes y después de reabrir la web. Los logs e instaladores
+reconstruidos no deben seguir versionados. No ejecutar git add/commit,
+git reset --hard ni git clean para ocultar un fallo: revisar los archivos
+indicados. Los cambios de preparación de una entrega pertenecen al PC y deben
+revisarse antes de publicar el commit; no se generan durante el despliegue.
+Una instalación antigua con modificaciones necesita el respaldo y la transición
+del apartado 3. Los cambios de código no incluidos en esta entrega se conservan
+y requieren revisión; nunca se hace un reset ni una limpieza general.
+
 ## 1. Subir el commit desde el PC
 
 En PowerShell, revisar que el último commit sea el de esta entrega y ejecutar:
 
 ```powershell
 Set-Location 'C:\Users\ivanp\Desktop\nelkano-web'
-git status --short
+git status --short # debe estar vacío antes del push
 git log -1 --oneline
 git push origin main
 ```
@@ -44,8 +56,7 @@ test "$(git branch --show-current)" = main
 git status --short
 # Los archivos nuevos de private/ son datos del sitio: no se borran.
 # Git también rechazará un merge que sobrescriba archivos sin seguimiento.
-git diff --quiet
-git diff --cached --quiet
+git diff --cached --quiet # no continuar con cambios preparados en el índice
 git fetch origin main
 release_commit="$(git rev-parse origin/main)"
 [[ "$release_commit" =~ ^[a-f0-9]{40}$ ]]
@@ -58,6 +69,8 @@ backup_dir="$HOME/nelkano-backups/before-3.0.5-$(date +%Y%m%d-%H%M%S)"
 test ! -e "$backup_dir"
 mkdir -p "$backup_dir"
 git rev-parse HEAD > "$backup_dir/revision.txt"
+git status --porcelain > "$backup_dir/git-status-before.txt"
+git diff --no-ext-diff > "$backup_dir/source-before.patch"
 ./vendor/bin/drush --root=public_html state:set system.maintenance_mode 1 --input-format=integer
 ./vendor/bin/drush --root=public_html cache:rebuild
 ./vendor/bin/drush --root=public_html sql:dump --result-file="$backup_dir/database.sql"
@@ -95,13 +108,24 @@ evitar el error de intentar fusionar una variable vacía:
 set -euo pipefail
 cd /home/u985217890/domains/nelkano.com
 release_commit="$(git rev-parse origin/main)"
-git merge --ff-only "$release_commit"
+# La receta nueva se lee del commit ya descargado, sin ejecutar código del servidor remoto.
+: "${backup_dir:?Ejecuta primero el bloque de respaldo en esta misma sesión SSH}"
+test -s "$backup_dir/database.sql.gz"
+test -s "$backup_dir/files-settings.tar.gz"
+git show "$release_commit:scripts/prepare-deploy-update.sh" > "$backup_dir/prepare-deploy-update.sh"
+bash "$backup_dir/prepare-deploy-update.sh" "$PWD" "$release_commit" "$backup_dir"
 test "$(git rev-parse HEAD)" = "$release_commit"
 bash scripts/deploy-hostinger.sh
 ./vendor/bin/drush --root=public_html updatedb:status
 ./vendor/bin/drush --root=public_html config:status
 ./vendor/bin/drush --root=public_html book:import content/books/nelkano-sdk.yml --dry-run
 ```
+
+La transición previa conserva logs e instaladores históricos aunque estuvieran
+modificados. También admite diferencias de finales de línea o texto ya incluido
+en el commit preparado. Cualquier otro cambio de código se rechaza antes de tocar
+archivos: conserva el listado para revisarlo y no hagas un commit de logs/binarios
+en producción. Sus copias quedan en `checkout-state/files` dentro del respaldo.
 
 El script reconstruye y verifica los archivos, instala con Composer desde el lock,
 registra los instaladores, aplica updates/configuración y libro, activa la limpieza
