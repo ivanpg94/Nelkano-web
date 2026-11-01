@@ -8,7 +8,7 @@ foreach (['clean', 'dirty', 'tracked-runtime', 'composer-mutation', 'composer-fa
   $base = sys_get_temp_dir() . '/nelkano-deploy-control-' . bin2hex(random_bytes(8));
   mkdir($base, 0700); $repo = $base . '/repo'; mkdir($repo . '/scripts', 0700, TRUE);
   try {
-    foreach (['deploy-hostinger.sh', 'check-deploy-worktree.php'] as $name) copy($source . $name, $repo . '/scripts/' . $name);
+    foreach (['deploy-hostinger.sh', 'check-deploy-worktree.php', 'repair-known-htaccess.php'] as $name) copy($source . $name, $repo . '/scripts/' . $name);
     foreach (['public_html/sites/default/settings.php', 'public_html/modules/custom/nelkano_home/src/Controller/ErrorReportApiController.php'] as $relative) { mkdir(dirname($repo . '/' . $relative), 0700, TRUE); file_put_contents($repo . '/' . $relative, 'fixture'); }
     file_put_contents($repo . '/source.txt', $mode === 'dirty' ? "dirty\n" : "canonical\n");
     $executable($base . '/bin/git', <<<'GIT'
@@ -24,6 +24,8 @@ GIT);
     $executable($base . '/bin/php', <<<'PHP_MOCK'
 #!/usr/bin/env bash
 set -eu
+if [[ "$1" = -d ]]; then shift 2; fi
+if [[ "$1" = */repair-known-htaccess.php ]]; then exit 0; fi
 if [[ "$1" = */check-deploy-worktree.php ]]; then exec /usr/local/bin/php "$@"; fi
 if [[ "$1" = scripts/materialize-release-artifacts.php ]]; then
   target="${2:-release-artifacts}"
@@ -78,3 +80,4 @@ DRUSH);
   }
 }
 echo "SUCCESS: 6 isolated deployment scenarios; no live deployment or commits.\n";
+

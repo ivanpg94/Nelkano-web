@@ -7,18 +7,20 @@ REPO_DIR="${REPO_DIR:-$(dirname -- "$SCRIPT_DIR")}"
 APP_DIR="${APP_DIR:-$REPO_DIR}"
 MAINTENANCE_STARTED=0
 deployment_failed() {
-  local result=$?
+  local result=$1
+  local failed_line=$2
   trap - ERR
   if [[ "$MAINTENANCE_STARTED" = 1 ]]; then
     "$APP_DIR/vendor/bin/drush" --root="$APP_DIR/public_html" state:set system.maintenance_mode 1 || true
     "$APP_DIR/vendor/bin/drush" --root="$APP_DIR/public_html" cache:rebuild || true
   fi
-  echo 'Deployment stopped. Source changes were preserved; no Git reset or cleanup was run.' >&2
+  echo "Deployment stopped at line $failed_line (exit $result). Source changes were preserved; no Git reset or cleanup was run." >&2
   exit "$result"
 }
-trap deployment_failed ERR
+trap 'deployment_failed "$?" "$LINENO"' ERR
 
-php "$SCRIPT_DIR/check-deploy-worktree.php" "$REPO_DIR"
+php -d display_errors=stderr "$SCRIPT_DIR/repair-known-htaccess.php" "$REPO_DIR"
+php -d display_errors=stderr "$SCRIPT_DIR/check-deploy-worktree.php" "$REPO_DIR"
 
 test -f "$REPO_DIR/public_html/modules/custom/nelkano_home/src/Controller/ErrorReportApiController.php"
 test -f "$APP_DIR/public_html/sites/default/settings.php"
@@ -68,9 +70,10 @@ NELKANO_ERASURE_ACTION=reapply ./vendor/bin/drush --root=public_html php:script 
 ./vendor/bin/drush --root=public_html cache:rebuild
 
 # Refuse to reopen if any deployment step rewrote Git-owned source/configuration.
-php "$SCRIPT_DIR/check-deploy-worktree.php" "$REPO_DIR"
+php -d display_errors=stderr "$SCRIPT_DIR/check-deploy-worktree.php" "$REPO_DIR"
 
 # Reopen only after the independent suppression register and content passed.
 ./vendor/bin/drush --root=public_html state:set system.maintenance_mode 0
 ./vendor/bin/drush --root=public_html cache:rebuild
-php "$SCRIPT_DIR/check-deploy-worktree.php" "$REPO_DIR"
+php -d display_errors=stderr "$SCRIPT_DIR/check-deploy-worktree.php" "$REPO_DIR"
+
