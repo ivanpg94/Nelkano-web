@@ -14,6 +14,13 @@ foreach (['es', 'en'] as $lang) {
     $visible = $row['visible'] ?? TRUE;
     if ($visible === FALSE || in_array(strtolower(trim((string) $visible)), ['0', 'false', 'no', 'off'], TRUE)) continue;
     if (!\Drupal\nelkano_home\Service\ReleaseArtifact::sameRelease($row, \Drupal\nelkano_home\Service\ReleaseArtifact::newest($docs['es']['releases_items'] ?? [], \Drupal\nelkano_home\Service\ReleaseArtifact::platform($row)))) continue;
+    $platform = \Drupal\nelkano_home\Service\ReleaseArtifact::platform($row);
+    if (in_array($platform, ['windows', 'sdk'], TRUE)) {
+      $extension = $platform === 'windows' ? 'msi' : 'zip';
+      if (empty($row['apk_file']) || strtolower(pathinfo($row['apk_file'], PATHINFO_EXTENSION)) !== $extension) {
+        throw new RuntimeException('Missing automatic update package for ' . $platform . ': publish the .' . $extension . ' alongside its installer.');
+      }
+    }
     foreach (['apk_file', 'installer_file'] as $field) {
       $uri = $row[$field] ?? '';
       if ($uri !== '') $required[basename($uri)] = TRUE;

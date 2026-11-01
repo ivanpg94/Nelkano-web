@@ -1,0 +1,8 @@
+{
+  "version": "3.0.5",
+  "versionCode": 15,
+  "file": "Nelkano 3.0.5.apk",
+  "previous_sha256": "1e15c951e36372aefd4280ed4e053d157eb052567bfdbd6a6c1aa7956690517f",
+  "sha256": "2f913c497390f5fa833864c169726169b4b8ae9839723e910f251566ae664979",
+  "reason": "User requested replacement of 3.0.5 before any confirmed end-user installation; explicit installer read grants, same production certificate."
+}

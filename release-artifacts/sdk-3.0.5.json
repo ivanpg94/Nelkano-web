@@ -16,5 +16,11 @@
   "source_dirty": true,
   "installerStaticInspectionPassed": true,
   "legalCatalogEntries": 43,
-  "legalManagedFiles": 49
+  "legalManagedFiles": 49,
+  "automaticUpdate": {
+    "file": "Nelkano-SDK-Studio-3.0.5-windows-x86_64.zip",
+    "format": "zip",
+    "bytes": 109646161,
+    "sha256": "663f9337206e4793fd060d106597c06d7d1ee2635cb1d82671527304910267e4"
+  }
 }

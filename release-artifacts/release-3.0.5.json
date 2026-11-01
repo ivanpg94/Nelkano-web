@@ -6,11 +6,11 @@
     "android": {
       "apk_file": "Nelkano 3.0.5.apk",
       "notes": {
-        "es": "Privacidad, eliminación de cuentas y licencias actualizadas.\nCorrección del acceso al APK desde el instalador de actualizaciones.\nRetirada de las funciones de traducción integradas.\nAudio ATRAC de PSP temporalmente desactivado; algunas ROM cifradas de Nintendo DS y PSP no están soportadas.",
-        "en": "Updated privacy, account deletion and license information.\nFixed access to the APK from the update installer.\nRemoved integrated translation features.\nPSP ATRAC audio is temporarily disabled; some encrypted Nintendo DS and PSP ROMs are not supported."
+        "es": "Privacidad, eliminación de cuentas y licencias actualizadas.\nCorrección del acceso al APK desde el instalador de actualizaciones.\nRetirada de las funciones de traducción integradas.\nAudio ATRAC de PSP temporalmente desactivado; algunas ROM cifradas de Nintendo DS y PSP no están soportadas.\nSi Android muestra «No se ha podido analizar el paquete» al actualizar desde una versión anterior, instala esta versión desde la web sin desinstalar.",
+        "en": "Updated privacy, account deletion and license information.\nFixed access to the APK from the update installer.\nRemoved integrated translation features.\nPSP ATRAC audio is temporarily disabled; some encrypted Nintendo DS and PSP ROMs are not supported.\nIf Android reports that it cannot parse the package when updating from an older version, install this version from the website without uninstalling."
       },
-      "bytes": 40215958,
-      "sha256": "1e15c951e36372aefd4280ed4e053d157eb052567bfdbd6a6c1aa7956690517f"
+      "bytes": 40216522,
+      "sha256": "2f913c497390f5fa833864c169726169b4b8ae9839723e910f251566ae664979"
     },
     "windows": {
       "installer_file": "Nelkano 3.0.5-windows.exe",
@@ -19,7 +19,10 @@
         "en": "Updated privacy, account deletion and license information.\nUpdated streaming and multimedia components.\nRemoved integrated translation features.\nPSP ATRAC audio is temporarily disabled; some encrypted Nintendo DS and PSP ROMs are not supported."
       },
       "bytes": 126982144,
-      "sha256": "1ccf374611c58919b1cb4104e270cf285a740d382a85c65ff203457f2bed9d5c"
+      "sha256": "1ccf374611c58919b1cb4104e270cf285a740d382a85c65ff203457f2bed9d5c",
+      "apk_file": "Nelkano 3.0.5-windows.msi",
+      "update_bytes": 126410871,
+      "update_sha256": "5e49774c724b04a9f6b57bc8579887e274317d6d791dea3ec28814e26a71480e"
     },
     "sdk": {
       "installer_file": "Nelkano-SDK-Studio-3.0.5-windows-x86_64.exe",
@@ -28,20 +31,21 @@
         "en": "Removed translation services from the SDK.\nUpdated integrated reference and documentation.\nRevised SDK licenses and terms of use."
       },
       "bytes": 110789632,
-      "sha256": "bdaeb39c0ba4ca966a57dd1eda7d363fca8c5b906ee6aeff3effb5ee555a80ca"
+      "sha256": "bdaeb39c0ba4ca966a57dd1eda7d363fca8c5b906ee6aeff3effb5ee555a80ca",
+      "apk_file": "Nelkano-SDK-Studio-3.0.5-windows-x86_64.zip",
+      "update_bytes": 109646161,
+      "update_sha256": "663f9337206e4793fd060d106597c06d7d1ee2635cb1d82671527304910267e4"
     }
   },
   "source_commit": "99a8bace065b141b00ad322120dbf85787f495db",
   "source_dirty": true,
   "publishedToProduction": false,
-  "installedOnDevices": false,
+  "installedOnDevices": true,
   "gameplayExecuted": false,
   "visualReviewExecuted": false,
-  "desktopSdkAutomaticUpdates": false,
+  "desktopSdkAutomaticUpdates": true,
   "localVerification": {
-    "threeHttpDownloadsMatchManifest": true,
-    "httpChecks": 37,
-    "historicalRowsAndNotesUnchanged": true,
+    "historicalRowsAndNotesUnchanged": "All older versions unchanged; 3.0.5 Android notes include recovery instructions",
     "bookPagesUnchanged": 23,
     "sdkReferenceRevision": "8c3d589537dec82348395d879cfe7c8527759aa1a4f9c2d26c0ffe79baf1b249",
     "productionApkSignatureVerified": true,
@@ -52,7 +56,29 @@
     "thirdPartySourceTransportVerified": true,
     "gameplayExecuted": false,
     "visualReviewExecuted": false,
-    "phoneUpdateFlowTested": false,
-    "desktopSdkAutomaticUpdates": false
+    "phoneUpdateFlowTested": true,
+    "desktopSdkAutomaticUpdates": true,
+    "installedDesktopClientCheck": "Actual installed 3.0.3-beta classes with local HTTP connection injection; no desktop installation",
+    "phoneUpdateFlowPassed": true,
+    "allFiveHttpDownloadsMatchManifest": true,
+    "updateChannelsVerified": 3,
+    "missingUpdatePackageGuardVerified": [
+      "windows",
+      "sdk"
+    ]
+  },
+  "androidRepair": {
+    "previousSha256": "1e15c951e36372aefd4280ed4e053d157eb052567bfdbd6a6c1aa7956690517f",
+    "sha256": "2f913c497390f5fa833864c169726169b4b8ae9839723e910f251566ae664979",
+    "sameVersionAndProductionCertificate": true,
+    "original304AutomaticUpdateStillBroken": true
+  },
+  "deviceVerification": {
+    "redmiProductionInstalledWithAdb": true,
+    "firstInstallTimePreserved": true,
+    "systemInstallerRecognizesCorrectedApk": true,
+    "systemInstallerCompletionVerified": true,
+    "original304AutomaticUpdateWorks": false,
+    "scope": "Corrected 3.0.5 installer handoff to production APK of the same version; initial 3.0.4 repair was assisted"
   }
 }

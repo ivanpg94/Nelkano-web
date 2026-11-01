@@ -44,3 +44,6 @@ Thumbs.db
 
 # Runtime account data and private artifacts stay out of new commits.
 /private/
+
+/release-artifacts/*.msi
+/release-artifacts/*.zip

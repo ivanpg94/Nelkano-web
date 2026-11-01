@@ -22,6 +22,9 @@ foreach (['es', 'en'] as $lang) {
     }
   }
 }
+$repairPath=$directory.'/repair-3.0.5.json';
+$repair=is_file($repairPath)?json_decode(file_get_contents($repairPath),TRUE,512,JSON_THROW_ON_ERROR):[];
+$replacements=[];
 $install = [];
 // Validate the full published set before writing anything. Hidden platforms can
 // be provisioned later and must not block the current Android delivery.
@@ -37,13 +40,31 @@ foreach ($required as $name => $entry) {
     if (!$entry['published']) { echo 'Skipped unpublished private artifact: ' . $name . PHP_EOL; continue; }
     throw new RuntimeException('Private files directory is not configured. Set $settings["file_private_path"] in production settings.php to a writable directory outside public_html, then rebuild caches.');
   }
-  if (is_file($uri) && !hash_equals($expected, hash_file('sha256', $uri))) throw new RuntimeException('Refusing to overwrite a different existing release: ' . $name);
+  if (is_file($uri) && !hash_equals($expected, hash_file('sha256', $uri))) {
+    $existing=hash_file('sha256',$uri);
+    // The single explicitly requested 3.0.5 repair; all other collisions remain forbidden.
+    if($name!=='Nelkano 3.0.5.apk'||($repair['file']??'')!==$name||($repair['version']??'')!=='3.0.5'||($repair['versionCode']??0)!==15
+      ||($repair['previous_sha256']??'')!=='1e15c951e36372aefd4280ed4e053d157eb052567bfdbd6a6c1aa7956690517f'
+      ||!hash_equals($repair['previous_sha256'],$existing)||!hash_equals($repair['sha256']??'',$expected))throw new RuntimeException('Refusing to overwrite a different existing release: '.$name);
+    $replacements[$name]=$existing;
+  }
   $install[$name] = $uri;
 }
 if (getenv('NELKANO_RELEASE_ASSETS_CHECK_ONLY') === '1') { echo 'Release asset preflight OK: ' . count($install) . PHP_EOL; return; }
 foreach ($install as $name => $uri) {
   $destination = dirname($uri);
   if (!\Drupal::service('file_system')->prepareDirectory($destination, FileSystemInterface::CREATE_DIRECTORY)) throw new RuntimeException('Cannot create release directory');
+  if(isset($replacements[$name])) {
+    $backups='private://nelkano-release-repairs';
+    if(!\Drupal::service('file_system')->prepareDirectory($backups,FileSystemInterface::CREATE_DIRECTORY))throw new RuntimeException('Cannot preserve previous release.');
+    $backup=$backups.'/'.$name.'.'.$replacements[$name].'.bak';
+    if(!is_file($backup)&&!copy($uri,$backup))throw new RuntimeException('Cannot back up previous release.');
+    if(!hash_equals($replacements[$name],hash_file('sha256',$backup)))throw new RuntimeException('Previous release backup mismatch.');
+    $temporary=$uri.'.repair-'.bin2hex(random_bytes(6));
+    try {if(!copy($directory.'/'.$name,$temporary)||!hash_equals($manifest[$name],hash_file('sha256',$temporary))||!rename($temporary,$uri))throw new RuntimeException('Verified release repair failed.');}
+    finally {if(is_file($temporary))unlink($temporary);}
+  }
+  clearstatcache(TRUE, $uri);
   if (!is_file($uri) && !copy($directory . '/' . $name, $uri)) throw new RuntimeException('Copy failed: ' . $name);
   if (!hash_equals($manifest[$name], hash_file('sha256', $uri))) throw new RuntimeException('Copied hash mismatch');
   $files = \Drupal::entityTypeManager()->getStorage('file')->loadByProperties(['uri' => $uri]);

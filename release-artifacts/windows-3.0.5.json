@@ -16,5 +16,11 @@
   "source_dirty": true,
   "installerStaticInspectionPassed": true,
   "legalCatalogEntries": 43,
-  "legalManagedFiles": 49
+  "legalManagedFiles": 49,
+  "automaticUpdate": {
+    "file": "Nelkano 3.0.5-windows.msi",
+    "format": "msi",
+    "bytes": 126410871,
+    "sha256": "5e49774c724b04a9f6b57bc8579887e274317d6d791dea3ec28814e26a71480e"
+  }
 }

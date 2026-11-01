@@ -36,6 +36,13 @@ Sólo la última versión de cada aplicación permite descargar; se conservan la
 notas de las anteriores. SteamOS sigue oculto. Preparación local y commit no
 implican push ni despliegue. Instrucciones: [DEPLOY-3.0.5.md](DEPLOY-3.0.5.md).
 
+La reparación conserva 3.0.5 (15), incorpora MSI Windows y ZIP Studio para sus
+actualizadores y sustituye el APK por el corregido con la misma firma. Se verificó
+la oferta/descarga contra Drupal local con los clientes de escritorio instalados.
+En Redmi el instalador reconoce y completa la instalación del APK corregido,
+con hash y antigüedad de instalación conservados. La 3.0.4 requiere la corrección por instalación
+manual, sin desinstalar. Ver instrucciones y límites en el documento de despliegue.
+
 El catálogo legal contiene 43 componentes y 3 documentos propios. Su fuente es
 `../Nelkano-emulator/src/nelkano/legal`; `scripts/sync-legal-assets.py` sincroniza
 los bytes exactos y sólo retira archivos gestionados previamente. La descarga

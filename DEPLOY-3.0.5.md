@@ -1,13 +1,14 @@
 # Desplegar Nelkano 3.0.5 (15)
 
 Preparación local de Android ARM64, Nelkano Windows x64 y SDK Studio Windows.
-No se ha hecho push, despliegue remoto ni instalación en teléfonos. La entrega
+Esta reparación está preparada en local, sin push ni despliegue remoto. El Redmi
+recibió el APK corregido mediante ADB, conservando la instalación y sus datos. La entrega
 incluye la web, privacidad y borrado de cuentas, licencias, retirada de traducción
 y corrección del archivo compartido con el instalador Android.
 
 Sólo se descarga la última versión por aplicación; las notas anteriores se
-conservan. SteamOS sigue oculto. Android tiene APK de actualización; Windows y
-SDK se instalan manualmente con sus EXE, sin anunciar un MSI/ZIP inexistente.
+conservan. SteamOS sigue oculto. Android tiene APK de actualización; Windows usa
+MSI y SDK Studio un ZIP completo. Sus EXE siguen disponibles para instalación manual.
 Las fuentes propias de Nelkano siguen privadas. El ZIP público contiene sólo
 las fuentes y recetas correspondientes de Java/GCC, no las de la aplicación.
 
@@ -22,7 +23,7 @@ git log -1 --oneline
 git push origin main
 ```
 
-El commit web contiene los instaladores y sus metadatos. Los EXE y el archivo de
+El commit web contiene los instaladores y sus metadatos. Los EXE, MSI, ZIP de Studio y el archivo de
 fuentes de terceros viajan en fragmentos de hasta 40 MiB: el script los reconstruye
 y comprueba automáticamente. No hace falta subirlos por separado. Las fuentes
 de la app y los trabajos locales de cores están en el repositorio vecino y no
@@ -31,7 +32,7 @@ se suben al hosting con este commit.
 ## 2. Respaldar producción
 
 Abrir tu sesión SSH habitual. No editar contenido mientras dure la actualización.
-Ejecutar el siguiente bloque y pegar el SHA completo del commit web entregado.
+Ejecutar el siguiente bloque y comprobar el SHA del commit web entregado.
 Si hay un error, parar; no usar `reset --hard`, no borrar archivos privados y
 no continuar quitando mantenimiento.
 
@@ -46,8 +47,10 @@ git status --short
 git diff --quiet
 git diff --cached --quiet
 git fetch origin main
-read -r -p 'SHA completo del commit WEB 3.0.5: ' release_commit
+release_commit="$(git rev-parse origin/main)"
 [[ "$release_commit" =~ ^[a-f0-9]{40}$ ]]
+# Debe ser el commit de reparación indicado por Codex; comprobar antes de seguir.
+git show --no-patch --oneline "$release_commit"
 git cat-file -e "$release_commit^{commit}"
 git merge-base --is-ancestor "$release_commit" origin/main
 git merge-base --is-ancestor HEAD "$release_commit"
@@ -85,9 +88,13 @@ si se restaura una copia antigua, se debe mantener el registro vivo más recient
 
 ## 3. Aplicar la entrega
 
-Continuar en la misma sesión SSH:
+Continuar en la misma sesión SSH. El bloque vuelve a definir la revisión para
+evitar el error de intentar fusionar una variable vacía:
 
 ```bash
+set -euo pipefail
+cd /home/u985217890/domains/nelkano.com
+release_commit="$(git rev-parse origin/main)"
 git merge --ff-only "$release_commit"
 test "$(git rev-parse HEAD)" = "$release_commit"
 bash scripts/deploy-hostinger.sh
@@ -117,7 +124,8 @@ NELKANO_PRIVACY_OPS_ACTION=status ./vendor/bin/drush --root=public_html php:scri
 ```
 
 Android debe devolver **3.0.5, código 15**, con bytes y SHA-256 del manifiesto.
-Windows y SDK devuelven `latest:null`, porque se ofrecen sus EXE manuales.
+Windows y SDK deben devolver también **3.0.5, código 15**, con formato `msi` y
+`zip` respectivamente; `latest:null` supone que la reparación no está aplicada.
 En `/versiones` y `/en/releases`, las tres descargas deben indicar 3.0.5; las notas
 antiguas siguen visibles, pero sus rutas de descarga devuelven 404. Créditos y
 privacidad deben abrir sin errores, y el ZIP de fuentes debe responder 200.
@@ -125,10 +133,21 @@ El estado de privacidad debe mostrar `maintenanceEnabled: true`.
 
 En el Redmi, descargar esta primera versión desde la web e instalarla encima de
 la anterior, **sin desinstalar ni borrar datos**. Así recibe la corrección del
-actualizador antiguo. El uso real desde dentro de la app sigue pendiente de
-comprobación en el teléfono. Windows y Studio se actualizan con sus EXE, conservando
-los directorios de datos/proyectos. Esta preparación no acredita gameplay ni
-instalación real en los dispositivos.
+actualizador antiguo. En el Redmi se reprodujo el fallo de permisos de la 3.0.4. Con el código corregido,
+el instalador del sistema reconoce Nelkano y completa la instalación. Se verificó
+el hash exacto del APK de producción instalado y firstInstallTime conservado.
+La prueba del handoff parte del código corregido 3.0.5, sin desinstalar. No se puede reparar el código de una 3.0.4 ya instalada
+cambiando solamente el APK del servidor.
+
+Las clases de los clientes Windows/Studio instalados detectaron la oferta local y
+validaron descarga, MSI y ZIP completos. Se utilizó una conexión de prueba al Drupal
+local; no se instalaron las aplicaciones de escritorio ni se verificó el aviso
+contra producción. Tras desplegar: Ajustes → Actualización → Comprobar en ambas.
+No se ha realizado una prueba de gameplay.
 
 Comprobar también un correo de verificación/recuperación propio: el transporte
 real de correo de producción no se ha comprobado desde esta preparación local.
+
+La sustitución del APK 3.0.5 sólo acepta el SHA anterior conocido y conserva una
+copia privada en `private://nelkano-release-repairs/`. Una colisión distinta sigue
+bloqueada. El script comprueba los tres canales antes de reabrir la web.

@@ -190,8 +190,8 @@
     "filename": "Nelkano 3.0.5.apk",
     "date": "01/11/2026",
     "changes": {
-      "es": "Privacidad, eliminación de cuentas y licencias actualizadas.\nCorrección del acceso al APK desde el instalador de actualizaciones.\nRetirada de las funciones de traducción integradas.\nAudio ATRAC de PSP temporalmente desactivado; algunas ROM cifradas de Nintendo DS y PSP no están soportadas.",
-      "en": "Updated privacy, account deletion and license information.\nFixed access to the APK from the update installer.\nRemoved integrated translation features.\nPSP ATRAC audio is temporarily disabled; some encrypted Nintendo DS and PSP ROMs are not supported."
+      "es": "Privacidad, eliminación de cuentas y licencias actualizadas.\nCorrección del acceso al APK desde el instalador de actualizaciones.\nRetirada de las funciones de traducción integradas.\nAudio ATRAC de PSP temporalmente desactivado; algunas ROM cifradas de Nintendo DS y PSP no están soportadas.\nSi Android muestra «No se ha podido analizar el paquete» al actualizar desde una versión anterior, instala esta versión desde la web sin desinstalar.",
+      "en": "Updated privacy, account deletion and license information.\nFixed access to the APK from the update installer.\nRemoved integrated translation features.\nPSP ATRAC audio is temporarily disabled; some encrypted Nintendo DS and PSP ROMs are not supported.\nIf Android reports that it cannot parse the package when updating from an older version, install this version from the website without uninstalling."
     }
   },
   {
@@ -205,7 +205,8 @@
     "changes": {
       "es": "Privacidad, eliminación de cuentas y licencias actualizadas.\nActualización de los componentes de streaming y multimedia.\nRetirada de las funciones de traducción integradas.\nAudio ATRAC de PSP temporalmente desactivado; algunas ROM cifradas de Nintendo DS y PSP no están soportadas.",
       "en": "Updated privacy, account deletion and license information.\nUpdated streaming and multimedia components.\nRemoved integrated translation features.\nPSP ATRAC audio is temporarily disabled; some encrypted Nintendo DS and PSP ROMs are not supported."
-    }
+    },
+    "apk_file": "private://nelkano-releases/Nelkano 3.0.5-windows.msi"
   },
   {
     "visible": true,
@@ -218,6 +219,7 @@
     "changes": {
       "es": "Retirada de los servicios de traducción del SDK.\nReferencia integrada y documentación actualizadas.\nLicencias y condiciones de uso del SDK revisadas.",
       "en": "Removed translation services from the SDK.\nUpdated integrated reference and documentation.\nRevised SDK licenses and terms of use."
-    }
+    },
+    "apk_file": "private://nelkano-releases/Nelkano-SDK-Studio-3.0.5-windows-x86_64.zip"
   }
 ]

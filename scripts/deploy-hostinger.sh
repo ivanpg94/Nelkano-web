@@ -38,6 +38,8 @@ test -f public_html/modules/custom/nelkano_home/src/Controller/ErrorReportApiCon
 NELKANO_RELEASE_ASSETS_CHECK_ONLY=1 ./vendor/bin/drush --root=public_html php:script scripts/install-release-assets.php
 ./vendor/bin/drush --root=public_html php:script scripts/install-release-assets.php
 ./vendor/bin/drush --root=public_html deploy --yes
+# Published applications must offer their matching update package before reopening.
+./vendor/bin/drush --root=public_html php:script scripts/verify-app-update-channels.php
 # Enable bounded privacy maintenance only after deployment/configuration succeeds.
 NELKANO_PRIVACY_OPS_ACTION=enable ./vendor/bin/drush --root=public_html php:script scripts/privacy-operations.php
 # A restored site must not reopen with accounts present in the current register.

@@ -299,11 +299,13 @@ es:
         Corrección del acceso al APK desde el instalador de actualizaciones.
         Retirada de las funciones de traducción integradas.
         Audio ATRAC de PSP temporalmente desactivado; algunas ROM cifradas de Nintendo DS y PSP no están soportadas.
+        Si Android muestra «No se ha podido analizar el paquete» al actualizar desde una versión anterior, instala esta versión desde la web sin desinstalar.
     -
       visible: true
       version: 3.0.5
       platform: windows
       version_code: '15'
+      apk_file: 'private://nelkano-releases/Nelkano 3.0.5-windows.msi'
       installer_file: 'private://nelkano-releases/Nelkano 3.0.5-windows.exe'
       filename: 'Nelkano 3.0.5-windows.exe'
       date: 01/11/2026
@@ -317,6 +319,7 @@ es:
       version: 3.0.5
       platform: sdk
       version_code: '15'
+      apk_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.5-windows-x86_64.zip'
       installer_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.5-windows-x86_64.exe'
       filename: Nelkano-SDK-Studio-3.0.5-windows-x86_64.exe
       date: 01/11/2026
@@ -664,11 +667,13 @@ en:
         Fixed access to the APK from the update installer.
         Removed integrated translation features.
         PSP ATRAC audio is temporarily disabled; some encrypted Nintendo DS and PSP ROMs are not supported.
+        If Android reports that it cannot parse the package when updating from an older version, install this version from the website without uninstalling.
     -
       visible: true
       version: 3.0.5
       platform: windows
       version_code: '15'
+      apk_file: 'private://nelkano-releases/Nelkano 3.0.5-windows.msi'
       installer_file: 'private://nelkano-releases/Nelkano 3.0.5-windows.exe'
       filename: 'Nelkano 3.0.5-windows.exe'
       date: 01/11/2026
@@ -682,6 +687,7 @@ en:
       version: 3.0.5
       platform: sdk
       version_code: '15'
+      apk_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.5-windows-x86_64.zip'
       installer_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.5-windows-x86_64.exe'
       filename: Nelkano-SDK-Studio-3.0.5-windows-x86_64.exe
       date: 01/11/2026
