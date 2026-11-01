@@ -1,0 +1,113 @@
+{
+  "version": "3.0.6",
+  "versionCode": 16,
+  "date": "01/11/2026",
+  "appId": "com.ivanp.nelkano.modular",
+  "filename": "Nelkano 3.0.6.apk",
+  "bytes": 40216467,
+  "sha256": "2eb295bd7dfa4b688406ffc46cc9ba4b0382411a9d7aa7ae9073e3c82a7d5ce0",
+  "productionCertificateSha256": "57780bcd54cdddceeb9ab5445f9b256ec64ad05ec153ef249b78941a8ec4adc5",
+  "notes": {
+    "es": "Corrección de la conexión con Google Drive desde Ajustes.\nCorrección del error invalid-text al utilizar Pokémon Online con amigos desconectados.",
+    "en": "Fixed Google Drive connection from Settings.\nFixed invalid-text when using Pokémon Online with offline friends."
+  },
+  "publishedToProduction": false,
+  "installedOnDevices": false,
+  "source_commit": "efda6f27806ddbc7c4332a894bbbd03b6db72c6c",
+  "source_dirty": true,
+  "modules": [
+    {
+      "id": "nelkano.appearance",
+      "version": "0.1.0",
+      "bytes": 26556,
+      "sha256": "f7a9cff4e9f1f90207dd1515eb007134ba946b478830d1ee0fa68f5f32a56e5c"
+    },
+    {
+      "id": "nelkano.basics",
+      "version": "0.1.0",
+      "bytes": 60107,
+      "sha256": "b5b21d4e309650f3f98eef0069a62cbb7a73e3a4843a8421aea513bc19a8da78"
+    },
+    {
+      "id": "nelkano.control-editor",
+      "version": "0.1.0",
+      "bytes": 164404,
+      "sha256": "0c71a59eb144e2b007d4843f599e16abd9542c0346c467ae32f4e4a97bdf7058"
+    },
+    {
+      "id": "nelkano.friends",
+      "version": "0.1.0",
+      "bytes": 15408,
+      "sha256": "044235d95c1767a3c693249fd7e6d2c190452dbe77768c16385eece2d13016d4"
+    },
+    {
+      "id": "nelkano.multiplayer",
+      "version": "0.1.0",
+      "bytes": 25832,
+      "sha256": "fb7d880d5cf671c779d5863699790467adc269a8301d52fa33c328888f221b77"
+    }
+  ],
+  "nativeLibraries": [
+    {
+      "path": "lib/arm64-v8a/libandroidx.graphics.path.so",
+      "sha256": "41e9a793c43a0f4fddb19e33f346bace464f30f888ba7b9eaf96294ea115bfb6"
+    },
+    {
+      "path": "lib/arm64-v8a/libarchive-jni.so",
+      "sha256": "92332de41e661c2a5ce05df65c8a0a6367a99a2cb201e3b3eec7039c9cbc669e"
+    },
+    {
+      "path": "lib/arm64-v8a/libc++_shared.so",
+      "sha256": "cd61762848882a16c8244c964a6f396c0caa0b440588a210ce9cc4ab0e6d9f0c"
+    },
+    {
+      "path": "lib/arm64-v8a/libgba_android.so",
+      "sha256": "5b33cb29278337ff68f00fe35c2bd21b66c7e9602a9547b54e81ebe7c86ba5a2"
+    },
+    {
+      "path": "lib/arm64-v8a/libjingle_peerconnection_so.so",
+      "sha256": "ba8435d0f85bbb5dbd438189f05a14b77ce7b954c69300c18359b7c4e0c0e194"
+    },
+    {
+      "path": "lib/arm64-v8a/libmegadrive_android.so",
+      "sha256": "c4e2dc07cf1663a08f0c4b6b90572525faf394045c090da9a04c7f6afb0e47e4"
+    },
+    {
+      "path": "lib/arm64-v8a/libn3ds_android.so",
+      "sha256": "1d36ea2096ab105a4d2bff81ae74c4088e27b5730281433f75f6a7811b1b0c15"
+    },
+    {
+      "path": "lib/arm64-v8a/libnds_android.so",
+      "sha256": "8809732902045c8d9104b002bbcba3f73bb4eb5b74a385dc6e349a8cea0104c1"
+    },
+    {
+      "path": "lib/arm64-v8a/libnelkano_quickjs.so",
+      "sha256": "c63b6ab84f352e7e0a05fcc822fdaa596c78f3bfb9ecaf7ade7b4f6c65ff80bd"
+    },
+    {
+      "path": "lib/arm64-v8a/libportablecores.so",
+      "sha256": "692f1fb5b2b568d0ffca4b6adf07c3957d03239f8b5f0b53cc0e8b9ea4a826de"
+    },
+    {
+      "path": "lib/arm64-v8a/libps1_android.so",
+      "sha256": "2d965f25a68b02d312800c451dd78dba61560332912df759e8f70ceafc459345"
+    },
+    {
+      "path": "lib/arm64-v8a/librgss_cruby_android.so",
+      "sha256": "c21b2f71dacb96b034b296c18a58a12ddb9ea5427a67e9c5885e56cbe44261f8"
+    },
+    {
+      "path": "lib/arm64-v8a/libsnes_android.so",
+      "sha256": "c58462acfdc0b4e418abee46d67e410f220ce97ff4c7924d996a331eb60dba94"
+    }
+  ],
+  "qa": {
+    "googleManifestPackaged": true,
+    "essentialFriendsOfflinePresenceFix": true,
+    "allCoresRebuilt": false,
+    "unchangedCoreOutputsReused": true,
+    "updaterTests": true,
+    "deviceConnectionVerifiedOnSameFixesVersion": "3.0.5/15",
+    "version306InstalledOnDevice": false
+  }
+}

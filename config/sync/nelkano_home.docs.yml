@@ -327,6 +327,17 @@ es:
         Retirada de los servicios de traducción del SDK.
         Referencia integrada y documentación actualizadas.
         Licencias y condiciones de uso del SDK revisadas.
+    -
+      visible: true
+      version: 3.0.6
+      platform: android
+      version_code: '16'
+      apk_file: 'private://nelkano-releases/Nelkano 3.0.6.apk'
+      filename: 'Nelkano 3.0.6.apk'
+      date: 01/11/2026
+      changes: |-
+        Corrección de la conexión con Google Drive desde Ajustes.
+        Corrección del error invalid-text al utilizar Pokémon Online con amigos desconectados.
   compatibility_seo_title: 'Compatibilidad de Nelkano'
   compatibility_seo_description: 'Estado real de compatibilidad de los sistemas soportados por Nelkano para Android.'
   compatibility_eyebrow: Compatibilidad
@@ -695,6 +706,17 @@ en:
         Removed translation services from the SDK.
         Updated integrated reference and documentation.
         Revised SDK licenses and terms of use.
+    -
+      visible: true
+      version: 3.0.6
+      platform: android
+      version_code: '16'
+      apk_file: 'private://nelkano-releases/Nelkano 3.0.6.apk'
+      filename: 'Nelkano 3.0.6.apk'
+      date: 01/11/2026
+      changes: |-
+        Fixed Google Drive connection from Settings.
+        Fixed invalid-text when using Pokémon Online with offline friends.
   compatibility_seo_title: 'Nelkano compatibility'
   compatibility_seo_description: 'Real compatibility status for the systems supported by Nelkano on Android.'
   compatibility_eyebrow: Compatibility

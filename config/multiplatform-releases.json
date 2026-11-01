@@ -221,5 +221,18 @@
       "en": "Removed translation services from the SDK.\nUpdated integrated reference and documentation.\nRevised SDK licenses and terms of use."
     },
     "apk_file": "private://nelkano-releases/Nelkano-SDK-Studio-3.0.5-windows-x86_64.zip"
+  },
+  {
+    "visible": true,
+    "platform": "android",
+    "version": "3.0.6",
+    "version_code": "16",
+    "apk_file": "private://nelkano-releases/Nelkano 3.0.6.apk",
+    "filename": "Nelkano 3.0.6.apk",
+    "date": "01/11/2026",
+    "changes": {
+      "es": "Corrección de la conexión con Google Drive desde Ajustes.\nCorrección del error invalid-text al utilizar Pokémon Online con amigos desconectados.",
+      "en": "Fixed Google Drive connection from Settings.\nFixed invalid-text when using Pokémon Online with offline friends."
+    }
   }
 ]
