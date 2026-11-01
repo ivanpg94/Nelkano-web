@@ -69,6 +69,45 @@ $reject(fn() => $verifier->verify(Packages::zip($capabilityFiles('example.other-
   'another module cannot request reserved reports capability');
 $reject(fn() => $verifier->verify(Packages::zip($capabilityFiles('example.other-module', ['unknown.private-capability']))),
   'valid signature does not allow arbitrary capabilities');
+$onlineCapabilities = ['media.capture', 'modules.services', 'application.replace'];
+$check($verifier->verify(Packages::zip($capabilityFiles('nelkano.pokemon-online', $onlineCapabilities)))['capabilities'] === $onlineCapabilities, 'public SDK permissions do not depend on module author');
+$check($verifier->verify(Packages::zip($capabilityFiles('example.other-module', $onlineCapabilities)))['capabilities'] === $onlineCapabilities, 'new module IDs can use the existing public SDK contract');
+if ($onlinePath = getenv('NELKANO_OFFICIAL_ONLINE_FIXTURE_PATH')) {
+  $online = $verifier->verify(file_get_contents($onlinePath));
+  $check($online['id'] === 'nelkano.pokemon-online'
+    && $online['author'] === 'f423425956b5a8a1197a1c6c42cdaa995dd06b545a7542c63fc694b97783544d',
+    'original signed Pokemon Online release accepted without changing its bytes');
+}
+// Component declarations must match SDK paths/targets even before signer permissions.
+$componentsMethod = new ReflectionMethod(PackageVerifier::class, 'components');
+$componentManifest = ['capabilities' => ['native.components'], 'platforms' => ['android', 'jvm-desktop'],
+  'files' => ['components/test/android.dex', 'components/test/jvm-desktop.jar'],
+  'components' => [
+    ['id' => 'test', 'platform' => 'android', 'path' => 'components/test/android.dex', 'entryPoint' => 'example.Test', 'apiVersion' => 1],
+    ['id' => 'test', 'platform' => 'jvm-desktop', 'path' => 'components/test/jvm-desktop.jar', 'entryPoint' => 'example.Test', 'apiVersion' => 1],
+  ]];
+$componentsMethod->invoke($verifier, $componentManifest);
+$check(TRUE, 'SDK component target/path declarations accepted');
+$bad = $componentManifest; $bad['components'][0]['path'] = '../android.dex';
+$reject(fn() => $componentsMethod->invoke($verifier, $bad), 'component traversal path rejected');
+$bad = $componentManifest; array_pop($bad['components']);
+$reject(fn() => $componentsMethod->invoke($verifier, $bad), 'missing component target rejected');
+$bad = $componentManifest; $bad['components'][0]['entryPoint'] = 'com.ivanp.nelkano.Private';
+$reject(fn() => $componentsMethod->invoke($verifier, $bad), 'reserved host component class rejected');
+$bad = $componentManifest; $bad['capabilities'] = [];
+$reject(fn() => $componentsMethod->invoke($verifier, $bad), 'native components without consent rejected');
+$bad = $componentManifest; $bad['files'][] = 'extra.jar';
+$reject(fn() => $componentsMethod->invoke($verifier, $bad), 'undeclared native code rejected');
+$bad = $componentManifest; $bad['components'][] = $bad['components'][0];
+$reject(fn() => $componentsMethod->invoke($verifier, $bad), 'duplicate native target rejected');
+$check(count($verifier->verify(Packages::zip($capabilityFiles('example.new-module', ['storage.secrets', 'library.transfer', 'saves.transfer', 'runtime.tasks'])))['capabilities']) === 4, 'public transfer and secret-storage declarations accepted for a new signed module');
+if ($drivePath = getenv('NELKANO_OFFICIAL_DRIVE_FIXTURE_PATH')) {
+  $driveBytes = file_get_contents($drivePath);
+  $drive = $verifier->verify($driveBytes);
+  $check($drive['id'] === 'nelkano.drive' && $drive['author'] === '894894455eb91a9aa193c9c87756548fc4bfbc77e37dbc179e89fcc56b27cbe8',
+    'original signed Drive package with JAR and DEX accepted');
+  $check($drive['sha256'] === 'f44ea44d22d9b12e0a152dcbaa436398c3f86880734f297f0cf8f4f421d79609', 'public Drive download remains byte identical');
+}
 // Product packages stay outside this repository; CLI callers may supply temporary artifacts.
 if ($officialPath = getenv('NELKANO_OFFICIAL_REPORTS_FIXTURE_PATH')) {
   $official = file_get_contents($officialPath, FALSE, NULL, 0, PackageVerifier::MAX_ARCHIVE + 1);

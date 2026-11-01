@@ -6,6 +6,27 @@ Consulta [la receta vigente de despliegue completo](DEPLOY.md) para publicar est
 entrega, respaldar producción, aplicar configuración y Book y activar Codex.
 Las secciones de despliegues anteriores se conservan como contexto histórico.
 
+## Catálogo de módulos: contrato público SDK — 01/11/2026
+
+El validador admite los 63 permisos públicos actuales del SDK 0.2.0 para
+cualquier ID y autor con firma válida, incluidos componentes JAR/DEX declarados.
+No se necesitan excepciones por módulo. Reportes conserva su permiso privado
+ligado al ID y firmante oficiales. Aceptar un paquete en la web no concede sus
+permisos al ejecutarlo: el host mantiene el consentimiento de instalación.
+
+Esta corrección no cambia base de datos ni configuración. Tras subir el commit,
+en la instalación web habitual: `git pull --ff-only origin main` y
+`./vendor/bin/drush --root=public_html cache:rebuild`.
+No requiere ejecutar el despliegue completo de los instaladores 3.0.5.
+
+51 comprobaciones PHP correctas, más un paquete real generado por el SDK con
+los 63 permisos y otro autor. La prueba `node scripts/test-module-sdk-compat.cjs`
+comprueba que la lista pública del catálogo coincide con la del SDK para evitar
+que vuelvan a separarse. La URL pública de Drive también pasa `registry.inspect`.
+Se mantienen los límites del catálogo: formato 1, 32 MiB por paquete y 8 MiB por
+archivo. El formato 2 de motores externos grandes no forma parte de este cambio.
+La preparación local no acredita despliegue en producción.
+
 ## Preparación local 3.0.5 (15) — 01/11/2026
 
 Android ARM64, Windows x64 y SDK Studio Windows comparten versión. La entrega

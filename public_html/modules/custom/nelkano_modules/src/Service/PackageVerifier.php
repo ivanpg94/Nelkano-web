@@ -15,21 +15,113 @@ final class PackageVerifier {
   private const MAX_FILE = 8388608;
   // Same product trust anchor as SDK tooling/private-package-access.mjs.
   private const REPORT_AUTHOR_SHA256 = 'd678dfc43349f1cf71d3bd98019c94655768685ff2b6163e5163d1b3a69df4a1';
+  // Public SDK capabilities: accepting a package does not grant runtime permissions.
   private const CAPABILITIES = [
-    'emulation.game-mod', 'emulation.memory.read', 'emulation.memory.write',
-    'emulation.resources', 'emulation.handoff', 'presentation.overlay',
-    'network.multiplayer', 'runtime.events', 'storage.private.cas', 'library.read',
-    'library.delete', 'library.launch', 'library.cover', 'saves.read',
-    'saves.autosave', 'emulation.read', 'emulation.control', 'presentation.player',
-    'saves.write', 'saves.load', 'modules.hooks', 'presentation.appearance',
-    'environment.display', 'presentation.control-layouts', 'account.session',
-    'network.account', 'resources.image', 'input.gamepad', 'media.second-screen',
-    'media.streaming', 'resources.patch', 'appearance.locale',
+    'application.replace',
+    'native.components',
+    'native.execute',
+    'native.gpu',
+    'emulation.timeline',
+    'media.camera',
+    'audio.mix',
+    'media.microphone',
+    'audio.dsp',
+    'graphics.shaders',
+    'graphics.textures',
+    'graphics.options',
+    'runtime.tasks.background',
+    'media.capture',
+    'media.record',
+    'resources.packs',
+    'profile.provide',
+    'profile.backup',
+    'assistant.voice',
+    'storage.files',
+    'resources.documents',
+    'storage.secrets',
+    'runtime.tasks',
+    'network.external',
+    'emulation.input',
+    'presentation.extend',
+    'storage.entities',
+    'modules.services',
+    'modules.events',
+    'emulation.game-mod',
+    'emulation.memory.read',
+    'emulation.memory.write',
+    'emulation.resources',
+    'emulation.handoff',
+    'presentation.overlay',
+    'network.multiplayer',
+    'runtime.events',
+    'storage.private.cas',
+    'library.read',
+    'library.transfer',
+    'saves.transfer',
+    'library.delete',
+    'library.launch',
+    'library.cover',
+    'saves.read',
+    'saves.autosave',
+    'emulation.read',
+    'emulation.control',
+    'presentation.player',
+    'saves.write',
+    'saves.load',
+    'modules.hooks',
+    'presentation.appearance',
+    'environment.display',
+    'presentation.control-layouts',
+    'account.session',
+    'network.account',
+    'resources.image',
+    'input.gamepad',
+    'media.second-screen',
+    'media.streaming',
+    'resources.patch',
+    'appearance.locale',
   ];
 
   private function require(bool $condition): void {
     if (!$condition) {
       throw new \InvalidArgumentException('El archivo no es un paquete .nelkmod válido y firmado.');
+    }
+  }
+
+  /** Mirror the public SDK component manifest contract; never execute uploaded code. */
+  private function components(array $manifest): void {
+    $fail = static function (bool $ok): void {
+      if (!$ok) { throw new \InvalidArgumentException('La declaración de componentes nativos del paquete no es compatible con el SDK.'); }
+    };
+    $entries = $manifest['components'] ?? [];
+    $fail(is_array($entries) && array_is_list($entries) && count($entries) <= 16);
+    $consent = in_array('native.components', $manifest['capabilities'], TRUE);
+    $fail($consent === (count($entries) > 0));
+    $seen = []; $paths = []; $targets = [];
+    foreach ($entries as $entry) {
+      $fail(is_array($entry));
+      $keys = array_keys($entry); sort($keys, SORT_STRING);
+      $fail($keys === ['apiVersion', 'entryPoint', 'id', 'path', 'platform']
+        && ($entry['apiVersion'] ?? NULL) === 1
+        && is_string($entry['id'] ?? NULL) && (bool) preg_match('/^[a-z][a-z0-9-]{0,63}$/D', $entry['id'])
+        && in_array($entry['platform'] ?? NULL, ['android', 'jvm-desktop'], TRUE)
+        && in_array($entry['platform'], $manifest['platforms'], TRUE));
+      $identity = $entry['id'] . ':' . $entry['platform'];
+      $suffix = $entry['platform'] === 'android' ? 'dex' : 'jar';
+      $expected = 'components/' . $entry['id'] . '/' . $entry['platform'] . '.' . $suffix;
+      $fail(!isset($seen[$identity]) && ($entry['path'] ?? NULL) === $expected
+        && in_array($expected, $manifest['files'], TRUE) && !isset($paths[$expected])
+        && is_string($entry['entryPoint'] ?? NULL) && strlen($entry['entryPoint']) <= 256
+        && (bool) preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*(\.[a-zA-Z_][a-zA-Z0-9_]*)+$/D', $entry['entryPoint'])
+        && !str_starts_with($entry['entryPoint'], 'com.ivanp.nelkano.'));
+      $seen[$identity] = TRUE; $paths[$expected] = TRUE;
+      $targets[$entry['id']][$entry['platform']] = TRUE;
+    }
+    foreach ($manifest['files'] as $file) {
+      if (preg_match('/\.(jar|dex)$/D', $file)) { $fail(isset($paths[$file])); }
+    }
+    foreach ($targets as $platforms) {
+      foreach ($manifest['platforms'] as $platform) { $fail(isset($platforms[$platform])); }
     }
   }
 
@@ -201,8 +293,9 @@ final class PackageVerifier {
       && in_array($manifest['entry'], $manifest['files'], TRUE));
     foreach ($manifest['files'] as $name) {
       $this->require($this->safe($name) && !in_array(strtolower($name), ['manifest.json', 'signature.json'], TRUE)
-        && preg_match('/\.(js|json|svg|png|txt|ttf)$/D', $name));
+        && preg_match('/\.(js|json|svg|png|txt|ttf|jar|dex)$/D', $name));
     }
+    $this->components($manifest);
     $this->contracts($manifest);
     $ordered = array_merge(['manifest.json'], $manifest['files']);
     sort($ordered, SORT_STRING);
@@ -239,7 +332,9 @@ final class PackageVerifier {
       $allowedCapabilities[] = 'error-reports.send';
     }
     // Author/ID exceptions are evaluated only after successful Ed25519 verification.
-    $this->require(!array_diff($manifest['capabilities'], $allowedCapabilities));
+    if (array_diff($manifest['capabilities'], $allowedCapabilities)) {
+      throw new \InvalidArgumentException('El paquete está firmado, pero solicita permisos que el catálogo web todavía no admite para este módulo y autor.');
+    }
     return [
       'id' => $manifest['id'], 'version' => $manifest['version'],
       'sdk' => $manifest['sdkVersion'], 'platforms' => $manifest['platforms'],
