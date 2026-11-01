@@ -1,0 +1,24 @@
+{
+  "version": "3.0.6",
+  "versionCode": 16,
+  "date": "01/11/2026",
+  "appId": "nelkano.desktop",
+  "filename": "Nelkano 3.0.6-windows.exe",
+  "bytes": 126982144,
+  "sha256": "6322cc6f559b8be5f53a3002e1d3c968d83caec487dd469a69dfd805f8cd602c",
+  "notes": {
+    "es": "Corrección del error invalid-text al utilizar Pokémon Online con amigos desconectados.\nSoporte actualizado para juegos, partidas y portadas del módulo Google Drive.",
+    "en": "Fixed invalid-text when using Pokémon Online with offline friends.\nUpdated host support for games, saves and covers in the Google Drive module."
+  },
+  "publishedToProduction": false,
+  "installedOnDevices": false,
+  "source_commit": "efda6f27806ddbc7c4332a894bbbd03b6db72c6c",
+  "source_dirty": true,
+  "installerStaticInspectionPassed": true,
+  "automaticUpdate": {
+    "file": "Nelkano 3.0.6-windows.msi",
+    "bytes": 126410871,
+    "sha256": "610f6fc0066ab0363a586a4bc2a38ac62ed6f8c99506bdf164781ef49fadac8b",
+    "format": "msi"
+  }
+}

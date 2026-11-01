@@ -234,5 +234,33 @@
       "es": "Corrección de la conexión con Google Drive desde Ajustes.\nCorrección del error invalid-text al utilizar Pokémon Online con amigos desconectados.",
       "en": "Fixed Google Drive connection from Settings.\nFixed invalid-text when using Pokémon Online with offline friends."
     }
+  },
+  {
+    "visible": true,
+    "version": "3.0.6",
+    "platform": "windows",
+    "version_code": "16",
+    "apk_file": "private://nelkano-releases/Nelkano 3.0.6-windows.msi",
+    "installer_file": "private://nelkano-releases/Nelkano 3.0.6-windows.exe",
+    "filename": "Nelkano 3.0.6-windows.exe",
+    "date": "01/11/2026",
+    "changes": {
+      "es": "Corrección del error invalid-text al utilizar Pokémon Online con amigos desconectados.\nSoporte actualizado para juegos, partidas y portadas del módulo Google Drive.",
+      "en": "Fixed invalid-text when using Pokémon Online with offline friends.\nUpdated host support for games, saves and covers in the Google Drive module."
+    }
+  },
+  {
+    "visible": true,
+    "version": "3.0.6",
+    "platform": "sdk",
+    "version_code": "16",
+    "apk_file": "private://nelkano-releases/Nelkano-SDK-Studio-3.0.6-windows-x86_64.zip",
+    "installer_file": "private://nelkano-releases/Nelkano-SDK-Studio-3.0.6-windows-x86_64.exe",
+    "filename": "Nelkano-SDK-Studio-3.0.6-windows-x86_64.exe",
+    "date": "01/11/2026",
+    "changes": {
+      "es": "SDK Studio actualizado a la versión 3.0.6.\nEjemplo de Amigos corregido para contactos desconectados.",
+      "en": "SDK Studio updated to version 3.0.6.\nFixed Friends example for offline contacts."
+    }
   }
 ]

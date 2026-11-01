@@ -1,0 +1,24 @@
+{
+  "version": "3.0.6",
+  "versionCode": 16,
+  "date": "01/11/2026",
+  "appId": "nelkano.sdk.studio",
+  "filename": "Nelkano-SDK-Studio-3.0.6-windows-x86_64.exe",
+  "bytes": 110789632,
+  "sha256": "7a529283e9febc37f00600b439ef9d89cb6a07083c06e549071ac9a22e503090",
+  "notes": {
+    "es": "SDK Studio actualizado a la versión 3.0.6.\nEjemplo de Amigos corregido para contactos desconectados.",
+    "en": "SDK Studio updated to version 3.0.6.\nFixed Friends example for offline contacts."
+  },
+  "publishedToProduction": false,
+  "installedOnDevices": false,
+  "source_commit": "efda6f27806ddbc7c4332a894bbbd03b6db72c6c",
+  "source_dirty": true,
+  "installerStaticInspectionPassed": true,
+  "automaticUpdate": {
+    "file": "Nelkano-SDK-Studio-3.0.6-windows-x86_64.zip",
+    "bytes": 109646174,
+    "sha256": "12d1a2c42769b19089fea6411c414af40f82d95e45e2fd343ba96cfe0e02d61c",
+    "format": "zip"
+  }
+}

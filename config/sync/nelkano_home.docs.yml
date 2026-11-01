@@ -338,6 +338,30 @@ es:
       changes: |-
         Corrección de la conexión con Google Drive desde Ajustes.
         Corrección del error invalid-text al utilizar Pokémon Online con amigos desconectados.
+    -
+      visible: true
+      version: 3.0.6
+      platform: windows
+      version_code: '16'
+      apk_file: 'private://nelkano-releases/Nelkano 3.0.6-windows.msi'
+      installer_file: 'private://nelkano-releases/Nelkano 3.0.6-windows.exe'
+      filename: 'Nelkano 3.0.6-windows.exe'
+      date: 01/11/2026
+      changes: |-
+        Corrección del error invalid-text al utilizar Pokémon Online con amigos desconectados.
+        Soporte actualizado para juegos, partidas y portadas del módulo Google Drive.
+    -
+      visible: true
+      version: 3.0.6
+      platform: sdk
+      version_code: '16'
+      apk_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.6-windows-x86_64.zip'
+      installer_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.6-windows-x86_64.exe'
+      filename: Nelkano-SDK-Studio-3.0.6-windows-x86_64.exe
+      date: 01/11/2026
+      changes: |-
+        SDK Studio actualizado a la versión 3.0.6.
+        Ejemplo de Amigos corregido para contactos desconectados.
   compatibility_seo_title: 'Compatibilidad de Nelkano'
   compatibility_seo_description: 'Estado real de compatibilidad de los sistemas soportados por Nelkano para Android.'
   compatibility_eyebrow: Compatibilidad
@@ -717,6 +741,30 @@ en:
       changes: |-
         Fixed Google Drive connection from Settings.
         Fixed invalid-text when using Pokémon Online with offline friends.
+    -
+      visible: true
+      version: 3.0.6
+      platform: windows
+      version_code: '16'
+      apk_file: 'private://nelkano-releases/Nelkano 3.0.6-windows.msi'
+      installer_file: 'private://nelkano-releases/Nelkano 3.0.6-windows.exe'
+      filename: 'Nelkano 3.0.6-windows.exe'
+      date: 01/11/2026
+      changes: |-
+        Fixed invalid-text when using Pokémon Online with offline friends.
+        Updated host support for games, saves and covers in the Google Drive module.
+    -
+      visible: true
+      version: 3.0.6
+      platform: sdk
+      version_code: '16'
+      apk_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.6-windows-x86_64.zip'
+      installer_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.6-windows-x86_64.exe'
+      filename: Nelkano-SDK-Studio-3.0.6-windows-x86_64.exe
+      date: 01/11/2026
+      changes: |-
+        SDK Studio updated to version 3.0.6.
+        Fixed Friends example for offline contacts.
   compatibility_seo_title: 'Nelkano compatibility'
   compatibility_seo_description: 'Real compatibility status for the systems supported by Nelkano on Android.'
   compatibility_eyebrow: Compatibility

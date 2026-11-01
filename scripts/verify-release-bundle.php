@@ -8,6 +8,8 @@ $manifest = json_decode(file_get_contents($directory . '/manifest.json'), TRUE, 
 $docs = \Symfony\Component\Yaml\Yaml::parseFile($root . '/config/sync/nelkano_home.docs.yml');
 $docroot = is_dir($root . '/public_html/modules/custom/nelkano_home') ? $root . '/public_html' : $root . '/web';
 require_once $docroot . '/modules/custom/nelkano_home/src/Service/ReleaseArtifact.php';
+require_once __DIR__ . '/release-version-guard.php';
+nelkanoAssertReleaseVersions($docs['es']['releases_items'] ?? [], [\Drupal\nelkano_home\Service\ReleaseArtifact::class,'newest']);
 $required = [];
 foreach (['es', 'en'] as $lang) {
   foreach ($docs[$lang]['releases_items'] ?? [] as $row) {

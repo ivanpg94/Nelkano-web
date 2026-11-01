@@ -98,6 +98,104 @@
           "sha256": "6f569c56ec5f5c9d2ee8ca872b53dd1cc50e588c71c82b45b4ff10f30b36e2f9"
         }
       ]
+    },
+    {
+      "file": "Nelkano 3.0.6-windows.exe",
+      "bytes": 126982144,
+      "sha256": "6322cc6f559b8be5f53a3002e1d3c968d83caec487dd469a69dfd805f8cd602c",
+      "parts": [
+        {
+          "file": "parts/6322cc6f559b8be5f53a3002e1d3c968d83caec487dd469a69dfd805f8cd602c/0001.part",
+          "bytes": 41943040,
+          "sha256": "6f4f2cf8b51839d10513c4a44ffd2852931252ad1493d3f6ca1aa5a68db6e9f6"
+        },
+        {
+          "file": "parts/6322cc6f559b8be5f53a3002e1d3c968d83caec487dd469a69dfd805f8cd602c/0002.part",
+          "bytes": 41943040,
+          "sha256": "55199e0c4244b9d4eefdaf0135e5dcf4b7915ecad20b89542f1508a74be6bcb6"
+        },
+        {
+          "file": "parts/6322cc6f559b8be5f53a3002e1d3c968d83caec487dd469a69dfd805f8cd602c/0003.part",
+          "bytes": 41943040,
+          "sha256": "836705f5924475a595b9388254f1a309b924fc5127d4279b1f41a3a4297cb560"
+        },
+        {
+          "file": "parts/6322cc6f559b8be5f53a3002e1d3c968d83caec487dd469a69dfd805f8cd602c/0004.part",
+          "bytes": 1153024,
+          "sha256": "84d3c75127a1474dc80c25e4523282adc404e4cb5fef01282ce9dddf691e8f1f"
+        }
+      ]
+    },
+    {
+      "file": "Nelkano 3.0.6-windows.msi",
+      "bytes": 126410871,
+      "sha256": "610f6fc0066ab0363a586a4bc2a38ac62ed6f8c99506bdf164781ef49fadac8b",
+      "parts": [
+        {
+          "file": "parts/610f6fc0066ab0363a586a4bc2a38ac62ed6f8c99506bdf164781ef49fadac8b/0001.part",
+          "bytes": 41943040,
+          "sha256": "29123bee15994de66257ba8490048fde901beaf100d313881ff964446d62eb9c"
+        },
+        {
+          "file": "parts/610f6fc0066ab0363a586a4bc2a38ac62ed6f8c99506bdf164781ef49fadac8b/0002.part",
+          "bytes": 41943040,
+          "sha256": "6134a63d9804cf7674aebf1f413dbcdbb9cd55c7dcce8dd9c45266a48695a9c3"
+        },
+        {
+          "file": "parts/610f6fc0066ab0363a586a4bc2a38ac62ed6f8c99506bdf164781ef49fadac8b/0003.part",
+          "bytes": 41943040,
+          "sha256": "f3887b825e7a222141a5451a2b0820c634f55401ac62cd807fbcb9f177b11b43"
+        },
+        {
+          "file": "parts/610f6fc0066ab0363a586a4bc2a38ac62ed6f8c99506bdf164781ef49fadac8b/0004.part",
+          "bytes": 581751,
+          "sha256": "bffcad49d98f1caf6be01cddee29fa7ea2ec6c0cc5169998ca2955884bf26fef"
+        }
+      ]
+    },
+    {
+      "file": "Nelkano-SDK-Studio-3.0.6-windows-x86_64.exe",
+      "bytes": 110789632,
+      "sha256": "7a529283e9febc37f00600b439ef9d89cb6a07083c06e549071ac9a22e503090",
+      "parts": [
+        {
+          "file": "parts/7a529283e9febc37f00600b439ef9d89cb6a07083c06e549071ac9a22e503090/0001.part",
+          "bytes": 41943040,
+          "sha256": "d9d55dacc27f23dcf9951070956f4466658e97c798290eaf371cca28cc3df8c1"
+        },
+        {
+          "file": "parts/7a529283e9febc37f00600b439ef9d89cb6a07083c06e549071ac9a22e503090/0002.part",
+          "bytes": 41943040,
+          "sha256": "bc571134c48cc515928e2668fdca86b0aff82c30acbc82e65e02c982f27c37f7"
+        },
+        {
+          "file": "parts/7a529283e9febc37f00600b439ef9d89cb6a07083c06e549071ac9a22e503090/0003.part",
+          "bytes": 26903552,
+          "sha256": "1b57b1da72136a1071a58615a6340509bf036753a9fa8b04aac55ad7b233a248"
+        }
+      ]
+    },
+    {
+      "file": "Nelkano-SDK-Studio-3.0.6-windows-x86_64.zip",
+      "bytes": 109646174,
+      "sha256": "12d1a2c42769b19089fea6411c414af40f82d95e45e2fd343ba96cfe0e02d61c",
+      "parts": [
+        {
+          "file": "parts/12d1a2c42769b19089fea6411c414af40f82d95e45e2fd343ba96cfe0e02d61c/0001.part",
+          "bytes": 41943040,
+          "sha256": "5b0a2833c4d030fb6906c83d3f83b73d9c0f2f8ab2a436d175a3dc2beb81c0e6"
+        },
+        {
+          "file": "parts/12d1a2c42769b19089fea6411c414af40f82d95e45e2fd343ba96cfe0e02d61c/0002.part",
+          "bytes": 41943040,
+          "sha256": "2fef02d6667bd58faa218ad299e39586d06db7b9b9fbd29774340aa5d94f13b9"
+        },
+        {
+          "file": "parts/12d1a2c42769b19089fea6411c414af40f82d95e45e2fd343ba96cfe0e02d61c/0003.part",
+          "bytes": 25760094,
+          "sha256": "e3f7dbd7aa27ef333627a0e25fd53827a2a30747eb2e16e9317b86ea90b0b9c6"
+        }
+      ]
     }
   ]
 }

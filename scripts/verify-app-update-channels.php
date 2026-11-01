@@ -3,6 +3,8 @@
 use Drupal\nelkano_home\Controller\AppUpdatesController;
 use Drupal\nelkano_home\Service\ReleaseArtifact;
 $rows=\Drupal::config('nelkano_home.docs')->get('es.releases_items')??[];
+require_once __DIR__ . '/release-version-guard.php';
+nelkanoAssertReleaseVersions($rows,[ReleaseArtifact::class,'newest']);
 $controller=AppUpdatesController::create(\Drupal::getContainer());
 $checked=[];
 foreach(ReleaseArtifact::PLATFORMS as $platform=>$definition){
