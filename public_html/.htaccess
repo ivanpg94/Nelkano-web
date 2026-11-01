@@ -1,11 +1,6 @@
 # Nelkano production canonical host; leave localhost and other development hosts alone.
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  # Legacy streaming buffers must never be served as public static files.
-  RewriteRule ^sites/[^/]+/files/nelkano-stream(?:/|$) - [F,L,NC]
-  # All release binaries use the latest-only download controllers.
-  RewriteRule ^sites/[^/]+/files/(?:nelkano-releases|app-updates)(?:/|$) - [F,L,NC]
-  RewriteRule ^modules/custom/nelkano_home/emulator(?:/|$) - [F,L,NC]
   RewriteCond %{HTTP_HOST} ^www\.nelkano\.com(?::[0-9]+)?$ [NC]
   RewriteRule ^ https://nelkano.com%{REQUEST_URI} [R=301,L,NE]
 </IfModule>
