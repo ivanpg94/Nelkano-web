@@ -82,6 +82,21 @@ final class AuthController extends ControllerBase {
     );
   }
 
+  public function deleteAccount(): Response {
+    $language = $this->requestLanguage();
+    return $this->authPage($this->formBuilder()->getForm('Drupal\\nelkano_home\\Form\\AccountErasureForm', $language), 'delete', $language === 'en' ? 'Delete your Nelkano account and its server data' : 'Elimina tu cuenta de Nelkano y sus datos del servidor', $language);
+  }
+
+  /** Compatibility for already-open age URLs; no age screen or new consent. */
+  public function accountAccessRedirect(): Response {
+    $language = $this->requestLanguage();
+    $response = $this->currentUser()->isAuthenticated()
+      ? $this->login()
+      : new RedirectResponse($language === 'en' ? '/en/user/login' : '/user/login');
+    $response->headers->set('Cache-Control', 'no-store, private');
+    return $response;
+  }
+
   public function verify(int $uid, string $token): RedirectResponse {
     $account = $this->entityTypeManager()->getStorage('user')->load($uid);
     if (!$account instanceof UserInterface) {
@@ -128,6 +143,7 @@ final class AuthController extends ControllerBase {
         default => $language === 'en' ? 'Log in' : 'Iniciar sesion',
       },
       'auth_title' => match ($mode) {
+        'delete' => $language === 'en' ? 'Delete your account' : 'Elimina tu cuenta',
         'register' => $language === 'en' ? 'Create your Nelkano account' : 'Crea tu cuenta Nelkano',
         'password' => $language === 'en' ? 'Recover your account' : 'Recupera tu cuenta',
         default => $language === 'en' ? 'Welcome back' : 'Bienvenido de nuevo',
@@ -168,6 +184,7 @@ final class AuthController extends ControllerBase {
       'login' => ['/user/login', '/en/user/login'],
       'register' => ['/user/register', '/en/user/register'],
       'password' => ['/user/password', '/en/user/password'],
+      'delete' => ['/user/delete-account', '/en/user/delete-account'],
     ];
     $pair = $paths[$mode] ?? $paths['login'];
     return $language === 'en' ? $pair[0] : $pair[1];

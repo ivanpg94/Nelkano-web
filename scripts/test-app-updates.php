@@ -14,7 +14,7 @@ if (PHP_SAPI !== 'cli' || getenv('DRUPAL_DB_NAME') !== 'nelkano_drupal' || geten
 }
 $override = new class implements ConfigFactoryOverrideInterface {
   public array $data = [];
-  public function loadOverrides($names) { return ['nelkano_home.app_updates' => $this->data, 'nelkano_home.docs' => ['es' => ['releases_items' => array_fill(0, 100, ['version_code' => '0'])]]]; }
+  public function loadOverrides($names) { return ['nelkano_home.app_updates' => $this->data, 'nelkano_home.docs' => ['es' => ['releases_items' => array_fill(0, 100, ['version_code' => '0', 'platform'=>'qa-unrelated', 'visible'=>FALSE])]]]; }
   public function getCacheSuffix() { return 'app-updates-process-only-qa'; }
   public function createConfigObject($name, $collection = StorageInterface::DEFAULT_COLLECTION) { return NULL; }
   public function getCacheableMetadata($name) { return (new CacheableMetadata())->setCacheMaxAge(0); }
@@ -42,11 +42,11 @@ try {
     app_updates_assert($manifest['latest']['sha256'] === hash('sha256', $bytes) && $manifest['latest']['bytes'] === strlen($bytes), 'Wrong integrity metadata');
     $download = $controller->download($platform, '1000001');
     app_updates_assert(file_get_contents($download->getFile()->getPathname()) === $bytes, 'Downloaded bytes changed');
-    // An already issued download URL remains valid after the active pointer changes.
+    // Advancing the active pointer retires all previous download URLs.
     $override->data['active'][$platform] = 1000002;
     $factory->reset('nelkano_home.app_updates');
     app_updates_assert(json_decode($controller->latest($platform)->getContent(), TRUE)['latest'] === NULL, 'Missing release must not be offered');
-    app_updates_assert(file_get_contents($controller->download($platform, '1000001')->getFile()->getPathname()) === $bytes, 'Previous download URL disappeared');
+    try { $controller->download($platform, '1000001'); throw new RuntimeException('Previous download URL remained available'); } catch (NotFoundHttpException $expected) {}
     try { $controller->download($platform, '999'); throw new RuntimeException('Unknown build accepted'); }
     catch (NotFoundHttpException $expected) {}
     echo $platform . ": identity, checksum, bytes, missing release and history PASS\n";

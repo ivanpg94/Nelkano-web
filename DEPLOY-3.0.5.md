@@ -1,0 +1,134 @@
+# Desplegar Nelkano 3.0.5 (15)
+
+Preparación local de Android ARM64, Nelkano Windows x64 y SDK Studio Windows.
+No se ha hecho push, despliegue remoto ni instalación en teléfonos. La entrega
+incluye la web, privacidad y borrado de cuentas, licencias, retirada de traducción
+y corrección del archivo compartido con el instalador Android.
+
+Sólo se descarga la última versión por aplicación; las notas anteriores se
+conservan. SteamOS sigue oculto. Android tiene APK de actualización; Windows y
+SDK se instalan manualmente con sus EXE, sin anunciar un MSI/ZIP inexistente.
+Las fuentes propias de Nelkano siguen privadas. El ZIP público contiene sólo
+las fuentes y recetas correspondientes de Java/GCC, no las de la aplicación.
+
+## 1. Subir el commit desde el PC
+
+En PowerShell, revisar que el último commit sea el de esta entrega y ejecutar:
+
+```powershell
+Set-Location 'C:\Users\ivanp\Desktop\nelkano-web'
+git status --short
+git log -1 --oneline
+git push origin main
+```
+
+El commit web contiene los instaladores y sus metadatos. Los EXE y el archivo de
+fuentes de terceros viajan en fragmentos de hasta 40 MiB: el script los reconstruye
+y comprueba automáticamente. No hace falta subirlos por separado. Las fuentes
+de la app y los trabajos locales de cores están en el repositorio vecino y no
+se suben al hosting con este commit.
+
+## 2. Respaldar producción
+
+Abrir tu sesión SSH habitual. No editar contenido mientras dure la actualización.
+Ejecutar el siguiente bloque y pegar el SHA completo del commit web entregado.
+Si hay un error, parar; no usar `reset --hard`, no borrar archivos privados y
+no continuar quitando mantenimiento.
+
+```bash
+set -euo pipefail
+umask 077
+cd /home/u985217890/domains/nelkano.com
+test "$(git branch --show-current)" = main
+git status --short
+# Los archivos nuevos de private/ son datos del sitio: no se borran.
+# Git también rechazará un merge que sobrescriba archivos sin seguimiento.
+git diff --quiet
+git diff --cached --quiet
+git fetch origin main
+read -r -p 'SHA completo del commit WEB 3.0.5: ' release_commit
+[[ "$release_commit" =~ ^[a-f0-9]{40}$ ]]
+git cat-file -e "$release_commit^{commit}"
+git merge-base --is-ancestor "$release_commit" origin/main
+git merge-base --is-ancestor HEAD "$release_commit"
+backup_dir="$HOME/nelkano-backups/before-3.0.5-$(date +%Y%m%d-%H%M%S)"
+test ! -e "$backup_dir"
+mkdir -p "$backup_dir"
+git rev-parse HEAD > "$backup_dir/revision.txt"
+./vendor/bin/drush --root=public_html state:set system.maintenance_mode 1 --input-format=integer
+./vendor/bin/drush --root=public_html cache:rebuild
+./vendor/bin/drush --root=public_html sql:dump --result-file="$backup_dir/database.sql"
+test -s "$backup_dir/database.sql"
+gzip "$backup_dir/database.sql"
+gzip -t "$backup_dir/database.sql.gz"
+./vendor/bin/drush --root=public_html config:export --destination="$backup_dir/config" --yes
+./vendor/bin/drush --root=public_html book:export de520020-2026-4000-8000-000000000001 "$backup_dir/nelkano-sdk.yml"
+public_files="$(./vendor/bin/drush --root=public_html php:eval 'echo \Drupal::service("file_system")->realpath("public://");')"
+private_files="$(./vendor/bin/drush --root=public_html php:eval 'echo \Drupal::service("file_system")->realpath("private://");')"
+test -d "$public_files"
+test -d "$private_files"
+case "$private_files" in "$PWD/public_html"|"$PWD/public_html/"*) echo 'private:// debe quedar fuera del docroot'; exit 1;; esac
+tar -czf "$backup_dir/files-settings.tar.gz" -- public_html/sites/default/settings.php "$public_files" "$private_files"
+tar -tzf "$backup_dir/files-settings.tar.gz" >/dev/null
+erasure_registry="$(./vendor/bin/drush --root=public_html php:eval 'echo \Drupal\Core\Site\Settings::get("nelkano_erasure_registry_directory", dirname(DRUPAL_ROOT, 2)."/nelkano-erasure-registry");')"
+if [ -d "$erasure_registry" ]; then
+  tar -czf "$backup_dir/erasure-register.tar.gz" -- "$erasure_registry"
+  tar -tzf "$backup_dir/erasure-register.tar.gz" >/dev/null
+fi
+printf 'Respaldo guardado en: %s\n' "$backup_dir"
+```
+
+Guardar la ruta del respaldo. Si producción tiene cambios editoriales posteriores,
+conciliarlos antes: importar configuración y libro aplica las versiones preparadas.
+El registro de cuentas borradas se conserva además fuera de los archivos del sitio;
+si se restaura una copia antigua, se debe mantener el registro vivo más reciente.
+
+## 3. Aplicar la entrega
+
+Continuar en la misma sesión SSH:
+
+```bash
+git merge --ff-only "$release_commit"
+test "$(git rev-parse HEAD)" = "$release_commit"
+bash scripts/deploy-hostinger.sh
+./vendor/bin/drush --root=public_html updatedb:status
+./vendor/bin/drush --root=public_html config:status
+./vendor/bin/drush --root=public_html book:import content/books/nelkano-sdk.yml --dry-run
+```
+
+El script reconstruye y verifica los archivos, instala con Composer desde el lock,
+registra los instaladores, aplica updates/configuración y libro, activa la limpieza
+periódica de datos caducados y comprueba el registro independiente de supresiones.
+Sólo reabre la web cuando todo termina correctamente. Si falla, mantenerla en
+mantenimiento y conservar el error; no ejecutar la reaplicación de borrados a ciegas.
+
+La simulación del libro debe indicar 23 páginas `unchanged`; no deben quedar updates
+ni diferencias de configuración inesperadas. No ejecutar `config:export` sobre
+`config/sync` en producción después del pull: sobrescribiría esta entrega.
+
+## 4. Comprobar la web y descargar
+
+```bash
+curl --fail --silent --show-error https://nelkano.com/api/nelkano/v1/app/releases/android-arm64
+curl --fail --silent --show-error https://nelkano.com/api/nelkano/v1/app/releases/windows-x86_64
+curl --fail --silent --show-error https://nelkano.com/api/nelkano/v1/app/releases/sdk-studio-windows-x86_64
+curl --fail --silent --show-error --head https://nelkano.com/third-party-sources/nelkano-runtimes-2026-10-31.zip
+NELKANO_PRIVACY_OPS_ACTION=status ./vendor/bin/drush --root=public_html php:script scripts/privacy-operations.php
+```
+
+Android debe devolver **3.0.5, código 15**, con bytes y SHA-256 del manifiesto.
+Windows y SDK devuelven `latest:null`, porque se ofrecen sus EXE manuales.
+En `/versiones` y `/en/releases`, las tres descargas deben indicar 3.0.5; las notas
+antiguas siguen visibles, pero sus rutas de descarga devuelven 404. Créditos y
+privacidad deben abrir sin errores, y el ZIP de fuentes debe responder 200.
+El estado de privacidad debe mostrar `maintenanceEnabled: true`.
+
+En el Redmi, descargar esta primera versión desde la web e instalarla encima de
+la anterior, **sin desinstalar ni borrar datos**. Así recibe la corrección del
+actualizador antiguo. El uso real desde dentro de la app sigue pendiente de
+comprobación en el teléfono. Windows y Studio se actualizan con sus EXE, conservando
+los directorios de datos/proyectos. Esta preparación no acredita gameplay ni
+instalación real en los dispositivos.
+
+Comprobar también un correo de verificación/recuperación propio: el transporte
+real de correo de producción no se ha comprobado desde esta preparación local.

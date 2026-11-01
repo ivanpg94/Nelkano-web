@@ -51,6 +51,12 @@ final class AccountSettingsForm extends FormBase {
       '#attributes' => ['class' => ['nk-account-submit']],
     ];
 
+    $form['actions']['delete_account'] = [
+      '#type' => 'link',
+      '#title' => $language === 'en' ? 'Delete my account' : 'Eliminar mi cuenta',
+      '#url' => Url::fromRoute($language === 'en' ? 'nelkano_home.account_erasure_en' : 'nelkano_home.account_erasure_es'),
+      '#attributes' => ['class' => ['nk-account-delete']],
+    ];
     return $form;
   }
 

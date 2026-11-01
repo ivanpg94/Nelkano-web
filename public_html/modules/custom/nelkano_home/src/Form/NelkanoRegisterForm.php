@@ -84,7 +84,7 @@ final class NelkanoRegisterForm extends FormBase {
     $form['terms'] = [
       '#type' => 'checkbox',
       '#title' => $language === 'en' ? 'I accept the terms and conditions' : 'Acepto los terminos y condiciones',
-      '#description' => $terms_description,
+      '#description' => ($language === 'en' ? 'You must be 14 or over to create an account. ' : 'Para crear una cuenta debes tener 14 años o más. ') . $terms_description,
       '#required' => TRUE,
     ];
 

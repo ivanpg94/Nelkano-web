@@ -279,11 +279,26 @@ function nelkano_home_user_update(\Drupal\user\UserInterface $account): void {
   }
 }
 
+/** Prepare erasure before core user cleanup can anonymize author metadata. */
+function nelkano_home_user_predelete(\Drupal\user\UserInterface $account): void {
+  $lock = \Drupal::lock();
+  $key = \Drupal\nelkano_home\Service\AccountErasure::lockKey((int) $account->id());
+  if (!$lock->acquire($key, 300)) {
+    throw new \RuntimeException('La cuenta está ocupada. Vuelve a intentarlo.');
+  }
+  try {
+    if ((int) $account->id() <= 1) { throw new \RuntimeException('La cuenta principal requiere revisión manual.'); }
+    if ($account->isActive()) { $account->block()->save(); }
+    \Drupal\nelkano_home\Service\AccountErasure::purge($account);
+  }
+  finally { $lock->release($key); }
+}
+
 /**
  * Implements hook_user_delete().
  */
 function nelkano_home_user_delete(\Drupal\user\UserInterface $account): void {
-  \Drupal\nelkano_home\Service\AppSessions::revokeAllForUser((int) $account->id());
+  \Drupal\nelkano_home\Service\AccountErasure::purge($account);
 }
 
 /**
@@ -291,9 +306,23 @@ function nelkano_home_user_delete(\Drupal\user\UserInterface $account): void {
  */
 function nelkano_home_cron(): void {
   \Drupal\nelkano_home\Service\AppSessions::cleanup();
+  \Drupal\nelkano_home\Service\ConnectionPrivacyRetention::runScheduled();
 }
 
 /** Release artifacts are served only by publication-aware download controllers. */
 function nelkano_home_file_download($uri) {
-  if (str_starts_with($uri, 'private://nelkano-releases/')) return -1;
+  // Suppression UUIDs are never exposed through Drupal private-file downloads.
+  if (str_starts_with($uri, 'private://nelkano-account-erasures/') || str_starts_with($uri, 'private://nelkano-stream/')) return -1;
+  if (str_starts_with($uri, 'private://nelkano-releases/') || str_starts_with($uri, 'private://app-updates/')) return -1;
 }
+
+
+
+/** Covers the core public registration form if another route exposes it. */
+function nelkano_home_form_user_register_form_alter(array &$form, FormStateInterface $form_state): void {
+  if (!\Drupal::currentUser()->hasPermission('administer users')) {
+    $form['account_age_information'] = ['#markup' => '<p>' . t('You must be 14 or over to create a Nelkano account.') . '</p>', '#weight' => -10];
+  }
+}
+
+

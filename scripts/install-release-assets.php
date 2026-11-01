@@ -17,7 +17,7 @@ foreach (['es', 'en'] as $lang) {
       $name = basename($uri);
       if (!in_array($uri, ['public://nelkano-releases/' . $name, 'private://nelkano-releases/' . $name], TRUE) || !preg_match('/\.(apk|exe|msi|zip)$/D', $name)) throw new RuntimeException('Unexpected release URI: ' . $uri);
       $visible = $row['visible'] ?? TRUE;
-      $published = $visible !== FALSE && !in_array(strtolower(trim((string) $visible)), ['0', 'false', 'no', 'off'], TRUE);
+      $published = \Drupal\nelkano_home\Service\ReleaseArtifact::sameRelease($row, \Drupal\nelkano_home\Service\ReleaseArtifact::newest($docs['es']['releases_items'] ?? [], \Drupal\nelkano_home\Service\ReleaseArtifact::platform($row)));
       $required[$name] = ['uri' => $uri, 'published' => $published || ($required[$name]['published'] ?? FALSE)];
     }
   }

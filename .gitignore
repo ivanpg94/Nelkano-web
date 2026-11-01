@@ -37,3 +37,10 @@ Thumbs.db
 # Assembled locally/from Git parts during deployment.
 /release-artifacts/*.exe
 /release-artifacts/.assemble-*
+
+/public_html/third-party-sources/*.zip
+
+/public_html/third-party-sources/.assemble-*
+
+# Runtime account data and private artifacts stay out of new commits.
+/private/

@@ -1,0 +1,20 @@
+{
+  "version": "3.0.5",
+  "versionCode": 15,
+  "date": "01/11/2026",
+  "appId": "nelkano.desktop",
+  "filename": "Nelkano 3.0.5-windows.exe",
+  "bytes": 126982144,
+  "sha256": "1ccf374611c58919b1cb4104e270cf285a740d382a85c65ff203457f2bed9d5c",
+  "notes": {
+    "es": "Privacidad, eliminación de cuentas y licencias actualizadas.\nActualización de los componentes de streaming y multimedia.\nRetirada de las funciones de traducción integradas.\nAudio ATRAC de PSP temporalmente desactivado; algunas ROM cifradas de Nintendo DS y PSP no están soportadas.",
+    "en": "Updated privacy, account deletion and license information.\nUpdated streaming and multimedia components.\nRemoved integrated translation features.\nPSP ATRAC audio is temporarily disabled; some encrypted Nintendo DS and PSP ROMs are not supported."
+  },
+  "publishedToProduction": false,
+  "installedOnDevices": false,
+  "source_commit": "99a8bace065b141b00ad322120dbf85787f495db",
+  "source_dirty": true,
+  "installerStaticInspectionPassed": true,
+  "legalCatalogEntries": 43,
+  "legalManagedFiles": 49
+}

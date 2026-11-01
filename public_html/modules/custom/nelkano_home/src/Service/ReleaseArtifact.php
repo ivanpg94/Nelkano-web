@@ -8,12 +8,26 @@ final class ReleaseArtifact {
   public static function hidden(array $row): bool {
     return isset($row['visible']) && (is_bool($row['visible']) ? !$row['visible'] : in_array(strtolower(trim((string) $row['visible'])), ['0','false','no','off'], TRUE));
   }
+  /** Newest visible release, independent of whether its binary happens to exist. */
+  public static function newest(array $rows, string $platform): array {
+    $rows = array_filter($rows, static fn($r) => is_array($r) && self::platform($r) === $platform && !self::hidden($r) && trim((string)($r['version'] ?? '')) !== '');
+    usort($rows, static fn($a,$b) => version_compare((string)$b['version'],(string)$a['version']) ?: ((int)($b['version_code']??0) <=> (int)($a['version_code']??0)));
+    return $rows[0] ?? [];
+  }
+  public static function sameRelease(array $row, array $current): bool {
+    return $current !== [] && self::platform($row) === self::platform($current)
+      && (string)($row['version']??'') === (string)$current['version']
+      && (int)($row['version_code']??0) === (int)($current['version_code']??0);
+  }
+  /** Spanish catalogue owns publication for both languages and every endpoint. */
+  public static function current(array $row): bool {
+    return !self::hidden($row) && self::sameRelease($row,self::newest(\Drupal::config('nelkano_home.docs')->get('es.releases_items') ?? [],self::platform($row)));
+  }
   public static function latestPublished(string $platform, string $language = 'es'): array {
-    $rows = \Drupal::config('nelkano_home.docs')->get($language . '.releases_items') ?? [];
-    $rows = array_filter(is_array($rows) ? $rows : [], static fn($row) => self::platform($row) === $platform && !self::hidden($row));
-    usort($rows, static fn($a, $b) => version_compare($b['version'] ?? '', $a['version'] ?? ''));
-    foreach ($rows as $row) { $file = self::file($row); if ($file['path'] !== '') return $file + ['version' => $row['version']]; }
-    return [];
+    $row = self::newest(\Drupal::config('nelkano_home.docs')->get('es.releases_items') ?? [],$platform);
+    if (!$row) return [];
+    $file = self::file($row);
+    return $file['path'] !== '' ? $file + ['version'=>$row['version']] : [];
   }
   public static function file(array $row, string $purpose = 'download'): array {
     $platform = self::platform($row);

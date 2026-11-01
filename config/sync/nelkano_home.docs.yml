@@ -3,29 +3,130 @@ es:
   privacy_cookies_seo_title: 'Privacidad y cookies - Nelkano'
   privacy_cookies_seo_description: 'Politica de privacidad y cookies de Nelkano: datos tratados, finalidades, derechos y uso de cookies.'
   privacy_cookies_eyebrow: 'Privacidad y cookies'
-  privacy_cookies_title: 'Politica de privacidad y cookies'
-  privacy_cookies_intro: 'Esta politica explica que datos puede tratar la web de Nelkano y como se gestionan las cookies.'
-  privacy_cookies_sections: |-
-    Responsable del tratamiento|Nelkano es una landing informativa y gratuita. No se venden productos o servicios desde esta web y no se procesan pagos.||Contacto de privacidad: contacto@nelkano.com. El tratamiento de datos personales se limita principalmente a la navegacion tecnica, seguridad del servidor, descargas, registro de cuenta, verificacion por correo y comunicaciones que el usuario envie mediante la pagina de contacto o canales externos. Si se activan pagos o funciones comerciales, esta informacion debera actualizarse antes de su uso publico.
-    Datos tratados y finalidades|La web puede tratar datos tecnicos de navegacion, como direccion IP, fecha y hora, identificadores de solicitud, agente de usuario y registros de seguridad, con la finalidad de servir la pagina, prevenir abusos, diagnosticar errores y mantener la disponibilidad.||Si el usuario contacta por correo u otro canal indicado, se trataran los datos incluidos en esa comunicacion para responder la consulta, gestionar incidencias o atender solicitudes relacionadas con el proyecto.||Las descargas publicas de la landing no requieren crear cuenta ni introducir datos personales. La aplicacion puede guardar en el dispositivo biblioteca local, rutas o nombres de archivos elegidos por el usuario, sistema asociado, configuracion, guardados, save states y datos tecnicos necesarios para abrir archivos compatibles.||Nelkano no ofrece sincronización integrada con Google Drive. Biblioteca, juegos, guardados y datos de módulos se almacenan localmente.||Cuenta, amigos y streaming se conectan con nelkano.com. Un módulo puede conectarse a otros servidores con tu autorización; revisa sus permisos y qué datos envía.||Las notas de versiones anteriores pueden describir funciones distintas. Si almacenaste archivos en Drive con una de esas versiones, puedes gestionarlos o revocar el acceso desde tu cuenta de Google.||Las comunicaciones iniciadas por el usuario se tratan para atender su solicitud. El registro se usa para crear la cuenta, verificar el correo y permitir acceso a funciones de usuario. Las cookies o tecnologias no necesarias, como analitica o marketing, solo deben activarse cuando exista una base valida y, cuando sea exigible, consentimiento previo.
-    Conservacion y destinatarios|Los registros tecnicos deben conservarse durante el tiempo necesario para seguridad, diagnostico y cumplimiento legal. Las comunicaciones y datos de verificacion de cuenta se conservaran mientras sean necesarios para responder, operar la cuenta de usuario y durante los plazos exigibles por responsabilidades legales. Los datos locales de la aplicacion permanecen en el dispositivo hasta que el usuario los borra, desinstala la aplicacion o usa las opciones de limpieza disponibles.||Los datos pueden ser tratados por proveedores tecnicos de alojamiento, infraestructura, seguridad o mantenimiento, y por autoridades publicas cuando exista obligacion legal.
-    Derechos de las personas|Las personas pueden solicitar acceso, rectificacion, supresion, oposicion, limitacion, portabilidad cuando proceda y retirada del consentimiento cuando el tratamiento dependa de el escribiendo a contacto@nelkano.com.||Tambien pueden presentar una reclamacion ante la Agencia Espanola de Proteccion de Datos si consideran que el tratamiento no se ajusta a la normativa. Para borrar datos locales, el usuario puede eliminar la biblioteca/guardados desde la aplicacion cuando exista esa opcion, borrar los datos de la app o desinstalarla.
-    Cookies|En la landing publica se usan cookies tecnicas o necesarias para funcionamiento, seguridad o administracion de Drupal, especialmente sesiones de administracion. Estas cookies no requieren consentimiento cuando son estrictamente necesarias.||La analitica de Google Analytics 4 solo se carga si el usuario acepta la medicion en el aviso de cookies. Si se rechaza, la web no carga Google Analytics para esa sesion de navegador.||Cuando se acepta la analitica, se pueden medir visitas de pagina y eventos agregados como clics en descargas de Android. Estos datos ayudan a entender el uso de la web y mejorar el proyecto; no se usan para vender datos personales.||La decision puede cambiarse desde el enlace Configurar cookies disponible en el pie de pagina.||El usuario puede borrar o bloquear cookies desde la configuracion de su navegador. Al hacerlo, algunas funciones tecnicas de administracion o sesion podrian dejar de funcionar correctamente.
-    Cambios de la politica|Esta politica puede actualizarse para reflejar cambios tecnicos, legales o de producto. La version publicada debe corresponder siempre con el funcionamiento real de la web.
+  privacy_cookies_title: 'Privacidad y cookies'
+  privacy_cookies_intro: 'Qué datos se utilizan al navegar, crear una cuenta o utilizar funciones conectadas de Nelkano, y cómo puedes controlar la analítica y ejercer tus derechos.'
+  privacy_cookies_sections:
+    -
+      visible: '1'
+      title: 'Responsable y contacto'
+      paragraphs: |-
+        El responsable del tratamiento es Iván Peláez García, responsable del proyecto Nelkano. Atiende las consultas de privacidad y las solicitudes de derechos en contacto@nelkano.com.
+        Esta política cubre la web nelkano.com y sus funciones conectadas con la aplicación. Nelkano es un proyecto gratuito y actualmente no obtiene ingresos; la web no procesa pagos ni ofrece planes de pago.
+    -
+      visible: '1'
+      title: 'Navegación, descargas y seguridad'
+      paragraphs: |-
+        Para servir la web y sus descargas, el alojamiento procesa datos como dirección IP, fecha y hora, página solicitada, navegador y registros de errores o seguridad. Se utilizan para mantener el servicio, detectar abusos y resolver incidencias.
+        Las descargas públicas no requieren cuenta. Los juegos, biblioteca y guardados se almacenan en el dispositivo; usar una función conectada puede transmitir los datos que se explican a continuación. Desinstalar la aplicación no elimina por sí solo la cuenta ni los datos ya enviados al servidor.
+    -
+      visible: '1'
+      title: 'Cuenta y perfil'
+      paragraphs: |-
+        Al registrarte se tratan el correo, nombre de usuario, contraseña protegida mediante hash, verificación del correo y datos de sesión. La aplicación puede enviar un identificador de instalación, plataforma y nombre o modelo de dispositivo para mantener la sesión y sus permisos.
+        El nombre público, avatar y texto de estado que configuras se utilizan para mostrar tu perfil a otros usuarios en las funciones de amigos. Evita incluir datos privados en esos campos. El correo propio se muestra en tu cuenta; la API de amigos no lo devuelve en los perfiles de otras personas.
+        Puedes buscar un perfil por nombre público o usuario. La búsqueda por correo requiere escribir una dirección completa y no ofrece coincidencias parciales de correos. Encontrar una cuenta por una dirección exacta puede revelar que esa dirección tiene cuenta en Nelkano.
+        Para crear una cuenta debes tener 14 años o más; si la ley de tu país exige una edad superior para consentir el uso de tus datos, se aplica esa edad. Las funciones locales siguen disponibles sin cuenta. No se pide fecha de nacimiento, DNI ni una confirmación de edad al iniciar sesión. Si se detecta una cuenta que no cumple la edad aplicable, se restringirá su uso y se atenderá su eliminación. Puedes contactar en contacto@nelkano.com.
+    -
+      visible: '1'
+      title: 'Amigos, actividad y multijugador'
+      paragraphs: |-
+        El servidor guarda solicitudes y relaciones de amistad para conectar las cuentas que elijas. Las funciones de presencia y multijugador pueden transmitir identificadores de cuenta y sesión, sistema, identificación del juego y mensajes necesarios para conectar la partida.
+        Si utilizas una función que sincroniza actividad, el servicio puede guardar identificadores de biblioteca y dispositivo, sistema, favoritos, fechas de uso, tiempo de juego y contadores. Esta sincronización de metadatos no equivale a subir los archivos del juego o sus guardados.
+        Las conexiones entre jugadores pueden requerir datos de red. Una conexión directa puede permitir al otro participante conocer tu dirección de red; un servidor de retransmisión también procesa datos de conexión.
+        Algunas funciones multijugador comparten estados del juego o checkpoints con el otro participante; pueden contener memoria y datos de la partida. Google STUN (stun.l.google.com) recibe datos técnicos para descubrir conexiones. La configuración pública comprobada permite conexiones directas; no se ha acreditado un proveedor TURN activo ni un plazo de logs de STUN.
+    -
+      visible: '1'
+      title: 'Cookies y almacenamiento del navegador'
+      paragraphs: |-
+        Las cookies de sesión de Drupal permiten iniciar sesión y proteger formularios. Son necesarias para esas funciones. La elección de analítica se guarda en el almacenamiento local del navegador, bajo nelkano_analytics_consent, con la decisión de aceptar o rechazar, la fecha, la versión del aviso y su caducidad. Se recuerda hasta 730 días; al caducar o cambiar el aviso se pide una nueva elección antes de activar la analítica. Este intervalo sigue la buena práctica de renovación en no más de 24 meses indicada por la AEPD, no un plazo legal universal para cualquier cookie.
+        Solo al aceptar la analítica se utilizan las cookies _ga, para distinguir navegadores, y _ga_<identificador> (familia _ga_*), para mantener el estado de sesión. Son cookies de análisis del dominio de la web utilizadas por Google Analytics. La caducidad configurada es de 63.072.000 segundos, dos años nominales desde su creación, sin ampliarla automáticamente con cada visita. El navegador puede imponer un plazo menor. Información de Google: https://support.google.com/analytics/answer/11397207?hl=es
+        La caducidad de estas cookies no es el plazo de conservación de los eventos en Google Analytics. El navegador también puede guardar nelkano_analytics_internal como preferencia local para excluir las visitas propias del proyecto; no es una cookie de publicidad. Esa preferencia permanece hasta cambiarla o borrar los datos del sitio.
+        Puedes aceptar o rechazar y volver a abrir Configurar cookies desde el pie de página. Retirar el consentimiento evita los siguientes envíos y elimina las cookies de Analytics accesibles para esta web; no borra automáticamente datos ya enviados a Google. También puedes borrar cookies y almacenamiento local desde el navegador. Borrar los datos del sitio puede cerrar la sesión, borrar preferencias y hacer que se solicite de nuevo tu elección.
+    -
+      visible: '1'
+      title: 'Reportes de errores y adjuntos'
+      paragraphs: |-
+        Enviar un reporte es una acción voluntaria. Se vincula a tu cuenta y puede incluir descripción del problema, identificación y hash del juego, versión de la app y del core, dispositivo, ajustes y los datos técnicos del formulario, junto con los adjuntos que confirmes: estado de emulación o guardado y, cuando corresponda, captura.
+        El formulario no pide el archivo del juego como adjunto independiente ni recoge registros arbitrarios del dispositivo. Un estado puede incluir memoria y contenido del juego, además de información personal. Los reportes y adjuntos se guardan en almacenamiento privado y pueden ser revisados y descargados por las personas y herramientas autorizadas de mantenimiento para investigar el error. Revisa los datos y archivos antes de enviarlos.
+    -
+      visible: '1'
+      title: Streaming
+      paragraphs: |-
+        Iniciar una emisión transmite la imagen y el sonido del juego, junto con datos de sesión y conexión, al destino de visualización autorizado. La ruta WebRTC conecta participantes; los proveedores de conexión y los participantes pueden recibir información técnica de red, incluida la dirección IP. Puedes detener la emisión desde la aplicación.
+        El modo alternativo HTTP de Android guarda en el servidor el último fotograma y fragmento de audio, sustituyéndolos con los siguientes. Esos archivos se guardan en almacenamiento privado; la ruta pública antigua está bloqueada. También se conservan metadatos de sesión y mensajes de señalización. Cerrar o caducar la sesión impide seguir utilizándola, pero no equivale al borrado físico inmediato de todos sus registros y archivos. La limpieza periódica retira las conexiones cerradas o caducadas y sus archivos de imagen y audio. Los mensajes de señalización de más de dos horas también se eliminan.
+    -
+      visible: '1'
+      title: 'Módulos y datos locales'
+      paragraphs: |-
+        Los permisos de cada módulo determinan qué recursos y funciones puede utilizar. Un módulo con permisos de red o acceso a datos puede comunicarse con servicios externos. Revisa autor, permisos e información del módulo antes de instalarlo. Desactivar un módulo no elimina por sí solo los datos que ya haya enviado a otro servicio.
+        Si instalas el módulo opcional Drive y autorizas tu cuenta Google, puedes transferir los juegos y partidas que selecciones a tu propio Drive privado. Esa transferencia de archivos es distinta de sincronizar metadatos de actividad con Nelkano. La cuenta Google y su autorización son independientes de tu cuenta Nelkano. Puedes gestionar las copias y revocar el acceso desde Google; revocar el acceso no elimina por sí solo los archivos ya guardados en Drive.
+    -
+      visible: '1'
+      title: 'Google Analytics y elección de cookies'
+      paragraphs: |-
+        Google Analytics 4 se carga en esta web después de aceptar la analítica. Puede recibir identificadores de navegador y sesión, páginas visitadas, procedencia de la visita e información técnica del dispositivo y de la conexión. Google trata esos datos conforme a sus condiciones: https://policies.google.com/privacy?hl=es
+        Se miden visitas y clics en descargas con producto, plataforma y versión. Un clic no acredita que la descarga o la instalación hayan terminado. Esta medición no envía el correo ni el identificador de cuenta de Nelkano como parámetros del evento. La aplicación de emulación no incorpora esta etiqueta de Analytics de la web.
+        Puedes aceptar o rechazar la analítica y cambiar la decisión en Configurar cookies, en el pie de página. Retirar el consentimiento detiene los siguientes envíos de esta web; no borra automáticamente los datos que ya se hayan enviado. Puedes solicitar su revisión al contacto de privacidad.
+        La propiedad está configurada para conservar eventos durante 2 meses y datos de usuario durante 14 meses. El plazo del identificador de usuario se reinicia con nueva actividad, por lo que puede prolongarse si vuelves. Estos plazos no limitan todos los informes agregados estándar; Google elimina datos vencidos mediante su proceso periódico. Esto es distinto de la caducidad de cookies y de la elección guardada en el navegador. Información: https://support.google.com/analytics/answer/7667196?hl=es
+    -
+      visible: '1'
+      title: 'Finalidades, bases y destinatarios'
+      paragraphs: |-
+        La cuenta y las funciones conectadas solicitadas se tratan para prestar esas funciones. La seguridad y los registros técnicos se apoyan en el interés legítimo de mantener y proteger el servicio. La analítica opcional se basa en tu consentimiento. Las consultas y reportes se utilizan para atender tu solicitud y mantener el software, con la base que corresponda a esa finalidad.
+        Pueden acceder a los datos el responsable y las personas autorizadas para mantenimiento, y los proveedores de alojamiento, infraestructura, correo y conexión, en la medida necesaria para operar el servicio. Las funciones sociales y de conexión comparten los datos descritos con sus participantes. Google recibe la analítica web cuando la aceptas. El módulo opcional Drive envía a Google los archivos que selecciones y autorices. Otros módulos pueden comunicarse con proveedores identificados por su autor. Los datos también pueden comunicarse a autoridades cuando exista una obligación legal. No se venden tus datos personales.
+        Algunos servicios pueden tratar datos fuera del Espacio Económico Europeo. Puedes solicitar al contacto de privacidad la identificación de los proveedores, las transferencias que afecten a una función y la información o copia de las garantías aplicables. No se afirma que todos los proveedores alojen los datos exclusivamente en la UE. Información de Google sobre su tratamiento y transferencias: https://policies.google.com/privacy?hl=es y https://policies.google.com/privacy/frameworks?hl=es
+        Hostinger aloja la web, la base de datos y los archivos mediante Premium Web Hosting; el buzón de contacto utiliza Free Business Email de Hostinger. Los mensajes del formulario se envían al buzón para responderte, sin una tabla propia de mensajes del formulario. El servidor web está en Países Bajos y la ubicación indicada para sus copias es Lituania. El correo es un servicio separado; sus registros y el buzón tienen la conservación correspondiente al servicio y a la atención de las consultas. El acuerdo público de tratamiento del proveedor está en https://www.hostinger.com/legal/dpa . Google presta Analytics, STUN y, si instalas y autorizas el módulo, Drive. El proveedor y el destino dependen de la función que utilices; los servicios de otros módulos deben identificarse por su autor. Las garantías de transferencia aplicables dependen del servicio y sus condiciones; no se afirma residencia exclusiva en la UE. Condiciones públicas de medición de Google: https://business.safety.google/adsprocessorterms/
+    -
+      visible: '1'
+      title: 'Conservación y derechos'
+      paragraphs: |-
+        Los datos de cuenta, perfil, amigos y actividad se mantienen mientras sean necesarios para esas funciones. Puedes borrar tu cuenta con la opción de borrado y tu contraseña actual, o solicitar ayuda a contacto@nelkano.com. Las cuentas administradoras requieren gestión manual para proteger el servicio. El borrado elimina del servicio los datos asociados de la cuenta, sesiones, relaciones sociales, actividad, avatar, reportes y adjuntos propios. No borra tu biblioteca local, exportaciones, archivos de Drive ni copias de otras personas.
+        Los tokens de acceso de la API duran una hora; los de renovación, treinta días. Revocar o caducar un acceso lo invalida, pero su fila no se borra necesariamente en ese instante. Los enlaces de verificación y recuperación duran 24 horas. Las conexiones multijugador pendientes caducan a los 5 minutos y las activas y de streaming a las 2 horas, con renovación por actividad cuando corresponda. La limpieza periódica retira las conexiones cerradas o caducadas y los tokens de renovación que llevan más de 24 horas vencidos. El borrado físico puede requerir varias pasadas.
+        Los mensajes y reportes se conservan mientras sean necesarios para responder o investigar; esa necesidad se revisa al cerrar la consulta o incidencia. Las copias de trabajo descargadas por mantenimiento deben eliminarse cuando dejen de ser necesarias. No se ha verificado un plazo fijo en días para los logs del alojamiento o correo. Los registros técnicos de Drupal y las sesiones web inactivas con más de 30 días se retiran mediante limpieza periódica. Este plazo no se aplica a los registros propios del proveedor de alojamiento o correo.
+        Hostinger conserva copias semanales sujetas a la rotación del plan contratado. No se promete un borrado selectivo instantáneo de cada copia. Se conserva, separado de las copias restaurables del sitio, un registro privado mínimo del identificador de la cuenta eliminada y la fecha de solicitud, sin correo ni contraseña. Antes de reabrir una restauración se comprueba ese registro y se reaplican los borrados necesarios. Debe conservarse mientras existan copias o restauraciones que puedan recuperar esa cuenta. La conservación excepcional por una obligación legal se limita a lo necesario y con acceso restringido. Los archivos locales permanecen hasta que los borres; cerrar sesión no los borra.
+        Puedes pedir acceso, rectificación, supresión, limitación, oposición y portabilidad cuando proceda, y retirar el consentimiento, escribiendo a contacto@nelkano.com. Indica qué cuenta o datos afectan a la solicitud; puede ser necesario comprobar tu identidad de forma proporcionada. Puedes reclamar ante la Agencia Española de Protección de Datos: https://www.aepd.es/derechos-y-deberes/ejerce-tus-derechos
+    -
+      visible: '1'
+      title: 'Actualización de esta información'
+      paragraphs: 'Revisión: 31 de octubre de 2026. Esta política debe actualizarse cuando cambien el responsable, los proveedores, los datos tratados o las funciones. Los módulos y servicios externos pueden tener información y condiciones propias.'
   legal_notice_seo_title: 'Aviso legal - Nelkano'
   legal_notice_seo_description: 'Aviso legal de Nelkano: titularidad, condiciones de uso, propiedad intelectual, descargas y responsabilidad.'
   legal_notice_eyebrow: 'Aviso legal'
   legal_notice_title: 'Aviso legal'
   legal_notice_intro: 'Esta pagina recoge las condiciones basicas de uso de la web y de las descargas publicadas para Nelkano.'
-  legal_notice_sections: |-
-    Datos del titular|Nelkano es una pagina informativa y de descarga de un proyecto de software gratuito. Actualmente no se venden productos o servicios desde la web, no se contratan planes y no se procesan pagos.||Contacto legal y de privacidad: contacto@nelkano.com. Si el proyecto incorpora venta, contratacion, publicidad, formularios comerciales u otra actividad economica, esta seccion debera ampliarse con los datos identificativos que correspondan.
-    Objeto del sitio|Nelkano es una web informativa y de descarga de una aplicación de emulación para Android y escritorio. La web no ejecuta juegos en el navegador y no incluye ROMs, BIOS, firmware, saves, claves ni contenido protegido de terceros.||El objetivo es ofrecer informacion clara sobre el estado del proyecto, publicar builds disponibles y facilitar el acceso a documentacion o avisos relevantes.
-    Condiciones de uso|El usuario debe usar la web y las aplicaciones descargadas de forma licita, responsable y respetando la normativa aplicable, los derechos de propiedad intelectual e industrial y los derechos de terceros.||Nelkano no autoriza ni promueve la descarga, distribucion o uso de copias no autorizadas de videojuegos, BIOS, firmware, marcas, imagenes o cualquier otro contenido protegido. El usuario es responsable de disponer de derechos suficientes sobre el software, copias de seguridad o archivos que cargue en la aplicacion.
-    Descargas y compatibilidad|Las descargas publicadas pueden encontrarse en fase beta o desarrollo activo. Aunque se trabaja para mejorar estabilidad, compatibilidad y rendimiento, no se garantiza que todos los juegos, dispositivos, mandos o sistemas funcionen correctamente.||La informacion sobre sistemas compatibles y compatibilidad debe entenderse como una descripcion del estado del proyecto en cada momento, no como una garantia permanente de funcionamiento.
-    RPG Maker 2000/2003|El soporte para RPG Maker 2000/2003 se plantea como un core propio de Nelkano, en desarrollo progresivo, para integrarlo dentro de las aplicaciones nativas sin incluir runtimes externos.||Nelkano no incluye juegos, RTP, assets comerciales ni contenido protegido de RPG Maker. El usuario debe usar solo proyectos y archivos sobre los que tenga derechos suficientes.
-    Propiedad intelectual|El codigo, textos, diseno, logotipos, estructura y elementos propios de Nelkano pertenecen a sus titulares o se usan con la autorizacion correspondiente. Las marcas de consolas, sistemas y videojuegos citadas pertenecen a sus respectivos propietarios.||Las menciones a sistemas clasicos se realizan con finalidad descriptiva de compatibilidad tecnica. Nelkano no esta afiliado, patrocinado, autorizado ni aprobado por Nintendo ni por otros titulares de marcas o derechos salvo que se indique expresamente.
-    Responsabilidad|El titular no se responsabiliza del uso indebido de la web, de las aplicaciones o de archivos aportados por el usuario. Tampoco se responsabiliza de danos derivados de instalaciones fuera de las fuentes oficiales, modificaciones no autorizadas o uso en dispositivos no compatibles.||Los enlaces externos, si existen, se facilitan como referencia. El titular no controla de forma permanente sus contenidos y retirara o corregira enlaces cuando tenga conocimiento efectivo de que pueden ser ilicitos o inadecuados.
-    Ley aplicable|Esta pagina se ha redactado tomando como referencia la normativa espanola y europea aplicable a servicios de la sociedad de la informacion, proteccion de datos y cookies. Debe mantenerse actualizada si cambia el responsable, el modelo de servicio, las descargas, la publicidad, la analitica o las funciones de la aplicacion.
+  legal_notice_sections:
+    -
+      visible: '1'
+      title: 'Datos del titular'
+      paragraphs: 'El titular y responsable del proyecto Nelkano es Iván Peláez García. Contacto legal y de privacidad: contacto@nelkano.com. Nelkano es un proyecto gratuito y actualmente no obtiene ingresos. La web informa sobre el proyecto y ofrece descargas gratuitas; no procesa pagos ni ofrece planes de pago.'
+    -
+      visible: '1'
+      title: 'Objeto y archivos que aporta el usuario'
+      paragraphs: |-
+        Nelkano es una aplicación de emulación para Android y escritorio. La web ofrece información, documentación, módulos y las descargas publicadas en su catálogo.
+        El producto no suministra un catálogo de juegos ni RTP comerciales. Para abrir un juego o proyecto debes aportar archivos y recursos sobre los que tengas derechos suficientes. No debes distribuir copias no autorizadas mediante las funciones del servicio.
+    -
+      visible: '1'
+      title: 'Componentes y licencias'
+      paragraphs: |-
+        Nelkano incorpora código y recursos de terceros sujetos a sus propias licencias. Sus avisos y las condiciones del SDK se consultan en Créditos y licencias. La licencia del SDK se refiere a su código original y no cambia las licencias de los cores, dependencias ni recursos de otros autores.
+        Los autores de módulos conservan sus derechos y eligen sus condiciones, respetando las dependencias y la normativa. Usar el SDK por sí solo no obliga a publicar el código de un módulo.
+    -
+      visible: '1'
+      title: 'Marcas y compatibilidad'
+      paragraphs: |-
+        Los nombres de sistemas y videojuegos se utilizan para describir compatibilidad técnica y pertenecen a sus titulares. Nelkano no está afiliado, patrocinado ni aprobado por Nintendo ni por otros titulares salvo que se indique expresamente.
+        Las versiones pueden ser experimentales. La compatibilidad anunciada describe el alcance conocido y no garantiza que cada juego, dispositivo, mando o función sea compatible.
+    -
+      visible: '1'
+      title: 'Uso responsable y responsabilidad'
+      paragraphs: |-
+        Utiliza la web y el software respetando los derechos de terceros y la normativa aplicable. Conserva copias de seguridad antes de actualizar o modificar archivos importantes.
+        El software y sus componentes se ofrecen bajo las condiciones y limitaciones de garantía de sus respectivas licencias, sin excluir los derechos o responsabilidades que la ley no permita limitar. Los avisos de esta web no sustituyen las autorizaciones necesarias para usar o distribuir archivos ajenos.
+    -
+      visible: '1'
+      title: 'Avisos sobre derechos o problemas'
+      paragraphs: 'Si detectas una posible vulneración de derechos o un error en los avisos, escribe a contacto@nelkano.com con la identificación del componente o descarga, el motivo y la documentación disponible. Se revisará la comunicación y se adoptarán las medidas que correspondan.'
   releases_seo_title: 'Versiones de Nelkano'
   releases_seo_description: 'Descargas publicadas de Nelkano, con notas, requisitos y verificación por versión.'
   releases_eyebrow: Versiones
@@ -36,7 +137,7 @@ es:
   releases_date: 'Pendiente de publicacion'
   releases_requirements: 'Android compatible con la version publicada; se recomienda un dispositivo actual y espacio suficiente para biblioteca y guardados.'
   releases_changes: 'Consulta las notas de cada descarga publicada; las funciones pueden variar entre versiones y plataformas.'
-  releases_notice: 'Nelkano no incluye juegos, ROMs, BIOS, firmware, claves, saves ni contenido protegido. Usa solo archivos compatibles sobre los que tengas derechos.'
+  releases_notice: 'Las condiciones y avisos de los componentes están en Créditos y licencias. Usa únicamente archivos de juego y recursos que tengas derecho a utilizar.'
   releases_items:
     -
       visible: true
@@ -185,6 +286,44 @@ es:
         Herramientas para componentes compilados y vistas reactivas.
         Acceso autorizado a recursos de proyectos y extensiones de sesiones RPG Maker.
         Documentación y referencia sin conexión actualizadas.
+    -
+      visible: true
+      version: 3.0.5
+      platform: android
+      version_code: '15'
+      apk_file: 'private://nelkano-releases/Nelkano 3.0.5.apk'
+      filename: 'Nelkano 3.0.5.apk'
+      date: 01/11/2026
+      changes: |-
+        Privacidad, eliminación de cuentas y licencias actualizadas.
+        Corrección del acceso al APK desde el instalador de actualizaciones.
+        Retirada de las funciones de traducción integradas.
+        Audio ATRAC de PSP temporalmente desactivado; algunas ROM cifradas de Nintendo DS y PSP no están soportadas.
+    -
+      visible: true
+      version: 3.0.5
+      platform: windows
+      version_code: '15'
+      installer_file: 'private://nelkano-releases/Nelkano 3.0.5-windows.exe'
+      filename: 'Nelkano 3.0.5-windows.exe'
+      date: 01/11/2026
+      changes: |-
+        Privacidad, eliminación de cuentas y licencias actualizadas.
+        Actualización de los componentes de streaming y multimedia.
+        Retirada de las funciones de traducción integradas.
+        Audio ATRAC de PSP temporalmente desactivado; algunas ROM cifradas de Nintendo DS y PSP no están soportadas.
+    -
+      visible: true
+      version: 3.0.5
+      platform: sdk
+      version_code: '15'
+      installer_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.5-windows-x86_64.exe'
+      filename: Nelkano-SDK-Studio-3.0.5-windows-x86_64.exe
+      date: 01/11/2026
+      changes: |-
+        Retirada de los servicios de traducción del SDK.
+        Referencia integrada y documentación actualizadas.
+        Licencias y condiciones de uso del SDK revisadas.
   compatibility_seo_title: 'Compatibilidad de Nelkano'
   compatibility_seo_description: 'Estado real de compatibilidad de los sistemas soportados por Nelkano para Android.'
   compatibility_eyebrow: Compatibilidad
@@ -204,41 +343,155 @@ es:
   security_eyebrow: 'Seguridad y privacidad'
   security_title: 'Que hace Nelkano con tus datos'
   security_intro: 'Tus juegos y partidas se guardan en tu dispositivo. Las funciones conectadas y los módulos usan los permisos que corresponden a cada función.'
-  security_sections: |-
-    Descargas oficiales|Consulta las notas, el nombre del archivo y la verificación de cada versión antes de instalarla.
-    Datos locales|Biblioteca, guardados, ajustes y entidades de módulos se almacenan dentro de la aplicación. No hay sincronización integrada con Google Drive.
-    Cuenta Nelkano|La cuenta permite usar perfil, amigos y funciones conectadas con nelkano.com; no es necesaria para jugar localmente.
-    Módulos y conexiones externas|Revisa el autor y los permisos de cada módulo. Un módulo puede conectarse a otros servidores cuando autorices sus conexiones; consulta qué datos envía.
-    Contenido del juego|Nelkano no incluye juegos, ROMs, BIOS, firmware ni claves. Las funciones disponibles dependen del core.
-    Partidas y módulos|Un módulo puede alterar el guardado habitual y exigir su presencia o una partida nueva. Conserva copias antes de usar modificaciones.
-    Streaming|La emisión comparte imagen y audio de la partida compatible, con cuenta y permiso. No captura el micrófono ni todo el escritorio.
+  security_sections:
+    -
+      visible: '1'
+      title: 'Datos locales y funciones conectadas'
+      description: 'Biblioteca, juegos, guardados y módulos se almacenan en tu dispositivo. La cuenta, amigos, actividad cuando se sincroniza, reportes y streaming pueden transmitir los datos explicados en Privacidad y cookies. Desinstalar no borra los datos ya enviados al servidor.'
+    -
+      visible: '1'
+      title: 'Tu cuenta y perfil público'
+      description: 'La cuenta habilita funciones conectadas; el juego local no requiere una. Elige un alias público y revisa tu avatar y estado. La búsqueda por correo requiere la dirección completa; los perfiles de amigos no devuelven el correo.'
+    -
+      visible: '1'
+      title: 'Reportes y streaming'
+      description: 'Revisa los registros, capturas y guardados o estados antes de enviar un reporte. Una emisión transmite imagen y sonido del juego; los servidores pueden procesar señalización, datos de red y el respaldo HTTP de imagen y audio.'
+    -
+      visible: '1'
+      title: 'Permisos de módulos'
+      description: 'Comprueba autor y permisos antes de instalar. Un módulo autorizado puede acceder a datos o servicios externos dentro de sus permisos. Las licencias de los componentes están en Créditos y licencias.'
+    -
+      visible: '1'
+      title: 'Contacto de privacidad'
+      description: 'Puedes solicitar información o ejercer tus derechos en contacto@nelkano.com. Consulta Privacidad y cookies para conocer finalidades, conservación, destinatarios y la elección de analítica.'
 en:
   privacy_cookies_seo_title: 'Privacy and cookies - Nelkano'
   privacy_cookies_seo_description: 'Privacy and cookies policy for Nelkano: data processing, purposes, rights and cookie use.'
   privacy_cookies_eyebrow: 'Privacy and cookies'
-  privacy_cookies_title: 'Privacy and cookies policy'
-  privacy_cookies_intro: 'This policy explains what data the Nelkano website may process and how cookies are handled.'
-  privacy_cookies_sections: |-
-    Controller|Nelkano is a free informational landing page. The website does not sell products or services or process payments.||Privacy contact: contacto@nelkano.com. Personal data processing is mainly limited to technical browsing, server security, downloads, account registration, email verification and communications sent by users through the contact page or external channels. If payments or commercial features are enabled, this information must be updated before public use.
-    Data processed and purposes|The website may process technical browsing data such as IP address, date and time, request identifiers, user agent and security logs to serve the page, prevent abuse, diagnose errors and maintain availability.||If users contact the project by email or another stated channel, the data included in that communication will be processed to answer the request, manage issues or handle project-related queries.||Public downloads on this landing page do not require an account or personal data. The app may store on the device the local library, paths or names of files chosen by the user, associated system, settings, saves, save states and technical data needed to open compatible files.||Nelkano does not offer integrated Google Drive synchronization. The library, games, saves and module data are stored locally.||Account, friends and streaming features connect to nelkano.com. A module can connect to other servers with your authorization; review its permissions and the data it sends.||Older release notes may describe different features. If you stored files in Drive using one of those versions, manage them or revoke access through your Google account.||User-initiated communications are processed to answer the request. Registration is used to create the account, verify email and allow access to user features. Non-essential cookies or technologies, such as analytics or marketing, should only be enabled with a valid legal basis and, when required, prior consent.
-    Retention and recipients|Technical logs should be retained only as long as necessary for security, diagnostics and legal compliance. Communications and account verification data will be kept while needed to respond, operate the user account and for legally required liability periods. Local app data remains on the device until the user deletes it, uninstalls the app or uses available cleanup options.||Data may be processed by hosting, infrastructure, security or maintenance providers, and by public authorities where legally required.
-    Data subject rights|Individuals may request access, rectification, erasure, objection, restriction, portability where applicable and withdrawal of consent when processing depends on it by writing to contacto@nelkano.com.||They may also lodge a complaint with the Spanish Data Protection Agency if they consider that processing does not comply with the law. To delete local data, users can remove the library/saves from the app when available, clear app data or uninstall it.
-    Cookies|The public landing page uses technical or strictly necessary cookies for Drupal operation, security or administration, especially administration sessions. Strictly necessary cookies do not require consent.||Google Analytics 4 only loads if the user accepts measurement in the cookie notice. If rejected, the website does not load Google Analytics for that browser session.||When analytics are accepted, page views and aggregated events such as Android download clicks may be measured. This helps understand website usage and improve the project; it is not used to sell personal data.||The decision can be changed from the Cookie settings link available in the footer.||Users can delete or block cookies in their browser settings. Doing so may affect technical administration or session features.
-    Policy changes|This policy may be updated to reflect technical, legal or product changes. The published version should always match the website's actual behavior.
+  privacy_cookies_title: 'Privacy and cookies'
+  privacy_cookies_intro: 'Data used when browsing, creating an account or using Nelkano connected features, and how to control analytics and exercise your rights.'
+  privacy_cookies_sections:
+    -
+      visible: '1'
+      title: 'Controller and contact'
+      paragraphs: |-
+        The data controller is Iván Peláez García, responsible for the Nelkano project. Privacy enquiries and rights requests can be sent to contacto@nelkano.com.
+        This policy covers nelkano.com and its features connected to the app. Nelkano is a free project and currently receives no income; the website does not process payments or offer paid plans.
+    -
+      visible: '1'
+      title: 'Browsing, downloads and security'
+      paragraphs: |-
+        To serve the website and downloads, hosting processes data such as IP address, date and time, requested page, browser and error or security logs. These are used to operate the service, detect abuse and resolve incidents.
+        Public downloads do not require an account. Games, the library and saves are stored on your device; using a connected feature may transmit the data described below. Uninstalling the app does not by itself delete your account or data already sent to the server.
+    -
+      visible: '1'
+      title: 'Account and profile'
+      paragraphs: |-
+        Registration involves your email, username, password protected by a hash, email verification and session data. The app may send an installation identifier, platform and device name or model to manage the session and its permissions.
+        Your chosen public name, avatar and status text identify your profile to other users in friend features. Avoid entering private information in those fields. Your own email appears in your account; the friends API does not return other people’s email addresses in their profiles.
+        You can find a profile by public name or username. Email lookup requires a complete address and does not provide partial email matches. An exact email lookup may reveal that the address has a Nelkano account.
+        You must be 14 or older to create an account; if the law in your country requires a higher age to consent to the use of your data, that age applies. Local features remain available without an account. We do not request a date of birth, identity document or age confirmation when signing in. If an account does not meet the applicable age, its use will be restricted and deletion handled. Contact contacto@nelkano.com for account requests.
+    -
+      visible: '1'
+      title: 'Friends, activity and multiplayer'
+      paragraphs: |-
+        The server stores friend requests and relationships to connect the accounts you choose. Presence and multiplayer features may transmit account and session identifiers, system, game identification and messages needed to connect the game.
+        If you use a feature that synchronizes activity, the service may store library and device identifiers, system, favourites, usage dates, play time and counters. Synchronizing this metadata does not itself upload game or save files.
+        Player connections may require network information. A direct connection may let the other participant learn your network address; a relay server also processes connection data.
+        Some multiplayer features share game states or checkpoints with the other participant; these may contain memory and game data. Google STUN (stun.l.google.com) receives technical data to discover connections. The verified public configuration permits direct connections; an active TURN provider and a STUN log retention period have not been established.
+    -
+      visible: '1'
+      title: 'Cookies and browser storage'
+      paragraphs: |-
+        Drupal session cookies allow sign-in and help protect forms. They are necessary for those functions. Your analytics choice is kept in browser local storage under nelkano_analytics_consent, with acceptance or rejection, date, notice version and expiry. It is remembered for up to 730 days; expiry or a changed notice requires a new choice before enabling analytics. This interval follows the AEPD's good-practice recommendation to renew within 24 months, rather than a universal legal lifetime for every cookie.
+        Only when you accept analytics are _ga, which distinguishes browsers, and _ga_<identifier> (the _ga_* family), which retains session state, used. They are analytics cookies on the website's domain used by Google Analytics. Their configured expiry is 63,072,000 seconds, two nominal years from creation, without automatically extending it on every visit. Browsers can impose shorter limits. Google information: https://support.google.com/analytics/answer/11397207?hl=en
+        These cookies' expiry is distinct from retention of events in Google Analytics. The browser may also store nelkano_analytics_internal as a local preference excluding the project's own visits; it is not an advertising cookie. That preference remains until changed or site data is cleared.
+        You can accept or reject analytics and reopen Cookie settings from the footer. Withdrawal prevents further submissions and removes Analytics cookies accessible to this website; it does not automatically erase data already sent to Google. You can also delete cookies and local storage through the browser. Clearing site data may sign you out, remove preferences and request your choice again.
+    -
+      visible: '1'
+      title: 'Error reports and attachments'
+      paragraphs: |-
+        Sending a report is voluntary. It is linked to your account and may include the problem description, game identifier and hash, app and core version, device, settings and technical fields shown in the form, together with attachments you confirm: a save state or game save and, where applicable, a screenshot.
+        The form does not request the game file as a separate attachment or collect arbitrary device logs. A save state may include memory and game content as well as personal information. Reports and attachments are stored privately and may be reviewed and downloaded by authorized maintainers and maintenance tools to investigate the issue. Review the information and files before sending them.
+    -
+      visible: '1'
+      title: Streaming
+      paragraphs: |-
+        Starting a stream transmits game video and audio, together with session and connection data, to the authorized viewing destination. The WebRTC path connects participants; connection providers and participants may receive technical network information, including IP addresses. You can stop streaming from the app.
+        The Android HTTP fallback stores the latest video frame and audio block on the server, replacing them with subsequent ones. These files use private storage; the old public route is blocked. Session metadata and signalling messages are also retained. Closing or expiring a session prevents further use, but does not mean all its records and files are physically erased immediately. Periodic cleanup removes closed or expired connections and their video-frame and audio files. Signalling messages older than two hours are also deleted.
+    -
+      visible: '1'
+      title: 'Modules and local data'
+      paragraphs: |-
+        A module's permissions determine which resources and features it can use. A module with network or data permissions may communicate with external services. Check its author, permissions and information before installing it. Disabling a module does not by itself delete data it has already sent to another service.
+        If you install the optional Drive module and authorize your Google account, you can transfer the games and saves you select to your own private Drive. That file transfer is distinct from synchronizing activity metadata with Nelkano. Your Google account and its authorization are independent of your Nelkano account. You can manage copies and revoke access through Google; revoking access does not by itself delete files already stored in Drive.
+    -
+      visible: '1'
+      title: 'Google Analytics and cookie choice'
+      paragraphs: |-
+        Google Analytics 4 loads on this website after you accept analytics. It may receive browser and session identifiers, pages visited, visit source and technical device and connection information. Google processes this data under its terms: https://policies.google.com/privacy?hl=en
+        The website measures visits and download clicks with product, platform and version. A click does not establish that downloading or installation completed. This measurement does not send your Nelkano email or account identifier as event parameters. The emulator app does not include this website Analytics tag.
+        You can accept or reject analytics and change your decision through Cookie settings in the footer. Withdrawal stops subsequent website submissions; it does not automatically delete data already sent. Contact the privacy address to request a review.
+        The property is configured to retain event data for 2 months and user data for 14 months. New activity resets the user identifier's retention period, so continued visits can extend it. These limits do not cover all standard aggregated reports; Google removes expired data through its periodic process. This differs from cookie expiry and the choice stored in your browser. Information: https://support.google.com/analytics/answer/7667196?hl=en
+    -
+      visible: '1'
+      title: 'Purposes, legal bases and recipients'
+      paragraphs: |-
+        Your account and requested connected features are processed to provide those features. Security and technical logs rely on the legitimate interest in operating and protecting the service. Optional analytics relies on consent. Enquiries and reports are used to answer your request and maintain the software under the basis applicable to that purpose.
+        The controller and authorized maintainers, and hosting, infrastructure, email and connection providers may access the data needed to operate the service. Social and connection features share the described data with their participants. Google receives website analytics if you accept it. The optional Drive module sends Google the files you select and authorize. Other modules may communicate with providers identified by their author. Data may also be disclosed to authorities where legally required. Your personal data is not sold.
+        Some services may process data outside the European Economic Area. You can ask the privacy contact to identify the providers, the transfers affecting a feature and information about, or a copy of, applicable safeguards. This policy does not claim that all providers host data exclusively in the EU. Google information about processing and transfers: https://policies.google.com/privacy?hl=en and https://policies.google.com/privacy/frameworks?hl=en
+        Hostinger hosts the website, database and files under Premium Web Hosting; the contact mailbox uses Hostinger Free Business Email. Contact form messages are sent to the mailbox to answer you, rather than a dedicated form-message database table. The web server is in the Netherlands and its indicated backup location is Lithuania. Email is a separate service; its logs and mailbox are retained according to that service and the handling of enquiries. The provider's public data processing agreement is at https://www.hostinger.com/legal/dpa . Google provides Analytics, STUN and, if you install and authorize the module, Drive. The provider and destination depend on the feature you use; providers used by other modules must be identified by their author. Applicable transfer safeguards depend on the service and its terms; exclusive EU residency is not claimed. Google's public measurement processing terms: https://business.safety.google/adsprocessorterms/
+    -
+      visible: '1'
+      title: 'Retention and your rights'
+      paragraphs: |-
+        Account, profile, friend and activity data is retained as needed for those features. You can delete your account using the deletion control and current password, or ask contacto@nelkano.com for help. Administrator accounts require manual handling to protect the service. Deletion removes the associated server-side account data, sessions, social relationships, activity, avatar, reports and your attachments. It does not remove your local library, exports, Drive files or copies held by other people.
+        Session API access tokens last one hour; refresh tokens last thirty days. Revocation or expiry invalidates access, but its database row is not necessarily removed at that instant. Verification and recovery links last 24 hours. Pending multiplayer connections expire after 5 minutes, and active game and streaming connections after 2 hours, renewed by activity where applicable. Periodic cleanup removes closed or expired connections and refresh-token rows that expired more than 24 hours ago. Physical deletion may require several passes.
+        Messages and reports are retained as needed to answer or investigate; that need is reviewed when the enquiry or issue closes. Maintenance working copies must be deleted when no longer needed. A fixed retention period in days has not been verified for hosting or email logs. Drupal technical logs and inactive website sessions older than 30 days are removed by periodic cleanup. This period does not cover the hosting or email provider’s own logs.
+        Hostinger keeps weekly backups subject to the rotation of the contracted plan. Instant selective deletion from every backup is not promised. A minimal private record of the deleted account identifier and request date, without email or password, is kept separately from restorable site backups. Before reopening a restored site, this register is checked and the necessary deletions are reapplied. It must be kept while backups or restorations could recover that account. Exceptional retention required by law is limited to what is necessary and subject to restricted access. Local files remain until you remove them; signing out does not delete them.
+        You can request access, correction, erasure, restriction, objection and portability where applicable, and withdraw consent, by emailing contacto@nelkano.com. Identify the account or data involved; proportionate identity checks may be necessary. You can complain to Spain's data protection authority: https://www.aepd.es/derechos-y-deberes/ejerce-tus-derechos
+    -
+      visible: '1'
+      title: 'Updates to this information'
+      paragraphs: 'Reviewed on 31 October 2026. This policy must be updated when the controller, providers, processing or features change. External modules and services may have their own information and terms.'
   legal_notice_seo_title: 'Legal notice - Nelkano'
   legal_notice_seo_description: 'Legal notice for Nelkano: ownership, terms of use, intellectual property, downloads and liability.'
   legal_notice_eyebrow: 'Legal notice'
   legal_notice_title: 'Legal notice'
   legal_notice_intro: 'This page sets out the basic terms for using the website and the downloads published for Nelkano.'
-  legal_notice_sections: |-
-    Website owner|Nelkano is an informational and download page for a free software project. The website currently does not sell products or services, offer paid plans or process payments.||Legal and privacy contact: contacto@nelkano.com. If the project adds sales, subscriptions, advertising, commercial forms or any other economic activity, this section must be expanded with the required identifying information.
-    Purpose of the website|Nelkano is an informational and download website for an emulation app for Android and desktop. The website does not run games in the browser and does not include ROMs, BIOS files, firmware, saves, keys or protected third-party content.||Its purpose is to provide clear project status information, publish available builds and make relevant documentation or notices accessible.
-    Terms of use|Users must use the website and downloaded applications lawfully, responsibly and in compliance with applicable rules, intellectual property rights and third-party rights.||Nelkano does not authorize or promote downloading, distributing or using unauthorized copies of games, BIOS files, firmware, trademarks, images or any other protected content. Users are responsible for having sufficient rights over any software, backups or files they load into the app.
-    Downloads and compatibility|Published downloads may be beta or actively developed builds. Although stability, compatibility and performance are continuously improved, not every game, device, controller or system is guaranteed to work correctly.||Compatible system and compatibility information should be understood as a description of the project status at a given time, not as a permanent operating guarantee.
-    RPG Maker 2000/2003|RPG Maker 2000/2003 support is planned as Nelkano's own core, developed progressively, so it can be integrated into the native applications without bundling external runtimes.||Nelkano does not include games, RTP, commercial RPG Maker assets or protected content. Users must only use projects and files they have sufficient rights to use.
-    Intellectual property|Nelkano code, text, design, logos, structure and original materials belong to their respective owners or are used with permission. Console, system and game trademarks belong to their respective owners.||References to classic systems are descriptive of technical compatibility. Nelkano is not affiliated with, sponsored, authorized or approved by Nintendo or any other trademark or rights holder unless expressly stated.
-    Liability|The owner is not responsible for misuse of the website, applications or files provided by users. The owner is also not responsible for damage caused by installations from unofficial sources, unauthorized modifications or unsupported devices.||External links, if any, are provided for reference. Their content is not permanently controlled and links will be removed or corrected when there is actual knowledge that they may be unlawful or inappropriate.
-    Applicable law|This page was drafted with reference to Spanish and European legislation governing information society services, data protection and cookies. It must be kept up to date if the responsible party, service model, downloads, advertising, analytics or app features change.
+  legal_notice_sections:
+    -
+      visible: '1'
+      title: 'Website owner'
+      paragraphs: 'Iván Peláez García is the owner and person responsible for the Nelkano project. Legal and privacy contact: contacto@nelkano.com. Nelkano is a free project and currently receives no income. This website provides project information and free downloads; it does not process payments or offer paid plans.'
+    -
+      visible: '1'
+      title: 'Purpose and user-provided files'
+      paragraphs: |-
+        Nelkano is an emulation application for Android and desktop. The website provides information, documentation, modules and downloads published in its catalogue.
+        The product does not provide a game catalogue or commercial RTP packages. You must supply game or project files and resources you have sufficient rights to use. Do not distribute unauthorized copies through service features.
+    -
+      visible: '1'
+      title: 'Components and licenses'
+      paragraphs: |-
+        Nelkano incorporates third-party code and resources under their respective licenses. Read their notices and the SDK terms under Credits and licenses. The SDK license covers its original code and does not change core, dependency or third-party resource licenses.
+        Module authors retain their rights and choose their terms subject to dependencies and applicable law. Merely using the SDK does not require publishing a module’s source code.
+    -
+      visible: '1'
+      title: 'Trademarks and compatibility'
+      paragraphs: |-
+        System and game names describe technical compatibility and belong to their owners. Nelkano is not affiliated with, sponsored or approved by Nintendo or other owners unless expressly stated.
+        Releases may be experimental. Compatibility information describes known scope and does not guarantee that every game, device, controller or feature will work.
+    -
+      visible: '1'
+      title: 'Responsible use and liability'
+      paragraphs: |-
+        Use the website and software in compliance with applicable law and third-party rights. Keep backups before updating or modifying important files.
+        The software and components are provided under their respective license conditions and warranty limitations, without excluding rights or liabilities that cannot legally be limited. Website notices do not replace permissions needed to use or distribute third-party files.
+    -
+      visible: '1'
+      title: 'Rights notices and issues'
+      paragraphs: 'If you identify a possible rights issue or incorrect notice, contact contacto@nelkano.com with the component or download, the reason and available documentation. The communication will be reviewed and appropriate measures considered.'
   releases_seo_title: 'Nelkano releases'
   releases_seo_description: 'Published Nelkano downloads, with release notes, requirements and verification for each version.'
   releases_eyebrow: Releases
@@ -249,7 +502,7 @@ en:
   releases_date: 'Pending publication'
   releases_requirements: 'Android compatible with the published version; a current device and enough storage for library and saves are recommended.'
   releases_changes: 'Check the notes for each published download; features may vary between versions and platforms.'
-  releases_notice: 'Nelkano does not include games, ROMs, BIOS files, firmware, keys, saves or protected content. Use only compatible files you have rights to use.'
+  releases_notice: 'Component terms and notices are available under Credits and licenses. Only use game files and resources you have the right to use.'
   releases_items:
     -
       visible: true
@@ -398,6 +651,44 @@ en:
         Tools for compiled components and reactive views.
         Authorized project-resource access and RPG Maker session extensions.
         Updated documentation and offline reference.
+    -
+      visible: true
+      version: 3.0.5
+      platform: android
+      version_code: '15'
+      apk_file: 'private://nelkano-releases/Nelkano 3.0.5.apk'
+      filename: 'Nelkano 3.0.5.apk'
+      date: 01/11/2026
+      changes: |-
+        Updated privacy, account deletion and license information.
+        Fixed access to the APK from the update installer.
+        Removed integrated translation features.
+        PSP ATRAC audio is temporarily disabled; some encrypted Nintendo DS and PSP ROMs are not supported.
+    -
+      visible: true
+      version: 3.0.5
+      platform: windows
+      version_code: '15'
+      installer_file: 'private://nelkano-releases/Nelkano 3.0.5-windows.exe'
+      filename: 'Nelkano 3.0.5-windows.exe'
+      date: 01/11/2026
+      changes: |-
+        Updated privacy, account deletion and license information.
+        Updated streaming and multimedia components.
+        Removed integrated translation features.
+        PSP ATRAC audio is temporarily disabled; some encrypted Nintendo DS and PSP ROMs are not supported.
+    -
+      visible: true
+      version: 3.0.5
+      platform: sdk
+      version_code: '15'
+      installer_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.5-windows-x86_64.exe'
+      filename: Nelkano-SDK-Studio-3.0.5-windows-x86_64.exe
+      date: 01/11/2026
+      changes: |-
+        Removed translation services from the SDK.
+        Updated integrated reference and documentation.
+        Revised SDK licenses and terms of use.
   compatibility_seo_title: 'Nelkano compatibility'
   compatibility_seo_description: 'Real compatibility status for the systems supported by Nelkano on Android.'
   compatibility_eyebrow: Compatibility
@@ -417,11 +708,24 @@ en:
   security_eyebrow: 'Security and privacy'
   security_title: 'What Nelkano does with your data'
   security_intro: 'Your games and saves are stored on your device. Connected features and modules use the permissions required for each feature.'
-  security_sections: |-
-    Official downloads|Check release notes, filename and verification for each version before installation.
-    Local data|The library, saves, settings and module entities are stored inside the app. Integrated Google Drive synchronization is not available.
-    Nelkano account|An account enables profiles, friends and connected features through nelkano.com; local play does not require one.
-    Modules and external connections|Review each module’s author and permissions. Modules can connect to other servers when you authorize their connections; check which data they send.
-    Game content|Nelkano does not include games, ROMs, BIOS files, firmware or keys. Available features depend on the core.
-    Saves and modules|A module can change your normal save and require its presence or a fresh game. Keep backups before using modifications.
-    Streaming|Streaming shares video and audio from a compatible game with an account and permission. It does not capture your microphone or the entire desktop.
+  security_sections:
+    -
+      visible: '1'
+      title: 'Local data and connected features'
+      description: 'The library, games, saves and modules are stored on your device. Accounts, friends, activity when synchronized, reports and streaming may transmit the data described in Privacy and cookies. Uninstalling does not delete data already sent to the server.'
+    -
+      visible: '1'
+      title: 'Your account and public profile'
+      description: 'An account enables connected features; local play does not require one. Choose a public alias and review your avatar and status. Email lookup requires a complete address; friend profiles do not return email addresses.'
+    -
+      visible: '1'
+      title: 'Reports and streaming'
+      description: 'Review logs, screenshots and saves or states before sending a report. A stream transmits game video and audio; servers may process signalling, network data and the HTTP image and audio fallback.'
+    -
+      visible: '1'
+      title: 'Module permissions'
+      description: 'Check the author and permissions before installing. An authorized module may access data or external services within its permissions. Component licenses are listed under Credits and licenses.'
+    -
+      visible: '1'
+      title: 'Privacy contact'
+      description: 'Request information or exercise your rights at contacto@nelkano.com. See Privacy and cookies for purposes, retention, recipients and the analytics choice.'

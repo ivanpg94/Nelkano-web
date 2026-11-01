@@ -1,0 +1,44 @@
+Permisos del SDK de Nelkano
+Actualizado: 31 de octubre de 2026
+
+Qué puedes hacer
+
+Puedes usar las herramientas propias del SDK de Nelkano para crear módulos,
+copiar y modificar sus ejemplos, y compartir o vender tus propios módulos.
+No tienes que publicar el código de un módulo por el solo hecho de usar el SDK.
+Conservas los derechos sobre tu trabajo y eliges sus condiciones de distribución,
+respetando las licencias de las piezas que tú incorpores.
+
+Qué cubre el permiso
+
+El código original de Nelkano de los contratos del SDK, los tipos TypeScript,
+las herramientas de autoría, los ejemplos y las plantillas propias de motores
+y componentes se ofrece bajo la licencia MIT incluida en esta distribución.
+Si redistribuyes o modificas esas herramientas o ejemplos, conserva su aviso
+de autoría y el texto completo de la licencia MIT.
+
+Este permiso no cambia la licencia de la aplicación Nelkano, de SDK Studio
+como aplicación, de los cores, de los motores de terceros, de las dependencias,
+de las fuentes tipográficas ni de otros recursos ajenos. Cada uno conserva
+sus condiciones. Consulta «Créditos y licencias» para sus avisos.
+
+Tus módulos y sus recursos
+
+Usar el SDK no concede derechos sobre juegos, ROMs, BIOS, firmware, claves,
+gráficos, música, marcas ni recursos de RPG Maker de terceros. Incluye solo
+material propio o material cuya licencia permita el uso y distribución previstos.
+Las condiciones de cada dependencia pueden imponer obligaciones adicionales.
+
+La firma de un módulo identifica a su autor; no significa que Nelkano lo haya
+revisado o aprobado. Explica a sus usuarios qué hace, qué permisos solicita
+y qué datos envía a otros servidores. Las reglas del catálogo web se aplican
+si decides publicarlo allí y no transfieren a Nelkano la propiedad de tu módulo.
+
+Soporte y contacto
+
+Las herramientas se entregan con las condiciones y el descargo de la licencia
+MIT. La compatibilidad depende de la versión y de la plataforma; estos permisos
+no prometen que un módulo funcione en cualquier dispositivo.
+Contacto: contacto@nelkano.com.
+
+Texto completo: «Licencia del SDK» en Studio o LICENSE en el paquete del SDK.

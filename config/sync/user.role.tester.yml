@@ -11,4 +11,3 @@ is_admin: false
 permissions:
   - 'send nelkano error reports'
   - 'use nelkano debug tools'
-  - 'use nelkano translation'

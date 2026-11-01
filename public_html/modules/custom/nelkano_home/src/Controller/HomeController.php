@@ -868,7 +868,9 @@ final class HomeController extends ControllerBase {
   }
 
   private function configuredLegalPage(array $page, string $language, string $pageKey): array {
-    $content = $this->homeConfigFactory->get('nelkano_home.docs')->get($language) ?? [];
+    $module = $this->moduleExtensionList->getPath('nelkano_home');
+    $defaults = json_decode(file_get_contents(DRUPAL_ROOT . '/' . $module . '/config/legal-compliance-copy.json'), TRUE, 512, JSON_THROW_ON_ERROR);
+    $content = array_replace($defaults[$language] ?? [], $this->homeConfigFactory->get('nelkano_home.docs')->get($language) ?? []);
     $title = trim((string) ($content[$pageKey . '_seo_title'] ?? ''));
     $description = trim((string) ($content[$pageKey . '_seo_description'] ?? ''));
     $eyebrow = trim((string) ($content[$pageKey . '_eyebrow'] ?? ''));
@@ -1024,7 +1026,8 @@ final class HomeController extends ControllerBase {
       if ($this->releaseIsHidden($row) || ($platformFilter !== NULL && \Drupal\nelkano_home\Service\ReleaseArtifact::platform($row) !== $platformFilter)) {
         continue;
       }
-      $file = $this->releaseFile($row, $modulePath);
+      $current = \Drupal\nelkano_home\Service\ReleaseArtifact::current($row);
+      $file = $current ? $this->releaseFile($row, $modulePath) : ['path'=>'','filename'=>'','url'=>''];
       $releases[] = [
         'platform' => \Drupal\nelkano_home\Service\ReleaseArtifact::platform($row),
         'platform_label' => \Drupal\nelkano_home\Service\ReleaseArtifact::PLATFORMS[\Drupal\nelkano_home\Service\ReleaseArtifact::platform($row)][0] ?? '',
@@ -1033,14 +1036,12 @@ final class HomeController extends ControllerBase {
         'date' => trim((string) ($row['date'] ?? '')),
         'changes' => $this->parseLines($row['changes'] ?? '', 'text'),
         'url' => $file['url'],
+        'is_current' => $current,
         'meta' => $includeMetadata && is_file($file['path']) ? $this->downloadMeta($file['path'], trim((string) ($row['version'] ?? ''))) : [],
       ];
     }
 
     usort($releases, fn(array $left, array $right): int => $this->compareReleaseRows($right, $left));
-    $seen = [];
-    foreach ($releases as &$release) { $release['is_current'] = !isset($seen[$release['platform']]); $seen[$release['platform']] = TRUE; }
-    unset($release);
     return $releases;
   }
 
@@ -1064,7 +1065,7 @@ final class HomeController extends ControllerBase {
   public function downloadRelease(string $language, string $version, string $platform = 'android', bool $installer = FALSE): \Symfony\Component\HttpFoundation\BinaryFileResponse {
     $rows = $this->homeConfigFactory->get('nelkano_home.docs')->get($language . '.releases_items') ?? [];
     foreach ($rows as $row) {
-      if (($row['version'] ?? '') !== $version || \Drupal\nelkano_home\Service\ReleaseArtifact::platform($row) !== $platform || $this->releaseIsHidden($row)) continue;
+      if (($row['version'] ?? '') !== $version || \Drupal\nelkano_home\Service\ReleaseArtifact::platform($row) !== $platform || !\Drupal\nelkano_home\Service\ReleaseArtifact::current($row)) continue;
       $file = \Drupal\nelkano_home\Service\ReleaseArtifact::file($row, $installer ? 'installer' : 'update');
       if ($file['path'] === '' || !is_file($file['path'])) break;
       $response = new \Drupal\nelkano_home\Http\ReleaseFileResponse($file['path']);

@@ -1,0 +1,495 @@
+{
+  "schemaVersion": 1,
+  "entries": [
+    {
+      "id": "quickjs",
+      "name": "QuickJS",
+      "version": "vendored",
+      "license": "MIT",
+      "products": [
+        "android",
+        "desktop"
+      ],
+      "noticePath": "legal/notices/quickjs.txt"
+    },
+    {
+      "id": "dynarmic-mcl",
+      "name": "mcl",
+      "version": "vendored with Dynarmic",
+      "license": "MIT",
+      "products": [
+        "android",
+        "desktop"
+      ],
+      "noticePath": "legal/notices/dynarmic-mcl.txt"
+    },
+    {
+      "id": "fmt",
+      "name": "fmt",
+      "version": "vendored with Dynarmic",
+      "license": "MIT",
+      "products": [
+        "android",
+        "desktop"
+      ],
+      "noticePath": "legal/notices/fmt.txt"
+    },
+    {
+      "id": "robin-map",
+      "name": "robin-map",
+      "version": "vendored with Dynarmic",
+      "license": "MIT",
+      "products": [
+        "android",
+        "desktop"
+      ],
+      "noticePath": "legal/notices/robin-map.txt"
+    },
+    {
+      "id": "oaknut",
+      "name": "Oaknut",
+      "version": "2.0.2 / vendored with Dynarmic",
+      "license": "MIT",
+      "products": [
+        "android",
+        "desktop"
+      ],
+      "noticePath": "legal/notices/oaknut.txt"
+    },
+    {
+      "id": "xbyak",
+      "name": "Xbyak",
+      "version": "7.33.2 / vendored with Dynarmic",
+      "license": "BSD-3-Clause",
+      "products": [
+        "android",
+        "desktop"
+      ],
+      "noticePath": "legal/notices/xbyak.txt"
+    },
+    {
+      "id": "zydis",
+      "name": "Zydis",
+      "version": "vendored with Dynarmic",
+      "license": "MIT",
+      "products": [
+        "desktop"
+      ],
+      "noticePath": "legal/notices/zydis.txt"
+    },
+    {
+      "id": "zycore",
+      "name": "Zycore",
+      "version": "vendored with Dynarmic",
+      "license": "MIT",
+      "products": [
+        "desktop"
+      ],
+      "noticePath": "legal/notices/zycore.txt"
+    },
+    {
+      "id": "freebios",
+      "name": "FreeBIOS",
+      "version": "source blob 6d87900718f641fc1abf25e3396a75f3ed77a103",
+      "license": "BSD-2-Clause",
+      "products": [
+        "android",
+        "desktop"
+      ],
+      "noticePath": "legal/notices/freebios.txt"
+    },
+    {
+      "id": "noto-sans",
+      "name": "Noto Sans",
+      "version": "ffebf8c1ee449e544955a7e813c54f9b73848eac",
+      "license": "OFL-1.1",
+      "products": [
+        "android",
+        "desktop",
+        "sdk-studio"
+      ],
+      "noticePath": "legal/notices/noto-sans.txt"
+    },
+    {
+      "id": "noto-sans-cjk",
+      "name": "Noto Sans CJK JP",
+      "version": "f8d157532fbfaeda587e826d4cd5b21a49186f7c",
+      "license": "OFL-1.1",
+      "products": [
+        "android",
+        "desktop"
+      ],
+      "noticePath": "legal/notices/noto-sans-cjk.txt"
+    },
+    {
+      "id": "ngpcraft-font",
+      "name": "NgpCraft system font",
+      "version": "dc59f1a0df1fa6181d517e649355771f8a529785",
+      "license": "MIT",
+      "products": [
+        "android",
+        "desktop"
+      ],
+      "noticePath": "legal/notices/ngpcraft-font.txt"
+    },
+    {
+      "id": "libchdr",
+      "name": "libchdr and bundled codec dependencies",
+      "version": "8e7b8bd32bc676b7e5c6b42fe7d2daca986c4a0d",
+      "license": "BSD-3-Clause; MIT; public domain",
+      "products": [
+        "android",
+        "desktop"
+      ],
+      "noticePath": "legal/notices/libchdr.txt"
+    },
+    {
+      "id": "ruby-android",
+      "name": "CRuby for Android",
+      "version": "3.1.6 with Nelkano patches",
+      "license": "BSD-2-Clause OR Ruby",
+      "products": [
+        "android"
+      ],
+      "noticePath": "legal/notices/ruby-android.txt"
+    },
+    {
+      "id": "ruby-desktop",
+      "name": "CRuby for Windows",
+      "version": "3.4.9 with Nelkano patches",
+      "license": "BSD-2-Clause OR Ruby",
+      "products": [
+        "desktop"
+      ],
+      "noticePath": "legal/notices/ruby-desktop.txt"
+    },
+    {
+      "id": "quickjs-emscripten",
+      "name": "quickjs-emscripten and its bundled packages",
+      "version": "0.32.0",
+      "license": "MIT",
+      "products": [
+        "sdk-studio"
+      ],
+      "noticePath": "legal/notices/quickjs-emscripten.txt"
+    },
+    {
+      "id": "typescript",
+      "name": "TypeScript",
+      "version": "5.9.3",
+      "license": "Apache-2.0 and third-party notices",
+      "products": [
+        "sdk-studio"
+      ],
+      "noticePath": "legal/notices/typescript.txt"
+    },
+    {
+      "id": "ws",
+      "name": "ws",
+      "version": "8.22.0",
+      "license": "MIT",
+      "products": [
+        "sdk-studio"
+      ],
+      "noticePath": "legal/notices/ws.txt"
+    },
+    {
+      "id": "nodejs",
+      "name": "Node.js and bundled dependencies",
+      "version": "24.19.0 (Windows SDK runtime)",
+      "license": "MIT and bundled third-party licenses",
+      "products": [
+        "sdk-studio"
+      ],
+      "noticePath": "legal/notices/nodejs.txt"
+    },
+    {
+      "id": "spirv-headers",
+      "name": "Khronos SPIR-V headers",
+      "version": "vendored headers",
+      "license": "MIT",
+      "products": [
+        "android",
+        "desktop"
+      ],
+      "noticePath": "legal/notices/spirv-headers.txt"
+    },
+    {
+      "id": "webrtc-native-desktop",
+      "name": "WebRTC Windows native runtime and dependencies",
+      "version": "0.19.0-nelkano1",
+      "license": "Apache-2.0, BSD-3-Clause and bundled third-party licenses",
+      "products": [
+        "desktop"
+      ],
+      "noticePath": "legal/notices/webrtc-native-desktop.txt"
+    },
+    {
+      "id": "jna",
+      "name": "Java Native Access (JNA / JNA Platform)",
+      "version": "5.17.0",
+      "license": "Apache-2.0 (selected; LGPL alternative retained in upstream notice)",
+      "products": [
+        "desktop"
+      ],
+      "noticePath": "legal/notices/jna.txt"
+    },
+    {
+      "id": "jmdns",
+      "name": "JmDNS",
+      "version": "3.6.2",
+      "license": "Apache-2.0",
+      "products": [
+        "desktop"
+      ],
+      "noticePath": "legal/notices/jmdns.txt"
+    },
+    {
+      "id": "bouncy-castle",
+      "name": "Bouncy Castle",
+      "version": "bcprov-jdk18on 1.80",
+      "license": "MIT (Bouncy Castle license)",
+      "products": [
+        "android",
+        "desktop"
+      ],
+      "noticePath": "legal/notices/bouncy-castle.txt"
+    },
+    {
+      "id": "jamepad-sdl",
+      "name": "Jamepad / SDL",
+      "version": "Jamepad 2.30.0.0; SDL 859844eae358447be8d66e6da59b6fb3df0ed778",
+      "license": "Apache-2.0 AND Zlib",
+      "products": [
+        "desktop"
+      ],
+      "noticePath": "legal/notices/jamepad-sdl.txt"
+    },
+    {
+      "id": "kotlin-runtime",
+      "name": "Kotlin standard library",
+      "version": "2.3.21",
+      "license": "Apache-2.0",
+      "products": [
+        "android",
+        "desktop",
+        "sdk-studio"
+      ],
+      "noticePath": "legal/notices/kotlin-runtime.txt"
+    },
+    {
+      "id": "kotlinx-coroutines",
+      "name": "Kotlin coroutines",
+      "version": "1.10.2",
+      "license": "Apache-2.0",
+      "products": [
+        "android",
+        "desktop",
+        "sdk-studio"
+      ],
+      "noticePath": "legal/notices/kotlinx-coroutines.txt"
+    },
+    {
+      "id": "kotlinx-serialization",
+      "name": "Kotlin serialization",
+      "version": "1.9.0",
+      "license": "Apache-2.0",
+      "products": [
+        "android",
+        "desktop",
+        "sdk-studio"
+      ],
+      "noticePath": "legal/notices/kotlinx-serialization.txt"
+    },
+    {
+      "id": "compose-multiplatform",
+      "name": "Compose Multiplatform",
+      "version": "Plugin 1.10.3; component versions selected by the plugin",
+      "license": "Apache-2.0",
+      "products": [
+        "android",
+        "desktop",
+        "sdk-studio"
+      ],
+      "noticePath": "legal/notices/compose-multiplatform.txt"
+    },
+    {
+      "id": "skiko-skia",
+      "name": "Skiko / Skia",
+      "version": "Skiko 0.9.37.4; Skia m138-80d088a-1",
+      "license": "Apache-2.0 AND BSD-3-Clause AND MIT AND Unicode-3.0 AND IJG AND Zlib",
+      "products": [
+        "desktop",
+        "sdk-studio"
+      ],
+      "noticePath": "legal/notices/skiko-skia.txt"
+    },
+    {
+      "id": "webrtc-android",
+      "name": "WebRTC SDK for Android",
+      "version": "144.7559.05",
+      "license": "MIT wrapper; BSD-3-Clause WebRTC and bundled third-party licenses",
+      "products": [
+        "android"
+      ],
+      "noticePath": "legal/notices/webrtc-android.txt"
+    },
+    {
+      "id": "okhttp",
+      "name": "OkHttp",
+      "version": "4.12.0",
+      "license": "Apache-2.0; bundled Public Suffix List notice",
+      "products": [
+        "android",
+        "desktop"
+      ],
+      "noticePath": "legal/notices/okhttp.txt"
+    },
+    {
+      "id": "libarchive-android",
+      "name": "libarchive for Android",
+      "version": "1.1.6; native revisions pinned by its upstream",
+      "license": "Apache-2.0 wrapper; BSD and bundled native licenses",
+      "products": [
+        "android"
+      ],
+      "noticePath": "legal/notices/libarchive-android.txt"
+    },
+    {
+      "id": "sqlite-jdbc",
+      "name": "SQLite JDBC",
+      "version": "3.50.3.0",
+      "license": "Apache-2.0; BSD notice for original driver; SQLite public domain",
+      "products": [
+        "desktop"
+      ],
+      "noticePath": "legal/notices/sqlite-jdbc.txt"
+    },
+    {
+      "id": "libarchive-desktop",
+      "name": "libarchive (Desktop)",
+      "version": "3.8.11",
+      "license": "BSD-2-Clause; BSD-3-Clause; CC0-1.0 selected for Blake2",
+      "products": [
+        "desktop"
+      ],
+      "noticePath": "legal/notices/libarchive-desktop.txt"
+    },
+    {
+      "id": "bzip2-desktop",
+      "name": "bzip2 (Desktop)",
+      "version": "1.0.8 (Windows toolchain package 1.0.8-3)",
+      "license": "bzip2-1.0.6",
+      "products": [
+        "desktop"
+      ],
+      "noticePath": "legal/notices/bzip2-desktop.txt"
+    },
+    {
+      "id": "gstreamer-system",
+      "name": "GStreamer (external Linux system installation)",
+      "version": "Installed by the OS; PSP AVC requires 1.20+",
+      "license": "LGPL-2.1-or-later",
+      "products": [
+        "desktop"
+      ],
+      "noticePath": "legal/notices/gstreamer-system.txt"
+    },
+    {
+      "id": "expat-skiko",
+      "name": "Expat (Skia / Skiko)",
+      "version": "2.7.1 (embedded in the Windows Skiko runtime)",
+      "license": "MIT",
+      "products": [
+        "desktop",
+        "sdk-studio"
+      ],
+      "noticePath": "legal/notices/expat-skiko.txt"
+    },
+    {
+      "id": "winpthreads-windows",
+      "name": "Winpthreads (Windows)",
+      "version": "14.0.0.r37.g2bfe61fba-1 (MSYS2)",
+      "license": "MIT and BSD-style Lockless terms (complete upstream COPYING)",
+      "products": [
+        "desktop"
+      ],
+      "noticePath": "legal/notices/winpthreads-windows.txt"
+    },
+    {
+      "id": "gcc-runtime-windows",
+      "name": "GCC runtime libraries (Windows)",
+      "version": "16.1.0 (MSYS2 gcc-libs 16.1.0-2; libgcc and libstdc++)",
+      "license": "GPL-3.0-or-later WITH GCC-exception-3.1",
+      "products": [
+        "desktop"
+      ],
+      "noticePath": "legal/notices/gcc-runtime-windows.txt"
+    },
+    {
+      "id": "shader-tools-windows",
+      "name": "shaderc / SPIRV-Tools / glslang",
+      "version": "MSYS2 shaderc 2026.1-1; SPIRV-Tools 1.4.350.0-1; glslang 16.2.0-3",
+      "license": "Apache-2.0 AND BSD-3-Clause AND MIT",
+      "products": [
+        "desktop"
+      ],
+      "noticePath": "legal/notices/shader-tools-windows.txt"
+    },
+    {
+      "id": "shader-tools-android",
+      "name": "Shaderc y terceros del NDK",
+      "version": "NDK 28.2.13676358; shaderc CHANGES v2022.3",
+      "license": "Apache-2.0 AND BSD-3-Clause AND MIT AND (GPL-3.0-or-later WITH Bison-exception-2.2)",
+      "products": [
+        "android"
+      ],
+      "noticePath": "legal/notices/shader-tools-android.txt"
+    },
+    {
+      "id": "temurin-runtime",
+      "name": "Eclipse Temurin (Windows)",
+      "version": "21.0.11+10; source 254494ad7d75; build a612825ee82a",
+      "license": "GPL-2.0-only WITH Classpath-exception-2.0",
+      "products": [
+        "desktop",
+        "sdk-studio"
+      ],
+      "noticePath": "legal/notices/temurin-runtime.txt"
+    }
+  ],
+  "documents": [
+    {
+      "id": "privacy",
+      "titleEs": "Privacidad",
+      "titleEn": "Privacy",
+      "products": [
+        "android",
+        "desktop",
+        "sdk-studio"
+      ],
+      "noticePathEs": "legal/documents/privacy-es.txt",
+      "noticePathEn": "legal/documents/privacy-en.txt"
+    },
+    {
+      "id": "sdk-terms",
+      "titleEs": "Condiciones del SDK",
+      "titleEn": "SDK terms",
+      "products": [
+        "sdk-studio"
+      ],
+      "noticePathEs": "legal/documents/sdk-terms-es.txt",
+      "noticePathEn": "legal/documents/sdk-terms-en.txt"
+    },
+    {
+      "id": "sdk-license",
+      "titleEs": "Licencia del SDK",
+      "titleEn": "SDK license",
+      "products": [
+        "sdk-studio"
+      ],
+      "noticePathEs": "legal/documents/sdk-license.txt",
+      "noticePathEn": "legal/documents/sdk-license.txt"
+    }
+  ]
+}

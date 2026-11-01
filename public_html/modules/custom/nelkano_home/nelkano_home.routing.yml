@@ -689,7 +689,7 @@ nelkano_home.admin_backlog:
   path: '/admin/nelkano/backlog'
   defaults:
     _controller: '\Drupal\nelkano_home\Controller\HuAdminController::board'
-    _title: 'Backlog Â· HU'
+    _title: 'Backlog · HU'
   requirements:
     _permission: 'administer nelkano backlog'
   options:
@@ -827,7 +827,7 @@ nelkano_home.admin_guide:
   path: '/admin/nelkano/guia'
   defaults:
     _form: '\Drupal\nelkano_home\Form\GuideSettingsForm'
-    _title: 'GuÃ­a de uso'
+    _title: 'Guía de uso'
   requirements:
     _permission: 'administer nelkano editable pages'
   options:
@@ -847,7 +847,7 @@ nelkano_home.admin_add_system:
   path: '/admin/nelkano/sistemas/nuevo'
   defaults:
     _form: '\Drupal\nelkano_home\Form\AddSystemForm'
-    _title: 'AÃ±adir sistema'
+    _title: 'Añadir sistema'
   requirements:
     _permission: 'administer nelkano editable pages'
   options:
@@ -927,7 +927,7 @@ nelkano_home.app_updates_admin:
   path: '/admin/nelkano/app-updates'
   defaults:
     _form: '\Drupal\nelkano_home\Form\AppUpdatesForm'
-    _title: 'Actualizaciones de la aplicaciÃ³n'
+    _title: 'Actualizaciones de la aplicación'
   requirements:
     _permission: 'administer nelkano app updates'
 
@@ -998,5 +998,96 @@ nelkano_home.sdk_installer_download:
     platform: 'windows|sdk'
     language: 'es|en'
     version: '[A-Za-z0-9.+_-]+'
+  options:
+    no_cache: TRUE
+
+
+nelkano_home.credits_es:
+  path: '/creditos-licencias'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\CreditsController::page'
+    language: 'es'
+    _title: 'Créditos y licencias'
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.credits_en:
+  path: '/en/credits-licenses'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\CreditsController::page'
+    language: 'en'
+    _title: 'Credits and licenses'
+  requirements:
+    _permission: 'access content'
+
+nelkano_home.account_access_redirect_es:
+  path: '/user/confirm-age'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AuthController::accountAccessRedirect'
+    _title: 'Cuenta'
+  requirements:
+    _access: 'TRUE'
+  options:
+    no_cache: TRUE
+  methods: [GET, POST]
+
+nelkano_home.account_access_redirect_en:
+  path: '/en/user/confirm-age'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AuthController::accountAccessRedirect'
+    _title: 'Cuenta'
+  requirements:
+    _access: 'TRUE'
+  options:
+    no_cache: TRUE
+  methods: [GET, POST]
+
+nelkano_home.account_erasure_es:
+  path: '/user/delete-account'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AuthController::deleteAccount'
+    _title: 'Eliminar mi cuenta'
+  requirements:
+    _access: 'TRUE'
+  options:
+    no_cache: TRUE
+
+nelkano_home.account_erasure_en:
+  path: '/en/user/delete-account'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AuthController::deleteAccount'
+    _title: 'Delete my account'
+  requirements:
+    _access: 'TRUE'
+  options:
+    no_cache: TRUE
+
+nelkano_home.api_v2_account_erasure:
+  path: '/api/nelkano/v2/account/delete'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AccountErasureController::api'
+  methods: [POST]
+  requirements:
+    _access: 'TRUE'
+  options:
+    no_cache: TRUE
+
+nelkano_home.api_friends_presence:
+  path: '/api/nelkano/friends/presence'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::friendsPresence'
+  methods: [GET, POST]
+  requirements:
+    _permission: 'access content'
+  options:
+    no_cache: TRUE
+
+nelkano_home.api_spectator_invitations:
+  path: '/api/nelkano/stream/invitations'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\AppAuthController::spectatorInvitations'
+  methods: [GET, POST]
+  requirements:
+    _permission: 'access content'
   options:
     no_cache: TRUE

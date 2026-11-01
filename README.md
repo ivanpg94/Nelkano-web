@@ -6,6 +6,22 @@ Consulta [la receta vigente de despliegue completo](DEPLOY.md) para publicar est
 entrega, respaldar producción, aplicar configuración y Book y activar Codex.
 Las secciones de despliegues anteriores se conservan como contexto histórico.
 
+## Preparación local 3.0.5 (15) — 01/11/2026
+
+Android ARM64, Windows x64 y SDK Studio Windows comparten versión. La entrega
+incluye los cambios de privacidad y borrado de cuentas, licencias de terceros,
+retirada de la función de traducción y corrección del instalador Android.
+Sólo la última versión de cada aplicación permite descargar; se conservan las
+notas de las anteriores. SteamOS sigue oculto. Preparación local y commit no
+implican push ni despliegue. Instrucciones: [DEPLOY-3.0.5.md](DEPLOY-3.0.5.md).
+
+El catálogo legal contiene 43 componentes y 3 documentos propios. Su fuente es
+`../Nelkano-emulator/src/nelkano/legal`; `scripts/sync-legal-assets.py` sincroniza
+los bytes exactos y sólo retira archivos gestionados previamente. La descarga
+pública de fuentes contiene exclusivamente Java/GCC y sus recetas de terceros,
+sin código privado de Nelkano. Se transporta en partes de Git y se reconstruye
+con verificación SHA-256 durante el despliegue.
+
 ## Entrega local 3.0.3-beta (13) — 18/10/2026
 
 Android, Windows y SDK Studio están preparados en el catálogo local con las notas
@@ -39,6 +55,9 @@ correctos. No desplegado en producción.
 - `composer.json` y `composer.lock`: dependencias de Drupal.
 
 No versionar `vendor/`, `public_html/core/`, modulos contrib, `settings.php`, ficheros de usuario ni dumps.
+
+El contrato de consentimiento, exclusión de visitas propias y eventos de descarga está en
+[Analítica de visitas y descargas](public_html/modules/custom/nelkano_home/README.analytics.md).
 
 ## Reportes del emulador
 
@@ -496,3 +515,30 @@ Ajustes → General → Actualización de Nelkano → Comprobar, sin partida abi
 Descargar e instalar mediante la confirmación de Android; verificar versión,
 biblioteca y guardados conservados. Las instalaciones debug no admiten esta
 firma como actualización; no desinstalar ni borrar datos para forzar el ensayo.
+
+
+## Licencias, privacidad y descargas históricas
+
+La fuente de los avisos compartidos es `Nelkano-emulator/src/nelkano/legal`.
+Actualizar la copia web con `python scripts/sync-legal-assets.py --source-root
+../Nelkano-emulator/src/nelkano/legal`; el script conserva los bytes y genera
+`legal/sync-manifest.json`. No sustituye binarios publicados ni sus hashes.
+Los avisos se publican en `/creditos-licencias` y `/en/credits-licenses`,
+enlazados desde el pie y las descargas.
+
+El update 11043 publica los textos ES/EN de
+`public_html/modules/custom/nelkano_home/config/legal-compliance-copy.json`
+y oculta en el catálogo las versiones anteriores a 3.0.4. Conserva sus filas
+y todos sus binarios. Las rutas de descarga y actualización respetan la
+visibilidad editable. Los directorios públicos de archivos históricos
+(`emulator/` y `public://nelkano-releases/`) quedan protegidos con `.htaccess`
+para impedir que sus URLs físicas eludan el catálogo. En servidores que
+no lean `.htaccess` debe configurarse una denegación equivalente antes de
+publicar esta entrega.
+
+Privacidad y Aviso legal siguen editándose desde Páginas editables y
+exportándose a `nelkano_home.docs`. Los perfiles ajenos ya no devuelven el
+correo: la búsqueda por correo requiere coincidencia exacta, mientras que
+los nombres públicos conservan búsqueda parcial. El correo de la cuenta
+propia se mantiene. Esta preparación se aplica únicamente al Drupal local;
+la publicación en producción requiere el despliegue autorizado habitual.

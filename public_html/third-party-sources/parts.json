@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "artifacts": [
+    {
+      "file": "nelkano-runtimes-2026-10-31.zip",
+      "bytes": 218046956,
+      "sha256": "d9a5b5b7926bccefdc26081622cb5cbabd2d6d31a01460afdb4c2a10754fb4fe",
+      "parts": [
+        {
+          "file": "parts/d9a5b5b7926bccefdc26081622cb5cbabd2d6d31a01460afdb4c2a10754fb4fe/0001.part",
+          "bytes": 41943040,
+          "sha256": "b2bd0898e7ad1637d40485be29cb697879a21d44628e69d9f78f1b343c4fd29b"
+        },
+        {
+          "file": "parts/d9a5b5b7926bccefdc26081622cb5cbabd2d6d31a01460afdb4c2a10754fb4fe/0002.part",
+          "bytes": 41943040,
+          "sha256": "183f30b7f7277eb04b9c8dbc7fa41de18c2986af8aac017b0cda821903d3a2db"
+        },
+        {
+          "file": "parts/d9a5b5b7926bccefdc26081622cb5cbabd2d6d31a01460afdb4c2a10754fb4fe/0003.part",
+          "bytes": 41943040,
+          "sha256": "e3340c09905a3388c347fc39b02ce9d160aabf7c5af80d91e03c0e8643484439"
+        },
+        {
+          "file": "parts/d9a5b5b7926bccefdc26081622cb5cbabd2d6d31a01460afdb4c2a10754fb4fe/0004.part",
+          "bytes": 41943040,
+          "sha256": "9ddfe9fd57d0c18e5973062baecc6ced7816e1e1985d7892a3aab1e19f09978e"
+        },
+        {
+          "file": "parts/d9a5b5b7926bccefdc26081622cb5cbabd2d6d31a01460afdb4c2a10754fb4fe/0005.part",
+          "bytes": 41943040,
+          "sha256": "d4f190d96a3d8ed4bca41f0b136dbf752aae40bfd95dcc30477900262ae5295a"
+        },
+        {
+          "file": "parts/d9a5b5b7926bccefdc26081622cb5cbabd2d6d31a01460afdb4c2a10754fb4fe/0006.part",
+          "bytes": 8331756,
+          "sha256": "a83ebe77a51452d79b5e0f6b8fad241f12be6d5da6023e0670e6c39590ce0420"
+        }
+      ]
+    }
+  ]
+}

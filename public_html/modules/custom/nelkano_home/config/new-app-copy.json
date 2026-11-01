@@ -308,13 +308,6 @@
         "image_uri": ""
       },
       {
-        "title": "Traducir juegos de Nintendo DS",
-        "description": "La traducción automática integrada de juegos no está disponible.",
-        "bullets": "Puedes aplicar un parche de traducción compatible mediante Parches.\nCambiar el idioma de Nelkano solo cambia la interfaz.",
-        "visible": "0",
-        "image_uri": ""
-      },
-      {
         "title": "Cuenta Nelkano y amigos",
         "description": "Gestiona tu perfil y tus contactos desde la aplicación.",
         "bullets": "Inicia sesión desde Cuenta en Ajustes. Abre Amigos desde la biblioteca para gestionar tus contactos.\nBusca usuarios y envía solicitudes; puedes aceptar o rechazar las recibidas, cancelar las enviadas y eliminar amigos.\nDesde el módulo puedes editar tu perfil.\nNo necesitas una cuenta para jugar localmente.",
@@ -433,13 +426,6 @@
         "description": "Apply a compatible patch and add the result as a separate game.",
         "bullets": "Import the original GBA or DS game.\nOpen Patches in Settings or Apply patch on the game’s details page.\nSelect an IPS or xdelta/VCDIFF file and the exact game version required by the patch.\nIPS cannot verify by itself that you selected the right ROM.\nA modified copy is added to the library and the original is kept.\nThe copy uses its own saves; it does not inherit the original’s saves. BPS, UPS and PPF are not supported.",
         "visible": "1",
-        "image_uri": ""
-      },
-      {
-        "title": "Translating Nintendo DS games",
-        "description": "Integrated automatic game translation is not available.",
-        "bullets": "You can apply a compatible translation patch through Patches.\nChanging Nelkano’s language changes only its interface.",
-        "visible": "0",
         "image_uri": ""
       },
       {

@@ -60,6 +60,7 @@ final class AppUpdatesController extends ControllerBase {
       }
       throw new NotFoundHttpException();
     }
+    if ((string)$this->config('nelkano_home.app_updates')->get('active.' . $platform) !== $build) throw new NotFoundHttpException();
     $row = $this->config('nelkano_home.app_updates')->get('releases.' . $platform . '.' . $build);
     $path = is_array($row) ? $this->artifact($platform, $row) : NULL;
     if (!$path) throw new NotFoundHttpException();
@@ -74,12 +75,14 @@ final class AppUpdatesController extends ControllerBase {
   /** Spanish catalog owns update publication; translated copy controls its public page. */
   private function catalog(string $channel): ?array {
     $rows = $this->config('nelkano_home.docs')->get('es.releases_items') ?? [];
-    $matches = [];
+    $matches = []; $hasChannel = FALSE;
     foreach (is_array($rows) ? $rows : [] as $row) {
       $platform = \Drupal\nelkano_home\Service\ReleaseArtifact::platform($row);
-      if ((\Drupal\nelkano_home\Service\ReleaseArtifact::PLATFORMS[$platform][2] ?? '') === $channel && (int) ($row['version_code'] ?? 0) > 0) $matches[] = $row;
+      if ((\Drupal\nelkano_home\Service\ReleaseArtifact::PLATFORMS[$platform][2] ?? '') !== $channel) continue;
+      $hasChannel = TRUE;
+      if (\Drupal\nelkano_home\Service\ReleaseArtifact::current($row) && (int)($row['version_code']??0)>0) $matches[] = $row;
     }
-    if (!$matches) return NULL;
+    if (!$hasChannel) return NULL;
     usort($matches, static fn($a, $b) => ((int) $b['version_code']) <=> ((int) $a['version_code']));
     return $matches;
   }

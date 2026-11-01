@@ -3,8 +3,13 @@
     (function () {
       var GA_ID = '{{ analytics.ga_id|e('js') }}';
       var STORAGE_KEY = 'nelkano_analytics_consent';
+      var CONSENT_VERSION = '2026-10-31.1';
+      // Conservative technical renewal policy: 730 days, not a statutory limit.
+      var CONSENT_DURATION_MS = 730 * 24 * 60 * 60 * 1000;
       var INTERNAL_STORAGE_KEY = 'nelkano_analytics_internal';
       var EXCLUDE_INTERNAL = {{ analytics.exclude_internal|default(false) ? 'true' : 'false' }};
+      var consentTimer = null;
+      var pageRefusal = false;
 
       if (EXCLUDE_INTERNAL) {
         try {
@@ -27,6 +32,53 @@
 
       function disableAnalytics() {
         window['ga-disable-' + GA_ID] = true;
+        window.clearTimeout(consentTimer);
+        consentTimer = null;
+        clearAnalyticsCookies();
+      }
+
+      function clearAnalyticsCookies() {
+        var names;
+        try {
+          names = document.cookie.split(';').map(function (cookie) {
+            return cookie.split('=')[0].trim();
+          }).filter(function (name) {
+            return /^_ga(?:_[A-Za-z0-9_-]+)?$/.test(name);
+          });
+        }
+        catch (error) {
+          return;
+        }
+        if (!names.length) {
+          return;
+        }
+        var paths = ['/'];
+        var pathname = window.location.pathname;
+        if (!/[;\r\n]/.test(pathname)) {
+          var parts = pathname.split('/').filter(Boolean);
+          for (var index = 1; index <= parts.length; index++) {
+            var prefix = '/' + parts.slice(0, index).join('/');
+            paths.push(prefix, prefix + '/');
+          }
+        }
+        var domains = [''];
+        var labels = window.location.hostname.toLowerCase().split('.');
+        for (var offset = 0; offset < labels.length - 1; offset++) {
+          var domain = labels.slice(offset).join('.');
+          domains.push(domain, '.' + domain);
+        }
+        names.forEach(function (name) {
+          paths.forEach(function (cookiePath) {
+            domains.forEach(function (domain) {
+              try {
+                document.cookie = name + '=; Max-Age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=' + cookiePath
+                  + (domain ? '; domain=' + domain : '')
+                  + (window.location.protocol === 'https:' ? '; Secure' : '') + '; SameSite=Lax';
+              }
+              catch (error) {}
+            });
+          });
+        });
       }
 
       function isLocalEnvironment() {
@@ -34,6 +86,7 @@
         return host === 'localhost'
           || host === '127.0.0.1'
           || host === '::1'
+          || host === '[::1]'
           || host.endsWith('.local')
           || host.endsWith('.test')
           || /^10\./.test(host)
@@ -41,38 +94,131 @@
           || /^172\.(1[6-9]|2[0-9]|3[0-1])\./.test(host);
       }
 
-      function consentValue() {
+      function newConsentRecord(value) {
+        var now = Date.now();
+        return {
+          version: CONSENT_VERSION,
+          choice: value,
+          date: new Date(now).toISOString(),
+          expiresAt: new Date(now + CONSENT_DURATION_MS).toISOString()
+        };
+      }
+
+      function saveConsent(value, migrated) {
+        var record = newConsentRecord(value);
+        if (migrated) {
+          record.source = 'legacy-denied';
+        }
         try {
-          return window.localStorage.getItem(STORAGE_KEY);
+          window.localStorage.setItem(STORAGE_KEY, JSON.stringify(record));
+          pageRefusal = value === 'denied';
+          return record;
         }
         catch (error) {
+          if (value === 'denied') {
+            pageRefusal = true;
+          }
           return null;
         }
       }
 
-      function saveConsent(value) {
+      function readConsent() {
+        var raw;
         try {
-          window.localStorage.setItem(STORAGE_KEY, value);
+          raw = window.localStorage.getItem(STORAGE_KEY);
+          if (raw === 'denied') {
+            // Preserve refusal. Its date records migration, not an invented acceptance.
+            return saveConsent('denied', true) || newConsentRecord('denied');
+          }
+          if (!raw) {
+            return null;
+          }
+          if (raw !== 'granted') {
+            var record = JSON.parse(raw);
+            var date = record && typeof record.date === 'string' ? Date.parse(record.date) : NaN;
+            var expiry = record && typeof record.expiresAt === 'string' ? Date.parse(record.expiresAt) : NaN;
+            if (record && record.version === CONSENT_VERSION
+              && (record.choice === 'granted' || record.choice === 'denied')
+              && isFinite(date) && isFinite(expiry) && date <= Date.now()
+              && expiry > Date.now() && expiry > date && expiry - date <= CONSENT_DURATION_MS
+              && new Date(date).toISOString() === record.date
+              && new Date(expiry).toISOString() === record.expiresAt) {
+              return record;
+            }
+          }
+          // Old acceptance has no date or notice version. Notify other tabs too.
+          window.localStorage.removeItem(STORAGE_KEY);
         }
-        catch (error) {}
+        catch (error) {
+          return null;
+        }
+        return null;
+      }
+
+      function consentValue() {
+        var record = readConsent();
+        return record ? record.choice : null;
+      }
+
+      function measurementAllowed() {
+        return !pageRefusal && !isLocalEnvironment() && !isInternalTraffic() && consentValue() === 'granted';
+      }
+
+      function scheduleConsentExpiry(record) {
+        window.clearTimeout(consentTimer);
+        consentTimer = null;
+        if (record) {
+          consentTimer = window.setTimeout(syncConsent, Math.min(Date.parse(record.expiresAt) - Date.now(), 2147483647));
+        }
+      }
+
+      function cleanUrl(value) {
+        try {
+          var url = new URL(value);
+          return url.protocol === 'https:' || url.protocol === 'http:' ? url.origin + url.pathname : '';
+        }
+        catch (error) {
+          return '';
+        }
       }
 
       function loadAnalytics() {
-        if (isLocalEnvironment() || isInternalTraffic() || consentValue() !== 'granted') {
+        var record = readConsent();
+        if (pageRefusal || isLocalEnvironment() || isInternalTraffic() || !record || record.choice !== 'granted') {
           disableAnalytics();
+          if (!isLocalEnvironment() && !isInternalTraffic()) {
+            scheduleConsentExpiry(record);
+          }
           return;
         }
+        scheduleConsentExpiry(record);
         window['ga-disable-' + GA_ID] = false;
         if (window.nelkanoAnalyticsLoaded) {
           return;
         }
         window.nelkanoAnalyticsLoaded = true;
         window.dataLayer = window.dataLayer || [];
-        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag = function () {
+          if (measurementAllowed()) {
+            window.dataLayer.push(arguments);
+          }
+          else {
+            disableAnalytics();
+          }
+        };
         window.gtag('js', new Date());
         window.gtag('config', GA_ID, {
           anonymize_ip: true,
-          transport_type: 'beacon'
+          transport_type: 'beacon',
+          cookie_expires: 63072000,
+          cookie_update: false,
+          send_page_view: false,
+          page_location: cleanUrl(window.location.href),
+          page_referrer: cleanUrl(document.referrer)
+        });
+        window.gtag('event', 'page_view', {
+          page_location: cleanUrl(window.location.href),
+          page_referrer: cleanUrl(document.referrer)
         });
 
         var script = document.createElement('script');
@@ -106,8 +252,11 @@
       }
 
       function trackDownload(link) {
-        if (isLocalEnvironment() || isInternalTraffic() || consentValue() !== 'granted'
-          || typeof window.gtag !== 'function') {
+        if (!measurementAllowed()) {
+          disableAnalytics();
+          return;
+        }
+        if (typeof window.gtag !== 'function') {
           return;
         }
         var details = downloadDetails(link);
@@ -140,18 +289,25 @@
 
       function showBanner() {
         var banner = document.querySelector('[data-consent-banner]');
-        if (banner && !isLocalEnvironment()) {
+        if (banner && !isLocalEnvironment() && !isInternalTraffic()) {
           banner.hidden = false;
         }
       }
 
       function resetConsent() {
         disableAnalytics();
-        try {
-          window.localStorage.removeItem(STORAGE_KEY);
-        }
-        catch (error) {}
+        saveConsent('denied');
         showBanner();
+      }
+
+      function syncConsent() {
+        loadAnalytics();
+        if (isLocalEnvironment() || isInternalTraffic() || consentValue()) {
+          hideBanner();
+        }
+        else {
+          showBanner();
+        }
       }
 
       function bindConsentBanner() {
@@ -160,14 +316,15 @@
           return;
         }
 
-        if (isLocalEnvironment()) {
+        if (isLocalEnvironment() || isInternalTraffic()) {
           banner.hidden = true;
           return;
         }
 
         banner.querySelector('[data-consent-accept]').addEventListener('click', function () {
-          saveConsent('granted');
-          hideBanner();
+          if (saveConsent('granted')) {
+            hideBanner();
+          }
           loadAnalytics();
         });
         banner.querySelector('[data-consent-reject]').addEventListener('click', function () {
@@ -175,10 +332,7 @@
           disableAnalytics();
           hideBanner();
         });
-        banner.hidden = !!consentValue();
-        if (consentValue()) {
-          loadAnalytics();
-        }
+        syncConsent();
       }
 
       function bindConsentSettings() {
@@ -197,8 +351,11 @@
       });
 
       window.addEventListener('storage', function (event) {
-        if (event.key === INTERNAL_STORAGE_KEY || event.key === STORAGE_KEY) {
-          loadAnalytics();
+        if (event.key === null || event.key === INTERNAL_STORAGE_KEY || event.key === STORAGE_KEY) {
+          if (event.key === null || event.key === STORAGE_KEY) {
+            pageRefusal = false;
+          }
+          syncConsent();
         }
       });
 

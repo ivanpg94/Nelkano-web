@@ -262,13 +262,14 @@ final class ProfileController extends ControllerBase {
       ->execute()
       ->fetchAssoc() ?: [];
     $name = trim((string) ($row['display_name'] ?? '')) ?: $account->getDisplayName();
+    if ((int) $this->currentUser()->id() !== $uid && strcasecmp($name, (string) $account->getEmail()) === 0) $name = 'Usuario ' . $uid;
     $status = trim((string) ($row['status_text'] ?? ''));
     $avatar_uri = trim((string) ($row['avatar_file_uri'] ?? ''));
 
     return [
       'uid' => $uid,
       'name' => $name,
-      'email' => $account->getEmail(),
+      'email' => (int) $this->currentUser()->id() === $uid ? $account->getEmail() : '',
       'status_text' => $status ?: 'Preparando la siguiente partida.',
       'avatar_color' => $row['avatar_color'] ?? '#a414ff',
       'avatar_url' => $avatar_uri !== '' ? \Drupal::service('file_url_generator')->generateString($avatar_uri) : '',

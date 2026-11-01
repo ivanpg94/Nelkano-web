@@ -18,6 +18,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class AppAuthController extends ControllerBase {
 
+  use SpectatorInvitations;
+
   private const TOKEN_TTL = 2592000;
 
   public function login(Request $request): JsonResponse {
@@ -440,10 +442,35 @@ final class AppAuthController extends ControllerBase {
     $uid = (int) $account->id();
     return new JsonResponse([
       'ok' => TRUE,
+      'socialPresence' => TRUE,
       'friends' => $this->friendRows($uid, 'accepted'),
       'incoming' => $this->friendRows($uid, 'incoming'),
       'outgoing' => $this->friendRows($uid, 'outgoing'),
     ]);
+  }
+
+  private function socialPresence(): \Drupal\nelkano_home\Service\SocialPresence {
+    return new \Drupal\nelkano_home\Service\SocialPresence(
+      \Drupal::service('keyvalue.expirable')->get('nelkano_social_presence'),
+      \Drupal::service('user.data'), (int) \Drupal::time()->getCurrentTime());
+  }
+
+  public function friendsPresence(Request $request): JsonResponse {
+    $account = $this->accountFromBearer($request);
+    if (!$account instanceof User) return $this->error('Token no valido o caducado.', 401);
+    if ($denied = $this->denyWithout($account, 'use nelkano app features')) return $denied;
+    $uid = (int) $account->id();
+    $social = $this->socialPresence();
+    if ($request->getMethod() === 'POST') {
+      $payload = json_decode((string) $request->getContent(), TRUE);
+      if (!is_array($payload)) return $this->error('Actividad no valida.', 400);
+      $lock = \Drupal::lock();
+      if (!$lock->acquire('nelkano-social-presence:' . $uid, 5)) return $this->error('Actualiza de nuevo en unos segundos.', 409);
+      try { $social->update($uid, $payload); }
+      catch (\InvalidArgumentException $error) { return $this->error('Actividad no valida.', 400); }
+      finally { $lock->release('nelkano-social-presence:' . $uid); }
+    }
+    return (new JsonResponse(['shareActivity' => $social->sharing($uid), 'ttlSeconds' => 90]))->setPrivate()->setMaxAge(0);
   }
 
   public function profile(Request $request): JsonResponse {
@@ -466,6 +493,7 @@ final class AppAuthController extends ControllerBase {
     if (!is_array($payload)) {
       return $this->error('Peticion no valida.', 400);
     }
+    if (array_key_exists('shareActivity', $payload) && !is_bool($payload['shareActivity'])) return $this->error('Preferencia de actividad no valida.', 400);
     $display_name = $this->cleanText(trim((string) ($payload['displayName'] ?? $payload['display_name'] ?? '')), 80);
     $status_text = $this->cleanText(trim((string) ($payload['statusText'] ?? $payload['status_text'] ?? '')), 140);
     $avatar_color = trim((string) ($payload['avatarColor'] ?? $payload['avatar_color'] ?? '#a414ff'));
@@ -526,6 +554,8 @@ final class AppAuthController extends ControllerBase {
       ])
       ->execute();
 
+    if (array_key_exists('shareActivity', $payload)) $this->socialPresence()->setSharing($uid, $payload['shareActivity']);
+
     return new JsonResponse([
       'ok' => TRUE,
       'message' => 'Perfil guardado.',
@@ -551,10 +581,12 @@ final class AppAuthController extends ControllerBase {
       ->condition('u.status', 1)
       ->range(0, 10);
     $query->leftJoin('nelkano_profile', 'p', 'p.uid = u.uid');
+    $pattern = '%' . $database->escapeLike($q) . '%';
+    // Email is an exact lookup only; email-based account names must not bypass it.
     $or = $query->orConditionGroup()
-      ->condition('u.mail', '%' . $q . '%', 'LIKE')
-      ->condition('u.name', '%' . $q . '%', 'LIKE')
-      ->condition('p.display_name', '%' . $q . '%', 'LIKE');
+      ->condition($query->andConditionGroup()->condition('u.name', '%@%', 'NOT LIKE')->condition('u.name', $pattern, 'LIKE'))
+      ->condition($query->andConditionGroup()->condition('p.display_name', '%@%', 'NOT LIKE')->condition('p.display_name', $pattern, 'LIKE'));
+    if (filter_var($q, FILTER_VALIDATE_EMAIL)) $or->condition('u.mail', $q);
     $ids = $query->condition($or)->execute()->fetchCol();
     $storage = $this->entityTypeManager()->getStorage('user');
     $users = [];
@@ -1075,6 +1107,14 @@ final class AppAuthController extends ControllerBase {
     if (!in_array($target, ['android', 'receiver'], TRUE)) {
       $target = $type === 'answer' ? 'android' : 'receiver';
     }
+    if ((int) $row['uid'] !== (int) $account->id() && $this->spectatorGrant((int) $account->id(), $session_id)) {
+      if ($target !== 'android' || !in_array($type, ['answer', 'ice-candidate', 'receiver-waiting', 'disconnect'], TRUE)) {
+        return $this->error('Evento de espectador no permitido.', 403);
+      }
+      if ($type === 'disconnect' && ($payload['payload']['reason'] ?? '') !== 'receiver_disconnect') {
+        return $this->error('Evento de espectador no permitido.', 403);
+      }
+    }
     $message_payload = is_array($payload['payload'] ?? NULL) ? $payload['payload'] : [];
     $now = \Drupal::time()->getRequestTime();
     $id = $database->insert('nelkano_stream_signal_event')->fields([
@@ -1119,6 +1159,9 @@ final class AppAuthController extends ControllerBase {
       return $this->error('Sesion de streaming no encontrada.', 404);
     }
 
+    if ((int) $row['uid'] !== (int) $account->id() && $this->spectatorGrant((int) $account->id(), $session_id) && $target !== 'receiver') {
+      return $this->error('Consulta de espectador no permitida.', 403);
+    }
     $rows = $database->select('nelkano_stream_signal_event', 'e')
       ->fields('e')
       ->condition('uid', (int) $row['uid'])
@@ -1395,17 +1438,21 @@ final class AppAuthController extends ControllerBase {
 
   private function friendUserPayload(User $user, int $friendship_id, string $status): array {
     $profile = $this->appProfilePayload($user);
+    if (strcasecmp($profile['displayName'], (string) $user->getEmail()) === 0) {
+      $profile['displayName'] = 'Usuario ' . $user->id();
+      $profile['initial'] = 'U';
+    }
     return [
       'uid' => (int) $user->id(),
       'friendshipId' => $friendship_id,
       'name' => $profile['displayName'],
-      'email' => (string) $user->getEmail(),
       'status' => $status,
       'displayName' => $profile['displayName'],
       'avatarUrl' => $profile['avatarUrl'],
       'avatarColor' => $profile['avatarColor'],
       'initial' => $profile['initial'],
       'statusText' => $profile['statusText'],
+      ...($status === 'accepted' ? ['presence' => $this->socialPresence()->describe((int) $user->id())] : []),
     ];
   }
 
@@ -1423,6 +1470,7 @@ final class AppAuthController extends ControllerBase {
     $display_name = trim((string) ($row['display_name'] ?? '')) ?: $user->getDisplayName();
     $avatar_uri = trim((string) ($row['avatar_file_uri'] ?? ''));
     return [
+      'shareActivity' => $this->socialPresence()->sharing($uid),
       'displayName' => $this->cleanText($display_name, 80),
       'statusText' => $this->cleanText(trim((string) ($row['status_text'] ?? '')), 140),
       'avatarColor' => (string) ($row['avatar_color'] ?? '#a414ff'),
@@ -1883,7 +1931,7 @@ final class AppAuthController extends ControllerBase {
     if ($row) {
       return $row;
     }
-    return $this->activeGbaLinkSessionRow($session_id);
+    return $this->spectatorGrant($uid, $session_id) ?? $this->activeGbaLinkSessionRow($session_id);
   }
 
   private function activeGbaLinkSessionRow(string $session_id): ?array {
@@ -1912,7 +1960,7 @@ final class AppAuthController extends ControllerBase {
     if (!$file_system instanceof FileSystemInterface) {
       return '';
     }
-    $directory = 'public://nelkano-stream/' . $uid;
+    $directory = 'private://nelkano-stream/' . $uid;
     if ($create) {
       $file_system->prepareDirectory($directory, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS);
     }
@@ -1931,7 +1979,7 @@ final class AppAuthController extends ControllerBase {
     if (!$file_system instanceof FileSystemInterface) {
       return '';
     }
-    $directory = 'public://nelkano-stream/' . $uid;
+    $directory = 'private://nelkano-stream/' . $uid;
     if ($create) {
       $file_system->prepareDirectory($directory, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS);
     }

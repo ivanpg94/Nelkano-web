@@ -259,14 +259,6 @@ es:
       visible: '1'
       image_uri: ''
     -
-      title: 'Traducciones de juegos'
-      description: 'Para jugar en otro idioma, utiliza una traducción del juego o un parche compatible.'
-      bullets: |-
-        El cambio de idioma de Nelkano solo afecta a la interfaz.
-        La aplicación no traduce automáticamente el texto de los juegos.
-      visible: '0'
-      image_uri: ''
-    -
       title: 'Enviar un reporte de error'
       description: 'Las cuentas autorizadas para enviar reportes pueden usar el módulo oficial Reportes de errores en Android.'
       bullets: |-
@@ -533,14 +525,6 @@ en:
         Clearing app data or uninstalling removes the library and saves.
       bullets: ''
       visible: '1'
-      image_uri: ''
-    -
-      title: 'Game translations'
-      description: 'To play in another language, use a translated game or a compatible patch.'
-      bullets: |-
-        Nelkano's language setting only changes its interface.
-        The app does not automatically translate game text.
-      visible: '0'
       image_uri: ''
     -
       title: 'Send an error report'

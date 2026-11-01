@@ -1,0 +1,215 @@
+Privacidad de Nelkano y SDK Studio
+Actualizado: 31 de octubre de 2026
+
+Responsable y contacto
+
+El responsable del tratamiento es Iván Peláez García, responsable del proyecto
+Nelkano. Para consultas y solicitudes sobre tus datos: contacto@nelkano.com.
+Nelkano es un proyecto gratuito y actualmente no obtiene ingresos.
+
+Puedes jugar sin crear una cuenta. La biblioteca y los guardados se mantienen
+en tu dispositivo. Algunas funciones conectadas envían los datos necesarios
+para prestar el servicio cuando decides utilizarlas, como se explica debajo.
+
+Biblioteca y uso local
+
+Nelkano guarda los juegos que importas, sus nombres e identificadores, rutas,
+carátulas, ajustes, partidas y estados en tu dispositivo. No se suben todos
+esos archivos al crear una cuenta. Puedes eliminarlos mediante las opciones
+de la aplicación. Las copias que hayas exportado a otra carpeta o dispositivo
+deben borrarse también desde su ubicación.
+
+Cuenta, perfil y amigos
+
+Si te registras, tratamos tu correo, datos de acceso, identificador de cuenta,
+perfil y solicitudes de amistad para crear y proteger la cuenta y gestionar
+las funciones que solicitas. El nombre público, imagen, color y estado que
+elijas pueden mostrarse a otros usuarios. La búsqueda de amigos permite
+localizar cuentas por nombre o correo. Revisa la información de tu perfil
+que compartes con otras personas. Los administradores autorizados
+pueden acceder a la información necesaria para mantener el servicio.
+
+Edad de las cuentas
+
+Para crear una cuenta debes tener 14 años o más. Si la ley de tu país exige
+una edad superior para consentir el uso de tus datos, se aplica esa edad.
+Puedes utilizar las funciones locales sin cuenta. No pedimos fecha de nacimiento,
+DNI ni una confirmación de edad al iniciar sesión. Si detectamos una cuenta que
+no cumple la edad aplicable, restringiremos su uso y atenderemos su eliminación.
+Para consultas o solicitudes sobre una cuenta: contacto@nelkano.com.
+
+Actividad sincronizada
+
+Si utilizas las funciones de actividad o perfil sincronizado, el servidor puede
+recibir identificadores de biblioteca y dispositivo, sistema, favoritos, tiempos
+y contadores de uso. Esta información es distinta de los archivos completos
+de los juegos o sus partidas. Revisa las opciones de actividad y de perfil
+antes de habilitar una función de sincronización o publicación.
+
+Conexiones, multijugador y streaming
+
+Las funciones conectadas tratan los identificadores de cuenta o sala, señales
+de conexión, mensajes y datos técnicos necesarios para conectar participantes.
+Si inicias una emisión, se comparte la imagen y el sonido del juego con los
+destinatarios del servicio. Los participantes y los proveedores de conexión
+pueden recibir información técnica de red, incluida tu dirección IP. No
+inicies una emisión con información que no quieras compartir.
+
+Para descubrir conexiones se utiliza Google STUN (stun.l.google.com). La ruta
+WebRTC conecta participantes; algunas funciones multijugador también comparten
+estados del juego. El modo alternativo HTTP de Android guarda en el servidor
+el último fotograma y fragmento de audio, sustituyéndolos con los siguientes.
+Estos archivos se guardan en almacenamiento privado; la ruta pública antigua
+está bloqueada. Cerrar o caducar la sesión impide seguir usándola, pero no
+equivale al borrado físico inmediato de sus archivos y señales. La limpieza
+periódica retira conexiones cerradas o caducadas, sus archivos de imagen y audio
+y los mensajes de señalización con más de dos horas.
+
+Reportes de errores
+
+El módulo opcional de Reportes permite enviar un informe a Nelkano con tu
+cuenta, explicación del problema y datos técnicos. Según lo que autorices,
+puede adjuntar una captura y un estado o guardado del juego. El informe incluye
+los datos técnicos que muestra el formulario; no recoge registros arbitrarios
+de tu dispositivo. El formulario no pide el archivo del juego como adjunto
+independiente. Un estado puede incluir memoria y contenido del juego.
+Revisa el formulario antes de confirmar: esos archivos pueden contener nombres
+u otros datos de tu partida. Abrir el formulario no autoriza por sí solo el envío.
+Los reportes y adjuntos se destinan al diagnóstico por las personas autorizadas
+del proyecto; no se publican automáticamente como descargas.
+
+Módulos y SDK Studio
+
+Cada módulo puede solicitar permisos para utilizar datos locales o conectarse
+a servidores. Revisa el autor, los permisos y la información del módulo antes
+de instalarlo. Los servicios externos del autor tienen sus propias condiciones.
+Desactivar un módulo impide nuevas operaciones de ese módulo, pero no borra
+por sí solo la información que ya haya enviado a un servidor externo.
+SDK Studio guarda proyectos, ajustes y claves de firma localmente. Sus servicios
+de prueba de conexión pueden realizar conexiones reales si los utilizas.
+No publiques claves privadas ni datos personales dentro de tus módulos.
+
+Google Drive opcional
+
+Si instalas el módulo opcional Drive y autorizas tu cuenta Google, puedes
+transferir los juegos y partidas que selecciones a tu propio Drive privado.
+Esta transferencia de archivos es distinta de sincronizar metadatos de actividad
+con Nelkano. La cuenta Google y su autorización son independientes de tu cuenta
+Nelkano. Puedes gestionar las copias y revocar el acceso desde Google; revocar
+el acceso no elimina por sí solo los archivos ya guardados en Drive.
+
+Web y medición de visitas
+
+La web trata datos técnicos de solicitudes, como IP, fecha, navegador y registros
+de seguridad, para servir páginas y descargas y prevenir abusos. El contacto
+por correo o formulario se utiliza para responderte. Google Analytics de la
+web se carga únicamente si aceptas la medición. Puede tratar identificadores
+del navegador, páginas consultadas y clics de descarga. Un clic no demuestra
+una instalación. Puedes retirar el consentimiento en «Configurar cookies».
+La medición web no equivale a medir las partidas dentro de la aplicación.
+
+La propiedad de Analytics está configurada con conservación de eventos de
+2 meses y datos de usuario de 14 meses. El plazo del identificador de usuario
+se reinicia con nueva actividad, por lo que puede prolongarse si vuelves.
+Estos plazos no limitan todos los informes agregados estándar. La eliminación
+de datos vencidos depende del proceso periódico de Google.
+https://support.google.com/analytics/answer/7667196?hl=es
+
+La web utiliza las cookies de análisis _ga, para distinguir navegadores, y
+_ga_<identificador>, para mantener el estado de sesión. Su caducidad configurada
+es de 63.072.000 segundos (dos años nominales) desde su creación, sin ampliarla
+automáticamente con cada visita. El navegador puede imponer plazos menores.
+Esa caducidad no es el plazo de conservación de los eventos en Google Analytics.
+La elección de analítica se recuerda localmente hasta 730 días, con su fecha y
+versión del aviso; un cambio del aviso o la caducidad exige una nueva elección
+antes de activar la analítica. Puedes cambiarla antes en «Configurar cookies».
+
+Finalidades y bases del tratamiento
+
+Los datos necesarios para la cuenta y las funciones que solicitas se tratan
+para prestarte ese servicio. Las comunicaciones se utilizan para atender tu
+solicitud. La seguridad y prevención de abusos se basan en el interés legítimo
+de proteger el servicio, con respeto a tus derechos. La analítica opcional y
+los adjuntos opcionales se basan en tu consentimiento. También se atenderán
+las obligaciones legales que resulten aplicables. Sin los datos necesarios
+para una función conectada, esa función puede no estar disponible; jugar sin
+cuenta sigue siendo posible.
+
+Destinatarios y servicios externos
+
+El responsable y las personas autorizadas para mantenimiento tratan los datos
+de cuenta, actividad y reportes necesarios para prestar sus funciones. Los
+proveedores de alojamiento, correo, infraestructura y conexión pueden tratar
+los datos necesarios para operar el servicio. Los participantes de funciones
+sociales o de conexión reciben los datos que se comparten con ellos.
+
+Hostinger aloja la web, base de datos y archivos mediante Premium Web Hosting,
+y el buzón de contacto utiliza Free Business Email de Hostinger. Los mensajes
+del formulario se envían al buzón para responderte; no se guardan en una tabla
+propia del formulario. El servidor web está en Países Bajos y la ubicación
+indicada para sus copias es Lituania. El correo es un servicio separado; su
+conservación depende de ese servicio y de la atención de las consultas.
+El acuerdo de tratamiento público del proveedor está en:
+https://www.hostinger.com/legal/dpa
+Google recibe la analítica web si la aceptas. El módulo Drive envía
+a Google los archivos que selecciones y autorices. Otros módulos pueden
+comunicarse con los proveedores identificados por su autor.
+Algunos servicios pueden tratar datos fuera del Espacio Económico Europeo.
+Puedes solicitar al contacto de privacidad la identificación de los proveedores,
+las transferencias que afecten a la función y la información o copia de las
+garantías aplicables. No se afirma que todos los proveedores alojen los datos
+exclusivamente en la UE. Información de Google:
+https://policies.google.com/privacy
+https://policies.google.com/privacy/frameworks
+No se venden tus datos personales. Los datos se comunicarán a autoridades
+cuando exista una obligación legal.
+
+Conservación y borrado de cuenta
+
+Los datos de cuenta, perfil, amigos y actividad se mantienen mientras sean
+necesarios para esas funciones. Puedes borrar tu cuenta con la opción de
+borrado y tu contraseña actual, o solicitar ayuda a contacto@nelkano.com.
+Las cuentas administradoras requieren gestión manual para proteger el servicio.
+El borrado elimina del servicio los datos de cuenta asociados, sesiones,
+relaciones sociales, actividad, avatar, reportes y adjuntos propios. No borra
+tu biblioteca local, exportaciones, archivos de Drive ni copias de otras personas.
+
+Los accesos de la API duran una hora y los tokens de renovación treinta días.
+Revocar o caducar un acceso lo invalida; su fila no se borra necesariamente
+en ese instante. Los enlaces de verificación y recuperación duran 24 horas.
+Las conexiones multijugador pendientes caducan a los 5 minutos y las activas
+y de streaming a las 2 horas, con renovación por actividad cuando corresponda.
+La limpieza periódica retira las conexiones cerradas o caducadas y los tokens
+de renovación que llevan más de 24 horas vencidos. El borrado físico puede
+requerir varias pasadas.
+
+Los mensajes y reportes se conservan mientras sean necesarios para responder
+o investigar, y se revisa esa necesidad al cerrar la consulta o incidencia.
+Las copias de trabajo descargadas por mantenimiento deben eliminarse cuando
+dejen de ser necesarias. No se ha verificado un plazo fijo en días para los
+logs del alojamiento o correo. Los registros técnicos de Drupal y las sesiones
+web inactivas con más de 30 días se retiran mediante limpieza periódica. Ese
+plazo no cubre los registros propios del proveedor de alojamiento o correo.
+
+Hostinger mantiene copias semanales sujetas a la rotación del plan contratado.
+No se promete el borrado selectivo instantáneo de cada copia. Se mantiene,
+separado de las copias restaurables del sitio, un registro privado mínimo del
+identificador de la cuenta eliminada y la fecha de solicitud, sin correo ni
+contraseña. Antes de reabrir una restauración se comprueba ese registro y se
+reaplican los borrados necesarios.
+Debe conservarse mientras existan copias o restauraciones que puedan recuperar
+esa cuenta. Los datos locales permanecen hasta que los borres; cerrar sesión
+no los borra. La conservación excepcional por una obligación legal se limita
+a lo necesario y con acceso restringido.
+
+Tus derechos
+
+Puedes solicitar acceso, rectificación, supresión, oposición, limitación y,
+cuando corresponda, portabilidad, así como retirar tu consentimiento, en
+contacto@nelkano.com. Indica qué solicitas y la cuenta o información afectada.
+Para protegerla, se podrá comprobar tu identidad de forma proporcionada.
+Puedes reclamar ante la Agencia Española de Protección de Datos:
+https://www.aepd.es/
+
+La política ampliada de la web está disponible en:
+https://nelkano.com/privacidad-cookies

@@ -1,0 +1,58 @@
+{
+  "version": "3.0.5",
+  "version_code": 15,
+  "date": "01/11/2026",
+  "releases": {
+    "android": {
+      "apk_file": "Nelkano 3.0.5.apk",
+      "notes": {
+        "es": "Privacidad, eliminación de cuentas y licencias actualizadas.\nCorrección del acceso al APK desde el instalador de actualizaciones.\nRetirada de las funciones de traducción integradas.\nAudio ATRAC de PSP temporalmente desactivado; algunas ROM cifradas de Nintendo DS y PSP no están soportadas.",
+        "en": "Updated privacy, account deletion and license information.\nFixed access to the APK from the update installer.\nRemoved integrated translation features.\nPSP ATRAC audio is temporarily disabled; some encrypted Nintendo DS and PSP ROMs are not supported."
+      },
+      "bytes": 40215958,
+      "sha256": "1e15c951e36372aefd4280ed4e053d157eb052567bfdbd6a6c1aa7956690517f"
+    },
+    "windows": {
+      "installer_file": "Nelkano 3.0.5-windows.exe",
+      "notes": {
+        "es": "Privacidad, eliminación de cuentas y licencias actualizadas.\nActualización de los componentes de streaming y multimedia.\nRetirada de las funciones de traducción integradas.\nAudio ATRAC de PSP temporalmente desactivado; algunas ROM cifradas de Nintendo DS y PSP no están soportadas.",
+        "en": "Updated privacy, account deletion and license information.\nUpdated streaming and multimedia components.\nRemoved integrated translation features.\nPSP ATRAC audio is temporarily disabled; some encrypted Nintendo DS and PSP ROMs are not supported."
+      },
+      "bytes": 126982144,
+      "sha256": "1ccf374611c58919b1cb4104e270cf285a740d382a85c65ff203457f2bed9d5c"
+    },
+    "sdk": {
+      "installer_file": "Nelkano-SDK-Studio-3.0.5-windows-x86_64.exe",
+      "notes": {
+        "es": "Retirada de los servicios de traducción del SDK.\nReferencia integrada y documentación actualizadas.\nLicencias y condiciones de uso del SDK revisadas.",
+        "en": "Removed translation services from the SDK.\nUpdated integrated reference and documentation.\nRevised SDK licenses and terms of use."
+      },
+      "bytes": 110789632,
+      "sha256": "bdaeb39c0ba4ca966a57dd1eda7d363fca8c5b906ee6aeff3effb5ee555a80ca"
+    }
+  },
+  "source_commit": "99a8bace065b141b00ad322120dbf85787f495db",
+  "source_dirty": true,
+  "publishedToProduction": false,
+  "installedOnDevices": false,
+  "gameplayExecuted": false,
+  "visualReviewExecuted": false,
+  "desktopSdkAutomaticUpdates": false,
+  "localVerification": {
+    "threeHttpDownloadsMatchManifest": true,
+    "httpChecks": 37,
+    "historicalRowsAndNotesUnchanged": true,
+    "bookPagesUnchanged": 23,
+    "sdkReferenceRevision": "8c3d589537dec82348395d879cfe7c8527759aa1a4f9c2d26c0ffe79baf1b249",
+    "productionApkSignatureVerified": true,
+    "installerPayloadsAndVersionsVerified": true,
+    "currentLegalFiles": 49,
+    "legalEntries": 43,
+    "privacyAndAccountFixturesPassed": true,
+    "thirdPartySourceTransportVerified": true,
+    "gameplayExecuted": false,
+    "visualReviewExecuted": false,
+    "phoneUpdateFlowTested": false,
+    "desktopSdkAutomaticUpdates": false
+  }
+}

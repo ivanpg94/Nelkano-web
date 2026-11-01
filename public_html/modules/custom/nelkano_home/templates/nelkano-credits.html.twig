@@ -1,0 +1,14 @@
+<section class="r-gradient r-index-hero">
+  <div class="r-wrap">
+    <nav class="r-crumb" aria-label="{{ page.heading }}"><a href="{{ nav_home_url }}">{{ language == 'es' ? 'Inicio' : 'Home' }}</a><span>/</span><span>{{ page.heading }}</span></nav>
+    <h1>{{ page.heading }}</h1>
+  </div>
+</section>
+<div class="r-wrap r-index-body">
+  <section class="r-card">
+    <ul>{% for entry in page.entries %}
+      <li id="{{ entry.id }}"><a href="{{ entry.notice.url }}">{{ entry.name }}</a></li>
+    {% endfor %}</ul>
+    <p><a href="{{ page.source_archive }}">{{ language == 'es' ? 'Descargar fuentes de los runtimes Java y GCC' : 'Download Java and GCC runtime sources' }}</a></p>
+  </section>
+</div>

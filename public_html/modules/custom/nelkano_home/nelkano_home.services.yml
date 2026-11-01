@@ -1,4 +1,8 @@
 services:
+  nelkano_home.connection_privacy_retention:
+    class: Drupal\nelkano_home\EventSubscriber\ConnectionPrivacyRetentionSubscriber
+    tags:
+      - { name: event_subscriber }
   nelkano_home.sdk_reference:
     class: Drupal\nelkano_home\Service\SdkReference
     arguments: ['@entity_type.manager', '@database', '@language_manager']
@@ -12,5 +16,11 @@ services:
   nelkano_home.sdk_book_controller:
     class: Drupal\nelkano_home\EventSubscriber\SdkBookControllerSubscriber
     arguments: ['@class_resolver']
+    tags:
+      - { name: event_subscriber }
+
+  nelkano_home.account_mutation_locks:
+    class: Drupal\nelkano_home\EventSubscriber\AccountMutationLockSubscriber
+    arguments: ['@lock', '@current_user']
     tags:
       - { name: event_subscriber }

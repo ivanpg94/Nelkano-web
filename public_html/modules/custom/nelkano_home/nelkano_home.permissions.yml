@@ -34,10 +34,6 @@ use nelkano debug tools:
   title: 'Herramientas de depuracion de la app Nelkano'
   description: 'Contador de FPS activado por defecto y otras ayudas para testers.'
 
-use nelkano translation:
-  title: 'Traduccion de juegos en la app Nelkano'
-  description: 'Boton Preparar traduccion y clave API de OpenAI en ajustes. La traduccion se hace en el dispositivo: solo oculta la interfaz.'
-
 nelkano premium:
   title: 'Funciones Premium de la app Nelkano'
   description: 'Reservado para las ventajas Premium. Todavia no desbloquea nada.'

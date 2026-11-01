@@ -66,3 +66,7 @@ core/.phpstan-baseline.php text eol=lf whitespace=blank-at-eol,-blank-at-eof,-sp
 
 # Release parts are plain Git binaries; no clean/smudge filters.
 release-artifacts/parts/** -text -diff -filter -merge
+
+# Preserve canonical redistribution notices and source-archive bytes exactly.
+public_html/modules/custom/nelkano_home/legal/** -text -whitespace
+public_html/third-party-sources/parts/** -text -diff -filter -merge

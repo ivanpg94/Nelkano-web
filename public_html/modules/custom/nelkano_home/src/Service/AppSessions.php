@@ -167,14 +167,18 @@ final class AppSessions {
   }
 
   /** Drops generations whose refresh token can no longer be used. */
-  public static function cleanup(): void {
-    if (!\Drupal::database()->schema()->tableExists(self::TABLE)) {
-      return;
+  public static function cleanup(?array $onlyUids = NULL): int {
+    $db = \Drupal::database();
+    if (!$db->schema()->tableExists(self::TABLE)) return 0;
+    $cutoff = \Drupal::time()->getCurrentTime() - 86400;
+    $query = $db->select(self::TABLE,'s')->fields('s',['id'])->condition('refresh_expires',$cutoff,'<');
+    if ($onlyUids !== NULL) {
+      $uids = array_values(array_filter(array_map('intval',$onlyUids),static fn(int $uid):bool=>$uid>0));
+      if (!$uids) return 0;
+      $query->condition('uid',$uids,'IN');
     }
-    $cutoff = \Drupal::time()->getRequestTime() - 86400;
-    \Drupal::database()->delete(self::TABLE)
-      ->condition('refresh_expires', $cutoff, '<')
-      ->execute();
+    $ids = $query->orderBy('refresh_expires')->range(0,500)->execute()->fetchCol();
+    return $ids ? (int)$db->delete(self::TABLE)->condition('id',$ids,'IN')->condition('refresh_expires',$cutoff,'<')->execute() : 0;
   }
 
   public static function isAccessToken(string $token): bool {

@@ -6,11 +6,14 @@ require_once $root . '/vendor/autoload.php';
 $directory = $argv[1] ?? $root . '/release-artifacts';
 $manifest = json_decode(file_get_contents($directory . '/manifest.json'), TRUE, 512, JSON_THROW_ON_ERROR);
 $docs = \Symfony\Component\Yaml\Yaml::parseFile($root . '/config/sync/nelkano_home.docs.yml');
+$docroot = is_dir($root . '/public_html/modules/custom/nelkano_home') ? $root . '/public_html' : $root . '/web';
+require_once $docroot . '/modules/custom/nelkano_home/src/Service/ReleaseArtifact.php';
 $required = [];
 foreach (['es', 'en'] as $lang) {
   foreach ($docs[$lang]['releases_items'] ?? [] as $row) {
     $visible = $row['visible'] ?? TRUE;
     if ($visible === FALSE || in_array(strtolower(trim((string) $visible)), ['0', 'false', 'no', 'off'], TRUE)) continue;
+    if (!\Drupal\nelkano_home\Service\ReleaseArtifact::sameRelease($row, \Drupal\nelkano_home\Service\ReleaseArtifact::newest($docs['es']['releases_items'] ?? [], \Drupal\nelkano_home\Service\ReleaseArtifact::platform($row)))) continue;
     foreach (['apk_file', 'installer_file'] as $field) {
       $uri = $row[$field] ?? '';
       if ($uri !== '') $required[basename($uri)] = TRUE;

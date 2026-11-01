@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 if (getenv('DRUPAL_DB_HOST') !== 'database') throw new RuntimeException('Local Docker only');
 $override = new class implements ConfigFactoryOverrideInterface {
   public array $rows = [];
-  public function loadOverrides($names) { return ['nelkano_home.docs' => ['es' => ['releases_items' => $this->rows], 'en' => ['releases_items' => $this->rows]]]; }
+  public function loadOverrides($names) { return ['nelkano_home.docs' => ['es' => ['releases_items' => array_replace(array_fill(0,100,['visible'=>FALSE]),$this->rows)], 'en' => ['releases_items' => array_replace(array_fill(0,100,['visible'=>FALSE]),$this->rows)]]]; }
   public function getCacheSuffix() { return 'platform-download-process-qa'; }
   public function createConfigObject($name, $collection = StorageInterface::DEFAULT_COLLECTION) { return NULL; }
   public function getCacheableMetadata($name) { return (new CacheableMetadata())->setCacheMaxAge(0); }

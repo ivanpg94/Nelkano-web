@@ -1,6 +1,6 @@
 # Despliegue de Nelkano web
 
-La receta vigente para 3.0.4 (14) está en [DEPLOY-3.0.4.md](DEPLOY-3.0.4.md).
+La receta vigente para 3.0.5 (15) está en [DEPLOY-3.0.5.md](DEPLOY-3.0.5.md).
 El resto de este documento conserva la entrega anterior del 18/10/2026.
 Las instrucciones antiguas del README describen entregas anteriores.
 Preparar el commit no hace push ni modifica producción.

@@ -977,3 +977,49 @@ function nelkano_home_update_11039(): void {
 function nelkano_home_update_11042(): void {
   \Drupal\nelkano_home\Service\HomeExtensions::install();
 }
+
+
+/** Publish legal copy and protect direct artifact URLs without changing release history. */
+function nelkano_home_update_11043(): void {
+  \Drupal\nelkano_home\Service\LegalComplianceUpdate::apply();
+}
+
+/** Remove the retired translation feature without touching accounts or other grants. */
+function nelkano_home_update_11044(): void {
+  foreach (\Drupal\user\Entity\Role::loadMultiple() as $role) {
+    if ($role->hasPermission('use nelkano translation')) {
+      $role->revokePermission('use nelkano translation')->save();
+    }
+  }
+  $guide = \Drupal::configFactory()->getEditable('nelkano_home.guide');
+  $titles = ['Traducciones de juegos', 'Game translations', 'Traducir juegos de Nintendo DS', 'Translate Nintendo DS games', 'Translating Nintendo DS games'];
+  foreach (['es', 'en'] as $language) {
+    $rows = $guide->get($language . '.sections');
+    if (!is_array($rows)) continue;
+    $retained = array_values(array_filter($rows, static fn(array $row): bool => !in_array($row['title'] ?? '', $titles, TRUE)));
+    if ($retained !== $rows) $guide->set($language . '.sections', $retained);
+  }
+  if ($guide->isNew() === FALSE) $guide->save();
+}
+
+/** Restore the previously published notes; download eligibility is computed separately. */
+function nelkano_home_update_11045(): void {
+  $published = [
+    'android'=>['1.0.0-beta','2.0.0-beta','3.0.0-beta','3.0.1-beta','3.0.2-beta','3.0.3-beta','3.0.4'],
+    'windows'=>['3.0.3-beta','3.0.4'], 'sdk'=>['3.0.3-beta','3.0.4'],
+  ];
+  $config=\Drupal::configFactory()->getEditable('nelkano_home.docs');$changed=FALSE;
+  foreach(['es','en'] as $language) {
+    $rows=$config->get($language.'.releases_items')??[];
+    foreach($rows as &$row) {
+      $platform=\Drupal\nelkano_home\Service\ReleaseArtifact::platform($row);
+      if(in_array($row['version']??'', $published[$platform]??[], TRUE) && \Drupal\nelkano_home\Service\ReleaseArtifact::hidden($row)) {$row['visible']=TRUE;$changed=TRUE;}
+    }
+    unset($row);$config->set($language.'.releases_items',$rows);
+  }
+  if($changed)$config->save();
+  $fs=\Drupal::service('file_system');$directory='public://nelkano-releases';
+  if(!$fs->prepareDirectory($directory,\Drupal\Core\File\FileSystemInterface::CREATE_DIRECTORY))throw new \RuntimeException('Release access directory unavailable.');
+  $real=$fs->realpath($directory);
+  if(!$real || is_link($real) || file_put_contents($real.'/.htaccess',"# All binaries use latest-only controllers.\n<IfModule mod_authz_core.c>\nRequire all denied\n</IfModule>\n<IfModule !mod_authz_core.c>\nOrder allow,deny\nDeny from all\n</IfModule>\n",LOCK_EX)===FALSE)throw new \RuntimeException('Could not protect historical release URLs.');
+}

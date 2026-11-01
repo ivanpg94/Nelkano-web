@@ -1,0 +1,20 @@
+{
+  "version": "3.0.5",
+  "versionCode": 15,
+  "date": "01/11/2026",
+  "appId": "nelkano.sdk.studio",
+  "filename": "Nelkano-SDK-Studio-3.0.5-windows-x86_64.exe",
+  "bytes": 110789632,
+  "sha256": "bdaeb39c0ba4ca966a57dd1eda7d363fca8c5b906ee6aeff3effb5ee555a80ca",
+  "notes": {
+    "es": "Retirada de los servicios de traducción del SDK.\nReferencia integrada y documentación actualizadas.\nLicencias y condiciones de uso del SDK revisadas.",
+    "en": "Removed translation services from the SDK.\nUpdated integrated reference and documentation.\nRevised SDK licenses and terms of use."
+  },
+  "publishedToProduction": false,
+  "installedOnDevices": false,
+  "source_commit": "99a8bace065b141b00ad322120dbf85787f495db",
+  "source_dirty": true,
+  "installerStaticInspectionPassed": true,
+  "legalCatalogEntries": 43,
+  "legalManagedFiles": 49
+}

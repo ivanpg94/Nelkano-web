@@ -80,6 +80,29 @@ final class ReportDeletion {
     if ($expected_status !== NULL && !in_array($expected_status, ['resolved', 'rejected'], TRUE)) {
       throw new \InvalidArgumentException('Estado de limpieza no válido.');
     }
+    return self::deleteRecord($id, $expected_status, NULL);
+  }
+
+  /** Internal erasure operation: cannot select a report belonging to another user. */
+  public static function deleteForAccountErasure(int $id, int $uid): bool {
+    return self::deleteRecord($id, NULL, $uid);
+  }
+
+  public static function preflightForAccountErasure(int $id, int $uid): void {
+    $node = \Drupal::entityTypeManager()->getStorage('node')->load($id);
+    if (!$node || $node->bundle() !== 'nelkano_error_report' || !self::ownedBy($id, $uid)) {
+      throw new \InvalidArgumentException('El reporte no pertenece a la cuenta.');
+    }
+    self::directories($node);
+  }
+
+  private static function ownedBy(int $id, int $uid): bool {
+    $node = \Drupal::entityTypeManager()->getStorage('node')->load($id);
+    if ((int) $node?->getOwnerId() === $uid) { return TRUE; }
+    return (bool) \Drupal::database()->select('node_field_revision', 'r')->condition('nid', $id)->condition('uid', $uid)->countQuery()->execute()->fetchField();
+  }
+
+  private static function deleteRecord(int $id, ?string $expected_status, ?int $owner_uid): bool {
     $lock = \Drupal::lock();
     $key = 'nelkano_report_workflow:' . $id;
     if (!$lock->acquire($key, 300)) {
@@ -92,6 +115,9 @@ final class ReportDeletion {
       if (!$node) { return FALSE; }
       if (!$node instanceof NodeInterface || $node->bundle() !== 'nelkano_error_report') {
         throw new \InvalidArgumentException('Solo se pueden eliminar reportes.');
+      }
+      if ($owner_uid !== NULL && !self::ownedBy($id, $owner_uid)) {
+        throw new \InvalidArgumentException('El reporte no pertenece a la cuenta.');
       }
       if ($expected_status !== NULL && (int) $node->get(WorkflowStatus::FIELD)->target_id !== WorkflowStatus::termId($expected_status)) {
         return FALSE;

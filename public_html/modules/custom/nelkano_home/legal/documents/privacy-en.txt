@@ -1,0 +1,204 @@
+Nelkano and SDK Studio privacy
+Updated: 31 October 2026
+
+Controller and contact
+
+The data controller is Iván Peláez García, responsible for the Nelkano project.
+For questions and requests about your data: contacto@nelkano.com.
+Nelkano is a free project and currently receives no income.
+
+You can play without creating an account. Your library and saves are kept on
+your device. Connected features send the data needed to provide the service
+when you choose to use them, as explained below.
+
+Library and local use
+
+Nelkano stores imported games, their names and identifiers, paths, covers,
+settings, saves and save states on your device. Creating an account does not
+upload all these files. You can remove them using the application's controls.
+Copies you export to another folder or device must also be removed from
+their respective locations.
+
+Account, profile and friends
+
+If you register, we process your email, access information, account identifier,
+profile and friendship requests to create and protect the account and operate
+the features you request. Your chosen public name, picture, color and status
+may be shown to other users. Friend search can locate accounts by name or
+email. Review the profile information you share with other people.
+Authorized administrators can access the information needed to maintain
+the service.
+
+Account age
+
+You must be 14 or older to create an account. If the law in your country requires
+a higher age to consent to the use of your data, that age applies. Local features
+remain available without an account. We do not request a date of birth, identity
+document or age confirmation when signing in. If an account does not meet the
+applicable age, we will restrict its use and handle its deletion. For questions
+or account requests, contact contacto@nelkano.com.
+
+Synchronized activity
+
+When you use synchronized activity or profile features, the server may receive
+library and device identifiers, system, favorites, play times and usage counters.
+This information is distinct from complete game or save files. Review the
+activity and profile options before enabling synchronization or publication.
+
+Connections, multiplayer and streaming
+
+Connected features process account or room identifiers, connection signals,
+messages and the technical data needed to connect participants. Starting a
+broadcast shares the game's picture and sound with the service's recipients.
+Participants and connection providers may receive technical network information,
+including your IP address. Do not start a broadcast containing information
+you do not wish to share.
+
+Google STUN (stun.l.google.com) is used to discover connections. The WebRTC path
+connects participants; some multiplayer features also share game states. The
+Android HTTP fallback stores the latest video frame and audio block on the
+server, replacing them with subsequent ones. These files use private storage;
+the old public route is blocked. Closing or expiring a session prevents further
+use, but does not mean its files and signals are physically erased immediately.
+Periodic cleanup removes closed or expired connections, their video-frame and
+audio files, and signalling messages older than two hours.
+
+Error reports
+
+The optional Reports module lets you send Nelkano a report with your account,
+problem description and technical information. Depending on your authorization,
+it may attach a screenshot and a game save or save state. The report includes
+the technical fields shown in the form; it does not collect arbitrary device
+logs. The form does not request the game file as a separate attachment. Save
+states may include memory and game content. Review the form
+before confirming: these files can contain names or other information from
+your game. Opening the form does not by itself authorize sending it.
+Reports and attachments are used for diagnosis by authorized project staff;
+they are not automatically published as downloads.
+
+Modules and SDK Studio
+
+Each module can request permissions to use local data or connect to servers.
+Review its author, permissions and information before installing it. Authors'
+external services have their own terms. Disabling a module prevents new
+operations by that module but does not by itself delete information it has
+already sent to an external server. SDK Studio stores projects, settings and
+signing keys locally. Its connection testing features can make real connections
+when used. Do not publish private keys or personal information in your modules.
+
+Optional Google Drive
+
+If you install the optional Drive module and authorize your Google account,
+you can transfer the games and saves you select to your own private Drive.
+This file transfer is distinct from synchronizing activity metadata with
+Nelkano. Your Google account and its authorization are independent of your
+Nelkano account. You can manage copies and revoke access through Google;
+revoking access does not by itself delete files already stored in Drive.
+
+Website and visit measurement
+
+The website processes request information such as IP address, date, browser
+and security logs to serve pages and downloads and prevent abuse. Email and
+contact form messages are used to respond to you. Website Google Analytics
+loads only if you accept measurement. It may process browser identifiers,
+visited pages and download clicks. A click does not prove installation.
+You can withdraw consent through Configure cookies. Website measurement is
+distinct from tracking game sessions within the application.
+
+The Analytics property is configured to retain event data for 2 months and
+user data for 14 months. New activity resets the user identifier's retention
+period, so continued visits can extend it. These limits do not cover all
+standard aggregated reports. Expired data is deleted through Google's
+periodic process.
+https://support.google.com/analytics/answer/7667196?hl=en
+
+The website uses the analytics cookies _ga to distinguish browsers and
+_ga_<identifier> to retain session state. Their configured expiry is 63,072,000
+seconds (two nominal years) from creation, without automatically extending it
+on every visit. Browsers can impose shorter limits. Cookie expiry is distinct
+from retention of events in Google Analytics. The analytics choice is stored
+locally for up to 730 days with its date and notice version; a changed notice
+or expiry requires a new choice before enabling analytics. You can change it
+earlier through Configure cookies.
+
+Purposes and grounds for processing
+
+Data needed for your account and requested features is processed to provide
+that service. Communications are used to handle your request. Security and
+abuse prevention rely on the legitimate interest in protecting the service,
+with respect for your rights. Optional analytics and optional attachments rely
+on your consent. Applicable legal obligations will also be observed. Without
+the information needed by a connected feature, that feature may be unavailable;
+playing without an account remains possible.
+
+Recipients and external services
+
+The controller and authorized maintainers process account, activity and report
+data needed to provide those features. Hosting, email, infrastructure and
+connection providers may process the data needed to operate the service.
+Participants in social or connection features receive the data shared with them.
+
+Hostinger hosts the website, database and files under Premium Web Hosting;
+the contact mailbox uses Hostinger Free Business Email. Contact form messages
+are sent to the mailbox to answer you, rather than a dedicated form database
+table. The web server is in the Netherlands and its indicated backup location
+is Lithuania. Email is a separate service; retention depends on that service
+and the handling of enquiries. The provider’s data processing agreement is at:
+https://www.hostinger.com/legal/dpa
+Google receives website analytics if you accept it. The Drive module sends Google
+the files you select and authorize. Other modules may communicate with providers
+identified by their author.
+Some services may process data outside the European Economic Area. You can ask
+the privacy contact to identify the providers, the transfers affecting a feature
+and information about, or a copy of, applicable safeguards. This notice does not
+claim that all providers host data exclusively in the EU. Google information:
+https://policies.google.com/privacy
+https://policies.google.com/privacy/frameworks
+Your personal data is not sold. Data will be disclosed to authorities when
+required by law.
+
+Retention and account deletion
+
+Account, profile, friend and activity data is retained as needed for those
+features. You can delete your account using the deletion control and current
+password, or ask contacto@nelkano.com for help. Administrator accounts require manual
+handling to protect the service. Deletion removes the associated server-side
+account data, sessions, social relationships, activity, avatar, reports and
+your attachments. It does not remove your local library, exports, Drive files
+or copies held by other people.
+
+API access tokens last one hour and refresh tokens thirty days. Revocation or
+expiry invalidates access; its database row is not necessarily removed at that
+instant. Verification and recovery links last 24 hours. Pending multiplayer
+connections expire after 5 minutes, and active game and streaming connections
+after 2 hours, renewed by activity where applicable. Periodic cleanup removes
+closed or expired connections and refresh-token rows that expired more than
+24 hours ago. Physical deletion may require several passes.
+
+Messages and reports are retained as needed to answer or investigate; that need
+is reviewed when the enquiry or issue closes. Maintenance working copies must
+be deleted when no longer needed. A fixed retention period in days has not
+been verified for hosting or email logs. Drupal technical logs and inactive
+website sessions older than 30 days are removed by periodic cleanup. This period
+does not cover the hosting or email provider’s own logs.
+
+Hostinger keeps weekly backups subject to the rotation of the contracted plan.
+Instant selective deletion from every backup is not promised. A minimal private
+record of the deleted account identifier and request date, without email or
+password, is kept separately from restorable site backups. Before reopening a
+restored site, the register is checked and the necessary deletions are reapplied.
+It must be retained while backups or
+restorations could recover that account. Local files remain until you remove
+them; signing out does not delete them. Exceptional retention required by law
+is limited to what is necessary and subject to restricted access.
+
+Your rights
+
+You can request access, correction, deletion, objection, restriction and, where
+applicable, portability, and withdraw consent, at contacto@nelkano.com. Describe
+your request and the affected account or information. Proportionate identity
+verification may be needed to protect your information. You may complain to
+the Spanish Data Protection Agency: https://www.aepd.es/
+
+The extended website policy is available at:
+https://nelkano.com/en/privacy-cookies

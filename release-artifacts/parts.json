@@ -2,100 +2,51 @@
   "schemaVersion": 1,
   "artifacts": [
     {
-      "file": "Nelkano 3.0.3-beta-windows.exe",
-      "bytes": 150731776,
-      "sha256": "327e5a2374962dbcb92fa2a563648fbc3c1d2822bf2ec49a565d2d87e05ca1c5",
+      "file": "Nelkano 3.0.5-windows.exe",
+      "bytes": 126982144,
+      "sha256": "1ccf374611c58919b1cb4104e270cf285a740d382a85c65ff203457f2bed9d5c",
       "parts": [
         {
-          "file": "parts/327e5a2374962dbcb92fa2a563648fbc3c1d2822bf2ec49a565d2d87e05ca1c5/0001.part",
+          "file": "parts/1ccf374611c58919b1cb4104e270cf285a740d382a85c65ff203457f2bed9d5c/0001.part",
           "bytes": 41943040,
-          "sha256": "d8a22d47442d225ae7d88d505240f82ef7611b4706910a6a478ca434458aaadc"
+          "sha256": "6f0d370db81227e5b737a8da1235535d99cccb697df619ab5a2a05c9c22e7f77"
         },
         {
-          "file": "parts/327e5a2374962dbcb92fa2a563648fbc3c1d2822bf2ec49a565d2d87e05ca1c5/0002.part",
+          "file": "parts/1ccf374611c58919b1cb4104e270cf285a740d382a85c65ff203457f2bed9d5c/0002.part",
           "bytes": 41943040,
-          "sha256": "9706ff5c113f47e7bad1e6359dadf304be8d10d700fdba7d43dc6e8d501ce7f9"
+          "sha256": "f167f4414034f07003d2f1f1b47d50e6a3bed2ac0d9875fd063a334bda24ebe8"
         },
         {
-          "file": "parts/327e5a2374962dbcb92fa2a563648fbc3c1d2822bf2ec49a565d2d87e05ca1c5/0003.part",
+          "file": "parts/1ccf374611c58919b1cb4104e270cf285a740d382a85c65ff203457f2bed9d5c/0003.part",
           "bytes": 41943040,
-          "sha256": "c917c1a2af7476a727071c3015c3e6d3b87126afce5e3b757cab2048a9d38b6d"
+          "sha256": "1f2c3e304c23ade1877330824673046b7b98b82fd3ce341bcb15157f8dd46568"
         },
         {
-          "file": "parts/327e5a2374962dbcb92fa2a563648fbc3c1d2822bf2ec49a565d2d87e05ca1c5/0004.part",
-          "bytes": 24902656,
-          "sha256": "97d72901c8c3331d2004cfdf12e9a5888b4512de768b604ed5d05eae97588eb2"
+          "file": "parts/1ccf374611c58919b1cb4104e270cf285a740d382a85c65ff203457f2bed9d5c/0004.part",
+          "bytes": 1153024,
+          "sha256": "c4bd5f417c34a2c664a33d4578d237a865074f7f6d6d53908c1eef9d07e50cd2"
         }
       ]
     },
     {
-      "file": "Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.exe",
-      "bytes": 109238272,
-      "sha256": "6a084f9b0e02befe0a114a498d928918129d3db74881a84325e69115ef6f1d62",
+      "file": "Nelkano-SDK-Studio-3.0.5-windows-x86_64.exe",
+      "bytes": 110789632,
+      "sha256": "bdaeb39c0ba4ca966a57dd1eda7d363fca8c5b906ee6aeff3effb5ee555a80ca",
       "parts": [
         {
-          "file": "parts/6a084f9b0e02befe0a114a498d928918129d3db74881a84325e69115ef6f1d62/0001.part",
+          "file": "parts/bdaeb39c0ba4ca966a57dd1eda7d363fca8c5b906ee6aeff3effb5ee555a80ca/0001.part",
           "bytes": 41943040,
-          "sha256": "311a94bf5735ba0bd846eed104ebbd4a18fcec054b04d1aa3914b1d6a9426974"
+          "sha256": "00eaf38e71c17ea0edc87785e86b926d409893fed08d66cedb4478d4e63a4b66"
         },
         {
-          "file": "parts/6a084f9b0e02befe0a114a498d928918129d3db74881a84325e69115ef6f1d62/0002.part",
+          "file": "parts/bdaeb39c0ba4ca966a57dd1eda7d363fca8c5b906ee6aeff3effb5ee555a80ca/0002.part",
           "bytes": 41943040,
-          "sha256": "a9c398b0dcaf1445458663b101debc542f1d2ca1ab8b0b4808bc6f63e25839ec"
+          "sha256": "75b0ee1f379ea68ec19d950fb1853636f4a11d503311c2a05e99959a18fdeff3"
         },
         {
-          "file": "parts/6a084f9b0e02befe0a114a498d928918129d3db74881a84325e69115ef6f1d62/0003.part",
-          "bytes": 25352192,
-          "sha256": "b1abb4e45ffcb2d01f39506da22e4a60edcca0157150c29cdb8026d06d907853"
-        }
-      ]
-    },
-    {
-      "file": "Nelkano 3.0.4-windows.exe",
-      "bytes": 159366656,
-      "sha256": "e617c7b28244038573ce72cfdc2da7c11ad4fe5308cc63d3bffc9c1c3042e30c",
-      "parts": [
-        {
-          "file": "parts/e617c7b28244038573ce72cfdc2da7c11ad4fe5308cc63d3bffc9c1c3042e30c/0001.part",
-          "bytes": 41943040,
-          "sha256": "6e8b7e8202fd2a224986b32d593df12950e4a6f5f49ce395196e3c848bad6267"
-        },
-        {
-          "file": "parts/e617c7b28244038573ce72cfdc2da7c11ad4fe5308cc63d3bffc9c1c3042e30c/0002.part",
-          "bytes": 41943040,
-          "sha256": "9363702a91e63885a6a5c88dbecf53df1b57d86bd1b022ed0d4e15ecdeecce5e"
-        },
-        {
-          "file": "parts/e617c7b28244038573ce72cfdc2da7c11ad4fe5308cc63d3bffc9c1c3042e30c/0003.part",
-          "bytes": 41943040,
-          "sha256": "1e1c84f0caaf6c52f9b79794c6c5f78004f9a94dcfa5a2f6e632ea0ab486c9e1"
-        },
-        {
-          "file": "parts/e617c7b28244038573ce72cfdc2da7c11ad4fe5308cc63d3bffc9c1c3042e30c/0004.part",
-          "bytes": 33537536,
-          "sha256": "e2cb477a9f1be9319b6b73a113a7710456eeb17821bd27311a9f8f8ab8fa6575"
-        }
-      ]
-    },
-    {
-      "file": "Nelkano-SDK-Studio-3.0.4-windows-x86_64.exe",
-      "bytes": 109714432,
-      "sha256": "d7a886703b2ee38fa23a9f1946ff7b65b60f8311764e727ce229a3f8a279a9f0",
-      "parts": [
-        {
-          "file": "parts/d7a886703b2ee38fa23a9f1946ff7b65b60f8311764e727ce229a3f8a279a9f0/0001.part",
-          "bytes": 41943040,
-          "sha256": "2aa6da18278ca4514b3d633665686de3bbac3c316ea4d44c65274d797e28f403"
-        },
-        {
-          "file": "parts/d7a886703b2ee38fa23a9f1946ff7b65b60f8311764e727ce229a3f8a279a9f0/0002.part",
-          "bytes": 41943040,
-          "sha256": "d538653d3d298975fb27a5b024ac0e7eb0db2669cd33ce0c4367497da3089723"
-        },
-        {
-          "file": "parts/d7a886703b2ee38fa23a9f1946ff7b65b60f8311764e727ce229a3f8a279a9f0/0003.part",
-          "bytes": 25828352,
-          "sha256": "39e37905b72e06e37819df8e27ff7c47d8b21a42a15304031ef81762f2a8db50"
+          "file": "parts/bdaeb39c0ba4ca966a57dd1eda7d363fca8c5b906ee6aeff3effb5ee555a80ca/0003.part",
+          "bytes": 26903552,
+          "sha256": "558bbcc671e41896280b727f34dd07561ef864b55c0964c208be2a43411800f8"
         }
       ]
     }

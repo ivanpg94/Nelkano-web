@@ -7,6 +7,7 @@
   </div>
 </section>
 <div class="r-wrap r-index-body r-releases">
+  <p><a href="{{ language == 'es' ? '/creditos-licencias' : '/en/credits-licenses' }}">{{ language == 'es' ? 'Créditos, licencias y condiciones de las descargas' : 'Download credits, licenses and terms' }}</a></p>
   {% if page.platform_tabs %}
     <nav class="r-filters r-release-tabs" aria-label="{{ language == 'es' ? 'Versiones por plataforma' : 'Releases by platform' }}">
       {% for key, label in page.platform_tabs %}<a class="r-filter" href="{{ page.path }}?plataforma={{ key }}" aria-current="{{ page.selected_platform == key ? 'true' : 'false' }}">{{ label }}</a>{% endfor %}
@@ -35,7 +36,7 @@
             <ul>{% for item in release.changes %}<li>{{ item }}</li>{% endfor %}</ul>
           </div>
         {% endif %}
-        {% if release.url %}<a class="r-btn" href="{{ release.url }}">{{ language == 'es' ? 'Descargar' : 'Download' }} {{ release.platform_label }}</a>{% endif %}
+        {% if release.url %}<a class="r-btn" href="{{ release.url }}">{{ language == 'es' ? 'Descargar' : 'Download' }} {{ release.platform_label }}</a>{% elseif not release.is_current %}<p class="r-copy">{{ language == 'es' ? 'Notas conservadas. Esta versión ya no se puede descargar.' : 'Release notes retained. This version is no longer available to download.' }}</p>{% endif %}
       </article>
     {% else %}
       <p class="r-empty">{{ language == 'es' ? 'Todavia no hay versiones publicadas.' : 'No releases have been published yet.' }}</p>

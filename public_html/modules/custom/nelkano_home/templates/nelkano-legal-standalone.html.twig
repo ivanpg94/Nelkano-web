@@ -44,6 +44,8 @@
     <main class="nkr" id="main-content">
       {% if page.type|default('') == 'releases' %}
         {% include '@nelkano_home/nelkano-releases.html.twig' %}
+      {% elseif page.type|default('') == 'credits' %}
+        {% include '@nelkano_home/nelkano-credits.html.twig' %}
       {% else %}
         {% include '@nelkano_home/nelkano-editorial-content.html.twig' %}
       {% endif %}

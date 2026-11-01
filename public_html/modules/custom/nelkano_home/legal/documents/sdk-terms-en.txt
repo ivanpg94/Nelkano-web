@@ -1,0 +1,44 @@
+Nelkano SDK permissions
+Updated: 31 October 2026
+
+What you can do
+
+You may use Nelkano's own SDK tools to create modules, copy and modify their
+examples, and share or sell your own modules. Merely using the SDK does not
+require you to publish a module's source code. You retain the rights to your
+work and choose its distribution terms, subject to the licenses of any
+components you incorporate.
+
+Scope of this permission
+
+Nelkano's original SDK contracts, TypeScript types, authoring tools, examples
+and original engine and component templates are offered under the MIT license
+included in this distribution. When redistributing or modifying these tools
+or examples, retain their copyright notice and the complete MIT license text.
+
+This permission does not change the licenses of the Nelkano application,
+SDK Studio as an application, cores, third-party engines, dependencies, fonts
+or other third-party resources. Each retains its own terms. Their notices
+are available under Credits and licenses.
+
+Your modules and resources
+
+Using the SDK grants no rights to third-party games, ROMs, BIOS, firmware,
+keys, artwork, music, trademarks or RPG Maker resources. Include only your own
+material or material whose license permits the intended use and distribution.
+Each dependency's terms may impose additional obligations.
+
+A module's signature identifies its author; it does not mean that Nelkano
+has reviewed or approved it. Explain what your module does, the permissions
+it requests, and the data it sends to other servers. Web catalog rules apply
+if you choose to publish it there and do not transfer ownership of your module
+to Nelkano.
+
+Support and contact
+
+The tools are provided under the terms and disclaimer of the MIT license.
+Compatibility depends on the version and platform; these permissions do not
+promise that a module will work on every device.
+Contact: contacto@nelkano.com.
+
+Complete text: SDK license in Studio, or LICENSE in the SDK package.
