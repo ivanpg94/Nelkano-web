@@ -51,6 +51,7 @@ final class HomeSettingsForm extends ConfigFormBase {
       'extensions_modules_title'=>['type'=>'textfield','title'=>'Modules card title'],
       'extensions_modules_description'=>['type'=>'textarea','title'=>'Modules card description'],
       'extensions_modules_cta'=>['type'=>'textfield','title'=>'Modules button label'],
+      'extensions_sdk_enabled'=>['type'=>'checkbox','title'=>'Show SDK card on home','description'=>'Only hides the SDK card on home. Manage book publication in the SDK panel.','default'=>TRUE],
       'extensions_sdk_title'=>['type'=>'textfield','title'=>'SDK card title'],
       'extensions_sdk_description'=>['type'=>'textarea','title'=>'SDK card description'],
       'extensions_sdk_cta'=>['type'=>'textfield','title'=>'SDK button label'],

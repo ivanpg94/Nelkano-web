@@ -92,6 +92,7 @@ trait AdminFormUiTrait {
       'Modules card title' => 'Título de la tarjeta de módulos',
       'Modules card description' => 'Descripción de la tarjeta de módulos',
       'Modules button label' => 'Texto del botón de módulos',
+      'Show SDK card on home' => 'Mostrar tarjeta del SDK en la home',
       'SDK card title' => 'Título de la tarjeta del SDK',
       'SDK card description' => 'Descripción de la tarjeta del SDK',
       'SDK button label' => 'Texto del botón del SDK',
@@ -184,6 +185,7 @@ trait AdminFormUiTrait {
     }
     $spanish = [
       'If empty or #, the newest .apk in modules/custom/nelkano_home/emulator is used.' => 'Si esta vacio o es #, se usara el .apk mas reciente de modules/custom/nelkano_home/emulator.',
+      'Only hides the SDK card on home. Manage book publication in the SDK panel.' => 'Oculta solo la tarjeta del SDK en la home. La publicación del libro se gestiona desde el panel SDK.',
       'Leave title, description and URL empty to hide the secondary download card.' => 'Deja titulo, descripcion y URL vacios para ocultar la tarjeta secundaria.',
       'One per line: System|Status|Description' => 'Una linea por elemento: Sistema|Estado|Descripcion',
       'One per line: Title|Description' => 'Una linea por elemento: Titulo|Descripcion',

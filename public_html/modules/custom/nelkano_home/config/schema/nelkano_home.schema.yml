@@ -106,6 +106,8 @@ nelkano_home.settings:
           type: text
         extensions_modules_cta:
           type: string
+        extensions_sdk_enabled:
+          type: boolean
         extensions_sdk_title:
           type: string
         extensions_sdk_description:

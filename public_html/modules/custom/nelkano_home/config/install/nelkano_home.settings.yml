@@ -1,5 +1,6 @@
 es:
   extensions_enabled: true
+  extensions_sdk_enabled: true
   extensions_eyebrow: "Módulos y SDK"
   extensions_title: "Amplía Nelkano"
   extensions_description: "Añade funciones a tu experiencia o crea tus propios módulos."
@@ -138,6 +139,7 @@ es:
     image_uri: ''
 en:
   extensions_enabled: true
+  extensions_sdk_enabled: true
   extensions_eyebrow: "Modules and SDK"
   extensions_title: "Extend Nelkano"
   extensions_description: "Add features to your experience or create your own modules."

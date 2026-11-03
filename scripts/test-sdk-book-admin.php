@@ -37,6 +37,7 @@ try {
   $form = $editor->buildForm([], $state);
   $check(count($form['chapters']['list']['#rows']) === count($source['pages']), 'All fixture chapters with hierarchy and edit/add actions');
   $check(isset($form['tools']['export'], $form['tools']['import']), 'Export and import tools at top');
+  $check(isset($form['publication']['published']) && $form['publication']['published']['#parents'] === ['published'] && $form['publication']['#weight'] < 0, 'Book publication control is visible above chapter editing and saves the root status');
   $values = ['title' => 'QA SDK revised', 'body' => ['value' => '<p>QA revision</p>', 'format' => 'basic_html'],
     'summary' => '', 'alias' => '/sdk-de-nelkano', 'published' => TRUE, 'weight' => 10];
   $state->setValues($values);
@@ -57,6 +58,23 @@ try {
   catch (InvalidArgumentException $e) { $conflict = TRUE; }
   $check($conflict, 'Stale page edits rejected');
   $transfer->import($source);
+  foreach ([FALSE, TRUE] as $published) {
+    $state = new FormState();
+    $form = $editor->buildForm([], $state);
+    $beforePublication = $transfer->export($root);
+    $entry = array_column($beforePublication['pages'], NULL, 'uuid')[$root];
+    $values = $entry['translations']['es'];
+    $state->setValues(['title' => $values['title'], 'body' => $values['body'], 'summary' => $values['body']['summary'],
+      'alias' => $values['alias'], 'published' => $published, 'weight' => $entry['weight']]);
+    $editor->validateForm($form, $state);
+    $check(!$state->hasAnyErrors(), 'Root publication change validates');
+    $editor->submitForm($form, $state);
+    foreach ($beforePublication['pages'] as &$expectedPage) {
+      if ($expectedPage['uuid'] === $root) { $expectedPage['translations']['es']['status'] = $published; }
+    }
+    unset($expectedPage);
+    $check($transfer->export($root) === $beforePublication, 'Publishing and unpublishing preserve chapter content and individual publication states');
+  }
   $request->query->replace(['new' => '1', 'parent' => $root, 'admin_lang' => 'es']);
   $state = new FormState();
   $form = $editor->buildForm([], $state);

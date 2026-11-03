@@ -52,6 +52,17 @@ $check($xpath->query($section . '//a[@href="/modulos"]')->length === 1, 'Catalog
 $check($xpath->query($section . '//a[@href="/sdk-de-nelkano"]')->length === 1, 'SDK CTA uses the accessible book URL.');
 $check($xpath->query($section . '[@aria-labelledby="extensions-title"]//h2[@id="extensions-title"]')->length === 1, 'Section has an accessible heading.');
 $check($xpath->query($section . '//a[not(normalize-space())]')->length === 0, 'Every extension link has an accessible name.');
+$hidden = $base;
+$hidden['nav_links'] = [['label' => 'SDK', 'url' => '/sdk-de-nelkano']];
+$hidden['content']['extensions_sdk_enabled'] = FALSE;
+[$html, $xpath] = $render($hidden);
+$check($xpath->query($section . '/div/div/article')->length === 1, 'Home toggle leaves the modules card visible.');
+$check(!str_contains($html, 'Crea tu propio módulo') && !str_contains($html, 'r-extensions-pair'), 'Hidden SDK card reserves no second column.');
+$check($xpath->query('//header//a[@href="/sdk-de-nelkano"]')->length === 1, 'Home toggle preserves the published book in navigation.');
+$visible = $base;
+$visible['content']['extensions_sdk_enabled'] = TRUE;
+[, $xpath] = $render($visible);
+$check($xpath->query($section . '/div/div/article')->length === 2, 'Home toggle can restore the SDK card.');
 $unpublished = $base;
 $unpublished['nav_sdk_url'] = '';
 [$html, $xpath] = $render($unpublished);

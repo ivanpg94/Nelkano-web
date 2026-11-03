@@ -55,7 +55,17 @@ final class SdkBookAdminForm extends SdkBookAdminFormBase {
     $form['editor']['body'] = ['#type' => 'text_format', '#title' => 'Contenido', '#default_value' => $values['body']['value'], '#format' => $values['body']['format'], '#rows' => 18, '#description' => 'El libro se exporta como texto y enlaces. Los archivos adjuntos y las im�genes subidas al servidor no se incluyen en el YAML.'];
     $form['editor']['summary'] = ['#type' => 'textarea', '#title' => 'Resumen', '#default_value' => $values['body']['summary'], '#rows' => 2];
     $form['editor']['alias'] = ['#type' => 'textfield', '#title' => 'URL de la página', '#description' => 'Ruta sin prefijo de idioma, por ejemplo /sdk-de-nelkano/mi-capitulo. Vacía para usar la URL de Drupal.', '#default_value' => $values['alias']];
-    $form['editor']['published'] = ['#type' => 'checkbox', '#title' => 'Publicado', '#description' => $uuid === self::BOOK_UUID ? 'Al despublicar la portada, el SDK desaparece del menú en este idioma y el libro deja de estar disponible para los visitantes. Puedes seguir editándolo desde la administración.' : 'Las páginas despublicadas no están disponibles para los visitantes ni aparecen en el índice público.', '#default_value' => $values['status']];
+    if ($uuid === self::BOOK_UUID) {
+      $form['publication'] = ['#type' => 'details', '#title' => 'Publicación del libro', '#open' => TRUE, '#weight' => -980];
+      $form['publication']['published'] = ['#type' => 'checkbox', '#title' => 'Libro publicado', '#parents' => ['published'],
+        '#description' => 'Al desmarcar y guardar, el libro completo deja de estar disponible para visitantes en este idioma y desaparece del menú y de la home. Los capítulos se conservan para volver a publicarlo.',
+        '#default_value' => $values['status']];
+      $form['publication']['home'] = ['#type' => 'link', '#title' => 'Configurar la tarjeta del SDK en la home',
+        '#url' => Url::fromRoute('nelkano_home.admin_home', [], ['query' => ['admin_lang' => $language]])];
+    }
+    else {
+      $form['editor']['published'] = ['#type' => 'checkbox', '#title' => 'Publicado', '#description' => 'Las páginas despublicadas no están disponibles para los visitantes ni aparecen en el índice público.', '#default_value' => $values['status']];
+    }
     if ($uuid !== self::BOOK_UUID) {
       $parent = $new ? \Drupal::request()->query->getString('parent', self::BOOK_UUID) : $page['parent'];
       $form['editor']['parent'] = ['#type' => 'select', '#title' => 'Página superior', '#options' => $parents, '#default_value' => isset($parents[$parent]) ? $parent : self::BOOK_UUID, '#required' => TRUE];
