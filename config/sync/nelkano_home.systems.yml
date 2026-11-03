@@ -211,12 +211,12 @@ es:
     nes:
       enabled: true
       show_on_home: false
-      card_title: 'NES, Famicom y Famicom Disk System'
-      title: 'NES, Famicom y Famicom Disk System'
+      card_title: 'NES y Famicom'
+      title: 'NES y Famicom'
       short_name: 'NES / Famicom'
       status: 'Jugable y muy avanzado'
       category: Avanzado
-      summary: 'Juega a NES, Famicom y Famicom Disk System con controles táctiles o un mando y guarda tus partidas.'
+      summary: 'Juega a NES y Famicom con controles táctiles o un mando y guarda tus partidas.'
       tagline: 'Vuelve a los clásicos de Nintendo y descubre sus juegos en cartucho y disco.'
       manufacturer: Nintendo
       year: '1983 – 1986'
@@ -239,7 +239,7 @@ es:
       seo_title: 'Emulador NES y Famicom Android — Nelkano'
       seo_description: 'Juega a clásicos de NES y Famicom en Android con Nelkano. Soporte de la mayoría de mappers.'
       tier: experimental
-      status_note: 'Puedes jugar a títulos de NES, Famicom y Famicom Disk System, aunque algunos presentan errores de imagen, sonido o funcionamiento.'
+      status_note: 'Puedes jugar a títulos de NES y Famicom, aunque algunos presentan errores de imagen, sonido o funcionamiento.'
       image_uri: ''
       related_ids: |-
         chip-8
@@ -1163,27 +1163,19 @@ en:
     nes:
       enabled: true
       show_on_home: false
-      card_title: 'NES, Famicom and Famicom Disk System'
-      title: 'NES, Famicom and Famicom Disk System'
+      card_title: 'NES and Famicom'
+      title: 'NES and Famicom'
       short_name: 'NES / Famicom'
       status: 'Playable and very advanced'
       category: Advanced
-      summary: 'Play NES, Famicom and Famicom Disk System games with touch controls or a controller, and save your progress.'
+      summary: 'Play NES and Famicom games with touch controls or a controller, and save your progress.'
       tagline: 'Return to Nintendo classics and discover its cartridge and disk games.'
       manufacturer: Nintendo
       year: '1983 – 1986'
       formats: ".nes\r\n.fds"
       overview: 'Famicom arrived in Japan in 1983, and NES launched in North America in 1985. In 1986, Famicom Disk System brought disk games to the Japanese console. Classics such as Super Mario Bros., The Legend of Zelda and Metroid began on these platforms. With Nelkano, you can play on Android, adjust the controls and save game states.'
-      features: |-
-        Open NES and Famicom games in .nes files.
-        Open Famicom Disk System games in .fds files.
-        Play with on-screen buttons or an Android-compatible controller.
-        Move and resize the on-screen buttons.
-        Save the game state and load it later to continue from that point.
-      limitations: |-
-        Some games may fail to start or have graphical or gameplay issues.
-        Some games may be missing voices or sound effects.
-        Performance varies by game and device. Check each title's test results.
+      features: "Open NES and Famicom games in .nes files.\r\nOpen Famicom Disk System games in .fds files.\r\nPlay with on-screen buttons or an Android-compatible controller.\r\nMove and resize the on-screen buttons.\r\nSave the game state and load it later to continue from that point."
+      limitations: "Some games may fail to start or have graphical or gameplay issues.\r\nSome games may be missing voices or sound effects.\r\nPerformance varies by game and device. Check each title's test results."
       step_1_title: 'Save a game on your device'
       step_1_text: 'You need a .nes file for cartridge games or an .fds file for Famicom Disk System games. Use files you have permission to use, such as free games released by their authors.'
       step_2_title: 'Add the game to Nelkano'
@@ -1199,7 +1191,7 @@ en:
       seo_title: 'NES and Famicom emulator for Android | Nelkano'
       seo_description: 'Explore NES and Famicom support in Nelkano for Android. Check supported formats, controls and current compatibility limits, and learn how to get started.'
       tier: experimental
-      status_note: 'You can play NES, Famicom and Famicom Disk System titles, although some have graphical, audio or gameplay issues.'
+      status_note: 'You can play NES and Famicom titles, although some have graphical, audio or gameplay issues.'
       image_uri: ''
       related_ids: |-
         chip-8

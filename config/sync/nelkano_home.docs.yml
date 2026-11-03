@@ -145,6 +145,7 @@ es:
       platform: android
       version_code: ''
       apk_file: 'public://nelkano-releases/Nelkano 1.0.0-beta.apk'
+      installer_file: ''
       filename: 'Nelkano 1.0.0-beta.apk'
       date: 27/06/2026
       changes: "Primera beta publica para Android.\r\nBiblioteca local, guardados y save states.\r\nCuenta Nelkano, amigos, gba nelkano online y streaming web.\r\nSincronizacion opcional con Google Drive.\r\nCores disponibles: Chip8, Game boy, Game boy color, Game boy advance, Megadrive, NES"
@@ -154,6 +155,7 @@ es:
       platform: android
       version_code: ''
       apk_file: 'public://nelkano-releases/Nelkano 2.0.0-beta.apk'
+      installer_file: ''
       filename: 'Nelkano 2.0.0-beta.apk'
       date: 'Pendiente de publicacion'
       changes: "Nuevo core de Master System.\r\nCorrección del registro desde la app para solucionar la falta del correo de registro.\r\nBiblioteca con favoritos, colecciones, búsqueda, filtros por sistema, ordenación y vistas compacta, grande y de lista. Selección de varios juegos con una pulsación larga.\r\nImportación de juegos comprimidos en ZIP, RAR y 7z, incluidos paquetes con varios juegos. Importación de discos de PlayStation con sus archivos CUE y pistas, y de juegos de RPG Maker con todos sus recursos.\r\nOpción Continuar para retomar un estado guardado. Si eliges la captura de un estado manual como imagen del juego, ese estado tiene prioridad al continuar.\r\nCinco espacios de guardado manual por juego y un espacio independiente para el autoguardado, que se realiza aproximadamente cada minuto. Gestión de estados con filtros y ordenación, según el soporte de cada sistema.\r\nPersonalización de la ficha del juego: cambiar el nombre y la portada o utilizar la captura de un estado manual.\r\nConfiguración de mandos físicos: comprobación de botones, asignación por sistema, guardado y carga de configuraciones y restauración de los valores predeterminados.\r\nEditor de controles táctiles para mover y cambiar el tamaño de los botones, previsualizar el resultado y guardar una disposición para cada sistema y orientación.\r\nOpciones durante la partida: pausa, reinicio, volumen, pantalla completa, ajuste de imagen e indicador de FPS. Botón AUTO para repetir A y botones RECORD y REPLAY para grabar y repetir una secuencia de pulsaciones.\r\nSegunda pantalla para Nintendo DS y Nintendo 3DS: utiliza otro dispositivo Android conectado a la misma red local, intercambia las pantallas y controla la pantalla táctil desde el dispositivo receptor.\r\nAplicación de parches xdelta/VCDIFF a juegos de Nintendo DS. El juego modificado se añade por separado y conserva sus propios guardados, sin sustituir el original.\r\nSincronización de estados, tarjetas de memoria y datos asociados de PlayStation con Google Drive. Las imágenes de disco deben importarse por separado en el dispositivo de destino.\r\nTemas Oscuro, Claro, Azul marino, Pizarra y Grafito, y selección de español o inglés para la interfaz."
@@ -163,6 +165,7 @@ es:
       platform: android
       version_code: '10'
       apk_file: 'private://nelkano-releases/Nelkano 3.0.0-beta.apk'
+      installer_file: ''
       filename: 'Nelkano 3.0.0-beta.apk'
       date: 12/10/2026
       changes: "Organización por módulos: Apariencia, Nelkano Básicos, Editor de controles, Amigos y Parches vienen incluidos y activos.\r\nInstalación de módulos adicionales en formato .nelkmod, con revisión de autor y permisos y opciones para activarlos, desactivarlos o desinstalarlos.\r\nActualizador integrado: consulta las nuevas versiones, verifica la descarga y permite iniciar su instalación con la confirmación de Android.\r\nSeis espacios de guardado manual por juego, frente a cinco en la beta 2, con miniaturas en el selector rápido y autoguardado separado. La disponibilidad depende del sistema.\r\nMejoras en la distribución de los controles táctiles y los botones de sistema al cambiar de orientación.\r\nImportación con indicador de progreso y nombre del archivo. Los paquetes ZIP, RAR y 7z pueden contener varios juegos.\r\nGoogle Drive y Nelkano online no están disponibles en esta beta se añadirán mas adelante mediante módulos descargables."
@@ -172,6 +175,7 @@ es:
       platform: android
       version_code: '11'
       apk_file: 'private://nelkano-releases/Nelkano 3.0.1-beta.apk'
+      installer_file: ''
       filename: 'Nelkano 3.0.1-beta.apk'
       date: 12/10/2026
       changes: "Corrección del resaltado de Home al navegar por pantalla táctil sin mando conectado.\r\nEl teclado virtual de Android ya no se detecta como mando.\r\nLos controles táctiles se ocultan al usar el mando y reaparecen al tocar la pantalla."
@@ -181,6 +185,7 @@ es:
       platform: android
       version_code: '12'
       apk_file: 'private://nelkano-releases/Nelkano 3.0.2-beta.apk'
+      installer_file: ''
       filename: 'Nelkano 3.0.2-beta.apk'
       date: 13/10/2026
       changes: 'Mejoras de compatibilidad con PS1.'
@@ -190,116 +195,70 @@ es:
       platform: android
       version_code: '13'
       apk_file: 'private://nelkano-releases/Nelkano 3.0.3-beta.apk'
+      installer_file: ''
       filename: 'Nelkano 3.0.3-beta.apk'
       date: 18/10/2026
-      changes: |-
-        Optimizaciones de carga de módulos al iniciar la aplicación.
-        Correcciones de bugs de PS1.
-        Correcciones de bugs con módulo de segunda pantalla para NDS y 3DS.
-        Nuevo módulo multijugador para GBA y PS1 experimental.
-        Mejora de sonido GB/GBC.
-        Mejora de rendimiento GBA para dispositivos Android de gama media.
-        Mejoras de rendimiento en la interfaz de la app.
-        Conexión con la página de módulos.
-    -
-      visible: false
-      version: 1.0.0-beta
-      platform: windows
-      version_code: '10'
-      apk_file: 'private://nelkano-releases/Nelkano 1.0.0-beta-windows.msi'
-      filename: 'Nelkano 1.0.0-beta-windows.msi'
-      date: 12/10/2026
-      changes: 'Primera beta de Nelkano para windows.'
-    -
-      visible: false
-      version: 1.0.0-beta
-      platform: steamos
-      version_code: '10'
-      apk_file: 'private://nelkano-releases/Nelkano 1.0.0-beta-steamos.zip'
-      filename: 'Nelkano 1.0.0-beta-steamos.zip'
-      date: 12/10/2026
-      changes: 'Primera beta de Nelkano para steamos.'
-    -
-      visible: false
-      version: 1.0.0-beta
-      platform: sdk
-      version_code: '2'
-      apk_file: 'private://nelkano-releases/Nelkano SDK Studio 1.0.0-beta-windows.zip'
-      filename: 'Nelkano SDK Studio 1.0.0-beta-windows.zip'
-      date: 12/10/2026
-      changes: 'Primera beta de Nelkano SDK Studio para Windows.'
-    -
-      visible: true
-      version: 3.0.3-beta
-      platform: windows
-      version_code: '13'
-      installer_file: 'private://nelkano-releases/Nelkano 3.0.3-beta-windows.exe'
-      filename: 'Nelkano 3.0.3-beta-windows.exe'
-      date: 18/10/2026
-      changes: 'Primera beta pública'
-    -
-      visible: true
-      version: 3.0.3-beta
-      platform: sdk
-      version_code: '13'
-      installer_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.exe'
-      filename: Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.exe
-      date: 18/10/2026
-      changes: 'Primera beta pública'
+      changes: "Optimizaciones de carga de módulos al iniciar la aplicación.\r\nCorrecciones de bugs de PS1.\r\nCorrecciones de bugs con módulo de segunda pantalla para NDS y 3DS.\r\nNuevo módulo multijugador para GBA y PS1 experimental.\r\nMejora de sonido GB/GBC.\r\nMejora de rendimiento GBA para dispositivos Android de gama media.\r\nMejoras de rendimiento en la interfaz de la app.\r\nConexión con la página de módulos."
     -
       visible: true
       version: 3.0.4
       platform: android
       version_code: '14'
       apk_file: 'private://nelkano-releases/Nelkano 3.0.4.apk'
+      installer_file: ''
       filename: 'Nelkano 3.0.4.apk'
       date: 28/10/2026
-      changes: |-
-        Iconos unificados y botones de sistema sin doble marco.
-        Eliminación individual y múltiple de estados guardados.
-        Barra de filtros adaptada al ancho de la pantalla.
-        Ajustes simplificados y edición del nombre del juego desde su ficha.
-        Soporte de guardados originales de RPG Maker para el módulo opcional Reportes.
-    -
-      visible: true
-      version: 3.0.4
-      platform: windows
-      version_code: '14'
-      installer_file: 'private://nelkano-releases/Nelkano 3.0.4-windows.exe'
-      filename: 'Nelkano 3.0.4-windows.exe'
-      date: 28/10/2026
-      changes: |-
-        Iconos y botones de interfaz unificados.
-        Eliminación individual y múltiple de estados guardados.
-        Filtros adaptables y edición del nombre del juego desde su ficha.
-        Vista secundaria de las pantallas de Nintendo DS y Nintendo 3DS.
-    -
-      visible: true
-      version: 3.0.4
-      platform: sdk
-      version_code: '14'
-      installer_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.4-windows-x86_64.exe'
-      filename: Nelkano-SDK-Studio-3.0.4-windows-x86_64.exe
-      date: 28/10/2026
-      changes: |-
-        Sustitución y ampliación de funciones y pantallas de la aplicación.
-        Herramientas para componentes compilados y vistas reactivas.
-        Acceso autorizado a recursos de proyectos y extensiones de sesiones RPG Maker.
-        Documentación y referencia sin conexión actualizadas.
+      changes: "Iconos unificados y botones de sistema sin doble marco.\r\nEliminación individual y múltiple de estados guardados.\r\nBarra de filtros adaptada al ancho de la pantalla.\r\nAjustes simplificados y edición del nombre del juego desde su ficha.\r\nSoporte de guardados originales de RPG Maker para el módulo opcional Reportes."
     -
       visible: true
       version: 3.0.5
       platform: android
       version_code: '15'
       apk_file: 'private://nelkano-releases/Nelkano 3.0.5.apk'
+      installer_file: ''
       filename: 'Nelkano 3.0.5.apk'
       date: 01/11/2026
-      changes: |-
-        Privacidad, eliminación de cuentas y licencias actualizadas.
-        Corrección del acceso al APK desde el instalador de actualizaciones.
-        Retirada de las funciones de traducción integradas.
-        Audio ATRAC de PSP temporalmente desactivado; algunas ROM cifradas de Nintendo DS y PSP no están soportadas.
-        Si Android muestra «No se ha podido analizar el paquete» al actualizar desde una versión anterior, instala esta versión desde la web sin desinstalar.
+      changes: "Privacidad, eliminación de cuentas y licencias actualizadas.\r\nCorrección del acceso al APK desde el instalador de actualizaciones.\r\nRetirada de las funciones de traducción integradas.\r\nAudio ATRAC de PSP temporalmente desactivado; algunas ROM cifradas de Nintendo DS y PSP no están soportadas.\r\nSi Android muestra «No se ha podido analizar el paquete» al actualizar desde una versión anterior, instala esta versión desde la web sin desinstalar."
+    -
+      visible: true
+      version: 3.0.6
+      platform: android
+      version_code: '16'
+      apk_file: 'private://nelkano-releases/Nelkano 3.0.6.apk'
+      installer_file: ''
+      filename: 'Nelkano 3.0.6.apk'
+      date: 01/11/2026
+      changes: "Corrección de la conexión con Google Drive desde Ajustes.\r\nCorrección del error invalid-text al utilizar Pokémon Online con amigos desconectados."
+    -
+      visible: false
+      version: 1.0.0-beta
+      platform: windows
+      version_code: '10'
+      apk_file: ''
+      installer_file: ''
+      filename: 'Nelkano 1.0.0-beta-windows.msi'
+      date: 12/10/2026
+      changes: 'Primera beta de Nelkano para windows.'
+    -
+      visible: true
+      version: 3.0.3-beta
+      platform: windows
+      version_code: '13'
+      apk_file: ''
+      installer_file: 'private://nelkano-releases/Nelkano 3.0.3-beta-windows.exe'
+      filename: 'Nelkano 3.0.3-beta-windows.exe'
+      date: 18/10/2026
+      changes: 'Primera beta pública'
+    -
+      visible: true
+      version: 3.0.4
+      platform: windows
+      version_code: '14'
+      apk_file: ''
+      installer_file: 'private://nelkano-releases/Nelkano 3.0.4-windows.exe'
+      filename: 'Nelkano 3.0.4-windows.exe'
+      date: 28/10/2026
+      changes: "Iconos y botones de interfaz unificados.\r\nEliminación individual y múltiple de estados guardados.\r\nFiltros adaptables y edición del nombre del juego desde su ficha.\r\nVista secundaria de las pantallas de Nintendo DS y Nintendo 3DS."
     -
       visible: true
       version: 3.0.5
@@ -309,35 +268,7 @@ es:
       installer_file: 'private://nelkano-releases/Nelkano 3.0.5-windows.exe'
       filename: 'Nelkano 3.0.5-windows.exe'
       date: 01/11/2026
-      changes: |-
-        Privacidad, eliminación de cuentas y licencias actualizadas.
-        Actualización de los componentes de streaming y multimedia.
-        Retirada de las funciones de traducción integradas.
-        Audio ATRAC de PSP temporalmente desactivado; algunas ROM cifradas de Nintendo DS y PSP no están soportadas.
-    -
-      visible: true
-      version: 3.0.5
-      platform: sdk
-      version_code: '15'
-      apk_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.5-windows-x86_64.zip'
-      installer_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.5-windows-x86_64.exe'
-      filename: Nelkano-SDK-Studio-3.0.5-windows-x86_64.exe
-      date: 01/11/2026
-      changes: |-
-        Retirada de los servicios de traducción del SDK.
-        Referencia integrada y documentación actualizadas.
-        Licencias y condiciones de uso del SDK revisadas.
-    -
-      visible: true
-      version: 3.0.6
-      platform: android
-      version_code: '16'
-      apk_file: 'private://nelkano-releases/Nelkano 3.0.6.apk'
-      filename: 'Nelkano 3.0.6.apk'
-      date: 01/11/2026
-      changes: |-
-        Corrección de la conexión con Google Drive desde Ajustes.
-        Corrección del error invalid-text al utilizar Pokémon Online con amigos desconectados.
+      changes: "Privacidad, eliminación de cuentas y licencias actualizadas.\r\nActualización de los componentes de streaming y multimedia.\r\nRetirada de las funciones de traducción integradas.\r\nAudio ATRAC de PSP temporalmente desactivado; algunas ROM cifradas de Nintendo DS y PSP no están soportadas."
     -
       visible: true
       version: 3.0.6
@@ -347,11 +278,59 @@ es:
       installer_file: 'private://nelkano-releases/Nelkano 3.0.6-windows.exe'
       filename: 'Nelkano 3.0.6-windows.exe'
       date: 01/11/2026
-      changes: |-
-        Corrección del error invalid-text al utilizar Pokémon Online con amigos desconectados.
-        Soporte actualizado para juegos, partidas y portadas del módulo Google Drive.
+      changes: "Corrección del error invalid-text al utilizar Pokémon Online con amigos desconectados.\r\nSoporte actualizado para juegos, partidas y portadas del módulo Google Drive."
     -
       visible: true
+      version: 3.0.6
+      platform: steamos
+      version_code: '16'
+      apk_file: 'private://nelkano-releases/Nelkano-3.0.6-steamos_4.zip'
+      installer_file: ''
+      filename: Nelkano-3.0.6-steamos.zip
+      date: 01/11/2026
+      changes: 'Primera beta de Nelkano para steamos.'
+    -
+      visible: false
+      version: 1.0.0-beta
+      platform: sdk
+      version_code: '2'
+      apk_file: 'private://nelkano-releases/Nelkano SDK Studio 1.0.0-beta-windows.zip'
+      installer_file: ''
+      filename: 'Nelkano SDK Studio 1.0.0-beta-windows.zip'
+      date: 12/10/2026
+      changes: 'Primera beta de Nelkano SDK Studio para Windows.'
+    -
+      visible: false
+      version: 3.0.3-beta
+      platform: sdk
+      version_code: '13'
+      apk_file: ''
+      installer_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.exe'
+      filename: Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.exe
+      date: 18/10/2026
+      changes: 'Primera beta pública'
+    -
+      visible: false
+      version: 3.0.4
+      platform: sdk
+      version_code: '14'
+      apk_file: ''
+      installer_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.4-windows-x86_64.exe'
+      filename: Nelkano-SDK-Studio-3.0.4-windows-x86_64.exe
+      date: 28/10/2026
+      changes: "Sustitución y ampliación de funciones y pantallas de la aplicación.\r\nHerramientas para componentes compilados y vistas reactivas.\r\nAcceso autorizado a recursos de proyectos y extensiones de sesiones RPG Maker.\r\nDocumentación y referencia sin conexión actualizadas."
+    -
+      visible: false
+      version: 3.0.5
+      platform: sdk
+      version_code: '15'
+      apk_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.5-windows-x86_64.zip'
+      installer_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.5-windows-x86_64.exe'
+      filename: Nelkano-SDK-Studio-3.0.5-windows-x86_64.exe
+      date: 01/11/2026
+      changes: "Retirada de los servicios de traducción del SDK.\r\nReferencia integrada y documentación actualizadas.\r\nLicencias y condiciones de uso del SDK revisadas."
+    -
+      visible: false
       version: 3.0.6
       platform: sdk
       version_code: '16'
@@ -359,9 +338,7 @@ es:
       installer_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.6-windows-x86_64.exe'
       filename: Nelkano-SDK-Studio-3.0.6-windows-x86_64.exe
       date: 01/11/2026
-      changes: |-
-        SDK Studio actualizado a la versión 3.0.6.
-        Ejemplo de Amigos corregido para contactos desconectados.
+      changes: "SDK Studio actualizado a la versión 3.0.6.\r\nEjemplo de Amigos corregido para contactos desconectados."
   compatibility_seo_title: 'Compatibilidad de Nelkano'
   compatibility_seo_description: 'Estado real de compatibilidad de los sistemas soportados por Nelkano para Android.'
   compatibility_eyebrow: Compatibilidad
@@ -548,6 +525,7 @@ en:
       platform: android
       version_code: ''
       apk_file: 'public://nelkano-releases/Nelkano 1.0.0-beta.apk'
+      installer_file: ''
       filename: 'Nelkano 1.0.0-beta.apk'
       date: 27/06/2026
       changes: "First public beta for Android.\r\nLocal library, in-game saves and save states.\r\nNelkano account, friends, GBA Nelkano Online and web streaming.\r\nOptional Google Drive synchronization.\r\nAvailable cores: CHIP-8, Game Boy, Game Boy Color, Game Boy Advance, Mega Drive and NES."
@@ -557,6 +535,7 @@ en:
       platform: android
       version_code: ''
       apk_file: 'public://nelkano-releases/Nelkano 2.0.0-beta.apk'
+      installer_file: ''
       filename: 'Nelkano 2.0.0-beta.apk'
       date: 'Pendiente de publicacion'
       changes: "New Master System core.\r\nFixed registration from the app to address missing registration emails.\r\nLibrary favorites, collections, search, system filters, sorting, and compact, large and list views. Long-press to select multiple games.\r\nImport games from ZIP, RAR and 7z archives, including archives containing multiple games. Import PlayStation discs with their CUE files and tracks, and RPG Maker games with all their resources.\r\nContinue from a saved state. If you choose a manual save state's screenshot as the game's image, that state takes priority when continuing.\r\nFive manual save slots per game and a separate autosave slot, updated approximately every minute. Filter and sort save states, depending on each system's support.\r\nCustomize game details: change the name and cover, or use a manual save state's screenshot.\r\nPhysical controller settings: test buttons, assign controls per system, save and load configurations, and restore defaults.\r\nTouch control editor: move and resize buttons, preview the result, and save a layout for each system and screen orientation.\r\nIn-game options: pause, restart, volume, full screen, image sizing and an FPS display. AUTO repeats the A button, while RECORD and REPLAY record and repeat a sequence of button presses.\r\nSecond screen for Nintendo DS and Nintendo 3DS: use another Android device on the same local network, swap screens and operate the touch screen from the receiving device.\r\nApply xdelta/VCDIFF patches to Nintendo DS games. Patched games are added separately with their own saves, without replacing the original.\r\nSync PlayStation save states, memory cards and associated data with Google Drive. Disc images must be imported separately on the destination device.\r\nDark, Light, Navy, Slate and Graphite themes, and Spanish or English interface language selection."
@@ -566,6 +545,7 @@ en:
       platform: android
       version_code: '10'
       apk_file: 'private://nelkano-releases/Nelkano 3.0.0-beta.apk'
+      installer_file: ''
       filename: 'Nelkano 3.0.0-beta.apk'
       date: 12/10/2026
       changes: "Module-based organization: Appearance, Nelkano Basics, Control Editor, Friends and Patches are included and active.\r\nInstall additional .nelkmod modules, review their author and permissions, and enable, disable or uninstall them.\r\nBuilt-in updater: checks for new releases, verifies the download and lets you start installation with Android confirmation.\r\nSix manual save-state slots per game, up from five in beta 2, with thumbnails in the quick selector and a separate autosave. Availability depends on the system.\r\nImproved touch-control and system-button layouts when changing orientation.\r\nImport progress with the file name. ZIP, RAR and 7z archives can contain multiple games.\r\nGoogle Drive and Nelkano Online are not available in this beta. They will be added later through downloadable modules."
@@ -575,6 +555,7 @@ en:
       platform: android
       version_code: '11'
       apk_file: 'private://nelkano-releases/Nelkano 3.0.1-beta.apk'
+      installer_file: ''
       filename: 'Nelkano 3.0.1-beta.apk'
       date: 12/10/2026
       changes: "Fixed Home remaining highlighted during touch navigation without a connected controller.\r\nThe Android virtual keyboard is no longer detected as a controller.\nTouch controls hide when using the controller and reappear when touching the screen."
@@ -584,6 +565,7 @@ en:
       platform: android
       version_code: '12'
       apk_file: 'private://nelkano-releases/Nelkano 3.0.2-beta.apk'
+      installer_file: ''
       filename: 'Nelkano 3.0.2-beta.apk'
       date: 13/10/2026
       changes: 'PS1 compatibility improvements.'
@@ -593,6 +575,7 @@ en:
       platform: android
       version_code: '13'
       apk_file: 'private://nelkano-releases/Nelkano 3.0.3-beta.apk'
+      installer_file: ''
       filename: 'Nelkano 3.0.3-beta.apk'
       date: 18/10/2026
       changes: |-
@@ -605,56 +588,12 @@ en:
         App interface performance improvements.
         Connection to the modules page.
     -
-      visible: false
-      version: 1.0.0-beta
-      platform: windows
-      version_code: '10'
-      apk_file: 'private://nelkano-releases/Nelkano 1.0.0-beta-windows.msi'
-      filename: 'Nelkano 1.0.0-beta-windows.msi'
-      date: 12/10/2026
-      changes: 'First beta of Nelkano for windows.'
-    -
-      visible: false
-      version: 1.0.0-beta
-      platform: steamos
-      version_code: '10'
-      apk_file: 'private://nelkano-releases/Nelkano 1.0.0-beta-steamos.zip'
-      filename: 'Nelkano 1.0.0-beta-steamos.zip'
-      date: 12/10/2026
-      changes: 'First beta of Nelkano for steamos.'
-    -
-      visible: false
-      version: 1.0.0-beta
-      platform: sdk
-      version_code: '2'
-      apk_file: 'private://nelkano-releases/Nelkano SDK Studio 1.0.0-beta-windows.zip'
-      filename: 'Nelkano SDK Studio 1.0.0-beta-windows.zip'
-      date: 12/10/2026
-      changes: 'First beta of Nelkano SDK Studio for Windows.'
-    -
-      visible: true
-      version: 3.0.3-beta
-      platform: windows
-      version_code: '13'
-      installer_file: 'private://nelkano-releases/Nelkano 3.0.3-beta-windows.exe'
-      filename: 'Nelkano 3.0.3-beta-windows.exe'
-      date: 18/10/2026
-      changes: 'First public beta'
-    -
-      visible: true
-      version: 3.0.3-beta
-      platform: sdk
-      version_code: '13'
-      installer_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.exe'
-      filename: Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.exe
-      date: 18/10/2026
-      changes: 'First public beta'
-    -
       visible: true
       version: 3.0.4
       platform: android
       version_code: '14'
       apk_file: 'private://nelkano-releases/Nelkano 3.0.4.apk'
+      installer_file: ''
       filename: 'Nelkano 3.0.4.apk'
       date: 28/10/2026
       changes: |-
@@ -665,36 +604,11 @@ en:
         Support for original RPG Maker save files in the optional Reports module.
     -
       visible: true
-      version: 3.0.4
-      platform: windows
-      version_code: '14'
-      installer_file: 'private://nelkano-releases/Nelkano 3.0.4-windows.exe'
-      filename: 'Nelkano 3.0.4-windows.exe'
-      date: 28/10/2026
-      changes: |-
-        Unified interface icons and buttons.
-        Delete save states individually or in batches.
-        Adaptive filters and game-title editing from the game details dialog.
-        Secondary-screen preview for Nintendo DS and Nintendo 3DS.
-    -
-      visible: true
-      version: 3.0.4
-      platform: sdk
-      version_code: '14'
-      installer_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.4-windows-x86_64.exe'
-      filename: Nelkano-SDK-Studio-3.0.4-windows-x86_64.exe
-      date: 28/10/2026
-      changes: |-
-        Replace and extend application functions and screens.
-        Tools for compiled components and reactive views.
-        Authorized project-resource access and RPG Maker session extensions.
-        Updated documentation and offline reference.
-    -
-      visible: true
       version: 3.0.5
       platform: android
       version_code: '15'
       apk_file: 'private://nelkano-releases/Nelkano 3.0.5.apk'
+      installer_file: ''
       filename: 'Nelkano 3.0.5.apk'
       date: 01/11/2026
       changes: |-
@@ -703,6 +617,52 @@ en:
         Removed integrated translation features.
         PSP ATRAC audio is temporarily disabled; some encrypted Nintendo DS and PSP ROMs are not supported.
         If Android reports that it cannot parse the package when updating from an older version, install this version from the website without uninstalling.
+    -
+      visible: true
+      version: 3.0.6
+      platform: android
+      version_code: '16'
+      apk_file: 'private://nelkano-releases/Nelkano 3.0.6.apk'
+      installer_file: ''
+      filename: 'Nelkano 3.0.6.apk'
+      date: 01/11/2026
+      changes: |-
+        Fixed Google Drive connection from Settings.
+        Fixed invalid-text when using Pokémon Online with offline friends.
+    -
+      visible: false
+      version: 1.0.0-beta
+      platform: windows
+      version_code: '10'
+      apk_file: ''
+      installer_file: ''
+      filename: 'Nelkano 1.0.0-beta-windows.msi'
+      date: 12/10/2026
+      changes: 'First beta of Nelkano for windows.'
+    -
+      visible: true
+      version: 3.0.3-beta
+      platform: windows
+      version_code: '13'
+      apk_file: ''
+      installer_file: 'private://nelkano-releases/Nelkano 3.0.3-beta-windows.exe'
+      filename: 'Nelkano 3.0.3-beta-windows.exe'
+      date: 18/10/2026
+      changes: 'First public beta'
+    -
+      visible: true
+      version: 3.0.4
+      platform: windows
+      version_code: '14'
+      apk_file: ''
+      installer_file: 'private://nelkano-releases/Nelkano 3.0.4-windows.exe'
+      filename: 'Nelkano 3.0.4-windows.exe'
+      date: 28/10/2026
+      changes: |-
+        Unified interface icons and buttons.
+        Delete save states individually or in batches.
+        Adaptive filters and game-title editing from the game details dialog.
+        Secondary-screen preview for Nintendo DS and Nintendo 3DS.
     -
       visible: true
       version: 3.0.5
@@ -719,30 +679,6 @@ en:
         PSP ATRAC audio is temporarily disabled; some encrypted Nintendo DS and PSP ROMs are not supported.
     -
       visible: true
-      version: 3.0.5
-      platform: sdk
-      version_code: '15'
-      apk_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.5-windows-x86_64.zip'
-      installer_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.5-windows-x86_64.exe'
-      filename: Nelkano-SDK-Studio-3.0.5-windows-x86_64.exe
-      date: 01/11/2026
-      changes: |-
-        Removed translation services from the SDK.
-        Updated integrated reference and documentation.
-        Revised SDK licenses and terms of use.
-    -
-      visible: true
-      version: 3.0.6
-      platform: android
-      version_code: '16'
-      apk_file: 'private://nelkano-releases/Nelkano 3.0.6.apk'
-      filename: 'Nelkano 3.0.6.apk'
-      date: 01/11/2026
-      changes: |-
-        Fixed Google Drive connection from Settings.
-        Fixed invalid-text when using Pokémon Online with offline friends.
-    -
-      visible: true
       version: 3.0.6
       platform: windows
       version_code: '16'
@@ -755,6 +691,63 @@ en:
         Updated host support for games, saves and covers in the Google Drive module.
     -
       visible: true
+      version: 3.0.6
+      platform: steamos
+      version_code: '16'
+      apk_file: 'private://nelkano-releases/Nelkano-3.0.6-steamos_4.zip'
+      installer_file: ''
+      filename: Nelkano-3.0.6-steamos.zip
+      date: 01/11/2026
+      changes: 'Primera beta de Nelkano para steamos.'
+    -
+      visible: false
+      version: 1.0.0-beta
+      platform: sdk
+      version_code: '2'
+      apk_file: 'private://nelkano-releases/Nelkano SDK Studio 1.0.0-beta-windows.zip'
+      installer_file: ''
+      filename: 'Nelkano SDK Studio 1.0.0-beta-windows.zip'
+      date: 12/10/2026
+      changes: 'First beta of Nelkano SDK Studio for Windows.'
+    -
+      visible: false
+      version: 3.0.3-beta
+      platform: sdk
+      version_code: '13'
+      apk_file: ''
+      installer_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.exe'
+      filename: Nelkano-SDK-Studio-3.0.3-beta-windows-x86_64.exe
+      date: 18/10/2026
+      changes: 'First public beta'
+    -
+      visible: false
+      version: 3.0.4
+      platform: sdk
+      version_code: '14'
+      apk_file: ''
+      installer_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.4-windows-x86_64.exe'
+      filename: Nelkano-SDK-Studio-3.0.4-windows-x86_64.exe
+      date: 28/10/2026
+      changes: |-
+        Replace and extend application functions and screens.
+        Tools for compiled components and reactive views.
+        Authorized project-resource access and RPG Maker session extensions.
+        Updated documentation and offline reference.
+    -
+      visible: false
+      version: 3.0.5
+      platform: sdk
+      version_code: '15'
+      apk_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.5-windows-x86_64.zip'
+      installer_file: 'private://nelkano-releases/Nelkano-SDK-Studio-3.0.5-windows-x86_64.exe'
+      filename: Nelkano-SDK-Studio-3.0.5-windows-x86_64.exe
+      date: 01/11/2026
+      changes: |-
+        Removed translation services from the SDK.
+        Updated integrated reference and documentation.
+        Revised SDK licenses and terms of use.
+    -
+      visible: false
       version: 3.0.6
       platform: sdk
       version_code: '16'
