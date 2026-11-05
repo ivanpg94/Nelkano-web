@@ -69,17 +69,36 @@ No hay consultas continuas desde el módulo sin una pregunta pendiente.
 
 ## Estado y pruebas
 
-2026-11-05: implementación local, sintaxis PHP y 35 comprobaciones Drupal
+2026-11-05: sintaxis PHP y 35 comprobaciones Drupal
 correctas con usuarios efímeros y PC simulado, revertidas al terminar.
 Receta: `NELKANO_LOCAL_AI_TEST=1 vendor/bin/drush --uri=http://localhost:8088 php:script web/modules/custom/nelkano_ai/tests/api-smoke.php`.
 Cubren acceso, aislamiento, duplicados, cola, concesiones, cancelación,
 revocación, cambio de modelo, vencimiento y limpieza.
-No acredita modelo real, publicación, app actualizada ni Redmi. Despliegue y
-prueba completa pendientes. No cambia versiones ni publica módulos/instaladores.
+API publicada en `https://nelkano.com/api/nelkano/v1/ai`, commits web
+`a2f00bd12e8858f8b91bbb46aec073b69dbf370f` y
+`23d9e1f45c3a55b52b80403f986657d4445037b9`. El despliegue general se detuvo
+antes de mantenimiento por un ZIP SteamOS previo ausente; se desplegó sólo
+la API con `bash scripts/deploy-hostinger.sh --nelkan-ai-only`, sin importar
+versiones ni publicar aplicaciones. Recibo: `outputs/nelkan-ai/web-deploy-api-only.log`.
+
+Recorrido real PC → HTTPS producción → Qwen3.5-9B Q4_K_M → web → PC correcto:
+pregunta `24e8c99a-a60e-45e9-9270-c80858fada61`, revisión `qwen35-9b-initial`,
+respuesta `NELKAN_PRODUCCION_OK_75291`, 13,053 s en este caso aislado.
+También se rechazó una cuenta sin Tester. Usuarios temporales y sus preguntas
+retirados. Recibo: `C:/Users/ivanp/Desktop/Nelkan-AI/outputs/production-real-model.json`.
+No mide calidad de conversación ni equivale a la prueba física Android.
+
+PC consulta cada cinco segundos sin puertos de entrada. Clave PC cifrada con
+DPAPI del usuario, separada de las sesiones de la app. Cambio de revisión y
+vuelta al anterior comprobados con dos nombres de los mismos pesos, sin tocar
+el módulo: `C:/Users/ivanp/Desktop/Nelkan-AI/outputs/model-switch.json`.
+La conservación de una generación en curso al cambiar revisión se prueba en
+`C:/Users/ivanp/Desktop/Nelkan-AI/test/relay.test.mjs`; no se compararon dos
+modelos diferentes. Estado de la entrega y Redmi en [[Android/Asistente por voz]].
 
 ## Despliegue acotado
 
-La API se activa con bash scripts/deploy-hostinger.sh --nelkan-ai-only.
-Esta opción instala sólo nelkano_ai y comprueba su tabla y rutas.
+La API se activa con `bash scripts/deploy-hostinger.sh --nelkan-ai-only`.
+Esta opción instala sólo `nelkano_ai` y comprueba su tabla y rutas.
 No importa configuración global ni toca descargas o registros de versiones.
 El despliegue general sin argumentos conserva su flujo.
