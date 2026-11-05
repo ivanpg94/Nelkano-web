@@ -1,0 +1,6 @@
+<?php
+declare(strict_types=1);
+/** Implements hook_cron(). */
+function nelkano_ai_cron(): void {
+  \Drupal\nelkano_ai\Service\AiQueue::cleanup();
+}

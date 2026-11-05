@@ -1,0 +1,7 @@
+name: Nelkan IA
+type: module
+description: 'Beta privada: consultas de Tester al modelo del PC.'
+package: Nelkano
+core_version_requirement: ^11
+dependencies:
+  - nelkano_home:nelkano_home

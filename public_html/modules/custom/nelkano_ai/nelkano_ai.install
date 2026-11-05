@@ -1,0 +1,29 @@
+<?php
+declare(strict_types=1);
+/** Implements hook_schema(). */
+function nelkano_ai_schema(): array {
+  return ['nelkano_ai_job' => [
+    'description' => 'Preguntas efímeras de la beta de Nelkan IA.',
+    'fields' => [
+      'id' => ['type'=>'varchar','length'=>36,'not null'=>TRUE],
+      'uid' => ['type'=>'int','unsigned'=>TRUE,'not null'=>TRUE],
+      'request_key' => ['type'=>'varchar','length'=>64,'not null'=>TRUE],
+      'request_hash' => ['type'=>'varchar','length'=>64,'not null'=>TRUE],
+      'status' => ['type'=>'varchar','length'=>16,'not null'=>TRUE],
+      'question' => ['type'=>'text','not null'=>TRUE],
+      'history' => ['type'=>'text','not null'=>TRUE],
+      'answer' => ['type'=>'text','not null'=>TRUE],
+      'error' => ['type'=>'varchar','length'=>64,'not null'=>TRUE,'default'=>''],
+      'created' => ['type'=>'int','not null'=>TRUE],
+      'expires' => ['type'=>'int','not null'=>TRUE],
+      'deadline' => ['type'=>'int','not null'=>TRUE],
+      'worker' => ['type'=>'varchar','length'=>64,'not null'=>TRUE,'default'=>''],
+      'lease_hash' => ['type'=>'varchar','length'=>64,'not null'=>TRUE,'default'=>''],
+      'model_revision' => ['type'=>'varchar','length'=>128,'not null'=>TRUE,'default'=>''],
+      'model_label' => ['type'=>'varchar','length'=>128,'not null'=>TRUE,'default'=>''],
+    ],
+    'primary key'=>['id'],
+    'unique keys'=>['request_identity'=>['uid','request_key']],
+    'indexes'=>['queue'=>['status','created'],'expiration'=>['expires'],'owner'=>['uid','status']],
+  ]];
+}

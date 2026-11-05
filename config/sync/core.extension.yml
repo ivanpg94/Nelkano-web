@@ -36,6 +36,7 @@ module:
   metatag_open_graph: 0
   metatag_twitter_cards: 0
   mysql: 0
+  nelkano_ai: 0
   nelkano_home: 0
   nelkano_modules: 0
   node: 0
