@@ -5,6 +5,13 @@ set -Eeuo pipefail
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="${REPO_DIR:-$(dirname -- "$SCRIPT_DIR")}"
 APP_DIR="${APP_DIR:-$REPO_DIR}"
+if [[ "${1:-}" = "--nelkan-ai-only" && "$#" = 1 ]]; then
+  exec bash "$SCRIPT_DIR/deploy-nelkan-ai.sh"
+fi
+if [[ "$#" != 0 ]]; then
+  echo "Unknown deployment arguments." >&2
+  exit 64
+fi
 MAINTENANCE_STARTED=0
 deployment_failed() {
   local result=$1

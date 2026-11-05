@@ -76,3 +76,10 @@ Cubren acceso, aislamiento, duplicados, cola, concesiones, cancelación,
 revocación, cambio de modelo, vencimiento y limpieza.
 No acredita modelo real, publicación, app actualizada ni Redmi. Despliegue y
 prueba completa pendientes. No cambia versiones ni publica módulos/instaladores.
+
+## Despliegue acotado
+
+La API se activa con bash scripts/deploy-hostinger.sh --nelkan-ai-only.
+Esta opción instala sólo nelkano_ai y comprueba su tabla y rutas.
+No importa configuración global ni toca descargas o registros de versiones.
+El despliegue general sin argumentos conserva su flujo.
