@@ -48,7 +48,7 @@ final class AiQueue {
     $pending=$db->select(self::TABLE,'j')->fields('j',['uid'])->condition('status',['queued','running','awaiting_tools'],'IN')->execute()->fetchCol();
     if(count($pending)>=8||in_array((string)$uid,array_map('strval',$pending),TRUE))throw new HttpException(429,'queue-full');
     $id=\Drupal::service('uuid')->generate();$now=time();
-    $row=['actions_data'=>$v['actions']?json_encode($v['actions'],JSON_THROW_ON_ERROR):NULL,'id'=>$id,'uid'=>$uid,'request_key'=>$v['request_id'],'request_hash'=>$hash,'status'=>'queued','question'=>$v['question'],'history'=>json_encode($v['history'],JSON_THROW_ON_ERROR),'answer'=>'','error'=>'','created'=>$now,'expires'=>$now+600,'deadline'=>$now+180,'worker'=>'','lease_hash'=>'','model_revision'=>'','model_label'=>''];
+    $row=['actions_data'=>$v['actions']?json_encode($v['actions'],JSON_THROW_ON_ERROR):NULL,'id'=>$id,'uid'=>$uid,'request_key'=>$v['request_id'],'request_hash'=>$hash,'status'=>'queued','question'=>$v['question'],'history'=>json_encode($v['history'],JSON_THROW_ON_ERROR),'answer'=>'','error'=>'','created'=>$now,'expires'=>$now+600,'deadline'=>$now+($v['actions']?600:180),'worker'=>'','lease_hash'=>'','model_revision'=>'','model_label'=>''];
     $db->insert(self::TABLE)->fields($row)->execute();return self::view($row);
   }
   public static function load(string $id): array {
@@ -86,8 +86,9 @@ final class AiQueue {
       $r=self::load($id);
       if(!AiAccess::eligible((int)$r['uid'])){$db->delete(self::TABLE)->condition('id',$id)->execute();continue;}
       $lease=bin2hex(random_bytes(32));$h=\Drupal::state()->get('nelkano_ai.heartbeat',[]);
-      $db->update(self::TABLE)->fields(['status'=>'running','deadline'=>min(time()+180,(int)$r['expires']),'worker'=>$worker,'lease_hash'=>hash('sha256',$lease),'model_revision'=>$h['model_revision'],'model_label'=>$h['model']])->condition('id',$id)->execute();
-      return ['job'=>['id'=>$id,'lease'=>$lease,'question'=>$r['question'],'history'=>json_decode($r['history'],TRUE,512,JSON_THROW_ON_ERROR),'model_revision'=>$h['model_revision'],'deadline'=>min(time()+180,(int)$r['expires'])]+AiActions::claimed($r)];
+      $pinned=!empty($r['actions_data'])&&$r['model_revision']!=='';$revision=$pinned?$r['model_revision']:$h['model_revision'];$label=$pinned?$r['model_label']:$h['model'];
+      $db->update(self::TABLE)->fields(['status'=>'running','deadline'=>min(time()+180,(int)$r['expires']),'worker'=>$worker,'lease_hash'=>hash('sha256',$lease),'model_revision'=>$revision,'model_label'=>$label])->condition('id',$id)->execute();
+      return ['job'=>['id'=>$id,'lease'=>$lease,'question'=>$r['question'],'history'=>json_decode($r['history'],TRUE,512,JSON_THROW_ON_ERROR),'model_revision'=>$revision,'expires_at'=>(int)$r['expires'],'deadline'=>min(time()+180,(int)$r['expires'])]+AiActions::claimed($r)];
     }
     return ['job'=>NULL];
   }
@@ -100,7 +101,7 @@ final class AiQueue {
     if(array_diff(array_keys($body),['lease','answer','error','model_revision','tool_calls','round']))throw new HttpException(400,'invalid-result');
     $r=self::load($id);$lease=$body['lease']??'';$answer=$body['answer']??'';$error=$body['error']??'';
     if($r['worker']!==$worker||!is_string($lease)||!preg_match('/^[a-f0-9]{64}$/D',$lease)||!hash_equals($r['lease_hash'],hash('sha256',$lease)))throw new HttpException(403,'invalid-lease');
-    if(!is_string($answer)||mb_strlen($answer)>12000||!is_string($error)||!in_array($error,['','model-unavailable','compute-busy','actions-unavailable'],TRUE)||($body['model_revision']??'')!==$r['model_revision'])throw new HttpException(400,'invalid-result');
+    if(!is_string($answer)||mb_strlen($answer)>12000||!is_string($error)||!in_array($error,['','model-unavailable','compute-busy','actions-unavailable','timeout'],TRUE)||($body['model_revision']??'')!==$r['model_revision'])throw new HttpException(400,'invalid-result');
     if($r['status']==='cancelled'||$r['status']==='failed')return ['accepted'=>FALSE,'state'=>$r['status']];
     if(!AiAccess::eligible((int)$r['uid'])){self::cancel((int)$r['uid'],$id);return ['accepted'=>FALSE,'state'=>'cancelled'];}
     $calls=AiActions::calls($r,$body);if($calls!==NULL)return $calls;

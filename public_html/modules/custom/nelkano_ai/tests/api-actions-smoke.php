@@ -85,7 +85,7 @@ try {
  $call('POST','heartbeat',$worker,['ready'=>TRUE,'model'=>'QA','model_revision'=>'qa-actions','protocols'=>['actions-v1']]);
  $q=$make('Ponlo a pantalla completa');$q['protocol']='actions-v1';
  $q['context']=['surface'=>'player','game'=>NULL,'actions'=>[['id'=>'session.fullscreen','label'=>'Pantalla completa','domain'=>'session','args'=>['enabled'=>'boolean'],'available'=>TRUE,'requiredCapabilities'=>['application.commands','presentation.player']]]];
- $submit=$call('POST','submit',$tokens['a'],$q);$aid=$submit['job']['id'];
+ $submit=$call('POST','submit',$tokens['a'],$q);$aid=$submit['job']['id'];$check((int)AiQueue::load($aid)['deadline']===(int)AiQueue::load($aid)['expires'],'esperar en cola usa TTL, no tiempo de generación');
  $check(($submit['job']['protocol']??'')==='actions-v1','protocolo opcional anunciado');
  $claim=$call('POST','claim',$worker,[])['job'];
  $check($claim['round']===1&&$claim['context']===$q['context'],'contexto llega al trabajador');
@@ -101,7 +101,9 @@ try {
  $check($call('POST','toolResults',$tokens['a'],$tool,$aid)['job']['state']==='queued','resultado reactiva la pregunta');
  $check($call('POST','toolResults',$tokens['a'],$tool,$aid)['http']===200,'reintento de resultados idempotente');
  $bad=$tool;$bad['results'][0]['result']['value']=FALSE;$check($call('POST','toolResults',$tokens['a'],$bad,$aid)['http']===409,'no altera resultado ya aceptado');
- $next=$call('POST','claim',$worker,[])['job'];$check($next['round']===2&&$next['turns'][0]['results']===$tool['results'],'siguiente generación recibe recibo real');
+ $check((int)AiQueue::load($aid)['deadline']===(int)AiQueue::load($aid)['expires'],'reencolar herramientas conserva tiempo de espera');
+ $call('POST','heartbeat',$worker,['ready'=>TRUE,'model'=>'Otro modelo','model_revision'=>'qa-new','protocols'=>['actions-v1']]);
+ $next=$call('POST','claim',$worker,[])['job'];$check($next['model_revision']==='qa-actions','una conversación conserva su modelo entre rondas');$check($next['round']===2&&$next['turns'][0]['results']===$tool['results'],'siguiente generación recibe recibo real');
  $call('POST','cancel',$tokens['a'],[],$aid);
  $check($call('POST','result',$worker,['lease'=>$next['lease'],'model_revision'=>'qa-actions','answer'=>'Hecho'],$aid)['accepted']===FALSE,'cancelar impide respuesta tardía');
 

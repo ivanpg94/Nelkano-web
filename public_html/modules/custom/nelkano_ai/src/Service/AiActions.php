@@ -54,7 +54,7 @@ final class AiActions {
     foreach($body['results']as$i=>$r)if(!is_array($r)||array_diff(array_keys($r),['id','result'])||($r['id']??NULL)!==$a['calls'][$i]['id']||!is_array($r['result']??NULL)||!in_array($r['result']['state']??NULL,['done','opened','failed','cancelled','unknown','blocked'],TRUE))throw new HttpException(400,'invalid-tool-results');
     $a['turns'][]=['round'=>$a['round'],'calls'=>$a['calls'],'results'=>$body['results'],'hash'=>$hash];$a['round']++;$a['calls']=[];$a['worker_hash']='';
     if(strlen(json_encode($a,JSON_THROW_ON_ERROR))>131072)throw new HttpException(413,'tool-history-too-large');
-    self::store($id,['status'=>'queued','deadline'=>min(time()+180,(int)$row['expires']),'lease_hash'=>'','actions_data'=>json_encode($a,JSON_THROW_ON_ERROR)]);
+    self::store($id,['status'=>'queued','deadline'=>(int)$row['expires'],'lease_hash'=>'','actions_data'=>json_encode($a,JSON_THROW_ON_ERROR)]);
     return AiQueue::view(AiQueue::load($id));
   }
 }

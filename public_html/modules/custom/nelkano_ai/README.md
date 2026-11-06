@@ -105,3 +105,5 @@ El despliegue general sin argumentos conserva su flujo.
 ## actions-v1
 
 Protocolo opcional negociado mediante heartbeat/status.protocols. Mantiene los clientes de texto. Contexto y recibos temporales en actions_data; awaiting_tools libera el generador. POST questions/{id}/tool-results valida propietario, ronda y llamadas, con reintentos idempotentes. Máximo cuatro generaciones, 180 s por generación y TTL total de 600 s. La web nunca ejecuta acciones de un dispositivo. Migración: nelkano_ai_update_10001. Pruebas locales: tests/api-actions-smoke.php (incluye el contrato anterior).
+
+Las preguntas de acciones conservan el modelo de su primera generación durante las rondas. La espera en cola usa el TTL de diez minutos; el plazo de 180 segundos comienza al recoger cada generación. Un timeout se distingue de un modelo ausente.
