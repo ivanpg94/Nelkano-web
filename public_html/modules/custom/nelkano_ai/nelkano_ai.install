@@ -12,6 +12,7 @@ function nelkano_ai_schema(): array {
       'status' => ['type'=>'varchar','length'=>16,'not null'=>TRUE],
       'question' => ['type'=>'text','not null'=>TRUE],
       'history' => ['type'=>'text','not null'=>TRUE],
+      'actions_data' => ['type'=>'text','size'=>'big','not null'=>FALSE],
       'answer' => ['type'=>'text','not null'=>TRUE],
       'error' => ['type'=>'varchar','length'=>64,'not null'=>TRUE,'default'=>''],
       'created' => ['type'=>'int','not null'=>TRUE],
@@ -26,4 +27,10 @@ function nelkano_ai_schema(): array {
     'unique keys'=>['request_identity'=>['uid','request_key']],
     'indexes'=>['queue'=>['status','created'],'expiration'=>['expires'],'owner'=>['uid','status']],
   ]];
+}
+
+/** Add optional actions-v1 without disturbing existing text jobs. */
+function nelkano_ai_update_10001(): void {
+  $schema=\Drupal::database()->schema();
+  if(!$schema->fieldExists('nelkano_ai_job','actions_data'))$schema->addField('nelkano_ai_job','actions_data',['type'=>'text','size'=>'big','not null'=>FALSE]);
 }

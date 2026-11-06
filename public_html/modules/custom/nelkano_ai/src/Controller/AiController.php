@@ -34,6 +34,7 @@ final class AiController {
   public function submit(Request $r): JsonResponse {return $this->handle($r,FALSE,fn($uid)=>['job'=>AiQueue::submit($uid,$this->body($r))]);}
   public function read(Request $r,string $id): JsonResponse {return $this->handle($r,FALSE,fn($uid)=>['job'=>AiQueue::view(AiQueue::owned($uid,$id))]);}
   public function cancel(Request $r,string $id): JsonResponse {return $this->handle($r,FALSE,function($uid)use($r,$id){if($this->body($r)!==[])throw new HttpException(400,'invalid-request');return ['job'=>AiQueue::cancel($uid,$id)];});}
+  public function toolResults(Request $r,string $id): JsonResponse {return $this->handle($r,FALSE,fn($uid)=>['job'=>\Drupal\nelkano_ai\Service\AiActions::results($uid,$id,$this->body($r))]);}
   public function heartbeat(Request $r): JsonResponse {return $this->handle($r,TRUE,fn($w)=>AiQueue::heartbeat($w,$this->body($r)));}
   public function claim(Request $r): JsonResponse {return $this->handle($r,TRUE,fn($w)=>AiQueue::claim($w,$this->body($r)));}
   public function workerJob(Request $r,string $id): JsonResponse {return $this->handle($r,TRUE,fn($w)=>AiQueue::workerJob($w,$id));}

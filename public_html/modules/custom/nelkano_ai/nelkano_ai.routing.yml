@@ -83,3 +83,14 @@ nelkano_ai.credentials:
     _permission: 'administer site configuration'
   options:
     no_cache: TRUE
+
+nelkano_ai.tool_results:
+  path: '/api/nelkano/v1/ai/questions/{id}/tool-results'
+  defaults:
+    _controller: '\Drupal\nelkano_ai\Controller\AiController::toolResults'
+  requirements:
+    _access: 'TRUE'
+    id: '[a-f0-9-]{36}'
+  methods: [POST]
+  options:
+    no_cache: TRUE

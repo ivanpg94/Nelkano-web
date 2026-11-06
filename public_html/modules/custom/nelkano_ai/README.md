@@ -102,3 +102,6 @@ La API se activa con `bash scripts/deploy-hostinger.sh --nelkan-ai-only`.
 Esta opción instala sólo `nelkano_ai` y comprueba su tabla y rutas.
 No importa configuración global ni toca descargas o registros de versiones.
 El despliegue general sin argumentos conserva su flujo.
+## actions-v1
+
+Protocolo opcional negociado mediante heartbeat/status.protocols. Mantiene los clientes de texto. Contexto y recibos temporales en actions_data; awaiting_tools libera el generador. POST questions/{id}/tool-results valida propietario, ronda y llamadas, con reintentos idempotentes. Máximo cuatro generaciones, 180 s por generación y TTL total de 600 s. La web nunca ejecuta acciones de un dispositivo. Migración: nelkano_ai_update_10001. Pruebas locales: tests/api-actions-smoke.php (incluye el contrato anterior).
