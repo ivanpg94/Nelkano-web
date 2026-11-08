@@ -361,6 +361,10 @@ final class HomeController extends ControllerBase {
 
   /** Render SDK chapters with the same public shell as the usage guide. */
   public function sdkBookPage(\Drupal\node\NodeInterface $node): Response {
+    $language = $this->requestLanguage();
+    if (!$this->homeConfigFactory->get('nelkano_home.settings')->get($language . '.extensions_sdk_enabled')) {
+      throw new NotFoundHttpException();
+    }
     $repository = \Drupal::service('entity.repository');
     $node = $repository->getTranslationFromContext($node);
     $langcode = $node->language()->getId();

@@ -203,6 +203,12 @@ function nelkano_home_node_presave(\Drupal\node\NodeInterface $node): void {
 
 /** Implements hook_node_access(). HU remain private even if publication is edited. */
 function nelkano_home_node_access(\Drupal\node\NodeInterface $node, $op, \Drupal\Core\Session\AccountInterface $account): \Drupal\Core\Access\AccessResultInterface {
+  if ($op === 'view' && $node->bundle() === 'sdk_page') {
+    $config = \Drupal::config('nelkano_home.settings');
+    $language = $node->language()->getId() === 'en' ? 'en' : 'es';
+    return \Drupal\Core\Access\AccessResult::forbiddenIf(!$config->get($language . '.extensions_sdk_enabled'))
+      ->addCacheableDependency($config)->addCacheableDependency($node);
+  }
   if ($node->bundle() === 'hu') {
     return ($account->hasPermission('administer nelkano backlog') ? \Drupal\Core\Access\AccessResult::allowed() : \Drupal\Core\Access\AccessResult::forbidden())->cachePerPermissions()->addCacheableDependency($node);
   }
