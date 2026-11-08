@@ -42,7 +42,8 @@ trait NelkanoPageContextTrait {
       'uuid' => 'de520020-2026-4000-8000-000000000001',
       'type' => 'sdk_page',
     ]);
-    if ($sdk_book = reset($sdk_books)) {
+    $sdk_enabled = (bool) \Drupal::config('nelkano_home.settings')->get($language . '.extensions_sdk_enabled');
+    if ($sdk_enabled && ($sdk_book = reset($sdk_books))) {
       $sdk_book = $sdk_book->hasTranslation($language)
         ? $sdk_book->getTranslation($language)
         : \Drupal::service('entity.repository')->getTranslationFromContext($sdk_book, $language);
