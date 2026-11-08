@@ -28,12 +28,6 @@
     "drush/drush": "^13.0",
     "paragonie/sodium_compat": "^2.1"
   },
-  "scripts": {
-    "pre-install-cmd": "@php scripts/legacy-module-guard.php backup",
-    "post-install-cmd": "@php scripts/legacy-module-guard.php restore",
-    "pre-update-cmd": "@php scripts/legacy-module-guard.php backup",
-    "post-update-cmd": "@php scripts/legacy-module-guard.php restore"
-  },
   "config": {
     "allow-plugins": {
       "composer/installers": true,

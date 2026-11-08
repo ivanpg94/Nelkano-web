@@ -24,3 +24,9 @@ services:
     arguments: ['@lock', '@current_user']
     tags:
       - { name: event_subscriber }
+
+  nelkano_home.manual_release_import:
+    class: Drupal\nelkano_home\EventSubscriber\ManualReleaseImportSubscriber
+    arguments: ['@config.storage']
+    tags:
+      - { name: event_subscriber }
