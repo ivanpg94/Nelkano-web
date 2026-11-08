@@ -143,8 +143,7 @@ modifica únicamente sus manejadores de estado. Los términos son contenido: los
 de actualización/instalación, no una exportación de configuración.
 
 En Docker local, anteponer `docker compose exec -T drupal` a los comandos.
-El contenedor Drupal local carece del ejecutable `mysql`, por lo que su
-`drush sql:dump` no funciona; usar `mariadb-dump` en el servicio `database`.
+El despliegue general sigue DEPLOY.md; no requiere copias de la BD.
 
 ## Pruebas locales
 

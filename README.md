@@ -1,5 +1,7 @@
 # Nelkano-web
 
+Despliegue vigente: [DEPLOY.md](DEPLOY.md). Sólo Git, Composer install y drush deploy, sin copias de BD ni las recetas históricas.
+
 ## Entrega 3.0.7: ejecutables y CSV subidos por Ivan
 
 Los ejecutables se generan fuera del repositorio web. Ivan sube Android (APK),
@@ -9,11 +11,9 @@ Instalador de Windows; el actualizador no consume el EXE. El ZIP de SteamOS
 sirve tanto para la descarga inicial como para actualizar. SDK Studio sigue
 oculto y no se publica ni se exige una nueva entrega suya.
 
-El despliegue de código conserva las filas ES/EN y los canales de actualización
-que ya existen en producción: los captura antes de importar configuración y los
-restaura después, también en la salida por error. No copia ejecutables del
-repositorio ni sustituye los subidos desde administración. Sigue comprobando
-los canales publicados antes de reabrir la web.
+El despliegue conserva las filas ES/EN, los canales y la visibilidad del SDK
+mediante una transformación de configuración en memoria. No crea copias ni
+snapshots y no sustituye los ejecutables subidos desde administración.
 
 Ivan también sube los CSV desde Sistemas. No se importan ni publican durante el
 despliegue. Los 18 CSV de `Nelkano-emulator/pruebas/` tienen versión 3.0.7 y
@@ -22,7 +22,7 @@ importador real, sin escribir catálogos en la BD. Se conservan alias de ROM,
 observaciones de hasta 4.096 caracteres y la ficha de Switch permanece oculta.
 
 Comprobaciones: `scripts/test-release-version-guard.php`,
-`scripts/test-manual-release-catalog.php`, `scripts/test-app-updates.php` y
+`scripts/test-manual-release-import.php`, `scripts/test-app-updates.php` y
 `scripts/check-release-csv-files.php`. Son comprobaciones locales; no acreditan
 que los ejecutables o CSV de esta entrega estén publicados en producción.
 
@@ -35,40 +35,9 @@ Las secciones de despliegues anteriores se conservan como contexto histórico.
 
 ## Entrega 3.0.5: despliegue limpio y eliminación de módulos
 
-Entrega preparada el 01/11/2026, sin push ni despliegue remoto.
-El despliegue comprueba el repositorio antes de tocar la aplicación y antes de
-reabrirla. Rechaza cambios previos, archivos generados todavía versionados y
-reescrituras inesperadas; no ejecuta reset, restore, clean ni commits. Si falla
-una vez iniciado el mantenimiento, mantiene o vuelve a dejar cerrada la web.
-Composer conserva los archivos de scaffold ya controlados por Git; sus nuevas
-versiones se revisan durante la preparación de una entrega. Se conserva la
-configuración canónica de .htaccess que ya estaba versionada.
-
-La preparación retira del índice Git cinco logs/instaladores históricos generados,
-conservando sus copias locales. No elimina el .htaccess de protección privado.
-Los binarios reconstruidos y logs quedan ignorados; texto normalizado a LF.
-Preparar una entrega sigue modificando su configuración/metadatos intencionadamente:
-esos cambios se revisan antes del commit y del despliegue. No deben generarse
-nuevas fuentes al ejecutar un despliegue. Si un servidor antiguo ya tiene cambios,
-se respaldan y revisan antes de actualizar; el script no los descarta para continuar.
-
-Mis módulos y la ficha incluyen Eliminar módulo con confirmación protegida por
-Form API/CSRF, autorización del propietario/administrador y revisión esperada.
-Elimina la ficha y las versiones. Los archivos alojados quedan temporales solo
-si ya no tienen usos; la limpieza normal de Drupal retira sus bytes después.
-No toca descargas externas ni imágenes todavía compartidas por otros módulos.
-
-La transición `scripts/prepare-deploy-update.sh` respalda los restos de versiones
-anteriores antes del fast-forward y repone sus copias como archivos ignorados.
-Sólo concilia texto equivalente al original o ya incluido en el commit entrante;
-rechaza cambios de código distintos y cambios en el índice antes de escribir.
-Tiene cinco pruebas adicionales con repositorios Git reales y aislados.
-
-Comprobaciones locales: 17 del flujo de borrado y 6 escenarios de despliegue con
-Git/Composer/Drush simulados, sin despliegue real. Comandos de QA:
-
-- php scripts/test-deploy-clean.php
-- NELKANO_LOCAL_MODULE_DELETE_TEST=1 ./vendor/bin/drush --root=public_html php:script public_html/modules/custom/nelkano_modules/tests/module-delete-smoke.php (solo Docker local)
+Referencia histórica. La eliminación de módulos conserva su confirmación y
+autorización. Las antiguas recetas de respaldos, transición y mantenimiento ya
+no son el procedimiento de despliegue. Usar únicamente [DEPLOY.md](DEPLOY.md).
 
 ## Catálogo de módulos: contrato público SDK — 01/11/2026
 
@@ -241,74 +210,22 @@ Consulta [Backlog, búsqueda, privacidad y migraciones](public_html/modules/cust
 
 ## Despliegue del rediseño y configuración guardada
 
-La configuración editorial actual está guardada en `config/sync`: Home,
-sistemas ES/EN, guía, SEO, documentación y estilo de miniaturas. No incluye
-usuarios, reportes, backlog, catálogos CSV ni archivos subidos: esos datos
-permanecen en la base de datos y en los directorios de archivos del servidor.
-Los iconos de Figma y el logo WebP sí están versionados con el módulo.
+La configuración editorial vive en `config/sync`. Los usuarios, reportes,
+backlog, CSV y archivos subidos permanecen en producción. La importación
+conserva automáticamente el catálogo de ejecutables, sus canales y la
+visibilidad del SDK.
 
-Para actualizar una instalación existente, usa `bash scripts/deploy-hostinger.sh`.
-`hostinger-deploy.sh` es un alias de esa misma entrada segura; ya no ejecuta
-`site:install`, cambia UUID ni reescribe los ajustes de cuenta, caché o portada.
-El orden es `composer install --no-dev --optimize-autoloader --no-interaction`
-y `drush --root=public_html deploy --yes` (updates, configuración y cachés).
-No usar `composer update` ni sustituir `settings.php` por el de Docker.
-
-Antes del despliegue, conserva una copia SQL, los archivos públicos/privados y
-un exportado de la configuración **del servidor**, fuera de `public_html`.
-Revisa los cambios editoriales de producción que aún no estén en Git: `cim`
-publica el contenido de `config/sync` y sustituye la configuración correspondiente.
-El UUID del sitio, las credenciales de BD y sus rutas deben seguir siendo los del
-servidor. Los APK de Versiones se transportan en `release-artifacts/`, con su manifiesto
-SHA-256. Los demás uploads permanecen en el servidor.
-
-Las actualizaciones nuevas son `11026–11033`, todas en `nelkano_home.install`:
-catálogo de sistemas, compatibilidad CSV, contenido inicial del rediseño, guía,
-metadatos de configuración, SEO, visibilidad conjunta ES/EN y miniaturas WebP.
-`11029` usa el lector YAML de Drupal (también admite el JSON inicial) y `11033`
-habilita la dependencia de imágenes antes de crear el estilo. No hay cambios
-en tablas de cuentas, reportes o backlog, ni en los contratos API existentes.
-No repetir hooks manualmente: Drupal registra cuáles se han ejecutado.
-
-Validación del 20-09-2026: copia aislada de la BD local, configuración previa al
-rediseño y versión del módulo `11025`; ejecución real de `updatedb`, `deploy` y
-un segundo `deploy` sin actualizaciones ni cambios de configuración pendientes.
-Se verificaron el UUID y los hashes de 101 tablas persistentes antes/después.
-Pasaron 1.346 comprobaciones funcionales (sistemas, CSV, formularios, SEO,
-visibilidad e imágenes), la sintaxis PHP y la protección del módulo ante Composer.
-Esto es un ensayo local con Drupal 11.4.6, no una ejecución en producción.
-
-La prueba de migraciones `scripts/test-release-updates.php` rechaza cualquier
-BD cuyo nombre no empiece por `nelkano_release_qa_`. En una copia aislada, coloca
-los dos YAML anteriores (`nelkano_home.settings` y `nelkano_home.docs`) en
-`/tmp/nelkano-release-baseline` y ejecuta sus fases mediante la variable
-`NELKANO_RELEASE_TEST_PHASE`: `prepare`, después `updatedb`, `verify`, después
-`deploy`, y finalmente `verify-sync`. La fase `prepare` modifica únicamente la
-configuración de la copia y su versión de esquema para reproducir la migración.
-Nunca ejecutar esta preparación sobre la BD local de trabajo o producción.
+El procedimiento es el de [DEPLOY.md](DEPLOY.md): actualizar Git, Composer
+install y drush deploy. No requiere copias, exportaciones ni mantenimiento
+manual. Las actualizaciones del módulo se ejecutan una vez mediante Drush.
 
 ## APK y publicación de versiones
 
-Incluye `release-artifacts/` completo y `config/sync/nelkano_home.docs.yml` en el
-paquete de despliegue. No basta con copiar el módulo o exportar la configuración.
-`deploy-hostinger.sh` verifica los APK referenciados, los copia a
-`public://nelkano-releases`, los registra como archivos permanentes y después
-importa la configuración. Un archivo ausente, corrupto o distinto de otro ya
-existente con el mismo nombre detiene el proceso antes de importar la versión.
-No sustituye APK publicados con otros binarios ni cambia la visibilidad o fecha.
+Ivan sube los ejecutables desde el editor de Versiones: APK Android, EXE
+Windows para instalación, MSI Windows para actualización y ZIP SteamOS. Usar
+la misma versión y código en las aplicaciones publicadas. SDK Studio permanece
+oculto. El despliegue de código no empaqueta ni sustituye esos archivos.
 
-La 2.0.0-beta está preparada como borrador en ES y EN, con el archivo
-`Nelkano 2.0.0-beta.apk`. El binario es ARM64, aunque el nombre sigue la convención
-pública. Antes del despliegue definitivo, tras aprobar la revisión en el teléfono,
-marca la versión visible y fija la fecha real en ambos idiomas; exporta esa
-configuración a `config/sync`. Hasta entonces, la home conserva la 1.0.0-beta.
-La home ordena las versiones visibles por número y elige la última con APK
-existente. No requiere cambiar manualmente el enlace de descarga.
-
-Comprobaciones locales: `NELKANO_RELEASE_ASSETS_TEST=1 drush php:script scripts/test-release-assets.php`
-(selección ES/EN, borrador, publicación simulada sin guardar, archivo ausente y
-rechazo de SHA-256 incorrecto) y dos ejecuciones consecutivas del instalador.
-No ejecutar este test en producción: altera temporalmente el manifiesto de prueba.
 ## SEO: dominio y sitemap
 
 La regla `scripts/scaffold/canonical-host.htaccess`, incorporada a `.htaccess`
@@ -344,9 +261,9 @@ viven en la base de datos y se transportan expresamente en
 El módulo `book_import_export` proporciona `book:export UUID archivo.yml` y
 `book:import archivo.yml --dry-run`, actualiza por UUID y crea revisiones sin
 borrados implícitos. Consulta [flujo local → Git → producción, esquema y QA](public_html/modules/custom/book_import_export/README.md).
-El despliegue del libro en producción queda pendiente. El script existente
-`deploy-hostinger.sh` simula e importa el YAML después de actualizar la base y
-sincronizar la configuración; la exportación de configuración no contiene nodos.
+Los cambios del libro se aplican mediante hooks de drush deploy. La exportación
+de configuración no contiene nodos. No ejecutar una receta Book adicional en
+cada despliegue.
 
 ## Navegación y descubrimiento de módulos (2026-10-18)
 
@@ -389,225 +306,25 @@ Consulta [contrato de módulos en brain](../Nelkano-emulator/brain/API%20de%20mo
 
 ## Catálogo de descargas por plataforma
 
-La página y administración de Versiones admiten Android (APK), Windows (MSI), SteamOS (ZIP) y SDK Studio Windows (ZIP). La portada ofrece un selector de las plataformas publicadas ; el botón SDK pertenece a Módulos. Estado solicitado: Android3.0.0-beta visible; Windows, SteamOS y SDK1.0.0-beta ocultos. Mostrar versión controla también el actualizador cuando la fila tiene código positivo, y se comparte entre los dos idiomas. Los archivos nuevos son privados y sus rutas rechazan descargas despublicadas. El panel técnico app-updates queda como canal legado, con prioridad del catálogo nuevo.
-
-`release-artifacts/manifest.json` y `scripts/install-release-assets.php` transportan y verifican todos los archivos, incluidos los ocultos. `config/multiplatform-releases.json` documenta la entrega inicial; `install-platform-catalog.php` solo inicializa esa entrega cuando se solicita explícitamente, no debe ejecutarse para sobrescribir ediciones posteriores del admin. Las publicaciones vigentes se conservan en config/sync/nelkano_home.docs.yml. Desarrollo y verificación locales; pendiente de despliegue en producción.
-
-Diseño vigente (2026-10-12): la Home usa un botón Instalar en Android/Windows/SteamOS con detección del navegador e iconos de las plataformas publicadas para cambiar manualmente. Linux se ofrece como SteamOS; el navegador no identifica de forma fiable cada distribución. SDK queda exclusivamente en Módulos. Versiones usa pestañas Android/Windows/SteamOS/SDK y su admin divide Contenido en esos cuatro grupos. Solo Android permanece publicado. El APK final contiene solo los cinco módulos obligatorios, sin el host/modelos del asistente, y ocupa59,6MiB. Límites de subida512MiB y POST520MiB autorizados por Ivan y aplicados en Apache local; public_html/.user.ini transporta esa configuración para PHP compatible.
-
-Entrega Android preparada para producción: APK Release3.0.0-beta/código10,52,8MiB, firmado con la nueva identidad estable autorizada para Nelkano. Todos los cores Android recompilados y solo los cinco módulos obligatorios. release-artifacts y manifest.json usan exactamente el archivo de outputs/android-production del emulador. No desplegado en producción.
+Versiones admite Android, Windows y SteamOS. SDK Studio sigue oculto; su
+visibilidad se administra por separado y se conserva al desplegar. Las rutas
+públicas y los actualizadores sólo ofrecen los archivos publicados del catálogo.
+Los ejecutables y CSV se suben directamente desde administración.
 
 ## Despliegue de la entrega beta 3 preparada el 12-10-2026
 
-Esta entrega transporta código propio, composer.lock, configuración completa,
-las 23 páginas del libro SDK y los seis artefactos de descarga. El APK Android
-3.0.0-beta/código 10 es Release ARM64, 55.341.057 bytes, con SHA-256
-`f2d0a6200d9e7dd074d6b9a880cb858584c1a4b96e66c383ca4080b4cbcd2284`.
-Solo Android queda publicado; Windows, SteamOS y SDK Studio permanecen ocultos.
-La portada del libro SDK permanece despublicada y sin enlace en el menú.
+Procedimiento retirado. Sus comandos antiguos se conservan únicamente en el
+historial de Git. Para desplegar, seguir [DEPLOY.md](DEPLOY.md).
 
-Los dos archivos de Windows y SteamOS se versionan con Git LFS. Antes de ejecutar
-el despliegue de esas plataformas hay que materializar sus binarios con `git lfs pull`. Si Hostinger
-no dispone de Git LFS, sube por SFTP los archivos reales de `release-artifacts/`
-o extrae el paquete local `outputs/deploy/release-artifacts.zip` en la raíz de
-la aplicación. Los punteros de LFS no son instaladores; el preflight los rechaza.
-Las plataformas despublicadas sin binarios verificados se omiten y no bloquean
-la entrega Android. Los tres APK publicados se transportan como archivos normales
-en Git; no necesitan Git LFS ni descomprimir un paquete.
-La carpeta `release-artifacts/` debe quedar fuera del docroot `public_html/`.
-
-1. En el PC, publicar el commit preparado: `git push origin main`.
-2. Por SSH, entrar en la raíz existente de la aplicación (la carpeta que contiene
-   composer.json y public_html; no reemplazar settings.php). Antes de actualizar,
-   guardar una copia de la BD, configuración y archivos públicos/privados fuera
-   del docroot. Por ejemplo, desde esa raíz:
-
-   ```bash
-   backup_dir="$HOME/nelkano-backups/$(date +%Y%m%d-%H%M%S)"
-   mkdir -p "$backup_dir"
-   ./vendor/bin/drush --root=public_html sql:dump --gzip --result-file="$backup_dir/database.sql"
-   ./vendor/bin/drush --root=public_html config:export --destination="$backup_dir/config" --yes
-   git rev-parse HEAD > "$backup_dir/revision.txt"
-   ```
-
-   Guardar también los directorios reales de archivos públicos y privados
-   indicados por settings.php o mediante el backup de archivos de Hostinger.
-   Revisar cambios editoriales hechos en producción que todavía no estén en Git.
-3. Activar mantenimiento, actualizar el checkout y obtener los binarios:
-
-   ```bash
-   ./vendor/bin/drush --root=public_html state:set system.maintenance_mode 1
-   ./vendor/bin/drush --root=public_html cache:rebuild
-   git pull --ff-only origin main
-   # Opcional: solo para preparar también las plataformas con Git LFS.
-   # git lfs pull
-   ```
-
-   Si usas un checkout separado del sitio, sigue el mismo proceso allí y pasa
-   APP_DIR con la ruta existente de la aplicación al script. Conserva la BD,
-   settings.php y directorios de archivos actuales. private:// debe apuntar a
-   un directorio fuera de public_html.
-4. Ejecutar la receta completa:
-
-   ```bash
-   bash scripts/deploy-hostinger.sh
-   ```
-
-   Comprueba primero los archivos publicados y el directorio privado, hace
-   composer install desde el lock, verifica los hashes y registra
-   los archivos, ejecuta drush deploy e importa el SDK por UUID con simulación
-   previa. No ejecutar install-platform-catalog.php ni seeds/demo/tests en el
-   servidor. No restaurar una base Docker ni cambiar el UUID del sitio. Si el
-   preflight detecta una descarga existente con otro hash, detenerse y revisar
-   esa versión; no borrar el archivo para eludir la comprobación.
-5. Si termina correctamente, desactivar mantenimiento y comprobar HTTPS:
-
-   ```bash
-   ./vendor/bin/drush --root=public_html state:set system.maintenance_mode 0
-   ./vendor/bin/drush --root=public_html cache:rebuild
-   ./vendor/bin/drush --root=public_html updatedb:status
-   ./vendor/bin/drush --root=public_html config:status
-   ```
-
-   Revisar /versiones, /en/releases, /modulos con y sin sesión, perfil, Contacto,
-   páginas legales y Streaming. /es/sdk-de-nelkano debe rechazar visitantes y el
-   enlace SDK no debe aparecer. El API /api/nelkano/v1/app/releases/android-arm64
-   debe devolver beta 3, código 10, tamaño y hash anteriores; descargar el APK y
-   verificar su SHA-256. Los otros tres canales deben permanecer sin oferta.
-   Comprobar además el 301 de www.nelkano.com, canonical y sitemap.xml.
-
-Validación local de la entrega: firma APK correcta y no debuggable; seis archivos
-verificados por el instalador; descarga HTTP del APK con hash idéntico al original;
-87 checks de plataformas; config:status sin diferencias; importación simulada del
-SDK con 23 unchanged. No se ha desplegado ni hecho push a producción.
 ## Hotfix: completar la descarga Android después de drush deploy
 
-`drush deploy` aplica updates y configuración, pero no copia ni registra los
-artefactos ni importa el libro SDK. Puede dejar la beta 3 en Versiones y el API
-con latest=null si falta el APK en private://nelkano-releases.
+Procedimiento retirado. Sus comandos antiguos se conservan únicamente en el
+historial de Git. Para desplegar, seguir [DEPLOY.md](DEPLOY.md).
 
-El hotfix se entrega únicamente como código y documentación. No hace falta ZIP
-para Android: release-artifacts/Nelkano 3.0.0-beta.apk ya es un archivo normal
-versionado. Los punteros/archivos ausentes de las plataformas despublicadas se
-omiten con un aviso; cuando se publiquen se exige su binario y checksum correctos.
-Scaffold conserva .gitattributes y el lock mantiene las mismas dependencias.
-
-En el servidor, después de publicar y obtener este commit:
-
-1. Si private:// no está configurado, crea `private` en la raíz del proyecto y
-   añade en el PHP de `public_html/sites/default/settings.php` (antes de cualquier
-   cierre de PHP y sin sustituir el resto del archivo):
-
-   ```php
-   $settings['file_private_path'] = dirname(DRUPAL_ROOT) . '/private';
-   ```
-
-   Si ya hay un directorio privado configurado, conservarlo. Debe estar fuera de
-   public_html y ser escribible por PHP. La línea usa la ruta del servidor.
-2. Desde `~/domains/nelkano.com`:
-
-   ```bash
-   mkdir -p private
-   ./vendor/bin/drush --root=public_html cache:rebuild
-   bash scripts/deploy-hostinger.sh
-   ```
-
-   El script instala los APK publicados e importa el SDK por UUID conservando
-   su portada despublicada. Solo modifica artefactos con checksums verificados;
-   nunca sobrescribe una descarga existente con contenido distinto.
-3. Comprobar:
-
-   ```bash
-   ./vendor/bin/drush --root=public_html updatedb:status
-   ./vendor/bin/drush --root=public_html config:status
-   curl -fsS https://nelkano.com/api/nelkano/v1/app/releases/android-arm64
-   ```
-
-   latest debe contener3.0.0-beta, código10,55.341.057 bytes y SHA-256
-   f2d0a6200d9e7dd074d6b9a880cb858584c1a4b96e66c383ca4080b4cbcd2284.
-   Las notas ES/EN deben conservar los siete puntos elegidos por Ivan. El SDK
-   sigue oculto. Si se activó mantenimiento para esta operación, retirarlo solo
-   tras completar el script y reconstruir la caché.
-
-Verificación local del hotfix: Composer JSON/lock consistentes, sintaxis Bash,
-instalador completo de seis archivos, preflight con solo tres APK y plataformas
-ocultas ausentes/puntero LFS, y rechazo de un APK publicado corrupto. Consulta
-pública de producción durante la revisión: Versiones y Módulos200, SDK404,
-actualizador200 con latest=null. Esto verifica el problema de disponibilidad,
-no certifica una emisión real, formularios autenticados ni pruebas de la app.
 ## Entrega Android 3.0.2-beta y despliegue
 
-Preparada localmente el 13/10/2026: **3.0.2-beta, código 12**, paquete
-`com.ivanp.nelkano.modular`, Release ARM64 no depurable, firmado con la identidad
-de producción existente. Tamaño **55.416.169 bytes**; SHA-256
-`4c9ddd557982ee03952196fcd2139debdcfcb437014d9ac04c1f27d421826f2f`.
-Notas elegidas por Ivan: «Mejoras de compatibilidad con PS1» / «PS1 compatibility improvements».
-APK y metadatos: `release-artifacts/Nelkano 3.0.2-beta.apk` y
-`release-artifacts/android-3.0.2-beta.json`. El APK se transporta por Git normal.
-El historial y las notas anteriores se conservan; Windows, SteamOS y SDK siguen ocultos.
-
-Todos los cores Android se recompilaron desde fuentes; nueve bibliotecas JNI,
-17 sistemas y únicamente cinco módulos esenciales. Firma v1/v2/v3 y autores de
-los módulos verificados; PSP usa PGO off. Pasan 30 pruebas JVM, una regresión SDK
-de guardados, contratos PS1 CD-buffer/Pause y libc-memory/longjmp, 40 checks de
-pestañas, 8 de descarga, 87 de catálogo y QA de cuatro canales. API y descarga
-HTTP local coinciden en versión, código, bytes y hash; preflight de ocho
-artefactos y paquete publicado de cinco archivos correctos.
-No se ha hecho push, desplegado ni instalado en teléfonos; no se certifica gameplay Android.
-Las fuentes de la aplicación siguen sin commit en Nelkano-emulator/feature/stable.
-Los cambios locales ajenos del libro SDK y displays exportados quedan fuera del commit de entrega.
-
-PC, desde `C:/Users/ivanp/Desktop/nelkano-web`, revisar primero la rama main y
-los commits pendientes; publicar la entrega con `git push origin main`.
-No descartar cambios pendientes de producción: resolverlos antes del pull.
-En la sesión SSH del usuario, ejecutar cada fase y detenerse ante cualquier error:
-
-```bash
-cd /home/u985217890/domains/nelkano.com
-git status --short
-# Continuar solo si el checkout no tiene cambios pendientes.
-backup_dir="$HOME/nelkano-backups/3.0.2-beta-$(date +%Y%m%d-%H%M%S)"
-test ! -e "$backup_dir" && mkdir -p "$backup_dir"
-./vendor/bin/drush --root=public_html sql:dump --gzip --result-file="$backup_dir/database.sql"
-./vendor/bin/drush --root=public_html config:export --destination="$backup_dir/config" --yes
-git rev-parse HEAD > "$backup_dir/revision.txt"
-public_files="$(./vendor/bin/drush --root=public_html php:eval 'echo \Drupal::service("file_system")->realpath("public://");')"
-private_files="$(./vendor/bin/drush --root=public_html php:eval 'echo \Drupal::service("file_system")->realpath("private://");')"
-test -d "$public_files" && test -d "$private_files"
-tar -czf "$backup_dir/files-settings.tar.gz" -- public_html/sites/default/settings.php "$public_files" "$private_files"
-./vendor/bin/drush --root=public_html state:set system.maintenance_mode 1 --input-format=integer
-./vendor/bin/drush --root=public_html cache:rebuild
-git pull --ff-only origin main
-git log -1 --oneline
-# Verificar que HEAD incluye el commit preparado antes de desplegar.
-bash scripts/deploy-hostinger.sh
-```
-
-El script completo instala los APK privados, ejecuta Composer, drush deploy e
-importa el libro SDK. Si falla, mantener mantenimiento y conservar el respaldo.
-No ejecutar config:export en producción después del pull. Solo tras éxito:
-
-```bash
-./vendor/bin/drush --root=public_html state:set system.maintenance_mode 0 --input-format=integer
-./vendor/bin/drush --root=public_html cache:rebuild
-./vendor/bin/drush --root=public_html updatedb:status
-./vendor/bin/drush --root=public_html config:status
-curl --fail --silent --show-error https://nelkano.com/api/nelkano/v1/app/releases/android-arm64
-curl --fail --location --output /tmp/Nelkano-3.0.2-beta.apk \
-  https://nelkano.com/api/nelkano/v1/app/releases/android-arm64/12/download
-printf '%s  %s\n' \
-  4c9ddd557982ee03952196fcd2139debdcfcb437014d9ac04c1f27d421826f2f \
-  /tmp/Nelkano-3.0.2-beta.apk | sha256sum --check
-```
-
-El catálogo debe ofrecer 3.0.2-beta/12, 55416169 bytes y ese hash. Revisar
-`/versiones` y `/en/releases` y que los otros tres canales continúan sin oferta.
-Para comprobar el aviso desde una versión anterior con firma de producción:
-Ajustes → General → Actualización de Nelkano → Comprobar, sin partida abierta.
-Descargar e instalar mediante la confirmación de Android; verificar versión,
-biblioteca y guardados conservados. Las instalaciones debug no admiten esta
-firma como actualización; no desinstalar ni borrar datos para forzar el ensayo.
-
+Procedimiento retirado. Sus comandos antiguos se conservan únicamente en el
+historial de Git. Para desplegar, seguir [DEPLOY.md](DEPLOY.md).
 
 ## Licencias, privacidad y descargas históricas
 
