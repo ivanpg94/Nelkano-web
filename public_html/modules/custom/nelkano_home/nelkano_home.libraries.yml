@@ -26,6 +26,7 @@ admin_forms:
   js:
     js/header.js: {}
     js/admin-forms.js: {}
+    js/community-admin.js: {}
   dependencies:
     - core/drupal
     - core/once

@@ -28,7 +28,7 @@
     <a class="nk-skip-link" href="#system-content">{{ labels.skip }}</a>
     {% include '@nelkano_home/nelkano-header.html.twig' %}
     <main id="system-content" class="nk-page nk-system-page">
-      <div class="nk-system-wrap">
+      <div class="nk-system-wrap{{ compatibility ? ' nk-compat-wrap' : '' }}">
         {% if compatibility %}
           {% include '@nelkano_home/nelkano-compatibility.html.twig' %}
         {% else %}
@@ -47,7 +47,7 @@
             <h1>{{ page.title }}</h1>
             {% if page.tagline %}<p class="nk-system-lead">{{ page.tagline }}</p>{% endif %}
             {% if page.formats %}<div class="nk-system-formats"><span>{{ labels.formats }}</span>{% for format in page.formats %}<code>{{ format }}</code>{% endfor %}</div>{% endif %}
-            <p class="nk-compat-cta"><a class="nk-button nk-button-primary" href="{{ page.compatibility_url }}">{{ language == 'es' ? 'Compatibilidad por juegos' : 'Game compatibility' }} <span aria-hidden="true">→</span></a></p>
+            {% if page.has_compatibility %}<p class="nk-compat-cta"><a class="nk-button nk-button-primary" href="{{ page.compatibility_url }}">{{ language == 'es' ? 'Compatibilidad por juegos' : 'Game compatibility' }} <span aria-hidden="true">→</span></a></p>{% endif %}
           </div>
           {% if page.short_name %}<div class="nk-system-mark" aria-hidden="true"><span>{{ page.short_name }}</span><div class="nk-system-mark-rule"></div><small>NELKANO</small></div>{% endif %}
         </header>

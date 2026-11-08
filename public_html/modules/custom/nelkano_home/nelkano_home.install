@@ -10,7 +10,7 @@
  */
 function nelkano_home_schema(): array {
   require_once __DIR__ . '/nelkano_home.backlog.inc';
-  return [
+  return \Drupal\nelkano_home\Service\CompatibilityCommunity::schema() + [
     'nelkano_hu_sequence' => nelkano_home_hu_sequence_schema(),
     'nelkano_profile' => nelkano_home_profile_schema(),
     'nelkano_friendship' => nelkano_home_friendship_schema(),
@@ -1022,4 +1022,21 @@ function nelkano_home_update_11045(): void {
   if(!$fs->prepareDirectory($directory,\Drupal\Core\File\FileSystemInterface::CREATE_DIRECTORY))throw new \RuntimeException('Release access directory unavailable.');
   $real=$fs->realpath($directory);
   if(!$real || is_link($real) || file_put_contents($real.'/.htaccess',"# All binaries use latest-only controllers.\n<IfModule mod_authz_core.c>\nRequire all denied\n</IfModule>\n<IfModule !mod_authz_core.c>\nOrder allow,deny\nDeny from all\n</IfModule>\n",LOCK_EX)===FALSE)throw new \RuntimeException('Could not protect historical release URLs.');
+}
+
+/** Replace FPS with emulation speed without reinterpreting historical values. */
+function nelkano_home_update_11046(): void {
+  \Drupal\nelkano_home\Service\CompatibilityCatalog::migrateStored();
+}
+
+/** Unify existing catalogs under the six shared compatibility states. */
+function nelkano_home_update_11047(): void {
+  \Drupal\nelkano_home\Service\CompatibilityCatalog::migrateStored();
+}
+
+/** Persistent game identities and public-account compatibility experiences. */
+function nelkano_home_update_11048(): void {
+  $schema=\Drupal::database()->schema();
+  foreach(\Drupal\nelkano_home\Service\CompatibilityCommunity::schema() as $name=>$definition)
+    if(!$schema->tableExists($name))$schema->createTable($name,$definition);
 }

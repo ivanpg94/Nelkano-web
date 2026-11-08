@@ -70,50 +70,168 @@ La home y las fichas responden con `no-store, private` para que guardar un texto
 se refleje en la siguiente carga, incluso para visitantes anónimos, y para no
 compartir la cabecera de una sesión autenticada. La presentación pública usa `redesign.css` y las ilustraciones SVG extraídas
 de Figma, con imágenes opcionales editables por sistema. El diseño de cabecera
-y footer se conserva, con el contraste y las imágenes optimizados. Cada ficha enlaza además a su tabla de compatibilidad.
+y footer se conserva, con el contraste y las imágenes optimizados. El botón de
+compatibilidad y su descripción sólo aparecen en la ficha cuando el sistema tiene
+al menos un catálogo CSV con registros o experiencias públicas, tanto en ES
+como en EN. Se muestran automáticamente tras la primera importación válida o
+la primera valoración publicada.
 
 ## Compatibilidad por juegos y CSV
 
-En `/admin/nelkano/sistemas`, abre un sistema y selecciona un archivo en
-**Compatibilidad (CSV)**. Se sube y publica automáticamente, sin vista previa,
-confirmación ni guardado adicional. Otro CSV sustituye completamente el catálogo
-de ese sistema. La antigua página intermedia redirige a Sistemas.
+En `/admin/nelkano/sistemas`, abre un sistema y la pestaña **Compatibilidad**.
+**Añadir CSV** permite seleccionar uno o varios archivos. Cada uno crea una lista
+con título editable: por ejemplo Game Boy y Game Boy Color, NES y Famicom,
+Master System y Game Gear, o Neo Geo Pocket y Neo Geo Pocket Color.
+Las flechas cambian el orden; la primera lista se abre por defecto. Puedes
+sustituir el archivo de una lista o eliminarla conservando al menos una.
+**Guardar compatibilidad** publica todos los cambios juntos, después de validar
+todos los CSV. Un archivo incorrecto o una edición concurrente no modifica ninguna
+lista. Hasta guardar, los cambios permanecen en el navegador y se avisa al salir.
+La antigua página intermedia redirige a Sistemas.
 
-Cada sistema mantiene su propio catálogo. ES y EN muestran el mismo conjunto de
-pruebas con etiquetas traducidas. La página pública es
+Cada ficha mantiene hasta 20 listas independientes, con títulos compartidos
+entre ES y EN. Los catálogos anteriores se conservan completos como una sola lista
+«Catálogo actual», renombrable; no se atribuyen sus juegos automáticamente a una
+consola. ES y EN muestran las mismas pruebas con etiquetas de estado traducidas. La página pública es
 `/sistemas/{system}/compatibilidad` o `/en/systems/{system}/compatibility`.
-Incluye búsqueda por nombre, filtro de estado y 50 filas por página. La tabla
-muestra solo Nombre, Estado, FPS, Dispositivo y Fecha prueba, sin detalles
-desplegables. Un sistema despublicado no expone su tabla.
+Con más de una lista aparecen pestañas; con una sola se omiten.
+`?lista={id}` selecciona una lista; búsqueda, limpieza de filtros y paginación
+conservan esa selección. Al cambiar de pestaña se reinician filtros y página.
+Incluye búsqueda por nombre, filtro de estado y ocho resultados por página.
+Todos los sistemas comparten una lista compacta de Juego, Estado y Velocidad.
+Cada fila se despliega con teclado o ratón para consultar las observaciones,
+dispositivo, fecha y versión originales. No hay vista de fichas ni carrusel.
+El resumen cuenta juegos únicos, pruebas realizadas y registros por estado;
+No probado no cuenta como prueba. La cabecera no muestra el bloque global de
+dispositivo, versión y última prueba; esos datos permanecen en cada prueba.
+La etiqueta corta del sistema tiene ancho automático y no se divide en líneas.
 
-Cabecera obligatoria (el orden puede variar):
+### Comunidad y módulo Valorar
+
+El módulo público opcional `nelkano.ratings` envía experiencias autenticadas por
+cuenta a `/api/nelkano/v1/compatibility/resolve` y `/rate` (POST JSON, Bearer nativo
+v2, sin cookies como alternativa ni rol Tester). Declara completado/en curso/
+bloqueado, problemas y comentario; dispositivo, plataforma y versión proceden
+del host. Los reintentos idénticos son idempotentes y una edición obsoleta da 409.
+El contador de completados cuenta usuarios distintos, no versiones o envíos.
+
+`nelkano_home_update_11048` crea las tablas `nelkano_compat_game`,
+`nelkano_compat_variant` y `nelkano_compat_rating`. Son contenido de BD y no se
+exportan con configuración. El borrado de cuenta retira las valoraciones y las
+identidades provisionales sin uso; el catálogo editorial se conserva.
+
+Las columnas CSV opcionales `sistema_id`, `juego_id` y `rom_sha256` añaden
+identidad permanente. `juego_id` admite minúsculas, dígitos y guiones, hasta 80
+caracteres; no se cambia al corregir el nombre comercial. `rom_sha256` es la
+huella hexadecimal de 64 caracteres de la ROM descomprimida y requiere los otros
+dos campos. Una huella identifica contenido dentro de su familia de sistemas,
+también cuando un core compartido presenta GB/GBC o NGP/Color bajo un mismo ID.
+Los CSV anteriores siguen funcionando; sin huella no se garantiza reconocer
+automáticamente un nombre de archivo diferente. No se reescriben ni enriquecen
+los CSV del usuario automáticamente.
+
+Cada fila de la página existente agrupa el juego, sus pruebas CSV y la comunidad.
+Las valoraciones sobreviven a una sustitución o retirada de CSV. Un juego nuevo
+aparece en la misma lista, con Sin prueba de IA cuando sólo tiene comunidad.
+El botón de acceso de la ficha se muestra si hay CSV o experiencias públicas.
+Se cargan comentarios de hasta 20 experiencias sólo para los ocho juegos de la
+página visible. No hay nuevas páginas públicas por valoración o juego.
+
+Las huellas desconocidas permiten elegir un candidato o crear una ficha
+provisional. Esa elección no establece una asociación global verificada.
+Sistemas → Compatibilidad CSV → Experiencias de la comunidad permite confirmar
+la asociación de la variante y ocultar o restaurar experiencias. La ruta de
+moderación conserva permiso editorial, sesión y CSRF, con revisión esperada.
+Los comentarios se muestran como texto escapado y no publican correos ni UID.
+
+Pruebas locales: `scripts/test-compatibility-community.php` y
+`scripts/test-compatibility.php`, bajo el bloqueo compartido de cómputo y con
+restauración de datos. `scripts/register-ratings-local.php` registra el paquete
+firmado con acceso Público únicamente en el Drupal Docker local.
+Las filas sin metadatos no inventan dispositivo, fecha, velocidad ni versión.
+Un sistema despublicado no expone su catálogo.
+
+Cabecera completa recomendada (el orden puede variar):
 
 ```csv
-nombre,estado,fps,dispositivo,fecha prueba
+nombre,estado,velocidad_porcentaje,dispositivo,fecha prueba,observaciones,version_nelkano
 ```
 
-- `nombre` y `estado` requieren valor. El resto admite vacío.
-- No hace falta ID. Nombre, dispositivo y fecha identifican cada prueba dentro
-  del archivo; admite el mismo juego probado en dispositivos o fechas distintos.
-- Estados: `sin_probar`, `arranque_confirmado`, `gameplay_confirmado`,
-  `con_incidencias`, `no_arranca`. Gameplay no implica haber completado el juego.
-- FPS entre 0 y 1000, hasta tres decimales; vacío significa no medido, nunca cero.
+- Las primeras cinco columnas siguen siendo obligatorias; se aceptan también
+  los CSV anteriores de cinco columnas. `observaciones` y `version_nelkano` son
+  columnas opcionales e independientes: se puede incluir ninguna, una o ambas.
+- `nombre` requiere valor. Un `estado` vacío anterior se normaliza a No probado. El resto admite vacío.
+- `observaciones`: texto plano de hasta 4096 caracteres, con el alcance de la
+  prueba y los problemas encontrados. Admite comas, comillas y saltos de línea
+  citados según CSV; se muestra como texto escapado, sin interpretar HTML.
+- `version_nelkano`: texto de hasta 64 caracteres con la versión de la app
+  utilizada en esa prueba. No se rellena automáticamente con la versión actual.
+- No hace falta ID. Nombre, dispositivo, fecha y versión de Nelkano identifican
+  cada prueba; permite comparar distintas versiones en el mismo dispositivo y
+  fecha. Cambiar solo las observaciones no crea otra prueba. Sin versión se
+  mantiene la identidad de los CSV anteriores.
+- Los mismos seis estados se usan en todos los sistemas:
+  - `perfecto`: **Perfecto**.
+  - `jugable`: **Jugable**.
+  - `arranque_confirmado`: **Arranque confirmado**.
+  - `con_incidencias`: **Con incidencias**.
+  - `no_arranca`: **No arranca**.
+  - `no_probado`: **No probado**.
+  Se aceptan también estas etiquetas legibles al importar. Los CSV y catálogos
+  anteriores se normalizan: estado vacío/sin_probar → no_probado;
+  gameplay_confirmado → jugable; con_incidencias se conserva.
+  Bloqueo/fallo_grafico pasan a con_incidencias; demo_grafica_observada y
+  funcion_confirmada pasan a arranque_confirmado. No se asigna perfecto a partir de velocidad o ausencia
+  de errores en una muestra. Las observaciones y demás datos se conservan.
+  Jugable describe el recorrido probado, no una partida completa.
+- `velocidad_porcentaje`: número entre 0 y 1000, hasta tres decimales, sin signo `%`;
+  admite coma decimal entre comillas o con delimitador punto y coma. Vacío significa
+  no medido, nunca cero. 100 es la velocidad original; 80 es el 80 % del ritmo
+  normal. No es un porcentaje de compatibilidad ni garantiza fluidez o fidelidad.
+  Registrar una medida de gameplay a velocidad normal, excluyendo pausas; no usar
+  el pico instantáneo del indicador ni introducir FPS en este campo.
 - `fecha prueba` (con espacio) es una fecha opcional válida `AAAA-MM-DD`.
-  Texto: máximo 255 caracteres por campo.
+  Los otros campos de texto mantienen el máximo de 255 caracteres.
 - CSV UTF-8 con o sin BOM, coma o punto y coma. Admite campos entre comillas,
   comillas interiores duplicadas y saltos de línea dentro de campos citados.
   Máximo 5 MB por archivo y 10000 registros por catálogo; el límite efectivo de
   subida también depende de `upload_max_filesize` y `post_max_size` de PHP.
 
-La validación rechaza todo el lote si hay errores o pruebas repetidas, conservando
-los datos anteriores. Un archivo válido reemplaza todos los registros: las filas
-ausentes desaparecen. La subida no guarda ni descarta los textos que se estén
-editando en el formulario. No hay traducción automática de nombres.
+La validación rechaza todo el lote si hay errores o pruebas repetidas dentro de
+un CSV, conservando los datos anteriores. Un archivo válido reemplaza los registros
+de su lista: las filas ausentes desaparecen. Un mismo juego puede aparecer en
+listas distintas. El guardado no modifica los textos que se estén editando en el
+formulario. No hay traducción automática de nombres.
 
-La actualización `11027` convierte los catálogos anteriores a cinco campos.
-Conserva FPS gameplay si estaba medido; si no, la media automática registrada
-en observaciones o FPS intro. Los estados y las filas anteriores se conservan.
-El importador exige ya la nueva cabecera; no acepta columnas adicionales.
+Las listas se almacenan en key-value `nelkano_home.compatibility_lists`, con
+identificador estable, título, nombre del archivo y registros. La colección
+anterior `nelkano_home.compatibility` se lee como alternativa hasta el primer
+guardado y se conserva intacta. El endpoint POST `/admin/nelkano/sistemas/{system}/csv`
+mantiene permiso editorial, sesión y CSRF; valida los archivos antes de escribir,
+usa el bloqueo por sistema y compara la revisión completa para evitar pérdidas
+entre editores. No requiere actualizaciones de BD ni importación de configuración.
+
+La actualización `11046` sustituye FPS por velocidad. Conserva cada juego,
+estado, dispositivo y fecha, deja la velocidad histórica sin medir y archiva
+el catálogo original con FPS en la colección privada `key_value`
+`nelkano_home.compatibility_legacy_fps`, una copia por sistema, sin sobrescribirla
+al repetir la migración. No convierte FPS a porcentajes. La normalización de
+lectura aplica la misma regla a catálogos sin migrar. La actualización anterior
+`11027` utiliza también esta normalización y conserva el archivo de FPS.
+La actualización `11047` aplica los seis estados a los catálogos existentes,
+sin borrar filas ni sustituir observaciones. La lectura normaliza también un
+catálogo anterior sin necesidad de volver a cargar su CSV.
+El importador exige las cinco columnas base de velocidad y admite las dos
+columnas opcionales. Rechaza archivos con `fps`, cabeceras repetidas o columnas
+desconocidas; un rechazo no modifica el catálogo existente. Los registros ya
+guardados reciben los campos nuevos vacíos al leerse, sin inventar observaciones
+ni versiones. No se recuperan automáticamente metadatos del archivo histórico.
+
+La página calcula automáticamente juegos únicos, número de pruebas y última
+fecha registrada a partir de las pruebas publicables, independientemente de los filtros.
+El resumen omite la última fecha si todos los registros carecen de ella.
+Estado y velocidad se muestran por separado. La barra de distribución cuenta
+registros por estado; no es un porcentaje de compatibilidad del core. El formato público de velocidad usa un decimal y el signo %.
 
 Los catálogos se guardan como contenido en la colección `key_value`
 `nelkano_home.compatibility`, con una clave por sistema, separada de la

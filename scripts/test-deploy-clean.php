@@ -58,7 +58,8 @@ DRUSH);
     if ($mode === 'clean') {
       $check($code === 0, $error);
       $check(file_get_contents($base . '/maintenance') === '0', 'successful site not reopened');
-      $check(is_file($repo . '/release-artifacts/runtime.zip'), 'runtime fixture not produced');
+      $check(!is_file($repo . '/release-artifacts/runtime.zip'), 'application installers unexpectedly materialized');
+      $check(str_contains($trace, 'preserve-manual-releases.php'), 'manual catalogue preservation was not invoked');
       $check(file_get_contents($repo . '/source.txt') === "canonical\n", 'clean deployment rewrote source');
     }
     else {

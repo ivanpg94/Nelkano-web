@@ -1,3 +1,3 @@
-﻿"nombre","estado","fps","dispositivo","fecha prueba"
-"Aventura de ejemplo (ficticio)","gameplay_confirmado","59.7","Moto g15 (ejemplo)","2026-09-17"
-"Puzzle de ejemplo (ficticio)","arranque_confirmado","","Moto g15 (ejemplo)","2026-09-17"
+"nombre","estado","velocidad_porcentaje","dispositivo","fecha prueba","observaciones","version_nelkano"
+"Aventura de ejemplo (ficticio)","jugable","99.7","Moto g15 (ejemplo)","2026-09-17","Ejemplo ficticio: exploración y un combate; resto sin probar.","3.0.6"
+"Puzzle de ejemplo (ficticio)","arranque_confirmado","","Moto g15 (ejemplo)","2026-09-17","",""

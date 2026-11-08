@@ -234,6 +234,8 @@ final class HomeController extends ControllerBase {
     $catalog = \Drupal\nelkano_home\Service\CompatibilityCatalog::class;
     $page['system_url'] = SystemPages::path($system, $language);
     $page['compatibility_url'] = $catalog::path($system, $language);
+    $lists = $catalog::lists($system);
+    $page['has_compatibility'] = $lists !== [] || \Drupal\nelkano_home\Service\CompatibilityCommunity::hasExperiences($system);
     $results = [];
     if ($compatibility) {
       $page['canonical'] = $base_url . $page['compatibility_url'];
@@ -243,19 +245,37 @@ final class HomeController extends ControllerBase {
       }
       $page['default_url'] = $language === 'es' ? $page['canonical'] : ($page['alternate'] ?: $page['canonical']);
       $page['seo_title'] = ($language === 'es' ? 'Compatibilidad · ' : 'Compatibility · ') . $page['title'] . ' — Nelkano';
-      $page['seo_description'] = $language === 'es' ? 'Resultados por juego: estado, FPS, dispositivo y fecha de prueba.' : 'Game test results: status, FPS, device and test date.';
+      $page['seo_description'] = $language === 'es' ? 'Resultados por juego: estado, velocidad de emulación (%), dispositivo y fecha de prueba.' : 'Game test results: status, emulation speed (%), device and test date.';
       $query = \Drupal::request()->query;
       $search = mb_substr(trim($query->getString('q')), 0, 100);
       $status = $query->getString('estado');
-      $all = $catalog::rows($system);
       $statuses = $catalog::statuses($language);
+      $list_id = $query->getString('lista');
+      $selected = NULL;
+      foreach ($lists as $list) { if ($list['id'] === $list_id) { $selected = $list; break; } }
+      $selected ??= $lists[0] ?? NULL;
+      $list_id = $selected['id'] ?? '';
+      $list_url = static fn($id) => $page['compatibility_url'] . '?' . http_build_query(['lista' => $id]);
+      $tabs = array_map(static fn($list) => ['id' => $list['id'], 'title' => $list['title'], 'count' => count($list['rows']), 'url' => $list_url($list['id'])], $lists);
+      // Normalize old catalogs and show the same six states for every system.
+      $all = array_filter($selected ? $catalog::simplify($selected['rows']) : [], static fn($row) => isset($statuses[$row['estado']]));
+      $cards = \Drupal\nelkano_home\Service\CompatibilityCommunity::cards($system, $lists, $list_id, $all);
+      if ($status !== '') { $status = $catalog::normalizeStatus($status); }
       if (!isset($statuses[$status])) { $status = ''; }
-      $filtered = array_values(array_filter($all, static fn($row) => ($search === '' || mb_stripos($row['nombre'], $search) !== FALSE) && ($status === '' || $row['estado'] === $status)));
+      $filtered = array_values(array_filter($cards, static fn($row) => ($search === '' || mb_stripos($row['nombre'], $search) !== FALSE) && ($status === '' || $row['estado'] === $status)));
       usort($filtered, static fn($a, $b) => strnatcasecmp($a['nombre'], $b['nombre']) ?: strcmp($a['dispositivo'], $b['dispositivo']) ?: strcmp($a['fecha prueba'], $b['fecha prueba']));
-      $pages = max(1, (int) ceil(count($filtered) / 50));
+      $size = $catalog::PAGE_SIZE;
+      $pages = max(1, (int) ceil(count($filtered) / $size));
       $number = min($pages, max(1, $query->getInt('pagina', 1)));
-      $url = static fn($n) => $page['compatibility_url'] . '?' . http_build_query(['q' => $search, 'estado' => $status, 'pagina' => $n]);
-      $results = ['rows' => array_slice($filtered, ($number - 1) * 50, 50), 'total' => count($all), 'matched' => count($filtered), 'statuses' => $statuses, 'search' => $search, 'status' => $status, 'number' => $number, 'pages' => $pages, 'previous' => $number > 1 ? $url($number - 1) : '', 'next' => $number < $pages ? $url($number + 1) : ''];
+      $url = static fn($n) => $page['compatibility_url'] . '?' . http_build_query(['lista' => $list_id, 'q' => $search, 'estado' => $status, 'pagina' => $n]);
+      $tested = array_filter($all, static fn($row) => $row['estado'] !== 'no_probado');
+      $games = count($cards);
+      $counts = array_fill_keys(array_keys($statuses), 0);
+      foreach ($all as $row) { $counts[$row['estado']]++; }
+      $visible = array_slice($filtered, ($number - 1) * $size, $size);
+      \Drupal\nelkano_home\Service\CompatibilityCommunity::loadExperiences($visible);
+      $results = ['games' => $games, 'tested' => count($tested), 'counts' => $counts, 'rows' => $visible, 'total' => count($cards), 'matched' => count($filtered), 'statuses' => $statuses, 'search' => $search, 'status' => $status, 'number' => $number, 'pages' => $pages, 'first' => count($filtered) ? ($number - 1) * $size + 1 : 0, 'last' => min($number * $size, count($filtered)), 'previous' => $number > 1 ? $url($number - 1) : '', 'next' => $number < $pages ? $url($number + 1) : ''];
+      $results += ['lists' => $tabs, 'list_id' => $list_id, 'clear_url' => $list_id !== '' ? $list_url($list_id) : $page['compatibility_url']];
     }
     foreach (['features', 'limitations', 'formats'] as $field) {
       $page[$field] = SystemPages::lines($page[$field]);

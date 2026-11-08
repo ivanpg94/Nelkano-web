@@ -18,6 +18,7 @@ deployment_failed() {
   local failed_line=$2
   trap - ERR
   if [[ "$MAINTENANCE_STARTED" = 1 ]]; then
+    NELKANO_RELEASE_CATALOG_ACTION=restore "$APP_DIR/vendor/bin/drush" --root="$APP_DIR/public_html" php:script "$APP_DIR/scripts/preserve-manual-releases.php" || true
     "$APP_DIR/vendor/bin/drush" --root="$APP_DIR/public_html" state:set system.maintenance_mode 1 || true
     "$APP_DIR/vendor/bin/drush" --root="$APP_DIR/public_html" cache:rebuild || true
   fi
@@ -45,25 +46,21 @@ if [[ "$(cd -- "$REPO_DIR" && pwd)" != "$(cd -- "$APP_DIR" && pwd)" ]]; then
 fi
 
 cd -- "$APP_DIR"
-# Plain Git transports the installers in parts; no Git LFS or extra tools.
-php scripts/materialize-release-artifacts.php
+# Executables are uploaded by the administrator; source deployment does not replace them.
 # Publish the matching Java/GCC sources without carrying private Nelkano code.
 php scripts/materialize-release-artifacts.php public_html/third-party-sources
 test -s public_html/third-party-sources/nelkano-runtimes-2026-10-31.zip
-php scripts/verify-release-bundle.php
-NELKANO_RELEASE_ASSETS_CHECK_ONLY=1 ./vendor/bin/drush --root=public_html php:script scripts/install-release-assets.php
 # Keep the site closed on any failed update or restored-account check.
 ./vendor/bin/drush --root=public_html state:set system.maintenance_mode 1
 MAINTENANCE_STARTED=1
+NELKANO_RELEASE_CATALOG_ACTION=capture ./vendor/bin/drush --root=public_html php:script scripts/preserve-manual-releases.php
 ./vendor/bin/drush --root=public_html cache:rebuild
 # Keep scripts enabled: they protect deployed code while Composer removes
 # the old nelkano/nelkano_home package on existing installations.
 composer install --no-dev --optimize-autoloader --no-interaction
 test -f public_html/modules/custom/nelkano_home/src/Controller/ErrorReportApiController.php
-# Verify all referenced APKs before importing their release records.
-NELKANO_RELEASE_ASSETS_CHECK_ONLY=1 ./vendor/bin/drush --root=public_html php:script scripts/install-release-assets.php
-./vendor/bin/drush --root=public_html php:script scripts/install-release-assets.php
 ./vendor/bin/drush --root=public_html deploy --yes
+NELKANO_RELEASE_CATALOG_ACTION=restore ./vendor/bin/drush --root=public_html php:script scripts/preserve-manual-releases.php
 # Published applications must offer their matching update package before reopening.
 ./vendor/bin/drush --root=public_html php:script scripts/verify-app-update-channels.php
 # Enable bounded privacy maintenance only after deployment/configuration succeeds.

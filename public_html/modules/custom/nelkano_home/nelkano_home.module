@@ -298,6 +298,7 @@ function nelkano_home_user_predelete(\Drupal\user\UserInterface $account): void 
  * Implements hook_user_delete().
  */
 function nelkano_home_user_delete(\Drupal\user\UserInterface $account): void {
+  \Drupal\nelkano_home\Service\CompatibilityCommunity::purge((int)$account->id());
   \Drupal\nelkano_home\Service\AccountErasure::purge($account);
 }
 

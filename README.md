@@ -1,5 +1,32 @@
 # Nelkano-web
 
+## Entrega 3.0.7: ejecutables y CSV subidos por Ivan
+
+Los ejecutables se generan fuera del repositorio web. Ivan sube Android (APK),
+Windows (EXE y MSI) y SteamOS (ZIP) desde Administración → Versiones, con
+versión **3.0.7** y código **17**. El MSI va en Archivo de descarga y el EXE en
+Instalador de Windows; el actualizador no consume el EXE. El ZIP de SteamOS
+sirve tanto para la descarga inicial como para actualizar. SDK Studio sigue
+oculto y no se publica ni se exige una nueva entrega suya.
+
+El despliegue de código conserva las filas ES/EN y los canales de actualización
+que ya existen en producción: los captura antes de importar configuración y los
+restaura después, también en la salida por error. No copia ejecutables del
+repositorio ni sustituye los subidos desde administración. Sigue comprobando
+los canales publicados antes de reabrir la web.
+
+Ivan también sube los CSV desde Sistemas. No se importan ni publican durante el
+despliegue. Los 18 CSV de `Nelkano-emulator/pruebas/` tienen versión 3.0.7 y
+1.315 registros; esa carpeta está ignorada por Git. Su validación utiliza el
+importador real, sin escribir catálogos en la BD. Se conservan alias de ROM,
+observaciones de hasta 4.096 caracteres y la ficha de Switch permanece oculta.
+
+Comprobaciones: `scripts/test-release-version-guard.php`,
+`scripts/test-manual-release-catalog.php`, `scripts/test-app-updates.php` y
+`scripts/check-release-csv-files.php`. Son comprobaciones locales; no acreditan
+que los ejecutables o CSV de esta entrega estén publicados en producción.
+
+
 Web de produccion de Nelkano alojada en Hostinger.
 
 Consulta [la receta vigente de despliegue completo](DEPLOY.md) para publicar esta
