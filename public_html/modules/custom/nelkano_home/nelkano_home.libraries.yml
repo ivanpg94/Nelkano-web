@@ -30,6 +30,8 @@ admin_forms:
   dependencies:
     - core/drupal
     - core/once
+    - core/internal.jquery.form
+    - core/drupal.ajax
     - nelkano_home/base
 
 detail_ui:
