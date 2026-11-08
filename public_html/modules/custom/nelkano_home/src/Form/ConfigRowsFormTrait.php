@@ -137,10 +137,6 @@ trait ConfigRowsFormTrait {
       '#nk_config_rows_count_key' => $count_key,
     ];
 
-    // Release rows must also work without the optional jQuery Form transport.
-    if (in_array('releases_items', $parents, TRUE)) {
-      unset($element['actions']['add']['#ajax']);
-    }
 
     if (!empty($definition['description'])) {
       $element['description'] = [

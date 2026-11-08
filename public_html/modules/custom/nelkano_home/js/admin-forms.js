@@ -40,7 +40,6 @@
         };
         const render = () => {
           rows.replaceChildren();
-          if (!lists.length) rows.append(node('p', 'nk-csv-empty', text('Añade el primer CSV para publicar la compatibilidad.', 'Add the first CSV to publish compatibility.')));
           lists.forEach((list, index) => {
             const row = node('section', 'nk-csv-list');
             const heading = node('div', 'nk-csv-list-heading');

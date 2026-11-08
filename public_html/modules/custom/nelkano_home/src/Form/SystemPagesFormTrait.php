@@ -73,12 +73,8 @@ trait SystemPagesFormTrait {
         'data-revision' => $catalog::revision($lists),
         'data-max-lists' => $catalog::MAX_LISTS,
       ]];
-      $entry['compatibility']['intro'] = ['#markup' => '<p>' . ($language === 'es' ? 'Añade un CSV para cada consola, por ejemplo Game Boy y Game Boy Color. Cada lista tiene su título editable; las pestañas aparecen cuando hay más de una. Los cambios se publican al pulsar Guardar compatibilidad. Las listas y sus títulos se comparten entre español e inglés.' : 'Add one CSV per console, for example Game Boy and Game Boy Color. Each list has an editable title; tabs appear when there is more than one list. Publish changes with Save compatibility. Lists and their titles are shared between Spanish and English.') . '</p>'];
       $entry['compatibility']['editor'] = ['#type' => 'container', '#attributes' => ['class' => ['nk-csv-editor-mount']]];
-      $entry['compatibility']['format'] = ['#type' => 'details', '#title' => $language === 'es' ? 'Formato y requisitos del CSV' : 'CSV format and requirements'];
-      $entry['compatibility']['format']['help'] = ['#plain_text' => $language === 'es' ? 'Hasta 5 MB y 10000 registros por CSV. Cabecera: nombre,estado,velocidad_porcentaje,dispositivo,fecha prueba. Opcionales: observaciones (hasta 4096 caracteres) y version_nelkano (hasta 64). Velocidad numérica sin %; vacío si no se midió. 100 significa velocidad original. No admite FPS. Estados: perfecto, jugable, arranque_confirmado, con_incidencias, no_arranca, no_probado. Sustituir un CSV sólo reemplaza los registros de esa lista.' : 'Up to 5 MB and 10000 records per CSV. Header: nombre,estado,velocidad_porcentaje,dispositivo,fecha prueba. Optional: observaciones (up to 4096 characters) and version_nelkano (up to 64). Numeric speed without %; leave blank if not measured. 100 means original speed. FPS are not accepted. States: perfecto, jugable, arranque_confirmado, con_incidencias, no_arranca, no_probado. Replacing a CSV only replaces that list’s records.'];
       $entry['compatibility']['preview'] = ['#type' => 'link', '#title' => $language === 'es' ? 'Ver compatibilidad' : 'View compatibility', '#url' => Url::fromUserInput($catalog::path($id, $language)), '#attributes' => ['target' => '_blank', 'rel' => 'noopener']];
-      $entry['compatibility']['identity_help'] = ['#markup'=>'<p>' . ($language==='es' ? 'Identidad opcional del CSV: sistema_id (gba, gb, gbc…), juego_id (nombre máquina estable) y rom_sha256 (huella de la ROM descomprimida). Una huella requiere los tres campos. Las valoraciones de usuarios se conservan al sustituir o retirar un CSV.' : 'Optional CSV identity: sistema_id (gba, gb, gbc…), juego_id (stable machine name), and rom_sha256 (uncompressed ROM fingerprint). A fingerprint requires all three fields. User experiences survive CSV replacement or removal.') . '</p>'];
       $entry['compatibility']['community'] = $this->buildCompatibilityModeration($id, $language);
       $entry['preview'] = ['#type' => 'link', '#title' => $language === 'es' ? 'Ver página' : 'View page', '#url' => Url::fromUserInput(SystemPages::path($id, $language)), '#attributes' => ['target' => '_blank', 'rel' => 'noopener']];
       $entry['show_on_home'] = ['#type' => 'checkbox', '#title' => $language === 'es' ? 'Mostrar tarjeta en Estado actual' : 'Show card in current status', '#default_value' => $page['show_on_home']];
@@ -117,7 +113,7 @@ trait SystemPagesFormTrait {
         'csv'=>['title'=>'Compatibilidad por juegos','tab'=>'compatibilidad','fields'=>['compatibility']],
       ];
       foreach ($groups as $group=>$definition) {
-        $entry[$group]=['#type'=>'details','#title'=>$definition['title'],'#open'=>FALSE,'#attributes'=>['data-r-tab'=>$definition['tab'],'data-r-group'=>$group]];
+        $entry[$group]=['#type'=>'details','#title'=>$definition['title'],'#open'=>$group === 'csv','#attributes'=>['data-r-tab'=>$definition['tab'],'data-r-group'=>$group]];
         foreach ($definition['fields'] as $field) {
           $entry[$group][$field]=$entry[$field];
           $entry[$group][$field]['#parents']=[$language,'systems','pages',$id,$field];
@@ -181,7 +177,6 @@ trait SystemPagesFormTrait {
     $records=$community::moderation($system);
     $options=\Drupal::database()->select($community::GAMES,'g')->fields('g',['id','title'])->condition('page_id',$system)->condition('verified',1)->orderBy('title')->range(0,2000)->execute()->fetchAllKeyed();
     $element['#attributes']=['data-nk-community-moderation'=>Url::fromRoute('nelkano_home.compatibility_moderate',['system'=>$system])->toString(),'data-csrf-token'=>\Drupal::csrfToken()->get(\Drupal\Core\Access\CsrfRequestHeaderAccessCheck::TOKEN_KEY)];
-    $element['help']=['#markup'=>'<p>'.($es?'Últimas 100 experiencias. Puedes ocultarlas o restaurarlas y confirmar a qué juego pertenece una variante desconocida.':'Latest 100 experiences. Hide or restore them and confirm which game an unknown variant belongs to.').'</p>'];
     if(!$records)$element['empty']=['#plain_text'=>$es?'Todavía no hay valoraciones.':'No experiences yet.'];
     foreach($records as $i=>$record) {
       $row=['#type'=>'container','#attributes'=>['class'=>['nk-community-moderation-row'],'data-rating-id'=>$record['id'],'data-revision'=>(string)$record['revision']]];
