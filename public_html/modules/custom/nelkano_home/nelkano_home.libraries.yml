@@ -19,6 +19,7 @@ landing:
     - nelkano_home/base
 
 admin_forms:
+  version: '2026-11-08-csv-1'
   css:
     theme:
       css/header.css: {}
