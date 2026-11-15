@@ -4,6 +4,8 @@ namespace Drupal\nelkano_home\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Extension\ModuleExtensionList;
+use Drupal\Core\Routing\LocalRedirectResponse;
+use Drupal\nelkano_home\Form\NelkanoLoginForm;
 use Drupal\user\UserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -23,7 +25,11 @@ final class AuthController extends ControllerBase {
 
   public function login(): Response {
     $language = $this->requestLanguage();
+    $destination = NelkanoLoginForm::getOauthDestination();
     if ($this->currentUser()->isAuthenticated()) {
+      if ($destination !== NULL) {
+        return new LocalRedirectResponse($destination);
+      }
       if (in_array('nelkano_editor', $this->currentUser()->getRoles(), TRUE)) {
         return new RedirectResponse('/admin/nelkano');
       }
@@ -31,7 +37,7 @@ final class AuthController extends ControllerBase {
     }
 
     return $this->authPage(
-      $this->formBuilder()->getForm('Drupal\nelkano_home\Form\NelkanoLoginForm', $language),
+      $this->formBuilder()->getForm(NelkanoLoginForm::class, $language),
       'login',
       $language === 'en' ? 'Log in to continue' : 'Inicia sesion para continuar',
       $language,

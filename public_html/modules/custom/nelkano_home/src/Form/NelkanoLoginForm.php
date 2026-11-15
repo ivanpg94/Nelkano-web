@@ -25,7 +25,11 @@ final class NelkanoLoginForm extends FormBase {
 
   public function buildForm(array $form, FormStateInterface $form_state, string $language = 'es'): array {
     $form['#attributes']['class'][] = 'nk-auth-form';
-    $form['#action'] = $language === 'en' ? '/en/user/login' : Url::fromRoute('user.login')->toString();
+    $action = $language === 'en' ? Url::fromUserInput('/en/user/login') : Url::fromRoute('user.login');
+    if ($destination = self::getOauthDestination()) {
+      $action->setOption('query', ['destination' => $destination]);
+    }
+    $form['#action'] = $action->toString();
 
     $form['name'] = [
       '#type' => 'email',
@@ -108,8 +112,28 @@ final class NelkanoLoginForm extends FormBase {
     $account = User::load((int) $form_state->get('uid'));
     if ($account) {
       user_login_finalize($account);
+      if ($destination = self::getOauthDestination()) {
+        $form_state->setRedirectUrl(Url::fromUserInput($destination));
+        return;
+      }
       $form_state->setRedirect($account->hasRole('nelkano_editor') ? 'nelkano_home.admin' : ($this->isEnglishRequest() ? 'nelkano_home.user_stream_en' : 'nelkano_home.user_stream'));
     }
+  }
+
+  /**
+   * Keeps the local OAuth request intact through the standalone login form.
+   */
+  public static function getOauthDestination(): ?string {
+    $query = \Drupal::request()->query;
+    $destination = $query->all()['destination'] ?? NULL;
+    if (!is_string($destination)
+      || !str_starts_with($destination, '/oauth/authorize?')
+      || preg_match('/[\x00-\x20\x7f#]/', $destination)) {
+      // Drupal's response subscriber otherwise reads this parameter directly.
+      $query->remove('destination');
+      return NULL;
+    }
+    return \Drupal::service('redirect.destination')->get();
   }
 
   private function isEnglishRequest(): bool {
