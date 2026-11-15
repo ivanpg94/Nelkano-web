@@ -29,6 +29,7 @@ permissions:
   - 'access shortcuts'
   - 'create community_post content'
   - 'create nelkano modules'
+  - 'delete own community_post content'
   - 'delete own files'
   - 'edit own community_post content'
   - 'flag community_like'
