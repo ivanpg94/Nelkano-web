@@ -1,0 +1,11 @@
+uuid: 7af5e19c-e4d8-4c2a-b1a6-44afaa925a91
+langcode: en
+status: true
+dependencies: {  }
+name: 'Publicación de Comunidad'
+type: community_post
+description: 'Publicaciones, capturas y conversación de Comunidad.'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: true

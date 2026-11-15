@@ -1,0 +1,70 @@
+uuid: 82205513-ba58-49e9-bcd9-0530ebf16ede
+langcode: en
+status: true
+dependencies:
+  config:
+    - flag.flag.community_like
+  module:
+    - flag
+    - node
+id: community_reaction_count
+label: 'Número de Me gusta'
+module: views
+description: ''
+tag: ''
+base_table: node_field_data
+base_field: nid
+display:
+  default:
+    id: default
+    display_title: Interna
+    display_plugin: default
+    position: 0
+    display_options:
+      fields:
+        count:
+          id: count
+          table: flag_counts
+          field: count
+          relationship: flag_counts_relationship
+          plugin_id: numeric
+          element_type: '0'
+          element_wrapper_type: '0'
+          element_default_classes: false
+          empty: '0'
+          empty_zero: true
+          set_precision: false
+          separator: ''
+      pager:
+        type: none
+      access:
+        type: none
+      cache:
+        type: none
+      arguments:
+        nid:
+          id: nid
+          table: node_field_data
+          field: nid
+          plugin_id: node_nid
+          default_action: empty
+      style:
+        type: default
+      row:
+        type: fields
+      relationships:
+        flag_counts_relationship:
+          id: flag_counts_relationship
+          table: node_field_data
+          field: flag_counts_relationship
+          plugin_id: flag_counts_relationship
+          required: false
+          flag: community_like
+      display_extenders: {  }
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_interface'
+        - url
+        - 'user.node_grants:view'
+      tags: {  }

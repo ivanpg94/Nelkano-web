@@ -1,0 +1,17 @@
+uuid: 5ea0f8e4-c055-40c6-bc3e-83a38edda4b6
+langcode: en
+status: true
+dependencies: {  }
+id: community
+name: community
+description: 'Nelkano Comunidad: community'
+grant_types:
+  authorization_code:
+    status: true
+  refresh_token:
+    status: true
+umbrella: false
+parent: null
+granularity_id: role
+granularity_configuration:
+  role: authenticated

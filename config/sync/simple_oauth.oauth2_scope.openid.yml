@@ -1,0 +1,17 @@
+uuid: b328421e-cdac-49af-a11e-7dd7aa4ef0c9
+langcode: en
+status: true
+dependencies: {  }
+id: openid
+name: openid
+description: 'Nelkano Comunidad: openid'
+grant_types:
+  authorization_code:
+    status: true
+  refresh_token:
+    status: true
+umbrella: false
+parent: null
+granularity_id: role
+granularity_configuration:
+  role: authenticated

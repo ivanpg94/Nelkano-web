@@ -1,0 +1,372 @@
+uuid: fbda555b-7da5-4e26-9126-784b3f0017a5
+langcode: es
+status: true
+dependencies:
+  config:
+    - user.role.authenticated
+    - views.view.community_friends_recipient
+    - views.view.community_friends_requester
+  module:
+    - eca_access
+    - eca_base
+    - eca_endpoint
+    - eca_render
+    - eca_tamper
+    - eca_user
+id: community_signal
+weight: null
+template: null
+events:
+  authorization:
+    plugin: 'eca_endpoint:access'
+    label: 'Permiso de señalización'
+    configuration:
+      first_path_argument: community-signal
+      second_path_argument: ''
+    successors:
+      -
+        id: check_actor
+        condition: member
+  response:
+    plugin: 'eca_endpoint:response'
+    label: 'Intercambio de señalización'
+    configuration:
+      first_path_argument: community-signal
+      second_path_argument: ''
+    successors:
+      -
+        id: type_json
+        condition: ''
+conditions:
+  member:
+    plugin: eca_current_user_role
+    label: 'Cuenta iniciada'
+    configuration:
+      role: authenticated
+    successors: {  }
+  peer_valid:
+    plugin: eca_scalar
+    label: 'Comparar valores'
+    configuration:
+      negate: false
+      left: '[validated_peer]'
+      right: matched
+      operator: equal
+      type: value
+    successors: {  }
+  accepted:
+    plugin: eca_scalar
+    label: 'Comparar valores'
+    configuration:
+      negate: false
+      left: ',[compact_friends],'
+      right: ',[event:arguments:1],'
+      operator: contains
+      type: value
+    successors: {  }
+  method_get:
+    plugin: eca_scalar
+    label: 'Comparar valores'
+    configuration:
+      negate: false
+      left: '[signal_method]'
+      right: GET
+      operator: equal
+      type: value
+    successors: {  }
+  method_post:
+    plugin: eca_scalar
+    label: 'Comparar valores'
+    configuration:
+      negate: false
+      left: '[signal_method]'
+      right: POST
+      operator: equal
+      type: value
+    successors: {  }
+  not_get:
+    plugin: eca_scalar
+    label: 'Comparar valores'
+    configuration:
+      negate: true
+      left: '[signal_method]'
+      right: GET
+      operator: equal
+      type: value
+    successors: {  }
+  not_post:
+    plugin: eca_scalar
+    label: 'Comparar valores'
+    configuration:
+      negate: true
+      left: '[signal_method]'
+      right: POST
+      operator: equal
+      type: value
+    successors: {  }
+  bearer:
+    plugin: eca_scalar
+    label: 'Comparar valores'
+    configuration:
+      negate: false
+      left: '[bearer_header]'
+      right: 'Bearer '
+      operator: beginswith
+      type: value
+    successors: {  }
+  starts_object:
+    plugin: eca_scalar
+    label: 'Comparar valores'
+    configuration:
+      negate: false
+      left: '[signal_body]'
+      right: '{'
+      operator: beginswith
+      type: value
+    successors: {  }
+  valid_signal:
+    plugin: eca_scalar
+    label: 'Comparar valores'
+    configuration:
+      negate: false
+      left: '[validated_signal]'
+      right: matched
+      operator: equal
+      type: value
+    successors: {  }
+  snapshot_exists:
+    plugin: eca_token_exists
+    label: 'Hay señal de la otra cuenta'
+    configuration:
+      token_name: signal_snapshot
+    successors: {  }
+gateways: {  }
+actions:
+  check_actor:
+    label: 'Validación de señalización'
+    plugin: 'eca_tamper:find_replace_regex'
+    original_id: find_replace_regex
+    configuration:
+      find: '~\A[1-9]\d{0,9}\z~D'
+      replace: matched
+      limit: null
+      eca_data: '[event:arguments:1]'
+      eca_token_name: validated_peer
+    successors:
+      -
+        id: check_incoming
+        condition: peer_valid
+  check_incoming:
+    label: 'Amistades aceptadas entrantes'
+    plugin: 'eca_render_views:views'
+    configuration:
+      token_name: signaling_incoming
+      mode: nothing
+      view_id: community_friends_recipient
+      display_id: default
+      arguments: '[account:uid]'
+    successors:
+      -
+        id: check_outgoing
+        condition: ''
+  check_outgoing:
+    label: 'Amistades aceptadas salientes'
+    plugin: 'eca_render_views:views'
+    configuration:
+      token_name: signaling_outgoing
+      mode: nothing
+      view_id: community_friends_requester
+      display_id: default
+      arguments: '[account:uid]'
+    successors:
+      -
+        id: strip_friend_ids
+        condition: ''
+  strip_friend_ids:
+    label: 'Validación de señalización'
+    plugin: 'eca_tamper:strip_tags'
+    original_id: strip_tags
+    configuration:
+      allowed_tags: ''
+      eca_data: '[signaling_incoming][signaling_outgoing]'
+      eca_token_name: signaling_friends
+    successors:
+      -
+        id: compact_friend_ids
+        condition: ''
+  compact_friend_ids:
+    label: 'Validación de señalización'
+    plugin: 'eca_tamper:find_replace_regex'
+    original_id: find_replace_regex
+    configuration:
+      find: ~\s+~
+      replace: ''
+      limit: null
+      eca_data: '[signaling_friends]'
+      eca_token_name: compact_friends
+    successors:
+      -
+        id: grant
+        condition: accepted
+  grant:
+    label: 'Solo amigos actuales'
+    plugin: eca_access_set_result
+    configuration:
+      access_result: allowed
+    successors: {  }
+  type_json:
+    label: 'Respuesta JSON'
+    plugin: eca_endpoint_set_response_content_type
+    configuration:
+      content_type: application/json
+    successors:
+      -
+        id: no_cache
+        condition: ''
+  no_cache:
+    label: 'Evitar caché de señalización'
+    plugin: eca_endpoint_set_response_headers
+    configuration:
+      headers: 'Cache-Control: "private, no-store"'
+      use_yaml: true
+      validate_yaml: true
+    successors:
+      -
+        id: method
+        condition: ''
+  method:
+    label: 'Método de la petición'
+    plugin: eca_endpoint_get_request_method
+    configuration:
+      token_name: signal_method
+    successors:
+      -
+        id: finish_empty
+        condition: method_get
+      -
+        id: verify_bearer
+        condition: method_post
+      -
+        id: method_denied
+        condition: not_get
+  method_denied:
+    label: 'Los demás métodos no se admiten'
+    plugin: eca_void_and_condition
+    configuration: {  }
+    successors:
+      -
+        id: status_method
+        condition: not_post
+  status_method:
+    label: 'Método no admitido'
+    plugin: eca_endpoint_set_response_status_code
+    configuration:
+      code: '405'
+    successors:
+      -
+        id: bad_request_body
+        condition: ''
+  finish_empty:
+    label: 'Respuesta sin señal'
+    plugin: eca_endpoint_set_response_content
+    configuration:
+      content: '{}'
+    successors:
+      -
+        id: read
+        condition: ''
+  read:
+    label: 'Leer señal que envió el amigo'
+    plugin: eca_keyvalueexpirablestore_read
+    configuration:
+      collection: nelkano_community_signal
+      key: '[event:path_arguments:1]:[event:uid]'
+      token_name: signal_snapshot
+    successors:
+      -
+        id: snapshot
+        condition: snapshot_exists
+  snapshot:
+    label: 'Devolver la señal vigente'
+    plugin: eca_endpoint_set_response_content
+    configuration:
+      content: '[signal_snapshot]'
+    successors: {  }
+  verify_bearer:
+    label: 'Credencial OAuth'
+    plugin: eca_endpoint_get_request_header
+    configuration:
+      name: authorization
+      token_name: bearer_header
+    successors:
+      -
+        id: invalid
+        condition: method_post
+      -
+        id: read_body
+        condition: bearer
+  invalid:
+    label: 'Esperar señal válida'
+    plugin: eca_endpoint_set_response_status_code
+    configuration:
+      code: '400'
+    successors:
+      -
+        id: bad_request_body
+        condition: ''
+  bad_request_body:
+    label: 'Respuesta de error'
+    plugin: eca_endpoint_set_response_content
+    configuration:
+      content: '{"error":"invalid-signal"}'
+    successors: {  }
+  read_body:
+    label: 'Recibir oferta, respuesta o ICE'
+    plugin: eca_endpoint_get_request_content
+    configuration:
+      token_name: signal_body
+    successors:
+      -
+        id: validate
+        condition: starts_object
+  validate:
+    label: 'Validación de señalización'
+    plugin: 'eca_tamper:find_replace_regex'
+    original_id: find_replace_regex
+    configuration:
+      find: '~\A(?!.{49152}.{49153})\{(?:"id":"[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}","signals":\[(?:(?=[\x20-\x7e]{1,32768}"(?:,|\]))(?:"\{\\"type\\"\:\\"(?:offer|answer)\\",\\"sdp\\"\:\\"v\=0(?:[\x20-\x21\x23-\x5b\x5d-\x7e]|\\\\r\\\\n)++\\"\}"|"\{\\"type\\"\:\\"ice\\",\\"mid\\"\:\\"[a-zA-Z\d_.-]{0,64}+\\",\\"index\\"\:\d{1,4},\\"candidate\\"\:\\"candidate\:[\x20-\x21\x23-\x5b\x5d-\x7e]{1,2000}+\\"\}")(?:,(?=[\x20-\x7e]{1,32768}"(?:,|\]))(?:"\{\\"type\\"\:\\"(?:offer|answer)\\",\\"sdp\\"\:\\"v\=0(?:[\x20-\x21\x23-\x5b\x5d-\x7e]|\\\\r\\\\n)++\\"\}"|"\{\\"type\\"\:\\"ice\\",\\"mid\\"\:\\"[a-zA-Z\d_.-]{0,64}+\\",\\"index\\"\:\d{1,4},\\"candidate\\"\:\\"candidate\:[\x20-\x21\x23-\x5b\x5d-\x7e]{1,2000}+\\"\}")){0,23})?\]|"signals":\[(?:(?=[\x20-\x7e]{1,32768}"(?:,|\]))(?:"\{\\"type\\"\:\\"(?:offer|answer)\\",\\"sdp\\"\:\\"v\=0(?:[\x20-\x21\x23-\x5b\x5d-\x7e]|\\\\r\\\\n)++\\"\}"|"\{\\"type\\"\:\\"ice\\",\\"mid\\"\:\\"[a-zA-Z\d_.-]{0,64}+\\",\\"index\\"\:\d{1,4},\\"candidate\\"\:\\"candidate\:[\x20-\x21\x23-\x5b\x5d-\x7e]{1,2000}+\\"\}")(?:,(?=[\x20-\x7e]{1,32768}"(?:,|\]))(?:"\{\\"type\\"\:\\"(?:offer|answer)\\",\\"sdp\\"\:\\"v\=0(?:[\x20-\x21\x23-\x5b\x5d-\x7e]|\\\\r\\\\n)++\\"\}"|"\{\\"type\\"\:\\"ice\\",\\"mid\\"\:\\"[a-zA-Z\d_.-]{0,64}+\\",\\"index\\"\:\d{1,4},\\"candidate\\"\:\\"candidate\:[\x20-\x21\x23-\x5b\x5d-\x7e]{1,2000}+\\"\}")){0,23})?\],"id":"[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}")\}\z~Ds'
+      replace: matched
+      limit: null
+      eca_data: '[signal_body]'
+      eca_token_name: validated_signal
+    successors:
+      -
+        id: write
+        condition: valid_signal
+  write:
+    label: 'Guardar señal temporal en sentido emisor a receptor'
+    plugin: eca_keyvalueexpirablestore_write
+    configuration:
+      expires: 120
+      collection: nelkano_community_signal
+      key: '[event:uid]:[event:path_arguments:1]'
+      value: '[signal_body]'
+    successors:
+      -
+        id: ok
+        condition: ''
+  ok:
+    label: 'Señal registrada'
+    plugin: eca_endpoint_set_response_status_code
+    configuration:
+      code: '200'
+    successors:
+      -
+        id: ok_body
+        condition: ''
+  ok_body:
+    label: 'Confirmación vacía'
+    plugin: eca_endpoint_set_response_content
+    configuration:
+      content: '{}'
+    successors: {  }

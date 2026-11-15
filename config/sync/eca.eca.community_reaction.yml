@@ -1,0 +1,417 @@
+uuid: 3e2bceaf-c7e0-4206-a384-4ffccdcac679
+langcode: es
+status: true
+dependencies:
+  config:
+    - flag.flag.community_like
+    - user.role.authenticated
+    - views.view.community_reaction_count
+  module:
+    - eca_access
+    - eca_base
+    - eca_content
+    - eca_endpoint
+    - eca_flag
+    - eca_render
+    - eca_tamper
+    - eca_user
+    - flag
+id: community_reaction
+weight: null
+template: null
+events:
+  access:
+    plugin: 'eca_endpoint:access'
+    label: 'Autorizar reacción'
+    configuration:
+      first_path_argument: community-reaction
+      second_path_argument: ''
+    successors:
+      -
+        id: load_for_access
+        condition: member
+  respond:
+    plugin: 'eca_endpoint:response'
+    label: 'Responder con reacción'
+    configuration:
+      first_path_argument: community-reaction
+      second_path_argument: ''
+    successors:
+      -
+        id: load_for_response
+        condition: ''
+conditions:
+  member:
+    plugin: eca_current_user_role
+    label: 'Cuenta iniciada'
+    configuration:
+      role: authenticated
+    successors: {  }
+  community_bundle:
+    plugin: eca_entity_type_bundle
+    label: 'Solo publicaciones de Comunidad'
+    configuration:
+      type: 'node community_post'
+      entity: community_post
+    successors: {  }
+  can_view:
+    plugin: eca_entity_is_accessible
+    label: 'Puede ver la publicación'
+    configuration:
+      operation: view
+      entity: community_post
+    successors: {  }
+  get:
+    plugin: eca_scalar
+    label: 'Comparar valores'
+    configuration:
+      negate: false
+      left: '[reaction_method]'
+      right: GET
+      operator: equal
+      case: true
+    successors: {  }
+  post:
+    plugin: eca_scalar
+    label: 'Comparar valores'
+    configuration:
+      negate: false
+      left: '[reaction_method]'
+      right: POST
+      operator: equal
+      case: true
+    successors: {  }
+  not_get:
+    plugin: eca_scalar
+    label: 'Comparar valores'
+    configuration:
+      negate: true
+      left: '[reaction_method]'
+      right: GET
+      operator: equal
+      case: true
+    successors: {  }
+  not_post:
+    plugin: eca_scalar
+    label: 'Comparar valores'
+    configuration:
+      negate: true
+      left: '[reaction_method]'
+      right: POST
+      operator: equal
+      case: true
+    successors: {  }
+  bearer:
+    plugin: eca_scalar
+    label: 'Comparar valores'
+    configuration:
+      negate: false
+      left: '[reaction_bearer]'
+      right: 'Bearer '
+      operator: beginswith
+      case: true
+    successors: {  }
+  request_like:
+    plugin: eca_scalar
+    label: 'Comparar valores'
+    configuration:
+      negate: false
+      left: '[reaction_body]'
+      right: '{"liked":true}'
+      operator: equal
+      case: true
+    successors: {  }
+  request_unlike:
+    plugin: eca_scalar
+    label: 'Comparar valores'
+    configuration:
+      negate: false
+      left: '[reaction_body]'
+      right: '{"liked":false}'
+      operator: equal
+      case: true
+    successors: {  }
+  is_liked:
+    plugin: eca_flag_entity_is_flagged
+    label: 'La cuenta marcó Me gusta'
+    configuration:
+      flag_name: community_like
+      entity: community_post
+    successors: {  }
+  missing_like:
+    plugin: eca_flag_entity_is_flagged
+    label: 'La cuenta puede marcar Me gusta'
+    configuration:
+      negate: true
+      flag_name: community_like
+      entity: community_post
+    successors: {  }
+gateways: {  }
+actions:
+  load_for_access:
+    label: 'Cargar publicación visible'
+    plugin: eca_token_load_entity
+    configuration:
+      token_name: community_post
+      from: id
+      entity_type: node
+      entity_id: '[event:arguments:1]'
+    successors:
+      -
+        id: check_access
+        condition: community_bundle
+  check_access:
+    label: 'Permiso sobre la publicación'
+    plugin: eca_void_and_condition
+    configuration: {  }
+    successors:
+      -
+        id: allowed
+        condition: can_view
+  allowed:
+    label: 'Permitir acceso a reacciones de esta publicación'
+    plugin: eca_access_set_result
+    configuration:
+      access_result: allowed
+    successors: {  }
+  load_for_response:
+    label: 'Cargar publicación'
+    plugin: eca_token_load_entity
+    configuration:
+      token_name: community_post
+      from: id
+      entity_type: node
+      entity_id: '[event:path_arguments:1]'
+    successors:
+      -
+        id: json
+        condition: ''
+  json:
+    label: 'Tipo de respuesta'
+    plugin: eca_endpoint_set_response_content_type
+    configuration:
+      content_type: application/json
+    successors:
+      -
+        id: headers
+        condition: ''
+  headers:
+    label: 'Respuesta privada sin caché'
+    plugin: eca_endpoint_set_response_headers
+    configuration:
+      headers: 'Cache-Control: "private, no-store"'
+      use_yaml: true
+      validate_yaml: true
+    successors:
+      -
+        id: method
+        condition: ''
+  method:
+    label: 'Método de la petición'
+    plugin: eca_endpoint_get_request_method
+    configuration:
+      token_name: reaction_method
+    successors:
+      -
+        id: count
+        condition: get
+      -
+        id: bad_request
+        condition: post
+      -
+        id: read_bearer
+        condition: post
+      -
+        id: check_method
+        condition: not_get
+  check_method:
+    label: 'Solo se admiten GET y POST'
+    plugin: eca_void_and_condition
+    configuration: {  }
+    successors:
+      -
+        id: bad_method
+        condition: not_post
+  bad_method:
+    label: 'Método no admitido'
+    plugin: eca_endpoint_set_response_status_code
+    configuration:
+      code: '405'
+    successors:
+      -
+        id: error_body
+        condition: ''
+  bad_request:
+    label: 'Esperar el cambio solicitado'
+    plugin: eca_endpoint_set_response_status_code
+    configuration:
+      code: '400'
+    successors:
+      -
+        id: error_body
+        condition: ''
+  error_body:
+    label: 'Respuesta de error'
+    plugin: eca_endpoint_set_response_content
+    configuration:
+      content: '{"error":"invalid-reaction"}'
+    successors: {  }
+  read_bearer:
+    label: 'Credencial OAuth'
+    plugin: eca_endpoint_get_request_header
+    configuration:
+      name: authorization
+      token_name: reaction_bearer
+    successors:
+      -
+        id: body
+        condition: bearer
+  body:
+    label: 'Cuerpo de la petición'
+    plugin: eca_endpoint_get_request_content
+    configuration:
+      token_name: reaction_body
+    successors:
+      -
+        id: want_like
+        condition: request_like
+      -
+        id: want_unlike
+        condition: request_unlike
+  want_like:
+    label: 'Aplicar Me gusta si procede'
+    plugin: eca_void_and_condition
+    configuration: {  }
+    successors:
+      -
+        id: already_liked
+        condition: is_liked
+      -
+        id: like
+        condition: missing_like
+  want_unlike:
+    label: 'Retirar Me gusta si procede'
+    plugin: eca_void_and_condition
+    configuration: {  }
+    successors:
+      -
+        id: already_unliked
+        condition: missing_like
+      -
+        id: unlike
+        condition: is_liked
+  already_liked:
+    label: 'La publicación ya tiene Me gusta'
+    plugin: eca_void_and_condition
+    configuration: {  }
+    successors:
+      -
+        id: count
+        condition: ''
+  already_unliked:
+    label: 'La publicación ya está sin Me gusta'
+    plugin: eca_void_and_condition
+    configuration: {  }
+    successors:
+      -
+        id: count
+        condition: ''
+  like:
+    label: 'Marcar Me gusta'
+    plugin: 'flag_action:community_like_flag'
+    configuration:
+      flag_id: community_like
+      flag_action: flag
+      object: community_post
+    successors:
+      -
+        id: count
+        condition: ''
+  unlike:
+    label: 'Retirar Me gusta'
+    plugin: 'flag_action:community_like_unflag'
+    configuration:
+      flag_id: community_like
+      flag_action: unflag
+      object: community_post
+    successors:
+      -
+        id: count
+        condition: ''
+  count:
+    label: 'Obtener recuento de Flag'
+    plugin: 'eca_render_views:views'
+    configuration:
+      token_name: reaction_count_markup
+      mode: nothing
+      view_id: community_reaction_count
+      display_id: default
+      arguments: '[event:path_arguments:1]'
+    successors:
+      -
+        id: strip
+        condition: ''
+  strip:
+    label: 'Extraer el número'
+    plugin: 'eca_tamper:strip_tags'
+    original_id: strip_tags
+    configuration:
+      allowed_tags: ''
+      eca_data: '[reaction_count_markup]'
+      eca_token_name: reaction_count_html
+    successors:
+      -
+        id: digits
+        condition: ''
+  digits:
+    label: 'Quitar saltos y espacios'
+    plugin: 'eca_tamper:find_replace_regex'
+    original_id: find_replace_regex
+    configuration:
+      find: ~\D+~
+      replace: ''
+      limit: null
+      eca_data: '[reaction_count_html]'
+      eca_token_name: reaction_count
+    successors:
+      -
+        id: liked
+        condition: is_liked
+      -
+        id: not_liked
+        condition: missing_like
+  liked:
+    label: 'Establecer reaction_liked'
+    plugin: eca_token_set_value
+    configuration:
+      token_name: reaction_liked
+      token_value: 'true'
+    successors:
+      -
+        id: status_ok
+        condition: ''
+  not_liked:
+    label: 'Establecer reaction_liked'
+    plugin: eca_token_set_value
+    configuration:
+      token_name: reaction_liked
+      token_value: 'false'
+    successors:
+      -
+        id: status_ok
+        condition: ''
+  status_ok:
+    label: 'Estado de la reacción disponible'
+    plugin: eca_endpoint_set_response_status_code
+    configuration:
+      code: '200'
+    successors:
+      -
+        id: response
+        condition: ''
+  response:
+    label: 'Respuesta de reacción'
+    plugin: eca_endpoint_set_response_content
+    configuration:
+      content: '{"liked":[reaction_liked],"count":[reaction_count]}'
+    successors: {  }

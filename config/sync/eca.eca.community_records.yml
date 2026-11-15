@@ -1,0 +1,67 @@
+uuid: 658900fa-f41d-401d-a893-04d096d0f892
+langcode: es
+status: true
+dependencies:
+  module:
+    - eca_base
+    - eca_content
+    - eca_node_access
+id: community_records
+weight: null
+template: null
+events:
+  record:
+    plugin: 'node_access:node_access_records'
+    label: 'Al guardar un nodo'
+    configuration: {  }
+    successors:
+      -
+        id: deny_fallback
+        condition: community_bundle
+conditions:
+  community_bundle:
+    plugin: eca_entity_type_bundle
+    label: 'Solo publicaciones de Comunidad'
+    configuration:
+      type: 'node community_post'
+    successors: {  }
+  public_audience:
+    plugin: eca_scalar
+    label: 'Audiencia Todos'
+    configuration:
+      left: '[node:field_community_audience:value]'
+      right: all
+      operator: equal
+    successors: {  }
+gateways: {  }
+actions:
+  deny_fallback:
+    label: 'Sin permiso por omisión'
+    plugin: eca_node_access_set_node_access_records
+    configuration:
+      realm: community_locked
+      grant_id: '1'
+      grant_view: true
+    successors:
+      -
+        id: owner_record
+        condition: ''
+  owner_record:
+    label: 'Vista de autor y amigos'
+    plugin: eca_node_access_set_node_access_records
+    configuration:
+      realm: community_author
+      grant_id: '[node:author:uid]'
+      grant_view: true
+    successors:
+      -
+        id: all_record
+        condition: public_audience
+  all_record:
+    label: 'Vista para Comunidad'
+    plugin: eca_node_access_set_node_access_records
+    configuration:
+      realm: community_all
+      grant_id: '1'
+      grant_view: true
+    successors: {  }

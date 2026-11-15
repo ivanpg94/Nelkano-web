@@ -1,0 +1,33 @@
+uuid: c2f23690-11d7-4704-953a-480eaf0c4f0c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_community_comments
+    - node.type.community_post
+  module:
+    - comment
+id: node.community_post.field_community_comments
+field_name: field_community_comments
+entity_type: node
+bundle: community_post
+label: Comentarios
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    status: 2
+    cid: 0
+    last_comment_timestamp: 0
+    last_comment_name: null
+    last_comment_uid: 0
+    comment_count: 0
+default_value_callback: ''
+settings:
+  default_mode: 1
+  per_page: 50
+  anonymous: 0
+  form_location: true
+  preview: 1
+field_type: comment

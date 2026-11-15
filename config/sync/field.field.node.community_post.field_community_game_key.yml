@@ -1,0 +1,19 @@
+uuid: 626ec121-054f-4466-8a71-c8445bd55233
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_community_game_key
+    - node.type.community_post
+id: node.community_post.field_community_game_key
+field_name: field_community_game_key
+entity_type: node
+bundle: community_post
+label: 'Identificador de juego'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

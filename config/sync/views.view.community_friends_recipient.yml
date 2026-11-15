@@ -1,0 +1,66 @@
+uuid: 613b79a1-e70c-403e-8d01-f7dd6e5591aa
+langcode: en
+status: true
+dependencies:
+  module:
+    - view_custom_table
+id: community_friends_recipient
+label: 'Amigos de Comunidad (recipient)'
+module: views
+description: ''
+tag: ''
+base_table: nelkano_friendship
+base_field: id
+display:
+  default:
+    id: default
+    display_title: Interna
+    display_plugin: default
+    position: 0
+    display_options:
+      fields:
+        requester_uid:
+          id: requester_uid
+          table: nelkano_friendship
+          field: requester_uid
+          plugin_id: numeric
+          label: ''
+          element_type: '0'
+          element_wrapper_type: '0'
+          element_default_classes: false
+          set_precision: false
+          separator: ''
+          suffix: ','
+      pager:
+        type: none
+      access:
+        type: none
+      cache:
+        type: none
+      arguments:
+        recipient_uid:
+          id: recipient_uid
+          table: nelkano_friendship
+          field: recipient_uid
+          plugin_id: numeric
+          default_action: empty
+      filters:
+        status:
+          id: status
+          table: nelkano_friendship
+          field: status
+          plugin_id: string
+          operator: '='
+          value: accepted
+          exposed: false
+      style:
+        type: default
+      row:
+        type: fields
+      display_extenders: {  }
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_interface'
+        - url
+      tags: {  }

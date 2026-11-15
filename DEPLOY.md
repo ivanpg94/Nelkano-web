@@ -36,3 +36,48 @@ esquema de nelkano_home 11048 y documentación SDK conciliada mediante deploy ho
 Se verificaron home, Versiones, compatibilidad y canales de actualización.
 Las aplicaciones publicadas siguen en 3.0.6/16 hasta que Ivan suba la entrega 3.0.7.
 No se hicieron copias de la BD ni se subieron ejecutables o CSV.
+
+## Activación inicial de Comunidad
+
+Comunidad usa el directorio privado que Drupal ya tiene configurado para las
+capturas de publicaciones y conserva el acceso por audiencia de cada
+publicación. Comprueba que dicho directorio vive fuera de `public_html` y que
+PHP puede escribir en él.
+
+Después del despliegue de código y configuración, genera una sola vez las
+claves de Simple OAuth en un directorio absoluto fuera de `public_html` y fuera
+del directorio de archivos privados de Drupal. El usuario que ejecuta PHP debe
+poder leer ambas claves. Comprueba si ya existen antes de invocar el comando,
+porque sustituirlas invalidaría los tokens emitidos.
+
+```bash
+umask 077
+mkdir -p "$nelkano_oauth_key_dir"
+./vendor/bin/drush --root=public_html simple-oauth:generate-keys "$nelkano_oauth_key_dir"
+```
+
+En el `settings.php` de ese entorno, configura las rutas absolutas a
+`private.key` y `public.key` mediante las claves de configuración
+`$config['simple_oauth.settings']['private_key']` y
+`$config['simple_oauth.settings']['public_key']`. Protege los permisos del
+directorio y deja esta configuración sólo en el entorno que usa las claves.
+
+En Drupal, crea el consumidor **Nelkano Android Comunidad** con identificador
+`nelkano-android-community`. Configúralo como cliente público, activa PKCE,
+habilita los grants `authorization_code` y `refresh_token` y selecciona los
+alcances `openid` y `community` para el código de autorización. Registra
+`com.ivanp.nelkano.modular://community/oauth` como única redirección y deja el
+consentimiento del usuario activado. Drupal conserva el consumidor como
+contenido entre importaciones de configuración.
+
+Después de reconstruir la caché, comprueba que `/oauth/jwks` sirve la clave
+pública, que la autorización del cliente acepta PKCE S256 y que
+`/oauth/userinfo` devuelve el UID Drupal en `sub`. Con dos cuentas, crea una
+publicación con captura para amigos y verifica que abrir su URL directa exige
+una amistad aceptada. Repite la lectura después de retirar la amistad para
+verificar que la autorización cambia aunque el token siga vigente.
+
+Drupal almacena las publicaciones y las capturas publicadas. Para el chat,
+Drupal conserva la oferta, respuesta y candidatos ICE de cada pareja durante
+120 segundos. El canal directo entre dispositivos transporta los mensajes y
+los adjuntos del chat.

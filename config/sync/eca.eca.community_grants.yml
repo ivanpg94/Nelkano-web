@@ -1,0 +1,91 @@
+uuid: 51ee8607-9c6a-4439-8e94-c5cbea395963
+langcode: es
+status: true
+dependencies:
+  config:
+    - user.role.authenticated
+    - views.view.community_friends_recipient
+    - views.view.community_friends_requester
+  module:
+    - eca_node_access
+    - eca_render
+    - eca_tamper
+    - eca_user
+id: community_grants
+weight: null
+template: null
+events:
+  grant:
+    plugin: 'node_access:node_access_grants'
+    label: 'Al leer contenido'
+    configuration:
+      operation: view
+    successors:
+      -
+        id: read_all
+        condition: member
+conditions:
+  member:
+    plugin: eca_user_role
+    label: 'Cuenta iniciada'
+    configuration:
+      account: '[account:uid]'
+      role: authenticated
+    successors: {  }
+gateways: {  }
+actions:
+  read_all:
+    label: 'Comunidad: Todos'
+    plugin: eca_node_access_set_node_grants
+    configuration:
+      realm: community_all
+      grant_ids: '1'
+    successors:
+      -
+        id: incoming
+        condition: ''
+  incoming:
+    label: 'Amistades aceptadas entrantes'
+    plugin: 'eca_render_views:views'
+    configuration:
+      token_name: community_incoming
+      mode: nothing
+      view_id: community_friends_recipient
+      display_id: default
+      arguments: '[account:uid]'
+    successors:
+      -
+        id: outgoing
+        condition: ''
+  outgoing:
+    label: 'Amistades aceptadas salientes'
+    plugin: 'eca_render_views:views'
+    configuration:
+      token_name: community_outgoing
+      mode: nothing
+      view_id: community_friends_requester
+      display_id: default
+      arguments: '[account:uid]'
+    successors:
+      -
+        id: strip
+        condition: ''
+  strip:
+    label: 'Extraer los UID de ambas vistas'
+    plugin: 'eca_tamper:strip_tags'
+    original_id: strip_tags
+    configuration:
+      allowed_tags: ''
+      eca_data: '[community_incoming][community_outgoing]'
+      eca_token_name: community_friend_ids
+    successors:
+      -
+        id: read_friends
+        condition: ''
+  read_friends:
+    label: 'Comunidad: autor y amigos'
+    plugin: eca_node_access_set_node_grants
+    configuration:
+      realm: community_author
+      grant_ids: '[account:uid],[community_friend_ids]'
+    successors: {  }

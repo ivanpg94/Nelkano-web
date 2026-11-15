@@ -1,0 +1,26 @@
+uuid: 08eefad9-0b78-4c61-a0c1-af6b63af9b6e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - filter.format.plain_text
+    - node.type.community_post
+  module:
+    - text
+id: node.community_post.body
+field_name: body
+entity_type: node
+bundle: community_post
+label: Publicación
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: false
+  required_summary: false
+  allowed_formats:
+    - plain_text
+field_type: text_with_summary

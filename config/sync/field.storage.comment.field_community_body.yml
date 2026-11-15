@@ -1,0 +1,19 @@
+uuid: 6fbc2c53-d559-4004-abea-4a4a97177ac6
+langcode: en
+status: true
+dependencies:
+  module:
+    - comment
+    - text
+id: comment.field_community_body
+field_name: field_community_body
+entity_type: comment
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

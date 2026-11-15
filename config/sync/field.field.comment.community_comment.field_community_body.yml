@@ -1,0 +1,22 @@
+uuid: 0d411c3f-b98f-4c39-83d8-427baeb7835f
+langcode: en
+status: true
+dependencies:
+  config:
+    - comment.type.community_comment
+    - field.storage.comment.field_community_body
+  module:
+    - text
+id: comment.community_comment.field_community_body
+field_name: field_community_body
+entity_type: comment
+bundle: community_comment
+label: Comentario
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

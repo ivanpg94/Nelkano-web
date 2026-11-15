@@ -1,0 +1,8 @@
+uuid: 0531c403-740f-4e9f-addd-29530ba0e8b7
+langcode: en
+status: true
+dependencies: {  }
+id: community_comment
+label: 'Comentario de Comunidad'
+target_entity_type_id: node
+description: null

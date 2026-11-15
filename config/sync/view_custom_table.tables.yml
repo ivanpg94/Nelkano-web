@@ -1,0 +1,5 @@
+nelkano_friendship:
+  table_name: nelkano_friendship
+  table_database: default
+  description: 'Nelkano friendship'
+  column_relations: 'a:0:{}'

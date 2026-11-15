@@ -1,0 +1,23 @@
+uuid: 35244298-4b45-49d0-8b75-b4bdfd015b27
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_community_author_uid
+    - node.type.community_post
+id: node.community_post.field_community_author_uid
+field_name: field_community_author_uid
+entity_type: node
+bundle: community_post
+label: 'Identificador del autor'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

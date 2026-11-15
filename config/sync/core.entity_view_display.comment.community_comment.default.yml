@@ -1,0 +1,27 @@
+uuid: abdf6104-de7c-4d48-863b-1266798f986f
+langcode: en
+status: true
+dependencies:
+  config:
+    - comment.type.community_comment
+    - field.field.comment.community_comment.field_community_body
+  module:
+    - text
+id: comment.community_comment.default
+targetEntityType: comment
+bundle: community_comment
+mode: default
+content:
+  field_community_body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

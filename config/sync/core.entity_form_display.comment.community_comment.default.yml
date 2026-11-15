@@ -1,0 +1,36 @@
+uuid: 68307aea-cd98-44eb-a4c7-cdc43c7df2de
+langcode: en
+status: true
+dependencies:
+  config:
+    - comment.type.community_comment
+    - field.field.comment.community_comment.field_community_body
+  module:
+    - text
+id: comment.community_comment.default
+targetEntityType: comment
+bundle: community_comment
+mode: default
+content:
+  author:
+    weight: -2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_community_body:
+    type: text_textarea
+    weight: 0
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  subject:
+    type: string_textfield
+    weight: 10
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }

@@ -4,14 +4,18 @@ status: true
 dependencies:
   config:
     - filter.format.basic_html
+    - node.type.community_post
   module:
     - comment
     - file
     - filter
+    - flag
     - nelkano_home
     - nelkano_modules
+    - node
     - search
     - shortcut
+    - simple_oauth
     - system
 _core:
   default_config_hash: hcfESiA8tr3D1muRk2KF7tbcun16ZJlG1R5SzKGed6g
@@ -23,10 +27,15 @@ permissions:
   - 'access comments'
   - 'access content'
   - 'access shortcuts'
+  - 'create community_post content'
   - 'create nelkano modules'
   - 'delete own files'
+  - 'edit own community_post content'
+  - 'flag community_like'
+  - 'grant simple_oauth codes'
   - 'post comments'
   - 'search content'
   - 'skip comment approval'
+  - 'unflag community_like'
   - 'use nelkano app features'
   - 'use text format basic_html'

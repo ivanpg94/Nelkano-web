@@ -1,0 +1,37 @@
+uuid: cc00ba7d-8a7b-4b20-b0b8-2b0e41ca94a7
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.field.node.community_post.field_community_author_uid
+    - field.storage.node.field_community_author_uid
+    - node.type.community_post
+  module:
+    - eca_content
+id: community_post_author
+weight: null
+template: null
+events:
+  presave:
+    plugin: 'content_entity:presave'
+    label: 'Antes de publicar o editar'
+    configuration:
+      type: 'node community_post'
+    successors:
+      -
+        id: derive_author
+        condition: ''
+conditions: {  }
+gateways: {  }
+actions:
+  derive_author:
+    label: 'Tomar el UID del propietario real'
+    plugin: eca_set_field_value
+    configuration:
+      field_name: field_community_author_uid
+      field_value: '[node:author:uid]'
+      method: 'set:force_clear'
+      trim: true
+      save_entity: false
+      object: entity
+    successors: {  }

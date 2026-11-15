@@ -1,0 +1,20 @@
+uuid: e4ecd5d2-4fbd-40e2-a760-9b4f009ee862
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_community_author_uid
+field_name: field_community_author_uid
+entity_type: node
+type: integer
+settings:
+  unsigned: true
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

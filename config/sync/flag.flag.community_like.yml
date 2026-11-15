@@ -1,0 +1,34 @@
+uuid: 84b6e5cf-8b1c-471b-be67-a863608f5c47
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: community_like
+label: 'Me gusta'
+bundles:
+  - community_post
+entity_type: node
+global: false
+flag_short: 'Me gusta'
+flag_long: ''
+flag_message: ''
+unflag_short: 'Quitar Me gusta'
+unflag_long: ''
+unflag_message: ''
+unflag_denied_text: ''
+flood_control_active: false
+flood_control_limit: 10
+flood_control_window: 3600
+weight: 0
+flag_type: 'entity:node'
+link_type: ajax_link
+flagTypeConfig:
+  show_in_links: {  }
+  show_as_field: true
+  show_on_form: false
+  show_contextual_link: false
+  extra_permissions: {  }
+linkTypeConfig: {  }
+is_anon_enabled: false
+cron_batch_size: 0
