@@ -8,12 +8,12 @@ use Symfony\Component\Routing\RouteCollection;
 final class RouteSubscriber extends RouteSubscriberBase {
 
   protected function alterRoutes(RouteCollection $collection): void {
-    // App requests authenticate with a Bearer header, so Drupal sees them as
-    // anonymous: without this the page cache could serve one user's JSON to
-    // another.
+    // The legacy app controllers validate their own opaque Bearer tokens.
+    // Bypass Simple OAuth and the Drupal page cache for these routes.
     foreach ($collection as $route) {
       if (str_starts_with($route->getPath(), '/api/nelkano/')) {
         $route->setOption('no_cache', TRUE);
+        $route->setOption('_oauth_skip_auth', TRUE);
       }
     }
 
