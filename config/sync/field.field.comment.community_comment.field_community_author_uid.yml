@@ -1,0 +1,23 @@
+uuid: 7939d803-7745-44fc-830e-d65e04514080
+langcode: en
+status: true
+dependencies:
+  config:
+    - comment.type.community_comment
+    - field.storage.comment.field_community_author_uid
+  module:
+    - field_token_value
+id: comment.community_comment.field_community_author_uid
+field_name: field_community_author_uid
+entity_type: comment
+bundle: community_comment
+label: 'Identificador del autor'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  field_value: '[comment:author:uid]'
+  remove_empty: 1
+field_type: field_token_value

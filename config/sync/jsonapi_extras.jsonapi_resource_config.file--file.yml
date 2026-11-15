@@ -1,0 +1,11 @@
+uuid: f21ebfda-2ca4-4e84-b808-ae532f761b02
+langcode: en
+status: true
+dependencies:
+  module:
+    - file
+id: file--file
+disabled: false
+path: file/file
+resourceType: file--file
+resourceFields: {  }

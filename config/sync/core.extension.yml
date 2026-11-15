@@ -1,15 +1,15 @@
 _core:
   default_config_hash: 4GIX5Esnc_umpXUBj4IIocRX7Mt5fPhm4AgXfE3E56E
 module:
-  admin_toolbar_tools: 0
   admin_toolbar: 0
+  admin_toolbar_tools: 0
   announcements_feed: 0
   automated_cron: 0
   big_pipe: 0
-  block_content: 0
   block: 0
-  book_import_export: 0
+  block_content: 0
   book: 0
+  book_import_export: 0
   breakpoint: 0
   ckeditor5: 0
   comment: 0
@@ -20,20 +20,22 @@ module:
   datetime: 0
   dblog: 0
   dynamic_page_cache: 0
+  eca: 0
   eca_access: 0
   eca_base: 0
   eca_content: 0
   eca_endpoint: 0
   eca_flag: 0
+  eca_misc: 0
   eca_node_access: 0
   eca_render: 0
   eca_tamper: 0
   eca_user: 0
   eca_views: 0
-  eca: 0
   editor: 0
-  field_ui: 0
   field: 0
+  field_token_value: 0
+  field_ui: 0
   file: 0
   filter: 0
   flag: 0
@@ -42,13 +44,14 @@ module:
   history: 0
   image: 0
   jsonapi: 0
+  jsonapi_extras: 0
   language: 0
   link: 0
   menu_link_content: 0
   menu_ui: 0
+  metatag: 0
   metatag_open_graph: 0
   metatag_twitter_cards: 0
-  metatag: 0
   modeler_api: 0
   mysql: 0
   nelkano_ai: 0
@@ -57,15 +60,15 @@ module:
   node: 0
   options: 0
   page_cache: 0
-  path_alias: 0
   path: 0
+  path_alias: 0
   redirect: 0
   rest: 0
-  search_api_db: 0
+  search: 0
   search_api: 0
+  search_api_db: 0
   search_help: 0
   search_node: 0
-  search: 0
   serialization: 0
   shortcut: 0
   simple_oauth: 0

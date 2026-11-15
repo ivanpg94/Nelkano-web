@@ -1,0 +1,19 @@
+uuid: 156e581d-c97d-4032-9367-ae00d5c8c697
+langcode: en
+status: true
+dependencies:
+  module:
+    - comment
+    - field_token_value
+id: comment.field_community_author_uid
+field_name: field_community_author_uid
+entity_type: comment
+type: field_token_value
+settings: {  }
+module: field_token_value
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

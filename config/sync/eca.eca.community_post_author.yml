@@ -1,12 +1,15 @@
-uuid: cc00ba7d-8a7b-4b20-b0b8-2b0e41ca94a7
+uuid: c35f28e5-6b3d-4421-90f1-f1b0781a9c53
 langcode: es
 status: true
 dependencies:
   config:
     - field.field.node.community_post.field_community_author_uid
+    - field.field.node.community_post.field_community_image
     - field.storage.node.field_community_author_uid
+    - field.storage.node.field_community_image
     - node.type.community_post
   module:
+    - eca_base
     - eca_content
 id: community_post_author
 weight: null
@@ -21,7 +24,25 @@ events:
       -
         id: derive_author
         condition: ''
-conditions: {  }
+conditions:
+  has_image:
+    plugin: eca_scalar
+    label: 'Hay una imagen adjunta'
+    configuration:
+      left: '[node:field_community_image:target_id]'
+      right: '0'
+      operator: greaterthan
+      type: numeric
+    successors: {  }
+  foreign_image:
+    plugin: eca_scalar
+    label: 'No coincide con el autor'
+    configuration:
+      negate: true
+      left: '[community_photo:owner:uid]'
+      right: '[node:author:uid]'
+      operator: equal
+    successors: {  }
 gateways: {  }
 actions:
   derive_author:
@@ -32,6 +53,31 @@ actions:
       field_value: '[node:author:uid]'
       method: 'set:force_clear'
       trim: true
+      save_entity: false
+      object: entity
+    successors:
+      -
+        id: read_image
+        condition: has_image
+  read_image:
+    label: 'Cargar la imagen adjunta'
+    plugin: eca_token_load_entity
+    configuration:
+      token_name: community_photo
+      from: id
+      entity_type: file
+      entity_id: '[node:field_community_image:target_id]'
+    successors:
+      -
+        id: detach_image
+        condition: foreign_image
+  detach_image:
+    label: 'Se admite sólo una imagen privada del autor'
+    plugin: eca_set_field_value
+    configuration:
+      field_name: field_community_image
+      field_value: ''
+      method: clear
       save_entity: false
       object: entity
     successors: {  }

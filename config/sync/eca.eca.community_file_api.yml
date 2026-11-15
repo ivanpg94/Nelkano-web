@@ -1,0 +1,59 @@
+uuid: 2460ee5e-cd06-472d-b94c-c380d50bca8c
+langcode: es
+status: true
+dependencies:
+  module:
+    - eca_access
+    - eca_base
+    - eca_misc
+id: community_file_api
+weight: null
+template: null
+events:
+  access:
+    plugin: 'access:entity'
+    label: 'Al acceder a archivos'
+    configuration:
+      entity_type_id: file
+      bundle: ''
+      operation: ''
+    successors:
+      -
+        id: check_directory
+        condition: api_route
+conditions:
+  api_route:
+    plugin: eca_route_match
+    label: 'Petición JSON:API'
+    configuration:
+      request: current
+      route: jsonapi.
+      operator: beginswith
+      case: true
+    successors: {  }
+  outside_community:
+    plugin: eca_scalar
+    label: 'El archivo pertenece a otra sección'
+    configuration:
+      negate: true
+      left: '[file:path]'
+      right: 'private://community/'
+      operator: beginswith
+      case: true
+    successors: {  }
+gateways: {  }
+actions:
+  check_directory:
+    label: 'Comprobar directorio de Comunidad'
+    plugin: eca_void_and_condition
+    configuration: {  }
+    successors:
+      -
+        id: deny_other_file
+        condition: outside_community
+  deny_other_file:
+    label: 'Forzar la lista permitida de archivos'
+    plugin: eca_access_set_result
+    configuration:
+      access_result: forbidden
+    successors: {  }

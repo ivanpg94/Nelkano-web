@@ -39,6 +39,10 @@ No se hicieron copias de la BD ni se subieron ejecutables o CSV.
 
 ## Activación inicial de Comunidad
 
+JSON:API habilita sólo las publicaciones, los comentarios de Comunidad y sus
+archivos. Las rutas habituales de la web siguen gestionando el libro del SDK,
+las cuentas y las descargas de módulos.
+
 Comunidad usa el directorio privado que Drupal ya tiene configurado para las
 capturas de publicaciones y conserva el acceso por audiencia de cada
 publicación. Comprueba que dicho directorio vive fuera de `public_html` y que

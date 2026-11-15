@@ -1,0 +1,11 @@
+uuid: 6cea3155-4c9b-4fc4-afdf-4656ac39c0da
+langcode: en
+status: true
+dependencies:
+  config:
+    - comment.type.community_comment
+id: comment--community_comment
+disabled: false
+path: comment/community_comment
+resourceType: comment--community_comment
+resourceFields: {  }

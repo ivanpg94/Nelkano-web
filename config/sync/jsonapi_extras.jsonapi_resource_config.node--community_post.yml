@@ -1,0 +1,11 @@
+uuid: 792d4986-2035-46b9-8bda-147695a7b11a
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.community_post
+id: node--community_post
+disabled: false
+path: node/community_post
+resourceType: node--community_post
+resourceFields: {  }
