@@ -1,0 +1,395 @@
+uuid: 23a0bb51-4197-465f-854f-a952b32ef0aa
+langcode: es
+status: true
+dependencies:
+  config:
+    - user.role.authenticated
+  module:
+    - eca_access
+    - eca_base
+    - eca_content
+    - eca_endpoint
+    - eca_tamper
+    - eca_user
+    - user
+id: community_featured_game
+weight: null
+template: null
+events:
+  access:
+    plugin: 'eca_endpoint:access'
+    label: 'Acceso al juego destacado'
+    configuration:
+      first_path_argument: community-featured-game
+      second_path_argument: ''
+    successors:
+      -
+        id: validate_uid
+        condition: member
+  response:
+    plugin: 'eca_endpoint:response'
+    label: 'Leer o guardar juego destacado'
+    configuration:
+      first_path_argument: community-featured-game
+      second_path_argument: ''
+    successors:
+      -
+        id: json
+        condition: ''
+  user_delete:
+    plugin: 'content_entity:delete'
+    label: 'Al eliminar la cuenta'
+    configuration:
+      type: 'user user'
+    successors:
+      -
+        id: account_cleanup
+        condition: ''
+conditions:
+  member:
+    plugin: eca_current_user_role
+    label: 'Cuenta iniciada'
+    configuration:
+      role: authenticated
+    successors: {  }
+  valid_uid:
+    plugin: eca_scalar
+    label: 'Comparar valores'
+    configuration:
+      negate: false
+      left: '[normalized_featured_uid]'
+      right: matched
+      operator: equal
+      case: true
+    successors: {  }
+  no_marker:
+    plugin: eca_scalar
+    label: 'Comparar valores'
+    configuration:
+      negate: true
+      left: '[event:arguments:1]'
+      right: matched
+      operator: equal
+      case: true
+    successors: {  }
+  get:
+    plugin: eca_scalar
+    label: 'Comparar valores'
+    configuration:
+      negate: false
+      left: '[featured_method]'
+      right: GET
+      operator: equal
+      case: true
+    successors: {  }
+  post:
+    plugin: eca_scalar
+    label: 'Comparar valores'
+    configuration:
+      negate: false
+      left: '[featured_method]'
+      right: POST
+      operator: equal
+      case: true
+    successors: {  }
+  not_get:
+    plugin: eca_scalar
+    label: 'Comparar valores'
+    configuration:
+      negate: true
+      left: '[featured_method]'
+      right: GET
+      operator: equal
+      case: true
+    successors: {  }
+  not_post:
+    plugin: eca_scalar
+    label: 'Comparar valores'
+    configuration:
+      negate: true
+      left: '[featured_method]'
+      right: POST
+      operator: equal
+      case: true
+    successors: {  }
+  owner:
+    plugin: eca_scalar
+    label: 'Comparar valores'
+    configuration:
+      negate: false
+      left: '[event:uid]'
+      right: '[event:path_arguments:1]'
+      operator: equal
+      case: true
+    successors: {  }
+  bearer:
+    plugin: eca_scalar
+    label: 'Comparar valores'
+    configuration:
+      negate: false
+      left: '[featured_auth]'
+      right: 'Bearer '
+      operator: beginswith
+      case: true
+    successors: {  }
+  body_is_object:
+    plugin: eca_scalar
+    label: 'Comparar valores'
+    configuration:
+      negate: false
+      left: '[featured_body]'
+      right: '{'
+      operator: beginswith
+      case: true
+    successors: {  }
+  body_is_clear:
+    plugin: eca_scalar
+    label: 'Comparar valores'
+    configuration:
+      negate: false
+      left: '[featured_body]'
+      right: '{}'
+      operator: equal
+      case: true
+    successors: {  }
+  validated:
+    plugin: eca_scalar
+    label: 'Comparar valores'
+    configuration:
+      negate: false
+      left: '[checked_featured_game]'
+      right: matched
+      operator: equal
+      case: true
+    successors: {  }
+  has_game:
+    plugin: eca_token_exists
+    label: 'La cuenta tiene un juego destacado'
+    configuration:
+      token_name: featured_game_read
+    successors: {  }
+gateways: {  }
+actions:
+  validate_uid:
+    label: 'Preparar el juego destacado'
+    plugin: 'eca_tamper:find_replace_regex'
+    original_id: find_replace_regex
+    configuration:
+      find: '~\A[1-9]\d{0,9}\z~D'
+      replace: matched
+      limit: null
+      eca_data: '[event:arguments:1]'
+      eca_token_name: normalized_featured_uid
+    successors:
+      -
+        id: check_uid
+        condition: valid_uid
+  check_uid:
+    label: 'La ruta lleva un UID numérico'
+    plugin: eca_void_and_condition
+    configuration: {  }
+    successors:
+      -
+        id: allow
+        condition: no_marker
+  allow:
+    label: 'Sólo cuentas iniciadas'
+    plugin: eca_access_set_result
+    configuration:
+      access_result: allowed
+    successors: {  }
+  json:
+    label: 'Respuesta JSON'
+    plugin: eca_endpoint_set_response_content_type
+    configuration:
+      content_type: application/json
+    successors:
+      -
+        id: no_cache
+        condition: ''
+  no_cache:
+    label: 'Respuesta privada sin caché'
+    plugin: eca_endpoint_set_response_headers
+    configuration:
+      headers: 'Cache-Control: "private, no-store"'
+      use_yaml: true
+      validate_yaml: true
+    successors:
+      -
+        id: method
+        condition: ''
+  method:
+    label: 'Método de la petición'
+    plugin: eca_endpoint_get_request_method
+    configuration:
+      token_name: featured_method
+    successors:
+      -
+        id: empty
+        condition: get
+      -
+        id: denied
+        condition: post
+      -
+        id: authorization
+        condition: post
+      -
+        id: check_methods
+        condition: not_get
+  check_methods:
+    label: 'Sólo admite GET y POST'
+    plugin: eca_void_and_condition
+    configuration: {  }
+    successors:
+      -
+        id: method_denied
+        condition: not_post
+  method_denied:
+    label: 'Método no admitido'
+    plugin: eca_endpoint_set_response_status_code
+    configuration:
+      code: '405'
+    successors:
+      -
+        id: error
+        condition: ''
+  empty:
+    label: 'Sin juego destacado'
+    plugin: eca_endpoint_set_response_content
+    configuration:
+      content: '{}'
+    successors:
+      -
+        id: read
+        condition: ''
+  read:
+    label: 'Leer el juego destacado de la cuenta'
+    plugin: eca_keyvaluestore_read
+    configuration:
+      collection: nelkano_community_featured_game
+      key: '[event:path_arguments:1]'
+      token_name: featured_game_read
+    successors:
+      -
+        id: game
+        condition: has_game
+  game:
+    label: 'Juego destacado guardado'
+    plugin: eca_endpoint_set_response_content
+    configuration:
+      content: '[featured_game_read]'
+    successors: {  }
+  denied:
+    label: 'Sólo puede editar el titular'
+    plugin: eca_endpoint_set_response_status_code
+    configuration:
+      code: '403'
+    successors:
+      -
+        id: error
+        condition: ''
+  authorization:
+    label: 'Credencial OAuth'
+    plugin: eca_endpoint_get_request_header
+    configuration:
+      name: authorization
+      token_name: featured_auth
+    successors:
+      -
+        id: ensure_owner
+        condition: bearer
+  ensure_owner:
+    label: 'Comprobar que la cuenta es la solicitante'
+    plugin: eca_void_and_condition
+    configuration: {  }
+    successors:
+      -
+        id: invalid
+        condition: owner
+      -
+        id: body
+        condition: owner
+  invalid:
+    label: 'Esperar juego válido'
+    plugin: eca_endpoint_set_response_status_code
+    configuration:
+      code: '400'
+    successors:
+      -
+        id: error
+        condition: ''
+  error:
+    label: 'Respuesta de error'
+    plugin: eca_endpoint_set_response_content
+    configuration:
+      content: '{"error":"invalid-featured-game"}'
+    successors: {  }
+  body:
+    label: 'Leer juego destacado'
+    plugin: eca_endpoint_get_request_content
+    configuration:
+      token_name: featured_body
+    successors:
+      -
+        id: clear
+        condition: body_is_clear
+      -
+        id: validate_game
+        condition: body_is_object
+  clear:
+    label: 'Quitar juego destacado'
+    plugin: eca_keyvaluestore_delete
+    configuration:
+      collection: nelkano_community_featured_game
+      key: '[event:uid]'
+    successors:
+      -
+        id: ok
+        condition: ''
+  validate_game:
+    label: 'Preparar el juego destacado'
+    plugin: 'eca_tamper:find_replace_regex'
+    original_id: find_replace_regex
+    configuration:
+      find: '~(?(DEFINE)(?<character>(?:[^\x00-\x1f"\\]|\\(?:["\\/bfnrt]|u[0-9a-fA-F]{4}))))\A\{(?:"key":"(?&character){1,191}+","title":"(?&character){1,180}+"|"title":"(?&character){1,180}+","key":"(?&character){1,191}+")\}\z~uD'
+      replace: matched
+      limit: null
+      eca_data: '[featured_body]'
+      eca_token_name: checked_featured_game
+    successors:
+      -
+        id: save
+        condition: validated
+  save:
+    label: 'Guardar juego destacado'
+    plugin: eca_keyvaluestore_write
+    configuration:
+      collection: nelkano_community_featured_game
+      key: '[event:uid]'
+      value: '[featured_body]'
+    successors:
+      -
+        id: ok
+        condition: ''
+  ok:
+    label: 'Juego destacado actualizado'
+    plugin: eca_endpoint_set_response_status_code
+    configuration:
+      code: '200'
+    successors:
+      -
+        id: submitted
+        condition: ''
+  submitted:
+    label: 'Juego destacado actualizado'
+    plugin: eca_endpoint_set_response_content
+    configuration:
+      content: '[featured_body]'
+    successors: {  }
+  account_cleanup:
+    label: 'Quitar el juego destacado de la cuenta eliminada'
+    plugin: eca_keyvaluestore_delete
+    configuration:
+      collection: nelkano_community_featured_game
+      key: '[user:uid]'
+    successors: {  }

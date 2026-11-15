@@ -13,6 +13,13 @@ Si el código ya está actualizado, sólo hacen falta Composer y Drush. También
 puede usarse `bash scripts/deploy-hostinger.sh`, que ejecuta exactamente esos
 dos comandos; no se ejecuta además del bloque anterior.
 
+Si Composer en Hostinger informa que falta `ext-sodium` y el módulo está
+instalado, ejecuta el paso de Composer con la extensión cargada en la CLI.
+
+```bash
+php -d extension=sodium.so /usr/local/bin/composer install --no-dev --optimize-autoloader --no-interaction
+```
+
 No ejecutar copias de BD, archivos o configuración, exportaciones, SQL dumps,
 restauraciones, empaquetadores, activaciones auxiliares ni mantenimiento manual
 como parte del despliegue habitual. No usar `composer update`.
