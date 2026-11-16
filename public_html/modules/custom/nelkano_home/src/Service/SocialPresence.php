@@ -8,10 +8,13 @@ final class SocialPresence {
   public const TTL = 90;
   public function __construct(private $store, private $userData, private int $now) {}
   public function sharing(int $uid): bool {
-    return $this->userData->get('nelkano_home', $uid, 'share_activity') === TRUE;
+    $preference = $this->userData->get('nelkano_home', $uid, 'share_activity');
+    // Legacy scalar writes could not be confirmed, so require a new opt-in.
+    return is_array($preference) && ($preference['enabled'] ?? NULL) === TRUE;
   }
   public function setSharing(int $uid, bool $enabled): void {
-    $this->userData->set('nelkano_home', $uid, 'share_activity', $enabled);
+    // Drupal serializes arrays, preserving the boolean across SQL storage.
+    $this->userData->set('nelkano_home', $uid, 'share_activity', ['enabled' => $enabled]);
     if (!$enabled) $this->store->delete((string) $uid);
   }
   public function update(int $uid, array $payload): void {
