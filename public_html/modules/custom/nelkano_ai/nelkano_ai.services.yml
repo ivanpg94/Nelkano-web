@@ -1,0 +1,5 @@
+services:
+  nelkano_ai.endpoint_authentication:
+    class: Drupal\nelkano_ai\Authentication\AiEndpointAuthentication
+    tags:
+      - { name: authentication_provider, provider_id: nelkano_ai_endpoint, priority: 1000, global: true }
