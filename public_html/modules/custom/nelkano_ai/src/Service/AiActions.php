@@ -9,8 +9,9 @@ final class AiActions {
   public static function initial(array $body): ?array {
     if(!isset($body['protocol'])){if(isset($body['context']))throw new HttpException(400,'invalid-context');return NULL;}
     $c=$body['context']??NULL;
-    if($body['protocol']!=='actions-v1'||!is_array($c)||array_is_list($c)||strlen(json_encode($c,JSON_THROW_ON_ERROR))>16000)throw new HttpException(400,'invalid-context');
-    if(array_diff(array_keys($c),['surface','game','actions'])||!is_string($c['surface']??NULL)||strlen($c['surface'])>64||!is_array($c['actions']??NULL)||!array_is_list($c['actions'])||count($c['actions'])>64)throw new HttpException(400,'invalid-context');
+    if($body['protocol']!=='actions-v1'||!is_array($c)||array_is_list($c)||strlen(json_encode($c,JSON_THROW_ON_ERROR))>(isset($c['assistant'])?AiAssistant::CONTEXT_BYTES:16000))throw new HttpException(400,'invalid-context');
+    if(array_diff(array_keys($c),['surface','game','actions','assistant'])||!is_string($c['surface']??NULL)||strlen($c['surface'])>64||!is_array($c['actions']??NULL)||!array_is_list($c['actions'])||count($c['actions'])>64)throw new HttpException(400,'invalid-context');
+    if(isset($c['assistant']))AiAssistant::validate($c['assistant'],$c['game']??NULL);
     $ids=[];foreach($c['actions']as$a){
       if(!is_array($a)||array_diff(array_keys($a),['id','label','domain','args','available','requiredCapabilities','reason'])||!is_string($a['id']??NULL)||!preg_match('/^[a-z][a-zA-Z0-9.-]{0,63}$/D',$a['id'])||isset($ids[$a['id']])||!is_string($a['label']??NULL)||mb_strlen($a['label'])>160||!is_string($a['domain']??NULL)||!is_array($a['args']??NULL))throw new HttpException(400,'invalid-context');
       if(isset($a['available'])&&!is_bool($a['available']))throw new HttpException(400,'invalid-context');
@@ -53,7 +54,7 @@ final class AiActions {
     if(count($body['results'])!==count($a['calls']))throw new HttpException(400,'invalid-tool-results');
     foreach($body['results']as$i=>$r)if(!is_array($r)||array_diff(array_keys($r),['id','result'])||($r['id']??NULL)!==$a['calls'][$i]['id']||!is_array($r['result']??NULL)||!in_array($r['result']['state']??NULL,['done','opened','failed','cancelled','unknown','blocked'],TRUE))throw new HttpException(400,'invalid-tool-results');
     $a['turns'][]=['round'=>$a['round'],'calls'=>$a['calls'],'results'=>$body['results'],'hash'=>$hash];$a['round']++;$a['calls']=[];$a['worker_hash']='';
-    if(strlen(json_encode($a,JSON_THROW_ON_ERROR))>131072)throw new HttpException(413,'tool-history-too-large');
+    if(strlen(json_encode($a,JSON_THROW_ON_ERROR))>(isset($a['context']['assistant']['screen'])?AiAssistant::STATE_BYTES:131072))throw new HttpException(413,'tool-history-too-large');
     self::store($id,['status'=>'queued','deadline'=>(int)$row['expires'],'lease_hash'=>'','actions_data'=>json_encode($a,JSON_THROW_ON_ERROR)]);
     return AiQueue::view(AiQueue::load($id));
   }

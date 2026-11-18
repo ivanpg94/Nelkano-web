@@ -85,6 +85,7 @@ try {
  $call('POST','heartbeat',$worker,['ready'=>TRUE,'model'=>'QA','model_revision'=>'qa-actions','protocols'=>['actions-v1']]);
  $q=$make('Ponlo a pantalla completa');$q['protocol']='actions-v1';
  $q['context']=['surface'=>'player','game'=>NULL,'actions'=>[['id'=>'session.fullscreen','label'=>'Pantalla completa','domain'=>'session','args'=>['enabled'=>'boolean'],'available'=>TRUE,'requiredCapabilities'=>['application.commands','presentation.player']]]];
+ if(getenv('NELKANO_ASSISTANT_CONTEXT_TEST')==='1'){$q['context']['game']=['id'=>'rocket'];$q['context']['assistant']=require __DIR__.'/assistant-fixture.php';$check(strlen(json_encode($q,JSON_THROW_ON_ERROR))>49152,'captura supera el límite de texto anterior');$check(in_array('game-context-v1',$call('GET','status',$tokens['a'])['features'],TRUE),'contexto ampliado negociado');}
  $submit=$call('POST','submit',$tokens['a'],$q);$aid=$submit['job']['id'];$check((int)AiQueue::load($aid)['deadline']===(int)AiQueue::load($aid)['expires'],'esperar en cola usa TTL, no tiempo de generación');
  $check(($submit['job']['protocol']??'')==='actions-v1','protocolo opcional anunciado');
  $claim=$call('POST','claim',$worker,[])['job'];
@@ -107,6 +108,7 @@ try {
  $call('POST','cancel',$tokens['a'],[],$aid);
  $check($call('POST','result',$worker,['lease'=>$next['lease'],'model_revision'=>'qa-actions','answer'=>'Hecho'],$aid)['accepted']===FALSE,'cancelar impide respuesta tardía');
 
+ if(getenv('NELKANO_ASSISTANT_CONTEXT_TEST')==='1')$check(AiQueue::load($aid)['actions_data']===NULL,'cancelar elimina capturas y recuerdos temporales');
  echo json_encode(['checks'=>$checks,'result'=>'PASS','simulated_pc'=>TRUE,'real_model'=>FALSE],JSON_THROW_ON_ERROR).PHP_EOL;
 }finally{
  $transaction->rollBack();

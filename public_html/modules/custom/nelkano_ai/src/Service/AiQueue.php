@@ -22,7 +22,7 @@ final class AiQueue {
   }
   public static function status(): array {
     $h=\Drupal::state()->get('nelkano_ai.heartbeat',[]);
-    return ['protocols'=>$h['protocols']??[],'online'=>self::online(),'model'=>$h['model']??'','model_revision'=>$h['model_revision']??''];
+    return ['features'=>['game-context-v1'],'protocols'=>$h['protocols']??[],'online'=>self::online(),'model'=>$h['model']??'','model_revision'=>$h['model_revision']??''];
   }
   public static function validate(array $body): array {
     if(array_diff(array_keys($body),['request_id','question','history','protocol','context']))throw new HttpException(400,'invalid-request');
