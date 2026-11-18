@@ -16,6 +16,16 @@ estas transiciones individuales; este cambio no modifica ni ejecuta el cliente.
 
 ## Aplicar en una instalación existente
 
+La recepción Android (`POST /api/nelkano/error-reports`, distinta de la API PC
+v1) usa `ReportEndpointAuthentication` antes de Simple OAuth. Este proveedor no
+inicia una sesión Drupal: conserva la cabecera para que `AppAuthController`
+valide el token nativo y el permiso Tester. Sin él, Simple OAuth trata el token
+opaco como JWT y devuelve HTML 401 antes de llegar al controlador; Android lo
+interpreta como recepción incierta. El cambio sólo afecta a ese método y ruta,
+sin cambiar APK ni módulo Android. `scripts/test-report-endpoint-auth.php`
+comprueba la selección con el AuthenticationManager real, la conservación de
+credenciales y que las otras rutas siguen usando OAuth. No crea reportes.
+
 Desde PowerShell, en `C:\Users\ivanp\Desktop\nelkano-web`:
 
 ```powershell

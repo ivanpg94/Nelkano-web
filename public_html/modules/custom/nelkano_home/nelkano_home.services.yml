@@ -1,4 +1,8 @@
 services:
+  nelkano_home.report_endpoint_authentication:
+    class: Drupal\nelkano_home\Authentication\ReportEndpointAuthentication
+    tags:
+      - { name: authentication_provider, provider_id: nelkano_report_endpoint, priority: 1000, global: true }
   nelkano_home.connection_privacy_retention:
     class: Drupal\nelkano_home\EventSubscriber\ConnectionPrivacyRetentionSubscriber
     tags:
