@@ -1,4 +1,8 @@
 services:
+  nelkano_home.friends_endpoint_authentication:
+    class: Drupal\nelkano_home\Authentication\FriendsEndpointAuthentication
+    tags:
+      - { name: authentication_provider, provider_id: nelkano_friends_endpoint, priority: 1000, global: true }
   nelkano_home.report_endpoint_authentication:
     class: Drupal\nelkano_home\Authentication\ReportEndpointAuthentication
     tags:
