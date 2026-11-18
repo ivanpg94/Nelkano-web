@@ -102,6 +102,14 @@ La API se activa con `bash scripts/deploy-hostinger.sh --nelkan-ai-only`.
 Esta opción instala sólo `nelkano_ai` y comprueba su tabla y rutas.
 No importa configuración global ni toca descargas o registros de versiones.
 El despliegue general sin argumentos conserva su flujo.
+## Contexto de juego y capturas: game-context-v1
+
+/status anuncia features:["game-context-v1"] para que un módulo anterior conserve su flujo y uno nuevo no envíe imágenes a un backend antiguo. actions-v1 admite context.assistant con identity (juego/hash, sistema, plataforma, dispositivo y versión de app), memory (edición indicada, ubicación, objetivo y preferencia de spoilers) y screen opcional (PNG/JPEG base64, dimensiones y fecha). La identidad debe coincidir con context.game.id; no demuestra una edición comercial o de un hack por sí sola.
+
+AiAssistant valida claves, tipos, tamaños, base64 canónico, cabecera MIME y dimensiones reales. Contexto ampliado hasta 230000 bytes, imagen hasta 147456 bytes/640×480 y cuerpo hasta 262144 bytes únicamente con ese contexto; el límite normal sigue en 49152 bytes. La app actual usa capturas más pequeñas para respetar su CAS y RPC. El estado temporal de rondas con imagen admite hasta 524288 bytes. El contexto y los píxeles no salen en la lectura del jugador: solo llegan a su trabajador autorizado y se retiran al completar, cancelar o caducar, bajo los permisos y plazo de la pregunta.
+
+Los recuerdos persistentes permanecen en el almacenamiento privado del módulo por cuenta y ROM. La web no incorpora memoria permanente ni ejecuta búsquedas o comandos: el PC consulta fuentes públicas y su modelo local analiza la captura. No hay descarga de ROMs ni conexión a cámaras/micrófonos. Pruebas locales: assistant-context-smoke.php (validación), assistant-relay-smoke.php (recorrido autenticado con imagen) y api-actions-smoke.php (compatibilidad sin imágenes).
+
 ## actions-v1
 
 Protocolo opcional negociado mediante heartbeat/status.protocols. Mantiene los clientes de texto. Contexto y recibos temporales en actions_data; awaiting_tools libera el generador. POST questions/{id}/tool-results valida propietario, ronda y llamadas, con reintentos idempotentes. Máximo cuatro generaciones, 180 s por generación y TTL total de 600 s. La web nunca ejecuta acciones de un dispositivo. Migración: nelkano_ai_update_10001. Pruebas locales: tests/api-actions-smoke.php (incluye el contrato anterior).

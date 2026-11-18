@@ -11,9 +11,10 @@ use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 final class AiController {
   private function body(Request $r): array {
     if(!str_starts_with(strtolower((string)$r->headers->get('Content-Type','')),'application/json'))throw new HttpException(415,'json-required');
-    $raw=$r->getContent();if(strlen($raw)>49152)throw new HttpException(413,'request-too-large');
+    $raw=$r->getContent();if(strlen($raw)>262144)throw new HttpException(413,'request-too-large');
     try{$v=json_decode($raw,FALSE,32,JSON_THROW_ON_ERROR);}catch(\JsonException){throw new HttpException(400,'invalid-json');}
     if(!$v instanceof \stdClass)throw new HttpException(400,'invalid-json');
+    if(strlen($raw)>49152&&!isset($v->context->assistant))throw new HttpException(413,'request-too-large');
     return json_decode($raw,TRUE,32,JSON_THROW_ON_ERROR);
   }
   private function handle(Request $r,bool $worker,callable $work): JsonResponse {
