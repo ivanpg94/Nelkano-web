@@ -8,7 +8,7 @@ use Drupal\Core\Authentication\AuthenticationProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /** Native account mutations validate their own opaque sessions in the controller. */
-final class FriendsEndpointAuthentication implements AuthenticationProviderInterface {
+final class NativeAccountEndpointAuthentication implements AuthenticationProviderInterface {
 
   public function applies(Request $request): bool {
     return $request->isMethod('POST') && in_array($request->getPathInfo(), [
@@ -18,6 +18,9 @@ final class FriendsEndpointAuthentication implements AuthenticationProviderInter
       '/api/nelkano/friends/remove',
       '/api/nelkano/friends/presence',
       '/api/nelkano/profile',
+      '/api/nelkano/game/session/connect',
+      '/api/nelkano/game/session/end',
+      '/api/nelkano/game/signaling/event',
     ], TRUE);
   }
 
