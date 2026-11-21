@@ -9,6 +9,7 @@ use Drupal\nelkano_home\Service\AppSessions;
 use Drupal\nelkano_home\Service\WorkflowStatus;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Database\Statement\FetchAs;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Url;
 use Drupal\node\Entity\Node;
@@ -834,7 +835,7 @@ final class AppAuthController extends ControllerBase {
       ->orderBy('id', 'ASC')
       ->range(0, 50)
       ->execute()
-      ->fetchAllAssoc('id', \PDO::FETCH_ASSOC);
+      ->fetchAllAssoc('id', FetchAs::Associative);
     $events = [];
     $cursor = $since;
     foreach ($rows as $event) {
@@ -1424,7 +1425,7 @@ final class AppAuthController extends ControllerBase {
     else {
       $query->condition('requester_uid', $uid)->condition('status', 'pending');
     }
-    $rows = $query->orderBy('updated', 'DESC')->range(0, 100)->execute()->fetchAll(\PDO::FETCH_ASSOC);
+    $rows = $query->orderBy('updated', 'DESC')->range(0, 100)->execute()->fetchAll(FetchAs::Associative);
     $out = [];
     foreach ($rows as $row) {
       $other_uid = (int) $row['requester_uid'] === $uid ? (int) $row['recipient_uid'] : (int) $row['requester_uid'];
