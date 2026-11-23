@@ -1,0 +1,41 @@
+<div class="nk-admin-panel-head">
+  <div>
+    <h1>Estadísticas de uso</h1>
+    <p>Datos enviados por {{ development ? 'Nelkano Dev' : 'Nelkano' }}.</p>
+  </div>
+  <nav class="nk-usage-period" aria-label="Periodo de estadísticas">
+    {% for period in periods %}
+      <a href="{{ period.url }}"{% if period.days == days %} aria-current="page"{% endif %}>Últimos {{ period.days }} días</a>
+    {% endfor %}
+  </nav>
+</div>
+
+<dl class="nk-usage-summary">
+  <div class="nk-usage-card nk-usage-stat">
+    <dt>Instalaciones activas hoy</dt>
+    <dd>{{ installations }}</dd>
+  </div>
+  <div class="nk-usage-card nk-usage-stat">
+    <dt>Volvieron a jugar hoy</dt>
+    <dd>{{ returning_today ?? '—' }}</dd>
+  </div>
+  <div class="nk-usage-card nk-usage-stat">
+    <dt>Tiempo de juego en los últimos {{ days }} días</dt>
+    <dd>{{ total_time }}</dd>
+  </div>
+</dl>
+<p class="nk-usage-note">Cada instalación cuenta una vez al día. «Volvieron a jugar» cuenta las que ya habían jugado un día anterior con las estadísticas activadas.</p>
+
+<div class="nk-usage-tables">
+  <div class="nk-usage-card">{{ systems }}</div>
+  <div class="nk-usage-card">{{ daily }}</div>
+  <div class="nk-usage-card">{{ hourly }}</div>
+</div>
+
+<p class="nk-usage-note">
+  {% if last_received %}
+    Último dato recibido: {{ last_received }}.
+  {% else %}
+    Todavía no se han recibido datos de uso en este periodo.
+  {% endif %}
+</p>

@@ -1,0 +1,7 @@
+name: Nelkano Usage
+type: module
+description: Private dashboard and receiver for opt-in gameplay statistics.
+package: Nelkano
+core_version_requirement: ^11
+dependencies:
+  - nelkano_home:nelkano_home

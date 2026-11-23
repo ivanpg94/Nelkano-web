@@ -1,0 +1,27 @@
+nelkano_usage.dashboard:
+  path: '/admin/nelkano/estadisticas-de-uso'
+  defaults:
+    _controller: '\Drupal\nelkano_usage\Controller\UsageController::dashboard'
+    _title: 'Estadísticas de uso'
+  requirements:
+    _permission: 'administer nelkano usage'
+  options:
+    _admin_route: true
+    _nelkano_admin_shell: true
+
+nelkano_usage.receive_dev:
+  path: '/api/nelkano/v1/dev/usage'
+  defaults:
+    _controller: '\Drupal\nelkano_usage\Controller\UsageController::receive'
+  methods: [POST]
+  requirements:
+    _access: 'TRUE'
+
+nelkano_usage.receive:
+  path: '/api/nelkano/v1/usage'
+  defaults:
+    _controller: '\Drupal\nelkano_usage\Controller\UsageController::receive'
+    production: true
+  methods: [POST]
+  requirements:
+    _access: 'TRUE'

@@ -1,0 +1,5 @@
+nelkano_usage.dashboard:
+  title: 'Estadísticas de uso de Nelkano Dev'
+  route_name: nelkano_usage.dashboard
+  parent: nelkano_home.admin
+  weight: 8

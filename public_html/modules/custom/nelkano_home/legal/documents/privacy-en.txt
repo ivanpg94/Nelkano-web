@@ -121,6 +121,14 @@ locally for up to 730 days with its date and notice version; a changed notice
 or expiry requires a new choice before enabling analytics. You can change it
 earlier through Configure cookies.
 
+App usage statistics
+
+If you agree to share statistics, Nelkano uses them to prioritize testing and decide which bugs to fix first. The app sends nelkano.com the system, the number of launches and time played by hour, and whether the installation had already played on an earlier day.
+
+You can share statistics without an account. The installation code received by the server changes every day. The first recorded play day is stored on the device.
+
+You can withdraw your permission in Settings → Privacy → Usage statistics. Turning it off stops collection and clears unsent data from the device. Regular cleanup removes data already received once it reaches 90 days of activity.
+
 Purposes and grounds for processing
 
 Data needed for your account and requested features is processed to provide

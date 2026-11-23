@@ -89,6 +89,13 @@ es:
       visible: '1'
       title: 'Actualización de esta información'
       paragraphs: 'Revisión: 31 de octubre de 2026. Esta política debe actualizarse cuando cambien el responsable, los proveedores, los datos tratados o las funciones. Los módulos y servicios externos pueden tener información y condiciones propias.'
+    -
+      visible: '1'
+      title: "Estadísticas de uso de la aplicación"
+      paragraphs: |-
+        Si aceptas compartir estadísticas, Nelkano las usa para priorizar las pruebas y decidir qué errores corregir primero. La app envía a nelkano.com el sistema, el número de aperturas y el tiempo de juego por franja horaria, y si esa instalación ya había jugado otro día.
+        Puedes compartirlas sin cuenta. El código de instalación que recibe el servidor cambia cada día. El primer día de juego registrado se guarda en el dispositivo.
+        Puedes retirar el permiso en Ajustes → Privacidad → Estadísticas de uso. Al desactivarlo se detiene la recogida y se borra la cola pendiente del dispositivo. Los datos ya recibidos se retiran mediante la limpieza periódica al alcanzar 90 días de actividad.
   legal_notice_seo_title: 'Aviso legal - Nelkano'
   legal_notice_seo_description: 'Aviso legal de Nelkano: titularidad, condiciones de uso, propiedad intelectual, descargas y responsabilidad.'
   legal_notice_eyebrow: 'Aviso legal'
@@ -469,6 +476,13 @@ en:
       visible: '1'
       title: 'Updates to this information'
       paragraphs: 'Reviewed on 31 October 2026. This policy must be updated when the controller, providers, processing or features change. External modules and services may have their own information and terms.'
+    -
+      visible: '1'
+      title: "App usage statistics"
+      paragraphs: |-
+        If you agree to share statistics, Nelkano uses them to prioritize testing and decide which bugs to fix first. The app sends nelkano.com the system, the number of launches and time played by hour, and whether the installation had already played on an earlier day.
+        You can share statistics without an account. The installation code received by the server changes every day. The first recorded play day is stored on the device.
+        You can withdraw your permission in Settings → Privacy → Usage statistics. Turning it off stops collection and clears unsent data from the device. Regular cleanup removes data already received once it reaches 90 days of activity.
   legal_notice_seo_title: 'Legal notice - Nelkano'
   legal_notice_seo_description: 'Legal notice for Nelkano: ownership, terms of use, intellectual property, downloads and liability.'
   legal_notice_eyebrow: 'Legal notice'

@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * @file
+ * Storage for opt-in usage samples.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function nelkano_usage_schema(): array {
+  return [
+    'nelkano_usage_sample' => [
+      'description' => 'Opt-in gameplay observations, grouped by local day and UTC hour.',
+      'fields' => [
+        'event_id' => ['type' => 'varchar_ascii', 'length' => 32, 'not null' => TRUE],
+        'day_token' => ['type' => 'varchar_ascii', 'length' => 32, 'not null' => TRUE],
+        'play_day' => ['type' => 'varchar_ascii', 'length' => 10, 'not null' => TRUE],
+        'play_hour' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE],
+        'system_id' => ['type' => 'varchar_ascii', 'length' => 24, 'not null' => TRUE],
+        'sessions' => ['type' => 'int', 'size' => 'tiny', 'unsigned' => TRUE, 'not null' => TRUE],
+        'is_returning' => ['type' => 'int', 'size' => 'tiny', 'unsigned' => TRUE, 'not null' => FALSE],
+        'active_ms' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE],
+        'received_at' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE],
+      ],
+      'primary key' => ['event_id'],
+      'indexes' => [
+        'day_and_installation' => ['play_day', 'day_token'],
+        'day_and_system' => ['play_day', 'system_id'],
+        'day_and_hour' => ['play_day', 'play_hour'],
+      ],
+    ],
+  ];
+}
+
+/**
+ * Records whether the installation has played on an earlier day.
+ */
+function nelkano_usage_update_11001(): void {
+  $schema = \Drupal::database()->schema();
+  if (!$schema->fieldExists('nelkano_usage_sample', 'is_returning')) {
+    $field = nelkano_usage_schema()['nelkano_usage_sample']['fields']['is_returning'];
+    $schema->addField('nelkano_usage_sample', 'is_returning', $field);
+  }
+}

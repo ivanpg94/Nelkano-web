@@ -1,0 +1,38 @@
+<?php
+
+/**
+ * @file
+ * Retention of usage samples.
+ */
+
+/**
+ * Implements hook_cron().
+ */
+function nelkano_usage_cron(): void {
+  $first_day = new DateTimeImmutable('-89 days', new DateTimeZone('Europe/Madrid'));
+  \Drupal::database()->delete('nelkano_usage_sample')
+    ->condition('play_day', $first_day->format('Y-m-d'), '<')
+    ->execute();
+}
+
+/**
+ * Implements hook_theme().
+ */
+function nelkano_usage_theme(): array {
+  return [
+    'nelkano_usage_dashboard' => [
+      'variables' => [
+        'development' => FALSE,
+        'installations' => 0,
+        'returning_today' => NULL,
+        'total_time' => '',
+        'days' => 7,
+        'periods' => [],
+        'systems' => [],
+        'daily' => [],
+        'hourly' => [],
+        'last_received' => NULL,
+      ],
+    ],
+  ];
+}

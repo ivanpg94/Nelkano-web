@@ -124,6 +124,14 @@ La elección de analítica se recuerda localmente hasta 730 días, con su fecha 
 versión del aviso; un cambio del aviso o la caducidad exige una nueva elección
 antes de activar la analítica. Puedes cambiarla antes en «Configurar cookies».
 
+Estadísticas de uso de la aplicación
+
+Si aceptas compartir estadísticas, Nelkano las usa para priorizar las pruebas y decidir qué errores corregir primero. La app envía a nelkano.com el sistema, el número de aperturas y el tiempo de juego por franja horaria, y si esa instalación ya había jugado otro día.
+
+Puedes compartirlas sin cuenta. El código de instalación que recibe el servidor cambia cada día. El primer día de juego registrado se guarda en el dispositivo.
+
+Puedes retirar el permiso en Ajustes → Privacidad → Estadísticas de uso. Al desactivarlo se detiene la recogida y se borra la cola pendiente del dispositivo. Los datos ya recibidos se retiran mediante la limpieza periódica al alcanzar 90 días de actividad.
+
 Finalidades y bases del tratamiento
 
 Los datos necesarios para la cuenta y las funciones que solicitas se tratan

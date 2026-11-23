@@ -220,7 +220,7 @@ trait AdminFormUiTrait {
       'security' => ['Seguridad y privacidad', 'S', Url::fromRoute('nelkano_home.admin_security_privacy')->toString()],
     ];
 
-    $redesigned = in_array($activeKey, ['home','systems','privacy_cookies','legal_notice','releases','security','all','guide','seo','sdk'], TRUE)
+    $redesigned = in_array($activeKey, ['home','systems','privacy_cookies','legal_notice','releases','security','all','guide','seo','sdk','usage'], TRUE)
       || in_array(\Drupal::routeMatch()->getRouteName(), ['nelkano_home.admin_error_reports', 'nelkano_home.admin_backlog'], TRUE);
     if ($redesigned) {$items['guide']=['Guía de uso','G',Url::fromRoute('nelkano_home.admin_guide')->toString()];}
     if ($redesigned) {$items['seo']=['SEO','SEO',Url::fromRoute('nelkano_home.admin_seo')->toString()];}
@@ -247,6 +247,13 @@ trait AdminFormUiTrait {
       $backlog_url = Url::fromRoute('nelkano_home.admin_backlog')->toString();
       $active = $activeKey === 'backlog' ? ' is-active' : '';
       $html .= '<a class="nk-admin-nav-item' . $active . '" href="' . htmlspecialchars($backlog_url, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '"><span class="nk-admin-nav-icon">HU</span><span><strong>Backlog · HU</strong></span></a>';
+    }
+    if (\Drupal::moduleHandler()->moduleExists('nelkano_usage') && \Drupal::currentUser()->hasPermission('administer nelkano usage')) {
+      $usage_url = Url::fromRoute('nelkano_usage.dashboard')->toString();
+      $usage_active = $activeKey === 'usage';
+      $html .= '<a class="nk-admin-nav-item' . ($usage_active ? ' is-active' : '') . '"'
+        . ($usage_active ? ' aria-current="page"' : '') . ' href="' . htmlspecialchars($usage_url, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '">'
+        . '<span class="nk-admin-nav-icon" aria-hidden="true">EU</span><span><strong>Estadísticas de uso</strong></span></a>';
     }
     return $html . '</nav></aside>';
   }

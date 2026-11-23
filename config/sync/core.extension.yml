@@ -57,6 +57,7 @@ module:
   nelkano_ai: 0
   nelkano_home: 0
   nelkano_modules: 0
+  nelkano_usage: 0
   node: 0
   options: 0
   page_cache: 0

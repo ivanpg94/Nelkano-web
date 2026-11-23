@@ -1,0 +1,3 @@
+administer nelkano usage:
+  title: 'View Nelkano usage statistics'
+  restrict access: true
