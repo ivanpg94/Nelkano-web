@@ -621,6 +621,9 @@ final class AppAuthController extends ControllerBase {
     }
     $database = \Drupal::database();
     $uid = (int) $account->id();
+    if (\Drupal\nelkano_home\Service\CommunityBlocks::between($uid, $friend_uid)) {
+      return $this->error('No se puede enviar la solicitud.', 403);
+    }
     $existing = $this->friendshipBetween($uid, $friend_uid);
     if ($existing) {
       if ((string) $existing['status'] === 'accepted') {
@@ -629,13 +632,9 @@ final class AppAuthController extends ControllerBase {
       return new JsonResponse(['ok' => TRUE, 'message' => 'La solicitud ya existe.']);
     }
     $now = \Drupal::time()->getRequestTime();
-    $database->insert('nelkano_friendship')->fields([
-      'requester_uid' => $uid,
-      'recipient_uid' => $friend_uid,
-      'status' => 'pending',
-      'created' => $now,
-      'updated' => $now,
-    ])->execute();
+    if (!\Drupal\nelkano_home\Service\CommunityBlocks::sendInvitation($database, $uid, $friend_uid, $now)) {
+      return $this->error('No se puede enviar la solicitud.', 403);
+    }
     return new JsonResponse(['ok' => TRUE, 'message' => 'Solicitud enviada.']);
   }
 
@@ -1518,10 +1517,11 @@ final class AppAuthController extends ControllerBase {
     $uid = (int) $account->id();
     $now = \Drupal::time()->getRequestTime();
     if ($action === 'accept') {
-      if ((int) $row['recipient_uid'] !== $uid || (string) $row['status'] !== 'pending') {
+      if ((int) $row['recipient_uid'] !== $uid || (string) $row['status'] !== 'pending' ||
+          \Drupal\nelkano_home\Service\CommunityBlocks::between($uid, (int) $row['requester_uid'])) {
         return $this->error('No puedes aceptar esta solicitud.', 403);
       }
-      $database->update('nelkano_friendship')->fields(['status' => 'accepted', 'updated' => $now])->condition('id', $id)->execute();
+      $database->update('nelkano_friendship')->fields(['status' => 'accepted', 'updated' => $now])->condition('id', $id)->condition('status', 'pending')->execute();
       return new JsonResponse(['ok' => TRUE]);
     }
     if ((int) $row['requester_uid'] !== $uid && (int) $row['recipient_uid'] !== $uid) {

@@ -53,6 +53,9 @@ final class FriendActionForm extends FormBase {
       $form_state->setErrorByName('friendship_id', $language === 'en' ? 'Invitation not found.' : 'Invitacion no encontrada.');
       return;
     }
+    if ($action === 'accept' && \Drupal\nelkano_home\Service\CommunityBlocks::between($current_uid, (int) $row['requester_uid'])) {
+      $form_state->setErrorByName('friendship_id', $language === 'en' ? 'You cannot accept this invitation.' : 'No puedes aceptar esta solicitud.');
+    }
     if (in_array($action, ['accept', 'reject'], TRUE) && (int) $row['recipient_uid'] !== $current_uid) {
       $form_state->setErrorByName('friendship_id', $language === 'en' ? 'You cannot respond to this invitation.' : 'No puedes responder esta invitacion.');
     }
@@ -67,7 +70,7 @@ final class FriendActionForm extends FormBase {
     $action = (string) $form_state->getValue('friend_action');
     if ($action === 'accept') {
       $this->database->update('nelkano_friendship')
-        ->fields(['status' => 'accepted', 'updated' => \Drupal::time()->getRequestTime()])
+        ->fields(['status' => 'accepted', 'updated' => \Drupal::time()->getRequestTime()])->condition('status', 'pending')
         ->condition('id', $id)
         ->execute();
       $this->messenger()->addStatus($language === 'en' ? 'Invitation accepted.' : 'Invitacion aceptada.');

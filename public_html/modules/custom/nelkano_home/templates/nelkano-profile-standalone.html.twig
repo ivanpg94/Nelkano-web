@@ -44,7 +44,9 @@
         {% if not is_owner %}
           <section class="nk-panel">
             <h2>{{ language == 'en' ? 'Connection' : 'Conexion' }}</h2>
-            {% if relationship %}
+            {% if community_restricted %}
+              <p class="nk-muted">{{ language == 'en' ? 'Interactions with this profile are restricted.' : 'Las interacciones con este perfil están restringidas.' }}</p>
+            {% elseif relationship %}
               {% if relationship.status == 'accepted' %}
                 <p class="nk-muted">{{ language == 'en' ? 'You are already friends on Nelkano.' : 'Ya sois amigos en Nelkano.' }}</p>
               {% elseif relationship.requester_uid == viewer.uid %}
@@ -56,11 +58,18 @@
               <p class="nk-muted">{{ language == 'en' ? 'Send an invitation to share presence and prepare future sessions.' : 'Envia una invitacion para compartir presencia y preparar futuras sesiones.' }}</p>
               {{ send_form|raw }}
             {% endif %}
+            {% if community_report_url %}
+              <p><a href="{{ community_report_url }}">{{ language == 'en' ? 'Report user' : 'Denunciar usuario' }}</a></p>
+              <p><a href="{{ community_block_url }}">{{ blocked_by_viewer ? (language == 'en' ? 'Unblock user' : 'Desbloquear usuario') : (language == 'en' ? 'Block user' : 'Bloquear usuario') }}</a></p>
+            {% endif %}
           </section>
         {% endif %}
 
         {% if is_owner %}
           {% include '@nelkano_home/nelkano-user-menu.html.twig' %}
+          {% if community_url %}
+            <p><a href="{{ community_url }}">{{ language == 'en' ? 'Community' : 'Comunidad' }}</a></p>
+          {% endif %}
           <section id="nk-profile-content" class="nk-profile-content" data-section-endpoint="{{ language == 'en' ? '/en/user/section' : '/user/section' }}">
             {{ section_html|raw }}
           </section>

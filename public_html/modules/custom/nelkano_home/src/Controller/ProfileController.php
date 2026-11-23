@@ -136,6 +136,9 @@ final class ProfileController extends ControllerBase {
     $viewer_profile = $this->profileData($viewer);
     $is_owner = (int) $viewer->id() === (int) $user->id();
     $relationship = $is_owner ? NULL : $this->relationship((int) $viewer->id(), (int) $user->id());
+    $can_moderate_profile = !$is_owner && $user->isActive() && $viewer->hasPermission('use nelkano app features');
+    $restricted = !$is_owner && \Drupal\nelkano_home\Service\CommunityBlocks::between((int) $viewer->id(), (int) $user->id());
+    $blocked_by_viewer = $can_moderate_profile && \Drupal\nelkano_home\Service\CommunityBlocks::preferences((int) $viewer->id(), (int) $user->id())['blocked'];
 
     return [
       'section' => $section,
@@ -144,6 +147,11 @@ final class ProfileController extends ControllerBase {
       'viewer' => $viewer_profile,
       'is_owner' => $is_owner,
       'relationship' => $relationship,
+      'community_restricted' => $restricted,
+      'community_url' => $is_owner && $viewer->hasPermission('use nelkano app features') ? \Drupal\Core\Url::fromRoute('nelkano_home.community_posts')->toString() : NULL,
+      'blocked_by_viewer' => $blocked_by_viewer,
+      'community_report_url' => $can_moderate_profile ? \Drupal\Core\Url::fromRoute('nelkano_home.community_report', ['kind' => 'user', 'target' => $user->id()])->toString() : NULL,
+      'community_block_url' => $can_moderate_profile ? \Drupal\Core\Url::fromRoute('nelkano_home.community_block', ['target' => $user->id()])->toString() : NULL,
       'online' => $this->isOnline((int) $user->id()),
       'member_for' => $this->memberFor((int) $user->getCreatedTime(), $language),
       'friends' => $this->friends((int) $user->id()),
@@ -152,7 +160,7 @@ final class ProfileController extends ControllerBase {
       'account_form' => $is_owner ? $this->renderForm('Drupal\nelkano_home\Form\AccountSettingsForm', $user, $language) : '',
       'profile_form' => $is_owner ? $this->renderForm('Drupal\nelkano_home\Form\ProfileSettingsForm', $user, $language) : '',
       'invite_form' => $is_owner ? $this->renderForm('Drupal\nelkano_home\Form\FriendInviteForm') : '',
-      'send_form' => (!$is_owner && !$relationship) ? $this->renderForm('Drupal\nelkano_home\Form\FriendSendForm', $user) : '',
+      'send_form' => (!$is_owner && !$relationship && !$restricted) ? $this->renderForm('Drupal\nelkano_home\Form\FriendSendForm', $user) : '',
       'activity' => $is_owner ? $this->activitySummary((int) $user->id(), $language) : $this->emptyActivitySummary(),
     ];
   }

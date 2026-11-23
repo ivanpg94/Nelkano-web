@@ -73,3 +73,9 @@ nelkano_home.app_updates_menu:
   route_name: nelkano_home.app_updates_admin
   parent: nelkano_home.admin
   weight: 12
+
+nelkano_home.community_moderation:
+  title: 'Denuncias de Comunidad'
+  route_name: nelkano_home.admin_community_moderation
+  parent: nelkano_home.admin
+  weight: 9

@@ -48,15 +48,11 @@ final class FriendSendForm extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state): void {
     $language = $this->requestLanguage();
     $now = \Drupal::time()->getRequestTime();
-    $this->database->insert('nelkano_friendship')
-      ->fields([
-        'requester_uid' => (int) $this->currentUser()->id(),
-        'recipient_uid' => (int) $form_state->getValue('target_uid'),
-        'status' => 'pending',
-        'created' => $now,
-        'updated' => $now,
-      ])
-      ->execute();
+    if (!\Drupal\nelkano_home\Service\CommunityBlocks::sendInvitation($this->database, (int) $this->currentUser()->id(), (int) $form_state->getValue('target_uid'), $now)) {
+      $this->messenger()->addError($language === 'en' ? 'The invitation could not be sent.' : 'No se puede enviar la solicitud.');
+      $form_state->setRebuild();
+      return;
+    }
     $this->messenger()->addStatus($language === 'en' ? 'Invitation sent.' : 'Invitacion enviada.');
     $form_state->setRedirectUrl(Url::fromUserInput($language === 'en' ? '/en/user' : '/user'));
   }

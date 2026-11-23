@@ -47,3 +47,8 @@ administer nelkano app updates:
   title: 'Administrar actualizaciones de la aplicación'
   description: 'Publicar paquetes ejecutables oficiales para Android, Windows y Linux.'
   restrict access: true
+
+moderate nelkano community:
+  title: 'Moderar Comunidad de Nelkano'
+  description: 'Revisar denuncias, retirar contenido y suspender cuentas ordinarias.'
+  restrict access: true

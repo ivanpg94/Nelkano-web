@@ -220,7 +220,7 @@ trait AdminFormUiTrait {
       'security' => ['Seguridad y privacidad', 'S', Url::fromRoute('nelkano_home.admin_security_privacy')->toString()],
     ];
 
-    $redesigned = in_array($activeKey, ['home','systems','privacy_cookies','legal_notice','releases','security','all','guide','seo','sdk','usage'], TRUE)
+    $redesigned = in_array($activeKey, ['home','systems','privacy_cookies','legal_notice','releases','security','all','guide','seo','sdk','usage','community_moderation'], TRUE)
       || in_array(\Drupal::routeMatch()->getRouteName(), ['nelkano_home.admin_error_reports', 'nelkano_home.admin_backlog'], TRUE);
     if ($redesigned) {$items['guide']=['Guía de uso','G',Url::fromRoute('nelkano_home.admin_guide')->toString()];}
     if ($redesigned) {$items['seo']=['SEO','SEO',Url::fromRoute('nelkano_home.admin_seo')->toString()];}
@@ -254,6 +254,13 @@ trait AdminFormUiTrait {
       $html .= '<a class="nk-admin-nav-item' . ($usage_active ? ' is-active' : '') . '"'
         . ($usage_active ? ' aria-current="page"' : '') . ' href="' . htmlspecialchars($usage_url, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '">'
         . '<span class="nk-admin-nav-icon" aria-hidden="true">EU</span><span><strong>Estadísticas de uso</strong></span></a>';
+    }
+    if (\Drupal::currentUser()->hasPermission('moderate nelkano community')) {
+      $url = Url::fromRoute('nelkano_home.admin_community_moderation')->toString();
+      $active = $activeKey === 'community_moderation';
+      $html .= '<a class="nk-admin-nav-item' . ($active ? ' is-active' : '') . '"'
+        . ($active ? ' aria-current="page"' : '') . ' href="' . htmlspecialchars($url, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '">'
+        . '<span class="nk-admin-nav-icon" aria-hidden="true">DC</span><span><strong>Denuncias de Comunidad</strong></span></a>';
     }
     return $html . '</nav></aside>';
   }

@@ -38,3 +38,14 @@ services:
     arguments: ['@config.storage']
     tags:
       - { name: event_subscriber }
+
+  nelkano_home.community_safety_authentication:
+    class: Drupal\nelkano_home\Authentication\CommunitySafetyAuthentication
+    tags:
+      - { name: authentication_provider, provider_id: nelkano_community_safety, priority: 45, global: false }
+
+  nelkano_home.community_signal_access:
+    class: Drupal\nelkano_home\EventSubscriber\CommunitySignalAccessSubscriber
+    arguments: ['@current_user']
+    tags:
+      - { name: event_subscriber }

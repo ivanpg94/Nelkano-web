@@ -209,6 +209,11 @@ function nelkano_home_node_access(\Drupal\node\NodeInterface $node, $op, \Drupal
     return \Drupal\Core\Access\AccessResult::forbiddenIf(!$config->get($language . '.extensions_sdk_enabled'))
       ->addCacheableDependency($config)->addCacheableDependency($node);
   }
+  if ($op === 'view' && $node->bundle() === 'community_post' && $account->isAuthenticated()) {
+    return \Drupal\Core\Access\AccessResult::forbiddenIf(
+      \Drupal\nelkano_home\Service\CommunityBlocks::between((int) $account->id(), (int) $node->getOwnerId()))
+      ->cachePerUser()->setCacheMaxAge(0);
+  }
   if ($node->bundle() === 'hu') {
     return ($account->hasPermission('administer nelkano backlog') ? \Drupal\Core\Access\AccessResult::allowed() : \Drupal\Core\Access\AccessResult::forbidden())->cachePerPermissions()->addCacheableDependency($node);
   }
@@ -305,6 +310,8 @@ function nelkano_home_user_predelete(\Drupal\user\UserInterface $account): void 
  */
 function nelkano_home_user_delete(\Drupal\user\UserInterface $account): void {
   \Drupal\nelkano_home\Service\CompatibilityCommunity::purge((int)$account->id());
+  \Drupal\nelkano_home\Service\CommunityModeration::purge((int) $account->id());
+  \Drupal\nelkano_home\Service\CommunityBlocks::purge((int) $account->id());
   \Drupal\nelkano_home\Service\AccountErasure::purge($account);
 }
 
@@ -332,4 +339,47 @@ function nelkano_home_form_user_register_form_alter(array &$form, FormStateInter
   }
 }
 
+/** Implements hook_comment_access() for Community visibility. */
+function nelkano_home_comment_access(\Drupal\comment\CommentInterface $comment, $op, \Drupal\Core\Session\AccountInterface $account): \Drupal\Core\Access\AccessResultInterface {
+  if ($op !== 'view' || $comment->bundle() !== 'community_comment' || !$account->isAuthenticated()) {
+    return \Drupal\Core\Access\AccessResult::neutral();
+  }
+  $uid = (int) $account->id();
+  $post = $comment->getCommentedEntity();
+  $blocked = \Drupal\nelkano_home\Service\CommunityBlocks::between($uid, (int) $comment->getOwnerId()) ||
+    ($post instanceof \Drupal\node\NodeInterface && \Drupal\nelkano_home\Service\CommunityBlocks::between($uid, (int) $post->getOwnerId()));
+  return \Drupal\Core\Access\AccessResult::forbiddenIf($blocked)->cachePerUser()->setCacheMaxAge(0);
+}
 
+/** Prevent a blocked account from commenting through a stale publication. */
+function nelkano_home_comment_presave(\Drupal\comment\CommentInterface $comment): void {
+  $post = $comment->getCommentedEntity();
+  if ($comment->isNew() && $comment->bundle() === 'community_comment' && $post instanceof \Drupal\node\NodeInterface &&
+      \Drupal\nelkano_home\Service\CommunityBlocks::between((int) \Drupal::currentUser()->id(), (int) $post->getOwnerId())) {
+    throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('No puedes comentar esta publicación.');
+  }
+}
+
+/** Implements hook_node_view(). */
+function nelkano_home_node_view(array &$build, \Drupal\node\NodeInterface $node, \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display, $view_mode): void {
+  if ($node->bundle() === 'community_post') {
+    _nelkano_home_community_report_link($build, $node, 'post', 'Denunciar publicación');
+  }
+}
+
+/** Implements hook_comment_view(). */
+function nelkano_home_comment_view(array &$build, \Drupal\comment\CommentInterface $comment, \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display, $view_mode): void {
+  if ($comment->bundle() === 'community_comment') {
+    _nelkano_home_community_report_link($build, $comment, 'comment', 'Denunciar comentario');
+  }
+}
+
+function _nelkano_home_community_report_link(array &$build, \Drupal\Core\Entity\EntityInterface $entity, string $kind, string $label): void {
+  $account = \Drupal::currentUser();
+  $build['#cache']['contexts'][] = 'user';
+  if ($account->isAuthenticated() && $account->hasPermission('use nelkano app features') &&
+      (int) $account->id() !== \Drupal\nelkano_home\Service\CommunityModeration::owner($entity)) {
+    $build['community_report'] = ['#type' => 'link', '#title' => $label, '#weight' => 90,
+      '#url' => \Drupal\Core\Url::fromRoute('nelkano_home.community_report', ['kind' => $kind, 'target' => $entity->id()])];
+  }
+}

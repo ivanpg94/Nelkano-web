@@ -10,7 +10,7 @@
  */
 function nelkano_home_schema(): array {
   require_once __DIR__ . '/nelkano_home.backlog.inc';
-  return \Drupal\nelkano_home\Service\CompatibilityCommunity::schema() + [
+  return \Drupal\nelkano_home\Service\CompatibilityCommunity::schema() + \Drupal\nelkano_home\Service\CommunityModeration::schema() + [
     'nelkano_hu_sequence' => nelkano_home_hu_sequence_schema(),
     'nelkano_profile' => nelkano_home_profile_schema(),
     'nelkano_friendship' => nelkano_home_friendship_schema(),
@@ -1039,4 +1039,14 @@ function nelkano_home_update_11048(): void {
   $schema=\Drupal::database()->schema();
   foreach(\Drupal\nelkano_home\Service\CompatibilityCommunity::schema() as $name=>$definition)
     if(!$schema->tableExists($name))$schema->createTable($name,$definition);
+}
+
+/** Creates the Community moderation queue on existing installations. */
+function nelkano_home_update_11049(): void {
+  $schema = \Drupal::database()->schema();
+  foreach (\Drupal\nelkano_home\Service\CommunityModeration::schema() as $table => $definition) {
+    if (!$schema->tableExists($table)) {
+      $schema->createTable($table, $definition);
+    }
+  }
 }

@@ -1124,3 +1124,85 @@ nelkano_home.compatibility_moderate:
     system: '[a-z0-9-]+'
   options:
     no_cache: TRUE
+
+nelkano_home.community_safety_api:
+  path: '/api/nelkano/community/safety'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\CommunitySafetyController::action'
+  methods: [POST]
+  requirements:
+    _access: 'TRUE'
+  options:
+    _auth: ['nelkano_community_safety']
+    _oauth_skip_auth: FALSE
+    no_cache: TRUE
+
+nelkano_home.community_report:
+  path: '/comunidad/denunciar/{kind}/{target}'
+  defaults:
+    _form: '\Drupal\nelkano_home\Form\CommunitySafetyForm'
+    _title: 'Denunciar en Comunidad'
+  requirements:
+    _permission: 'use nelkano app features'
+    _user_is_logged_in: 'TRUE'
+    kind: 'post|comment|user'
+    target: '[0-9a-f-]{1,36}'
+  options:
+    no_cache: TRUE
+
+nelkano_home.community_block:
+  path: '/comunidad/bloqueo/{target}'
+  defaults:
+    _form: '\Drupal\nelkano_home\Form\CommunitySafetyForm'
+    _title: 'Bloqueo de usuario'
+    kind: 'user'
+    mode: 'block'
+  requirements:
+    _permission: 'use nelkano app features'
+    _user_is_logged_in: 'TRUE'
+    target: '[1-9][0-9]{0,9}'
+  options:
+    no_cache: TRUE
+
+nelkano_home.admin_community_moderation:
+  path: '/admin/nelkano/denuncias-comunidad'
+  defaults:
+    _form: '\Drupal\nelkano_home\Form\CommunityModerationForm'
+    _title: 'Denuncias de Comunidad'
+  requirements:
+    _permission: 'moderate nelkano community'
+  options:
+    _admin_route: TRUE
+    no_cache: TRUE
+
+nelkano_home.admin_community_report:
+  path: '/admin/nelkano/denuncias-comunidad/{report}'
+  defaults:
+    _form: '\Drupal\nelkano_home\Form\CommunityModerationForm'
+    _title: 'Revisar denuncia de Comunidad'
+  requirements:
+    _permission: 'moderate nelkano community'
+    report: '[1-9][0-9]{0,9}'
+  options:
+    _admin_route: TRUE
+    no_cache: TRUE
+
+nelkano_home.community_posts:
+  path: '/comunidad'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\CommunitySafetyController::posts'
+    _title: 'Comunidad'
+  requirements:
+    _permission: 'use nelkano app features'
+  options:
+    no_cache: TRUE
+
+nelkano_home.community_blocked_users:
+  path: '/comunidad/bloqueados'
+  defaults:
+    _controller: '\Drupal\nelkano_home\Controller\CommunitySafetyController::blockedUsers'
+    _title: 'Usuarios bloqueados'
+  requirements:
+    _permission: 'use nelkano app features'
+  options:
+    no_cache: TRUE
