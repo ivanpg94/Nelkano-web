@@ -68,6 +68,7 @@ final class AccountErasure {
     $avatars = self::avatarFiles($uid, $account);
     ConnectionPrivacyRetention::purgeAccountFiles($uid);
     AppSessions::revokeAllForUser($uid);
+    self::purgeCommunityPush($uid);
     foreach (self::reportIds($uid) as $id) { ReportDeletion::deleteForAccountErasure($id, $uid); }
     $db = \Drupal::database(); $schema = $db->schema();
     if ($schema->tableExists('nelkano_game_session')) {
@@ -93,10 +94,20 @@ final class AccountErasure {
         throw new \RuntimeException('No se puede eliminar la imagen del perfil.');
       }
     }
+    self::purgeCommunityPosts($uid);
     // Ordinary accounts cannot author editorial content. Preserve any such work,
     // while removing identifiers from current and historic ownership metadata.
+    $editorial_ids = [];
     foreach (['node_field_data' => 'uid', 'node_field_revision' => 'uid', 'node_revision' => 'revision_uid'] as $table => $field) {
-      if ($schema->tableExists($table) && $schema->fieldExists($table, $field)) { $db->update($table)->fields([$field => 0])->condition($field, $uid)->execute(); }
+      if ($schema->tableExists($table) && $schema->fieldExists($table, $field)) {
+        $ids = $db->select($table, 'n')->distinct()->fields('n', ['nid'])->condition($field, $uid)->execute()->fetchCol();
+        $editorial_ids = array_merge($editorial_ids, $ids);
+        $db->update($table)->fields([$field => 0])->condition($field, $uid)->execute();
+      }
+    }
+    $editorial_ids = array_unique($editorial_ids);
+    if ($editorial_ids) {
+      \Drupal::entityTypeManager()->getStorage('node')->resetCache($editorial_ids);
     }
     if (\Drupal::entityTypeManager()->hasDefinition('comment')) {
       $storage = \Drupal::entityTypeManager()->getStorage('comment');
@@ -110,7 +121,8 @@ final class AccountErasure {
       // Free text/context can contain an old account identifier; remove its rows.
       $db->delete('watchdog')->condition('uid', $uid)->execute();
     }
-    \Drupal::service('cache_tags.invalidator')->invalidateTags(['user:' . $uid, 'user_list', 'node_list']);
+    $tags = array_map(static fn($nid) => 'node:' . $nid, $editorial_ids);
+    \Drupal::service('cache_tags.invalidator')->invalidateTags(array_merge(['user:' . $uid, 'user_list', 'node_list'], $tags));
   }
 
   public static function reportIds(int $uid): array {
@@ -124,6 +136,69 @@ final class AccountErasure {
       }
     }
     return array_values(array_unique(array_map('intval', $ids)));
+  }
+
+  private static function purgeCommunityPosts(int $uid): void {
+    $manager = \Drupal::entityTypeManager();
+    $storage = $manager->getStorage('node');
+    $query = $storage->getQuery()->accessCheck(FALSE)->condition('type', 'community_post');
+    $owner = $query->orConditionGroup()->condition('uid', $uid);
+    $fields = \Drupal::service('entity_field.manager')->getFieldDefinitions('node', 'community_post');
+    if (isset($fields['field_community_author_uid'])) {
+      $owner->condition($query->andConditionGroup()->condition('uid', 0)->condition('field_community_author_uid.value', $uid));
+    }
+    $posts = $storage->loadMultiple($query->condition($owner)->execute());
+    $database = \Drupal::database();
+    $image_table = 'node_revision__field_community_image';
+    $has_image_field = $database->schema()->tableExists($image_table);
+    $file_storage = $manager->getStorage('file');
+    $images = $file_storage->getQuery()->accessCheck(FALSE)->condition('uid', $uid)
+      ->condition('uri', 'private://community/', 'STARTS_WITH')->execute();
+    if ($posts && $has_image_field) {
+      $attachments = $database->select($image_table, 'i')->distinct()
+        ->fields('i', ['field_community_image_target_id'])
+        ->condition('entity_id', array_keys($posts), 'IN')->execute()->fetchCol();
+      $images = array_unique(array_merge($images, $attachments));
+    }
+    $storage->delete($posts);
+    if (!$images) {
+      return;
+    }
+    foreach ($file_storage->loadMultiple($images) as $file) {
+      $uri = $file->getFileUri();
+      if (!str_starts_with($uri, 'private://community/')) {
+        continue;
+      }
+      $usage = \Drupal::service('file.usage');
+      // Drupal can retain bookkeeping from an older revision after node deletion.
+      $node_uses = $usage->listUsage($file)['file']['node'] ?? [];
+      foreach (array_intersect_key($node_uses, $posts) as $nid => $count) {
+        $usage->delete($file, 'file', 'node', $nid, 0);
+      }
+      if ($usage->listUsage($file)) {
+        continue;
+      }
+      $referenced = $has_image_field && $database->select($image_table, 'i')
+        ->condition('field_community_image_target_id', $file->id())->countQuery()->execute()->fetchField();
+      if (!$referenced) {
+        foreach ($manager->getStorage('image_style')->loadMultiple() as $style) {
+          $style->flush($uri);
+        }
+        $file->delete();
+      }
+    }
+  }
+
+  private static function purgeCommunityPush(int $uid): void {
+    $push = \Drupal::keyValueExpirable('nelkano_community_push');
+    $registrations = $push->get('devices:' . $uid, []);
+    $push->delete('devices:' . $uid);
+    foreach ($registrations as $device => $registration) {
+      $binding = $registration['binding'] ?? NULL;
+      if (is_string($binding) && $push->get('device:' . $device) === [$uid, $binding]) {
+        $push->delete('device:' . $device);
+      }
+    }
   }
 
   /** Only dedicated avatar files belonging to this account, with no foreign use. */

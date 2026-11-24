@@ -9,6 +9,7 @@ use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\nelkano_home\Service\CommunityBlocks;
 use Drupal\nelkano_home\Service\CommunityModeration;
+use Drupal\nelkano_home\Service\CommunityRules;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -29,6 +30,7 @@ final class CommunitySafetyController extends ControllerBase {
     }
     return [
       '#cache' => ['max-age' => 0],
+      'rules' => Link::fromTextAndUrl($this->t('Normas de Comunidad'), Url::fromRoute('nelkano_home.community_rules_es'))->toRenderable(),
       'blocks' => Link::fromTextAndUrl($this->t('Usuarios bloqueados'), Url::fromRoute('nelkano_home.community_blocked_users'))->toRenderable(),
       'posts' => ['#theme' => 'item_list', '#items' => $items, '#empty' => $this->t('No hay publicaciones visibles en esta página.')],
       'pager' => ['#type' => 'pager'],
@@ -66,6 +68,16 @@ final class CommunitySafetyController extends ControllerBase {
         throw new HttpException(400, 'Petición no válida.');
       }
       $action = $body['action'] ?? NULL;
+      if ($action === 'rules-status' || $action === 'accept-rules') {
+        $uid = (int) $account->id();
+        if ($action === 'accept-rules' && (!is_string($body['version'] ?? NULL) || !CommunityRules::accept($uid, $body['version']))) {
+          throw new HttpException(409, 'La versión de las normas ha cambiado. Vuelve a abrirlas.');
+        }
+        return new JsonResponse([
+          'version' => CommunityRules::VERSION, 'accepted' => CommunityRules::accepted($uid),
+          'es' => CommunityRules::copy(FALSE), 'en' => CommunityRules::copy(TRUE),
+        ], 200, $headers);
+      }
       if ($action === 'blocked-users') {
         return new JsonResponse(['users' => CommunityBlocks::blockedUsers((int) $account->id())], 200, $headers);
       }

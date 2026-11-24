@@ -17,7 +17,8 @@ function check(value, message) { assert.ok(value, message); assertions++; }
 function saved(choice, date = START) {
   return JSON.stringify({version: VERSION, choice, date: new Date(date).toISOString(), expiresAt: new Date(date + TTL).toISOString()});
 }
-function harness({raw, store = new Map(), internal = false, href = 'https://www.nelkano.com/en/releases?email=private@example.com#token'} = {}) {
+function harness({raw, store = new Map(), internal = false, href = 'https://www.nelkano.com/en/releases?email=private@example.com#token',
+  referrer = 'https://example.org/source?email=referrer@example.com#secret'} = {}) {
   if (raw !== undefined) store.set(STORAGE, raw);
   const location = new URL(href);
   let clock = START, writesBlocked = false, nextTimer = 0;
@@ -28,7 +29,8 @@ function harness({raw, store = new Map(), internal = false, href = 'https://www.
   for (const button of [accept, reject, settings]) button.addEventListener = (name, fn) => {button[name] = fn;};
   const banner = {hidden: true, querySelector: name => name.includes('accept') ? accept : reject};
   const document = {
-    referrer: 'https://example.org/source?email=referrer@example.com#secret',
+    referrer,
+    title: 'Private profile name',
     head: {appendChild: script => scripts.push(script)},
     createElement: () => ({}),
     querySelector: () => banner,
@@ -107,7 +109,14 @@ check(first.scripts.length === 1 && first.window['ga-disable-G-TEST123'] === fal
 const config = first.commands().find(command => command[0] === 'config')[2];
 check(config.cookie_expires === 63072000 && config.cookie_update === false && config.send_page_view === false, 'Explicit GA cookie lifetime, no rolling refresh, no duplicate automatic page view');
 const page = first.commands().find(command => command[1] === 'page_view')[2];
-check(page.page_location === 'https://www.nelkano.com/en/releases' && page.page_referrer === 'https://example.org/source', 'Page location/referrer omit query strings and fragments');
+check(page.page_location === 'https://www.nelkano.com/en/releases' && page.page_referrer === 'https://example.org' && page.page_title === 'Releases', 'Page measurements use a fixed title, a clean public URL and only the origin of external referrers');
+for (const path of ['/user/314', '/en/user/login', '/perfil/314', '/comunidad', '/admin/nelkano/home', '/stream/314']) {
+  const privatePage = harness({raw:saved('granted'), href:'https://www.nelkano.com' + path});
+  check(privatePage.scripts.length === 0 && privatePage.commands().length === 0, 'Consent cannot load GA on ' + path);
+  const returnToPublic = harness({raw:saved('granted'), referrer:'https://www.nelkano.com' + path + '?private=1'});
+  const view = returnToPublic.commands().find(command => command[1] === 'page_view')[2];
+  check(view.ignore_referrer === true && view.page_referrer === 'https://www.nelkano.com/', 'Private referrer is suppressed without falling back to document.referrer');
+}
 first.clickDownload('/descargar/en/windows/3.0.4/instalador?token=private#secret');
 const download = first.commands().filter(command => command[1] === 'nelkano_download_click');
 check(download.length === 1 && download[0][2].download_platform === 'windows' && download[0][2].download_version === '3.0.4' && download[0][2].link_url === 'https://www.nelkano.com/descargar/en/windows/3.0.4/instalador', 'One download event preserves platform/version and strips URL secrets');

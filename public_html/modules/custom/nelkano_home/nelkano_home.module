@@ -175,6 +175,9 @@ function nelkano_home_email_template(string $title, string $lead, array $paragra
 
 /** Implements hook_node_presave(). Enforces numbers and workflow on all writes. */
 function nelkano_home_node_presave(\Drupal\node\NodeInterface $node): void {
+  if ($node->isNew() && $node->bundle() === 'community_post' && PHP_SAPI !== 'cli') {
+    \Drupal\nelkano_home\Service\CommunityRules::requireAcceptance((int) \Drupal::currentUser()->id());
+  }
   if (!in_array($node->bundle(), ['hu', 'nelkano_error_report'], TRUE) || !$node->hasField(WorkflowStatus::FIELD)) {
     return;
   }
@@ -329,6 +332,7 @@ function nelkano_home_user_delete(\Drupal\user\UserInterface $account): void {
 function nelkano_home_cron(): void {
   \Drupal\nelkano_home\Service\AppSessions::cleanup();
   \Drupal\nelkano_home\Service\ConnectionPrivacyRetention::runScheduled();
+  \Drupal\nelkano_home\Service\CommunityModeration::cleanup();
 }
 
 /** Release artifacts are served only by publication-aware download controllers. */
@@ -367,6 +371,9 @@ function nelkano_home_comment_access(\Drupal\comment\CommentInterface $comment, 
 
 /** Prevent a blocked account from commenting through a stale publication. */
 function nelkano_home_comment_presave(\Drupal\comment\CommentInterface $comment): void {
+  if ($comment->isNew() && $comment->bundle() === 'community_comment' && PHP_SAPI !== 'cli') {
+    \Drupal\nelkano_home\Service\CommunityRules::requireAcceptance((int) \Drupal::currentUser()->id());
+  }
   $post = $comment->getCommentedEntity();
   if ($comment->isNew() && $comment->bundle() === 'community_comment' && $post instanceof \Drupal\node\NodeInterface &&
       (!$post->isPublished() || \Drupal\nelkano_home\Service\CommunityBlocks::between((int) \Drupal::currentUser()->id(), (int) $post->getOwnerId()))) {

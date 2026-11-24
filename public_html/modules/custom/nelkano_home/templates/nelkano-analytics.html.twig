@@ -1,4 +1,5 @@
 {% if analytics.ga_id %}
+  <meta name="referrer" content="strict-origin">
   <script>
     (function () {
       var GA_ID = '{{ analytics.ga_id|e('js') }}';
@@ -161,7 +162,8 @@
       }
 
       function measurementAllowed() {
-        return !pageRefusal && !isLocalEnvironment() && !isInternalTraffic() && consentValue() === 'granted';
+        return !!publicPage(window.location.href) && !pageRefusal && !isLocalEnvironment() &&
+          !isInternalTraffic() && consentValue() === 'granted';
       }
 
       function scheduleConsentExpiry(record) {
@@ -172,10 +174,46 @@
         }
       }
 
-      function cleanUrl(value) {
+      function publicPage(value) {
         try {
           var url = new URL(value);
-          return url.protocol === 'https:' || url.protocol === 'http:' ? url.origin + url.pathname : '';
+          if (url.origin !== window.location.origin) {
+            return null;
+          }
+          var pages = {
+            '/': 'Nelkano', '/home': 'Nelkano', '/en': 'Nelkano',
+            '/sistemas': 'Sistemas', '/en/systems': 'Systems',
+            '/versiones': 'Versiones', '/en/releases': 'Releases',
+            '/guia': 'Guía de uso', '/en/guide': 'User guide',
+            '/modulos': 'Módulos', '/en/modules': 'Modules',
+            '/contacto': 'Contacto', '/en/contact': 'Contact',
+            '/aviso-legal': 'Aviso legal', '/en/legal-notice': 'Legal notice',
+            '/privacidad-cookies': 'Privacidad', '/en/privacy-cookies': 'Privacy',
+            '/seguridad-privacidad': 'Seguridad', '/en/security-privacy': 'Security'
+          };
+          var title = Object.prototype.hasOwnProperty.call(pages, url.pathname) ? pages[url.pathname] : '';
+          if (/^\/(?:sistemas|en\/systems)\/[a-z0-9-]+(?:\/(?:compatibilidad|compatibility))?\/?$/.test(url.pathname)) {
+            title = 'Nelkano · Sistema';
+          }
+          return title ? {location: url.origin + url.pathname, title: title} : null;
+        }
+        catch (error) {
+          return null;
+        }
+      }
+
+      function safeReferrer() {
+        try {
+          var url = new URL(document.referrer);
+          if (url.protocol !== 'https:' && url.protocol !== 'http:') {
+            return '';
+          }
+          var isNelkano = /^(?:www\.)?nelkano\.com$/i.test(url.hostname);
+          if (url.origin === window.location.origin || isNelkano) {
+            var page = publicPage(url.href);
+            return page ? page.location : '';
+          }
+          return url.origin;
         }
         catch (error) {
           return '';
@@ -184,6 +222,10 @@
 
       function loadAnalytics() {
         var record = readConsent();
+        var page = publicPage(window.location.href);
+        if (!page) {
+          return;
+        }
         if (pageRefusal || isLocalEnvironment() || isInternalTraffic() || !record || record.choice !== 'granted') {
           disableAnalytics();
           if (!isLocalEnvironment() && !isInternalTraffic()) {
@@ -206,6 +248,8 @@
             disableAnalytics();
           }
         };
+        var referrer = safeReferrer();
+        var pageReferrer = referrer || window.location.origin + '/';
         window.gtag('js', new Date());
         window.gtag('config', GA_ID, {
           anonymize_ip: true,
@@ -213,16 +257,21 @@
           cookie_expires: 63072000,
           cookie_update: false,
           send_page_view: false,
-          page_location: cleanUrl(window.location.href),
-          page_referrer: cleanUrl(document.referrer)
+          page_location: page.location,
+          page_title: page.title,
+          page_referrer: pageReferrer,
+          ignore_referrer: !referrer
         });
         window.gtag('event', 'page_view', {
-          page_location: cleanUrl(window.location.href),
-          page_referrer: cleanUrl(document.referrer)
+          page_location: page.location,
+          page_title: page.title,
+          page_referrer: pageReferrer,
+          ignore_referrer: !referrer
         });
 
         var script = document.createElement('script');
         script.async = true;
+        script.referrerPolicy = 'no-referrer';
         script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(GA_ID);
         document.head.appendChild(script);
       }

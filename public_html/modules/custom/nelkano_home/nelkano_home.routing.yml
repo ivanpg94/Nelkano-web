@@ -1137,6 +1137,28 @@ nelkano_home.community_safety_api:
     _oauth_skip_auth: FALSE
     no_cache: TRUE
 
+nelkano_home.community_rules_es:
+  path: '/comunidad/normas'
+  defaults:
+    _form: '\Drupal\nelkano_home\Form\CommunityRulesForm'
+    _title: 'Normas de Comunidad'
+    language: 'es'
+  requirements:
+    _access: 'TRUE'
+  options:
+    no_cache: TRUE
+
+nelkano_home.community_rules_en:
+  path: '/en/community/rules'
+  defaults:
+    _form: '\Drupal\nelkano_home\Form\CommunityRulesForm'
+    _title: 'Community rules'
+    language: 'en'
+  requirements:
+    _access: 'TRUE'
+  options:
+    no_cache: TRUE
+
 nelkano_home.community_report:
   path: '/comunidad/denunciar/{kind}/{target}'
   defaults:

@@ -157,6 +157,15 @@ final class CommunityModeration {
     }
   }
 
+  public static function cleanup(): void {
+    $database = \Drupal::database();
+    if ($database->schema()->tableExists(self::TABLE)) {
+      $database->delete(self::TABLE)->condition('resolved', 0, '>')
+        ->condition('resolved', \Drupal::time()->getRequestTime() - 90 * 86400, '<=')
+        ->execute();
+    }
+  }
+
   public static function purge(int $uid): void {
     $db = \Drupal::database();
     if (!$db->schema()->tableExists(self::TABLE)) {

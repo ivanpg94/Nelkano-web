@@ -1050,3 +1050,8 @@ function nelkano_home_update_11049(): void {
     }
   }
 }
+
+/** Update the bilingual privacy sections affected by Community and Analytics. */
+function nelkano_home_update_11050(): void {
+  \Drupal\nelkano_home\Service\LegalComplianceUpdate::applyPrivacyUpdate();
+}

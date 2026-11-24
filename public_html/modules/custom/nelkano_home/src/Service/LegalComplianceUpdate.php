@@ -8,6 +8,26 @@ use Drupal\Core\File\FileSystemInterface;
 
 /** One-time editorial update; binary files and release history are retained. */
 final class LegalComplianceUpdate {
+  public static function applyPrivacyUpdate(): void {
+    $module = \Drupal::service('extension.list.module')->getPath('nelkano_home');
+    $copy = json_decode(file_get_contents(DRUPAL_ROOT . '/' . $module . '/config/legal-compliance-copy.json'), TRUE, 512, JSON_THROW_ON_ERROR);
+    $config = \Drupal::configFactory()->getEditable('nelkano_home.docs');
+    foreach ($copy as $language => $fields) {
+      $key = $language . '.privacy_cookies_sections';
+      $updates = array_column(array_slice($fields['privacy_cookies_sections'], -6), NULL, 'title');
+      $sections = $config->get($key) ?? $fields['privacy_cookies_sections'];
+      foreach ($sections as &$section) {
+        if (isset($updates[$section['title']])) {
+          $section['paragraphs'] = $updates[$section['title']]['paragraphs'];
+          unset($updates[$section['title']]);
+        }
+      }
+      unset($section);
+      $config->set($key, array_merge($sections, array_values($updates)));
+    }
+    $config->save();
+  }
+
   public static function apply(): void {
     $module = \Drupal::service('extension.list.module')->getPath('nelkano_home');
     $patch = json_decode(file_get_contents(DRUPAL_ROOT . '/' . $module . '/config/legal-compliance-copy.json'), TRUE, 512, JSON_THROW_ON_ERROR);
