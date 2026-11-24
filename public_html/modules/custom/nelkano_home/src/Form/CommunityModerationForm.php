@@ -31,10 +31,18 @@ final class CommunityModerationForm extends FormBase {
     $form['#cache']['max-age'] = 0;
     $module = \Drupal::service('extension.list.module')->getPath('nelkano_home');
     $form['#attached']['library'][] = 'nelkano_home/community_moderation';
-    $form['#attributes']['class'][] = 'nk-community-moderation';
+    $form['#attributes']['class'] = ['nk-admin-config-form', 'nk-community-moderation'];
     $form['#prefix'] = $this->nelkanoAdminPrefix($module, 'community_moderation', 'nk-redesign-admin');
     $form['#suffix'] = '</section></div></div></div>';
-    $form['heading'] = ['#type' => 'html_tag', '#tag' => 'h1', '#value' => 'Denuncias de Comunidad'];
+    $form['heading'] = [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['nk-admin-panel-head']],
+      'title' => [
+        '#type' => 'html_tag',
+        '#tag' => 'h1',
+        '#value' => $report === '' ? 'Denuncias de Comunidad' : 'Denuncia #' . (int) $report,
+      ],
+    ];
     $db = \Drupal::database();
     if ($report === '') {
       $query = $db->select(Moderation::TABLE, 'r')->fields('r');
@@ -45,7 +53,8 @@ final class CommunityModerationForm extends FormBase {
       $names = $this->displayNames($authors);
       $form['queue'] = ['#type' => 'table', '#header' => ['Contenido denunciado', 'Autor o cuenta', 'Motivo', 'Estado', 'Recibida'],
         '#empty' => 'Todavía no hay denuncias.', '#attributes' => ['class' => ['nk-community-moderation-table']],
-        '#prefix' => '<div class="nk-community-moderation-scroll">', '#suffix' => '</div>'];
+        '#prefix' => '<div class="nk-community-card nk-community-moderation-scroll" role="region" aria-label="Bandeja de denuncias" tabindex="0">',
+        '#suffix' => '</div>'];
       foreach ($records as $row) {
         $id = (string) $row['id'];
         $form['queue'][$id] = [
@@ -53,7 +62,7 @@ final class CommunityModerationForm extends FormBase {
             Url::fromRoute('nelkano_home.admin_community_report', ['report' => $id]))->toRenderable(),
           'author' => $this->accountLink((int) $row['owner_uid'], $authors, $names),
           'reason' => ['#plain_text' => Moderation::REASONS[$row['reason']]],
-          'status' => ['#plain_text' => Moderation::STATUSES[$row['status']]],
+          'status' => $this->reportStatus($row['status']),
           'date' => ['#plain_text' => $this->date((int) $row['created'])],
         ];
       }
@@ -69,8 +78,12 @@ final class CommunityModerationForm extends FormBase {
     $post = $entity instanceof CommentInterface ? $entity->getCommentedEntity() : $entity;
     $accounts = User::loadMultiple([(int) $row['owner_uid'], (int) $row['reporter_uid'], (int) $row['moderator_uid']]);
     $names = $this->displayNames($accounts);
-    $form['back'] = Link::fromTextAndUrl('Volver a las denuncias', Url::fromRoute('nelkano_home.admin_community_moderation'))->toRenderable();
-    $form['summary'] = ['#type' => 'container', '#attributes' => ['class' => ['nk-community-moderation-summary']]];
+    $form['heading']['back'] = Link::fromTextAndUrl('Volver a las denuncias', Url::fromRoute('nelkano_home.admin_community_moderation',
+      [], ['attributes' => ['class' => ['nk-admin-public-link', 'nk-community-back']]]))->toRenderable();
+    $form['summary'] = [
+      '#prefix' => '<section class="nk-community-card nk-community-panel"><h2>Datos de la denuncia</h2><dl class="nk-community-fields">',
+      '#suffix' => '</dl></section>',
+    ];
     $form['summary']['target'] = $this->item('Contenido denunciado',
       ['#plain_text' => Moderation::KINDS[$row['kind']] . ' #' . $row['target_id']]);
     $form['summary']['author'] = $this->item($row['kind'] === 'user' ? 'Cuenta denunciada' : 'Autor',
@@ -79,8 +92,8 @@ final class CommunityModerationForm extends FormBase {
       $this->accountLink((int) $row['reporter_uid'], $accounts, $names));
     $form['summary']['reason'] = $this->item('Motivo', ['#plain_text' => Moderation::REASONS[$row['reason']]]);
     $form['summary']['created'] = $this->item('Recibida', ['#plain_text' => $this->date((int) $row['created'])]);
-    $form['summary']['status'] = $this->item('Estado de la denuncia', ['#plain_text' => Moderation::STATUSES[$row['status']]]);
-    $form['summary']['visibility'] = $this->item('Estado actual del contenido', ['#plain_text' => $this->visibility($entity, $post)]);
+    $form['summary']['status'] = $this->item('Estado de la denuncia', $this->reportStatus($row['status']));
+    $form['summary']['visibility'] = $this->item('Visibilidad del contenido', $this->visibility($entity, $post));
     if ((int) $row['resolved'] > 0) {
       $form['summary']['resolved'] = $this->item('Revisada', ['#plain_text' => $this->date((int) $row['resolved'])]);
       $form['summary']['moderator'] = $this->item('Moderador',
@@ -95,12 +108,21 @@ final class CommunityModerationForm extends FormBase {
       }
     }
     if ($entity instanceof NodeInterface || $entity instanceof CommentInterface) {
-      $form['preview'] = ['#type' => 'container', '#attributes' => ['class' => ['nk-community-moderation-preview']]];
+      $form['preview'] = [
+        '#type' => 'container',
+        '#attributes' => ['class' => ['nk-community-card', 'nk-community-panel', 'nk-community-moderation-preview']],
+        'heading' => ['#type' => 'html_tag', '#tag' => 'h2', '#value' => 'Contenido denunciado'],
+      ];
       $field = $entity instanceof NodeInterface ? 'body' : 'field_community_body';
       $text = $entity->hasField($field) ? trim((string) $entity->get($field)->value) : '';
-      $form['preview']['text'] = $this->item('Texto denunciado', ['#plain_text' => $text === '' ? 'Sin texto adjunto.' : $text]);
+      $form['preview']['text'] = [
+        '#type' => 'container',
+        '#attributes' => ['class' => [$text === '' ? 'nk-community-preview-empty' : 'nk-community-preview-text']],
+        'content' => ['#plain_text' => $text === '' ? 'Sin texto adjunto.' : $text],
+      ];
       if ($entity instanceof NodeInterface && $entity->hasField('field_community_image') && !$entity->get('field_community_image')->isEmpty()) {
         $form['preview']['image'] = $entity->get('field_community_image')->view(['label' => 'hidden', 'type' => 'image']);
+        $form['preview']['image']['#weight'] = 10;
       }
     }
     if ($row['status'] === 'pending') {
@@ -108,8 +130,13 @@ final class CommunityModerationForm extends FormBase {
       if ($entity instanceof NodeInterface || $entity instanceof CommentInterface) {
         $actions['hidden'] = 'Retirar el contenido';
       }
-      $form['decision'] = ['#type' => 'select', '#title' => 'Decisión', '#empty_option' => 'Selecciona una acción', '#required' => TRUE, '#options' => $actions];
-      $form['actions'] = ['#type' => 'actions', 'submit' => ['#type' => 'submit', '#value' => 'Guardar decisión']];
+      $form['resolution'] = [
+        '#type' => 'container',
+        '#attributes' => ['class' => ['nk-community-card', 'nk-community-panel', 'nk-community-decision']],
+        'heading' => ['#type' => 'html_tag', '#tag' => 'h2', '#value' => 'Resolver denuncia'],
+        'decision' => ['#type' => 'select', '#title' => 'Decisión', '#empty_option' => 'Selecciona una acción', '#required' => TRUE, '#options' => $actions],
+        'actions' => ['#type' => 'actions', 'submit' => ['#type' => 'submit', '#value' => 'Guardar decisión']],
+      ];
     }
     return $form;
   }
@@ -131,7 +158,30 @@ final class CommunityModerationForm extends FormBase {
   }
 
   private function item(string $title, array $value): array {
-    return ['#type' => 'item', '#title' => $title, 'value' => $value];
+    return [
+      '#type' => 'inline_template',
+      '#template' => '<div><dt>{{ label }}</dt><dd>{{ value }}</dd></div>',
+      '#context' => ['label' => $title, 'value' => $value],
+    ];
+  }
+
+  private function reportStatus(string $status): array {
+    $tone = match ($status) {
+      'pending' => 'pending',
+      'hidden' => 'removed',
+      'suspended' => 'suspended',
+      default => 'neutral',
+    };
+    return $this->badge(Moderation::STATUSES[$status], $tone);
+  }
+
+  private function badge(string $label, string $tone): array {
+    return [
+      '#type' => 'html_tag',
+      '#tag' => 'span',
+      '#value' => $label,
+      '#attributes' => ['class' => ['nk-community-status', 'nk-community-status--' . $tone]],
+    ];
   }
 
   private function date(int $date): string {
@@ -158,17 +208,17 @@ final class CommunityModerationForm extends FormBase {
     return Link::fromTextAndUrl("$name (#$uid)", $account->toUrl())->toRenderable();
   }
 
-  private function visibility(?EntityInterface $entity, ?EntityInterface $post): string {
+  private function visibility(?EntityInterface $entity, ?EntityInterface $post): array {
     if ($entity instanceof UserInterface) {
-      return $entity->isActive() ? 'Cuenta activa' : 'Cuenta suspendida';
+      return $entity->isActive() ? $this->badge('Cuenta activa', 'visible') : $this->badge('Cuenta suspendida', 'suspended');
     }
     if ($entity instanceof EntityPublishedInterface) {
       if (!$entity->isPublished() || ($post instanceof NodeInterface && !$post->isPublished())) {
-        return 'Retirado de Comunidad';
+        return $this->badge('Retirado de Comunidad', 'removed');
       }
-      return 'Publicado';
+      return $this->badge('Publicado', 'visible');
     }
-    return 'Ya no existe';
+    return $this->badge('Ya no existe', 'neutral');
   }
 
 }
