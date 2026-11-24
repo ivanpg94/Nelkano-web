@@ -64,9 +64,28 @@ final class AccountMutationLockSubscriber implements EventSubscriberInterface {
     foreach ($foreign_participants ? ['friendUid', 'friend_uid'] : [] as $key) {
       if (isset($body[$key]) && is_scalar($body[$key]) && (int) $body[$key] > 0) { $uids[(int) $body[$key]] = (int) $body[$key]; }
     }
-    if ($foreign_participants && str_starts_with($route, 'nelkano_home.api_friends_')) {
-      $friend = (int) ($body['uid'] ?? $body['id'] ?? 0);
+    if ($foreign_participants && $route === 'nelkano_home.api_friends_request') {
+      $friend = (int) (($body['uid'] ?? 0) ?: ($body['id'] ?? 0));
       if ($friend > 0) { $uids[$friend] = $friend; }
+    }
+    $friend_decisions = ['nelkano_home.api_friends_accept', 'nelkano_home.api_friends_reject', 'nelkano_home.api_friends_remove'];
+    if ($foreign_participants && in_array($route, $friend_decisions, TRUE)) {
+      // Decision payloads identify a friendship, even when older clients also send uid.
+      $id = (int) (($body['friendshipId'] ?? 0) ?: ($body['id'] ?? 0));
+      if ($id > 0 && $db->schema()->tableExists('nelkano_friendship')) {
+        $friendship = $db->select('nelkano_friendship', 'f')
+          ->fields('f', ['requester_uid', 'recipient_uid'])->condition('id', $id)->execute()->fetchAssoc();
+        if ($friendship) {
+          $requester = (int) $friendship['requester_uid'];
+          $recipient = (int) $friendship['recipient_uid'];
+          if ($actor === $recipient) {
+            $uids[$requester] = $requester;
+          }
+          elseif ($actor === $requester && $route !== 'nelkano_home.api_friends_accept') {
+            $uids[$recipient] = $recipient;
+          }
+        }
+      }
     }
     $game_participants = [];
     $session = (string) ($body['sessionId'] ?? $body['session_id'] ?? '');
