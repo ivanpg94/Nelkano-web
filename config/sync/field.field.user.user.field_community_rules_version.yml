@@ -1,0 +1,20 @@
+uuid: fd2fdcb1-4529-4853-b1cc-09811a5907d4
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_community_rules_version
+  module:
+    - user
+id: user.user.field_community_rules_version
+field_name: field_community_rules_version
+entity_type: user
+bundle: user
+label: 'Versión aceptada de las normas de Comunidad'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1055,3 +1055,44 @@ function nelkano_home_update_11049(): void {
 function nelkano_home_update_11050(): void {
   \Drupal\nelkano_home\Service\LegalComplianceUpdate::applyPrivacyUpdate();
 }
+
+/** Store Community acceptance in private native user fields. */
+function nelkano_home_update_11051(array &$sandbox): void {
+  if (!isset($sandbox['last_uid'])) {
+    $module_path = \Drupal::service('extension.list.module')->getPath('nelkano_home');
+    $definitions = new \Drupal\Core\Config\FileStorage(DRUPAL_ROOT . '/' . $module_path . '/config/install');
+    foreach (['field_storage_config' => 'field.storage.user.', 'field_config' => 'field.field.user.user.'] as $type => $prefix) {
+      $storage = \Drupal::entityTypeManager()->getStorage($type);
+      foreach ([
+        \Drupal\nelkano_home\Service\CommunityRules::FIELD_VERSION,
+        \Drupal\nelkano_home\Service\CommunityRules::FIELD_ACCEPTED_AT,
+        \Drupal\nelkano_home\Service\CommunityRules::FIELD_WITHDRAWN_AT,
+      ] as $field) {
+        $id = ($type === 'field_storage_config' ? 'user.' : 'user.user.') . $field;
+        if (!$storage->load($id)) {
+          $storage->create($definitions->read($prefix . $field))->save();
+        }
+      }
+    }
+    \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
+    $sandbox['last_uid'] = 0;
+  }
+  $uids = \Drupal::database()->select('users_data', 'd')->fields('d', ['uid'])
+    ->condition('module', 'nelkano_home')->condition('name', 'community_rules')
+    ->condition('uid', $sandbox['last_uid'], '>')->orderBy('uid')->range(0, 50)->execute()->fetchCol();
+  $data = \Drupal::service('user.data');
+  $accounts = \Drupal::entityTypeManager()->getStorage('user')->loadMultiple($uids);
+  foreach ($uids as $uid) {
+    $legacy = $data->get('nelkano_home', $uid, 'community_rules');
+    $user = $accounts[$uid] ?? NULL;
+    $version = $legacy['version'] ?? NULL;
+    $timestamp = (int) ($legacy['accepted_at'] ?? 0);
+    if ($user && is_string($version) && $version !== '' && strlen($version) <= 64 && $timestamp > 0
+        && $user->get(\Drupal\nelkano_home\Service\CommunityRules::FIELD_ACCEPTED_AT)->isEmpty()) {
+      \Drupal\nelkano_home\Service\CommunityRules::record($user, $version, $timestamp);
+    }
+    $data->delete('nelkano_home', $uid, 'community_rules');
+    $sandbox['last_uid'] = (int) $uid;
+  }
+  $sandbox['#finished'] = count($uids) < 50 ? 1 : 0.5;
+}

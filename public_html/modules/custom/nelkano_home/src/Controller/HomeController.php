@@ -6,7 +6,6 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Extension\ModuleExtensionList;
 use Drupal\Core\Url;
-use Drupal\nelkano_home\Form\CommunityRulesForm;
 use Drupal\nelkano_home\Service\CommunityRules;
 use Drupal\nelkano_home\Service\SystemPages;
 use Drupal\nelkano_home\Service\RedesignContent;
@@ -65,7 +64,6 @@ final class HomeController extends ControllerBase {
     $path = $english ? $english_path : $spanish_path;
     $alternate_path = $english ? $spanish_path : $english_path;
     $base = \Drupal::request()->getSchemeAndHttpHost();
-    $account = $this->currentUser();
     $page = [
       'title' => $title . ' - Nelkano',
       'heading' => $title,
@@ -84,15 +82,6 @@ final class HomeController extends ControllerBase {
       ],
       'rules_version' => CommunityRules::VERSION,
     ];
-    if ($account->isAnonymous()) {
-      $page['rules_login_url'] = Url::fromRoute($english ? 'nelkano_home.login_en' : 'user.login', [], [
-        'query' => ['destination' => $path],
-      ])->toString();
-    }
-    elseif ($account->hasPermission('use nelkano app features')) {
-      $form = $this->formBuilder()->getForm(CommunityRulesForm::class, $language);
-      $page['rules_form'] = \Drupal::service('renderer')->renderRoot($form);
-    }
     return $this->renderLegal($language, $page);
   }
 

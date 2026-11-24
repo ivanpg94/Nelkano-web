@@ -4,10 +4,10 @@
     <p class="r-label">{{ page.eyebrow }}</p>
     <h1>{{ page.heading }}</h1>
     <p class="r-copy">{{ page.intro }}</p>
+    {% if page.rules_version is defined %}<small>{{ language == 'en' ? 'Version' : 'Versión' }} {{ page.rules_version }}</small>{% endif %}
   </div>
 </section>
-{% set has_rules_action = page.rules_form is defined or page.rules_login_url is defined %}
-<div class="r-wrap r-guide-layout{% if has_rules_action %} r-rules-layout{% endif %}">
+<div class="r-wrap r-guide-layout">
   <aside>
     <details class="r-guide-toc" open>
       <summary>{{ language == 'en' ? 'On this page' : 'En esta página' }}</summary>
@@ -23,16 +23,4 @@
       </article>
     {% endfor %}
   </section>
-  {% if has_rules_action %}
-    <section class="r-rules-participation" aria-labelledby="rules-participation-title">
-      <h2 id="rules-participation-title">{{ language == 'en' ? 'Join the conversation' : 'Participar en Comunidad' }}</h2>
-      <p>{{ language == 'en' ? 'Accept these rules to post, comment or send messages.' : 'Acepta estas normas para publicar, comentar o enviar mensajes.' }}</p>
-      {% if page.rules_form is defined %}
-        {{ page.rules_form }}
-      {% else %}
-        <a class="r-btn" href="{{ page.rules_login_url }}">{{ language == 'en' ? 'Log in' : 'Iniciar sesión' }}</a>
-      {% endif %}
-      <small>{{ language == 'en' ? 'Version' : 'Versión' }} {{ page.rules_version }}</small>
-    </section>
-  {% endif %}
 </div>

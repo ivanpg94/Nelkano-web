@@ -1,0 +1,21 @@
+uuid: 94b69cd3-07d5-4078-a18f-d060fba88fda
+langcode: es
+status: true
+dependencies:
+  module:
+    - user
+id: user.field_community_rules_version
+field_name: field_community_rules_version
+entity_type: user
+type: string
+settings:
+  max_length: 64
+  is_ascii: true
+  case_sensitive: true
+module: core
+locked: false
+cardinality: 1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

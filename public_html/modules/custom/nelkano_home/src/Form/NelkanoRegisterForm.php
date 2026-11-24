@@ -7,6 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Mail\MailManagerInterface;
 use Drupal\Core\Url;
+use Drupal\nelkano_home\Service\CommunityRules;
 use Drupal\user\Entity\User;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -88,6 +89,16 @@ final class NelkanoRegisterForm extends FormBase {
       '#required' => TRUE,
     ];
 
+    $form['community_rules'] = [
+      '#type' => 'checkbox',
+      '#title' => $language === 'en' ? 'I accept the Community rules' : 'Acepto las normas de Comunidad',
+      '#description' => $language === 'en'
+        ? '<a href="/en/community/rules" target="_blank" rel="noopener">Read the Community rules</a>'
+        : '<a href="/comunidad/normas" target="_blank" rel="noopener">Leer las normas de Comunidad</a>',
+      '#required' => TRUE,
+    ];
+    $form['community_rules_version'] = ['#type' => 'hidden', '#default_value' => CommunityRules::VERSION];
+
     $form['actions'] = ['#type' => 'actions', '#weight' => 20];
     $form['actions']['submit'] = [
       '#type' => 'submit',
@@ -119,6 +130,11 @@ final class NelkanoRegisterForm extends FormBase {
     if ($password !== $confirm) {
       $form_state->setErrorByName('pass_confirm', $language === 'en' ? 'Passwords do not match.' : 'Las contrasenas no coinciden.');
     }
+    if ($form_state->getValue('community_rules') && $form_state->getValue('community_rules_version') !== CommunityRules::VERSION) {
+      $form_state->setErrorByName('community_rules', $language === 'en'
+        ? 'The Community rules changed. Reload the form to read and accept the current version.'
+        : 'Las normas de Comunidad han cambiado. Recarga el formulario para consultar y aceptar la versión vigente.');
+    }
 
     $storage = \Drupal::entityTypeManager()->getStorage('user');
     if ($storage->loadByProperties(['mail' => $mail])) {
@@ -141,6 +157,7 @@ final class NelkanoRegisterForm extends FormBase {
       'pass' => $password,
       'status' => 0,
     ]);
+    CommunityRules::setAcceptance($account, CommunityRules::VERSION, \Drupal::time()->getRequestTime());
     $account->save();
     $this->createInitialProfile((int) $account->id(), $display_name);
 

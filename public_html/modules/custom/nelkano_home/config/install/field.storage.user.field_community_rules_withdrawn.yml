@@ -1,0 +1,18 @@
+uuid: 8b35f4a5-af20-488f-8d9c-43f24f965848
+langcode: es
+status: true
+dependencies:
+  module:
+    - user
+id: user.field_community_rules_withdrawn
+field_name: field_community_rules_withdrawn
+entity_type: user
+type: timestamp
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

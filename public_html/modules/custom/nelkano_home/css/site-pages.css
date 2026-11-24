@@ -60,31 +60,6 @@
 .nkr .nk-stream-form input { font: inherit; border-radius: 10px; }
 .nkr .r-guide-sections { overflow-wrap: anywhere; }
 .nkr .r-guide-toc a { align-items: baseline; }
-.nkr .r-rules-participation {
-  display: grid;
-  justify-items: start;
-  gap: 10px;
-  min-width: 0;
-  padding: 16px;
-  background: white;
-  border: 1px solid var(--r-border);
-  border-radius: 12px;
-}
-.nkr .r-rules-participation h2 { font-size: 15px; font-weight: 700; }
-.nkr .r-rules-participation p { font-size: 14px; color: #334155; }
-.nkr .r-rules-participation form { max-width: 100%; font-size: 14px; }
-.nkr .r-rules-participation .r-btn { max-width: 100%; min-height: 44px; padding-inline: 14px; cursor: pointer; }
-.nkr .r-rules-participation small { font-size: 12px; color: var(--r-muted); }
-@media (min-width: 1024px) {
-  .nkr .r-rules-layout {
-    grid-template-areas: "index rules" "participation rules";
-    grid-template-rows: auto 1fr;
-    row-gap: 16px;
-  }
-  .nkr .r-rules-layout > aside { grid-area: index; }
-  .nkr .r-rules-layout > .r-guide-sections { grid-area: rules; }
-  .nkr .r-rules-layout > .r-rules-participation { grid-area: participation; align-self: start; }
-}
 @media(max-width:920px) { .nkr .r-contact-body,.nkr .nk-stream-layout { grid-template-columns: minmax(0,1fr); gap: 24px; } }
 @media(max-width:640px) {
   .nkr .nk-contact-card,.nkr .r-contact-notes,.nkr .nk-panel { padding: 20px; }

@@ -351,6 +351,38 @@ function nelkano_home_form_user_register_form_alter(array &$form, FormStateInter
   }
 }
 
+/** Consent evidence can be read by account administrators and written by the acceptance flow. */
+function nelkano_home_entity_field_access($operation, \Drupal\Core\Field\FieldDefinitionInterface $definition, \Drupal\Core\Session\AccountInterface $account, ?\Drupal\Core\Field\FieldItemListInterface $items = NULL): \Drupal\Core\Access\AccessResultInterface {
+  if ($definition->getTargetEntityTypeId() === 'user' && in_array($definition->getName(), [
+    \Drupal\nelkano_home\Service\CommunityRules::FIELD_VERSION,
+    \Drupal\nelkano_home\Service\CommunityRules::FIELD_ACCEPTED_AT,
+    \Drupal\nelkano_home\Service\CommunityRules::FIELD_WITHDRAWN_AT,
+  ], TRUE)) {
+    return \Drupal\Core\Access\AccessResult::forbiddenIf($operation === 'edit' || !$account->hasPermission('administer users'))->cachePerPermissions();
+  }
+  return \Drupal\Core\Access\AccessResult::neutral();
+}
+
+/** Adds a read-only summary to the Drupal user editor for administrators. */
+function nelkano_home_form_user_form_alter(array &$form, FormStateInterface $form_state): void {
+  $account = $form_state->getFormObject()->getEntity();
+  $version_field = \Drupal\nelkano_home\Service\CommunityRules::FIELD_VERSION;
+  if (!\Drupal::currentUser()->hasPermission('administer users') || !$account->hasField($version_field)) {
+    return;
+  }
+  $version = $account->get($version_field)->value;
+  $timestamp = (int) $account->get(\Drupal\nelkano_home\Service\CommunityRules::FIELD_ACCEPTED_AT)->value;
+  $withdrawn = (int) $account->get(\Drupal\nelkano_home\Service\CommunityRules::FIELD_WITHDRAWN_AT)->value;
+  $formatter = \Drupal::service('date.formatter');
+  $form['nelkano_community_acceptance'] = [
+    '#type' => 'item',
+    '#title' => t('Aceptación de las normas de Comunidad'),
+    'value' => ['#plain_text' => $version && $timestamp
+      ? $version . ' · ' . $formatter->format($timestamp, 'short') . ($withdrawn ? ' · ' . t('Retirada el @date', ['@date' => $formatter->format($withdrawn, 'short')]) : '')
+      : (string) t('Sin aceptación registrada')],
+  ];
+}
+
 /** Implements hook_comment_access() for Community visibility. */
 function nelkano_home_comment_access(\Drupal\comment\CommentInterface $comment, $op, \Drupal\Core\Session\AccountInterface $account): \Drupal\Core\Access\AccessResultInterface {
   if ($op !== 'view' || $comment->bundle() !== 'community_comment') {

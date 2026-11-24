@@ -1,0 +1,20 @@
+uuid: 3741f7bb-f378-4560-aaa8-04c93268a9ff
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_community_rules_withdrawn
+  module:
+    - user
+id: user.user.field_community_rules_withdrawn
+field_name: field_community_rules_withdrawn
+entity_type: user
+bundle: user
+label: 'Fecha de retirada de la aceptación de las normas de Comunidad'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: timestamp

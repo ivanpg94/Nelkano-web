@@ -78,6 +78,7 @@ final class AppAuthController extends ControllerBase {
     $password = (string) ($payload['password'] ?? '');
     $confirm = (string) ($payload['password_confirm'] ?? $payload['confirm'] ?? '');
     $terms = !empty($payload['terms']);
+    $rules = $payload['community_rules_version'] ?? NULL;
 
     if (mb_strlen($name) < 2) {
       return $this->error('Escribe un nombre reconocible.', 400);
@@ -94,6 +95,9 @@ final class AppAuthController extends ControllerBase {
     if (!$terms) {
       return $this->error('Acepta los terminos para crear la cuenta.', 400);
     }
+    if (array_key_exists('community_rules_version', $payload) && $rules !== \Drupal\nelkano_home\Service\CommunityRules::VERSION) {
+      return $this->error('Las normas de Comunidad han cambiado. Actualiza Nelkano o crea la cuenta desde nelkano.com.', 409);
+    }
 
     $storage = $this->entityTypeManager()->getStorage('user');
     if ($storage->loadByProperties(['mail' => $mail]) || $storage->loadByProperties(['name' => $mail])) {
@@ -106,6 +110,9 @@ final class AppAuthController extends ControllerBase {
       'pass' => $password,
       'status' => 0,
     ]);
+    if ($rules !== NULL) {
+      \Drupal\nelkano_home\Service\CommunityRules::setAcceptance($account, $rules, \Drupal::time()->getRequestTime());
+    }
     $account->save();
     $this->createInitialProfile((int) $account->id(), $name);
 
@@ -481,7 +488,7 @@ final class AppAuthController extends ControllerBase {
     }
     return new JsonResponse([
       'ok' => TRUE,
-      'profile' => $this->appProfilePayload($account),
+      'profile' => $this->appProfilePayload($account) + ['communityRules' => \Drupal\nelkano_home\Service\CommunityRules::state((int) $account->id())],
     ]);
   }
 
@@ -495,6 +502,10 @@ final class AppAuthController extends ControllerBase {
       return $this->error('Peticion no valida.', 400);
     }
     if (array_key_exists('shareActivity', $payload) && !is_bool($payload['shareActivity'])) return $this->error('Preferencia de actividad no valida.', 400);
+    $rules = $payload['communityRules'] ?? NULL;
+    if (array_key_exists('communityRules', $payload) && (!is_array($rules) || !is_bool($rules['accepted'] ?? NULL) || !is_string($rules['version'] ?? NULL))) {
+      return $this->error('Preferencia de Comunidad no válida.', 400);
+    }
     $display_name = $this->cleanText(trim((string) ($payload['displayName'] ?? $payload['display_name'] ?? '')), 80);
     $status_text = $this->cleanText(trim((string) ($payload['statusText'] ?? $payload['status_text'] ?? '')), 140);
     $avatar_color = trim((string) ($payload['avatarColor'] ?? $payload['avatar_color'] ?? '#a414ff'));
@@ -517,6 +528,7 @@ final class AppAuthController extends ControllerBase {
       ->fetchAssoc() ?: [];
     $avatar_uri = (string) ($current['avatar_file_uri'] ?? '');
     $avatar_base64 = trim((string) ($payload['avatarBase64'] ?? $payload['avatar_base64'] ?? ''));
+    $binary = NULL;
     if ($avatar_base64 !== '') {
       $avatar_mime = strtolower(trim((string) ($payload['avatarMime'] ?? $payload['avatar_mime'] ?? 'image/jpeg')));
       $extension = match ($avatar_mime) {
@@ -528,6 +540,11 @@ final class AppAuthController extends ControllerBase {
       if ($binary === FALSE || strlen($binary) > 4 * 1024 * 1024) {
         return $this->error('Imagen de perfil no valida.', 400);
       }
+    }
+    if ($rules !== NULL && !\Drupal\nelkano_home\Service\CommunityRules::setPreference($uid, $rules['accepted'], $rules['version'])) {
+      return $this->error('No se pudo guardar la aceptación. Vuelve a abrir el perfil.', 409);
+    }
+    if ($binary !== NULL) {
       $directory = 'public://nelkano-avatars';
       $file_system = \Drupal::service('file_system');
       $file_system->prepareDirectory($directory, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS);
@@ -560,7 +577,7 @@ final class AppAuthController extends ControllerBase {
     return new JsonResponse([
       'ok' => TRUE,
       'message' => 'Perfil guardado.',
-      'profile' => $this->appProfilePayload($account),
+      'profile' => $this->appProfilePayload($account) + ['communityRules' => \Drupal\nelkano_home\Service\CommunityRules::state($uid)],
     ]);
   }
 

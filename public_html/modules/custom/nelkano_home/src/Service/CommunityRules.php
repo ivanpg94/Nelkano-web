@@ -4,31 +4,78 @@ declare(strict_types=1);
 
 namespace Drupal\nelkano_home\Service;
 
+use Drupal\user\UserInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 final class CommunityRules {
   public const VERSION = '2026-11-24.1';
+  public const FIELD_VERSION = 'field_community_rules_version';
+  public const FIELD_ACCEPTED_AT = 'field_community_rules_accepted';
+  public const FIELD_WITHDRAWN_AT = 'field_community_rules_withdrawn';
 
   public static function accepted(int $uid): bool {
-    return $uid > 0 && self::VERSION === (\Drupal::service('user.data')->get('nelkano_home', $uid, 'community_rules')['version'] ?? NULL);
+    $account = $uid > 0 ? \Drupal::entityTypeManager()->getStorage('user')->load($uid) : NULL;
+    return self::hasAccepted($account);
+  }
+
+  private static function hasAccepted(?UserInterface $account): bool {
+    return $account && $account->hasField(self::FIELD_VERSION)
+      && $account->get(self::FIELD_VERSION)->value === self::VERSION
+      && (int) $account->get(self::FIELD_ACCEPTED_AT)->value > 0
+      && $account->get(self::FIELD_WITHDRAWN_AT)->isEmpty();
   }
 
   public static function accept(int $uid, string $version): bool {
+    return self::setPreference($uid, TRUE, $version);
+  }
+
+  public static function state(int $uid): array {
+    return ['version' => self::VERSION, 'accepted' => self::accepted($uid)];
+  }
+
+  public static function setPreference(int $uid, bool $accepted, string $version): bool {
     if ($uid < 1 || $version !== self::VERSION) {
       return FALSE;
     }
-    if (!self::accepted($uid)) {
-      \Drupal::service('user.data')->set('nelkano_home', $uid, 'community_rules', [
-        'version' => self::VERSION,
-        'accepted_at' => \Drupal::time()->getRequestTime(),
-      ]);
+    $lock = \Drupal::lock();
+    $key = AccountErasure::lockKey($uid);
+    if (!$lock->acquire($key, 30)) {
+      return FALSE;
     }
-    return TRUE;
+    try {
+      $account = \Drupal::entityTypeManager()->getStorage('user')->loadUnchanged($uid);
+      if (!$account || !$account->isActive() || !$account->hasField(self::FIELD_VERSION)) {
+        return FALSE;
+      }
+      if ($accepted && !self::hasAccepted($account)) {
+        self::record($account, $version, \Drupal::time()->getRequestTime());
+      }
+      elseif (!$accepted && self::hasAccepted($account)) {
+        $account->set(self::FIELD_WITHDRAWN_AT, \Drupal::time()->getRequestTime());
+        $account->save();
+      }
+      return TRUE;
+    }
+    finally {
+      $lock->release($key);
+    }
+  }
+
+  /** Sets evidence on the account so it can be saved in the same operation. */
+  public static function setAcceptance(UserInterface $account, string $version, int $accepted_at): void {
+    $account->set(self::FIELD_VERSION, $version);
+    $account->set(self::FIELD_ACCEPTED_AT, $accepted_at);
+    $account->set(self::FIELD_WITHDRAWN_AT, NULL);
+  }
+
+  public static function record(UserInterface $account, string $version, int $accepted_at): void {
+    self::setAcceptance($account, $version, $accepted_at);
+    $account->save();
   }
 
   public static function requireAcceptance(int $uid): void {
     if (!self::accepted($uid)) {
-      throw new AccessDeniedHttpException('Debes aceptar las normas de Comunidad antes de publicar, comentar o enviar mensajes. /comunidad/normas');
+      throw new AccessDeniedHttpException('Acepta las normas de Comunidad en tu perfil antes de publicar, comentar o enviar mensajes. /user');
     }
   }
 

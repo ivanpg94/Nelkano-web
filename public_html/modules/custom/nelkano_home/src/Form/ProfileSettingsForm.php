@@ -8,6 +8,7 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\file\Entity\File;
+use Drupal\nelkano_home\Service\CommunityRules;
 use Drupal\user\UserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -70,6 +71,19 @@ final class ProfileSettingsForm extends FormBase {
         'aria-label' => $language === 'en' ? 'Select profile image' : 'Seleccionar imagen de perfil',
       ],
     ];
+    if ($uid === (int) $this->currentUser()->id() && $this->currentUser()->hasPermission('use nelkano app features')) {
+      $account_rules = CommunityRules::state($uid);
+      $form['community_rules'] = [
+        '#type' => 'checkbox',
+        '#title' => $language === 'en' ? 'I accept the Community rules' : 'Acepto las normas de Comunidad',
+        '#default_value' => $account_rules['accepted'],
+        '#description' => $language === 'en'
+          ? '<a href="/en/community/rules" target="_blank" rel="noopener">Read the rules</a>. Acceptance enables posts, comments and messages.'
+          : '<a href="/comunidad/normas" target="_blank" rel="noopener">Leer las normas</a>. Al aceptarlas puedes publicar, comentar y enviar mensajes.',
+      ];
+      $form['community_rules_version'] = ['#type' => 'hidden', '#default_value' => $account_rules['version']];
+      $form['community_rules_original'] = ['#type' => 'value', '#value' => $account_rules['accepted']];
+    }
     $form['actions'] = ['#type' => 'actions'];
     $form['actions']['submit'] = [
       '#type' => 'submit',
@@ -89,6 +103,11 @@ final class ProfileSettingsForm extends FormBase {
     if (mb_strlen(trim((string) $form_state->getValue('display_name'))) < 2) {
       $form_state->setErrorByName('display_name', $language === 'en' ? 'Use at least 2 characters.' : 'Usa al menos 2 caracteres.');
     }
+    if (isset($form['community_rules']) && $form_state->getValue('community_rules_version') !== CommunityRules::VERSION) {
+      $form_state->setErrorByName('community_rules', $language === 'en'
+        ? 'The Community rules changed. Reload your profile to review them.'
+        : 'Las normas de Comunidad han cambiado. Recarga el perfil para revisarlas.');
+    }
   }
 
   public function submitForm(array &$form, FormStateInterface $form_state): void {
@@ -98,6 +117,13 @@ final class ProfileSettingsForm extends FormBase {
     $display_name = trim((string) $form_state->getValue('display_name'));
     $status_text = trim((string) $form_state->getValue('status_text'));
     $avatar_color = (string) $form_state->getValue('avatar_color');
+    $accept_rules = (bool) $form_state->getValue('community_rules');
+    if (isset($form['community_rules']) && $accept_rules !== $form_state->getValue('community_rules_original')
+        && !CommunityRules::setPreference($uid, $accept_rules, (string) $form_state->getValue('community_rules_version'))) {
+      $this->messenger()->addError($language === 'en' ? 'Could not save your Community preference.' : 'No se pudo guardar tu preferencia de Comunidad.');
+      $form_state->setRebuild();
+      return;
+    }
     $avatar_file_uri = (string) ($this->currentProfileRow($uid)['avatar_file_uri'] ?? '');
     $file = $this->uploadAvatar();
     if ($file instanceof File) {

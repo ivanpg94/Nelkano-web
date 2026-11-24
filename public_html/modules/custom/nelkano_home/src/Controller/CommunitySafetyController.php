@@ -31,6 +31,8 @@ final class CommunitySafetyController extends ControllerBase {
     return [
       '#cache' => ['max-age' => 0],
       'rules' => Link::fromTextAndUrl($this->t('Normas de Comunidad'), Url::fromRoute('nelkano_home.community_rules_es'))->toRenderable(),
+      'manage_rules' => CommunityRules::accepted((int) $account->id()) ? [] : Link::fromTextAndUrl(
+        $this->t('Gestionar la aceptación en Perfil social'), Url::fromUserInput('/user'))->toRenderable(),
       'blocks' => Link::fromTextAndUrl($this->t('Usuarios bloqueados'), Url::fromRoute('nelkano_home.community_blocked_users'))->toRenderable(),
       'posts' => ['#theme' => 'item_list', '#items' => $items, '#empty' => $this->t('No hay publicaciones visibles en esta página.')],
       'pager' => ['#type' => 'pager'],
