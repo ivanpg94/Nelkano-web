@@ -227,17 +227,17 @@ es:
       og_type: website
       site_name: Nelkano
     system__snes:
-      title: 'Emulador SNES para Android — Super Nintendo en Nelkano'
-      description: 'Juega a títulos compatibles de Super Nintendo y Super Famicom en Android con Nelkano. Formatos SFC y SMC, controles y guardado interno. Soporte experimental.'
+      title: "Super Nintendo en Nelkano para Android"
+      description: "Juega a títulos compatibles de Super Nintendo y Super Famicom con controles táctiles, mando y estados de guardado. Soporte experimental."
       keywords: ''
       robots: 'index, follow, max-image-preview:large'
       canonical: ''
-      og_title: 'Emulador SNES para Android — Super Nintendo en Nelkano'
-      og_description: 'Juega a títulos compatibles de Super Nintendo y Super Famicom en Android con Nelkano. Formatos SFC y SMC, controles y guardado interno. Soporte experimental.'
+      og_title: "Super Nintendo en Nelkano para Android"
+      og_description: "Juega a títulos compatibles de Super Nintendo y Super Famicom con controles táctiles, mando y estados de guardado. Soporte experimental."
       image: ''
       image_alt: Nelkano
-      twitter_title: 'Emulador SNES para Android — Super Nintendo en Nelkano'
-      twitter_description: 'Juega a títulos compatibles de Super Nintendo y Super Famicom en Android con Nelkano. Formatos SFC y SMC, controles y guardado interno. Soporte experimental.'
+      twitter_title: "Super Nintendo en Nelkano para Android"
+      twitter_description: "Juega a títulos compatibles de Super Nintendo y Super Famicom con controles táctiles, mando y estados de guardado. Soporte experimental."
       twitter_card: summary_large_image
       og_type: website
       site_name: Nelkano
@@ -287,32 +287,17 @@ es:
       og_type: website
       site_name: Nelkano
     system__nintendo-3ds:
-      title: 'Nintendo 3DS en Android: soporte experimental | Nelkano'
-      description: 'Consulta el soporte experimental de Nintendo 3DS en Nelkano para Android: requisitos, formatos y doble pantalla. Puede haber bloqueos y ralentizaciones.'
+      title: "Nintendo 3DS en Nelkano para Android"
+      description: "Soporte experimental para Nintendo 3DS en Android, con doble pantalla, controles táctiles y estados de guardado en juegos compatibles."
       keywords: ''
       robots: 'index, follow, max-image-preview:large'
       canonical: ''
-      og_title: 'Nintendo 3DS en Android: soporte experimental | Nelkano'
-      og_description: 'Consulta el soporte experimental de Nintendo 3DS en Nelkano para Android: requisitos, formatos y doble pantalla. Puede haber bloqueos y ralentizaciones.'
+      og_title: "Nintendo 3DS en Nelkano para Android"
+      og_description: "Soporte experimental para Nintendo 3DS en Android, con doble pantalla, controles táctiles y estados de guardado en juegos compatibles."
       image: ''
       image_alt: Nelkano
-      twitter_title: 'Nintendo 3DS en Android: soporte experimental | Nelkano'
-      twitter_description: 'Consulta el soporte experimental de Nintendo 3DS en Nelkano para Android: requisitos, formatos y doble pantalla. Puede haber bloqueos y ralentizaciones.'
-      twitter_card: summary_large_image
-      og_type: website
-      site_name: Nelkano
-    system__nintendo-switch:
-      title: 'Nintendo Switch en Nelkano: estado del desarrollo'
-      description: 'Consulta el estado del desarrollo de Nintendo Switch en Nelkano. El soporte está en investigación y todavía no ofrece una experiencia de juego general en Android.'
-      keywords: ''
-      robots: 'index, follow, max-image-preview:large'
-      canonical: ''
-      og_title: 'Nintendo Switch en Nelkano: estado del desarrollo'
-      og_description: 'Consulta el estado del desarrollo de Nintendo Switch en Nelkano. El soporte está en investigación y todavía no ofrece una experiencia de juego general en Android.'
-      image: ''
-      image_alt: Nelkano
-      twitter_title: 'Nintendo Switch en Nelkano: estado del desarrollo'
-      twitter_description: 'Consulta el estado del desarrollo de Nintendo Switch en Nelkano. El soporte está en investigación y todavía no ofrece una experiencia de juego general en Android.'
+      twitter_title: "Nintendo 3DS en Nelkano para Android"
+      twitter_description: "Soporte experimental para Nintendo 3DS en Android, con doble pantalla, controles táctiles y estados de guardado en juegos compatibles."
       twitter_card: summary_large_image
       og_type: website
       site_name: Nelkano
@@ -544,17 +529,17 @@ en:
       og_type: website
       site_name: Nelkano
     system__snes:
-      title: 'SNES emulator for Android — Super Nintendo in Nelkano'
-      description: 'Play compatible Super Nintendo and Super Famicom titles on Android with Nelkano. SFC and SMC formats, controls and in-game saves. Experimental support.'
+      title: "Super Nintendo in Nelkano for Android"
+      description: "Play compatible Super Nintendo and Super Famicom titles with touch controls, a controller and save states. Experimental support."
       keywords: ''
       robots: 'index, follow, max-image-preview:large'
       canonical: ''
-      og_title: 'SNES emulator for Android — Super Nintendo in Nelkano'
-      og_description: 'Play compatible Super Nintendo and Super Famicom titles on Android with Nelkano. SFC and SMC formats, controls and in-game saves. Experimental support.'
+      og_title: "Super Nintendo in Nelkano for Android"
+      og_description: "Play compatible Super Nintendo and Super Famicom titles with touch controls, a controller and save states. Experimental support."
       image: ''
       image_alt: Nelkano
-      twitter_title: 'SNES emulator for Android — Super Nintendo in Nelkano'
-      twitter_description: 'Play compatible Super Nintendo and Super Famicom titles on Android with Nelkano. SFC and SMC formats, controls and in-game saves. Experimental support.'
+      twitter_title: "Super Nintendo in Nelkano for Android"
+      twitter_description: "Play compatible Super Nintendo and Super Famicom titles with touch controls, a controller and save states. Experimental support."
       twitter_card: summary_large_image
       og_type: website
       site_name: Nelkano
@@ -604,32 +589,17 @@ en:
       og_type: website
       site_name: Nelkano
     system__nintendo-3ds:
-      title: 'Nintendo 3DS on Android: experimental support | Nelkano'
-      description: 'Explore experimental Nintendo 3DS support in Nelkano for Android. Check requirements, supported files and current limitations before trying your games.'
+      title: "Nintendo 3DS in Nelkano for Android"
+      description: "Experimental Nintendo 3DS support on Android, with dual screens, touch controls and save states where supported."
       keywords: ''
       robots: 'index, follow, max-image-preview:large'
       canonical: ''
-      og_title: 'Nintendo 3DS on Android: experimental support | Nelkano'
-      og_description: 'Explore experimental Nintendo 3DS support in Nelkano for Android. Check requirements, supported files and current limitations before trying your games.'
+      og_title: "Nintendo 3DS in Nelkano for Android"
+      og_description: "Experimental Nintendo 3DS support on Android, with dual screens, touch controls and save states where supported."
       image: ''
       image_alt: Nelkano
-      twitter_title: 'Nintendo 3DS on Android: experimental support | Nelkano'
-      twitter_description: 'Explore experimental Nintendo 3DS support in Nelkano for Android. Check requirements, supported files and current limitations before trying your games.'
-      twitter_card: summary_large_image
-      og_type: website
-      site_name: Nelkano
-    system__nintendo-switch:
-      title: 'Nintendo Switch in Nelkano: development status'
-      description: 'Follow Nintendo Switch development in Nelkano. This early research effort does not yet offer general gameplay on Android. Check the current status.'
-      keywords: ''
-      robots: 'index, follow, max-image-preview:large'
-      canonical: ''
-      og_title: 'Nintendo Switch in Nelkano: development status'
-      og_description: 'Follow Nintendo Switch development in Nelkano. This early research effort does not yet offer general gameplay on Android. Check the current status.'
-      image: ''
-      image_alt: Nelkano
-      twitter_title: 'Nintendo Switch in Nelkano: development status'
-      twitter_description: 'Follow Nintendo Switch development in Nelkano. This early research effort does not yet offer general gameplay on Android. Check the current status.'
+      twitter_title: "Nintendo 3DS in Nelkano for Android"
+      twitter_description: "Experimental Nintendo 3DS support on Android, with dual screens, touch controls and save states where supported."
       twitter_card: summary_large_image
       og_type: website
       site_name: Nelkano

@@ -472,79 +472,55 @@ es:
         neo-geo-pocket'
       image_uri: ''
     snes:
-      enabled: false
+      enabled: true
       show_on_home: false
-      card_title: Super Nintendo / Super Famicom
-      title: Super Nintendo / Super Famicom
-      short_name: SNES
-      status: Experimental
-      category: En progreso
-      summary: Juega a títulos compatibles de Super Nintendo en Android, con controles táctiles o un mando y guardado interno del juego. El soporte todavía es experimental.
-      tagline: Los clásicos de 16 bits, en tu Android.
-      manufacturer: Nintendo
-      year: '1990'
-      formats: '.sfc
-
+      card_title: "Super Nintendo / Super Famicom"
+      title: "Super Nintendo / Super Famicom"
+      short_name: "SNES"
+      status: "Experimental"
+      category: "En progreso"
+      summary: "Juega a títulos compatibles de Super Nintendo y Super Famicom en Android, con controles táctiles, mando y guardados."
+      tagline: "Juega a títulos compatibles de Super Nintendo y Super Famicom en Android, con controles táctiles, mando y guardados."
+      manufacturer: "Nintendo"
+      year: "1990"
+      overview: "Nelkano emula juegos compatibles de Super Nintendo y Super Famicom con vídeo, sonido y los botones del mando original. La compatibilidad y el rendimiento dependen del juego y del dispositivo."
+      seo_title: "Super Nintendo / Super Famicom en Nelkano para Android"
+      seo_description: "Super Nintendo en Nelkano para Android: formatos SFC y SMC, controles y estados de guardado. Compatibilidad experimental."
+      tier: "experimental"
+      status_note: "Soporte experimental. La compatibilidad y la velocidad varían según el juego y el dispositivo."
+      image_uri: ""
+      formats: |-
+        .sfc
         .smc
-
-        .zip'
-      overview: 'Super Nintendo y Super Famicom son las consolas de 16 bits de Nintendo, hogar de clásicos de plataformas, acción y rol. Nelkano permite importar sus juegos compatibles en Android y ofrece vídeo, sonido y los controles del mando original. El core está en desarrollo: la compatibilidad y el rendimiento dependen del juego y del dispositivo.'
-      features: 'Importar juegos .sfc y .smc, también desde archivos ZIP.
-
-        Jugar con controles táctiles o con un mando compatible con Android.
-
-        Usar cruceta, A, B, X, Y, L, R, Start y Select.
-
-        Conservar las partidas de los juegos que incluyen guardado interno compatible.
-
-        Jugar sin una BIOS externa.'
-      limitations: 'Algunos cartuchos con coprocesadores adicionales todavía no están soportados.
-
-        Puede haber errores gráficos, de sonido o bloqueos en determinados juegos.
-
-        Los estados de guardado del emulador todavía no están disponibles.
-
-        La velocidad completa en Android y el funcionamiento de los juegos PAL no están verificados.'
-      tier: experimental
-      status_note: Integrado en Android. Siete recorridos iniciales de gameplay están comprobados en PC; la compatibilidad completa y el rendimiento en teléfonos siguen pendientes.
-      seo_title: Emulador SNES para Android — Super Nintendo en Nelkano
-      seo_description: Juega a títulos compatibles de Super Nintendo y Super Famicom en Android con Nelkano. Formatos SFC y SMC, controles y guardado interno. Soporte experimental.
-      related_ids: 'nes
-
+        .zip
+      features: |-
+        Importar juegos SFC o SMC, también en archivos ZIP.
+        Jugar con controles táctiles o con un mando compatible.
+        Guardar y cargar estados desde Guardados rápidos. Los juegos que admiten guardado interno también pueden conservar la partida.
+      limitations: |-
+        Algunos cartuchos con chips adicionales todavía no funcionan.
+        Algunos juegos pueden presentar errores de imagen, sonido o rendimiento.
+      related_ids: |-
+        nes
         mega-drive
-
-        game-boy-advance'
-      step_1_title: Prepara tu juego
-      step_1_text: Utiliza un archivo .sfc o .smc que tengas permiso para usar. También puedes importar un ZIP que contenga el juego; conserva la extensión original de la ROM.
-      step_2_title: Añádelo a la biblioteca
-      step_2_text: Actualiza Nelkano a una versión que incluya SNES. Abre la biblioteca, toca + y selecciona el archivo; después abre el juego desde su ficha.
-      step_3_title: Configura los controles y guarda tu partida
-      step_3_text: Revisa los botones táctiles o conecta un mando. Para continuar después, usa el guardado del propio juego cuando esté disponible y sal de la partida normalmente.
-      faq_1_question: ¿Necesito una BIOS?
-      faq_1_answer: No. El core SNES de Nelkano no necesita una BIOS externa.
-      faq_2_question: ¿Puedo guardar y cargar estados?
-      faq_2_answer: Los estados de guardado del emulador todavía no están disponibles para SNES. Los juegos con guardado interno compatible sí pueden conservar la partida al pausar o cerrar.
-      faq_3_question: ¿Funcionan todos los juegos al 100% de velocidad?
-      faq_3_answer: No está garantizado. Las pruebas de gameplay y velocidad realizadas en PC no certifican el rendimiento en Android. Algunos juegos presentan fallos o necesitan coprocesadores aún no implementados.
+        game-boy-advance
       steps:
-      - title: Prepara tu juego
-        description: Utiliza un archivo .sfc o .smc que tengas permiso para usar. También puedes importar un ZIP que contenga el juego; conserva la extensión original de la ROM.
-      - title: Añádelo a la biblioteca
-        description: Actualiza Nelkano a una versión que incluya SNES. Abre la biblioteca, toca + y selecciona el archivo; después abre el juego desde su ficha.
-      - title: Configura los controles y guarda tu partida
-        description: Revisa los botones táctiles o conecta un mando. Para continuar después, usa el guardado del propio juego cuando esté disponible y sal de la partida normalmente.
+        -
+          title: "Prepara tu juego"
+          description: "Usa un archivo SFC o SMC que tengas derecho a utilizar."
+        -
+          title: "Impórtalo y juega"
+          description: "En Biblioteca, pulsa + y selecciona tu archivo. Abre el juego desde su ficha."
+        -
+          title: "Guarda tu partida"
+          description: "Abre Guardados rápidos durante la partida para guardar o cargar un estado."
       faq:
-      - question: ¿Necesito una BIOS?
-        answer: No. El core SNES de Nelkano no necesita una BIOS externa.
-      - question: ¿Puedo guardar y cargar estados?
-        answer: Los estados de guardado del emulador todavía no están disponibles para SNES. Los juegos con guardado interno compatible sí pueden conservar la partida al pausar o cerrar.
-      - question: ¿Funcionan todos los juegos al 100% de velocidad?
-        answer: No está garantizado. Las pruebas de gameplay y velocidad realizadas en PC no certifican el rendimiento en Android. Algunos juegos presentan fallos o necesitan coprocesadores aún no implementados.
-      - question: ¿Se incluyen juegos?
-        answer: No. Nelkano no incluye juegos comerciales. Utiliza tu contenido compatible con los derechos necesarios.
-      - question: ¿Cómo comunico un problema?
-        answer: Indica el nombre del juego, la versión de Nelkano, tu dispositivo y los pasos para reproducir el problema.
-      image_uri: ''
+        -
+          question: "¿Necesito archivos de sistema?"
+          answer: "Nelkano puede ejecutar juegos compatibles de SNES con el archivo del juego."
+        -
+          question: "¿Puedo guardar y retomar la partida?"
+          answer: "Puedes crear un estado desde Guardados rápidos y cargarlo después. El guardado interno sigue disponible en los juegos compatibles."
     neo-geo-pocket:
       enabled: true
       show_on_home: false
@@ -732,101 +708,55 @@ es:
         nes'
       image_uri: ''
     nintendo-3ds:
-      enabled: false
+      enabled: true
       show_on_home: false
-      card_title: Nintendo 3DS
-      title: Nintendo 3DS
-      short_name: 3DS
-      status: Experimental
-      category: En progreso
-      summary: El core arranca y algunos juegos pueden mostrar gráficos, pero el gameplay todavía no es funcional de forma general.
-      tagline: 3D sin gafas y un catálogo enorme. Core en las primeras fases.
-      manufacturer: Nintendo
-      year: '2011'
-      formats: '.3ds
-
+      card_title: "Nintendo 3DS"
+      title: "Nintendo 3DS"
+      short_name: "3DS"
+      status: "Experimental"
+      category: "En progreso"
+      summary: "Soporte experimental para Nintendo 3DS en Android, con doble pantalla, controles táctiles y estados de guardado en situaciones compatibles."
+      tagline: "Soporte experimental para Nintendo 3DS en Android, con doble pantalla, controles táctiles y estados de guardado en situaciones compatibles."
+      manufacturer: "Nintendo"
+      year: "2011"
+      overview: "Nelkano puede ejecutar títulos compatibles de Nintendo 3DS. Puedes mostrar ambas pantallas o elegir una y usar la pantalla táctil inferior. La experiencia puede variar mucho entre juegos y dispositivos."
+      seo_title: "Nintendo 3DS en Nelkano para Android"
+      seo_description: "Nintendo 3DS en Nelkano para Android, con doble pantalla, controles táctiles y soporte experimental."
+      tier: "experimental"
+      status_note: "Soporte experimental. Algunos títulos son jugables y otros pueden presentar bloqueos o ralentizaciones."
+      image_uri: ""
+      formats: |-
+        .3ds
+        .cci
         .cia
-
-        .cci'
-      overview: 'La Nintendo 3DS (2011) es la sucesora de la NDS con pantalla 3D sin gafas, cámara y un catálogo extensísimo. Emularla en Android es uno de los retos más complejos que afronta Nelkano: su arquitectura ARM11 a doble núcleo, los múltiples coprocesadores y el hardware gráfico específico hacen que el desarrollo sea largo. El core está en sus primeras fases.'
-      features: 'Cargar archivos .3ds o .cia y ver hasta dónde llega la ejecución
-
-        Seguir el desarrollo del core con cada actualización de Nelkano'
-      limitations: 'El gameplay no es funcional de forma general en esta etapa
-
-        La mayoría de juegos tienen errores graves o no pasan de la pantalla de inicio
-
-        Requiere hardware potente
-
-        Este sistema está en desarrollo muy activo'
-      step_1_title: Revisa el alcance disponible
-      step_1_text: Consulta las limitaciones de esta ficha y comprueba que tu versión de Nelkano incluye este sistema.
-      step_2_title: Prepara tus archivos
-      step_2_text: Utiliza archivos compatibles que tengas derecho a usar. Conserva juntos los archivos complementarios que necesite el juego.
-      step_3_title: Abre el contenido compatible
-      step_3_text: Si el sistema está disponible en tu versión, importa el contenido en la biblioteca y revisa los controles antes de jugar.
-      faq_1_question: ¿Se incluyen juegos?
-      faq_1_answer: No. Nelkano no incluye juegos comerciales. Utiliza tu contenido compatible con los derechos necesarios.
-      faq_2_question: ¿El estado se aplica a todos los juegos?
-      faq_2_answer: 'No se garantiza compatibilidad general ni rendimiento uniforme.
-
-        Los resultados de una versión no certifican todas las siguientes.'
-      faq_3_question: ¿Puedo comunicar un problema?
-      faq_3_answer: Sí. Indica la versión de Nelkano, el dispositivo, el sistema y los pasos para reproducirlo.
-      seo_title: Emulador Nintendo 3DS Android (básico) — Nelkano
-      seo_description: Nelkano incluye soporte básico para Nintendo 3DS. El core está en las primeras fases de desarrollo.
+      features: |-
+        Importar archivos compatibles desde la biblioteca.
+        Mostrar las dos pantallas o elegir la superior o la inferior.
+        Usar los controles táctiles o un mando compatible. Guardar y cargar estados en los juegos y situaciones que lo admiten.
+      limitations: |-
+        Algunos juegos pueden fallar al arrancar o durante la partida.
+        Pueden aparecer errores gráficos, problemas de sonido y ralentizaciones.
+        El renderizado requiere compatibilidad con Vulkan.
+      related_ids: |-
+        nintendo-ds
+        game-boy-advance
       steps:
-      - title: Ten expectativas muy realistas
-        description: El soporte 3DS está en fase básica inicial. No esperes poder jugar títulos completos todavía.
-      - title: Obtén archivos legalmente
-        description: Vuelca tus propios cartuchos o juegos instalados de tu consola 3DS con herramientas específicas.
+        -
+          title: "Prepara tus archivos"
+          description: "Usa archivos de juego compatibles que tengas derecho a utilizar."
+        -
+          title: "Añade el juego"
+          description: "En Biblioteca, pulsa + y selecciona tu archivo. Después, abre el juego desde su ficha."
+        -
+          title: "Elige las pantallas"
+          description: "Durante la partida, abre Pantallas para seleccionar Ambas, Superior o Inferior."
       faq:
-      - question: ¿Cuándo será jugable la 3DS?
-        answer: La emulación de 3DS es extremadamente compleja. No podemos dar fechas; el equipo trabaja en ello de forma constante.
-      tier: basico
-      status_note: El core arranca y algunos juegos pueden llegar al menú o mostrar gráficos, pero el gameplay todavía no es funcional o existen errores graves.
-      related_ids: 'nintendo-ds
-
-        game-boy-advance'
-      image_uri: ''
-    nintendo-switch:
-      enabled: false
-      show_on_home: false
-      card_title: Nintendo Switch
-      title: Nintendo Switch
-      short_name: Switch
-      status: Investigación
-      category: En progreso
-      summary: El core Nintendo Switch de Nelkano está en una fase temprana de investigación. Los hitos técnicos de ejecución y primera imagen no representan una experiencia de juego general en Android.
-      tagline: Una línea de investigación a largo plazo.
-      manufacturer: Nintendo
-      year: '2017'
-      formats: ''
-      overview: El core Nintendo Switch de Nelkano está en una fase temprana de investigación. Los hitos técnicos de ejecución y primera imagen no representan una experiencia de juego general en Android.
-      features: Consultar los avances y el alcance de investigación del core.
-      limitations: 'No está validado como producto jugable general.
-
-        No se promete disponibilidad ni rendimiento en el APK actual.'
-      step_1_title: Revisa el alcance disponible
-      step_1_text: Consulta las limitaciones de esta ficha y comprueba que tu versión de Nelkano incluye este sistema.
-      step_2_title: Prepara tus archivos
-      step_2_text: Utiliza archivos compatibles que tengas derecho a usar. Conserva juntos los archivos complementarios que necesite el juego.
-      step_3_title: Abre el contenido compatible
-      step_3_text: Si el sistema está disponible en tu versión, importa el contenido en la biblioteca y revisa los controles antes de jugar.
-      faq_1_question: ¿Se incluyen juegos?
-      faq_1_answer: No. Nelkano no incluye juegos comerciales. Utiliza tu contenido compatible con los derechos necesarios.
-      faq_2_question: ¿El estado se aplica a todos los juegos?
-      faq_2_answer: 'No está validado como producto jugable general.
-
-        No se promete disponibilidad ni rendimiento en el APK actual.'
-      faq_3_question: ¿Puedo comunicar un problema?
-      faq_3_answer: Sí. Indica la versión de Nelkano, el dispositivo, el sistema y los pasos para reproducirlo.
-      seo_title: Nintendo Switch — Nelkano
-      seo_description: Una línea de investigación a largo plazo.
-      tier: basico
-      status_note: ''
-      related_ids: ''
-      image_uri: ''
+        -
+          question: "¿Funcionan todos los juegos?"
+          answer: "El soporte es experimental y depende del juego, el dispositivo y la versión de Nelkano."
+        -
+          question: "¿Puedo guardar y continuar después?"
+          answer: "Puedes guardar y cargar estados en los juegos y situaciones compatibles."
     playstation-portable:
       enabled: false
       show_on_home: false
@@ -955,7 +885,7 @@ es:
       status_note: Integrado con imagen, audio, entrada, pausa y reinicio. La compatibilidad completa, el audio sostenido y la velocidad suficiente para jugar siguen pendientes según el título y el dispositivo.
       related_ids: 'nintendo-3ds
 
-        nintendo-switch'
+'
       image_uri: ''
 en:
   labels:
@@ -1304,79 +1234,55 @@ en:
         neo-geo-pocket'
       image_uri: ''
     snes:
-      enabled: false
+      enabled: true
       show_on_home: false
-      card_title: Super Nintendo / Super Famicom
-      title: Super Nintendo / Super Famicom
-      short_name: SNES
-      status: Experimental
-      category: In progress
-      summary: Play compatible Super Nintendo titles on Android with touch controls or a controller and in-game saves. Support is still experimental.
-      tagline: 16-bit classics, on your Android.
-      manufacturer: Nintendo
-      year: '1990'
-      formats: '.sfc
-
+      card_title: "Super Nintendo / Super Famicom"
+      title: "Super Nintendo / Super Famicom"
+      short_name: "SNES"
+      status: "Experimental"
+      category: "In progress"
+      summary: "Play compatible Super Nintendo and Super Famicom titles on Android with touch controls, a controller and save states."
+      tagline: "Play compatible Super Nintendo and Super Famicom titles on Android with touch controls, a controller and save states."
+      manufacturer: "Nintendo"
+      year: "1990"
+      overview: "Nelkano runs compatible Super Nintendo and Super Famicom games with video, sound and the original controller’s buttons. Compatibility and performance vary by game and device."
+      seo_title: "Super Nintendo / Super Famicom in Nelkano for Android"
+      seo_description: "Super Nintendo in Nelkano for Android: SFC and SMC files, controls and save states. Experimental compatibility."
+      tier: "experimental"
+      status_note: "Experimental support. Compatibility and speed depend on the game and device."
+      image_uri: ""
+      formats: |-
+        .sfc
         .smc
-
-        .zip'
-      overview: 'Super Nintendo and Super Famicom are Nintendo’s 16-bit consoles, home to platforming, action and role-playing classics. Nelkano lets you import compatible games on Android with video, sound and the original controller’s buttons. The core is in development: compatibility and performance depend on the game and device.'
-      features: 'Import .sfc and .smc games, including from ZIP archives.
-
-        Play with touch controls or an Android-compatible controller.
-
-        Use the D-pad, A, B, X, Y, L, R, Start and Select.
-
-        Keep progress in games that support compatible in-game saves.
-
-        Play without an external BIOS.'
-      limitations: 'Some cartridges with additional coprocessors are not supported yet.
-
-        Certain games may have graphics or sound issues, or freeze.
-
-        Emulator save states are not available yet.
-
-        Full speed on Android and PAL game support have not been verified.'
-      tier: experimental
-      status_note: Integrated into Android. Seven initial gameplay runs have been checked on PC; full compatibility and performance on phones are still pending.
-      seo_title: SNES emulator for Android — Super Nintendo in Nelkano
-      seo_description: Play compatible Super Nintendo and Super Famicom titles on Android with Nelkano. SFC and SMC formats, controls and in-game saves. Experimental support.
-      related_ids: 'nes
-
+        .zip
+      features: |-
+        Import SFC or SMC games, including from ZIP archives.
+        Play with touch controls or a compatible controller.
+        Save and load states from Quick saves. Games that support in-game saving can also keep your progress.
+      limitations: |-
+        Some cartridges with additional chips are unsupported.
+        Some games may have graphics, audio or performance issues.
+      related_ids: |-
+        nes
         mega-drive
-
-        game-boy-advance'
-      step_1_title: Prepare your game
-      step_1_text: Use a .sfc or .smc file you have permission to use. You can also import a ZIP containing the game; keep the ROM’s original extension.
-      step_2_title: Add it to your library
-      step_2_text: Update Nelkano to a version that includes SNES. Open the library, tap + and select the file, then launch the game from its page.
-      step_3_title: Set up controls and save your progress
-      step_3_text: Check the touch buttons or connect a controller. To continue later, use the game’s own save feature when available and exit the game normally.
-      faq_1_question: Do I need a BIOS?
-      faq_1_answer: No. Nelkano’s SNES core does not require an external BIOS.
-      faq_2_question: Can I save and load states?
-      faq_2_answer: Emulator save states are not available for SNES yet. Games with compatible in-game saving can keep your progress when you pause or close the game.
-      faq_3_question: Do all games run at full speed?
-      faq_3_answer: This is not guaranteed. Gameplay and speed tests on PC do not certify Android performance. Some games have issues or require coprocessors that are not implemented yet.
+        game-boy-advance
       steps:
-      - title: Prepare your game
-        description: Use a .sfc or .smc file you have permission to use. You can also import a ZIP containing the game; keep the ROM’s original extension.
-      - title: Add it to your library
-        description: Update Nelkano to a version that includes SNES. Open the library, tap + and select the file, then launch the game from its page.
-      - title: Set up controls and save your progress
-        description: Check the touch buttons or connect a controller. To continue later, use the game’s own save feature when available and exit the game normally.
+        -
+          title: "Prepare your game"
+          description: "Use an SFC or SMC file that you have the right to use."
+        -
+          title: "Import and play"
+          description: "In Library, select + and choose your file. Open the game from its details page."
+        -
+          title: "Save your progress"
+          description: "Open Quick saves during gameplay to save or load a state."
       faq:
-      - question: Do I need a BIOS?
-        answer: No. Nelkano’s SNES core does not require an external BIOS.
-      - question: Can I save and load states?
-        answer: Emulator save states are not available for SNES yet. Games with compatible in-game saving can keep your progress when you pause or close the game.
-      - question: Do all games run at full speed?
-        answer: This is not guaranteed. Gameplay and speed tests on PC do not certify Android performance. Some games have issues or require coprocessors that are not implemented yet.
-      - question: Are games included?
-        answer: No. Nelkano does not include commercial games. Use compatible content you have the necessary rights to use.
-      - question: How can I report a problem?
-        answer: Include the game’s name, your Nelkano version, your device and the steps to reproduce the issue.
-      image_uri: ''
+        -
+          question: "Do I need system files?"
+          answer: "Nelkano can run compatible SNES titles with the game file."
+        -
+          question: "Can I save and resume?"
+          answer: "Create a state from Quick saves and load it later. In-game saves are also available in compatible titles."
     neo-geo-pocket:
       enabled: true
       show_on_home: false
@@ -1510,83 +1416,55 @@ en:
         nes'
       image_uri: ''
     nintendo-3ds:
-      enabled: false
+      enabled: true
       show_on_home: false
-      card_title: Nintendo 3DS
-      title: Nintendo 3DS
-      short_name: 3DS
-      status: Experimental
-      category: In progress
-      summary: Nintendo 3DS is one of Nelkano's experimental cores. Android integration and rendering work continue to evolve, with tests tied to specific versions.
-      tagline: A 3D handheld platform still in development.
-      manufacturer: Nintendo
-      year: '2011'
-      formats: ''
-      overview: Nintendo 3DS is one of Nelkano's experimental cores. Android integration and rendering work continue to evolve, with tests tied to specific versions.
-      features: Review the experimental core's status and limitations.
-      limitations: 'General compatibility and uniform performance are not guaranteed.
-
-        Results from one version do not certify all later versions.'
-      step_1_title: Check the supported scope
-      step_1_text: Read this page's limitations and check that your Nelkano version includes this system.
-      step_2_title: Prepare your files
-      step_2_text: Use compatible files you have the right to use. Keep any required companion files together.
-      step_3_title: Open the supported content
-      step_3_text: If the system is available in your build, import the content into the library and check its controls before playing.
-      faq_1_question: Are games included?
-      faq_1_answer: No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.
-      faq_2_question: Does the status apply to every game?
-      faq_2_answer: 'General compatibility and uniform performance are not guaranteed.
-
-        Results from one version do not certify all later versions.'
-      faq_3_question: Can I report an issue?
-      faq_3_answer: Yes. Include the Nelkano version, device, system and steps to reproduce the issue.
-      seo_title: Nintendo 3DS — Nelkano
-      seo_description: A 3D handheld platform still in development.
-      tier: basico
-      status_note: El core arranca y algunos juegos pueden llegar al menú o mostrar gráficos, pero el gameplay todavía no es funcional o existen errores graves.
-      related_ids: 'nintendo-ds
-
-        game-boy-advance'
-      image_uri: ''
-    nintendo-switch:
-      enabled: false
-      show_on_home: false
-      card_title: Nintendo Switch
-      title: Nintendo Switch
-      short_name: Switch
-      status: Research
-      category: In progress
-      summary: Nelkano's Nintendo Switch core is in an early research phase. Execution and first-image milestones do not represent a general Android gaming experience.
-      tagline: A long-term research effort.
-      manufacturer: Nintendo
-      year: '2017'
-      formats: ''
-      overview: Nelkano's Nintendo Switch core is in an early research phase. Execution and first-image milestones do not represent a general Android gaming experience.
-      features: Review the core's research progress and scope.
-      limitations: 'It has not been validated as a general playable product.
-
-        Availability or performance in the current APK is not promised.'
-      step_1_title: Check the supported scope
-      step_1_text: Read this page's limitations and check that your Nelkano version includes this system.
-      step_2_title: Prepare your files
-      step_2_text: Use compatible files you have the right to use. Keep any required companion files together.
-      step_3_title: Open the supported content
-      step_3_text: If the system is available in your build, import the content into the library and check its controls before playing.
-      faq_1_question: Are games included?
-      faq_1_answer: No. Nelkano does not include commercial games. Use your own compatible content with the necessary rights.
-      faq_2_question: Does the status apply to every game?
-      faq_2_answer: 'It has not been validated as a general playable product.
-
-        Availability or performance in the current APK is not promised.'
-      faq_3_question: Can I report an issue?
-      faq_3_answer: Yes. Include the Nelkano version, device, system and steps to reproduce the issue.
-      seo_title: Nintendo Switch — Nelkano
-      seo_description: A long-term research effort.
-      tier: basico
-      status_note: ''
-      related_ids: ''
-      image_uri: ''
+      card_title: "Nintendo 3DS"
+      title: "Nintendo 3DS"
+      short_name: "3DS"
+      status: "Experimental"
+      category: "In progress"
+      summary: "Experimental Nintendo 3DS support on Android, with dual screens, touch controls and save states where supported."
+      tagline: "Experimental Nintendo 3DS support on Android, with dual screens, touch controls and save states where supported."
+      manufacturer: "Nintendo"
+      year: "2011"
+      overview: "Nelkano can run compatible Nintendo 3DS games. You can show both screens or pick one and use the lower touchscreen. The experience varies widely across games and devices."
+      seo_title: "Nintendo 3DS in Nelkano for Android"
+      seo_description: "Nintendo 3DS in Nelkano for Android, with dual screens, touch controls and experimental compatibility."
+      tier: "experimental"
+      status_note: "Experimental support. Some titles are playable, while others may freeze or run slowly."
+      image_uri: ""
+      formats: |-
+        .3ds
+        .cci
+        .cia
+      features: |-
+        Import compatible files from the library.
+        Show both screens or choose the upper or lower screen.
+        Play with touch controls or a compatible controller. Save and load states where the game and situation support them.
+      limitations: |-
+        Some games may fail at startup or during play.
+        Some games may show graphics or audio issues, or run slowly.
+        Rendering requires Vulkan support.
+      related_ids: |-
+        nintendo-ds
+        game-boy-advance
+      steps:
+        -
+          title: "Prepare your files"
+          description: "Use compatible game files that you have the right to use."
+        -
+          title: "Add the game"
+          description: "In Library, select + and choose your file. Open the game from its details page."
+        -
+          title: "Choose the screens"
+          description: "During gameplay, open Screens and choose Both, Upper or Lower."
+      faq:
+        -
+          question: "Does every game work?"
+          answer: "Support is experimental and depends on the game, device and Nelkano version."
+        -
+          question: "Can I save and resume?"
+          answer: "You can save and load states in supported games and situations."
     playstation-portable:
       enabled: false
       show_on_home: false
@@ -1701,7 +1579,7 @@ en:
       status_note: Integrated with video, audio, input, pause and restart. Complete compatibility, sustained audio and sufficient gameplay speed remain pending depending on the title and device.
       related_ids: 'nintendo-3ds
 
-        nintendo-switch'
+'
       image_uri: ''
       steps:
       - title: Prepare a compatible image

@@ -140,33 +140,26 @@ es:
       image_caption: 'La partida con los controles en pantalla.'
       image_focus: top
     -
-      title: 'Instalar un módulo'
-      group: 'Módulos y actualizaciones'
-      description: 'Los módulos añaden funciones a Nelkano.'
+      title: "Instalar un módulo"
+      group: "Módulos y actualizaciones"
+      description: "Los módulos públicos se descargan desde su ficha en nelkano.com."
       steps: |-
-        Abre Ajustes → General → Módulos y entra en Explorar.
-        Elige un módulo y pulsa Instalar para descargarlo y verificarlo.
-        Revisa el autor y los permisos que solicita. Confirma la instalación si estás de acuerdo.
-      notes: |-
-        Si tienes un archivo .nelkmod, usa Instalados → Importar módulo.
-        Desde Instalados puedes desactivar o desinstalar los módulos opcionales. Eliminar también sus datos borra sus datos guardados.
-        Los módulos exclusivos para Tester solo aparecen para cuentas con ese acceso.
+        En la web, abre Módulos, elige el módulo y descarga el archivo .nelkmod para tu plataforma.
+        En Nelkano, entra en Ajustes → Módulos y pulsa Importar módulo.
+        Selecciona el archivo, revisa el autor y los permisos, y confirma la instalación.
+      notes: "Desde Instalados puedes gestionar los módulos opcionales. Si eliges borrar sus datos, se eliminan también sus ajustes y archivos guardados."
       bullets: ''
       visible: '1'
       image_uri: ''
-      image_asset: /modules/custom/nelkano_home/assets/docs/guide/20261018/07-modulos.webp
-      image_alt: 'Pantalla de módulos de Nelkano con los módulos incluidos.'
-      image_caption: 'Gestiona los módulos desde Instalados.'
-      image_focus: top
     -
-      title: 'Actualizar la app y los módulos'
-      group: 'Módulos y actualizaciones'
-      description: 'Los módulos incluidos se actualizan con la app; los opcionales tienen sus propias versiones.'
+      title: "Actualizar la app y los módulos"
+      group: "Módulos y actualizaciones"
+      description: "Los módulos incluidos se actualizan con Nelkano. Los opcionales tienen sus propias versiones."
       steps: |-
-        Para actualizar la app, cierra la partida y abre Ajustes → General → Actualización de Nelkano.
-        Para los módulos, abre Módulos → Instalados → Comprobar actualizaciones.
-        Elige la actualización. Si el módulo está activo, pulsa Desactivar y continuar; después revisa los permisos y confirma la instalación.
-      notes: 'La actualización del módulo conserva sus datos.'
+        Para actualizar Nelkano, instala la última versión desde el mismo canal por el que lo instalaste.
+        Para actualizar un módulo público, abre su ficha en nelkano.com y descarga la versión más reciente para tu plataforma.
+        En Ajustes → Módulos, pulsa Importar módulo y selecciona el nuevo archivo .nelkmod. Revisa los permisos y confirma la actualización.
+      notes: "Importa la nueva versión sobre el módulo instalado para conservar sus datos."
       bullets: ''
       visible: '1'
       image_uri: ''
@@ -233,18 +226,6 @@ es:
       image_alt: 'Ajustes de idioma y tema de Nelkano para Android.'
       image_caption: 'Ajustes de idioma y tema.'
       image_focus: middle
-    -
-      title: 'Aplicar un parche'
-      group: 'Ajustes y archivos'
-      description: 'Para juegos de GBA y Nintendo DS, con parches IPS o xdelta/VCDIFF.'
-      steps: |-
-        Abre la ficha del juego y pulsa Aplicar parche.
-        Selecciona el archivo del parche y el juego original. El parche debe corresponder a esa versión exacta del juego.
-        Busca el resultado en Biblioteca: se añade como otro juego, con guardados propios.
-      notes: 'El juego original se conserva.'
-      bullets: ''
-      visible: '1'
-      image_uri: ''
     -
       title: 'Conservar tus juegos y partidas'
       group: 'Ajustes y archivos'
@@ -408,33 +389,26 @@ en:
       image_caption: 'Gameplay with on-screen controls.'
       image_focus: top
     -
-      title: 'Install a module'
-      group: 'Modules and updates'
-      description: 'Modules add features to Nelkano.'
+      title: "Install a module"
+      group: "Modules and updates"
+      description: "Download public modules from their pages on nelkano.com."
       steps: |-
-        Open Settings → General → Modules and choose Explore.
-        Choose a module and press Install to download and verify it.
-        Review the author and requested permissions. Confirm installation if you agree.
-      notes: |-
-        For a .nelkmod file, use Installed → Import module.
-        From Installed, disable or uninstall optional modules. Delete its data too removes their saved data.
-        Tester-only modules appear only for accounts with access.
+        Open Modules on the website, choose a module and download the .nelkmod file for your platform.
+        In Nelkano, open Settings → Modules and select Import module.
+        Select the file, review the author and permissions, and confirm the installation.
+      notes: "Manage optional modules in Installed. If you choose to delete a module’s data, its settings and saved files are also removed."
       bullets: ''
       visible: '1'
       image_uri: ''
-      image_asset: /modules/custom/nelkano_home/assets/docs/guide/20261018/07-modulos.webp
-      image_alt: 'Nelkano Modules screen with the included modules.'
-      image_caption: 'Manage modules from Installed.'
-      image_focus: top
     -
-      title: 'Update the app and modules'
-      group: 'Modules and updates'
-      description: 'Included modules update with the app; optional modules have their own versions.'
+      title: "Update the app and modules"
+      group: "Modules and updates"
+      description: "Included modules update with Nelkano. Optional modules have their own versions."
       steps: |-
-        To update the app, close your game and open Settings → General → App update.
-        For modules, open Modules → Installed → Check for updates.
-        Choose the update. If the module is active, press Disable and continue, then review its permissions and confirm installation.
-      notes: 'Updating a module keeps its data.'
+        Update Nelkano through the same channel you originally used to install it.
+        To update a public module, open its page on nelkano.com and download the latest version for your platform.
+        In Settings → Modules, select Import module and choose the new .nelkmod file. Review the permissions and confirm the update.
+      notes: "Import the new version over the installed module to keep its data."
       bullets: ''
       visible: '1'
       image_uri: ''
@@ -501,18 +475,6 @@ en:
       image_alt: 'Language and theme settings in Nelkano for Android.'
       image_caption: 'Language and theme settings.'
       image_focus: middle
-    -
-      title: 'Apply a patch'
-      group: 'Settings and files'
-      description: 'For GBA and Nintendo DS games, using IPS or xdelta/VCDIFF patches.'
-      steps: |-
-        Open the game details and press Apply patch.
-        Select the patch file and original game. The patch must match that exact game version.
-        Find the result in Library: it appears as a separate game with its own saves.
-      notes: 'The original game is kept.'
-      bullets: ''
-      visible: '1'
-      image_uri: ''
     -
       title: 'Keep your games and saves'
       group: 'Settings and files'

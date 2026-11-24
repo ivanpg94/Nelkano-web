@@ -335,6 +335,16 @@
       "noticePath": "legal/notices/webrtc-android.txt"
     },
     {
+      "id": "firebase-messaging-android",
+      "name": "Firebase Cloud Messaging",
+      "version": "25.0.1 (Firebase Android BoM 34.7.0)",
+      "license": "Apache-2.0; Android SDK terms for legacy IID interop and the measurement connector; bundled third-party notices",
+      "products": [
+        "android"
+      ],
+      "noticePath": "legal/notices/firebase-messaging-android.txt"
+    },
+    {
       "id": "okhttp",
       "name": "OkHttp",
       "version": "4.12.0",

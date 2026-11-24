@@ -1106,7 +1106,7 @@ final class HomeController extends ControllerBase {
         'version' => trim((string) ($row['version'] ?? '')),
         'filename' => $file['filename'],
         'date' => trim((string) ($row['date'] ?? '')),
-        'changes' => $this->parseLines($row['changes'] ?? '', 'text'),
+        'changes' => $this->publicReleaseNotes($row['changes'] ?? ''),
         'url' => $file['url'],
         'is_current' => $current,
         'meta' => $includeMetadata && is_file($file['path']) ? $this->downloadMeta($file['path'], trim((string) ($row['version'] ?? ''))) : [],
@@ -1115,6 +1115,19 @@ final class HomeController extends ControllerBase {
 
     usort($releases, fn(array $left, array $right): int => $this->compareReleaseRows($right, $left));
     return $releases;
+  }
+
+  private function publicReleaseNotes(mixed $notes): array {
+    $lines = $this->parseLines($notes, 'text');
+    foreach ($lines as $key => $line) {
+      // Keep the other entries in administrator-managed release history.
+      if (preg_match('/\bNintendo\s+Switch\b|\b(?:xdelta|VCDIFF)\b|\b(?:parches|patches)\s+IPS\b/iu', $line)) {
+        unset($lines[$key]);
+        continue;
+      }
+      $lines[$key] = preg_replace('/\s+(?:y Parches|and Patches)(?=\s+(?:vienen|are)\b)/iu', '', $line);
+    }
+    return array_values($lines);
   }
 
   private function latestReleaseDownload(string $language, string $modulePath, string $platform = 'android'): array {

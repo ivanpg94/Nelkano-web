@@ -8,6 +8,7 @@ use Drupal\Core\Url;
 use Drupal\node\NodeInterface;
 use Drupal\nelkano_modules\Service\ModuleRegistry;
 use Drupal\nelkano_modules\Service\ModuleAudience;
+use Drupal\nelkano_modules\Service\ModuleSystems;
 use Drupal\nelkano_modules\Service\SecureDownloadClient;
 
 final class ModuleForm extends FormBase {
@@ -44,7 +45,10 @@ final class ModuleForm extends FormBase {
       '#description' => 'Explica qué hace y cómo se utiliza. Texto sin formato.', '#default_value' => $module?->get('field_module_description')->value ?? ''];
     $form['systems'] = ['#type' => 'checkboxes', '#title' => 'Sistemas compatibles',
       '#options' => \Drupal\nelkano_modules\Service\ModuleSystems::options(),
-      '#default_value' => $module ? array_column($module->get('field_module_systems')->getValue(), 'value') : [],
+      '#default_value' => $module ? array_values(array_intersect(
+        array_column($module->get('field_module_systems')->getValue(), 'value'),
+        array_keys(ModuleSystems::options()),
+      )) : [],
       '#attributes' => ['class' => ['nm-system-options']],
       '#description' => 'Marca todos los sistemas para los que sirve tu módulo. Sin selección, la compatibilidad queda sin especificar y la ficha no aparece al filtrar por un sistema.'];
     $form['image'] = ['#type' => 'managed_file', '#title' => 'Imagen del módulo', '#access' => $access === 'public',

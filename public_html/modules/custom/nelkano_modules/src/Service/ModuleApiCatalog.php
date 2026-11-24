@@ -88,7 +88,10 @@ final class ModuleApiCatalog {
       'author' => ['name' => $module->getOwner()?->getDisplayName() ?? ''],
       'signing' => ['algorithm' => 'Ed25519', 'author_fingerprint_sha256' => (string) $module->get('field_module_author')->value],
       'image' => $this->image($module), 'available' => $latest !== NULL,
-      'systems' => array_column($module->get('field_module_systems')->getValue(), 'value'),
+      'systems' => array_values(array_intersect(
+        array_column($module->get('field_module_systems')->getValue(), 'value'),
+        array_keys(ModuleSystems::options()),
+      )),
       'platforms' => array_values($platforms), 'latest_release' => $latest,
       'web_url' => $this->url('nelkano_modules.detail', ['module' => $module->id()]),
       'api_url' => $this->url('nelkano_modules.api_detail', ['module_id' => $id]),

@@ -10,7 +10,7 @@ final class ModuleSystems {
       'gba' => 'GBA · Game Boy Advance', 'nes' => 'NES / Famicom', 'snes' => 'SNES · Super Nintendo',
       'sms' => 'Master System', 'gg' => 'Game Gear', 'md' => 'Mega Drive', 'ngp' => 'Neo Geo Pocket',
       'nds' => 'NDS · Nintendo DS', '3ds' => 'Nintendo 3DS', 'ps1' => 'PlayStation',
-      'psp' => 'PSP', 'gamecube' => 'GameCube', 'switch' => 'Nintendo Switch', 'rpgmaker' => 'RPG Maker'];
+      'psp' => 'PSP', 'gamecube' => 'GameCube', 'rpgmaker' => 'RPG Maker'];
   }
 
   public static function validate(mixed $values): array {
