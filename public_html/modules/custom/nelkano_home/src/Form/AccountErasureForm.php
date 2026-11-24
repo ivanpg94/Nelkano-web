@@ -10,14 +10,13 @@ use Drupal\nelkano_home\Service\AccountErasure;
 use Drupal\nelkano_home\Service\AppLoginGuard;
 use Drupal\user\Entity\User;
 
-/** Uses Drupal's session-bound Form API CSRF token and fresh password check. */
+/** Requires a fresh password and uses Drupal's CSRF token for signed-in users. */
 final class AccountErasureForm extends FormBase {
   public function getFormId(): string { return 'nelkano_account_erasure_form'; }
   private function english(): bool { return str_starts_with(\Drupal::request()->getPathInfo(), '/en/'); }
   public function buildForm(array $form, FormStateInterface $state, string $language = 'es'): array {
     $en = $this->english(); $account = $this->currentUser()->isAuthenticated() ? User::load((int) $this->currentUser()->id()) : NULL;
     $form['#attributes']['class'][] = 'nk-auth-form';
-    $form['#token'] = $this->getFormId();
     $form['#cache']['max-age'] = 0;
     if ($account && !AccountErasure::selfServiceAllowed($account)) {
       $form['notice'] = ['#markup' => '<p>' . ($en ? 'Administrative accounts need a manual review. Contact contacto@nelkano.com.' : 'Las cuentas administradoras requieren revisión manual. Contacta con contacto@nelkano.com.') . '</p>'];
