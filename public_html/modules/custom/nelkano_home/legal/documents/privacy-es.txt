@@ -1,5 +1,5 @@
 Privacidad de Nelkano y SDK Studio
-Actualizado: 31 de octubre de 2026
+Actualizado: 24 de noviembre de 2026
 
 Responsable y contacto
 
@@ -31,7 +31,7 @@ pueden acceder a la información necesaria para mantener el servicio.
 
 Edad de las cuentas
 
-Para crear una cuenta debes tener 18 años o más. La fecha de nacimiento se solicita al registrarte o, si ya tienes cuenta, al completar tu perfil. Se guarda de forma privada y solo se utiliza para determinar si puedes entrar en Comunidad y usar los mensajes. Las cuentas existentes sin fecha o de menores de 18 años conservan el acceso a su cuenta y a sus ajustes. Puedes usar las funciones locales sin cuenta. Para corregir la fecha o consultar sobre tus datos, escribe a contacto@nelkano.com.
+Para crear una cuenta debes tener 18 años o más. La fecha de nacimiento se solicita al registrarte o, si ya tienes cuenta, al completar tu perfil. La fecha se guarda de forma privada. La usamos para comprobar la edad mínima al crear una cuenta y determinar el acceso a Comunidad y a los mensajes. Las cuentas existentes sin fecha o de menores de 18 años conservan el acceso a su cuenta y a sus ajustes. Puedes usar las funciones locales sin cuenta. Para corregir la fecha o consultar sobre tus datos, escribe a contacto@nelkano.com.
 
 Actividad sincronizada
 
@@ -59,6 +59,40 @@ está bloqueada. Cerrar o caducar la sesión impide seguir usándola, pero no
 equivale al borrado físico inmediato de sus archivos y señales. La limpieza
 periódica retira conexiones cerradas o caducadas, sus archivos de imagen y audio
 y los mensajes de señalización con más de dos horas.
+
+Comunidad
+
+Al usar Comunidad, Nelkano guarda tu aceptación de las normas (versión y
+fecha), las publicaciones, comentarios y capturas que compartes, su autor y
+audiencia, y las relaciones de amistad y bloqueo. Compartimos cada publicación
+con los usuarios habilitados de Comunidad o solo con tus amigos, según elijas.
+Conservas tus derechos sobre tus capturas y autorizas mostrarlas a esa audiencia.
+Puedes eliminar tus publicaciones. Borrar la cuenta también elimina tus
+publicaciones, revisiones y adjuntos propios que no estén compartidos con otros
+contenidos. Otras personas pueden haber guardado una copia.
+https://nelkano.com/comunidad/normas
+
+Los mensajes privados de texto y de grupo se cifran en la app. El servidor
+tramita los mensajes cifrados y metadatos necesarios para la entrega, como
+remitente, conversación y dispositivo. Los mensajes de la cola caducan a
+los siete días y se retiran en la limpieza periódica. Las imágenes de chat
+directo se envían entre dispositivos mediante WebRTC, que procesa datos de
+conexión. El historial ya recibido puede permanecer en los dispositivos de
+los participantes. Los bloqueos limitan la interacción con otra cuenta.
+
+Las denuncias registran denunciante, contenido o cuenta afectada, motivo,
+fecha y decisión. Solo accede el personal autorizado para investigar y
+moderar. Se conservan durante la revisión y la limpieza periódica elimina
+el registro de la denuncia a partir de 90 días tras su resolución. Una
+retirada de contenido o suspensión puede seguir vigente.
+
+Si activas las notificaciones de chat, Firebase Cloud Messaging, de Google,
+genera un token para la instalación. Nelkano lo asocia a tu cuenta y a un
+identificador del dispositivo para entregar avisos. Los avisos contienen
+identificadores técnicos y el tipo de aviso, sin texto ni imágenes del
+mensaje. Puedes desactivarlos en los ajustes de notificaciones de Android.
+La baja del registro se sincroniza cuando la app puede volver a conectarse.
+https://firebase.google.com/support/privacy
 
 Reportes de errores
 
@@ -97,8 +131,9 @@ Web y medición de visitas
 
 La web trata datos técnicos de solicitudes, como IP, fecha, navegador y registros
 de seguridad, para servir páginas y descargas y prevenir abusos. El contacto
-por correo o formulario se utiliza para responderte. Google Analytics de la
-web se carga únicamente si aceptas la medición. Puede tratar identificadores
+por correo o formulario se utiliza para responderte. Google Analytics se
+carga solo en páginas públicas seleccionadas y con tu consentimiento.
+Se excluyen las páginas de cuenta, perfiles y áreas privadas. Puede tratar identificadores
 del navegador, páginas consultadas y clics de descarga. Un clic no demuestra
 una instalación. Puedes retirar el consentimiento en «Configurar cookies».
 La medición web no equivale a medir las partidas dentro de la aplicación.
@@ -122,9 +157,7 @@ antes de activar la analítica. Puedes cambiarla antes en «Configurar cookies»
 Estadísticas de uso de la aplicación
 
 Si aceptas compartir estadísticas, Nelkano las usa para priorizar las pruebas y decidir qué errores corregir primero. La app envía a nelkano.com el sistema, el número de aperturas y el tiempo de juego por franja horaria, y si esa instalación ya había jugado otro día.
-
-Puedes compartirlas sin cuenta. El código de instalación que recibe el servidor cambia cada día. El primer día de juego registrado se guarda en el dispositivo.
-
+Puedes compartirlas sin cuenta. El servidor recibe un código seudónimo de instalación que cambia cada día y utiliza un valor derivado de la IP para limitar envíos abusivos. El primer día de juego registrado se guarda en el dispositivo.
 Puedes retirar el permiso en Ajustes → Privacidad → Estadísticas de uso. Al desactivarlo se detiene la recogida y se borra la cola pendiente del dispositivo. Los datos ya recibidos se retiran mediante la limpieza periódica al alcanzar 90 días de actividad.
 
 Finalidades y bases del tratamiento
@@ -132,8 +165,10 @@ Finalidades y bases del tratamiento
 Los datos necesarios para la cuenta y las funciones que solicitas se tratan
 para prestarte ese servicio. Las comunicaciones se utilizan para atender tu
 solicitud. La seguridad y prevención de abusos se basan en el interés legítimo
-de proteger el servicio, con respeto a tus derechos. La analítica opcional y
-los adjuntos opcionales se basan en tu consentimiento. También se atenderán
+de proteger el servicio, con respeto a tus derechos. La moderación y la gestión
+de denuncias se basan en la protección de la Comunidad y las obligaciones legales
+aplicables. La analítica, las notificaciones y los adjuntos opcionales se basan
+en tu consentimiento. También se atenderán
 las obligaciones legales que resulten aplicables. Sin los datos necesarios
 para una función conectada, esa función puede no estar disponible; jugar sin
 cuenta sigue siendo posible.
@@ -154,7 +189,8 @@ indicada para sus copias es Lituania. El correo es un servicio separado; su
 conservación depende de ese servicio y de la atención de las consultas.
 El acuerdo de tratamiento público del proveedor está en:
 https://www.hostinger.com/legal/dpa
-Google recibe la analítica web si la aceptas. El módulo Drive envía
+Google recibe la analítica web si la aceptas y tramita los avisos que actives
+mediante Firebase Cloud Messaging. El módulo Drive envía
 a Google los archivos que selecciones y autorices. Otros módulos pueden
 comunicarse con los proveedores identificados por su autor.
 Algunos servicios pueden tratar datos fuera del Espacio Económico Europeo.
@@ -174,7 +210,8 @@ necesarios para esas funciones. Puedes borrar tu cuenta con la opción de
 borrado y tu contraseña actual, o solicitar ayuda a contacto@nelkano.com.
 Las cuentas administradoras requieren gestión manual para proteger el servicio.
 El borrado elimina del servicio los datos de cuenta asociados, sesiones,
-relaciones sociales, actividad, avatar, reportes y adjuntos propios. No borra
+relaciones sociales, actividad, avatar, reportes, contenido propio de Comunidad
+y sus adjuntos exclusivos. No borra
 tu biblioteca local, exportaciones, archivos de Drive ni copias de otras personas.
 
 Los accesos de la API duran una hora y los tokens de renovación treinta días.
@@ -186,7 +223,7 @@ La limpieza periódica retira las conexiones cerradas o caducadas y los tokens
 de renovación que llevan más de 24 horas vencidos. El borrado físico puede
 requerir varias pasadas.
 
-Los mensajes y reportes se conservan mientras sean necesarios para responder
+Los correos de contacto y los reportes de errores se conservan mientras sean necesarios para responder
 o investigar, y se revisa esa necesidad al cerrar la consulta o incidencia.
 Las copias de trabajo descargadas por mantenimiento deben eliminarse cuando
 dejen de ser necesarias. No se ha verificado un plazo fijo en días para los

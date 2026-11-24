@@ -714,7 +714,7 @@ es:
           question: "¿Puedo guardar y continuar después?"
           answer: "Puedes guardar y cargar estados en los juegos y situaciones compatibles."
     playstation-portable:
-      enabled: false
+      enabled: true
       show_on_home: false
       card_title: 'PlayStation Portable'
       title: 'PlayStation Portable'
@@ -737,7 +737,7 @@ es:
       limitations: |-
         Algunos juegos pueden no arrancar, bloquearse o presentar errores gráficos y de sonido.
         La velocidad y la continuidad del audio dependen del juego y del dispositivo; no se garantiza velocidad completa.
-        No hay estados de emulación: Guardar, Cargar y Continuar mediante un autoguardado de estado no están disponibles.
+        Los estados de emulación se pueden guardar y cargar en juegos compatibles. La restauración puede variar según el título.
         Un recorrido inicial probado no garantiza completar el juego.
         Las funciones disponibles pueden variar entre plataformas y versiones.
       step_1_title: 'Prepara el juego'
@@ -749,7 +749,7 @@ es:
       faq_1_question: '¿Qué formatos admite?'
       faq_1_answer: 'Imágenes ISO y CSO compatibles con el lector de PSP. La extensión por sí sola no garantiza que el archivo funcione.'
       faq_2_question: '¿Puedo guardar la partida?'
-      faq_2_answer: 'Sí, cuando el juego y su funcionamiento en el core lo permiten: utiliza el guardado interno del juego, almacenado en una Memory Stick privada. Los estados de emulación de Nelkano no están disponibles para PSP.'
+      faq_2_answer: 'Sí, cuando el juego y su funcionamiento en el core lo permiten: utiliza el guardado interno del juego, almacenado en una Memory Stick privada. En juegos compatibles también puedes guardar y cargar estados desde Guardados rápidos.'
       faq_3_question: '¿Funcionan todos los juegos a velocidad completa?'
       faq_3_answer: 'No. La compatibilidad y el rendimiento dependen del título, el dispositivo y la versión. Una prueba de menú o gameplay inicial no acredita todo el juego.'
       seo_title: 'PlayStation Portable (PSP) en Nelkano'
@@ -774,7 +774,7 @@ es:
           answer: 'Imágenes ISO y CSO compatibles con el lector de PSP. La extensión por sí sola no garantiza que el archivo funcione.'
         -
           question: '¿Puedo guardar la partida?'
-          answer: 'Sí, cuando el juego y su funcionamiento en el core lo permiten: utiliza el guardado interno del juego, almacenado en una Memory Stick privada. Los estados de emulación de Nelkano no están disponibles para PSP.'
+          answer: 'Sí, cuando el juego y su funcionamiento en el core lo permiten: utiliza el guardado interno del juego, almacenado en una Memory Stick privada. En juegos compatibles también puedes guardar y cargar estados desde Guardados rápidos.'
         -
           question: '¿Funcionan todos los juegos a velocidad completa?'
           answer: 'No. La compatibilidad y el rendimiento dependen del título, el dispositivo y la versión. Una prueba de menú o gameplay inicial no acredita todo el juego.'
@@ -1621,7 +1621,7 @@ en:
           question: "Can I save and resume?"
           answer: "You can save and load states in supported games and situations."
     playstation-portable:
-      enabled: false
+      enabled: true
       show_on_home: false
       card_title: 'PlayStation Portable'
       title: 'PlayStation Portable'
@@ -1644,7 +1644,7 @@ en:
       limitations: |-
         Some games may fail to boot, freeze or show graphics and audio errors.
         Speed and audio continuity depend on the game and device; full speed is not guaranteed.
-        Save states are unavailable: Save, Load and Continue through an autosave state are not supported.
+        You can save and load states in compatible games. Restoring a state may vary by title.
         A tested initial sequence does not guarantee completing the game.
         Available features may vary by platform and version.
       step_1_title: 'Prepare the game'
@@ -1656,7 +1656,7 @@ en:
       faq_1_question: 'Which formats are supported?'
       faq_1_answer: 'ISO and CSO images supported by the PSP reader. The file extension alone does not guarantee compatibility.'
       faq_2_question: 'Can I save my game?'
-      faq_2_answer: 'Yes, when the game and its execution in the core support it: use in-game saves stored in a private Memory Stick. Nelkano save states are not available for PSP.'
+      faq_2_answer: 'Yes, when the game and its execution in the core support it: use in-game saves stored in a private Memory Stick. Supported games also let you save and load states from Quick saves.'
       faq_3_question: 'Does every game run at full speed?'
       faq_3_answer: 'No. Compatibility and performance depend on the title, device and version. A menu or initial gameplay test does not validate the entire game.'
       seo_title: 'PlayStation Portable (PSP) in Nelkano'
@@ -1681,7 +1681,7 @@ en:
           answer: 'ISO and CSO images supported by the PSP reader. The file extension alone does not guarantee compatibility.'
         -
           question: 'Can I save my game?'
-          answer: 'Yes, when the game and its execution in the core support it: use in-game saves stored in a private Memory Stick. Nelkano save states are not available for PSP.'
+          answer: 'Yes, when the game and its execution in the core support it: use in-game saves stored in a private Memory Stick. Supported games also let you save and load states from Quick saves.'
         -
           question: 'Does every game run at full speed?'
           answer: 'No. Compatibility and performance depend on the title, device and version. A menu or initial gameplay test does not validate the entire game.'

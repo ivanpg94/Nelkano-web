@@ -1,5 +1,5 @@
 Nelkano and SDK Studio privacy
-Updated: 31 October 2026
+Updated: 24 November 2026
 
 Controller and contact
 
@@ -31,7 +31,7 @@ the service.
 
 Account age
 
-You must be 18 or older to create an account. We ask for your date of birth when you sign up or, for existing accounts, when you complete your profile. We store it privately and use it only to determine whether you can access Community and messaging. Existing accounts without a date of birth and those belonging to users under 18 can still sign in and use their account settings. Local features are available without an account. To correct your date of birth or ask about your data, contact contacto@nelkano.com.
+You must be 18 or older to create an account. We ask for your date of birth when you sign up or, for existing accounts, when you complete your profile. We keep your date of birth private. We use it to check the minimum age for creating an account and determine access to Community and messaging. Existing accounts without a date of birth and those belonging to users under 18 can still sign in and use their account settings. Local features are available without an account. To correct your date of birth or ask about your data, contact contacto@nelkano.com.
 
 Synchronized activity
 
@@ -57,6 +57,38 @@ the old public route is blocked. Closing or expiring a session prevents further
 use, but does not mean its files and signals are physically erased immediately.
 Periodic cleanup removes closed or expired connections, their video-frame and
 audio files, and signalling messages older than two hours.
+
+Community
+
+When you use Community, Nelkano stores your acceptance of the rules (version
+and date), the posts, comments and screenshots you share, their author and
+audience, and your friendship and blocking relationships. We show each post
+to eligible Community users or only to your friends, depending on your choice.
+You keep the rights to your screenshots and allow us to display them to that
+audience. You can delete your posts. Deleting your account also removes your
+posts, revisions and attachments that are not shared with other content.
+Other people may have saved a copy.
+https://nelkano.com/en/community/rules
+
+Private text messages and group messages are encrypted in the app. The
+server handles encrypted messages and metadata needed for delivery, such as
+the sender, conversation and device. Queued messages expire after seven days
+and are removed during periodic cleanup. Direct chat images pass between
+devices over WebRTC, which processes connection data. Received messages may
+remain on participants' devices. Blocking limits interaction with an account.
+
+Reports record the reporter, the content or account concerned, the reason,
+the date and the decision. Only authorized staff can access them to investigate
+and moderate. Records are kept during review and purged during periodic cleanup
+from 90 days after resolution. Content removals and suspensions may remain
+in effect.
+
+If you turn on chat notifications, Google's Firebase Cloud Messaging issues
+a token for the installation. Nelkano links it to your account and a device
+identifier to deliver alerts. Push alerts contain technical identifiers and
+an alert type, without message text or images. You can disable them in Android
+notification settings. Deregistration syncs once the app can connect again.
+https://firebase.google.com/support/privacy
 
 Error reports
 
@@ -94,8 +126,9 @@ Website and visit measurement
 
 The website processes request information such as IP address, date, browser
 and security logs to serve pages and downloads and prevent abuse. Email and
-contact form messages are used to respond to you. Website Google Analytics
-loads only if you accept measurement. It may process browser identifiers,
+contact form messages are used to respond to you. Google Analytics loads only
+on selected public pages with your consent. Account pages, profiles and
+private areas are excluded. It may process browser identifiers,
 visited pages and download clicks. A click does not prove installation.
 You can withdraw consent through Configure cookies. Website measurement is
 distinct from tracking game sessions within the application.
@@ -119,9 +152,7 @@ earlier through Configure cookies.
 App usage statistics
 
 If you agree to share statistics, Nelkano uses them to prioritize testing and decide which bugs to fix first. The app sends nelkano.com the system, the number of launches and time played by hour, and whether the installation had already played on an earlier day.
-
-You can share statistics without an account. The installation code received by the server changes every day. The first recorded play day is stored on the device.
-
+You can share statistics without an account. The server receives a pseudonymous installation code that changes daily and uses an IP-derived value to limit abuse. The first recorded play day is stored on the device.
 You can withdraw your permission in Settings → Privacy → Usage statistics. Turning it off stops collection and clears unsent data from the device. Regular cleanup removes data already received once it reaches 90 days of activity.
 
 Purposes and grounds for processing
@@ -129,8 +160,9 @@ Purposes and grounds for processing
 Data needed for your account and requested features is processed to provide
 that service. Communications are used to handle your request. Security and
 abuse prevention rely on the legitimate interest in protecting the service,
-with respect for your rights. Optional analytics and optional attachments rely
-on your consent. Applicable legal obligations will also be observed. Without
+with respect for your rights. Moderation and reports help protect the Community
+and meet applicable legal obligations. Optional analytics, notifications and
+attachments rely on your consent. Without
 the information needed by a connected feature, that feature may be unavailable;
 playing without an account remains possible.
 
@@ -148,7 +180,8 @@ table. The web server is in the Netherlands and its indicated backup location
 is Lithuania. Email is a separate service; retention depends on that service
 and the handling of enquiries. The provider’s data processing agreement is at:
 https://www.hostinger.com/legal/dpa
-Google receives website analytics if you accept it. The Drive module sends Google
+Google receives website analytics if you accept it and delivers the alerts
+you enable through Firebase Cloud Messaging. The Drive module sends Google
 the files you select and authorize. Other modules may communicate with providers
 identified by their author.
 Some services may process data outside the European Economic Area. You can ask
@@ -167,7 +200,7 @@ features. You can delete your account using the deletion control and current
 password, or ask contacto@nelkano.com for help. Administrator accounts require manual
 handling to protect the service. Deletion removes the associated server-side
 account data, sessions, social relationships, activity, avatar, reports and
-your attachments. It does not remove your local library, exports, Drive files
+your Community content and exclusive attachments. It does not remove your local library, exports, Drive files
 or copies held by other people.
 
 API access tokens last one hour and refresh tokens thirty days. Revocation or
@@ -178,7 +211,7 @@ after 2 hours, renewed by activity where applicable. Periodic cleanup removes
 closed or expired connections and refresh-token rows that expired more than
 24 hours ago. Physical deletion may require several passes.
 
-Messages and reports are retained as needed to answer or investigate; that need
+Contact emails and error reports are retained as needed to answer or investigate; that need
 is reviewed when the enquiry or issue closes. Maintenance working copies must
 be deleted when no longer needed. A fixed retention period in days has not
 been verified for hosting or email logs. Drupal technical logs and inactive

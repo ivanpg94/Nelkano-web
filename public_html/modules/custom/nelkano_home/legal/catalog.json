@@ -347,13 +347,53 @@
     {
       "id": "okhttp",
       "name": "OkHttp",
-      "version": "4.12.0",
+      "version": "5.3.2 Android, 4.12.0 Desktop",
       "license": "Apache-2.0; bundled Public Suffix List notice",
       "products": [
         "android",
         "desktop"
       ],
       "noticePath": "legal/notices/okhttp.txt"
+    },
+    {
+      "id": "javasteam",
+      "name": "JavaSteam and DepotDownloader",
+      "version": "1.8.0",
+      "license": "MIT",
+      "products": ["android"],
+      "noticePath": "legal/notices/javasteam.txt"
+    },
+    {
+      "id": "ktor",
+      "name": "Ktor",
+      "version": "3.3.3",
+      "license": "Apache-2.0",
+      "products": ["android"],
+      "noticePath": "legal/notices/ktor.txt"
+    },
+    {
+      "id": "protobuf-java",
+      "name": "Protocol Buffers Java",
+      "version": "4.31.1",
+      "license": "BSD-3-Clause",
+      "products": ["android"],
+      "noticePath": "legal/notices/protobuf-java.txt"
+    },
+    {
+      "id": "xz-java",
+      "name": "XZ for Java",
+      "version": "1.10",
+      "license": "0BSD",
+      "products": ["android"],
+      "noticePath": "legal/notices/xz-java.txt"
+    },
+    {
+      "id": "zstd-jni",
+      "name": "Zstandard JNI",
+      "version": "1.5.7-11",
+      "license": "BSD-2-Clause",
+      "products": ["android"],
+      "noticePath": "legal/notices/zstd-jni.txt"
     },
     {
       "id": "libarchive-android",

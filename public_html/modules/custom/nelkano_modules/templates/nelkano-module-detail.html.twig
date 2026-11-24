@@ -14,7 +14,11 @@
         <div class="nm-release-head"><div><h3>Versión {{ version.version }}</h3><p>SDK {{ version.sdk }} · {{ version.size }} KiB</p></div>
           {% if version.available %}<a class="nm-button nm-download" href="{{ version.url }}" rel="noopener noreferrer">Descargar .nelkmod <span aria-hidden="true">↓</span></a>{% else %}<span class="nm-unavailable">Descarga no disponible</span>{% endif %}
         </div>
-        <div class="nm-tags">{% for platform in version.platforms %}<span>{{ platform }}</span>{% endfor %}</div>
+        {% set android_web_only = 'native.components' in version.capabilities or 'native.execute' in version.capabilities %}
+        <div class="nm-tags">{% for platform in version.platforms %}<span>{{ platform == 'Android' and android_web_only ? 'Android · Edición web' : platform }}</span>{% endfor %}</div>
+        {% if android_web_only and 'Android' in version.platforms %}
+          <p class="nm-notice">En Android, este módulo requiere Nelkano instalado desde nelkano.com.</p>
+        {% endif %}
         {% if version.notes %}<p class="nm-description">{{ version.notes }}</p>{% endif %}
         <details class="nm-verification"><summary>Permisos y verificación</summary>
           <p>Permisos solicitados:</p><ul>{% for capability in version.capabilities %}<li><code>{{ capability }}</code></li>{% else %}<li>Sin permisos adicionales.</li>{% endfor %}</ul>

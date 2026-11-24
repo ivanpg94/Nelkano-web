@@ -98,7 +98,7 @@ es:
       group: 'Controles y pantalla'
       description: 'Ajusta los botones sin cambiar los controles de otros sistemas.'
       steps: |-
-        Abre Ajustes → General → Controles → Editor de controles, o entra al editor desde los ajustes de una partida.
+        Abre Ajustes → Controles → Editor de controles, o entra al editor desde los ajustes de una partida.
         Elige el sistema y la orientación de la pantalla.
         Selecciona un botón para moverlo, cambiar su tamaño u ocultarlo. Pulsa Guardar al terminar.
       notes: 'Guarda las posiciones verticales y horizontales por separado. Game Boy y Game Boy Color comparten perfil.'
@@ -114,7 +114,7 @@ es:
       group: 'Controles y pantalla'
       description: 'Puedes asignar los botones del mando para cada sistema.'
       steps: |-
-        Conecta el mando al dispositivo y abre Ajustes → General → Controles → Mando Bluetooth.
+        Conecta el mando al dispositivo y abre Ajustes → Controles → Mando Bluetooth.
         Elige el sistema, selecciona un control y pulsa el botón del mando que quieres asignarle.
         Durante la partida, activa Pantalla completa para controlar el juego con el mando.
       notes: |-
@@ -347,7 +347,7 @@ en:
       group: 'Controls and display'
       description: "Adjust the buttons without changing other systems' controls."
       steps: |-
-        Open Settings → General → Controls → Control editor, or open the editor from a game's settings.
+        Open Settings → Controls → Control editor, or open the editor from a game's settings.
         Choose the system and screen orientation.
         Select a button to move, resize or hide it. Press Save when finished.
       notes: 'Save portrait and landscape layouts separately. Game Boy and Game Boy Color share a profile.'
@@ -363,7 +363,7 @@ en:
       group: 'Controls and display'
       description: 'Assign controller buttons for each system.'
       steps: |-
-        Connect your controller to the device and open Settings → General → Controls → Bluetooth controller.
+        Connect your controller to the device and open Settings → Controls → Bluetooth controller.
         Choose the system, select a control and press the controller button you want to assign.
         During gameplay, enable Fullscreen to control the game with the controller.
       notes: |-
