@@ -1140,7 +1140,7 @@ nelkano_home.community_safety_api:
 nelkano_home.community_rules_es:
   path: '/comunidad/normas'
   defaults:
-    _form: '\Drupal\nelkano_home\Form\CommunityRulesForm'
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::communityRules'
     _title: 'Normas de Comunidad'
     language: 'es'
   requirements:
@@ -1151,7 +1151,7 @@ nelkano_home.community_rules_es:
 nelkano_home.community_rules_en:
   path: '/en/community/rules'
   defaults:
-    _form: '\Drupal\nelkano_home\Form\CommunityRulesForm'
+    _controller: '\Drupal\nelkano_home\Controller\HomeController::communityRules'
     _title: 'Community rules'
     language: 'en'
   requirements:

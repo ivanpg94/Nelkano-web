@@ -18,7 +18,18 @@
       <article id="section-{{ loop.index }}">
         <h2><span>{{ loop.index }}</span>{{ section.title }}</h2>
         {% if section.paragraphs is defined %}{% for paragraph in section.paragraphs %}<p>{{ paragraph }}</p>{% endfor %}{% else %}<p>{{ section.description }}</p>{% endif %}
+        {% if section.link is defined %}<p><a href="{{ section.link.url }}">{{ section.link.label }}</a></p>{% endif %}
       </article>
     {% endfor %}
+    {% if page.rules_version is defined %}
+      <article>
+        <p>{{ language == 'en' ? 'Version' : 'Versión' }} {{ page.rules_version }}</p>
+        {% if page.rules_form is defined %}
+          {{ page.rules_form }}
+        {% elseif page.rules_login_url is defined %}
+          <a class="r-btn" href="{{ page.rules_login_url }}">{{ language == 'en' ? 'Log in to accept the rules' : 'Iniciar sesión para aceptar las normas' }}</a>
+        {% endif %}
+      </article>
+    {% endif %}
   </section>
 </div>

@@ -5,6 +5,9 @@ namespace Drupal\nelkano_home\Controller;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Extension\ModuleExtensionList;
+use Drupal\Core\Url;
+use Drupal\nelkano_home\Form\CommunityRulesForm;
+use Drupal\nelkano_home\Service\CommunityRules;
 use Drupal\nelkano_home\Service\SystemPages;
 use Drupal\nelkano_home\Service\RedesignContent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -52,6 +55,45 @@ final class HomeController extends ControllerBase {
 
   public function privacyCookiesEnglish(): Response {
     return $this->buildLegal('en', 'privacy_cookies');
+  }
+
+  public function communityRules(string $language): Response {
+    $english = $language === 'en';
+    [$title, $intro, $harassment, $spam, $rights, $report, $moderation] = CommunityRules::copy($english);
+    $spanish_path = Url::fromRoute('nelkano_home.community_rules_es')->toString();
+    $english_path = Url::fromRoute('nelkano_home.community_rules_en')->toString();
+    $path = $english ? $english_path : $spanish_path;
+    $alternate_path = $english ? $spanish_path : $english_path;
+    $base = \Drupal::request()->getSchemeAndHttpHost();
+    $account = $this->currentUser();
+    $page = [
+      'title' => $title . ' - Nelkano',
+      'heading' => $title,
+      'eyebrow' => $english ? 'Community' : 'Comunidad',
+      'description' => $intro,
+      'intro' => $intro,
+      'canonical' => $base . $path,
+      'alternate' => $base . $alternate_path,
+      'alternate_path' => $alternate_path,
+      'alternate_lang' => $english ? 'es' : 'en',
+      'default_url' => $base . $spanish_path,
+      'sections' => [
+        ['title' => $english ? 'Conduct and safety' : 'Conducta y seguridad', 'paragraphs' => [$harassment, $spam]],
+        ['title' => $english ? 'Content and rights' : 'Contenido y derechos', 'paragraphs' => [$rights]],
+        ['title' => $english ? 'Reporting and moderation' : 'Denuncias y moderación', 'paragraphs' => [$report, $moderation]],
+      ],
+      'rules_version' => CommunityRules::VERSION,
+    ];
+    if ($account->isAnonymous()) {
+      $page['rules_login_url'] = Url::fromRoute($english ? 'nelkano_home.login_en' : 'user.login', [], [
+        'query' => ['destination' => $path],
+      ])->toString();
+    }
+    elseif ($account->hasPermission('use nelkano app features')) {
+      $form = $this->formBuilder()->getForm(CommunityRulesForm::class, $language);
+      $page['rules_form'] = \Drupal::service('renderer')->renderRoot($form);
+    }
+    return $this->renderLegal($language, $page);
   }
 
   public function releasesSpanish(): Response {
@@ -470,8 +512,25 @@ final class HomeController extends ControllerBase {
   }
 
   private function buildLegal(string $language, string $pageKey): Response {
-    $module_path = $this->moduleExtensionList->getPath('nelkano_home');
     $page = $this->legalPage($language, $pageKey);
+    if ($pageKey === 'privacy_cookies') {
+      $english = $language === 'en';
+      foreach ($page['sections'] as &$section) {
+        if ($section['title'] === ($english ? 'Community' : 'Comunidad')) {
+          $section['link'] = [
+            'label' => $english ? 'Read the Community rules' : 'Consultar las normas de Comunidad',
+            'url' => Url::fromRoute($english ? 'nelkano_home.community_rules_en' : 'nelkano_home.community_rules_es')->toString(),
+          ];
+          break;
+        }
+      }
+      unset($section);
+    }
+    return $this->renderLegal($language, $page);
+  }
+
+  private function renderLegal(string $language, array $page): Response {
+    $module_path = $this->moduleExtensionList->getPath('nelkano_home');
     $template = file_get_contents(DRUPAL_ROOT . '/' . $module_path . '/templates/nelkano-legal-standalone.html.twig');
     $html = \Drupal::service('twig')->createTemplate($template)->render([
       'page' => $page,

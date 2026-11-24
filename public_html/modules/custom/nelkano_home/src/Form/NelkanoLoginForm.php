@@ -26,7 +26,7 @@ final class NelkanoLoginForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state, string $language = 'es'): array {
     $form['#attributes']['class'][] = 'nk-auth-form';
     $action = $language === 'en' ? Url::fromUserInput('/en/user/login') : Url::fromRoute('user.login');
-    if ($destination = self::getOauthDestination()) {
+    if ($destination = self::getAllowedDestination()) {
       $action->setOption('query', ['destination' => $destination]);
     }
     $form['#action'] = $action->toString();
@@ -112,7 +112,7 @@ final class NelkanoLoginForm extends FormBase {
     $account = User::load((int) $form_state->get('uid'));
     if ($account) {
       user_login_finalize($account);
-      if ($destination = self::getOauthDestination()) {
+      if ($destination = self::getAllowedDestination()) {
         $form_state->setRedirectUrl(Url::fromUserInput($destination));
         return;
       }
@@ -121,11 +121,14 @@ final class NelkanoLoginForm extends FormBase {
   }
 
   /**
-   * Keeps the local OAuth request intact through the standalone login form.
+   * Preserves known local destinations through the standalone login form.
    */
-  public static function getOauthDestination(): ?string {
+  public static function getAllowedDestination(): ?string {
     $query = \Drupal::request()->query;
     $destination = $query->all()['destination'] ?? NULL;
+    if (in_array($destination, ['/comunidad/normas', '/en/community/rules'], TRUE)) {
+      return $destination;
+    }
     if (!is_string($destination)
       || !str_starts_with($destination, '/oauth/authorize?')
       || preg_match('/[\x00-\x20\x7f#]/', $destination)) {

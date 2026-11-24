@@ -25,7 +25,7 @@ final class AuthController extends ControllerBase {
 
   public function login(): Response {
     $language = $this->requestLanguage();
-    $destination = NelkanoLoginForm::getOauthDestination();
+    $destination = NelkanoLoginForm::getAllowedDestination();
     if ($this->currentUser()->isAuthenticated()) {
       if ($destination !== NULL) {
         return new LocalRedirectResponse($destination);
