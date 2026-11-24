@@ -7,6 +7,7 @@ namespace Drupal\nelkano_home\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
+use Drupal\nelkano_home\Form\CommunityRulesAcceptanceForm;
 use Drupal\nelkano_home\Service\CommunityBlocks;
 use Drupal\nelkano_home\Service\CommunityModeration;
 use Drupal\nelkano_home\Service\CommunityRules;
@@ -31,8 +32,8 @@ final class CommunitySafetyController extends ControllerBase {
     return [
       '#cache' => ['max-age' => 0],
       'rules' => Link::fromTextAndUrl($this->t('Normas de Comunidad'), Url::fromRoute('nelkano_home.community_rules_es'))->toRenderable(),
-      'manage_rules' => CommunityRules::accepted((int) $account->id()) ? [] : Link::fromTextAndUrl(
-        $this->t('Gestionar la aceptación en Perfil social'), Url::fromUserInput('/user'))->toRenderable(),
+      'accept_rules' => CommunityRules::accepted((int) $account->id())
+        ? [] : $this->formBuilder()->getForm(CommunityRulesAcceptanceForm::class),
       'blocks' => Link::fromTextAndUrl($this->t('Usuarios bloqueados'), Url::fromRoute('nelkano_home.community_blocked_users'))->toRenderable(),
       'posts' => ['#theme' => 'item_list', '#items' => $items, '#empty' => $this->t('No hay publicaciones visibles en esta página.')],
       'pager' => ['#type' => 'pager'],

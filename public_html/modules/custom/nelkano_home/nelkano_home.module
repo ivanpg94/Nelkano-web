@@ -374,13 +374,27 @@ function nelkano_home_form_user_form_alter(array &$form, FormStateInterface $for
   $timestamp = (int) $account->get(\Drupal\nelkano_home\Service\CommunityRules::FIELD_ACCEPTED_AT)->value;
   $withdrawn = (int) $account->get(\Drupal\nelkano_home\Service\CommunityRules::FIELD_WITHDRAWN_AT)->value;
   $formatter = \Drupal::service('date.formatter');
+  $accepted = \Drupal\nelkano_home\Service\CommunityRules::accepted((int) $account->id());
   $form['nelkano_community_acceptance'] = [
-    '#type' => 'item',
-    '#title' => t('Aceptación de las normas de Comunidad'),
-    'value' => ['#plain_text' => $version && $timestamp
-      ? $version . ' · ' . $formatter->format($timestamp, 'short') . ($withdrawn ? ' · ' . t('Retirada el @date', ['@date' => $formatter->format($withdrawn, 'short')]) : '')
-      : (string) t('Sin aceptación registrada')],
+    '#type' => 'details',
+    '#title' => t('Normas de Comunidad'),
+    '#open' => TRUE,
+    '#weight' => -30,
+    'status' => [
+      '#type' => 'item',
+      '#title' => t('Estado'),
+      '#markup' => $accepted ? t('Aceptadas') : ($withdrawn ? t('Aceptación retirada') : ($version ? t('Pendiente de aceptar la versión vigente') : t('Sin aceptación registrada'))),
+    ],
+    'version' => ['#type' => 'item', '#title' => t('Versión aceptada'), 'value' => ['#plain_text' => $version ?: '—']],
+    'accepted_at' => ['#type' => 'item', '#title' => t('Fecha de aceptación'), 'value' => ['#plain_text' => $timestamp ? $formatter->format($timestamp, 'short') : '—']],
   ];
+  if ($withdrawn) {
+    $form['nelkano_community_acceptance']['withdrawn_at'] = [
+      '#type' => 'item',
+      '#title' => t('Fecha de retirada'),
+      'value' => ['#plain_text' => $formatter->format($withdrawn, 'short')],
+    ];
+  }
 }
 
 /** Implements hook_comment_access() for Community visibility. */

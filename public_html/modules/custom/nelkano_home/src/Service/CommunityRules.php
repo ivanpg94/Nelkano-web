@@ -26,14 +26,6 @@ final class CommunityRules {
   }
 
   public static function accept(int $uid, string $version): bool {
-    return self::setPreference($uid, TRUE, $version);
-  }
-
-  public static function state(int $uid): array {
-    return ['version' => self::VERSION, 'accepted' => self::accepted($uid)];
-  }
-
-  public static function setPreference(int $uid, bool $accepted, string $version): bool {
     if ($uid < 1 || $version !== self::VERSION) {
       return FALSE;
     }
@@ -47,12 +39,8 @@ final class CommunityRules {
       if (!$account || !$account->isActive() || !$account->hasField(self::FIELD_VERSION)) {
         return FALSE;
       }
-      if ($accepted && !self::hasAccepted($account)) {
+      if (!self::hasAccepted($account)) {
         self::record($account, $version, \Drupal::time()->getRequestTime());
-      }
-      elseif (!$accepted && self::hasAccepted($account)) {
-        $account->set(self::FIELD_WITHDRAWN_AT, \Drupal::time()->getRequestTime());
-        $account->save();
       }
       return TRUE;
     }
@@ -75,7 +63,7 @@ final class CommunityRules {
 
   public static function requireAcceptance(int $uid): void {
     if (!self::accepted($uid)) {
-      throw new AccessDeniedHttpException('Acepta las normas de Comunidad en tu perfil antes de publicar, comentar o enviar mensajes. /user');
+      throw new AccessDeniedHttpException('Debes aceptar las normas de Comunidad antes de publicar, comentar o enviar mensajes. /comunidad');
     }
   }
 

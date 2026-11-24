@@ -48,20 +48,6 @@
 .nkr .nk-account-form input::placeholder,.nkr .nk-account-form textarea::placeholder { color: var(--r-muted); }
 .nkr .nk-account-form :is(input,textarea,select):focus-visible { border-color: var(--r-primary); outline: 3px solid rgba(124,58,237,.15); outline-offset: 1px; }
 .nkr .nk-account-form .description { font-size: 12px; color: var(--r-muted); }
-.nkr .nk-account-form .form-type-checkbox {
-  display: grid;
-  grid-template-columns: 18px minmax(0, 1fr);
-  align-items: start;
-  gap: 4px 10px;
-}
-.nkr .nk-account-form .form-type-checkbox input {
-  width: 18px;
-  height: 18px;
-  margin: 1px 0 0;
-  accent-color: var(--r-primary);
-}
-.nkr .nk-account-form .form-type-checkbox label { margin-bottom: 0; }
-.nkr .nk-account-form .form-type-checkbox .description { grid-column: 2; }
 .nkr .nk-account-submit,.nkr .nk-account-form input[type=submit],.nkr .nk-small-button { border-radius: 999px; font-size: 14px; font-weight: 600; min-height: 40px; padding: 8px 20px; }
 .nkr .nk-account-submit,.nkr .nk-account-form input[type=submit] { color: white; }
 .nkr .nk-person-list li,.nkr .nk-activity-list li { background: #f8fafc; font-size: 14px; }
