@@ -209,10 +209,18 @@ function nelkano_home_node_access(\Drupal\node\NodeInterface $node, $op, \Drupal
     return \Drupal\Core\Access\AccessResult::forbiddenIf(!$config->get($language . '.extensions_sdk_enabled'))
       ->addCacheableDependency($config)->addCacheableDependency($node);
   }
-  if ($op === 'view' && $node->bundle() === 'community_post' && $account->isAuthenticated()) {
+  if ($op === 'view' && $node->bundle() === 'community_post') {
+    if (!$node->isPublished()) {
+      $moderator = $account->hasPermission('moderate nelkano community');
+      return ($moderator ? \Drupal\Core\Access\AccessResult::allowed() : \Drupal\Core\Access\AccessResult::forbidden())
+        ->cachePerPermissions()->addCacheableDependency($node);
+    }
+    if ($account->isAnonymous()) {
+      return \Drupal\Core\Access\AccessResult::neutral()->addCacheableDependency($node)->cachePerPermissions();
+    }
     return \Drupal\Core\Access\AccessResult::forbiddenIf(
       \Drupal\nelkano_home\Service\CommunityBlocks::between((int) $account->id(), (int) $node->getOwnerId()))
-      ->cachePerUser()->setCacheMaxAge(0);
+      ->cachePerUser()->setCacheMaxAge(0)->addCacheableDependency($node);
   }
   if ($node->bundle() === 'hu') {
     return ($account->hasPermission('administer nelkano backlog') ? \Drupal\Core\Access\AccessResult::allowed() : \Drupal\Core\Access\AccessResult::forbidden())->cachePerPermissions()->addCacheableDependency($node);
@@ -341,11 +349,17 @@ function nelkano_home_form_user_register_form_alter(array &$form, FormStateInter
 
 /** Implements hook_comment_access() for Community visibility. */
 function nelkano_home_comment_access(\Drupal\comment\CommentInterface $comment, $op, \Drupal\Core\Session\AccountInterface $account): \Drupal\Core\Access\AccessResultInterface {
-  if ($op !== 'view' || $comment->bundle() !== 'community_comment' || !$account->isAuthenticated()) {
+  if ($op !== 'view' || $comment->bundle() !== 'community_comment') {
     return \Drupal\Core\Access\AccessResult::neutral();
   }
   $uid = (int) $account->id();
   $post = $comment->getCommentedEntity();
+  if (!$comment->isPublished() || ($post instanceof \Drupal\node\NodeInterface && !$post->isPublished())) {
+    $moderator = $account->hasPermission('moderate nelkano community');
+    $result = ($moderator ? \Drupal\Core\Access\AccessResult::allowed() : \Drupal\Core\Access\AccessResult::forbidden())
+      ->cachePerPermissions()->addCacheableDependency($comment);
+    return $post ? $result->addCacheableDependency($post) : $result;
+  }
   $blocked = \Drupal\nelkano_home\Service\CommunityBlocks::between($uid, (int) $comment->getOwnerId()) ||
     ($post instanceof \Drupal\node\NodeInterface && \Drupal\nelkano_home\Service\CommunityBlocks::between($uid, (int) $post->getOwnerId()));
   return \Drupal\Core\Access\AccessResult::forbiddenIf($blocked)->cachePerUser()->setCacheMaxAge(0);
@@ -355,7 +369,7 @@ function nelkano_home_comment_access(\Drupal\comment\CommentInterface $comment, 
 function nelkano_home_comment_presave(\Drupal\comment\CommentInterface $comment): void {
   $post = $comment->getCommentedEntity();
   if ($comment->isNew() && $comment->bundle() === 'community_comment' && $post instanceof \Drupal\node\NodeInterface &&
-      \Drupal\nelkano_home\Service\CommunityBlocks::between((int) \Drupal::currentUser()->id(), (int) $post->getOwnerId())) {
+      (!$post->isPublished() || \Drupal\nelkano_home\Service\CommunityBlocks::between((int) \Drupal::currentUser()->id(), (int) $post->getOwnerId()))) {
     throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException('No puedes comentar esta publicación.');
   }
 }

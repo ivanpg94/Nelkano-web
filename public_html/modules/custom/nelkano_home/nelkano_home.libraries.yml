@@ -81,3 +81,10 @@ admin_data:
     js/admin-data.js: {}
   dependencies:
     - nelkano_home/redesign_admin
+
+community_moderation:
+  css:
+    theme:
+      css/community-moderation.css: {}
+  dependencies:
+    - nelkano_home/redesign_admin
