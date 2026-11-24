@@ -1,0 +1,21 @@
+uuid: c01abcca-08bd-4580-a37f-ec01173051e1
+langcode: es
+status: true
+dependencies:
+  module:
+    - user
+id: user.field_nelkano_birth_date
+field_name: field_nelkano_birth_date
+entity_type: user
+type: string
+settings:
+  max_length: 10
+  is_ascii: true
+  case_sensitive: true
+module: core
+locked: false
+cardinality: 1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

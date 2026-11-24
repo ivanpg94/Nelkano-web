@@ -31,12 +31,7 @@ pueden acceder a la información necesaria para mantener el servicio.
 
 Edad de las cuentas
 
-Para crear una cuenta debes tener 14 años o más. Si la ley de tu país exige
-una edad superior para consentir el uso de tus datos, se aplica esa edad.
-Puedes utilizar las funciones locales sin cuenta. No pedimos fecha de nacimiento,
-DNI ni una confirmación de edad al iniciar sesión. Si detectamos una cuenta que
-no cumple la edad aplicable, restringiremos su uso y atenderemos su eliminación.
-Para consultas o solicitudes sobre una cuenta: contacto@nelkano.com.
+Para crear una cuenta debes tener 18 años o más. La fecha de nacimiento se solicita al registrarte o, si ya tienes cuenta, al completar tu perfil. Se guarda de forma privada y solo se utiliza para determinar si puedes entrar en Comunidad y usar los mensajes. Las cuentas existentes sin fecha o de menores de 18 años conservan el acceso a su cuenta y a sus ajustes. Puedes usar las funciones locales sin cuenta. Para corregir la fecha o consultar sobre tus datos, escribe a contacto@nelkano.com.
 
 Actividad sincronizada
 

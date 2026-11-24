@@ -6,6 +6,7 @@ namespace Drupal\nelkano_home\EventSubscriber;
 
 use Drupal\Core\Session\AccountInterface;
 use Drupal\nelkano_home\Service\CommunityBlocks;
+use Drupal\nelkano_home\Service\CommunityAge;
 use Drupal\nelkano_home\Service\CommunityRules;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
@@ -27,6 +28,12 @@ final class CommunitySignalAccessSubscriber implements EventSubscriberInterface 
     $route = (string) $request->attributes->get('_route');
     $method = $request->getMethod();
     $uid = (int) $this->account->id();
+    $community_api = preg_match('~^/(?:api/nelkano/community|eca/community-[^/]+)(?:/|$)~D', $path)
+      || preg_match('~^/jsonapi/(?:node/community_post|comment/community_comment)(?:/|$)~D', $path)
+      || preg_match('/^jsonapi\.(?:node--community_post|comment--community_comment)\./D', $route);
+    if ($community_api && $uid > 0) {
+      CommunityAge::requireAdult($uid);
+    }
     if ($route === 'eca_endpoint.endpoint' && preg_match('~^/eca/community-signal/([1-9][0-9]{0,9})$~D', $path, $peer)) {
       if (CommunityBlocks::between($uid, (int) $peer[1])) {
         throw new AccessDeniedHttpException();

@@ -8,6 +8,7 @@ use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Mail\MailManagerInterface;
 use Drupal\Core\Url;
 use Drupal\nelkano_home\Service\CommunityRules;
+use Drupal\nelkano_home\Service\CommunityAge;
 use Drupal\user\Entity\User;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -82,10 +83,11 @@ final class NelkanoRegisterForm extends FormBase {
       ],
     ];
 
+    $form['grid']['birth_date'] = CommunityAge::input($language === 'en', TRUE);
     $form['terms'] = [
       '#type' => 'checkbox',
       '#title' => $language === 'en' ? 'I accept the terms and conditions' : 'Acepto los terminos y condiciones',
-      '#description' => ($language === 'en' ? 'You must be 14 or over to create an account. ' : 'Para crear una cuenta debes tener 14 años o más. ') . $terms_description,
+      '#description' => ($language === 'en' ? 'You must be 18 or over to create an account. ' : 'Para crear una cuenta debes tener 18 años o más. ') . $terms_description,
       '#required' => TRUE,
     ];
 
@@ -120,6 +122,13 @@ final class NelkanoRegisterForm extends FormBase {
     $mail = trim((string) $form_state->getValue('mail'));
     $password = (string) $form_state->getValue('pass');
     $confirm = (string) $form_state->getValue('pass_confirm');
+    $birth_date = $form_state->getValue('birth_date');
+    $age = CommunityAge::statusForDate($birth_date);
+    if ($age !== CommunityAge::ADULT) {
+      $form_state->setErrorByName('birth_date', $age === CommunityAge::UNDERAGE
+        ? ($language === 'en' ? 'You must be 18 to create an account.' : 'Debes tener 18 años para crear una cuenta.')
+        : ($language === 'en' ? 'Enter a valid date of birth.' : 'Introduce una fecha de nacimiento válida.'));
+    }
 
     if (strlen($name) < 2) {
       $form_state->setErrorByName('name', $language === 'en' ? 'Write a recognizable name.' : 'Escribe un nombre reconocible.');
@@ -158,6 +167,7 @@ final class NelkanoRegisterForm extends FormBase {
       'status' => 0,
     ]);
     CommunityRules::setAcceptance($account, CommunityRules::VERSION, \Drupal::time()->getRequestTime());
+    $account->set(CommunityAge::FIELD, $form_state->getValue('birth_date'));
     $account->save();
     $this->createInitialProfile((int) $account->id(), $display_name);
 

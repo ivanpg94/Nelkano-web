@@ -176,6 +176,7 @@ function nelkano_home_email_template(string $title, string $lead, array $paragra
 /** Implements hook_node_presave(). Enforces numbers and workflow on all writes. */
 function nelkano_home_node_presave(\Drupal\node\NodeInterface $node): void {
   if ($node->isNew() && $node->bundle() === 'community_post' && PHP_SAPI !== 'cli') {
+    \Drupal\nelkano_home\Service\CommunityAge::requireAdult((int) \Drupal::currentUser()->id());
     \Drupal\nelkano_home\Service\CommunityRules::requireAcceptance((int) \Drupal::currentUser()->id());
   }
   if (!in_array($node->bundle(), ['hu', 'nelkano_error_report'], TRUE) || !$node->hasField(WorkflowStatus::FIELD)) {
@@ -213,6 +214,10 @@ function nelkano_home_node_access(\Drupal\node\NodeInterface $node, $op, \Drupal
       ->addCacheableDependency($config)->addCacheableDependency($node);
   }
   if ($op === 'view' && $node->bundle() === 'community_post') {
+    if (!$account->hasPermission('moderate nelkano community') &&
+        \Drupal\nelkano_home\Service\CommunityAge::status((int) $account->id()) !== \Drupal\nelkano_home\Service\CommunityAge::ADULT) {
+      return \Drupal\Core\Access\AccessResult::forbidden()->cachePerUser()->setCacheMaxAge(0);
+    }
     if (!$node->isPublished()) {
       $moderator = $account->hasPermission('moderate nelkano community');
       return ($moderator ? \Drupal\Core\Access\AccessResult::allowed() : \Drupal\Core\Access\AccessResult::forbidden())
@@ -340,6 +345,10 @@ function nelkano_home_file_download($uri) {
   // Suppression UUIDs are never exposed through Drupal private-file downloads.
   if (str_starts_with($uri, 'private://nelkano-account-erasures/') || str_starts_with($uri, 'private://nelkano-stream/')) return -1;
   if (str_starts_with($uri, 'private://nelkano-releases/') || str_starts_with($uri, 'private://app-updates/')) return -1;
+  if (str_starts_with($uri, 'private://community/') && !\Drupal::currentUser()->hasPermission('moderate nelkano community') &&
+      \Drupal\nelkano_home\Service\CommunityAge::status((int) \Drupal::currentUser()->id()) !== \Drupal\nelkano_home\Service\CommunityAge::ADULT) {
+    return -1;
+  }
 }
 
 
@@ -347,12 +356,30 @@ function nelkano_home_file_download($uri) {
 /** Covers the core public registration form if another route exposes it. */
 function nelkano_home_form_user_register_form_alter(array &$form, FormStateInterface $form_state): void {
   if (!\Drupal::currentUser()->hasPermission('administer users')) {
-    $form['account_age_information'] = ['#markup' => '<p>' . t('You must be 14 or over to create a Nelkano account.') . '</p>', '#weight' => -10];
+    $form['nelkano_birth_date'] = \Drupal\nelkano_home\Service\CommunityAge::input(\Drupal::languageManager()->getCurrentLanguage()->getId() === 'en', TRUE);
+    $form['#validate'][] = 'nelkano_home_registration_age_validate';
+    $form['#entity_builders'][] = 'nelkano_home_registration_age_build';
+  }
+}
+
+function nelkano_home_registration_age_validate(array &$form, FormStateInterface $form_state): void {
+  if (\Drupal\nelkano_home\Service\CommunityAge::statusForDate($form_state->getValue('nelkano_birth_date')) !== \Drupal\nelkano_home\Service\CommunityAge::ADULT) {
+    $form_state->setErrorByName('nelkano_birth_date', t('Debes tener 18 años para crear una cuenta.'));
+  }
+}
+
+function nelkano_home_registration_age_build(string $entity_type_id, \Drupal\user\UserInterface $entity, array &$form, FormStateInterface $form_state): void {
+  $date = $form_state->getValue('nelkano_birth_date');
+  if (\Drupal\nelkano_home\Service\CommunityAge::statusForDate($date) === \Drupal\nelkano_home\Service\CommunityAge::ADULT) {
+    $entity->set(\Drupal\nelkano_home\Service\CommunityAge::FIELD, $date);
   }
 }
 
 /** Consent evidence can be read by account administrators and written by the acceptance flow. */
 function nelkano_home_entity_field_access($operation, \Drupal\Core\Field\FieldDefinitionInterface $definition, \Drupal\Core\Session\AccountInterface $account, ?\Drupal\Core\Field\FieldItemListInterface $items = NULL): \Drupal\Core\Access\AccessResultInterface {
+  if ($definition->getTargetEntityTypeId() === 'user' && $definition->getName() === \Drupal\nelkano_home\Service\CommunityAge::FIELD) {
+    return \Drupal\Core\Access\AccessResult::forbidden();
+  }
   if ($definition->getTargetEntityTypeId() === 'user' && in_array($definition->getName(), [
     \Drupal\nelkano_home\Service\CommunityRules::FIELD_VERSION,
     \Drupal\nelkano_home\Service\CommunityRules::FIELD_ACCEPTED_AT,
@@ -366,6 +393,23 @@ function nelkano_home_entity_field_access($operation, \Drupal\Core\Field\FieldDe
 /** Adds a read-only summary to the Drupal user editor for administrators. */
 function nelkano_home_form_user_form_alter(array &$form, FormStateInterface $form_state): void {
   $account = $form_state->getFormObject()->getEntity();
+  $viewer = \Drupal::currentUser();
+  if ($account->hasField(\Drupal\nelkano_home\Service\CommunityAge::FIELD) &&
+      ($viewer->hasPermission('administer users') || (int) $viewer->id() === (int) $account->id())) {
+    $date = \Drupal\nelkano_home\Service\CommunityAge::birthDate($account);
+    if ($date === '' && (int) $viewer->id() === (int) $account->id()) {
+      $form['nelkano_birth_date'] = \Drupal\nelkano_home\Service\CommunityAge::input(\Drupal::languageManager()->getCurrentLanguage()->getId() === 'en');
+      $form['#validate'][] = 'nelkano_home_birth_date_validate';
+      $form['actions']['submit']['#submit'][] = 'nelkano_home_birth_date_submit';
+    }
+    else {
+      $form['nelkano_birth_date'] = [
+        '#type' => 'item', '#title' => t('Fecha de nacimiento'),
+        'value' => ['#plain_text' => $date ?: (string) t('Pendiente de indicar')],
+      ];
+    }
+    $form['nelkano_birth_date']['#weight'] = -25;
+  }
   $version_field = \Drupal\nelkano_home\Service\CommunityRules::FIELD_VERSION;
   if (!\Drupal::currentUser()->hasPermission('administer users') || !$account->hasField($version_field)) {
     return;
@@ -397,10 +441,29 @@ function nelkano_home_form_user_form_alter(array &$form, FormStateInterface $for
   }
 }
 
+function nelkano_home_birth_date_validate(array &$form, FormStateInterface $form_state): void {
+  $date = $form_state->getValue('nelkano_birth_date');
+  if ($date && !\Drupal\nelkano_home\Service\CommunityAge::isValid($date)) {
+    $form_state->setErrorByName('nelkano_birth_date', t('Introduce una fecha de nacimiento válida.'));
+  }
+}
+
+function nelkano_home_birth_date_submit(array &$form, FormStateInterface $form_state): void {
+  $date = $form_state->getValue('nelkano_birth_date');
+  $uid = (int) $form_state->getFormObject()->getEntity()->id();
+  if (is_string($date) && $date !== '' && !\Drupal\nelkano_home\Service\CommunityAge::saveOwnDate($uid, $date)) {
+    \Drupal::messenger()->addWarning(t('La fecha ya se había indicado o no se pudo guardar. Recarga tu perfil.'));
+  }
+}
+
 /** Implements hook_comment_access() for Community visibility. */
 function nelkano_home_comment_access(\Drupal\comment\CommentInterface $comment, $op, \Drupal\Core\Session\AccountInterface $account): \Drupal\Core\Access\AccessResultInterface {
   if ($op !== 'view' || $comment->bundle() !== 'community_comment') {
     return \Drupal\Core\Access\AccessResult::neutral();
+  }
+  if (!$account->hasPermission('moderate nelkano community') &&
+      \Drupal\nelkano_home\Service\CommunityAge::status((int) $account->id()) !== \Drupal\nelkano_home\Service\CommunityAge::ADULT) {
+    return \Drupal\Core\Access\AccessResult::forbidden()->cachePerUser()->setCacheMaxAge(0);
   }
   $uid = (int) $account->id();
   $post = $comment->getCommentedEntity();
@@ -418,6 +481,7 @@ function nelkano_home_comment_access(\Drupal\comment\CommentInterface $comment, 
 /** Prevent a blocked account from commenting through a stale publication. */
 function nelkano_home_comment_presave(\Drupal\comment\CommentInterface $comment): void {
   if ($comment->isNew() && $comment->bundle() === 'community_comment' && PHP_SAPI !== 'cli') {
+    \Drupal\nelkano_home\Service\CommunityAge::requireAdult((int) \Drupal::currentUser()->id());
     \Drupal\nelkano_home\Service\CommunityRules::requireAcceptance((int) \Drupal::currentUser()->id());
   }
   $post = $comment->getCommentedEntity();

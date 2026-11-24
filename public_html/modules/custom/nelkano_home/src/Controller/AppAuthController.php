@@ -79,6 +79,7 @@ final class AppAuthController extends ControllerBase {
     $confirm = (string) ($payload['password_confirm'] ?? $payload['confirm'] ?? '');
     $terms = !empty($payload['terms']);
     $rules = $payload['community_rules_version'] ?? NULL;
+    $birth_date = $payload['birth_date'] ?? NULL;
 
     if (mb_strlen($name) < 2) {
       return $this->error('Escribe un nombre reconocible.', 400);
@@ -101,6 +102,12 @@ final class AppAuthController extends ControllerBase {
     if ($rules !== \Drupal\nelkano_home\Service\CommunityRules::VERSION) {
       return $this->error('Las normas de Comunidad han cambiado. Actualiza Nelkano o crea la cuenta desde nelkano.com.', 409);
     }
+    $age = \Drupal\nelkano_home\Service\CommunityAge::statusForDate($birth_date);
+    if ($age !== \Drupal\nelkano_home\Service\CommunityAge::ADULT) {
+      return $this->error($age === \Drupal\nelkano_home\Service\CommunityAge::UNDERAGE
+        ? 'Debes tener 18 años para crear una cuenta.'
+        : 'Introduce una fecha de nacimiento válida. Si el campo no aparece, actualiza Nelkano o regístrate en nelkano.com.', 400);
+    }
 
     $storage = $this->entityTypeManager()->getStorage('user');
     if ($storage->loadByProperties(['mail' => $mail]) || $storage->loadByProperties(['name' => $mail])) {
@@ -114,6 +121,7 @@ final class AppAuthController extends ControllerBase {
       'status' => 0,
     ]);
     \Drupal\nelkano_home\Service\CommunityRules::setAcceptance($account, $rules, \Drupal::time()->getRequestTime());
+    $account->set(\Drupal\nelkano_home\Service\CommunityAge::FIELD, $birth_date);
     $account->save();
     $this->createInitialProfile((int) $account->id(), $name);
 
@@ -490,7 +498,8 @@ final class AppAuthController extends ControllerBase {
     return new JsonResponse([
       'ok' => TRUE,
       'profile' => $this->appProfilePayload($account),
-    ]);
+      'community_age_status' => \Drupal\nelkano_home\Service\CommunityAge::status((int) $account->id()),
+    ], 200, ['Cache-Control' => 'private, no-store']);
   }
 
   public function updateProfile(Request $request): JsonResponse {

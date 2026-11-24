@@ -31,12 +31,7 @@ the service.
 
 Account age
 
-You must be 14 or older to create an account. If the law in your country requires
-a higher age to consent to the use of your data, that age applies. Local features
-remain available without an account. We do not request a date of birth, identity
-document or age confirmation when signing in. If an account does not meet the
-applicable age, we will restrict its use and handle its deletion. For questions
-or account requests, contact contacto@nelkano.com.
+You must be 18 or older to create an account. We ask for your date of birth when you sign up or, for existing accounts, when you complete your profile. We store it privately and use it only to determine whether you can access Community and messaging. Existing accounts without a date of birth and those belonging to users under 18 can still sign in and use their account settings. Local features are available without an account. To correct your date of birth or ask about your data, contact contacto@nelkano.com.
 
 Synchronized activity
 

@@ -1096,3 +1096,18 @@ function nelkano_home_update_11051(array &$sandbox): void {
   }
   $sandbox['#finished'] = count($uids) < 50 ? 1 : 0.5;
 }
+
+/** Adds the private date of birth field without assigning dates to existing accounts. */
+function nelkano_home_update_11052(): void {
+  $module = \Drupal::service('extension.list.module')->getPath('nelkano_home');
+  $definitions = new \Drupal\Core\Config\FileStorage(DRUPAL_ROOT . '/' . $module . '/config/install');
+  foreach (['field_storage_config' => 'field.storage.user.', 'field_config' => 'field.field.user.user.'] as $type => $prefix) {
+    $storage = \Drupal::entityTypeManager()->getStorage($type);
+    $field = \Drupal\nelkano_home\Service\CommunityAge::FIELD;
+    $id = ($type === 'field_storage_config' ? 'user.' : 'user.user.') . $field;
+    if (!$storage->load($id)) {
+      $storage->create($definitions->read($prefix . $field))->save();
+    }
+  }
+  \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
+}

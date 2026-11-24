@@ -1,0 +1,20 @@
+uuid: 2847613c-c7af-4096-b1b0-be8785b4f849
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_nelkano_birth_date
+  module:
+    - user
+id: user.user.field_nelkano_birth_date
+field_name: field_nelkano_birth_date
+entity_type: user
+bundle: user
+label: 'Fecha de nacimiento'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

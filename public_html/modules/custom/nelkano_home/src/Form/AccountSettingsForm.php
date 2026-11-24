@@ -5,6 +5,7 @@ namespace Drupal\nelkano_home\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
+use Drupal\nelkano_home\Service\CommunityAge;
 use Drupal\user\Entity\User;
 use Drupal\user\UserInterface;
 
@@ -26,6 +27,12 @@ final class AccountSettingsForm extends FormBase {
       '#maxlength' => 254,
       '#default_value' => $account?->getEmail(),
       '#attributes' => ['placeholder' => 'tu@email.com'],
+    ];
+    $date = CommunityAge::birthDate($account);
+    $form['birth_date'] = $date === '' ? CommunityAge::input($language === 'en') : [
+      '#type' => 'item',
+      '#title' => $language === 'en' ? 'Date of birth' : 'Fecha de nacimiento',
+      'value' => ['#plain_text' => $date],
     ];
     $form['current_password'] = [
       '#type' => 'password',
@@ -72,6 +79,10 @@ final class AccountSettingsForm extends FormBase {
     if (!$account instanceof UserInterface) {
       $form_state->setErrorByName('mail', $language === 'en' ? 'The account could not be loaded.' : 'No se ha podido cargar la cuenta.');
       return;
+    }
+    $date = $form_state->getValue('birth_date');
+    if ($date && !CommunityAge::isValid($date)) {
+      $form_state->setErrorByName('birth_date', $language === 'en' ? 'Enter a valid date of birth.' : 'Introduce una fecha de nacimiento válida.');
     }
 
     $mail = trim((string) $form_state->getValue('mail'));
@@ -120,6 +131,10 @@ final class AccountSettingsForm extends FormBase {
       $account->setPassword($new_password);
     }
     $account->save();
+    $date = $form_state->getValue('birth_date');
+    if (is_string($date) && $date !== '' && !CommunityAge::saveOwnDate($uid, $date)) {
+      $this->messenger()->addWarning($language === 'en' ? 'The date was already set or could not be saved. Reload your profile.' : 'La fecha ya se había indicado o no se pudo guardar. Recarga tu perfil.');
+    }
 
     $this->messenger()->addStatus($language === 'en' ? 'Account updated.' : 'Cuenta actualizada.');
     $form_state->setRedirectUrl(Url::fromUserInput($language === 'en' ? '/en/user' : '/user'));

@@ -9,6 +9,7 @@ use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\nelkano_home\Form\CommunityRulesAcceptanceForm;
 use Drupal\nelkano_home\Service\CommunityBlocks;
+use Drupal\nelkano_home\Service\CommunityAge;
 use Drupal\nelkano_home\Service\CommunityModeration;
 use Drupal\nelkano_home\Service\CommunityRules;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,6 +22,17 @@ final class CommunitySafetyController extends ControllerBase {
   public function posts(): array {
     $storage = \Drupal::entityTypeManager()->getStorage('node');
     $account = $this->currentUser();
+    $age = CommunityAge::status((int) $account->id());
+    if ($age !== CommunityAge::ADULT) {
+      $en = str_starts_with(\Drupal::request()->getPathInfo(), '/en/');
+      return [
+        '#cache' => ['max-age' => 0],
+        'notice' => ['#type' => 'container', 'text' => ['#plain_text' => CommunityAge::message($age, $en)]],
+        'profile' => $age === CommunityAge::MISSING
+          ? Link::fromTextAndUrl($en ? 'Open my profile' : 'Ir a mi perfil', Url::fromUserInput($en ? '/en/user' : '/user'))->toRenderable()
+          : [],
+      ];
+    }
     $ids = $storage->getQuery()->accessCheck(TRUE)->condition('type', 'community_post')->condition('status', 1)
       ->sort('created', 'DESC')->sort('nid', 'DESC')->pager(25)->execute();
     $items = [];
