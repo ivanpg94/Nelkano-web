@@ -47,6 +47,25 @@ foreach ($nativePaths as $path) {
   }
 }
 $check($oauth->calls === 0, 'OAuth never parses native account or multiplayer mutation credentials');
+$streamPaths = [
+  '/api/nelkano/stream/signaling/session',
+  '/api/nelkano/stream/signaling/event',
+  '/api/nelkano/stream/signaling/session/end',
+];
+foreach ($streamPaths as $path) {
+  foreach (['nkat_' . str_repeat('a', 64), '1.' . str_repeat('b', 64)] as $token) {
+    $request = Request::create($path, 'POST', [], [], [], ['HTTP_AUTHORIZATION' => 'Bearer ' . $token]);
+    $check($provider->applies($request), 'native streaming token selects its controller');
+    $check($manager->authenticate($request) === NULL, 'native streaming route grants no Drupal identity');
+    $check($request->headers->get('Authorization') === 'Bearer ' . $token, 'streaming controller receives the original token');
+    $check(!$provider->applies(Request::create($path, 'GET', [], [], [], ['HTTP_AUTHORIZATION' => 'Bearer ' . $token])), 'streaming GET is unchanged');
+  }
+  $browser = Request::create($path, 'POST', [], ['SESSexample' => 'browser-session']);
+  $check(!$provider->applies($browser), 'browser sessions retain existing authentication');
+  $jwt = Request::create($path, 'POST', [], [], [], ['HTTP_AUTHORIZATION' => 'Bearer jwt.with.dots']);
+  $check(!$provider->applies($jwt), 'non-native bearer tokens retain existing authentication');
+}
+$check($oauth->calls === 0, 'OAuth never parses native streaming signaling credentials');
 $otherRoutes = [
   ['GET', '/api/nelkano/friends/request'],
   ['GET', '/api/nelkano/game/session/connect'],
@@ -56,6 +75,8 @@ $otherRoutes = [
   ['POST', '/api/nelkano/friends/request/other'],
   ['POST', '/api/nelkano/friends/request-other'],
   ['POST', '/api/nelkano/error-reports'],
+  ['POST', '/api/nelkano/stream/signaling/session/other'],
+  ['POST', '/api/nelkano/stream/invitations'],
   ['POST', '/oauth/token'],
   ['POST', '/jsonapi/node/community_post'],
   ['POST', '/api/nelkano/community/groups'],
