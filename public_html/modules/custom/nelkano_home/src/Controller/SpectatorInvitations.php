@@ -81,7 +81,7 @@ trait SpectatorInvitations {
           return $this->error('La invitación ha caducado.', 410);
         }
         if ($operation === 'accept') {
-          if ($invite['state'] !== 'pending' || !$this->spectatorLive($invite)) {
+          if (!in_array($invite['state'], ['pending', 'accepted'], TRUE) || !$this->spectatorLive($invite)) {
             return $this->error('La partida ya no está disponible.', 410);
           }
           $invite['state'] = 'accepted';
@@ -89,7 +89,9 @@ trait SpectatorInvitations {
           $store->setWithExpire('in:' . $uid, $invite, 30);
           $store->setWithExpire('out:' . $invite['senderUid'], $uid, 30);
         }
-        else {
+        // The app can send leave after an unsuccessful accept. Preserve a
+        // pending invitation so the same recipient can still accept or reject it.
+        elseif ($operation === 'reject' || $invite['state'] === 'accepted') {
           $store->delete('in:' . $uid);
           $store->delete('out:' . $invite['senderUid']);
         }

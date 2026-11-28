@@ -9,6 +9,7 @@ use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\nelkano_home\Service\AccountErasure;
 use Drupal\nelkano_home\Service\AppSessions;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
@@ -31,6 +32,8 @@ final class AccountMutationLockSubscriber implements EventSubscriberInterface {
     $db = \Drupal::database();
     $body = json_decode($request->getContent(), TRUE);
     $body = is_array($body) ? $body : $request->request->all();
+    $accepts_spectator_invitation = $route === 'nelkano_home.api_spectator_invitations'
+      && ($body['operation'] ?? NULL) === 'accept';
     $uids = []; $actor = (int) $this->currentUser->id();
     $header = trim((string) $request->headers->get('Authorization', ''));
     if (preg_match('/^Bearer\s+(nkat_[a-f0-9]{64})$/D', $header, $match) && $db->schema()->tableExists('nelkano_app_session')) {
@@ -101,7 +104,11 @@ final class AccountMutationLockSubscriber implements EventSubscriberInterface {
     }
     $subject = $request->attributes->get('user');
     if ($subject instanceof \Drupal\user\UserInterface && (int) $subject->id() > 0) { $uids[(int) $subject->id()] = (int) $subject->id(); }
-    sort($uids, SORT_NUMERIC); $held = []; $deadline = microtime(TRUE) + 3;
+    sort($uids, SORT_NUMERIC);
+    $held = [];
+    // The Android client allows 12 seconds for the response. Let brief account
+    // activity finish before rejecting an explicit invitation acceptance.
+    $deadline = microtime(TRUE) + ($accepts_spectator_invitation ? 8 : 3);
     try {
       foreach ($uids as $uid) {
         $key = AccountErasure::lockKey($uid);
@@ -127,6 +134,14 @@ final class AccountMutationLockSubscriber implements EventSubscriberInterface {
     }
     catch (\Throwable $error) {
       foreach (array_reverse($held) as $key) { $this->lock->release($key); }
+      if ($accepts_spectator_invitation && $error instanceof HttpException && $error->getStatusCode() === 409) {
+        $event->setController(static fn (): JsonResponse => new JsonResponse([
+          'ok' => FALSE,
+          'code' => 'account_conflict',
+          'message' => $error->getMessage(),
+        ], 409, ['Cache-Control' => 'no-store']));
+        return;
+      }
       throw $error;
     }
   }
